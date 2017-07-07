@@ -37,10 +37,11 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 ::-webkit-input-placeholder {
-  margin-left: 2rem;
+  margin-left: 2rem !important;
 }
 
 .cognigy-chat-input {
@@ -48,15 +49,25 @@
   border-top: none;
   border-left: none;
   border-right: none;
-
-  ::placeholder {
-    margin-left: 2rem;  }
+  width: 90%;
 }
 
+.cognigy-chat-input:focus {
+  outline: none;
+}
 .cognigy-chat-button {
   border: 10px;
   border-radius: 20px;
-  margin-left: 0.5rem;
+  padding: 0.6rem;
+  margin: 1rem 0 0 0.5rem;
   background-color: #3779e3;
   color: white;
+}
+
+.cognigy-chat-window {
+  border: 1px solid #DCE2EB;
+  height: 50%;
+  border-radius: 4px;
+  width: 90%;
+  margin: 1rem 0;
 }
