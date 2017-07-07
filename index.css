@@ -39,6 +39,10 @@
   display: none;
 }
 
+.cognigy-chat-header-container > .cognigy-chat-header {
+  justify-content: center !important;
+}
+
 .cognigy-chat-header-container__open {
   height: 20%;
 }
