@@ -67,6 +67,7 @@ header content is only 90% of the total width of the chat box - just like the co
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 .displayNone {
@@ -96,8 +97,8 @@ header content is only 90% of the total width of the chat box - just like the co
   border: 10px;
   border-radius: 20px;
   padding: 0.6rem;
-  margin: 1rem 0 0 0.5rem;
   background-color: #3779e3;
+  margin-bottom: 1em;
   color: white;
 }
 
@@ -107,4 +108,32 @@ header content is only 90% of the total width of the chat box - just like the co
   border-radius: 4px;
   width: 90%;
   margin: 0.8rem 0;
+  color: black;
+  overflow-y: scroll;
+}
+
+/*Styling for messages sent by the user and received from the bot*/
+.cognigy-chat-user-message-container {
+  display: flex;
+  word-break: break-word;
+  justify-content: flex-end;
+}
+
+.cognigy-chat-bot-message-container {
+  display: flex;
+  word-break: break-word;
+}
+
+.cognigy-chat-user-message {
+  background-color: #F7F9FA;
+  border-radius: 20px 20px 4px 20px;
+  padding: 10px 15px;
+  margin-bottom: 1rem;
+}
+
+.cognigy-chat-bot-message {
+  background-color: #5193FF;
+  border-radius: 20px 20px 20px 4px;
+  padding: 10px 15px;
+  margin-bottom: 1rem;
 }
