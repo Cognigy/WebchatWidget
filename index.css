@@ -1,0 +1,23 @@
+.cognigy-web-chat {
+  height: 2rem;
+  width: 10rem;
+}
+
+.cognigy-web-chat, .cognigy-web-chat__open {
+  background-color: #3779e3;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Ubuntu, sans-serif;
+}
+
+.cognigy-web-chat__open {
+  height: 10rem;
+  width: 10rem;
+}
