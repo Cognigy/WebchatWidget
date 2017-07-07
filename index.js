@@ -25,3 +25,17 @@ function handleChatOpen() {
     chatHeader.className = "cognigy-chat-header-container"
   }
 }
+
+function handleSendMessage() {
+  //Get the value from input, then create to divs to store/display the message
+  const inputValue = document.getElementById("cognigy-input").value;
+  const chatWindow = document.getElementById("cognigy-chat-window");
+  const messageContainer = document.createElement("div");
+  const message = document.createElement("div");
+  const messageValue = document.createTextNode(inputValue);
+  message.className = "cognigy-chat-user-message";
+  messageContainer.className= "cognigy-chat-user-message-container";
+  message.append(messageValue);
+  messageContainer.append(message);
+  chatWindow.append(messageContainer);
+}
