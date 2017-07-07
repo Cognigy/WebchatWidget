@@ -1,5 +1,6 @@
 <head>
   <link rel="stylesheet" type="text/css" href="index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="index.js"></script>
 </head>
 
@@ -9,8 +10,11 @@
 
     id="cognigy"
   >
-  <div onclick="handleChatOpen()" class="cognigy-chat-header" id="cognigy-header">
-    Chat with us
+  <div onclick="handleChatOpen()" class="cognigy-chat-header-container" id="cognigy-header">
+    <div class="cognigy-chat-header">
+      Chat with us
+      <i class="fa fa-close cognigy-close-icon"></i>
+    </div>
   </div>
 
   <div id="cognigy-container" class="displayNone">
