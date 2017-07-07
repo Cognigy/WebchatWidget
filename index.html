@@ -3,11 +3,18 @@
   <script src="index.js"></script>
 </head>
 
-<body onload="createInitialElements()">
+<body>
   <div
-    class="cognigy-web-chat"
-    onclick="handleChatOpen()"
+    class="cognigy-web-chat__open"
+
     id="cognigy"
   >
+  <div onclick="handleChatOpen()" class="cognigy-chat-header">
+    Chat with us
+  </div>
+  <form class="cognigy-chat-form">
+    <input placeholder="Write your message" class="cognigy-chat-input"></input>
+    <button class="cognigy-chat-button">Send</button>
+  </form>
   </div>
 </body>
