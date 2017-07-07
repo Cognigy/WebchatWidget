@@ -5,19 +5,21 @@
 
 <body>
   <div
-    class="cognigy-web-chat__open"
+    class="cognigy-web-chat"
 
     id="cognigy"
   >
-  <div onclick="handleChatOpen()" class="cognigy-chat-header">
+  <div onclick="handleChatOpen()" class="cognigy-chat-header" id="cognigy-header">
     Chat with us
   </div>
 
-  <div class="cognigy-chat-window">
+  <div id="cognigy-container" class="displayNone">
+    <div class="cognigy-chat-window">
+    </div>
+    <form class="cognigy-chat-form">
+      <input placeholder="Write your message here" class="cognigy-chat-input"></input>
+      <button class="cognigy-chat-button">Send Message</button>
+    </form>
   </div>
-  <form class="cognigy-chat-form">
-    <input placeholder="Write your message" class="cognigy-chat-input"></input>
-    <button class="cognigy-chat-button">Send Message</button>
-  </form>
   </div>
 </body>
