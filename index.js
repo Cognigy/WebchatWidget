@@ -17,11 +17,11 @@ function handleChatOpen() {
     chatElement.className = "cognigy-web-chat__open";
     //const createForm = document.createElement("form");
     //chatElement.append(createForm);
-    chatHeader.className = "cognigy-chat-header__open"
+    chatHeader.className = "cognigy-chat-header-container__open"
     chatContainer.className = "cognigy-chat-container";
   } else {
     chatElement.className = "cognigy-web-chat";
     chatContainer.className = "displayNone";
-    chatHeader.className = "cognigy-chat-header"
+    chatHeader.className = "cognigy-chat-header-container"
   }
 }

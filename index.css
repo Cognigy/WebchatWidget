@@ -23,21 +23,32 @@
   width: 15rem;
 }
 
-.cognigy-chat-header, .cognigy-chat-header__open {
+.cognigy-chat-header-container, .cognigy-chat-header-container__open {
   background-color: #3779e3;
   color: white;
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
-.cognigy-chat-header {
+.cognigy-chat-header-container {
   height: 100%;
 }
 
-.cognigy-chat-header__open {
+.cognigy-chat-header-container > .cognigy-chat-header > i {
+  display: none;
+}
+
+.cognigy-chat-header-container__open {
   height: 20%;
+}
+
+.cognigy-chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  height: 100%;
 }
 
 .cognigy-chat-container {
