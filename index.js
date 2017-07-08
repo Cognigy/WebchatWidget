@@ -37,6 +37,12 @@ function handleSendMessage() {
   messageContainer.className= "cognigy-chat-user-message-container";
   message.append(messageValue);
   messageContainer.append(message);
+
+  //Create user avatar and append to message contanier
+  const avatar = document.createElement("i");
+  avatar.className = "fa fa-user cognigy-chat-user-avatar";
+  messageContainer.append(avatar);
+
   chatWindow.append(messageContainer);
 
   //Reset input value
