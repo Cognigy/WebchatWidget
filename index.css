@@ -110,6 +110,18 @@ header content is only 90% of the total width of the chat box - just like the co
   margin: 0.8rem 0;
   color: black;
   font-size: 12px;
+  overflow-y: scroll;
+}
+
+/*Style scrollbar*/
+.cognigy-chat-window::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+.cognigy-chat-window::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.3);
+    outline: 1px solid slategrey;
+    border-radius: 20px;
 }
 
 /*Styling for messages sent by the user and received from the bot*/
