@@ -26,7 +26,8 @@ function handleChatOpen() {
   }
 }
 
-function handleSendMessage() {
+function handleSendMessage(e) {
+  e.preventDefault();
   //Get the value from input, then create two divs to store/display the message
   const inputValue = document.getElementById("cognigy-input").value;
   const chatWindow = document.getElementById("cognigy-chat-window");
@@ -48,3 +49,7 @@ function handleSendMessage() {
   //Reset input value
    document.getElementById("cognigy-input").value = "";
 }
+
+//Add event listener for form submit event
+const formElement = document.getElementById("cognigy-form");
+formElement.addEventListener("submit", (e) => handleSendMessage(e), false);

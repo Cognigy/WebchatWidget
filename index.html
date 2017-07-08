@@ -8,7 +8,11 @@
     class="cognigy-web-chat"
     id="cognigy"
   >
-    <div onclick="handleChatOpen()" class="cognigy-chat-header-container" id="cognigy-header">
+    <div
+       class="cognigy-chat-header-container"
+       id="cognigy-header"
+       onclick="handleChatOpen()"
+     >
       <div class="cognigy-chat-header">
         Chat with us
         <i class="fa fa-close cognigy-close-icon"></i>
@@ -52,21 +56,21 @@
       </div>
       <form
         class="cognigy-chat-form"
-        onsubmit="handleSendMessage()"
+        id="cognigy-form"
       >
         <input
           placeholder="Write your message here"
           class="cognigy-chat-input"
           id="cognigy-input"
         />
-      </form>
 
-      <button
-        class="cognigy-chat-button"
-        onclick="handleSendMessage()"
-      >
-        Send Message
-      </button>
+        <button
+          class="cognigy-chat-button"
+          type="submit"
+        >
+          Send Message
+        </button>
+      </form>
     </div>
   </div>
   <script src="index.js"></script>
