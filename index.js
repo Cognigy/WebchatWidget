@@ -26,8 +26,9 @@ function handleChatOpen() {
   }
 }
 
-function handleSendMessage() {
-  //Get the value from input, then create to divs to store/display the message
+function handleSendMessage(e) {
+  e.preventDefault();
+  //Get the value from input, then create two divs to store/display the message
   const inputValue = document.getElementById("cognigy-input").value;
   const chatWindow = document.getElementById("cognigy-chat-window");
   const messageContainer = document.createElement("div");
@@ -37,5 +38,18 @@ function handleSendMessage() {
   messageContainer.className= "cognigy-chat-user-message-container";
   message.append(messageValue);
   messageContainer.append(message);
+
+  //Create user avatar and append to message contanier
+  const avatar = document.createElement("i");
+  avatar.className = "fa fa-user cognigy-chat-user-avatar";
+  messageContainer.append(avatar);
+
   chatWindow.append(messageContainer);
+
+  //Reset input value
+   document.getElementById("cognigy-input").value = "";
 }
+
+//Add event listener for form submit event
+const formElement = document.getElementById("cognigy-form");
+formElement.addEventListener("submit", (e) => handleSendMessage(e), false);
