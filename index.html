@@ -25,7 +25,7 @@
         id="cognigy-chat-window"
       >
         <div class="cognigy-chat-bot-message-container">
-          <svg class="cognigy-chat-bot-avatar" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="50px" viewBox="0 0 475.9 102.7" style="enable-background:new 0 0 475.9 102.7;" xml:space="preserve" class="logo">
+          <svg id="cognigy-logo" class="cognigy-chat-bot-avatar" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="50px" viewBox="0 0 475.9 102.7" style="enable-background:new 0 0 475.9 102.7;" xml:space="preserve" class="logo">
             <style type="text/css">
                 .st0{fill:none;stroke:#2C6CAF;stroke-width:8;stroke-miterlimit:10;}
               </style>
@@ -67,6 +67,7 @@
         <button
           class="cognigy-chat-button"
           type="submit"
+          onclick="handleCognigyMessage()"
         >
           Send Message
         </button>
@@ -74,4 +75,31 @@
     </div>
   </div>
   <script src="index.js"></script>
-</body>
+   <script src="./cognigy-web-client.js"></script>
+   <script>
+       var handleCognigyMessage = function() {
+           const options = {
+               baseUrl: 'https://dev.api.cognigy.com',
+               user: 'k.zederkof@cognigy.com',
+               apikey: 'testapikey',
+               channel: 'my-website',
+               flow: 'test',
+               language: 'en-US',
+               handleOutput: function(output) {
+                 displayCognigyMessage(output);
+                 console.log(output.text);
+               }
+           };
+           const inputValue = document.getElementById("cognigy-input").value;
+           var client = new Cognigy.CognigyWebClient(options);
+           client.connect()
+               .then(function() {
+                   // 1) send an event directly
+                   client.sendMessage(inputValue, undefined);
+               })
+               .catch(function(error) {
+                   console.log(error);
+               });
+       }
+   </script>
+ </body>

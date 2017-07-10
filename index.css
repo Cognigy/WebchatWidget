@@ -122,6 +122,8 @@ header content is only 90% of the total width of the chat box - just like the co
     background-color: rgba(0,0,0,0.3);
     outline: 1px solid slategrey;
     border-radius: 20px;
+    flex-direction: column-reverse;
+    display: flex;
 }
 
 /*Styling for messages sent by the user and received from the bot*/
