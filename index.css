@@ -40,6 +40,11 @@ header content is only 90% of the total width of the chat box - just like the co
   height: 100%;
 }
 
+.cognigy-close-icon {
+  width: 20px;
+  height: 20px;
+}
+
 /*The close icon disappears when the header is closed*/
 .cognigy-chat-header-container > .cognigy-chat-header > .cognigy-close-icon {
   display: none;
