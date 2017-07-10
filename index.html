@@ -17,11 +17,10 @@
                user: 'k.zederkof@cognigy.com',
                apikey: 'testapikey',
                channel: 'my-website',
-               flow: 'pizza',
+               flow: 'Kaspi',
                language: 'en-US',
                handleOutput: function(output) {
                  displayCognigyMessage(output);
-                 console.log(output.text);
                }
            };
            const inputValue = document.getElementById("cognigy-input").value;
@@ -34,6 +33,10 @@
                .catch(function(error) {
                    console.log(error);
                });
-       }
+       };
+
+       // listen on form submit event and use handleCognigyMessage function
+      formElement.addEventListener("submit", () => handleCognigyMessage(), false);
+
    </script>
  </body>

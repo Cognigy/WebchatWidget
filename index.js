@@ -3,7 +3,7 @@ const createElement = function(type, className, id) {
     const element = document.createElement(type);
     element.className = className;
     if(id) {
-      element.id = id;  
+      element.id = id;
     }
 
     return element;
@@ -39,9 +39,8 @@ const chatInput = createElement("input", "cognigy-chat-input", "cognigy-input");
 chatInput.placeholder = "Write your message here";
 chatForm.append(chatInput);
 
-const chatButton = createElement("button", "cognigy-chat-button");
+const chatButton = createElement("button", "cognigy-chat-button", "cognigy-button");
 chatButton.type = "submit";
-//chatButton.onclick = "handleCognigyMessage";
 const buttonText = document.createTextNode("Send message");
 chatButton.append(buttonText);
 chatForm.append(chatButton);
@@ -104,9 +103,9 @@ function displayCognigyMessage(answerFromCognigy) {
   const messageValue = document.createTextNode(cognigyAnswer);
 
   //Create bot avatar with Cognigy logo and append to message contanier
-  const logo = document.getElementById("cognigy-logo");
-  const avatar = logo.cloneNode(true);
-  messageContainer.append(avatar);
+  //const logo = document.getElementById("cognigy-logo");
+  //const avatar = logo.cloneNode(true);
+  //messageContainer.append(avatar);
 
   // Append message to UI
   message.className = "cognigy-chat-bot-message";
@@ -115,6 +114,8 @@ function displayCognigyMessage(answerFromCognigy) {
   messageContainer.append(message);
 
   chatWindow.append(messageContainer);
+  //Keep scrollbar fixed at bottom when new messages are added
+  chatWindow.scrollTop = chatWindow.scrollHeight;
 
   //Reset input value
   document.getElementById("cognigy-input").value = "";
