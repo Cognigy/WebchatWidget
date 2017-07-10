@@ -46,6 +46,9 @@ function handleSendMessage(e) {
   messageContainer.append(avatar);
 
   chatWindow.append(messageContainer);
+  //Keep scrollbar fixed at bottom when new messages are added
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+
   //Reset input value
   //document.getElementById("cognigy-input").value = "";
 }
