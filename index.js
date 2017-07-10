@@ -49,8 +49,7 @@ function handleChatOpen() {
   const chatElement = document.getElementById("cognigy");
   const chatContainer = document.getElementById("cognigy-container");
   const chatHeader = document.getElementById("cognigy-header");
-  let chatElementClass = chatElement.className;
-  if(chatElementClass === "cognigy-web-chat") {
+  if(chatElement.className === "cognigy-web-chat") {
     chatElement.className = "cognigy-web-chat__open";
     //const createForm = document.createElement("form");
     //chatElement.append(createForm);
@@ -96,7 +95,7 @@ formElement.addEventListener("submit", (e) => handleSendMessage(e), false);
 
 function displayCognigyMessage(answerFromCognigy) {
   console.log("test");
-  const cognigyAnswer = answerFromCognigy.text;
+  var cognigyAnswer = answerFromCognigy.text;
   const chatWindow = document.getElementById("cognigy-chat-window");
   const messageContainer = document.createElement("div");
   const message = document.createElement("div");
