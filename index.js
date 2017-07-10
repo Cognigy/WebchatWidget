@@ -40,8 +40,9 @@ function handleSendMessage(e) {
   messageContainer.append(message);
 
   //Create user avatar and append to message contanier
-  const avatar = document.createElement("i");
-  avatar.className = "fa fa-user cognigy-chat-user-avatar";
+  const avatar = document.createElement("img");
+  avatar.className = "cognigy-chat-user-avatar";
+  avatar.src = "user_avatar.svg";
   messageContainer.append(avatar);
 
   chatWindow.append(messageContainer);
