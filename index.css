@@ -40,6 +40,11 @@ header content is only 90% of the total width of the chat box - just like the co
   height: 100%;
 }
 
+.cognigy-close-icon {
+  width: 20px;
+  height: 20px;
+}
+
 /*The close icon disappears when the header is closed*/
 .cognigy-chat-header-container > .cognigy-chat-header > .cognigy-close-icon {
   display: none;
@@ -122,6 +127,8 @@ header content is only 90% of the total width of the chat box - just like the co
     background-color: rgba(0,0,0,0.3);
     outline: 1px solid slategrey;
     border-radius: 20px;
+    flex-direction: column-reverse;
+    display: flex;
 }
 
 /*Styling for messages sent by the user and received from the bot*/
@@ -161,5 +168,7 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 .cognigy-chat-user-avatar {
-  margin: 0 0.4rem;
+  margin: 0 0.4rem 0 0.2rem;
+  height: 20px;
+  width: 20px;
 }

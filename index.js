@@ -40,16 +40,44 @@ function handleSendMessage(e) {
   messageContainer.append(message);
 
   //Create user avatar and append to message contanier
-  const avatar = document.createElement("i");
-  avatar.className = "fa fa-user cognigy-chat-user-avatar";
+  const avatar = document.createElement("img");
+  avatar.className = "cognigy-chat-user-avatar";
+  avatar.src = "user_avatar.svg";
   messageContainer.append(avatar);
 
   chatWindow.append(messageContainer);
+  //Keep scrollbar fixed at bottom when new messages are added
+  chatWindow.scrollTop = chatWindow.scrollHeight;
 
   //Reset input value
-   document.getElementById("cognigy-input").value = "";
+  //document.getElementById("cognigy-input").value = "";
 }
 
 //Add event listener for form submit event
 const formElement = document.getElementById("cognigy-form");
 formElement.addEventListener("submit", (e) => handleSendMessage(e), false);
+
+function displayCognigyMessage(answerFromCognigy) {
+  console.log("test");
+  const cognigyAnswer = answerFromCognigy.text;
+  const chatWindow = document.getElementById("cognigy-chat-window");
+  const messageContainer = document.createElement("div");
+  const message = document.createElement("div");
+  const messageValue = document.createTextNode(cognigyAnswer);
+
+  //Create bot avatar with Cognigy logo and append to message contanier
+  const logo = document.getElementById("cognigy-logo");
+  const avatar = logo.cloneNode(true);
+  messageContainer.append(avatar);
+
+  // Append message to UI
+  message.className = "cognigy-chat-bot-message";
+  messageContainer.className= "cognigy-chat-bot-message-container";
+  message.append(messageValue);
+  messageContainer.append(message);
+
+  chatWindow.append(messageContainer);
+
+  //Reset input value
+  document.getElementById("cognigy-input").value = "";
+}
