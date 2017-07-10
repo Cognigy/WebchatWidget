@@ -40,7 +40,8 @@ To use the Cognigy Web Chat, simply:
        // listen on form submit event and use handleCognigyMessage function
       formElement.addEventListener("submit", () => handleCognigyMessage(), false);
 
-   </script>```
+   </script>
+   ```
  
  ## Example
 
@@ -85,4 +86,5 @@ To use the Cognigy Web Chat, simply:
       formElement.addEventListener("submit", () => handleCognigyMessage(), false);
 
    </script>
- </body>```
+ </body>
+ ```
