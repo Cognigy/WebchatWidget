@@ -6,7 +6,7 @@ This repo contains a chat component which connects to the cognigy brain, and whi
 To use the Cognigy Web Chat, simply:
 - Download/clone all the files to your project.
 - Add an empty div component with the class "cognigy-web-chat" and an id of "cognigy".
-- Add <link rel="stylesheet" type="text/css" href="index.css">
+- Add `<link rel="stylesheet" type="text/css" href="index.css">`
 - At the bottom of the body tag (or at least after aforementioned div), insert these two scripts:
   <script src="index.js"></script>
   <script src="cognigy-web-client.js"></script> 
