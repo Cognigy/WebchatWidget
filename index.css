@@ -163,5 +163,7 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 .cognigy-chat-user-avatar {
-  margin: 0 0.4rem;
+  margin: 0 0.4rem 0 0.2rem;
+  height: 20px;
+  width: 20px;
 }
