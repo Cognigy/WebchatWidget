@@ -1,12 +1,50 @@
-//Function runs onload
-function createInitialElements() {
-  const chatElement = document.getElementById("cognigy");
-  //Create standard header with text
-  const header = document.createElement("div");
-  const headerText = document.createTextNode("Chat with us");
-  header.appendChild(headerText);
-  chatElement.append(header);
+//Function to create html elements
+const createElement = function(type, className, id) {
+    const element = document.createElement(type);
+    element.className = className;
+    if(id) {
+      element.id = id;  
+    }
+
+    return element;
 }
+
+const mainChatElement = document.getElementById("cognigy");
+
+//Create standard header with text
+const headerContainer = createElement("div", "cognigy-chat-header-container", "cognigy-header");
+headerContainer.onclick = handleChatOpen;
+const header = createElement("div", "cognigy-chat-header");
+const headerText = document.createTextNode("Chat with us");
+const closeIcon = createElement("img", "cognigy-close-icon");
+closeIcon.src = "close.svg";
+header.appendChild(headerText);
+header.appendChild(closeIcon);
+headerContainer.append(header);
+mainChatElement.append(headerContainer);
+
+//Create chatContainer
+const chatContainer = createElement("div", "displayNone", "cognigy-container");
+mainChatElement.append(chatContainer);
+
+//Create chatWindow
+const chatWindow = createElement("div", "cognigy-chat-window", "cognigy-chat-window");
+chatContainer.append(chatWindow);
+
+//Create chatForm with input and button
+const chatForm = createElement("form", "cognigy-chat-form", "cognigy-form");
+chatContainer.append(chatForm);
+
+const chatInput = createElement("input", "cognigy-chat-input", "cognigy-input");
+chatInput.placeholder = "Write your message here";
+chatForm.append(chatInput);
+
+const chatButton = createElement("button", "cognigy-chat-button");
+chatButton.type = "submit";
+//chatButton.onclick = "handleCognigyMessage";
+const buttonText = document.createTextNode("Send message");
+chatButton.append(buttonText);
+chatForm.append(chatButton);
 
 function handleChatOpen() {
   const chatElement = document.getElementById("cognigy");
