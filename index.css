@@ -143,15 +143,15 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-chat-bot-message-container {
   display: flex;
   word-break: break-word;
-  margin-bottom: 0.5rem;
+  margin: 0.3rem 0;
   align-items: flex-end;
-  margin-top: 0.5rem;
 }
 
 .cognigy-chat-user-message {
   background-color: #F7F9FA;
   border-radius: 20px 20px 4px 20px;
   padding: 10px 15px;
+  margin: 0.2rem 0;
 }
 
 .cognigy-chat-bot-message {
