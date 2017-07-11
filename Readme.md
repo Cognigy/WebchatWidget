@@ -7,9 +7,9 @@ To use the Cognigy Web Chat, simply:
 - Download/clone all the files to your project.
 - Add an empty div component with the class "cognigy-web-chat" and an id of "cognigy".
 - Add `<link rel="stylesheet" type="text/css" href="index.css">`
-- At the bottom of the body tag (or at least after aforementioned div), insert these two scripts: 
+- At the bottom of the body tag (or at least after aforementioned div), insert these two scripts:
   ```
-  <script src="index-minified.js"></script>
+  <script src="cognigy-web-chat.js"></script>
   <script src="cognigy-web-client.js"></script>
   ```
 - Add the following script for minimal functionality:
@@ -44,7 +44,7 @@ To use the Cognigy Web Chat, simply:
 
    </script>
    ```
- 
+
  ## Example
 
 ```
@@ -58,8 +58,8 @@ To use the Cognigy Web Chat, simply:
     id="cognigy"
   >
   </div>
-  <script src="index-minified.js"></script>
-  <script src="cognigy-web-client.js"></script> 
+  <script src="cognigy-web-chat.js"></script>
+  <script src="cognigy-web-client.js"></script>
    <script>
        var handleCognigyMessage = function() {
            const options = {
