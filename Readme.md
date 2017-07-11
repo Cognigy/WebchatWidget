@@ -17,11 +17,11 @@ To use the Cognigy Web Chat, simply:
 <script>
        var handleCognigyMessage = function() {
            const options = {
-               baseUrl: 'https://dev.api.cognigy.com',
-               user: 'k.zederkof@cognigy.com',
-               apikey: 'testapikey',
+               baseUrl: 'url',
+               user: 'username',
+               apikey: 'your-api-key',
                channel: 'my-website',
-               flow: 'Kaspi',
+               flow: 'your-flow',
                language: 'en-US',
                handleOutput: function(output) {
                  displayCognigyMessage(output);
