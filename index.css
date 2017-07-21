@@ -103,7 +103,7 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-chat-button {
   border: 10px;
   border-radius: 20px;
-  padding: 0.6rem;
+  padding: 0.3rem;
   background-color: #3779e3;
   color: white;
 }
@@ -164,7 +164,8 @@ header content is only 90% of the total width of the chat box - just like the co
 /*Styling for avatars*/
 .cognigy-chat-bot-avatar {
   height: 20px;
-  width: 50px;
+  min-width: 50px;
+  max-width: 50px;
   /*Fix "air" at the bottom of svg and add margin to sides*/
   margin: 0 0.2rem -4px 0.2rem;
 }
@@ -172,7 +173,8 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-chat-user-avatar {
   margin: 0 0.4rem 0 0.2rem;
   height: 20px;
-  width: 20px;
+  min-width: 20px;
+  max-width: 20px;
 }
 
 .cognigy-send-icon {
