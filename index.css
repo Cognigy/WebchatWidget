@@ -41,8 +41,8 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 .cognigy-close-icon {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
 }
 
 /*The close icon disappears when the header is closed*/
@@ -55,12 +55,12 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 .cognigy-chat-header-container__open {
-  height: 15%;
+  height: 1.2rem;
 }
 
 .cognigy-chat-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   width: 90%;
   height: 100%;
@@ -82,9 +82,10 @@ header content is only 90% of the total width of the chat box - just like the co
 /*Below is styling for the form, input, button and window components*/
 .cognigy-chat-form {
   display: flex;
-  justify-content: center;
-  width: 100%;
+  justify-content: space-between;
+  width: 90%;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .cognigy-chat-input {
@@ -92,8 +93,8 @@ header content is only 90% of the total width of the chat box - just like the co
   border-top: none;
   border-left: none;
   border-right: none;
-  width: 90%;
-  margin-bottom: 1em;
+  width: 8.5rem;
+  font-size: 12px;
 }
 
 .cognigy-chat-input:focus {
@@ -102,14 +103,14 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-chat-button {
   border: 10px;
   border-radius: 20px;
-  padding: 0.6rem;
+  padding: 0.3rem;
   background-color: #3779e3;
   color: white;
 }
 
 .cognigy-chat-window {
   border: 1px solid #DCE2EB;
-  height: 50%;
+  height: 70%;
   border-radius: 4px;
   width: 90%;
   margin: 0.8rem 0;
@@ -163,6 +164,8 @@ header content is only 90% of the total width of the chat box - just like the co
 /*Styling for avatars*/
 .cognigy-chat-bot-avatar {
   height: 20px;
+  min-width: 50px;
+  max-width: 50px;
   /*Fix "air" at the bottom of svg and add margin to sides*/
   margin: 0 0.2rem -4px 0.2rem;
 }
@@ -170,5 +173,11 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-chat-user-avatar {
   margin: 0 0.4rem 0 0.2rem;
   height: 20px;
-  width: 20px;
+  min-width: 20px;
+  max-width: 20px;
+}
+
+.cognigy-send-icon {
+  width: 40px;
+  height: 17px;
 }

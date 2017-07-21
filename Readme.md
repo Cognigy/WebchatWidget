@@ -1,6 +1,6 @@
 # Cognigy Web Chat
 
-This repo contains a chat component which connects to the cognigy brain, and which can be deployed easily on a website.
+This repo contains a chat component which connects to the Cognigy brain, and which can be deployed easily on a website.
 
 #### Please view the branch "feature/facebook_design" for an improved design + some bug fixes
 
@@ -30,6 +30,8 @@ To use the Cognigy Web Chat, simply:
                }
            };
            const inputValue = document.getElementById("cognigy-input").value;
+           //Reset input value
+           document.getElementById("cognigy-input").value = "";
            var client = new Cognigy.CognigyWebClient(options);
            client.connect()
                .then(function() {
@@ -76,6 +78,8 @@ To use the Cognigy Web Chat, simply:
                }
            };
            const inputValue = document.getElementById("cognigy-input").value;
+           //Reset input value
+           document.getElementById("cognigy-input").value = "";
            var client = new Cognigy.CognigyWebClient(options);
            client.connect()
                .then(function() {
