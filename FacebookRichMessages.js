@@ -1,20 +1,65 @@
 ﻿
 class FacebookRichMessages {
     constructor(messageData, messageContainer) {
-        this.messageData = messageData.facebook.attachment.payload;
+        if (messageData.facebook.attachment && messageData.facebook.attachment.payload) {
+            this.messageData = messageData.facebook.attachment.payload;
+        };
         this.messageContainer = messageContainer;
+        this.quickReplies = messageData.facebook.quick_replies;
     }
 
     findTemplate() {
-        return this.messageData.template_type;
+        if (this.messageData) {
+            return this.messageData.template_type;
+        }
     }
 
     findElements() {
-        return this.messageData.elements;
+        if (this.messageData) {
+            return this.messageData.elements;
+        }
     }
 
     findButtons() {
-        return this.messageData.buttons;
+        if (this.messageData) {
+            return this.messageData.buttons;
+        }
+    }
+
+    //Quick reply buttons
+    renderQuickReplies() {
+        const quickReplyContainer = document.createElement("div");
+        quickReplyContainer.className = "quick_reply_container"
+        //Add flex wrap wen there are more than three elements
+        if (this.quickReplies.length > 3) {
+            quickReplyContainer.className += " flex_wrap";
+        }
+
+        this.quickReplies.forEach(reply => {
+            //Don't render button if there isn't a title
+            if (!reply.title) {
+                return null;
+            }
+
+            //Render quick reply button
+            const quickReplyButton = document.createElement("button");
+            quickReplyButton.onclick = () => handleCognigyMessage(reply.payload);
+            quickReplyButton.className = "quick_reply";
+            quickReplyButton.append(reply.title);
+            
+
+            //Render eventual image
+            if (reply.image_url) {
+                const img = document.createElement("img");
+                img.src = reply.image_url;
+                img.style.width = "24px";
+                img.style.height = "24px";
+                img.style.marginRight = "5px";
+                quickReplyButton.prepend(img);
+            }
+            quickReplyContainer.append(quickReplyButton);
+        })
+        this.messageContainer.append(quickReplyContainer);
     }
 
     renderButton(button) {
@@ -145,6 +190,11 @@ class FacebookRichMessages {
         //Render generic template
         if (this.findTemplate() === "generic") {
             this.genericTemplate();
+        }
+
+        //Render quick replies
+        if (this.quickReplies) {
+            this.renderQuickReplies();
         }
     }
 }

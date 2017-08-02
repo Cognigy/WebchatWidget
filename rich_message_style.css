@@ -94,3 +94,24 @@
 .generic_template_text_subtitle {
     color: rgba(0,0,0,0.45);
 }
+
+.quick_reply_container {
+    display: flex;
+    justify-content: center;
+}
+
+.quick_reply {
+    color: #0084ff;
+    border: 1px solid;
+    border-radius: 20px;
+    text-align: center;
+    margin: 5px 3px;
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    background-color: white;
+}
+
+.flex_wrap {
+    flex-wrap: wrap;
+}
