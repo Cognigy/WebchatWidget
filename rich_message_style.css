@@ -1,0 +1,96 @@
+.button_template {
+    width: 73%;
+    color: #0084ff;
+    padding: 0 10px;
+    text-align: center;
+    background: white;
+    display: block;
+    border-radius: 0 0 10px 10px;
+    line-height: 32px;
+    font-weight: 500;
+    height: 32px;
+    border: 1px solid rgba(0,0,0,0.1)
+}
+
+.button {
+    color: #0084ff;
+    padding: 0 10px;
+    text-align: center;
+    background: white;
+    display: block;
+    line-height: 32px;
+    font-weight: 500;
+    height: 32px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.list_template_element_button {
+    color: #0084ff;
+    padding: 6px;
+    text-align: center;
+    background: white;
+    display: block;
+    line-height: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid;
+    min-width: 79%;
+    max-width: 80%;
+    border-radius: 5px;
+    margin-top: 10px;
+    word-break: unset;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.list_template_element_content {
+    display: flex;
+    flex-direction: column;
+    max-width: 60%;
+}
+
+.message {
+    padding: 10px 10px;
+    width: 75%;
+    line-height: 20px;
+    border-radius: 10px 10px 0 0;
+    background: #eeeeee;
+}
+
+.list_template_container {
+    margin-left: 15px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+
+.list_template_element_container {
+    padding: 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+}
+
+.generic_template_container {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column-reverse;
+    margin-left: 15px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+
+.generic_template_text_container {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-left: 10px;
+}
+
+.generic_template_text_title {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.generic_template_text_subtitle {
+    color: rgba(0,0,0,0.45);
+}
