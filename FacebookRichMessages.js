@@ -132,6 +132,17 @@ class FacebookRichMessages {
        this.messageContainer.append(listContainer)
     }
 
+    renderInformation(title) {
+        const information = document.createElement("span");
+        const informationContainer = document.createElement("div");
+        informationContainer.className = "receipt_template_information_container";
+        information.className = "receipt_template_information";
+        information.append(title)
+        informationContainer.append(information);
+
+        return informationContainer;
+    }
+
     genericTemplate() {
         //Render container for image, title and buttons
         const genericContainer = document.createElement("div");
@@ -177,6 +188,156 @@ class FacebookRichMessages {
         this.messageContainer.append(genericContainer)
     }
 
+
+    //Receipt template
+    receiptTemplate() {
+        //Outer Container
+        const receiptOuterContainer = document.createElement("div");
+        receiptOuterContainer.className = "receipt_template_outer_container";
+
+        //Header
+        const headerContainer = document.createElement("div")
+        headerContainer.className = "receipt_template_header_container";
+        headerContainer.append("Order confirmation");
+        receiptOuterContainer.append(headerContainer);
+
+        //Items
+        if (this.findElements()) {
+            this.findElements().forEach(element => {
+                //Container
+                const elementContainer = document.createElement("div");
+                elementContainer.className = "receipt_template_element_container";
+                //Image
+                if (element.image_url) {
+                    const img = document.createElement("img");
+                    img.style.width = "50px"
+                    img.style.height = "50px";
+                    img.style.border = "1px solid rgba(0,0,0,0.1)";
+                    elementContainer.append(img);
+                }
+                //Text container
+                const textContainer = document.createElement("div");
+                textContainer.className = "receipt_template_text_container";
+                //Get Title
+                const elementTitle = document.createElement("span");
+                elementTitle.className = "text_title";
+                elementTitle.append(element.title);
+                textContainer.append(elementTitle);
+                //Get subtitle
+                const elementSubtitle = document.createElement("span");
+                elementSubtitle.className = "text_subtitle";
+                elementSubtitle.append(element.subtitle)
+                textContainer.append(elementSubtitle);
+                elementContainer.append(textContainer);
+
+                receiptOuterContainer.append(elementContainer);
+
+            })
+        }
+
+        //Payments
+        const paidWithContainer = this.renderInformation("Paid with");
+        if (this.messageData.payment_method) {
+            paidWithContainer.append(this.messageData.payment_method);
+        }
+        receiptOuterContainer.append(paidWithContainer);
+
+        //Shipping address
+        const shipToContainer = this.renderInformation("Ship to");
+        if (this.messageData.address) {
+            const address = this.messageData.address
+            shipToContainer.append(`${address.street_1} 
+                                    ${address.city} ${address.state} ${address.postal_code}`);
+        }
+        receiptOuterContainer.append(shipToContainer);
+
+        //Recipient
+        const recipientContainer = this.renderInformation("Recipient");
+        if (this.messageData.recipient_name) {
+            recipientContainer.append(this.messageData.recipient_name);
+        }
+        receiptOuterContainer.append(recipientContainer);
+
+        //Order number
+        const orderNumberContainer = this.renderInformation("Order number");
+        if (this.messageData.order_number) {
+            orderNumberContainer.append(this.messageData.order_number);
+        }
+        receiptOuterContainer.append(orderNumberContainer);
+
+        //Order url
+        const orderURLContainer = this.renderInformation("Order URL");
+        if (this.messageData.order_url) {
+            const orderURL = document.createElement("span");
+            orderURL.className = "word_break";
+            orderURL.append(this.messageData.order_url)
+            orderURLContainer.append(orderURL)
+        }
+        receiptOuterContainer.append(orderURLContainer);
+
+        //Subtotal
+        const subtotalContainer = this.renderInformation("Subtotal");
+        if (this.messageData.summary && this.messageData.summary.subtotal) {
+            subtotalContainer.append(`$${this.messageData.summary.subtotal}`)
+        }
+        receiptOuterContainer.append(subtotalContainer);
+
+
+        //Shipping cost
+        const shippingCostContainer = this.renderInformation("Shipping cost");
+        if (this.messageData.summary && this.messageData.summary.shipping_cost) {
+            shippingCostContainer .append(`$${this.messageData.summary.shipping_cost}`)
+        }
+        receiptOuterContainer.append(shippingCostContainer);
+
+        //Total tax
+        const taxContainer = this.renderInformation("Total tax");
+        if (this.messageData.summary && this.messageData.summary.total_tax) {
+            taxContainer.append(`$${this.messageData.summary.total_tax}`)
+        }
+        receiptOuterContainer.append(taxContainer );
+
+        //Adjustments
+        const adjustmentsTitle = document.createElement("span");
+        const adjustmentsContainer = document.createElement("div");
+        adjustmentsContainer.className = "receipt_template_information_container";
+        adjustmentsTitle.className = "text_title";
+        adjustmentsTitle.append("Adjustments")
+        adjustmentsContainer.append(adjustmentsTitle);
+
+        receiptOuterContainer.append(adjustmentsContainer);
+
+        //Loop through adjustments
+        if (this.messageData.adjustments) {
+            this.messageData.adjustments.forEach(adjustment => {
+                const adjustmentContainer = this.renderInformation(adjustment.name);
+                adjustmentContainer.style.marginTop = '0px';
+                adjustmentContainer.append('Amount:' + adjustment.amount);
+                receiptOuterContainer.append(adjustmentContainer)
+            })
+        }
+
+        //Summary
+        const summaryContainer = document.createElement("div")
+        summaryContainer.className = "receipt_template_summary_container";
+
+        const total = document.createElement("span");
+        total.className = "receipt_template_summary_total"
+        total.append("Total");
+
+        const price = document.createElement("span");
+        price.className = "receipt_template_summary_price";
+        if (this.messageData.summary && this.messageData.summary.total_cost) {
+            price.append(`$${this.messageData.summary.total_cost}`);
+        }
+
+        summaryContainer.append(total);
+        summaryContainer.append(price);
+        receiptOuterContainer.append(summaryContainer);
+
+        this.messageContainer.append(receiptOuterContainer);
+    }
+
     renderMessage() {
         //Render button template
         if (this.findTemplate() === "button") {
@@ -190,6 +351,11 @@ class FacebookRichMessages {
         //Render generic template
         if (this.findTemplate() === "generic") {
             this.genericTemplate();
+        }
+
+        //Render receipt template
+        if (this.findTemplate() === "receipt") {
+            this.receiptTemplate();
         }
 
         //Render quick replies
