@@ -19,10 +19,11 @@
     background: white;
     display: block;
     line-height: 32px;
+    margin: 0 2px;
     font-weight: 500;
     height: 32px;
-    margin: 0 10px;
     cursor: pointer;
+    border-top: 1px solid rgba(0,0,0,0.1);
 }
 
 .list_template_element_button {
@@ -76,13 +77,12 @@
     display: flex;
     justify-content: flex-start;
     flex-direction: column-reverse;
-    margin-left: 15px;
+    margin-left: 10px;
     border: 1px solid rgba(0,0,0,0.1);
     border-radius: 10px;
 }
 
 .generic_template_text_container {
-    border-bottom: 1px solid rgba(0,0,0,0.1);
     padding-left: 10px;
 }
 
@@ -172,4 +172,30 @@
 
 .word_break {
     word-break: break-all;
+}
+
+.display_none {
+    display: none;
+}
+
+.generic_template_increment {
+    width: 24px;
+    height: 24px;
+    background-image: url('arrow_forward.svg');
+}
+
+.generic_template_decrement {
+    width: 24px;
+    height: 24px;
+    background-image: url('arrow_back.svg');
+}
+
+.generic_template_carousel_buttons_container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.visibility_hidden {
+    visibility: hidden;
 }

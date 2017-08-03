@@ -143,42 +143,102 @@ class FacebookRichMessages {
         return informationContainer;
     }
 
+    carouselButtons(elementContainers, index) {
+        //Increment and decrement buttons
+        const carouselButtonsContainer = document.createElement("div");
+        carouselButtonsContainer.className = "generic_template_carousel_buttons_container";
+        const increment = document.createElement("div");
+        increment.className = "generic_template_increment";
+        increment.id = `genericTemplateIncrement${index}`;
+        console.log(increment.id)
+        const decrement = document.createElement("div");
+        decrement.className = "visibility_hidden";
+        decrement.id = `genericTemplateDecrement${index}`;
+        console.log(decrement.id)
+        carouselButtonsContainer.append(decrement);
+        carouselButtonsContainer.append(increment);
+        //Start off by displaying the first elementContainer
+        let i = 0;
+        if (this.findElements()) {
+            elementContainers[i].className = "generic_template_element_container";
+
+            //Increment index from elementContainer when clicking button, thereby viewing next item
+            increment.addEventListener('click', () => {
+                console.log(index)
+                elementContainers[index].className = "display_none";
+                elementContainers[index + 1].className = "generic_template_element_container";
+
+                //Show decrement button after first increment
+                document.getElementById(`genericTemplateDecrement${index + 1}`).className = "generic_template_decrement";
+                console.log(document.getElementById("genericTemplateIncrement0"))
+                //Hide next increment button when viewing last item
+                if (index === (elementContainers.length - 2)) {
+                    document.getElementById(`genericTemplateIncrement${index + 1}`).className = "visibility_hidden";
+                }
+            });
+
+            //Decrement index when clicking button, thereby viewing prevous item. Hidden to begin with
+            decrement.addEventListener('click', () => {
+                elementContainers[index].className = "display_none";
+                elementContainers[index - 1].className = "generic_template_element_container"
+
+                //Show next increment button after first decrement
+                document.getElementById(`genericTemplateIncrement${index - 1}`).className = "generic_template_increment";
+
+                //Hide Decrement button when viewing first item
+                if (index === 0) {
+                    document.getElementById(`genericTemplateDecrement${index - 1}`).className = "visibility_hidden";
+                }
+            });
+        }
+
+        return carouselButtonsContainer;
+    }
+
     genericTemplate() {
         //Render container for image, title and buttons
         const genericContainer = document.createElement("div");
         genericContainer.className = "generic_template_container";
-        //Render container for title + subtitle
-        const textContainer = document.createElement("div");
-        textContainer.className = "generic_template_text_container";
-        genericContainer.append(textContainer);
 
-        this.findElements().forEach(element => {
-            //Get image
+        const elementContainers = [];
+    
+        this.findElements().forEach((element, index) => {
+            const elementContainer = document.createElement("div");
+            elementContainers.push(elementContainer);
+            elementContainer.className = "display_none";
+            const carouselButtonsContainer = this.carouselButtons(elementContainers, index);
+            elementContainer.append(carouselButtonsContainer);
+            //Get image - needs to be before the buttons
             const img = document.createElement("img");
             img.src = element.image_url;
             img.style.width = "100%";
             img.style.height = "75%";
-            genericContainer.append(img);
+            elementContainer.prepend(img);
+            //Render container for title + subtitle
+            const textContainer = document.createElement("div");
+            textContainer.className = "generic_template_text_container";
+            elementContainer.append(textContainer);
             //Get Title
             const genericTitle = document.createElement("p");
-            genericTitle.className = "generic_template_text_title";
+            genericTitle.className = "text_title";
             genericTitle.append(element.title);
             textContainer.append(genericTitle);
             //Get subtitle
             const genericSubtitle = document.createElement("p");
-            genericSubtitle.className = "generic_template_text_subtitle";
+            genericSubtitle.className = "text_subtitle";
             genericSubtitle.append(element.subtitle)
             textContainer.append(genericSubtitle);
             //Get eventual buttons
             if (element.buttons) {
                 element.buttons.forEach(button => {
                     let buttonContainer = this.renderButton(button)
-                    genericContainer.prepend(buttonContainer)
+                    elementContainer.append(buttonContainer)
                 })
             }
+            genericContainer.append(elementContainer);
         })
-
-        if (this.findButtons()) {
+        
+         if (this.findButtons()) {
             this.findButtons().forEach(button => {
                 let buttonContainer = this.renderButton(button)
                 listContainer.append(buttonContainer);
