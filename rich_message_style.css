@@ -1,15 +1,21 @@
-.button_template {
-    width: 73%;
+.button_template_container {
+    width: 80%;
     color: #0084ff;
     padding: 0 10px;
     text-align: center;
     background: white;
     display: block;
-    border-radius: 0 0 10px 10px;
     line-height: 32px;
     font-weight: 500;
+    cursor: pointer;
     height: 32px;
-    border: 1px solid rgba(0,0,0,0.1)
+}
+
+.button_template_outer_container {
+    width: 60%;
+    border-radius: 0 0 10px 10px;
+    border: 1px solid rgba(0,0,0,0.1);
+    margin-left: 60px;
 }
 
 .button {
@@ -46,6 +52,25 @@
     overflow: hidden;
 }
 
+.list_template_element_button_first {
+    padding: 6px;
+    text-align: center;
+    background: transparent;
+    display: block;
+    line-height: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid;
+    width: 50%;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+    word-break: unset;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .list_template_element_content {
     display: flex;
     flex-direction: column;
@@ -71,6 +96,34 @@
     border-bottom: 1px solid rgba(0,0,0,0.1);
     display: flex;
     justify-content: space-between;
+}
+
+.list_template_element_content_first {
+    margin: 10px;
+}
+
+.list_template_element_container_first {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: white;
+}
+
+.overlay {
+    position: relative;
+}
+
+    .overlay:after {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
 }
 
 .generic_template_container {

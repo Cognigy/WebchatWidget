@@ -1,4 +1,4 @@
-﻿
+﻿//This class renders several of Facebook's templates for rich media.
 class FacebookRichMessages {
     constructor(messageData, messageContainer) {
         if (messageData.facebook.attachment && messageData.facebook.attachment.payload) {
@@ -66,9 +66,11 @@ class FacebookRichMessages {
         const buttonContainer = document.createElement("div");
         buttonContainer.className = "button";
         buttonContainer.append(button.title);
+        //Postback button sends a message to the server when clicked
         if (button.type === "postback") {
             buttonContainer.onclick = () => this.handleButtonPostback(button.payload)
         }
+        //URL button redirects to a website
         if (button.type == "web_url") {
             buttonContainer.onclick = () => this.handleButtonWebUrl(button.url)
         }
@@ -92,19 +94,33 @@ class FacebookRichMessages {
         return buttonContainer;
     }
 
-    renderListElement(element) {
+    renderListElement(element, index) {
         let elementContainer = document.createElement("div");
         let elementContent = document.createElement("div");
-        elementContent.className = "list_template_element_content";
-        elementContainer.className = "list_template_element_container"
-        elementContent.append(element.title);
-        elementContainer.append(elementContent);
-        let img = document.createElement("img");
-        img.src = element.image_url;
-        img.style.minWidth = "50px";
-        img.style.height = "50px";
-        elementContainer.append(img);
+        //Special styling for first list item
+        if (this.messageData.top_element_style === "large" && index === 0) {
+            elementContainer.className = "list_template_element_container_first"
+            elementContent.className = "list_template_element_content_first";
+            elementContainer.style.background = `url(${element.image_url}) center center / cover no-repeat, linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)) no-repeat`;
+            elementContent.append(element.title);
+            elementContainer.append(elementContent)
+        }
+        else {
+            elementContainer.className = "list_template_element_container"
+            elementContent.className = "list_template_element_content";
+            elementContent.append(element.title);
+            elementContainer.append(elementContent);
+            let img = document.createElement("img");
+            img.src = element.image_url;
+            img.style.minWidth = "50px";
+            img.style.height = "50px";
+            elementContainer.append(img);
 
+            //Append default action if specified
+            if (element.default_action) {
+                img.onclick = () => window.open(element.default_action.url);
+            }
+        }
         return { elementContainer, elementContent };
     }
 
@@ -112,20 +128,29 @@ class FacebookRichMessages {
         const listContainer = document.createElement("div")
         listContainer.className = "list_template_container";
 
-        this.findElements().forEach(element => {
-            let { elementContainer, elementContent } = this.renderListElement(element)
+        this.findElements().forEach((element, index) => {
+            let { elementContainer, elementContent } = this.renderListElement(element, index)
             if (element.buttons) {
                 element.buttons.forEach(button => {
-                    let buttonContainer = this.renderListButton(button)
-                    elementContent.append(buttonContainer)
+                    let buttonContainer = this.renderListButton(button);
+                    //Special styling for first button
+                    if (this.messageData.top_element_style === "large" && index === 0) {
+                        console.log("test")
+                        buttonContainer.className = "list_template_element_button_first";
+                    }
+                    elementContent.append(buttonContainer);
                 })
+            }
+            //Hide bottom border on last element
+            if (this.findElements().length === (index + 1)) {
+                elementContainer.style.borderBottom = "none";
             }
             listContainer.append(elementContainer)
         });
 
         if (this.findButtons()) {
-            this.findButtons().forEach(button => {
-                let buttonContainer = this.renderButton(button)
+            this.findButtons().forEach((button, index) => {
+                let buttonContainer = this.renderButton(button);
                 listContainer.append(buttonContainer);
             })
         }
@@ -205,15 +230,22 @@ class FacebookRichMessages {
         this.findElements().forEach((element, index) => {
             const elementContainer = document.createElement("div");
             elementContainers.push(elementContainer);
-            elementContainer.className = "display_none";
-            const carouselButtonsContainer = this.carouselButtons(elementContainers, index);
-            elementContainer.append(carouselButtonsContainer);
+            //Append carousel mode if there are several elements
+            if (this.findElements().length > 1) {
+                elementContainer.className = "display_none";
+                const carouselButtonsContainer = this.carouselButtons(elementContainers, index);
+                elementContainer.append(carouselButtonsContainer);
+            }
             //Get image - needs to be before the buttons
             const img = document.createElement("img");
             img.src = element.image_url;
             img.style.width = "100%";
             img.style.height = "75%";
             elementContainer.prepend(img);
+            //Append default action if specified
+            if (element.default_action) {
+                img.onclick = () => window.open(element.default_action.url);
+            }
             //Render container for title + subtitle
             const textContainer = document.createElement("div");
             textContainer.className = "generic_template_text_container";
@@ -398,11 +430,24 @@ class FacebookRichMessages {
         this.messageContainer.append(receiptOuterContainer);
     }
 
+    buttonTemplate() {
+        const buttonsOuterContainer = document.createElement("div");
+        buttonsOuterContainer.className = "button_template_outer_container"
+        this.messageData.buttons.forEach((button, index) => {
+            const buttonContainer = this.renderButton(button);
+            if (index !== 0) {
+                buttonContainer.style.borderTop = "1px solid rgba(0,0,0,0.1)";
+            }
+            buttonContainer.className = "button_template_container"
+            buttonsOuterContainer.append(buttonContainer);
+        })
+        this.messageContainer.append(buttonsOuterContainer);
+    }
+
     renderMessage() {
         //Render button template
         if (this.findTemplate() === "button") {
-            const buttonContainer = document.createElement("div")
-            this.messageContainer.append(buttonContainer)
+            this.buttonTemplate();
         }
         //Render list template
         if (this.findTemplate() === "list") {
