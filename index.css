@@ -21,15 +21,15 @@
 }
 
 .cognigy-web-chat__open {
-  height: 20rem;
-  width: 15rem;
+  height: 30rem;
+  width: 20rem;
 }
 
 /*The header is comprised of an outer container which ensures that the
 header content is only 90% of the total width of the chat box - just like the content container*/
 
 .cognigy-chat-header-container, .cognigy-chat-header-container__open {
-  background-color: #3779e3;
+  background-color: #333333;
   color: white;
   width: 100%;
   display: flex;
@@ -38,6 +38,35 @@ header content is only 90% of the total width of the chat box - just like the co
 
 .cognigy-chat-header-container {
   height: 100%;
+}
+
+.cognigy-header-avatar {
+  width: 34px;
+  height: 34px;
+  margin: 0 0.5rem -4px 0.2rem;
+  border-radius: 50%;
+}
+
+.cognigy-header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.cognigy-header-title {
+  font-size: 14px;
+}
+
+.cognigy-header-subtitle {
+  color: hsla(0,0%,100%,.8);
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.cognigy-header-subtitle::before {
+  content: "\2022";
+  margin-right: 5px;
+  font-weight: bold;
+  color: #00FF00;
 }
 
 .cognigy-close-icon {
@@ -62,7 +91,6 @@ header content is only 90% of the total width of the chat box - just like the co
 
 .cognigy-chat-header {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
   width: 90%;
   height: 100%;
@@ -136,17 +164,6 @@ header content is only 90% of the total width of the chat box - just like the co
   right: 0;
 }
 
-.cognigy-chat-window {
-  border: 1px solid #DCE2EB;
-  height: 70%;
-  border-radius: 4px;
-  width: 90%;
-  margin: 0.8rem 0;
-  color: black;
-  font-size: 12px;
-  overflow-y: scroll;
-}
-
 /*Styling for messages sent by the user and received from the bot*/
 .cognigy-chat-user-message-container {
   display: flex;
@@ -173,7 +190,7 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 .cognigy-chat-bot-message {
-  background-color: #5193FF;
+  background-color: #333333;
   border-radius: 20px 20px 20px 4px;
   padding: 10px 15px;
   max-width: 55%;  

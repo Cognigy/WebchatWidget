@@ -15,12 +15,22 @@ const mainChatElement = document.getElementById("cognigy");
 const headerContainer = createElement("div", "cognigy-chat-header-container__open", "cognigy-header");
 headerContainer.onclick = handleChatOpen;
 const header = createElement("div", "cognigy-chat-header");
-const headerText = document.createElement("span");
 const closeIcon = createElement("img", "cognigy-close-icon");
 closeIcon.src = "close.svg";
-headerText.append(document.createTextNode("Chat with us"));
-header.appendChild(headerText);
-header.appendChild(closeIcon);
+//Create header title and subtitle
+const headerText = createElement("div", "cognigy-header-text");
+const headerTitle = createElement("span", "cognigy-header-title");
+const headerSubtitle = createElement("span", "cognigy-header-subtitle");
+headerTitle.append(document.createTextNode("Cognigy"));
+headerSubtitle.append(document.createTextNode("Online"));
+headerText.append(headerTitle)
+headerText.append(headerSubtitle)
+//Create bot avatar with Cognigy logo and append to header
+const avatar = createElement("img", "cognigy-header-avatar");
+avatar.src = "cognigy_avatar.svg";
+header.append(avatar);
+
+header.append(headerText);
 headerContainer.append(header);
 mainChatElement.append(headerContainer);
 
@@ -50,12 +60,10 @@ function handleChatOpen() {
   if(chatElement.className === "cognigy-web-chat") {
     chatElement.className = "cognigy-web-chat__open";
     chatHeader.className = "cognigy-chat-header-container__open"
-    headerText.className = "displayNone";
     chatContainer.className = "cognigy-chat-container";
   } else {
     chatElement.className = "cognigy-web-chat";
     chatContainer.className = "displayNone";
-    headerText.className = "";
     chatHeader.className = "cognigy-chat-header-container"
   }
 }
