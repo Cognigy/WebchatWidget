@@ -12,7 +12,7 @@ const createElement = function(type, className, id) {
 const mainChatElement = document.getElementById("cognigy");
 
 //Create standard header with text
-const headerContainer = createElement("div", "cognigy-chat-header-container", "cognigy-header");
+const headerContainer = createElement("div", "cognigy-chat-header-container__open", "cognigy-header");
 headerContainer.onclick = handleChatOpen;
 const header = createElement("div", "cognigy-chat-header");
 const headerText = document.createElement("span");
@@ -34,18 +34,18 @@ chatContainer.append(chatWindow);
 
 //Create chatForm with input and button
 const chatForm = createElement("form", "cognigy-chat-form", "cognigy-form");
-chatContainer.append(chatForm);
+mainChatElement.append(chatForm);
 
-const chatInput = createElement("input", "cognigy-chat-input", "cognigy-input");
+const chatInput = createElement("textarea", "cognigy-chat-input", "cognigy-input");
 chatInput.placeholder = "Write your message here";
 chatForm.append(chatInput);
 
-const chatButton = createElement("button", "cognigy-chat-button", "cognigy-button");
-chatButton.type = "submit";
-const sendAvatar = createElement("img", "cognigy-send-icon");
-sendAvatar.src = "send.svg";
-chatButton.append(sendAvatar);
-chatForm.append(chatButton);
+//const chatButton = createElement("button", "cognigy-chat-button", "cognigy-button");
+//chatButton.type = "submit";
+//const sendAvatar = createElement("img", "cognigy-send-icon");
+//sendAvatar.src = "send.svg";
+//chatButton.append(sendAvatar);
+//chatForm.append(chatButton);
 
 function handleChatOpen() {
   const chatElement = document.getElementById("cognigy");
