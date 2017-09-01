@@ -57,6 +57,7 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-chat-header-container__open {
   height: 4rem;
   border-radius: 10px 10px 0 0;
+  flex-shrink: 0;  
 }
 
 .cognigy-chat-header {
@@ -69,13 +70,24 @@ header content is only 90% of the total width of the chat box - just like the co
 
 /*Container for chat content: Same function as header content defined above*/
 .cognigy-chat-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
   width: 100%;
   font-size: 12px;
   flex-grow: 1;
   margin-top: 10px;
+  overflow-y: scroll;  
+}
+
+/*Style scrollbar*/
+.cognigy-chat-container::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.cognigy-chat-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.3);
+  outline: 1px solid slategrey;
+  border-radius: 20px;
+  flex-direction: column-reverse;
+  display: flex;
 }
 
 .displayNone {
@@ -110,7 +122,6 @@ header content is only 90% of the total width of the chat box - just like the co
   outline: none;
 }
 
-
 .cognigy-chat-input:focus {
   background-color: white;
 }
@@ -134,19 +145,6 @@ header content is only 90% of the total width of the chat box - just like the co
   color: black;
   font-size: 12px;
   overflow-y: scroll;
-}
-
-/*Style scrollbar*/
-.cognigy-chat-window::-webkit-scrollbar {
-    width: 0.5rem;
-}
-
-.cognigy-chat-window::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.3);
-    outline: 1px solid slategrey;
-    border-radius: 20px;
-    flex-direction: column-reverse;
-    display: flex;
 }
 
 /*Styling for messages sent by the user and received from the bot*/
