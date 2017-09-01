@@ -1,28 +1,42 @@
 /*When the chat component is closed, use .cognigy-web-chat, else use cognigy-web-chat__open*/
 
-.cognigy-web-chat {
-  height: 2.5rem;
-  width: 10rem;
-}
-
-.cognigy-web-chat, .cognigy-web-chat__open {
-  color: white;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  margin-right: 1rem;
-  margin-bottom: 1rem;
+.cognigy-outer-container {
   display: flex;
   flex-direction: column;
   box-shadow: -2px 2px 10px #888888;
   align-items: center;
   border-radius: 10px;
   font-family: Ubuntu, sans-serif;
-}
-
-.cognigy-web-chat__open {
   height: 30rem;
   width: 20rem;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 0 50px 100px 0;
+}
+
+
+/*Styling for toggle chat state*/
+.cognigy-chat-state-closed, .cognigy-chat-state-open {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  background-color: #333333;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+.cognigy-chat-state-open {
+  background-image: url('./close.svg');
+}
+
+.cognigy-chat-state-closed {
+  background-image: url('./chat_bubble.svg');  
 }
 
 /*The header is comprised of an outer container which ensures that the
@@ -171,12 +185,13 @@ header content is only 90% of the total width of the chat box - just like the co
   justify-content: flex-end;
   margin-bottom: 0.5rem;
   align-items: flex-end;
+  margin-right: 10px;
 }
 
 .cognigy-chat-bot-message-container {
   display: flex;
   word-break: break-word;
-  margin: 0.3rem 0;
+  margin: 0.3rem 0 0.3rem 10px;
   align-items: flex-end;
 }
 
@@ -184,7 +199,7 @@ header content is only 90% of the total width of the chat box - just like the co
   background-color: #F7F9FA;
   border-radius: 20px 20px 4px 20px;
   padding: 10px 15px;
-  margin: 0.2rem 0;
+  margin: 0.5rem 0;
   color: rgba(0,0,0,0.8);
   max-width: 55%;  
 }
@@ -194,6 +209,7 @@ header content is only 90% of the total width of the chat box - just like the co
   border-radius: 20px 20px 20px 4px;
   padding: 10px 15px;
   max-width: 55%;  
+  color: white;
 }
 
 /*Styling for avatars*/

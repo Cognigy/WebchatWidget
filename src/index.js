@@ -10,10 +10,14 @@ const createElement = function(type, className, id) {
 }
 
 const mainChatElement = document.getElementById("cognigy");
+const outerContainer = createElement("div", "displayNone", "cognigy-outer-container");
+const toggleChatState = createElement("div", "cognigy-chat-state-closed", "cognigy-toggle-state");
+toggleChatState.onclick = handleChatOpen
+mainChatElement.append(outerContainer);
+mainChatElement.append(toggleChatState);
 
 //Create standard header with text
 const headerContainer = createElement("div", "cognigy-chat-header-container__open", "cognigy-header");
-headerContainer.onclick = handleChatOpen;
 const header = createElement("div", "cognigy-chat-header");
 const closeIcon = createElement("img", "cognigy-close-icon");
 closeIcon.src = "close.svg";
@@ -32,15 +36,15 @@ header.append(avatar);
 
 header.append(headerText);
 headerContainer.append(header);
-mainChatElement.append(headerContainer);
+outerContainer.append(headerContainer);
 
 //Create chatContainer
 const chatContainer = createElement("div", "cognigy-chat-container", "cognigy-container");
-mainChatElement.append(chatContainer);
+outerContainer.append(chatContainer);
 
 //Create chatForm with input and button
 const chatForm = createElement("form", "cognigy-chat-form", "cognigy-form");
-mainChatElement.append(chatForm);
+outerContainer.append(chatForm);
 
 const chatInput = createElement("input", "cognigy-chat-input", "cognigy-input");
 chatInput.placeholder = "Write a reply";
@@ -54,17 +58,15 @@ chatButton.append(sendAvatar);
 chatForm.append(chatButton);
 
 function handleChatOpen() {
-  const chatElement = document.getElementById("cognigy");
-  const chatContainer = document.getElementById("cognigy-container");
+  const toggleChatState = document.getElementById("cognigy-toggle-state");
+  const chatContainer = document.getElementById("cognigy-outer-container");
   const chatHeader = document.getElementById("cognigy-header");
-  if(chatElement.className === "cognigy-web-chat") {
-    chatElement.className = "cognigy-web-chat__open";
-    chatHeader.className = "cognigy-chat-header-container__open"
-    chatContainer.className = "cognigy-chat-container";
+  if(toggleChatState.className === "cognigy-chat-state-closed") {
+    chatContainer.className = "cognigy-outer-container";
+    toggleChatState.className = "cognigy-chat-state-open";
   } else {
-    chatElement.className = "cognigy-web-chat";
     chatContainer.className = "displayNone";
-    chatHeader.className = "cognigy-chat-header-container"
+    toggleChatState.className = "cognigy-chat-state-closed";
   }
 }
 
