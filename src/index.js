@@ -10,7 +10,7 @@ const createElement = function(type, className, id) {
 }
 
 const mainChatElement = document.getElementById("cognigy");
-const outerContainer = createElement("div", "displayNone", "cognigy-outer-container");
+const outerContainer = createElement("div", "cognigy-outer-container__closed", "cognigy-outer-container");
 const toggleChatState = createElement("div", "cognigy-chat-state-closed", "cognigy-toggle-state");
 toggleChatState.onclick = handleChatOpen
 mainChatElement.append(outerContainer);
@@ -62,10 +62,10 @@ function handleChatOpen() {
   const chatContainer = document.getElementById("cognigy-outer-container");
   const chatHeader = document.getElementById("cognigy-header");
   if(toggleChatState.className === "cognigy-chat-state-closed") {
-    chatContainer.className = "cognigy-outer-container";
+    chatContainer.className = "cognigy-outer-container__open";
     toggleChatState.className = "cognigy-chat-state-open";
   } else {
-    chatContainer.className = "displayNone";
+    chatContainer.className = "cognigy-outer-container__closed";
     toggleChatState.className = "cognigy-chat-state-closed";
   }
 }

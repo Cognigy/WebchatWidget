@@ -1,6 +1,11 @@
 /*When the chat component is closed, use .cognigy-web-chat, else use cognigy-web-chat__open*/
 
-.cognigy-outer-container {
+.cognigy-outer-container__closed {
+  opacity: 0;
+  transition: all .200s ease-in
+}
+
+.cognigy-outer-container__open, .cognigy-outer-container__closed {
   display: flex;
   flex-direction: column;
   box-shadow: -2px 2px 10px #888888;
@@ -13,6 +18,7 @@
   bottom: 0;
   right: 0;
   margin: 0 50px 100px 0;
+  transition: all .200s ease-out  
 }
 
 
