@@ -17,6 +17,7 @@
   justify-content: space-between;
   box-shadow: -2px 2px 10px #888888;
   align-items: center;
+  border-radius: 10px;
   font-family: Ubuntu, sans-serif;
 }
 
@@ -56,6 +57,7 @@ header content is only 90% of the total width of the chat box - just like the co
 
 .cognigy-chat-header-container__open {
   height: 4rem;
+  border-radius: 10px 10px 0 0;
 }
 
 .cognigy-chat-header {
@@ -83,33 +85,43 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-chat-form {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
+  background-color: #f4f7f9;
   margin-bottom: 0;
   width: 100%;
   align-items: center;
+  border-radius: 0 0 10px 10px;  
+  transition: background-color .2s ease,box-shadow .2s ease;
 }
 
 .cognigy-chat-input {
   background: #f4f7f9;
   color: #565867;
-  transition: background-color .2s ease,box-shadow .2s ease;
   resize: none;
   border: none;
   font-family: Ubuntu, sans-serif;
   width: 100%;
   padding: 12px 22px;
   height: 40px;
+  border-radius: 0 0 10px 10px;
 }
 
 .cognigy-chat-input:focus {
   outline: none;
 }
+
+
+.cognigy-chat-input:focus {
+  background-color: white;
+}
+
 .cognigy-chat-button {
   border: 10px;
   border-radius: 20px;
   padding: 0.3rem;
-  background-color: #3779e3;
+  background-color: transparent;
   color: white;
+  position: absolute;
+  right: 0;
 }
 
 .cognigy-chat-window {
@@ -184,4 +196,5 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-send-icon {
   width: 40px;
   height: 17px;
+  opacity: 0.3;
 }

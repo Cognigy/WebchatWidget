@@ -36,16 +36,16 @@ chatContainer.append(chatWindow);
 const chatForm = createElement("form", "cognigy-chat-form", "cognigy-form");
 mainChatElement.append(chatForm);
 
-const chatInput = createElement("textarea", "cognigy-chat-input", "cognigy-input");
-chatInput.placeholder = "Write your message here";
+const chatInput = createElement("input", "cognigy-chat-input", "cognigy-input");
+chatInput.placeholder = "Write a reply";
 chatForm.append(chatInput);
 
-//const chatButton = createElement("button", "cognigy-chat-button", "cognigy-button");
-//chatButton.type = "submit";
-//const sendAvatar = createElement("img", "cognigy-send-icon");
-//sendAvatar.src = "send.svg";
-//chatButton.append(sendAvatar);
-//chatForm.append(chatButton);
+const chatButton = createElement("button", "cognigy-chat-button", "cognigy-button");
+chatButton.type = "submit";
+const sendAvatar = createElement("img", "cognigy-send-icon");
+sendAvatar.src = "send.svg";
+chatButton.append(sendAvatar);
+chatForm.append(chatButton);
 
 function handleChatOpen() {
   const chatElement = document.getElementById("cognigy");
