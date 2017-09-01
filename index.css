@@ -14,7 +14,6 @@
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   box-shadow: -2px 2px 10px #888888;
   align-items: center;
   border-radius: 10px;
@@ -72,9 +71,11 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-chat-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start;
   width: 100%;
+  font-size: 12px;
+  flex-grow: 1;
+  margin-top: 10px;
 }
 
 .displayNone {
@@ -169,12 +170,15 @@ header content is only 90% of the total width of the chat box - just like the co
   border-radius: 20px 20px 4px 20px;
   padding: 10px 15px;
   margin: 0.2rem 0;
+  color: rgba(0,0,0,0.8);
+  max-width: 55%;  
 }
 
 .cognigy-chat-bot-message {
   background-color: #5193FF;
   border-radius: 20px 20px 20px 4px;
   padding: 10px 15px;
+  max-width: 55%;  
 }
 
 /*Styling for avatars*/

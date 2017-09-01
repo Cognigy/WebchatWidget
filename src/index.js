@@ -25,12 +25,8 @@ headerContainer.append(header);
 mainChatElement.append(headerContainer);
 
 //Create chatContainer
-const chatContainer = createElement("div", "displayNone", "cognigy-container");
+const chatContainer = createElement("div", "cognigy-chat-container", "cognigy-container");
 mainChatElement.append(chatContainer);
-
-//Create chatWindow
-const chatWindow = createElement("div", "cognigy-chat-window", "cognigy-chat-window");
-chatContainer.append(chatWindow);
 
 //Create chatForm with input and button
 const chatForm = createElement("form", "cognigy-chat-form", "cognigy-form");
@@ -68,7 +64,7 @@ function handleSendMessage(e) {
   e.preventDefault();
   //Get the value from input, then create two divs to store/display the message
   const inputValue = document.getElementById("cognigy-input").value;
-  const chatWindow = document.getElementById("cognigy-chat-window");
+  const chatContainer = document.getElementById("cognigy-container");  
   const messageContainer = document.createElement("div");
   const message = document.createElement("div");
   const messageValue = document.createTextNode(inputValue);
@@ -83,9 +79,9 @@ function handleSendMessage(e) {
   avatar.src = "user_avatar.svg";
   messageContainer.append(avatar);
 
-  chatWindow.append(messageContainer);
+  chatContainer.append(messageContainer);
   //Keep scrollbar fixed at bottom when new messages are added
-  chatWindow.scrollTop = chatWindow.scrollHeight;
+  chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
 //Add event listener for form submit event
@@ -94,7 +90,7 @@ formElement.addEventListener("submit", (e) => handleSendMessage(e), false);
 
 function displayCognigyMessage(answerFromCognigy) {
   const cognigyAnswer = answerFromCognigy.text;
-  const chatWindow = document.getElementById("cognigy-chat-window");
+  const chatContainer = document.getElementById("cognigy-container");
   const messageContainer = document.createElement("div");
   const message = document.createElement("div");
   const messageValue = document.createTextNode(cognigyAnswer);
@@ -110,7 +106,7 @@ function displayCognigyMessage(answerFromCognigy) {
   message.append(messageValue);
   messageContainer.append(message);
 
-  chatWindow.append(messageContainer);
+  chatContainer.append(messageContainer);
   //Keep scrollbar fixed at bottom when new messages are added
-  chatWindow.scrollTop = chatWindow.scrollHeight;
+  chatContainer.scrollTop = chatContainer.scrollHeight;
 }
