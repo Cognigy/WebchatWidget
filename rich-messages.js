@@ -1,5 +1,5 @@
 ﻿//This class renders several of Facebook's templates for rich media.
-class FacebookRichMessages {
+class RichMessages {
     constructor(messageData, messageContainer) {
         if (messageData.facebook.attachment && messageData.facebook.attachment.payload) {
             this.messageData = messageData.facebook.attachment.payload;
