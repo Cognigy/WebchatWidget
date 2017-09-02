@@ -117,6 +117,12 @@ function displayCognigyMessage(answerFromCognigy) {
   messageContainer.append(message);
 
   chatContainer.append(messageContainer);
+
+  //Display Facebook message
+  if (answerFromCognigy.data && answerFromCognigy.data.facebook) {
+    const renderRichMessage = new FacebookRichMessages(answerFromCognigy.data, chatContainer);
+    renderRichMessage.renderMessage()
+  }
   //Keep scrollbar fixed at bottom when new messages are added
   chatContainer.scrollTop = chatContainer.scrollHeight;
 }
