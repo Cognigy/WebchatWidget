@@ -1,6 +1,10 @@
+:root {
+    --main-color: #333333;
+  }
+
 .button_template_container {
     width: 80%;
-    color: #0084ff;
+    color: var(--main-color);
     padding: 0 10px;
     text-align: center;
     background: white;
@@ -19,7 +23,7 @@
 }
 
 .button {
-    color: #0084ff;
+    color: var(--main-color);
     padding: 0 10px;
     text-align: center;
     background: white;
@@ -33,7 +37,7 @@
 }
 
 .list_template_element_button {
-    color: #0084ff;
+    color: var(--main-color);
     padding: 6px;
     text-align: center;
     background: white;
@@ -141,7 +145,7 @@
 }
 
 .quick_reply {
-    color: #0084ff;
+    color: var(--main-color);
     border: 1px solid;
     border-radius: 20px;
     text-align: center;

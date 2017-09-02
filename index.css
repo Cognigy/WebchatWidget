@@ -1,4 +1,7 @@
 /*When the chat component is closed, use .cognigy-web-chat, else use cognigy-web-chat__open*/
+:root {
+  --main-color: #333333;
+}
 
 .cognigy-outer-container__closed {
   opacity: 0;
@@ -27,7 +30,7 @@
   border-radius: 50%;
   width: 60px;
   height: 60px;
-  background-color: #333333;
+  background-color: var(--main-color);
   margin-right: 1rem;
   margin-bottom: 1rem;
   background-repeat: no-repeat;
@@ -49,7 +52,7 @@
 header content is only 90% of the total width of the chat box - just like the content container*/
 
 .cognigy-chat-header-container, .cognigy-chat-header-container__open {
-  background-color: #333333;
+  background-color: var(--main-color);
   color: white;
   width: 100%;
   display: flex;
@@ -211,7 +214,7 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 .cognigy-chat-bot-message {
-  background-color: #333333;
+  background-color: var(--main-color);
   border-radius: 20px 20px 20px 4px;
   padding: 10px 15px;
   max-width: 55%;  
