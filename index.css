@@ -126,6 +126,7 @@ header content is only 90% of the total width of the chat box - just like the co
   flex-grow: 1;
   margin-top: 10px;
   overflow-y: scroll;  
+  margin-bottom: 20px;
 }
 
 /*Style scrollbar*/
@@ -162,6 +163,7 @@ header content is only 90% of the total width of the chat box - just like the co
   color: #565867;
   resize: none;
   border: none;
+  border-bottom: 0.1px solid rgba(0,0,0,0.1);
   font-family: Ubuntu, sans-serif;
   width: 100%;
   padding: 12px 22px;
