@@ -91,7 +91,7 @@
 }
 
 .list_template_container {
-    margin-left: 15px;
+    margin: 20px;
     border: 1px solid rgba(0,0,0,0.1);
     border-radius: 10px;
 }
@@ -114,6 +114,7 @@
     flex-direction: column;
     justify-content: flex-end;
     color: white;
+    border-radius: 10px 10px 0 0;    
 }
 
 
