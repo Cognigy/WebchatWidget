@@ -65,8 +65,8 @@ To use the Cognigy Web Chat, simply:
 
 ```
 <head>
-	<link rel="stylesheet" type="text/css" href="index.css">
-	<link rel="stylesheet" type="text/css" href="rich_message_style.css">
+   <link rel="stylesheet" type="text/css" href="index.css">
+   <link rel="stylesheet" type="text/css" href="rich_message_style.css">
 </head>
   
 <body>
