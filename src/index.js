@@ -120,7 +120,7 @@ function displayCognigyMessage(answerFromCognigy) {
 
   //Display Facebook message
   if (answerFromCognigy.data && answerFromCognigy.data.facebook) {
-    const renderRichMessage = new FacebookRichMessages(answerFromCognigy.data, chatContainer);
+    const renderRichMessage = new RichMessages(answerFromCognigy.data, chatContainer);
     renderRichMessage.renderMessage()
   }
   //Keep scrollbar fixed at bottom when new messages are added
