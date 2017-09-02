@@ -67,7 +67,7 @@ To use the Cognigy Web Chat, simply:
 <head>
 	<link rel="stylesheet" type="text/css" href="index.css">
 	<link rel="stylesheet" type="text/css" href="rich_message_style.css">
-  </head>
+</head>
   
 <body>
     <div class="cognigy-web-chat" id="cognigy"></div>
@@ -77,48 +77,48 @@ To use the Cognigy Web Chat, simply:
     <script src="rich-messages.js"></script>
 
     <script>
-    const options = {
-        baseUrl: 'host',
-        user: 'username',
-        apikey: 'apikey',
-        channel: 'my-website',
-        flow: 'flow',
-        language: 'language',
-        resetContext: true,
-        resetState: true,
-        handleOutput: function(output) {
-            displayCognigyMessage(output);
+        const options = {
+            baseUrl: 'host',
+            user: 'username',
+            apikey: 'apikey',
+            channel: 'my-website',
+            flow: 'flow',
+            language: 'language',
+            resetContext: true,
+            resetState: true,
+            handleOutput: function(output) {
+                displayCognigyMessage(output);
+            }
+        };
+        const inputValue = document.getElementById("cognigy-input").value;
+        //Reset input value
+        document.getElementById("cognigy-input").value = "";
+        var client = new Cognigy.CognigyWebClient(options);
+
+        client.connect()
+        .catch(function(error) {
+                console.log(error);
+        });
+
+        //Function used by postback buttons
+        const handleCognigyMessage = (message) => {
+            if (client && client.isConnected()) {
+                const inputValue = document.getElementById("cognigy-input").value;
+                document.getElementById("cognigy-input").value = "";
+
+                client.sendMessage(inputValue, undefined);
+            }
         }
-    };
-    const inputValue = document.getElementById("cognigy-input").value;
-    //Reset input value
-    document.getElementById("cognigy-input").value = "";
-    var client = new Cognigy.CognigyWebClient(options);
 
-    client.connect()
-    .catch(function(error) {
-            console.log(error);
-    });
+        // listen on form submit event and use handleCognigyMessage function
+        formElement.addEventListener("submit", () => {
+            if (client && client.isConnected()) {
+                const inputValue = document.getElementById("cognigy-input").value;
+                document.getElementById("cognigy-input").value = "";
 
-    //Function used by postback buttons
-    const handleCognigyMessage = (message) => {
-        if (client && client.isConnected()) {
-            const inputValue = document.getElementById("cognigy-input").value;
-            document.getElementById("cognigy-input").value = "";
-
-            client.sendMessage(inputValue, undefined);
-        }
-    }
-
-    // listen on form submit event and use handleCognigyMessage function
-    formElement.addEventListener("submit", () => {
-        if (client && client.isConnected()) {
-            const inputValue = document.getElementById("cognigy-input").value;
-            document.getElementById("cognigy-input").value = "";
-
-            client.sendMessage(inputValue, undefined);
-        }
-    }, false);
+                client.sendMessage(inputValue, undefined);
+            }
+        }, false);
     </script>
 </body>
  ```
