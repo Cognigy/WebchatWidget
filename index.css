@@ -1,35 +1,58 @@
 /*When the chat component is closed, use .cognigy-web-chat, else use cognigy-web-chat__open*/
-
-.cognigy-web-chat {
-  height: 2.5rem;
-  width: 10rem;
+:root {
+  --main-color: #333333;
 }
 
-.cognigy-web-chat, .cognigy-web-chat__open {
-  color: white;
+.cognigy-outer-container__closed {
+  opacity: 0;
+  transition: all .200s ease-in
+}
+
+.cognigy-outer-container__open, .cognigy-outer-container__closed {
+  display: flex;
+  flex-direction: column;
+  box-shadow: -2px 2px 10px #888888;
+  align-items: center;
+  border-radius: 10px;
+  font-family: Ubuntu, sans-serif;
+  height: 30rem;
+  width: 20rem;
   position: fixed;
   bottom: 0;
   right: 0;
-  margin-right: 1rem;
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: -2px 2px 10px #888888;
-  align-items: center;
-  font-family: Ubuntu, sans-serif;
+  margin: 0 50px 100px 0;
+  transition: all .200s ease-out  
 }
 
-.cognigy-web-chat__open {
-  height: 20rem;
-  width: 15rem;
+
+/*Styling for toggle chat state*/
+.cognigy-chat-state-closed, .cognigy-chat-state-open {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  background-color: var(--main-color);
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+.cognigy-chat-state-open {
+  background-image: url('./close.svg');
+}
+
+.cognigy-chat-state-closed {
+  background-image: url('./chat_bubble.svg');  
 }
 
 /*The header is comprised of an outer container which ensures that the
 header content is only 90% of the total width of the chat box - just like the content container*/
 
 .cognigy-chat-header-container, .cognigy-chat-header-container__open {
-  background-color: #3779e3;
+  background-color: var(--main-color);
   color: white;
   width: 100%;
   display: flex;
@@ -38,6 +61,35 @@ header content is only 90% of the total width of the chat box - just like the co
 
 .cognigy-chat-header-container {
   height: 100%;
+}
+
+.cognigy-header-avatar {
+  width: 34px;
+  height: 34px;
+  margin: 0 0.5rem -4px 0.2rem;
+  border-radius: 50%;
+}
+
+.cognigy-header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.cognigy-header-title {
+  font-size: 14px;
+}
+
+.cognigy-header-subtitle {
+  color: hsla(0,0%,100%,.8);
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.cognigy-header-subtitle::before {
+  content: "\2022";
+  margin-right: 5px;
+  font-weight: bold;
+  color: #00FF00;
 }
 
 .cognigy-close-icon {
@@ -55,12 +107,13 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 .cognigy-chat-header-container__open {
-  height: 1.2rem;
+  height: 4rem;
+  border-radius: 10px 10px 0 0;
+  flex-shrink: 0;  
 }
 
 .cognigy-chat-header {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
   width: 90%;
   height: 100%;
@@ -68,11 +121,25 @@ header content is only 90% of the total width of the chat box - just like the co
 
 /*Container for chat content: Same function as header content defined above*/
 .cognigy-chat-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
+  font-size: 12px;
+  flex-grow: 1;
+  margin-top: 10px;
+  overflow-y: scroll;  
+  margin-bottom: 20px;
+}
+
+/*Style scrollbar*/
+.cognigy-chat-container::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.cognigy-chat-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.3);
+  outline: 1px solid slategrey;
+  border-radius: 20px;
+  flex-direction: column-reverse;
+  display: flex;
 }
 
 .displayNone {
@@ -83,53 +150,43 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-chat-form {
   display: flex;
   justify-content: space-between;
-  width: 90%;
-  flex-wrap: wrap;
+  background-color: #f4f7f9;
+  margin-bottom: 0;
+  width: 100%;
   align-items: center;
+  border-radius: 0 0 10px 10px;  
+  transition: background-color .2s ease,box-shadow .2s ease;
 }
 
 .cognigy-chat-input {
-  border-bottom: 2px solid rgba(0,0,0,0.1);
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  width: 8.5rem;
-  font-size: 12px;
+  background: #f4f7f9;
+  color: #565867;
+  resize: none;
+  border: none;
+  border-bottom: 0.1px solid rgba(0,0,0,0.1);
+  font-family: Ubuntu, sans-serif;
+  width: 100%;
+  padding: 12px 22px;
+  height: 40px;
+  border-radius: 0 0 10px 10px;
 }
 
 .cognigy-chat-input:focus {
   outline: none;
 }
+
+.cognigy-chat-input:focus {
+  background-color: white;
+}
+
 .cognigy-chat-button {
   border: 10px;
   border-radius: 20px;
   padding: 0.3rem;
-  background-color: #3779e3;
+  background-color: transparent;
   color: white;
-}
-
-.cognigy-chat-window {
-  border: 1px solid #DCE2EB;
-  height: 70%;
-  border-radius: 4px;
-  width: 90%;
-  margin: 0.8rem 0;
-  color: black;
-  font-size: 12px;
-  overflow-y: scroll;
-}
-
-/*Style scrollbar*/
-.cognigy-chat-window::-webkit-scrollbar {
-    width: 0.5rem;
-}
-
-.cognigy-chat-window::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.3);
-    outline: 1px solid slategrey;
-    border-radius: 20px;
-    flex-direction: column-reverse;
-    display: flex;
+  position: absolute;
+  right: 0;
 }
 
 /*Styling for messages sent by the user and received from the bot*/
@@ -139,12 +196,13 @@ header content is only 90% of the total width of the chat box - just like the co
   justify-content: flex-end;
   margin-bottom: 0.5rem;
   align-items: flex-end;
+  margin-right: 10px;
 }
 
 .cognigy-chat-bot-message-container {
   display: flex;
   word-break: break-word;
-  margin: 0.3rem 0;
+  margin: 0.3rem 0 0.3rem 10px;
   align-items: flex-end;
 }
 
@@ -152,13 +210,17 @@ header content is only 90% of the total width of the chat box - just like the co
   background-color: #F7F9FA;
   border-radius: 20px 20px 4px 20px;
   padding: 10px 15px;
-  margin: 0.2rem 0;
+  margin: 0.5rem 0;
+  color: rgba(0,0,0,0.8);
+  max-width: 55%;  
 }
 
 .cognigy-chat-bot-message {
-  background-color: #5193FF;
+  background-color: var(--main-color);
   border-radius: 20px 20px 20px 4px;
   padding: 10px 15px;
+  max-width: 55%;  
+  color: white;
 }
 
 /*Styling for avatars*/
@@ -180,4 +242,5 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-send-icon {
   width: 40px;
   height: 17px;
+  opacity: 0.3;
 }

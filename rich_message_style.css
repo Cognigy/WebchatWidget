@@ -1,6 +1,10 @@
+:root {
+    --main-color: #333333;
+  }
+
 .button_template_container {
     width: 80%;
-    color: #0084ff;
+    color: var(--main-color);
     padding: 0 10px;
     text-align: center;
     background: white;
@@ -19,7 +23,7 @@
 }
 
 .button {
-    color: #0084ff;
+    color: var(--main-color);
     padding: 0 10px;
     text-align: center;
     background: white;
@@ -30,10 +34,11 @@
     height: 32px;
     cursor: pointer;
     border-top: 1px solid rgba(0,0,0,0.1);
+    border-radius: 0 0 10px 10px;
 }
 
 .list_template_element_button {
-    color: #0084ff;
+    color: var(--main-color);
     padding: 6px;
     text-align: center;
     background: white;
@@ -86,7 +91,7 @@
 }
 
 .list_template_container {
-    margin-left: 15px;
+    margin: 20px;
     border: 1px solid rgba(0,0,0,0.1);
     border-radius: 10px;
 }
@@ -109,6 +114,7 @@
     flex-direction: column;
     justify-content: flex-end;
     color: white;
+    border-radius: 10px 10px 0 0;    
 }
 
 
@@ -116,7 +122,7 @@
     display: flex;
     justify-content: flex-start;
     flex-direction: column-reverse;
-    margin-left: 10px;
+    margin: 20px;
     border: 1px solid rgba(0,0,0,0.1);
     border-radius: 10px;
 }
@@ -141,7 +147,7 @@
 }
 
 .quick_reply {
-    color: #0084ff;
+    color: var(--main-color);
     border: 1px solid;
     border-radius: 20px;
     text-align: center;
@@ -161,7 +167,7 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    margin: 10px;
+    margin: 20px;
 }
 
 .receipt_template_header_container {

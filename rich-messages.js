@@ -1,5 +1,5 @@
 ﻿//This class renders several of Facebook's templates for rich media.
-class FacebookRichMessages {
+class RichMessages {
     constructor(messageData, messageContainer) {
         if (messageData.facebook.attachment && messageData.facebook.attachment.payload) {
             this.messageData = messageData.facebook.attachment.payload;
@@ -135,7 +135,6 @@ class FacebookRichMessages {
                     let buttonContainer = this.renderListButton(button);
                     //Special styling for first button
                     if (this.messageData.top_element_style === "large" && index === 0) {
-                        console.log("test")
                         buttonContainer.className = "list_template_element_button_first";
                     }
                     elementContent.append(buttonContainer);
@@ -175,11 +174,9 @@ class FacebookRichMessages {
         const increment = document.createElement("div");
         increment.className = "generic_template_increment";
         increment.id = `genericTemplateIncrement${index}`;
-        console.log(increment.id)
         const decrement = document.createElement("div");
         decrement.className = "visibility_hidden";
         decrement.id = `genericTemplateDecrement${index}`;
-        console.log(decrement.id)
         carouselButtonsContainer.append(decrement);
         carouselButtonsContainer.append(increment);
         //Start off by displaying the first elementContainer
@@ -189,13 +186,11 @@ class FacebookRichMessages {
 
             //Increment index from elementContainer when clicking button, thereby viewing next item
             increment.addEventListener('click', () => {
-                console.log(index)
                 elementContainers[index].className = "display_none";
                 elementContainers[index + 1].className = "generic_template_element_container";
 
                 //Show decrement button after first increment
                 document.getElementById(`genericTemplateDecrement${index + 1}`).className = "generic_template_decrement";
-                console.log(document.getElementById("genericTemplateIncrement0"))
                 //Hide next increment button when viewing last item
                 if (index === (elementContainers.length - 2)) {
                     document.getElementById(`genericTemplateIncrement${index + 1}`).className = "visibility_hidden";
@@ -240,7 +235,8 @@ class FacebookRichMessages {
             const img = document.createElement("img");
             img.src = element.image_url;
             img.style.width = "100%";
-            img.style.height = "75%";
+            img.style.height = "200px";
+            img.style.borderRadius = '10px 10px 0 0';
             elementContainer.prepend(img);
             //Append default action if specified
             if (element.default_action) {
@@ -251,15 +247,18 @@ class FacebookRichMessages {
             textContainer.className = "generic_template_text_container";
             elementContainer.append(textContainer);
             //Get Title
-            const genericTitle = document.createElement("p");
-            genericTitle.className = "text_title";
-            genericTitle.append(element.title);
-            textContainer.append(genericTitle);
-            //Get subtitle
-            const genericSubtitle = document.createElement("p");
-            genericSubtitle.className = "text_subtitle";
-            genericSubtitle.append(element.subtitle)
-            textContainer.append(genericSubtitle);
+            if (element.title) {
+                const genericTitle = document.createElement("p");
+                genericTitle.className = "text_title";
+                genericTitle.append(element.title);
+                textContainer.append(genericTitle);
+            }
+            if (element.subtitle) {
+                const genericSubtitle = document.createElement("p");
+                genericSubtitle.className = "text_subtitle";
+                genericSubtitle.append(element.subtitle)
+                textContainer.append(genericSubtitle);
+            }
             //Get eventual buttons
             if (element.buttons) {
                 element.buttons.forEach(button => {
