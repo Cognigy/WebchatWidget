@@ -101,22 +101,26 @@ formElement.addEventListener("submit", (e) => handleSendMessage(e), false);
 function displayCognigyMessage(answerFromCognigy) {
   const cognigyAnswer = answerFromCognigy.text;
   const chatContainer = document.getElementById("cognigy-container");
-  const messageContainer = document.createElement("div");
-  const message = document.createElement("div");
-  const messageValue = document.createTextNode(cognigyAnswer);
 
-  //Create bot avatar with Cognigy logo and append to message contanier
-  const avatar = createElement("img", "cognigy-chat-bot-avatar");
-  avatar.src = "cognigy_logo.svg";
-  messageContainer.append(avatar);
+  if (typeof cognigyAnswer !== 'undefined') {
+    const messageContainer = document.createElement("div");
+    const message = document.createElement("div");
+    const messageValue = document.createTextNode(cognigyAnswer);
 
-  // Append message to UI
-  message.className = "cognigy-chat-bot-message";
-  messageContainer.className= "cognigy-chat-bot-message-container";
-  message.append(messageValue);
-  messageContainer.append(message);
+    //Create bot avatar with Cognigy logo and append to message contanier
+    const avatar = createElement("img", "cognigy-chat-bot-avatar");
+    avatar.src = "cognigy_logo.svg";
+    messageContainer.append(avatar);
 
-  chatContainer.append(messageContainer);
+    // Append message to UI
+    message.className = "cognigy-chat-bot-message";
+    messageContainer.className= "cognigy-chat-bot-message-container";
+    message.append(messageValue);
+    messageContainer.append(message);
+
+    chatContainer.append(messageContainer);
+
+  }
 
   //Display Facebook message
   if (answerFromCognigy.data && answerFromCognigy.data.facebook) {
