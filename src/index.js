@@ -19,8 +19,7 @@ mainChatElement.append(toggleChatState);
 //Create standard header with text
 const headerContainer = createElement("div", "cognigy-chat-header-container__open", "cognigy-header");
 const header = createElement("div", "cognigy-chat-header");
-const closeIcon = createElement("img", "cognigy-close-icon");
-closeIcon.src = "close.svg";
+
 //Create header title and subtitle
 const headerText = createElement("div", "cognigy-header-text");
 const headerTitle = createElement("span", "cognigy-header-title");
@@ -31,7 +30,7 @@ headerText.append(headerTitle)
 headerText.append(headerSubtitle)
 //Create bot avatar with Cognigy logo and append to header
 const avatar = createElement("img", "cognigy-header-avatar");
-avatar.src = "cognigy_avatar.svg";
+avatar.src = "./images/cognigy_avatar.svg";
 header.append(avatar);
 
 header.append(headerText);
@@ -42,7 +41,7 @@ outerContainer.append(headerContainer);
 const chatContainer = createElement("div", "cognigy-chat-container", "cognigy-container");
 outerContainer.append(chatContainer);
 
-//Create chatForm with input and button
+//Create chatForm with input, send button, record button and record toggle button
 const chatForm = createElement("form", "cognigy-chat-form", "cognigy-form");
 outerContainer.append(chatForm);
 
@@ -53,9 +52,39 @@ chatForm.append(chatInput);
 const chatButton = createElement("button", "cognigy-chat-button", "cognigy-button");
 chatButton.type = "submit";
 const sendAvatar = createElement("img", "cognigy-send-icon");
-sendAvatar.src = "send.svg";
+sendAvatar.src = "./images/send.svg";
 chatButton.append(sendAvatar);
 chatForm.append(chatButton);
+
+const recordToggleButton = createElement("button", "cognigy-record-toggle-button", "cognigy-record-toggle");
+recordToggleButton.onclick = () => handleRecordToggle();
+recordToggleButton.type = "button";
+const recordToggleAvatar = createElement("img", "cognigy-record-toggle-icon");
+recordToggleAvatar.src = "./images/mic_off.svg";
+recordToggleButton.append(recordToggleAvatar);
+chatForm.append(recordToggleButton);
+
+const recordButton = createElement("button", "displayNone", "cognigy-record");
+recordButton.type = "button";		
+chatForm.prepend(recordButton);
+
+let recordToggled = false;
+function handleRecordToggle() {	
+	recordToggled = !recordToggled;
+
+	if(recordToggled) {
+		recordToggleAvatar.src = './images/mic_on.svg';
+		//Change input to mic button
+		chatInput.className = "displayNone";
+		chatForm.style.justifyContent = "center";
+		recordButton.className = "cognigy-record-button"
+
+	} else { //Change from mic button to text input
+		recordToggleAvatar.src = "./images/mic_off.svg";
+		recordButton.className = "displayNone";	
+		chatInput.className = "cognigy-chat-input";		
+	}
+}
 
 function handleChatOpen() {
   const toggleChatState = document.getElementById("cognigy-toggle-state");
@@ -86,7 +115,7 @@ function handleSendMessage(e) {
   //Create user avatar and append to message contanier
   const avatar = document.createElement("img");
   avatar.className = "cognigy-chat-user-avatar";
-  avatar.src = "user_avatar.svg";
+  avatar.src = "./images/user_avatar.svg";
   messageContainer.append(avatar);
 
   chatContainer.append(messageContainer);
@@ -97,6 +126,27 @@ function handleSendMessage(e) {
 //Add event listener for form submit event
 const formElement = document.getElementById("cognigy-form");
 formElement.addEventListener("submit", (e) => handleSendMessage(e), false);
+
+function handleDisplayRecording(transcript) {
+	const chatContainer = document.getElementById("cognigy-container");  
+	const messageContainer = document.createElement("div");
+	const message = document.createElement("div");
+	const messageValue = document.createTextNode(transcript);
+	message.className = "cognigy-chat-user-message";
+	messageContainer.className= "cognigy-chat-user-message-container";
+	message.append(messageValue);
+	messageContainer.append(message);
+  
+	//Create user avatar and append to message contanier
+	const avatar = document.createElement("img");
+	avatar.className = "cognigy-chat-user-avatar";
+	avatar.src = "./images/user_avatar.svg";
+	messageContainer.append(avatar);
+  
+	chatContainer.append(messageContainer);
+	//Keep scrollbar fixed at bottom when new messages are added
+	chatContainer.scrollTop = chatContainer.scrollHeight;
+}
 
 function displayCognigyMessage(answerFromCognigy) {
   const cognigyAnswer = answerFromCognigy.text;
@@ -109,7 +159,7 @@ function displayCognigyMessage(answerFromCognigy) {
 
     //Create bot avatar with Cognigy logo and append to message contanier
     const avatar = createElement("img", "cognigy-chat-bot-avatar");
-    avatar.src = "cognigy_logo.svg";
+    avatar.src = "./images/cognigy_logo.svg";
     messageContainer.append(avatar);
 
     // Append message to UI

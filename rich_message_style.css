@@ -227,21 +227,17 @@
 .generic_template_increment {
     width: 24px;
     height: 24px;
-    background-image: url('arrow_forward.svg');
+    background-image: url('./images/arrow_forward.svg');
 }
 
 .generic_template_decrement {
     width: 24px;
     height: 24px;
-    background-image: url('arrow_back.svg');
+    background-image: url('./images/arrow_back.svg');
 }
 
 .generic_template_carousel_buttons_container {
     display: flex;
     width: 100%;
     justify-content: space-between;
-}
-
-.visibility_hidden {
-    visibility: hidden;
 }

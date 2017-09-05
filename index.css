@@ -41,11 +41,11 @@
 }
 
 .cognigy-chat-state-open {
-  background-image: url('./close.svg');
+  background-image: url('./images/close.svg');
 }
 
 .cognigy-chat-state-closed {
-  background-image: url('./chat_bubble.svg');  
+  background-image: url('./images/chat_bubble.svg');  
 }
 
 /*The header is comprised of an outer container which ensures that the
@@ -147,6 +147,10 @@ header content is only 90% of the total width of the chat box - just like the co
   display: none !important;
 }
 
+.visibilityHidden {
+  visibility: hidden;
+}
+
 /*Below is styling for the form, input, button and window components*/
 .cognigy-chat-form {
   display: flex;
@@ -157,6 +161,8 @@ header content is only 90% of the total width of the chat box - just like the co
   align-items: center;
   border-radius: 0 0 10px 10px;  
   transition: background-color .2s ease,box-shadow .2s ease;
+  height: 50px;
+  min-height: 50px;
 }
 
 .cognigy-chat-input {
@@ -167,9 +173,10 @@ header content is only 90% of the total width of the chat box - just like the co
   border-bottom: 0.1px solid rgba(0,0,0,0.1);
   font-family: Ubuntu, sans-serif;
   width: 100%;
-  padding: 12px 22px;
+  padding: 0 22px;
   height: 40px;
   border-radius: 0 0 10px 10px;
+  height: 100%;
 }
 
 .cognigy-chat-input:focus {
@@ -180,7 +187,7 @@ header content is only 90% of the total width of the chat box - just like the co
   background-color: white;
 }
 
-.cognigy-chat-button {
+.cognigy-chat-button  {
   border: 10px;
   border-radius: 20px;
   padding: 0.3rem;
@@ -188,6 +195,33 @@ header content is only 90% of the total width of the chat box - just like the co
   color: white;
   position: absolute;
   right: 0;
+  cursor: pointer;
+}
+
+.cognigy-record-toggle-button {
+  border: 10px;
+  border-radius: 20px;
+  padding: 0.3rem;
+  background-color: transparent;
+  color: white;
+  position: absolute;
+  right: 0;
+  margin-right: 30px;
+  cursor: pointer;  
+}
+
+.cognigy-chat-button:focus, .cognigy-record-toggle-button:focus {
+  outline: none;
+}
+
+.cognigy-record-button {
+  background-color: white;
+  padding: 20px 30px;
+  display: flex;
+  align-items: center;
+  background-image: url('./images/mic.gif');
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /*Styling for messages sent by the user and received from the bot*/
@@ -240,7 +274,7 @@ header content is only 90% of the total width of the chat box - just like the co
   max-width: 20px;
 }
 
-.cognigy-send-icon {
+.cognigy-send-icon, .cognigy-record-toggle-icon {
   width: 40px;
   height: 17px;
   opacity: 0.3;
