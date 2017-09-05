@@ -72,11 +72,12 @@ To use the Cognigy Web Chat, simply:
 <body>
     <div class="cognigy-web-chat" id="cognigy"></div>
 
-    <script src="./src/index.js"></script>
+    <script src="cognigy-web-chat.js"></script>
     <script src="cognigy-web-client.js"></script>
     <script src="rich-messages.js"></script>
 
     <script>
+        let recording = false;
         const options = {
             baseUrl: 'host',
             user: 'username',
@@ -109,6 +110,29 @@ To use the Cognigy Web Chat, simply:
                 client.sendMessage(inputValue, undefined);
             }
         }
+
+    	if (client && client.isConnected) {
+			if (recordButton !== null) {
+				recordButton.onclick = function () {
+					recording = !recording;
+
+					recordButton.style.backgroundImage = (recording) ? "url(./images/mic-animate.gif)" : "url(./images/mic.gif)";
+
+					if (recording) {
+						var beep = new Audio("https://www.freesound.org/data/previews/259/259703_4486188-lq.mp3");
+						beep.play();
+					}
+
+					client.toggleRec();
+				}
+			}
+
+			client.registerOnRecEnd( transcript => {
+				handleDisplayRecording(transcript)
+				client.sendMessage(transcript, undefined);
+				console.log("what you said was: ", transcript);
+			})
+		}
 
         // listen on form submit event and use handleCognigyMessage function
         formElement.addEventListener("submit", () => {
