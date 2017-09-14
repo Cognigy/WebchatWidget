@@ -2,6 +2,9 @@
 
 This repo contains a chat component which connects to the Cognigy brain, and which can be deployed easily on a website.
 
+## Image
+![Image of webchat](images/webchat.jpg)
+
 ## Usage
 To use the Cognigy Web Chat, simply:
 - Download/clone all the files to your project.
