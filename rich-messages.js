@@ -89,8 +89,14 @@ class RichMessages {
         const buttonContainer = document.createElement("button");
         buttonContainer.className = "list_template_element_button";
         buttonContainer.append(button.title);
-        buttonContainer.onclick = () => this.handleButtonPostback(button.payload)
-
+        //Postback button sends a message to the server when clicked
+        if (button.type === "postback") {
+            buttonContainer.onclick = () => this.handleButtonPostback(button.payload)
+        }
+        //URL button redirects to a website
+        if (button.type == "web_url") {
+            buttonContainer.onclick = () => this.handleButtonWebUrl(button.url)
+        }
         return buttonContainer;
     }
 
