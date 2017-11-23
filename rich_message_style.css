@@ -20,6 +20,22 @@
     border-radius: 0 0 10px 10px;
     border: 1px solid rgba(0,0,0,0.1);
     margin-left: 60px;
+    margin-top: 20px;
+}
+
+.button_template_text {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    background-color: var(--main-color);
+    color: white;
+    border-radius: 8px 8px 0 0;
+}
+
+.image_template {
+    width: 75%;
+    height: 75%;
+    margin-left: 60px;
+    margin-top: 20px;
 }
 
 .button {

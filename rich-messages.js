@@ -1,11 +1,21 @@
 ﻿//This class renders several of Facebook's templates for rich media.
 class RichMessages {
     constructor(messageData, messageContainer) {
-        if (messageData.facebook.attachment && messageData.facebook.attachment.payload) {
+        if (messageData.facebook && messageData.facebook.attachment && messageData.facebook.attachment.payload) {
             this.messageData = messageData.facebook.attachment.payload;
-        };
+        }
+        else if (messageData._cognigy && messageData._cognigy._facebook && messageData._cognigy._facebook.message &&
+            messageData._cognigy._facebook.message.attachment && messageData._cognigy._facebook.message.attachment.payload) {
+            this.messageData = messageData._cognigy._facebook.message.attachment.payload;
+            this.messageType = messageData._cognigy._facebook.message.attachment.type
+        }
+        
         this.messageContainer = messageContainer;
-        this.quickReplies = messageData.facebook.quick_replies;
+        this.quickReplies = messageData.facebook && messageData.facebook.quick_replies || (messageData._cognigy && messageData._cognigy._facebook
+            && messageData._cognigy._facebook.message && messageData._cognigy._facebook.message.quick_replies);
+
+        this.quickReplyText =  (messageData._cognigy && messageData._cognigy._facebook
+            && messageData._cognigy._facebook.message);
     }
 
     findTemplate() {
@@ -30,6 +40,13 @@ class RichMessages {
     renderQuickReplies() {
         const quickReplyContainer = document.createElement("div");
         quickReplyContainer.className = "quick_reply_container"
+        displayCognigyMessage(this.quickReplyText);        
+
+        // If there is only text, then return null
+        if (!this.quickReplies) {
+            return null;
+        }
+
         //Add flex wrap wen there are more than three elements
         if (this.quickReplies.length > 3) {
             quickReplyContainer.className += " flex_wrap";
@@ -438,6 +455,16 @@ class RichMessages {
     buttonTemplate() {
         const buttonsOuterContainer = document.createElement("div");
         buttonsOuterContainer.className = "button_template_outer_container"
+
+        // Check for text message
+        if (this.messageData.text) {
+            var buttonText = document.createElement("div");
+            buttonText.className = "button_template_text";
+            buttonText.appendChild(document.createTextNode(this.messageData.text));
+            buttonsOuterContainer.appendChild(buttonText);
+        }
+
+        // Loop over buttons
         this.messageData.buttons.forEach((button, index) => {
             const buttonContainer = this.renderButton(button);
             if (index !== 0) {
@@ -447,6 +474,11 @@ class RichMessages {
             buttonsOuterContainer.append(buttonContainer);
         })
         this.messageContainer.append(buttonsOuterContainer);
+
+        //Create bot avatar with Cognigy logo and append to message contanier
+        const avatar = createElement("img", "cognigy-chat-bot-avatar");
+        avatar.src = "./images/cognigy_logo.svg";
+        this.messageContainer.append(avatar);
     }
 
     renderMessage() {
@@ -469,8 +501,19 @@ class RichMessages {
         }
 
         //Render quick replies
-        if (this.quickReplies) {
-            this.renderQuickReplies();
+        this.renderQuickReplies();
+
+        // Render image
+        if (this.messageType === "image") {
+            const image = document.createElement("img");
+            image.src = this.messageData.url;
+            image.className = "image_template"
+            this.messageContainer.append(image)
+
+            //Create bot avatar with Cognigy logo and append to message contanier
+            const avatar = createElement("img", "cognigy-chat-bot-avatar");
+            avatar.src = "./images/cognigy_logo.svg";
+            this.messageContainer.append(avatar);
         }
     }
 }

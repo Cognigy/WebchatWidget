@@ -149,7 +149,9 @@ function handleDisplayRecording(transcript) {
 }
 
 function displayCognigyMessage(answerFromCognigy) {
-  const cognigyAnswer = answerFromCognigy.text;
+  if (!answerFromCognigy)
+    return null;
+  const cognigyAnswer = answerFromCognigy && answerFromCognigy.text;
   const chatContainer = document.getElementById("cognigy-container");
 
   if (typeof cognigyAnswer !== 'undefined') {
@@ -173,7 +175,7 @@ function displayCognigyMessage(answerFromCognigy) {
   }
 
   //Display Facebook message
-  if (answerFromCognigy.data && answerFromCognigy.data.facebook) {
+  if (answerFromCognigy && answerFromCognigy.data && (answerFromCognigy.data.facebook || answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._facebook)) {
     const renderRichMessage = new RichMessages(answerFromCognigy.data, chatContainer);
     renderRichMessage.renderMessage()
   }

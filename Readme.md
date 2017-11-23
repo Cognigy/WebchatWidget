@@ -2,6 +2,10 @@
 
 This repo contains a chat component which connects to the Cognigy brain, and which can be deployed easily on a website.
 
+## Note!
+
+Please note that video and audio files are currently not supported.
+
 ## Image
 ![Image of webchat](images/webchat.jpg)
 
