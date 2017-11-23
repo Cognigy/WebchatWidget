@@ -51,8 +51,11 @@ To use the Cognigy Web Chat, simply:
         if (client && client.isConnected()) {
             const inputValue = document.getElementById("cognigy-input").value;
             document.getElementById("cognigy-input").value = "";
-
-            client.sendMessage(inputValue, undefined);
+            if (message) {
+                client.sendMessage(message, undefined);
+            } else {
+                client.sendMessage(inputValue, undefined);
+            }
         }
     }
 
@@ -108,19 +111,18 @@ To use the Cognigy Web Chat, simply:
                 console.log(error);
         });
 
-		//Function used by postback buttons
-		const handleCognigyMessage = (message) => {
-			if (client && client.isConnected()) {
-				const inputValue = document.getElementById("cognigy-input").value;
-				document.getElementById("cognigy-input").value = "";
-				if(message) {
-					client.sendMessage(message, undefined);
-				}
-				else {
-					client.sendMessage(inputValue, undefined);
-				}
-			}
-		}
+        //Function used by postback buttons
+        const handleCognigyMessage = (message) => {
+            if (client && client.isConnected()) {
+                var inputValue = document.getElementById("cognigy-input").value;
+                document.getElementById("cognigy-input").value = "";
+                if (message) {
+                    client.sendMessage(message, undefined);
+                } else {
+                    client.sendMessage(inputValue, undefined);
+                }
+            }
+        }
 
     	if (client && client.isConnected) {
 			if (recordButton !== null) {
