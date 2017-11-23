@@ -60,7 +60,7 @@ class RichMessages {
 
             //Render quick reply button
             const quickReplyButton = document.createElement("button");
-            quickReplyButton.onclick = () => handleCognigyMessage(reply.payload);
+            quickReplyButton.onclick = () => this.handleButtonPostback(reply.payload);
             quickReplyButton.className = "quick_reply";
             quickReplyButton.append(reply.title);
             
@@ -95,6 +95,7 @@ class RichMessages {
     }
 
     handleButtonPostback(postbackMessage) {
+        handleDisplayPostbackMessage(postbackMessage);        
         handleCognigyMessage(postbackMessage)
     }
 

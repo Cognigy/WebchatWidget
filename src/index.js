@@ -148,6 +148,27 @@ function handleDisplayRecording(transcript) {
 	chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
+function handleDisplayPostbackMessage(text) {
+  const chatContainer = document.getElementById("cognigy-container");  
+  const messageContainer = document.createElement("div");
+  const message = document.createElement("div");
+  const messageValue = document.createTextNode(text);
+  message.className = "cognigy-chat-user-message";
+  messageContainer.className= "cognigy-chat-user-message-container";
+  message.appendChild(messageValue);
+  messageContainer.appendChild(message);
+
+  //Create user avatar and append to message contanier
+  const avatar = document.createElement("img");
+  avatar.className = "cognigy-chat-user-avatar";
+  avatar.src = "./images/user_avatar.svg";
+  messageContainer.appendChild(avatar);
+
+  chatContainer.appendChild(messageContainer);
+  //Keep scrollbar fixed at bottom when new messages are added
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
 function displayCognigyMessage(answerFromCognigy) {
   if (!answerFromCognigy)
     return null;
