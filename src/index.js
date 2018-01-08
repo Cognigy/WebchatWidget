@@ -145,7 +145,6 @@ function handleSendMessage(e) {
   var messageContainer = document.createElement("div");
   var message = document.createElement("div");
   var messageValue = document.createTextNode(inputValue);
-  console.log(messageValue)
   message.className = "cognigy-chat-user-message";
   messageContainer.className = "cognigy-chat-user-message-container";
   message.appendChild(messageValue);
@@ -166,8 +165,6 @@ function handleSendMessage(e) {
 var formElement = document.getElementById("cognigy-form");
 formElement.addEventListener("submit", function (e) {
 	handleSendMessage(e);
-	var inputValue = document.getElementById("cognigy-input");
-	inputValue.value = "";
 }, false);
 
 function handleDisplayRecording(transcript) {
