@@ -39,7 +39,7 @@ To use the Cognigy Web Chat, simply:
     const inputValue = document.getElementById("cognigy-input").value;
     //Reset input value
     document.getElementById("cognigy-input").value = "";
-    var client = new Cognigy.CognigyWebClient(options);
+    const client = new Cognigy.CognigyWebClient(options);
 
     client.connect()
     .catch(function(error) {
@@ -159,3 +159,51 @@ To use the Cognigy Web Chat, simply:
     </script>
 </body>
  ```
+
+## Using Facebook messenger extensions in the webchat
+You can use your custom Facebook extensions in the webchat if you want. Here is a simple example on how to use them in Node.js
+
+### Client
+Since we have to communicate with the server, which receives a post request from the FB extension, we will in this example add a small socket-io implementation:
+
+```
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io.connect('http://localhost:9001');
+    socket.on('extensionEvent', function (message) {
+        handleDisplayPostbackMessage(message.text);
+        handleCognigyMessage(message.text);
+    });
+</script>
+```
+
+The two functions, handleDisplayPostbackMessage and handleCognigMessage, ensures that the message from the extension (e.g. a calendar date) is displayed in the webchat and sent to Cognigy.
+
+### Server
+On the server we will do a simple express + socket-io implementation, listening on post requests to /extension, which is the entrypoint for Cognigy's FB extensions.
+
+```
+const express = require("express");
+const socketio = require("socket.io");
+const bodyParser = require("body-parser");
+const http = require("http");
+
+const port = 9001;
+
+const app = express();
+
+app.use(bodyParser.json());
+
+const server = http.createServer(app);
+const io = socketio(server);
+
+io.on('connection', function (socket) {
+	app.post("/", (request, response) => {
+		socket.emit('extensionEvent', request.body );
+
+		response.sendStatus(200);
+	})
+});	
+
+server.listen(port);
+```
