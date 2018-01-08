@@ -1,12 +1,12 @@
 //Function to create html elements
 const createElement = function(type, className, id) {
-    const element = document.createElement(type);
-    element.className = className;
-    if(id) {
-      element.id = id;
-    }
+	const element = document.createElement(type);
+	element.className = className;
+	if(id) {
+	  element.id = id;
+	}
 
-    return element;
+	return element;
 }
 
 const mainChatElement = document.getElementById("cognigy");
@@ -94,11 +94,11 @@ function handleChatOpen() {
   const chatHeader = document.getElementById("cognigy-header");
 
   if(toggleChatState.className === "cognigy-chat-state-closed") {
-    chatContainer.className = "cognigy-outer-container__open";
-    toggleChatState.className = "cognigy-chat-state-open";
+	chatContainer.className = "cognigy-outer-container__open";
+	toggleChatState.className = "cognigy-chat-state-open";
   } else {
-    chatContainer.className = "cognigy-outer-container__closed";
-    toggleChatState.className = "cognigy-chat-state-closed";
+	chatContainer.className = "cognigy-outer-container__closed";
+	toggleChatState.className = "cognigy-chat-state-closed";
   }
 }
 
@@ -172,37 +172,46 @@ function handleDisplayPostbackMessage(text) {
   chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
-function displayCognigyMessage(answerFromCognigy) {
+function displayCognigyMessage(answerFromCognigy, logoUrl) {
   if (!answerFromCognigy)
-    return null;
+	return null;
   const cognigyAnswer = answerFromCognigy && answerFromCognigy.text;
   const chatContainer = document.getElementById("cognigy-container");
 
   if (typeof cognigyAnswer !== 'undefined') {
-    const messageContainer = document.createElement("div");
-    const message = document.createElement("div");
-    const messageValue = document.createTextNode(cognigyAnswer);
+	const messageContainer = document.createElement("div");
+	const message = document.createElement("div");
+	const messageValue = document.createTextNode(cognigyAnswer);
 
-    //Create bot avatar with Cognigy logo and append to message contanier
-    const avatar = createElement("img", "cognigy-chat-bot-avatar");
-    avatar.src = "./images/cognigy_logo.svg";
-    avatar.id = "cognigyChatbotLogo";
-    messageContainer.append(avatar);
+	//Create bot avatar with Cognigy logo and append to message contanier
+	const avatar = createElement("img", "cognigy-chat-bot-avatar");
 
-    // Append message to UI
-    message.className = "cognigy-chat-bot-message";
-    messageContainer.className= "cognigy-chat-bot-message-container";
-    message.append(messageValue);
-    messageContainer.append(message);
+	/* If we can load the logo image, then we use it. Otherwise we use the Cognigy logo */
+	var img = new Image();
+	img.onload = () => {
+		avatar.src = logoUrl;
+	};
+	img.onerror = () => {
+		avatar.src = "./images/cognigy_logo.svg";
+	}
+	img.src = logoUrl;
 
-    chatContainer.append(messageContainer);
+	messageContainer.append(avatar);
+
+	// Append message to UI
+	message.className = "cognigy-chat-bot-message";
+	messageContainer.className= "cognigy-chat-bot-message-container";
+	message.append(messageValue);
+	messageContainer.append(message);
+
+	chatContainer.append(messageContainer);
 
   }
 
   //Display Facebook message
   if (answerFromCognigy && answerFromCognigy.data && (answerFromCognigy.data.facebook || answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._facebook)) {
-    const renderRichMessage = new RichMessages(answerFromCognigy.data, chatContainer);
-    renderRichMessage.renderMessage()
+	const renderRichMessage = new RichMessages(answerFromCognigy.data, chatContainer);
+	renderRichMessage.renderMessage()
   }
   //Keep scrollbar fixed at bottom when new messages are added
   chatContainer.scrollTop = chatContainer.scrollHeight;
