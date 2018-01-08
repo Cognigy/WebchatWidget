@@ -467,8 +467,8 @@ class RichMessages {
         if (this.messageData.text) {
             var buttonText = document.createElement("div");
             buttonText.className = "button_template_text";
-            buttonText.appendChildChild(document.createTextNode(this.messageData.text));
-            buttonsOuterContainer.appendChildChild(buttonText);
+            buttonText.appendChild(document.createTextNode(this.messageData.text));
+            buttonsOuterContainer.appendChild(buttonText);
         }
 
         // Loop over buttons
