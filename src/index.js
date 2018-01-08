@@ -232,7 +232,7 @@ function displayCognigyMessage(answerFromCognigy, logoUrl) {
     };
     img.src = logoUrl;
 
-    messageContainer.append(_avatar);
+    messageContainer.appendChild(_avatar);
 
     // appendChild message to UI
     message.className = "cognigy-chat-bot-message";
