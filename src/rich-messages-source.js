@@ -66,7 +66,7 @@ class RichMessages {
             const quickReplyButton = document.createElement("button");
             quickReplyButton.onclick = () => this.handleButtonPostback(reply.payload);
             quickReplyButton.className = "quick_reply";
-            quickReplyButton.append(reply.title);
+            quickReplyButton.appendChild(reply.title);
             
 
             //Render eventual image
@@ -78,15 +78,15 @@ class RichMessages {
                 img.style.marginRight = "5px";
                 quickReplyButton.prepend(img);
             }
-            quickReplyContainer.append(quickReplyButton);
+            quickReplyContainer.appendChild(quickReplyButton);
         })
-        this.messageContainer.append(quickReplyContainer);
+        this.messageContainer.appendChild(quickReplyContainer);
     }
 
     renderButton(button) {
         const buttonContainer = document.createElement("div");
         buttonContainer.className = "button";
-        buttonContainer.append(button.title);
+        buttonContainer.appendChild(button.title);
         //Postback button sends a message to the server when clicked
         if (button.type === "postback") {
             buttonContainer.onclick = () => this.handleButtonPostback(button.payload)
@@ -110,7 +110,7 @@ class RichMessages {
     renderListButton(button) {
         const buttonContainer = document.createElement("button");
         buttonContainer.className = "list_template_element_button";
-        buttonContainer.append(button.title);
+        buttonContainer.appendChild(button.title);
         //Postback button sends a message to the server when clicked
         if (button.type === "postback") {
             buttonContainer.onclick = () => this.handleButtonPostback(button.payload)
@@ -130,21 +130,21 @@ class RichMessages {
             elementContainer.className = "list_template_element_container_first"
             elementContent.className = "list_template_element_content_first";
             elementContainer.style.background = `url(${element.image_url}) center center / cover no-repeat, linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)) no-repeat`;
-            elementContent.append(element.title);
-            elementContainer.append(elementContent)
+            elementContent.appendChild(element.title);
+            elementContainer.appendChild(elementContent)
         }
         else {
             elementContainer.className = "list_template_element_container"
             elementContent.className = "list_template_element_content";
-            elementContent.append(element.title);
-            elementContainer.append(elementContent);
+            elementContent.appendChild(element.title);
+            elementContainer.appendChild(elementContent);
             let img = document.createElement("img");
             img.src = element.image_url;
             img.style.minWidth = "50px";
             img.style.height = "50px";
-            elementContainer.append(img);
+            elementContainer.appendChild(img);
 
-            //Append default action if specified
+            //AppendChild default action if specified
             if (element.default_action) {
                 img.onclick = () => window.open(element.default_action.url);
             }
@@ -165,23 +165,23 @@ class RichMessages {
                     if (this.messageData.top_element_style === "large" && index === 0) {
                         buttonContainer.className = "list_template_element_button_first";
                     }
-                    elementContent.append(buttonContainer);
+                    elementContent.appendChild(buttonContainer);
                 })
             }
             //Hide bottom border on last element
             if (this.findElements().length === (index + 1)) {
                 elementContainer.style.borderBottom = "none";
             }
-            listContainer.append(elementContainer)
+            listContainer.appendChild(elementContainer)
         });
 
         if (this.findButtons()) {
             this.findButtons().forEach((button, index) => {
                 let buttonContainer = this.renderButton(button);
-                listContainer.append(buttonContainer);
+                listContainer.appendChild(buttonContainer);
             })
         }
-       this.messageContainer.append(listContainer)
+       this.messageContainer.appendChild(listContainer)
     }
 
     renderInformation(title) {
@@ -189,8 +189,8 @@ class RichMessages {
         const informationContainer = document.createElement("div");
         informationContainer.className = "receipt_template_information_container";
         information.className = "receipt_template_information";
-        information.append(title)
-        informationContainer.append(information);
+        information.appendChild(title)
+        informationContainer.appendChild(information);
 
         return informationContainer;
     }
@@ -205,8 +205,8 @@ class RichMessages {
         const decrement = document.createElement("div");
         decrement.className = "visibility_hidden";
         decrement.id = `genericTemplateDecrement${index}`;
-        carouselButtonsContainer.append(decrement);
-        carouselButtonsContainer.append(increment);
+        carouselButtonsContainer.appendChild(decrement);
+        carouselButtonsContainer.appendChild(increment);
         //Start off by displaying the first elementContainer
         let i = 0;
         if (this.findElements()) {
@@ -253,11 +253,11 @@ class RichMessages {
         this.findElements().forEach((element, index) => {
             const elementContainer = document.createElement("div");
             elementContainers.push(elementContainer);
-            //Append carousel mode if there are several elements
+            //AppendChild carousel mode if there are several elements
             if (this.findElements().length > 1) {
                 elementContainer.className = "display_none";
                 const carouselButtonsContainer = this.carouselButtons(elementContainers, index);
-                elementContainer.append(carouselButtonsContainer);
+                elementContainer.appendChild(carouselButtonsContainer);
             }
             //Get image - needs to be before the buttons
             const img = document.createElement("img");
@@ -266,45 +266,45 @@ class RichMessages {
             img.style.height = "200px";
             img.style.borderRadius = '10px 10px 0 0';
             elementContainer.prepend(img);
-            //Append default action if specified
+            //AppendChild default action if specified
             if (element.default_action) {
                 img.onclick = () => window.open(element.default_action.url);
             }
             //Render container for title + subtitle
             const textContainer = document.createElement("div");
             textContainer.className = "generic_template_text_container";
-            elementContainer.append(textContainer);
+            elementContainer.appendChild(textContainer);
             //Get Title
             if (element.title) {
                 const genericTitle = document.createElement("p");
                 genericTitle.className = "text_title";
-                genericTitle.append(element.title);
-                textContainer.append(genericTitle);
+                genericTitle.appendChild(element.title);
+                textContainer.appendChild(genericTitle);
             }
             if (element.subtitle) {
                 const genericSubtitle = document.createElement("p");
                 genericSubtitle.className = "text_subtitle";
-                genericSubtitle.append(element.subtitle)
-                textContainer.append(genericSubtitle);
+                genericSubtitle.appendChild(element.subtitle)
+                textContainer.appendChild(genericSubtitle);
             }
             //Get eventual buttons
             if (element.buttons) {
                 element.buttons.forEach(button => {
                     let buttonContainer = this.renderButton(button)
-                    elementContainer.append(buttonContainer)
+                    elementContainer.appendChild(buttonContainer)
                 })
             }
-            genericContainer.append(elementContainer);
+            genericContainer.appendChild(elementContainer);
         })
         
          if (this.findButtons()) {
             this.findButtons().forEach(button => {
                 let buttonContainer = this.renderButton(button)
-                listContainer.append(buttonContainer);
+                listContainer.appendChild(buttonContainer);
             })
         }
 
-        this.messageContainer.append(genericContainer)
+        this.messageContainer.appendChild(genericContainer)
     }
 
 
@@ -317,8 +317,8 @@ class RichMessages {
         //Header
         const headerContainer = document.createElement("div")
         headerContainer.className = "receipt_template_header_container";
-        headerContainer.append("Order confirmation");
-        receiptOuterContainer.append(headerContainer);
+        headerContainer.appendChild("Order confirmation");
+        receiptOuterContainer.appendChild(headerContainer);
 
         //Items
         if (this.findElements()) {
@@ -332,7 +332,7 @@ class RichMessages {
                     img.style.width = "50px"
                     img.style.height = "50px";
                     img.style.border = "1px solid rgba(0,0,0,0.1)";
-                    elementContainer.append(img);
+                    elementContainer.appendChild(img);
                 }
                 //Text container
                 const textContainer = document.createElement("div");
@@ -340,16 +340,16 @@ class RichMessages {
                 //Get Title
                 const elementTitle = document.createElement("span");
                 elementTitle.className = "text_title";
-                elementTitle.append(element.title);
-                textContainer.append(elementTitle);
+                elementTitle.appendChild(element.title);
+                textContainer.appendChild(elementTitle);
                 //Get subtitle
                 const elementSubtitle = document.createElement("span");
                 elementSubtitle.className = "text_subtitle";
-                elementSubtitle.append(element.subtitle)
-                textContainer.append(elementSubtitle);
-                elementContainer.append(textContainer);
+                elementSubtitle.appendChild(element.subtitle)
+                textContainer.appendChild(elementSubtitle);
+                elementContainer.appendChild(textContainer);
 
-                receiptOuterContainer.append(elementContainer);
+                receiptOuterContainer.appendChild(elementContainer);
 
             })
         }
@@ -357,82 +357,82 @@ class RichMessages {
         //Payments
         const paidWithContainer = this.renderInformation("Paid with");
         if (this.messageData.payment_method) {
-            paidWithContainer.append(this.messageData.payment_method);
+            paidWithContainer.appendChild(this.messageData.payment_method);
         }
-        receiptOuterContainer.append(paidWithContainer);
+        receiptOuterContainer.appendChild(paidWithContainer);
 
         //Shipping address
         const shipToContainer = this.renderInformation("Ship to");
         if (this.messageData.address) {
             const address = this.messageData.address
-            shipToContainer.append(`${address.street_1} 
+            shipToContainer.appendChild(`${address.street_1} 
                                     ${address.city} ${address.state} ${address.postal_code}`);
         }
-        receiptOuterContainer.append(shipToContainer);
+        receiptOuterContainer.appendChild(shipToContainer);
 
         //Recipient
         const recipientContainer = this.renderInformation("Recipient");
         if (this.messageData.recipient_name) {
-            recipientContainer.append(this.messageData.recipient_name);
+            recipientContainer.appendChild(this.messageData.recipient_name);
         }
-        receiptOuterContainer.append(recipientContainer);
+        receiptOuterContainer.appendChild(recipientContainer);
 
         //Order number
         const orderNumberContainer = this.renderInformation("Order number");
         if (this.messageData.order_number) {
-            orderNumberContainer.append(this.messageData.order_number);
+            orderNumberContainer.appendChild(this.messageData.order_number);
         }
-        receiptOuterContainer.append(orderNumberContainer);
+        receiptOuterContainer.appendChild(orderNumberContainer);
 
         //Order url
         const orderURLContainer = this.renderInformation("Order URL");
         if (this.messageData.order_url) {
             const orderURL = document.createElement("span");
             orderURL.className = "word_break";
-            orderURL.append(this.messageData.order_url)
-            orderURLContainer.append(orderURL)
+            orderURL.appendChild(this.messageData.order_url)
+            orderURLContainer.appendChild(orderURL)
         }
-        receiptOuterContainer.append(orderURLContainer);
+        receiptOuterContainer.appendChild(orderURLContainer);
 
         //Subtotal
         const subtotalContainer = this.renderInformation("Subtotal");
         if (this.messageData.summary && this.messageData.summary.subtotal) {
-            subtotalContainer.append(`$${this.messageData.summary.subtotal}`)
+            subtotalContainer.appendChild(`$${this.messageData.summary.subtotal}`)
         }
-        receiptOuterContainer.append(subtotalContainer);
+        receiptOuterContainer.appendChild(subtotalContainer);
 
 
         //Shipping cost
         const shippingCostContainer = this.renderInformation("Shipping cost");
         if (this.messageData.summary && this.messageData.summary.shipping_cost) {
-            shippingCostContainer .append(`$${this.messageData.summary.shipping_cost}`)
+            shippingCostContainer .appendChild(`$${this.messageData.summary.shipping_cost}`)
         }
-        receiptOuterContainer.append(shippingCostContainer);
+        receiptOuterContainer.appendChild(shippingCostContainer);
 
         //Total tax
         const taxContainer = this.renderInformation("Total tax");
         if (this.messageData.summary && this.messageData.summary.total_tax) {
-            taxContainer.append(`$${this.messageData.summary.total_tax}`)
+            taxContainer.appendChild(`$${this.messageData.summary.total_tax}`)
         }
-        receiptOuterContainer.append(taxContainer );
+        receiptOuterContainer.appendChild(taxContainer );
 
         //Adjustments
         const adjustmentsTitle = document.createElement("span");
         const adjustmentsContainer = document.createElement("div");
         adjustmentsContainer.className = "receipt_template_information_container";
         adjustmentsTitle.className = "text_title";
-        adjustmentsTitle.append("Adjustments")
-        adjustmentsContainer.append(adjustmentsTitle);
+        adjustmentsTitle.appendChild("Adjustments")
+        adjustmentsContainer.appendChild(adjustmentsTitle);
 
-        receiptOuterContainer.append(adjustmentsContainer);
+        receiptOuterContainer.appendChild(adjustmentsContainer);
 
         //Loop through adjustments
         if (this.messageData.adjustments) {
             this.messageData.adjustments.forEach(adjustment => {
                 const adjustmentContainer = this.renderInformation(adjustment.name);
                 adjustmentContainer.style.marginTop = '0px';
-                adjustmentContainer.append('Amount:' + adjustment.amount);
-                receiptOuterContainer.append(adjustmentContainer)
+                adjustmentContainer.appendChild('Amount:' + adjustment.amount);
+                receiptOuterContainer.appendChild(adjustmentContainer)
             })
         }
 
@@ -442,19 +442,19 @@ class RichMessages {
 
         const total = document.createElement("span");
         total.className = "receipt_template_summary_total"
-        total.append("Total");
+        total.appendChild("Total");
 
         const price = document.createElement("span");
         price.className = "receipt_template_summary_price";
         if (this.messageData.summary && this.messageData.summary.total_cost) {
-            price.append(`$${this.messageData.summary.total_cost}`);
+            price.appendChild(`$${this.messageData.summary.total_cost}`);
         }
 
-        summaryContainer.append(total);
-        summaryContainer.append(price);
-        receiptOuterContainer.append(summaryContainer);
+        summaryContainer.appendChild(total);
+        summaryContainer.appendChild(price);
+        receiptOuterContainer.appendChild(summaryContainer);
 
-        this.messageContainer.append(receiptOuterContainer);
+        this.messageContainer.appendChild(receiptOuterContainer);
     }
 
     buttonTemplate() {
@@ -465,8 +465,8 @@ class RichMessages {
         if (this.messageData.text) {
             var buttonText = document.createElement("div");
             buttonText.className = "button_template_text";
-            buttonText.appendChild(document.createTextNode(this.messageData.text));
-            buttonsOuterContainer.appendChild(buttonText);
+            buttonText.appendChildChild(document.createTextNode(this.messageData.text));
+            buttonsOuterContainer.appendChildChild(buttonText);
         }
 
         // Loop over buttons
@@ -476,14 +476,14 @@ class RichMessages {
                 buttonContainer.style.borderTop = "1px solid rgba(0,0,0,0.1)";
             }
             buttonContainer.className = "button_template_container"
-            buttonsOuterContainer.append(buttonContainer);
+            buttonsOuterContainer.appendChild(buttonContainer);
         })
-        this.messageContainer.append(buttonsOuterContainer);
+        this.messageContainer.appendChild(buttonsOuterContainer);
 
-        //Create bot avatar with Cognigy logo and append to message contanier
+        //Create bot avatar with Cognigy logo and appendChild to message contanier
         const avatar = createElement("img", "cognigy-chat-bot-avatar");
         avatar.src = "./images/cognigy_logo.svg";
-        this.messageContainer.append(avatar);
+        this.messageContainer.appendChild(avatar);
     }
 
     renderMessage() {
@@ -513,12 +513,12 @@ class RichMessages {
             const image = document.createElement("img");
             image.src = this.messageData.url;
             image.className = "image_template"
-            this.messageContainer.append(image)
+            this.messageContainer.appendChild(image)
 
-            //Create bot avatar with Cognigy logo and append to message contanier
+            //Create bot avatar with Cognigy logo and appendChild to message contanier
             const avatar = createElement("img", "cognigy-chat-bot-avatar");
             avatar.src = "./images/cognigy_logo.svg";
-            this.messageContainer.append(avatar);
+            this.messageContainer.appendChild(avatar);
         }
     }
 }
