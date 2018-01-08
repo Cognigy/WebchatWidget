@@ -34,7 +34,7 @@ headerText.appendChild(headerSubtitle);
 var avatar = createElement("img", "cognigy-header-avatar");
 avatar.src = "./images/cognigy_avatar.svg";
 avatar.id = "cognigyHeaderLogo";
-header.append(avatar);
+header.appendChild(avatar);
 
 // Close button for header on mobile
 var headerMobileClose = createElement("div", "displayNone", "cognigy-toggle-state-mobile");

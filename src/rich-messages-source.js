@@ -62,13 +62,6 @@ class RichMessages {
                 return null;
             }
 
-            //Render quick reply button
-            const quickReplyButton = document.createElement("button");
-            quickReplyButton.onclick = () => this.handleButtonPostback(reply.payload);
-            quickReplyButton.className = "quick_reply";
-            quickReplyButton.appendChild(reply.title);
-            
-
             //Render eventual image
             if (reply.image_url) {
                 const img = document.createElement("img");
@@ -76,8 +69,15 @@ class RichMessages {
                 img.style.width = "24px";
                 img.style.height = "24px";
                 img.style.marginRight = "5px";
-                quickReplyButton.prepend(img);
+                quickReplyButton.appendChild(img);
             }
+
+            //Render quick reply button
+            const quickReplyButton = document.createElement("button");
+            quickReplyButton.onclick = () => this.handleButtonPostback(reply.payload);
+            quickReplyButton.className = "quick_reply";
+            quickReplyButton.appendChild(reply.title);
+
             quickReplyContainer.appendChild(quickReplyButton);
         })
         this.messageContainer.appendChild(quickReplyContainer);
@@ -253,22 +253,24 @@ class RichMessages {
         this.findElements().forEach((element, index) => {
             const elementContainer = document.createElement("div");
             elementContainers.push(elementContainer);
-            //AppendChild carousel mode if there are several elements
-            if (this.findElements().length > 1) {
-                elementContainer.className = "display_none";
-                const carouselButtonsContainer = this.carouselButtons(elementContainers, index);
-                elementContainer.appendChild(carouselButtonsContainer);
-            }
+    
             //Get image - needs to be before the buttons
             const img = document.createElement("img");
             img.src = element.image_url;
             img.style.width = "100%";
             img.style.height = "200px";
             img.style.borderRadius = '10px 10px 0 0';
-            elementContainer.prepend(img);
+            elementContainer.appendChild(img);
+
             //AppendChild default action if specified
             if (element.default_action) {
                 img.onclick = () => window.open(element.default_action.url);
+            }
+            //AppendChild carousel mode if there are several elements
+            if (this.findElements().length > 1) {
+                elementContainer.className = "display_none";
+                const carouselButtonsContainer = this.carouselButtons(elementContainers, index);
+                elementContainer.appendChild(carouselButtonsContainer);
             }
             //Render container for title + subtitle
             const textContainer = document.createElement("div");
