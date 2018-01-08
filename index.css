@@ -159,7 +159,7 @@ header content is only 90% of the total width of the chat box - just like the co
   margin-bottom: 0;
   width: 100%;
   align-items: center;
-  border-radius: 0 0 10px 10px;  
+  border-radius: 0 0 10px 10px;
   transition: background-color .2s ease,box-shadow .2s ease;
   height: 50px;
   min-height: 50px;
@@ -170,13 +170,12 @@ header content is only 90% of the total width of the chat box - just like the co
   color: #565867;
   resize: none;
   border: none;
+  overflow: hidden;
   border-bottom: 0.1px solid rgba(0,0,0,0.1);
   font-family: Ubuntu, sans-serif;
   width: 100%;
-  padding: 0 22px;
-  height: 40px;
+  padding: 20px 65px 7px 22px;
   border-radius: 0 0 10px 10px;
-  height: 100%;
 }
 
 .cognigy-chat-input:focus {
