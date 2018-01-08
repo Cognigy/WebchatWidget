@@ -26,11 +26,13 @@ const headerTitle = createElement("span", "cognigy-header-title");
 const headerSubtitle = createElement("span", "cognigy-header-subtitle");
 headerTitle.append(document.createTextNode("Cognigy"));
 headerSubtitle.append(document.createTextNode("Online"));
-headerText.append(headerTitle)
-headerText.append(headerSubtitle)
+headerText.append(headerTitle);
+headerText.append(headerSubtitle);
+
 //Create bot avatar with Cognigy logo and append to header
 const avatar = createElement("img", "cognigy-header-avatar");
 avatar.src = "./images/cognigy_avatar.svg";
+avatar.id = "cognigyHeaderLogo";
 header.append(avatar);
 
 header.append(headerText);
@@ -90,6 +92,7 @@ function handleChatOpen() {
   const toggleChatState = document.getElementById("cognigy-toggle-state");
   const chatContainer = document.getElementById("cognigy-outer-container");
   const chatHeader = document.getElementById("cognigy-header");
+
   if(toggleChatState.className === "cognigy-chat-state-closed") {
     chatContainer.className = "cognigy-outer-container__open";
     toggleChatState.className = "cognigy-chat-state-open";
@@ -115,7 +118,7 @@ function handleSendMessage(e) {
   //Create user avatar and append to message contanier
   const avatar = document.createElement("img");
   avatar.className = "cognigy-chat-user-avatar";
-  avatar.src = "./images/user_avatar.svg";
+  avatar.src = "./images/user_avatar.jpg";
   messageContainer.append(avatar);
 
   chatContainer.append(messageContainer);
@@ -140,7 +143,7 @@ function handleDisplayRecording(transcript) {
 	//Create user avatar and append to message contanier
 	const avatar = document.createElement("img");
 	avatar.className = "cognigy-chat-user-avatar";
-	avatar.src = "./images/user_avatar.svg";
+	avatar.src = "./images/user_avatar.jpg";
 	messageContainer.append(avatar);
   
 	chatContainer.append(messageContainer);
@@ -161,7 +164,7 @@ function handleDisplayPostbackMessage(text) {
   //Create user avatar and append to message contanier
   const avatar = document.createElement("img");
   avatar.className = "cognigy-chat-user-avatar";
-  avatar.src = "./images/user_avatar.svg";
+  avatar.src = "./images/user_avatar.jpg";
   messageContainer.appendChild(avatar);
 
   chatContainer.appendChild(messageContainer);
@@ -183,6 +186,7 @@ function displayCognigyMessage(answerFromCognigy) {
     //Create bot avatar with Cognigy logo and append to message contanier
     const avatar = createElement("img", "cognigy-chat-bot-avatar");
     avatar.src = "./images/cognigy_logo.svg";
+    avatar.id = "cognigyChatbotLogo";
     messageContainer.append(avatar);
 
     // Append message to UI
