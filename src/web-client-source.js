@@ -7370,9 +7370,11 @@ var CognigyWebClient = function (_client_1$CognigyClie) {
         _this.currentVoice = _this.initSpeechSynthesis(options.language, options.voiceName);
         // register for the "onvoiceschanged" event since speech synthesis
         // voices will get loaded async.
-        window.speechSynthesis.onvoiceschanged = function () {
-            _this.currentVoice = _this.initSpeechSynthesis(options.language, options.voiceName);
-        };
+        if (window.speechSynthesis) {
+          window.speechSynthesis.onvoiceschanged = function () {
+              _this.currentVoice = _this.initSpeechSynthesis(options.language, options.voiceName);
+          };
+        }
         _this.initSpeechRecognigition();
         return _this;
     }

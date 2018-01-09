@@ -214,7 +214,11 @@ function displayCognigyMessage(answerFromCognigy, logoUrl) {
   var cognigyAnswer = answerFromCognigy && answerFromCognigy.text;
   var chatContainer = document.getElementById("cognigy-container");
 
-  if (typeof cognigyAnswer !== 'undefined') {
+  //Display Facebook message if it is there. Otherwise display normal message
+  if (answerFromCognigy && answerFromCognigy.data && (answerFromCognigy.data.facebook || answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._facebook)) {
+    var renderRichMessage = new RichMessages(answerFromCognigy.data, chatContainer);
+    renderRichMessage.renderMessage();
+  } else if (typeof cognigyAnswer !== 'undefined') {
     var messageContainer = document.createElement("div");
     var message = document.createElement("div");
     var messageValue = document.createTextNode(cognigyAnswer);
@@ -241,12 +245,6 @@ function displayCognigyMessage(answerFromCognigy, logoUrl) {
     messageContainer.appendChild(message);
 
     chatContainer.appendChild(messageContainer);
-  }
-
-  //Display Facebook message
-  if (answerFromCognigy && answerFromCognigy.data && (answerFromCognigy.data.facebook || answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._facebook)) {
-    var renderRichMessage = new RichMessages(answerFromCognigy.data, chatContainer);
-    renderRichMessage.renderMessage();
   }
 
   //Keep scrollbar fixed at bottom when new messages are added
