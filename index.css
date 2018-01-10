@@ -194,7 +194,7 @@ header content is only 90% of the total width of the chat box - just like the co
   display: -ms-flexbox;
   -ms-flex-pack: justify;
   -ms-flex-align: center;
-  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
   -webkit-box-pack: justify;
           justify-content: space-between;
