@@ -82,6 +82,11 @@ header content is only 90% of the total width of the chat box - just like the co
   font-size: 14px;
 }
 
+.cognigy-header-title:after {
+  content:"\a";
+  white-space: pre;
+}
+
 .cognigy-header-subtitle {
   color: hsla(0,0%,100%,.8);
   font-size: 12px;
@@ -128,15 +133,17 @@ header content is only 90% of the total width of the chat box - just like the co
 
 /*Container for chat content: Same function as header content defined above*/
 .cognigy-chat-container {
-  width: 100%;
-  font-size: 12px;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  padding-top: 10px;
-  overflow-y: scroll;
-  padding-bottom: 20px;
-  background-color: white;
-}
+	width: 100%;
+	font-size: 12px;
+	/* Random number to fix overflow-y: scroll problem in IE 10 */
+	-ms-flex-preferred-size: 1px;
+	-ms-flex-positive: 1;
+	flex-grow: 1;
+	padding-top: 10px;
+	overflow-y: scroll;
+	padding-bottom: 20px;
+	background-color: white;
+  }
 
 /*Style scrollbar*/
 .cognigy-chat-container::-webkit-scrollbar {
