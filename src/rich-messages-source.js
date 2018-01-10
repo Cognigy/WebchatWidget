@@ -45,6 +45,10 @@ var RichMessages = (function () {
             if (!reply.title) {
                 return null;
             }
+
+            //Render quick reply button
+            var quickReplyButton = document.createElement("button");
+
             //Render eventual image
             if (reply.image_url) {
                 var img = document.createElement("img");
@@ -54,8 +58,7 @@ var RichMessages = (function () {
                 img.style.marginRight = "5px";
                 quickReplyButton.appendChild(img);
             }
-            //Render quick reply button
-            var quickReplyButton = document.createElement("button");
+
             quickReplyButton.onclick = function () { 
                 handleDisplayPostbackMessage(reply.payload);
                 return handleCognigyMessage(reply.payload); 
