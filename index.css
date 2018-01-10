@@ -114,6 +114,7 @@ header content is only 90% of the total width of the chat box - just like the co
   height: 4rem;
   border-radius: 10px 10px 0 0;
   flex-shrink: 0;  
+  -ms-flex-negative: 0;
 }
 
 .cognigy-chat-header {
@@ -129,6 +130,7 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-chat-container {
   width: 100%;
   font-size: 12px;
+  -ms-flex-positive: 1;
   flex-grow: 1;
   padding-top: 10px;
   overflow-y: scroll;
@@ -162,9 +164,10 @@ header content is only 90% of the total width of the chat box - just like the co
 /*Below is styling for the form, input, button and window components*/
 .cognigy-chat-form {
   display: -ms-flexbox;
+  -ms-flex-pack: justify;
+  -ms-flex-align: center;
   display: flex;
   justify-content: space-between;
-  -ms-flex-pack: justify;
   background-color: #f4f7f9;
   margin-bottom: 0;
   width: 100%;
