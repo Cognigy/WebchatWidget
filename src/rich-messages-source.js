@@ -33,7 +33,8 @@ var RichMessages = (function () {
     RichMessages.prototype.renderQuickReplies = function () {
         var quickReplyContainer = document.createElement("div");
         quickReplyContainer.className = "quick_reply_container";
-        displayCognigyMessage(this.quickReplyText);
+        /* The logoUrl comes from index.html, if it is defined */
+        displayCognigyMessage(this.quickReplyText, logoUrl);
         if (!this.quickReplies)
             return null;
         //Add flex wrap wen there are more than three elements
