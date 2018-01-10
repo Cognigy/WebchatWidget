@@ -189,6 +189,10 @@ header content is only 90% of the total width of the chat box - just like the co
   width: 100%;
   padding: 20px 65px 7px 22px;
   border-radius: 0 0 10px 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing:border-box;
 }
 
 .cognigy-chat-input:focus {
