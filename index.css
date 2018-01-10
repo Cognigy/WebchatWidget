@@ -1,6 +1,8 @@
 /*When the chat component is closed, use .cognigy-web-chat, else use cognigy-web-chat__open*/
 .cognigy-outer-container__closed {
   opacity: 0;
+  -webkit-transition: all .200s ease-in;
+  -o-transition: all .200s ease-in;
   transition: all .200s ease-in
 }
 
@@ -8,10 +10,15 @@
   display: -ms-flexbox;
 	-ms-flex-align: center;
 	-ms-flex-direction: column;
+  display: -webkit-box;
   display: flex;
-  flex-direction: column;
-  box-shadow: -2px 2px 10px #888888;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  -webkit-box-shadow: -2px 2px 10px #888888;
+          box-shadow: -2px 2px 10px #888888;
+  -webkit-box-align: center;
+          align-items: center;
   border-radius: 10px;
   font-family: Ubuntu, sans-serif;
   height: 30rem;
@@ -20,6 +27,8 @@
   bottom: 0;
   right: 0;
   margin: 0 50px 100px 0;
+  -webkit-transition: all .200s ease-out;
+  -o-transition: all .200s ease-out;
   transition: all .200s ease-out  
 }
 
@@ -54,10 +63,12 @@ header content is only 90% of the total width of the chat box - just like the co
   background-color: #333333;
   color: white;
   width: 100%;
+  display: -webkit-box;
   display: flex;
   display: -ms-flexbox;
   -ms-flex-pack: center;
-  justify-content: center;
+  -webkit-box-pack: center;
+          justify-content: center;
 }
 
 .cognigy-chat-header-container {
@@ -74,8 +85,11 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-header-text {
   display: -ms-flexbox;
 	-ms-flex-direction: column;
+  display: -webkit-box;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
 }
 
 .cognigy-header-title {
@@ -112,7 +126,8 @@ header content is only 90% of the total width of the chat box - just like the co
 
 .cognigy-chat-header-container > .cognigy-chat-header {
   -ms-flex-pack: center;
-  justify-content: center !important;
+  -webkit-box-pack: center !important;
+          justify-content: center !important;
 }
 
 .cognigy-chat-header-container__open {
@@ -125,8 +140,10 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-chat-header {
   display: -ms-flexbox;
 	-ms-flex-align: center;
+  display: -webkit-box;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+          align-items: center;
   width: 90%;
   height: 100%;
 }
@@ -138,7 +155,8 @@ header content is only 90% of the total width of the chat box - just like the co
 	/* Random number to fix overflow-y: scroll problem in IE 10 */
 	-ms-flex-preferred-size: 1px;
 	-ms-flex-positive: 1;
-	flex-grow: 1;
+	-webkit-box-flex: 1;
+	        flex-grow: 1;
 	padding-top: 10px;
 	overflow-y: scroll;
 	padding-bottom: 20px;
@@ -156,7 +174,10 @@ header content is only 90% of the total width of the chat box - just like the co
   border-radius: 20px;
   display: -ms-flexbox;
 	-ms-flex-direction: column-reverse;
-  flex-direction: column-reverse;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+	        flex-direction: column-reverse;
+  display: -webkit-box;
   display: flex;
 }
 
@@ -173,14 +194,21 @@ header content is only 90% of the total width of the chat box - just like the co
   display: -ms-flexbox;
   -ms-flex-pack: justify;
   -ms-flex-align: center;
+  display: -webkit-box;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
   background-color: #f4f7f9;
   margin-bottom: 0;
   width: 100%;
-  align-items: center;
+  -webkit-box-align: center;
+          align-items: center;
   border-radius: 0 0 10px 10px;
+  -webkit-transition: background-color .2s ease,-webkit-box-shadow .2s ease;
+  transition: background-color .2s ease,-webkit-box-shadow .2s ease;
+  -o-transition: background-color .2s ease,box-shadow .2s ease;
   transition: background-color .2s ease,box-shadow .2s ease;
+  transition: background-color .2s ease,box-shadow .2s ease,-webkit-box-shadow .2s ease;
   height: 50px;
   min-height: 50px;
 }
@@ -239,8 +267,10 @@ header content is only 90% of the total width of the chat box - just like the co
   padding: 20px 30px;
   display: -ms-flexbox;
 	-ms-flex-align: center;
+  display: -webkit-box;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+          align-items: center;
   background-image: url('./images/mic.gif');
   background-position: center;
   background-repeat: no-repeat;
@@ -251,21 +281,26 @@ header content is only 90% of the total width of the chat box - just like the co
   display: -ms-flexbox;
   -ms-flex-align: end;
   -ms-flex-pack: end;
+  display: -webkit-box;
   display: flex;
   word-break: break-word;
-  justify-content: flex-end;
+  -webkit-box-pack: end;
+          justify-content: flex-end;
   margin-bottom: 0.5rem;
-  align-items: flex-end;
+  -webkit-box-align: end;
+          align-items: flex-end;
   margin-right: 10px;
 }
 
 .cognigy-chat-bot-message-container {
   display: -ms-flexbox;
 	-ms-flex-align: end;
+  display: -webkit-box;
   display: flex;
   word-break: break-word;
   margin: 0.3rem 0 0.3rem 10px;
-  align-items: flex-end;
+  -webkit-box-align: end;
+          align-items: flex-end;
 }
 
 .cognigy-chat-user-message {
