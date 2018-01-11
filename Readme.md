@@ -206,7 +206,7 @@ To use the Cognigy Web Chat, simply:
                     }
                 }
 
-                request.open("POST", "http://localhost:1000");
+                request.open("POST", fileUploadUrl);
                 request.send(data);
             })
     </script>
