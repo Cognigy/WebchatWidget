@@ -174,6 +174,41 @@ To use the Cognigy Web Chat, simply:
 			handleDisplayPostbackMessage(event.data);
 			handleCognigyMessage(event.data);
 		}
+
+        /* Handle file uploads. This requires that Cognigy sends us a file upload url in a data object */
+        document.getElementById('cognigy-file-upload-form')
+            .addEventListener("submit", function(e) {
+                e.preventDefault()
+
+                /* Check whether we have received a file upload url from Cognigy at some point */
+                if (!fileUploadUrl) {
+                    console.error("Sorry, no file upload was specified. Cannot complete file upload");
+                    return;
+                }
+
+                var files = document.getElementById("cognigy-file-upload-input").files;
+                var data = new FormData();
+
+                /* Loop through the files, append the files to FormData and print the file names in the chat */
+                for (var file of files) {
+                    data.append("file", file, file.name);
+                    handleDisplayPostbackMessage(file.name); 
+                }
+
+                var request = new XMLHttpRequest();
+
+                /* Send message back to Cognigy when we get a response from the server */
+                request.onreadystatechange = function() {
+                    if(request.readyState === XMLHttpRequest.DONE && request.status === 200) {
+                        client.sendMessage("File upload completed", { event: "FileUpload" });
+                    } else if (request.status >= 400) {
+                        client.sendMessage(null, { event: "FileUploadError" });
+                    }
+                }
+
+                request.open("POST", "http://localhost:1000");
+                request.send(data);
+            })
     </script>
 </body>
  ```

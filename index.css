@@ -258,6 +258,8 @@ header content is only 90% of the total width of the chat box - just like the co
   position: absolute;
   right: 0;
   cursor: pointer;
+  /* Necessary because of fileUpload input field */
+  z-index: 3;
 }
 
 .cognigy-record-toggle-button {
@@ -269,7 +271,9 @@ header content is only 90% of the total width of the chat box - just like the co
   position: absolute;
   right: 0;
   margin-right: 30px;
-  cursor: pointer;  
+  cursor: pointer;
+  /* Necessary because of fileUpload input field */
+  z-index: 3;
 }
 
 .cognigy-chat-button:focus, .cognigy-record-toggle-button:focus {
@@ -351,8 +355,31 @@ header content is only 90% of the total width of the chat box - just like the co
   border-radius: 20px;
 }
 
-.cognigy-send-icon, .cognigy-record-toggle-icon {
+.cognigy-send-icon, .cognigy-record-toggle-icon, .cognigy-file-upload-icon {
   width: 40px;
   height: 17px;
   opacity: 0.3;
+}
+
+.cognigy-file-upload-input {
+  opacity: 0;
+  width: 50px;
+  position: absolute;
+  right: 0;
+  margin-right: 60px;
+  background: transparent;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.cognigy-file-upload-button {
+  margin-right: 60px;
+  border: 10px;
+  border-radius: 20px;
+  padding: 0.3rem;
+  background-color: transparent;
+  color: white;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
 }
