@@ -32,6 +32,21 @@
   transition: all .200s ease-out  
 }
 
+@media only screen and (max-width: 720px) {
+  .cognigy-outer-container__open, .cognigy-outer-container__closed {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      /* Always keep the chat open on small screens */
+      opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  .cognigy-chat-state-closed, .cognigy-chat-state-open {
+      display: none;
+  }
+}
 
 /*Styling for toggle chat state*/
 .cognigy-chat-state-closed, .cognigy-chat-state-open {
