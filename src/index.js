@@ -96,7 +96,7 @@ recordToggleButton.onclick = function () {
 
 recordToggleButton.type = "button";
 var recordToggleAvatar = createElement("img", "cognigy-record-toggle-icon");
-recordToggleAvatar.src = "./images/mic_off.svg";
+recordToggleAvatar.src = "./images/mic_on.svg";
 recordToggleButton.appendChild(recordToggleAvatar);
 chatForm.appendChild(recordToggleButton);
 
@@ -131,14 +131,14 @@ function handleRecordToggle() {
   recordToggled = !recordToggled;
 
   if (recordToggled) {
-	recordToggleAvatar.src = './images/mic_on.svg';
+	recordToggleAvatar.src = './images/mic_off.svg';
 	//Change input to mic button
 	chatInput.className = "displayNone";
 	chatForm.style.justifyContent = "center";
 	recordButton.className = "cognigy-record-button";
   } else {
 	//Change from mic button to text input
-	recordToggleAvatar.src = "./images/mic_off.svg";
+	recordToggleAvatar.src = "./images/mic_on.svg";
 	recordButton.className = "displayNone";
 	chatInput.className = "cognigy-chat-input";
   }
