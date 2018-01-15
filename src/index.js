@@ -74,7 +74,7 @@ chatInput.placeholder = "Write a reply";
 })();
 
 var messageEvent = new CustomEvent('submit', { cancelable: true });
-// messageEvent.isTrusted = true;
+messageEvent.isTrusted = true;
 chatInput.onkeydown = function (e) {
   e.keyCode === 13 && !e.shiftKey ? function () {
 	e.preventDefault();
