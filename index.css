@@ -32,7 +32,7 @@
   transition: all .200s ease-out  
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 1000px) {
   .cognigy-outer-container__open, .cognigy-outer-container__closed {
       width: 100%;
       height: 100%;
@@ -42,7 +42,7 @@
   }
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 1000px) {
   .cognigy-chat-state-closed, .cognigy-chat-state-open {
       display: none;
   }
