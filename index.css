@@ -236,17 +236,13 @@ header content is only 90% of the total width of the chat box - just like the co
   overflow: hidden;
   border-bottom: 0.1px solid rgba(0,0,0,0.1);
   font-family: Ubuntu, sans-serif;
-  width: 100%;
-  text-indent: 20px;
+  width: 65%;
+  margin-left: 10px;
   border-radius: 0 0 10px 10px;
 }
 
 .cognigy-chat-input:focus {
   outline: none;
-}
-
-.cognigy-chat-input:focus {
-  background-color: white;
 }
 
 .cognigy-chat-button  {

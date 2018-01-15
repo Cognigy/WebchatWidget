@@ -325,32 +325,45 @@ var RichMessages = (function () {
             buttonsOuterContainer.appendChild(buttonContainer);
         });
         this.messageContainer.appendChild(buttonsOuterContainer);
-        //Create bot avatar with Cognigy logo and appendChild to message contanier
-		var avatar = createElement("img", "cognigy-chat-bot-avatar");
-		
-		if (logoUrl) {
-			avatar.src = logoUrl;
-		} else {
-			avatar.src = "./images/cognigy_avatar.svg";
-		}
-        this.messageContainer.appendChild(avatar);
     };
+
+    RichMessages.prototype.createAvatar = function() {
+        //Create bot avatar with Cognigy logo and appendChild to message contanier
+        var avatar = createElement("img", "cognigy-chat-bot-avatar");
+
+        /* If we can load the logo image, then we use it. Otherwise we use the Cognigy logo */
+        var img = new Image();
+        img.onload = function () {
+            avatar.src = logoUrl;
+        };
+        img.onerror = function () {
+            avatar.src = "./images/cognigy_logo.svg";
+        };
+        img.src = logoUrl;
+
+        this.messageContainer.appendChild(avatar);
+    }
+
     RichMessages.prototype.renderMessage = function () {
         //Render button template
         if (this.findTemplate() === "button") {
             this.buttonTemplate();
+            this.createAvatar();
         }
         //Render list template
         if (this.findTemplate() === "list") {
             this.listTemplate();
+            this.createAvatar();
         }
         //Render generic template
         if (this.findTemplate() === "generic") {
             this.genericTemplate();
+            this.createAvatar();
         }
         //Render quick replies
         if (this.quickReplies || this.quickReplyText) {
             this.renderQuickReplies();
+            // this.createAvatar();
         }
     };
     return RichMessages;
