@@ -74,13 +74,14 @@ chatInput.placeholder = "Write a reply";
 })();
 
 var messageEvent = new CustomEvent('submit', { cancelable: true });
-messageEvent.isTrusted = true;
-chatInput.onkeydown = function (e) {
-  e.keyCode === 13 && !e.shiftKey ? function () {
-	e.preventDefault();
-	document.getElementById('cognigy-form').dispatchEvent(messageEvent);
-  }() : null;
-};
+if (messageEvent.isTrusted) {
+  chatInput.onkeydown = function (e) {
+    e.keyCode === 13 && !e.shiftKey ? function () {
+      e.preventDefault();
+      document.getElementById('cognigy-form').dispatchEvent(messageEvent);
+      }() : null;
+  };
+}
 chatForm.appendChild(chatInput);
 
 var chatButton = createElement("button", "cognigy-chat-button", "cognigy-button");
