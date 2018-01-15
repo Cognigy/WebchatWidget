@@ -113,7 +113,7 @@ fileUploadInput.onchange = function() {
 
 var fileUploadForm = createElement("form", "cognigy-file-upload-form", "cognigy-file-upload-form");
 fileUploadForm.enctype = "multipart/form-data"
-fileUploadForm.append(fileUploadInput);
+fileUploadForm.appendChild(fileUploadInput);
 
 chatForm.appendChild(fileUploadForm);
 
