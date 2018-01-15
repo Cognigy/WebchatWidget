@@ -74,14 +74,12 @@ chatInput.placeholder = "Write a reply";
 })();
 
 var messageEvent = new CustomEvent('submit', { cancelable: true });
-if (messageEvent.isTrusted) {
-  chatInput.onkeydown = function (e) {
-    e.keyCode === 13 && !e.shiftKey ? function () {
-      e.preventDefault();
-      document.getElementById('cognigy-form').dispatchEvent(messageEvent);
-      }() : null;
-  };
-}
+chatInput.onkeydown = function (e) {
+  e.keyCode === 13 && !e.shiftKey ? function () {
+    e.preventDefault();
+    document.getElementById('cognigy-form').dispatchEvent(messageEvent);
+  }() : null;
+};
 chatForm.appendChild(chatInput);
 
 var chatButton = createElement("button", "cognigy-chat-button", "cognigy-button");
@@ -188,6 +186,7 @@ function handleSendMessage(e) {
 //Add event listener for form submit event
 var formElement = document.getElementById("cognigy-form");
 formElement.addEventListener("submit", function (e) {
+  e.preventDefault();
 	handleSendMessage(e);
 }, false);
 
