@@ -36,9 +36,9 @@ To use the Cognigy Web Chat, simply:
             displayCognigyMessage(output);
         }
     };
-    const inputValue = document.getElementById("cognigy-input").value;
+    const inputValue = document.getElementById("cognigy-input").textContent;
     //Reset input value
-    document.getElementById("cognigy-input").value = "";
+    document.getElementById("cognigy-input").textContent = "";
     const client = new Cognigy.CognigyWebClient(options);
 
     client.connect()
@@ -49,8 +49,8 @@ To use the Cognigy Web Chat, simply:
     //Function used by postback buttons
     const handleCognigyMessage = (message) => {
         if (client && client.isConnected()) {
-            const inputValue = document.getElementById("cognigy-input").value;
-            document.getElementById("cognigy-input").value = "";
+            const inputValue = document.getElementById("cognigy-input").textContent;
+            document.getElementById("cognigy-input").textContent = "";
             if (message) {
                 client.sendMessage(message, undefined);
             } else {
@@ -62,8 +62,8 @@ To use the Cognigy Web Chat, simply:
     // listen on form submit event and use handleCognigyMessage function
     formElement.addEventListener("submit", () => {
         if (client && client.isConnected()) {
-            const inputValue = document.getElementById("cognigy-input").value;
-            document.getElementById("cognigy-input").value = "";
+            const inputValue = document.getElementById("cognigy-input").textContent;
+            document.getElementById("cognigy-input").textContent = "";
 
             client.sendMessage(inputValue, undefined);
         }
@@ -110,9 +110,9 @@ To use the Cognigy Web Chat, simply:
                 displayCognigyMessage(output);
             }
         };
-        const inputValue = document.getElementById("cognigy-input").value;
+        const inputValue = document.getElementById("cognigy-input").textContent;
         //Reset input value
-        document.getElementById("cognigy-input").value = "";
+        document.getElementById("cognigy-input").textContent = "";
         var client = new Cognigy.CognigyWebClient(options);
 
         client.connect()
@@ -123,8 +123,8 @@ To use the Cognigy Web Chat, simply:
         //Function used by postback buttons
         const handleCognigyMessage = (message) => {
             if (client && client.isConnected()) {
-                var inputValue = document.getElementById("cognigy-input").value;
-                document.getElementById("cognigy-input").value = "";
+                var inputValue = document.getElementById("cognigy-input").textContent;
+                document.getElementById("cognigy-input").textContent = "";
                 if (message) {
                     client.sendMessage(message, undefined);
                 } else {
@@ -159,8 +159,8 @@ To use the Cognigy Web Chat, simply:
         // listen on form submit event and use handleCognigyMessage function
         formElement.addEventListener("submit", () => {
             if (client && client.isConnected()) {
-                const inputValue = document.getElementById("cognigy-input").value;
-                document.getElementById("cognigy-input").value = "";
+                const inputValue = document.getElementById("cognigy-input").textContent;
+                document.getElementById("cognigy-input").textContent = "";
 
                 client.sendMessage(inputValue, undefined);
             }
