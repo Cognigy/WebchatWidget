@@ -79,7 +79,7 @@ chatInput.returnKeyType = "Send";
 var messageEvent = new CustomEvent('submit', { cancelable: true });
 chatInput.onkeydown = function (e) {
   e.keyCode === 13 && !e.shiftKey ? function () {
-    event.preventDefault ? event.preventDefault() : (event.returnValue = false);
+    e.preventDefault ? e.preventDefault() : (e.returnValue = false);
     document.getElementById('cognigy-form').dispatchEvent(messageEvent);
   }() : null;
 };
@@ -189,7 +189,7 @@ function handleChatOpen() {
 }
 
 function handleSendMessage(e) {
-  event.preventDefault ? event.preventDefault() : (event.returnValue = false);
+  e.preventDefault ? e.preventDefault() : (e.returnValue = false);
   //Get the value from input, then create two divs to store/display the message
   var inputValue = document.getElementById("cognigy-input").textContent;
   var chatContainer = document.getElementById("cognigy-container");
@@ -214,9 +214,9 @@ function handleSendMessage(e) {
 
 //Add event listener for form submit event
 var formElement = document.getElementById("cognigy-form");
-formElement.addEventListener("submit", function (e) {
+formElement.addEventListener("submit", function (event) {
   event.preventDefault ? event.preventDefault() : (event.returnValue = false);
-	handleSendMessage(e);
+	handleSendMessage(event);
 }, false);
 
 function handleDisplayRecording(transcript) {

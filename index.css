@@ -173,7 +173,8 @@ header content is only 90% of the total width of the chat box - just like the co
 	-webkit-box-flex: 1;
 	        flex-grow: 1;
 	padding-top: 10px;
-	overflow-y: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 	padding-bottom: 20px;
 	background-color: white;
   }
