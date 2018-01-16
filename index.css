@@ -312,7 +312,7 @@ header content is only 90% of the total width of the chat box - just like the co
   display: -webkit-box;
   display: flex;
   word-break: break-word;
-  margin: 0.3rem 0 0.3rem 10px;
+  margin: 0.3rem 0 15px 10px;
   -webkit-box-align: end;
           align-items: flex-end;
 }

@@ -164,6 +164,9 @@ var RichMessages = (function () {
     };
     RichMessages.prototype.listTemplate = function () {
         var _this = this;
+        var messageInnerContainer = createElement("div", "cognigy-chat-bot-message-container");
+        this.createAvatar(messageInnerContainer);
+
         var listContainer = document.createElement("div");
         listContainer.className = "list_template_container";
         this.findElements().forEach(function (element, index) {
@@ -190,7 +193,9 @@ var RichMessages = (function () {
                 listContainer.appendChild(buttonContainer);
             });
         }
-        this.messageContainer.appendChild(listContainer);
+
+        messageInnerContainer.appendChild(listContainer);
+        this.messageContainer.appendChild(messageInnerContainer);
     };
     RichMessages.prototype.renderInformation = function (title) {
         var information = document.createElement("span");
@@ -244,6 +249,9 @@ var RichMessages = (function () {
     };
     RichMessages.prototype.genericTemplate = function () {
         var _this = this;
+        var messageInnerContainer = createElement("div", "cognigy-chat-bot-message-container");
+        this.createAvatar(messageInnerContainer);
+
         //Render container for image, title and buttons
         var genericContainer = document.createElement("div");
         genericContainer.className = "generic_template_container";
@@ -304,10 +312,15 @@ var RichMessages = (function () {
                 genericContainer.appendChild(buttonContainer);
             });
         }
-        this.messageContainer.appendChild(genericContainer);
+
+        messageInnerContainer.appendChild(genericContainer);
+        this.messageContainer.appendChild(messageInnerContainer);
     };
     RichMessages.prototype.buttonTemplate = function () {
         var _this = this;
+        var messageInnerContainer = createElement("div", "cognigy-chat-bot-message-container");
+        this.createAvatar(messageInnerContainer);
+
         var buttonsOuterContainer = document.createElement("div");
         buttonsOuterContainer.className = "button_template_outer_container";
         if (this.messageData.text) {
@@ -324,10 +337,12 @@ var RichMessages = (function () {
             buttonContainer.className = "button_template_container";
             buttonsOuterContainer.appendChild(buttonContainer);
         });
-        this.messageContainer.appendChild(buttonsOuterContainer);
+
+        messageInnerContainer.appendChild(buttonsOuterContainer);
+        this.messageContainer.appendChild(messageInnerContainer);
     };
 
-    RichMessages.prototype.createAvatar = function() {
+    RichMessages.prototype.createAvatar = function(messageInnerContainer) {
         //Create bot avatar with Cognigy logo and appendChild to message contanier
         var avatar = createElement("img", "cognigy-chat-bot-avatar");
 
@@ -341,29 +356,28 @@ var RichMessages = (function () {
         };
         img.src = logoUrl;
 
-        this.messageContainer.appendChild(avatar);
+        messageInnerContainer.appendChild(avatar);
     }
 
     RichMessages.prototype.renderMessage = function () {
         //Render button template
         if (this.findTemplate() === "button") {
             this.buttonTemplate();
-            this.createAvatar();
         }
+
         //Render list template
         if (this.findTemplate() === "list") {
             this.listTemplate();
-            this.createAvatar();
         }
+
         //Render generic template
         if (this.findTemplate() === "generic") {
             this.genericTemplate();
-            this.createAvatar();
         }
+
         //Render quick replies
         if (this.quickReplies || this.quickReplyText) {
             this.renderQuickReplies();
-            // this.createAvatar();
         }
     };
     return RichMessages;

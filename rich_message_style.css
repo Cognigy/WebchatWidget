@@ -15,8 +15,6 @@
     width: 60%;
     border-radius: 0 0 10px 10px;
     border: 1px solid rgba(0,0,0,0.1);
-    margin-left: 60px;
-    margin-top: 20px;
 }
 
 .button_template_text {
@@ -59,8 +57,8 @@
     font-weight: 500;
     cursor: pointer;
     border: 1px solid;
-    min-width: 79%;
-    max-width: 80%;
+    min-width: 65px;
+    max-width: 65px;
     border-radius: 5px;
     margin-top: 10px;
     word-break: unset;
@@ -110,7 +108,7 @@
 }
 
 .list_template_container {
-    margin: 20px;
+    margin-right: 20px;
     border: 1px solid rgba(0,0,0,0.1);
     border-radius: 10px;
 }
@@ -159,7 +157,7 @@
     -webkit-box-direction: reverse;
         -ms-flex-direction: column-reverse;
             flex-direction: column-reverse;
-    margin: 20px;
+    margin-right: 20px;
     border: 1px solid rgba(0,0,0,0.1);
     border-radius: 10px;
 }

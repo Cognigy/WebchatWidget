@@ -239,35 +239,35 @@ function displayCognigyMessage(answerFromCognigy, logoUrl) {
 
   //Display Facebook message if it is there. Otherwise display normal message
   if (answerFromCognigy && answerFromCognigy.data && (answerFromCognigy.data.facebook || answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._facebook)) {
-	var renderRichMessage = new RichMessages(answerFromCognigy.data, chatContainer);
-	renderRichMessage.renderMessage();
+    var renderRichMessage = new RichMessages(answerFromCognigy.data, chatContainer);
+    renderRichMessage.renderMessage();
   } else if (typeof cognigyAnswer !== 'undefined') {
-	var messageContainer = document.createElement("div");
-	var message = document.createElement("div");
-	var messageValue = document.createTextNode(cognigyAnswer);
+    var messageContainer = document.createElement("div");
+    var message = document.createElement("div");
+    var messageValue = document.createTextNode(cognigyAnswer);
 
-	//Create bot avatar with Cognigy logo and append to message contanier
-	var _avatar = createElement("img", "cognigy-chat-bot-avatar");
+    //Create bot avatar with Cognigy logo and append to message contanier
+    var _avatar = createElement("img", "cognigy-chat-bot-avatar");
 
-	/* If we can load the logo image, then we use it. Otherwise we use the Cognigy logo */
-	var img = new Image();
-	img.onload = function () {
-	  _avatar.src = logoUrl;
-	};
-	img.onerror = function () {
-	  _avatar.src = "./images/cognigy_logo.svg";
-	};
-	img.src = logoUrl;
+    /* If we can load the logo image, then we use it. Otherwise we use the Cognigy logo */
+    var img = new Image();
+    img.onload = function () {
+      _avatar.src = logoUrl;
+    };
+    img.onerror = function () {
+      _avatar.src = "./images/cognigy_logo.svg";
+    };
+    img.src = logoUrl;
 
-	messageContainer.appendChild(_avatar);
+    messageContainer.appendChild(_avatar);
 
-	// appendChild message to UI
-	message.className = "cognigy-chat-bot-message";
-	messageContainer.className = "cognigy-chat-bot-message-container";
-	message.appendChild(messageValue);
-	messageContainer.appendChild(message);
+    // appendChild message to UI
+    message.className = "cognigy-chat-bot-message";
+    messageContainer.className = "cognigy-chat-bot-message-container";
+    message.appendChild(messageValue);
+    messageContainer.appendChild(message);
 
-	chatContainer.appendChild(messageContainer);
+    chatContainer.appendChild(messageContainer);
   }
 
   //Keep scrollbar fixed at bottom when new messages are added
