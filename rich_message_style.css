@@ -13,7 +13,7 @@
 
 .button_template_outer_container {
     width: 60%;
-    border-radius: 0 0 10px 10px;
+    border-radius: 10px 10px 10px 10px;
     border: 1px solid rgba(0,0,0,0.1);
 }
 
