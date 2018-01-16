@@ -53,8 +53,11 @@ outerContainer.appendChild(chatContainer);
 var chatForm = createElement("form", "cognigy-chat-form", "cognigy-form");
 outerContainer.appendChild(chatForm);
 
-var chatInput = createElement("textarea", "cognigy-chat-input", "cognigy-input");
-chatInput.placeholder = "Write a reply";
+var chatInput = createElement("div", "cognigy-chat-input", "cognigy-input");
+chatInput.setAttribute("data-text", "Write a reply");
+chatInput.contentEditable = true;
+chatInput.returnKeyType = "Send";
+
 // Send message on enter and not on shift + enter
 //IE 11 polyfill for events
 (function () {
@@ -82,6 +85,18 @@ chatInput.onkeydown = function (e) {
 };
 chatForm.appendChild(chatInput);
 
+/** 
+ * The first character in window.location.search is the "?". Remove it and put parameters in an array. 
+ * Then store all parameters in an object (so ?q=test becomes { q: test }) 
+ */ 
+var urlParameters = {}
+window.location.search.slice(1).split("&")
+  .map(function(parameter) {
+    var key = parameter.substr(0, parameter.indexOf("="));
+    var value = parameter.substr(parameter.indexOf("=") + 1);
+    urlParameters[key] = value;
+  });
+
 var chatButton = createElement("button", "cognigy-chat-button", "cognigy-button");
 var sendAvatar = createElement("img", "cognigy-send-icon");
 sendAvatar.src = "./images/send.svg";
@@ -94,7 +109,12 @@ recordToggleButton.onclick = function () {
 };
 
 recordToggleButton.type = "button";
-var recordToggleAvatar = createElement("img", "cognigy-record-toggle-icon");
+var recordToggleAvatar = createElement("img", "displayNone");
+
+if (urlParameters && urlParameters.recordButton) {
+  recordToggleAvatar.className = "cognigy-record-toggle-icon";
+}
+
 recordToggleAvatar.src = "./images/mic_on.svg";
 recordToggleButton.appendChild(recordToggleAvatar);
 chatForm.appendChild(recordToggleButton);
@@ -111,19 +131,28 @@ fileUploadInput.onchange = function() {
 	document.getElementById('cognigy-file-upload-form').dispatchEvent(messageEvent);
 }
 
-var fileUploadForm = createElement("form", "cognigy-file-upload-form", "cognigy-file-upload-form");
+var fileUploadForm = createElement("form", "displayNone", "cognigy-file-upload-form");
 fileUploadForm.enctype = "multipart/form-data"
 fileUploadForm.appendChild(fileUploadInput);
 
 chatForm.appendChild(fileUploadForm);
 
-var fileUploadButton = createElement("button", "cognigy-file-upload-button", "cognigy-file-upload-button");
+var fileUploadButton = createElement("button", "displayNone", "cognigy-file-upload-button");
 
 fileUploadButton.type = "button";
 var fileUploadAvatar = createElement("img", "cognigy-file-upload-icon");
 fileUploadAvatar.src = "./images/file_upload.svg";
 fileUploadButton.appendChild(fileUploadAvatar);
 chatForm.appendChild(fileUploadButton);
+
+if (urlParameters && urlParameters.fileUpload && urlParameters.recordButton) {
+  fileUploadForm.className = "cognigy-file-upload-form";
+  fileUploadButton.className = "cognigy-file-upload-button";
+} else if (urlParameters && urlParameters.fileUpload && !urlParameters.recordButton) {
+  fileUploadForm.className = "cognigy-file-upload-form";
+  fileUploadButton.className = "cognigy-file-upload-button-no-record-button";
+  fileUploadInput.className = "cognigy-file-upload-input-no-record-button";
+}
 
 var recordToggled = false;
 function handleRecordToggle() {
@@ -162,7 +191,7 @@ function handleChatOpen() {
 function handleSendMessage(e) {
   event.preventDefault ? event.preventDefault() : (event.returnValue = false);
   //Get the value from input, then create two divs to store/display the message
-  var inputValue = document.getElementById("cognigy-input").value;
+  var inputValue = document.getElementById("cognigy-input").textContent;
   var chatContainer = document.getElementById("cognigy-container");
   var messageContainer = document.createElement("div");
   var message = document.createElement("div");

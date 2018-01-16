@@ -226,6 +226,7 @@ header content is only 90% of the total width of the chat box - just like the co
   transition: background-color .2s ease,box-shadow .2s ease,-webkit-box-shadow .2s ease;
   height: 50px;
   min-height: 50px;
+  overflow: hidden;
 }
 
 .cognigy-chat-input {
@@ -233,12 +234,12 @@ header content is only 90% of the total width of the chat box - just like the co
   color: #565867;
   resize: none;
   border: none;
-  overflow: hidden;
+  overflow: auto;
   border-bottom: 0.1px solid rgba(0,0,0,0.1);
   font-family: Ubuntu, sans-serif;
   width: 65%;
-  margin-left: 10px;
-  border-radius: 0 0 10px 10px;
+  margin-left: 20px;
+  font-size: 14px;
 }
 
 .cognigy-chat-input:focus {
@@ -337,10 +338,11 @@ header content is only 90% of the total width of the chat box - just like the co
 /*Styling for avatars*/
 .cognigy-chat-bot-avatar {
   height: 20px;
-  min-width: 50px;
-  max-width: 50px;
+  min-width: 20px;
+  max-width: 20px;
   /*Fix "air" at the bottom of svg and add margin to sides*/
   margin: 0 0.2rem -4px 0.2rem;
+  border-radius: 20px;
 }
 
 .cognigy-chat-user-avatar {
@@ -357,7 +359,7 @@ header content is only 90% of the total width of the chat box - just like the co
   opacity: 0.3;
 }
 
-.cognigy-file-upload-input {
+.cognigy-file-upload-input, .cognigy-file-upload-input-no-record-button {
   opacity: 0;
   width: 50px;
   position: absolute;
@@ -368,7 +370,7 @@ header content is only 90% of the total width of the chat box - just like the co
   cursor: pointer;
 }
 
-.cognigy-file-upload-button {
+.cognigy-file-upload-button, .cognigy-file-upload-button-no-record-button {
   margin-right: 60px;
   border: 10px;
   border-radius: 20px;
@@ -378,4 +380,17 @@ header content is only 90% of the total width of the chat box - just like the co
   position: absolute;
   right: 0;
   cursor: pointer;
+}
+
+.cognigy-file-upload-button-no-record-button {
+  margin-right: 30px !important;
+}
+
+.cognigy-file-upload-input-no-record-button {
+  margin-right: 30px !important;
+}
+
+/* Placeholder text for textarea (which is really a div) */
+[contentEditable=true]:empty:not(:focus):before {
+  content:attr(data-text)
 }
