@@ -365,6 +365,7 @@ header content is only 90% of the total width of the chat box - just like the co
   position: absolute;
   right: 0;
   margin-right: 60px;
+  margin-top: -10px;
   background: transparent;
   z-index: 2;
   cursor: pointer;
