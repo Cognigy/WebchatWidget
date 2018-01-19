@@ -396,3 +396,25 @@ header content is only 90% of the total width of the chat box - just like the co
 [contentEditable=true]:empty:not(:focus):before {
   content:attr(data-text)
 }
+
+.cognigy-get-started-button {
+  color: #333333;
+  padding: 0 10px;
+  text-align: center;
+  background: white;
+  display: block;
+  line-height: 32px;
+  margin: 0 2px;
+  font-weight: 500;
+  height: 32px;
+  cursor: pointer;
+  border-top: 1px solid rgba(0,0,0,0.1) !important;
+  border-radius: 0 0 10px 10px;
+  width: 100%;
+  margin: 0;
+  box-shadow: none;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  background-color: #f4f7f9;
+}

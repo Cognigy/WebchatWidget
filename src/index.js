@@ -45,12 +45,50 @@ header.appendChild(headerMobileClose);
 headerContainer.appendChild(header);
 outerContainer.appendChild(headerContainer);
 
+/** 
+ * The first character in window.location.search is the "?". Remove it and put parameters in an array. 
+ * Then store all parameters in an object (so ?q=test becomes { q: test }) 
+ */ 
+var urlParameters = {}
+window.location.search.slice(1).split("&")
+  .map(function(parameter) {
+    var key = parameter.substr(0, parameter.indexOf("="));
+    var value = parameter.substr(parameter.indexOf("=") + 1);
+    urlParameters[key] = value;
+  });
+
+
 //Create chatContainer
 var chatContainer = createElement("div", "cognigy-chat-container", "cognigy-container");
 outerContainer.appendChild(chatContainer);
 
+var getStartedButton = createElement("button", "cognigy-get-started-button", "cognigy-get-started-button");
+
+/* Check whether we have urlParameters to define text */
+if (urlParameters && urlParameters.getStartedText) {
+  var getStartedText = decodeURI(urlParameters.getStartedText);
+} else {
+  var getStartedText = "Get Started";
+}
+
+/* Check whether we have urlParamerts to define postback text */
+if (urlParameters && urlParameters.getStartedPostback) {
+  var getStartedPostback = urlParameters.getStartedPostback;
+} else {
+  var getStartedPostback = "GET_STARTED";
+}
+
+var getStartedButtonTitle = document.createTextNode("GET STARTED");
+getStartedButton.appendChild(getStartedButtonTitle);
+
+getStartedButton.onclick = function() {
+  handleGetStartedButton(getStartedText, getStartedPostback);
+}
+
+outerContainer.appendChild(getStartedButton);
+
 //Create chatForm with input, send button, record button and record toggle button
-var chatForm = createElement("form", "cognigy-chat-form", "cognigy-form");
+var chatForm = createElement("form", "displayNone", "cognigy-form");
 outerContainer.appendChild(chatForm);
 
 var chatInput = createElement("div", "cognigy-chat-input", "cognigy-input");
@@ -85,18 +123,6 @@ chatInput.onkeydown = function (e) {
   }() : null;
 };
 chatForm.appendChild(chatInput);
-
-/** 
- * The first character in window.location.search is the "?". Remove it and put parameters in an array. 
- * Then store all parameters in an object (so ?q=test becomes { q: test }) 
- */ 
-var urlParameters = {}
-window.location.search.slice(1).split("&")
-  .map(function(parameter) {
-    var key = parameter.substr(0, parameter.indexOf("="));
-    var value = parameter.substr(parameter.indexOf("=") + 1);
-    urlParameters[key] = value;
-  });
 
 var chatButton = createElement("button", "cognigy-chat-button", "cognigy-button");
 var sendAvatar = createElement("img", "cognigy-send-icon");
@@ -304,4 +330,15 @@ function displayCognigyMessage(answerFromCognigy, logoUrl) {
 
   //Keep scrollbar fixed at bottom when new messages are added
   chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+/* Function to handle the getStartedButton */
+function handleGetStartedButton(getStartedText, getStartedPostback) {
+  /* Send getStarted text to Cognigy and display it in the webchat */
+  handleDisplayPostbackMessage(getStartedText);
+  handleCognigyMessage(getStartedPostback);
+
+  /* Display form and hide getStartedButton */
+  document.getElementById("cognigy-form").className = "cognigy-chat-form";
+  document.getElementById("cognigy-get-started-button").className = "displayNone";
 }
