@@ -219,7 +219,8 @@ function handleSendMessage(e) {
   if (e)
     e.preventDefault ? e.preventDefault() : (e.returnValue = false);
   //Get the value from input, then create two divs to store/display the message
-  var inputValue = document.getElementById("cognigy-input").textContent;
+  var inputValue = document.getElementById("cognigy-input").innerHTML;
+  inputValue = inputValue.replace(/<br>/g, "\n")
   var chatContainer = document.getElementById("cognigy-container");
   var messageContainer = document.createElement("div");
   var message = document.createElement("div");

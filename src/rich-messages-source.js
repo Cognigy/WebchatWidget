@@ -137,8 +137,15 @@ var RichMessages = (function () {
     RichMessages.prototype.renderListElement = function (element, index) {
         var elementContainer = document.createElement("div");
         var elementContent = document.createElement("div");
-        var elementTitle = document.createTextNode(element.title)            
+        var elementTitle = document.createTextNode(element.title)    
+        /* Don't render two consecutive newlines */
+        var elementSubtitle = document.createElement("p");
+        elementSubtitle.className = "text_subtitle";
+        var elementSubtitleText = document.createTextNode(element.subtitle.replace(/\n\s*\n/g, '\n'));
+        elementSubtitle.appendChild(elementSubtitleText);
+
         elementContent.appendChild(elementTitle);
+        elementContent.appendChild(elementSubtitle);
         //Special styling for first list item
         if (this.messageData.top_element_style === "large" && index === 0) {
             elementContainer.className = "list_template_element_container_first";
@@ -293,7 +300,8 @@ var RichMessages = (function () {
             if (element.subtitle) {
                 var genericSubtitle = document.createElement("p");
                 genericSubtitle.className = "text_subtitle";
-                var elementSubtitle = document.createTextNode(element.subtitle)                
+                /* Only allow 1 consecutive newline (facebook formats it this way) */
+                var elementSubtitle = document.createTextNode(element.subtitle.replace(/\n\s*\n/g, '\n'))                
                 genericSubtitle.appendChild(elementSubtitle);
                 textContainer.appendChild(genericSubtitle);
             }

@@ -325,7 +325,8 @@ header content is only 90% of the total width of the chat box - just like the co
   padding: 10px 15px;
   margin: 0.5rem 0;
   color: rgba(0,0,0,0.8);
-  max-width: 55%;  
+  max-width: 55%;
+  white-space: pre-line;
 }
 
 .cognigy-chat-bot-message {
@@ -334,6 +335,7 @@ header content is only 90% of the total width of the chat box - just like the co
   padding: 10px 15px;
   max-width: 55%;  
   color: white;
+  white-space: pre-line
 }
 
 /*Styling for avatars*/
