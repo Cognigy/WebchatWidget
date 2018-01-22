@@ -3,6 +3,10 @@ body {
   background-size: cover;
 }
 
+html {
+  height: 100%;
+}
+
 /*When the chat component is closed, use .cognigy-web-chat, else use cognigy-web-chat__open*/
 .cognigy-outer-container__closed {
   opacity: 0;
