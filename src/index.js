@@ -327,6 +327,9 @@ function displayCognigyMessage(answerFromCognigy, logoUrl) {
     messageContainer.appendChild(message);
 
     chatContainer.appendChild(messageContainer);
+
+    /* Read message */
+    readCognigyMessage(cognigyAnswer);
   }
 
   //Keep scrollbar fixed at bottom when new messages are added

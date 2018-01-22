@@ -33,8 +33,10 @@ var RichMessages = (function () {
     RichMessages.prototype.renderQuickReplies = function () {
         var quickReplyContainer = document.createElement("div");
         quickReplyContainer.className = "quick_reply_container";
+
         /* The logoUrl comes from index.html, if it is defined */
         displayCognigyMessage(this.quickReplyText, logoUrl);
+
         if (!this.quickReplies)
             return null;
         //Add flex wrap wen there are more than three elements
@@ -143,6 +145,11 @@ var RichMessages = (function () {
         elementSubtitle.className = "text_subtitle";
         var elementSubtitleText = document.createTextNode(element.subtitle.replace(/\n\s*\n/g, '\n'));
         elementSubtitle.appendChild(elementSubtitleText);
+
+        /* Read subtitle */
+        if (element.subtitle) {
+            readCognigyMessage(element.subtitle);
+        }
 
         elementContent.appendChild(elementTitle);
         elementContent.appendChild(elementSubtitle);
@@ -301,7 +308,13 @@ var RichMessages = (function () {
                 var genericSubtitle = document.createElement("p");
                 genericSubtitle.className = "text_subtitle";
                 /* Only allow 1 consecutive newline (facebook formats it this way) */
-                var elementSubtitle = document.createTextNode(element.subtitle.replace(/\n\s*\n/g, '\n'))                
+                var elementSubtitle = document.createTextNode(element.subtitle.replace(/\n\s*\n/g, '\n'))     
+                
+                /* Read subtitle */
+                if (element.subtitle) {
+                    readCognigyMessage(element.subtitle);
+                }
+
                 genericSubtitle.appendChild(elementSubtitle);
                 textContainer.appendChild(genericSubtitle);
             }
@@ -332,6 +345,9 @@ var RichMessages = (function () {
         var buttonsOuterContainer = document.createElement("div");
         buttonsOuterContainer.className = "button_template_outer_container";
         if (this.messageData.text) {
+            /* Read text */
+            readCognigyMessage(this.messageData.text);
+
             var buttonText = document.createElement("div");
             buttonText.className = "button_template_text";
             buttonText.appendChild(document.createTextNode(this.messageData.text));
