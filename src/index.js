@@ -186,16 +186,17 @@ function handleRecordToggle() {
   recordToggled = !recordToggled;
 
   if (recordToggled) {
-	recordToggleAvatar.src = './images/mic_off.svg';
-	//Change input to mic button
-	chatInput.className = "displayNone";
-	chatForm.style.justifyContent = "center";
-	recordButton.className = "cognigy-record-button";
+    recordToggleAvatar.src = './images/mic_off.svg';
+    //Change input to mic button
+    chatInput.className = "displayNone";
+    chatForm.style.justifyContent = "center";
+    recordButton.className = "cognigy-record-button";
   } else {
-	//Change from mic button to text input
-	recordToggleAvatar.src = "./images/mic_on.svg";
-	recordButton.className = "displayNone";
-	chatInput.className = "cognigy-chat-input";
+    //Change from mic button to text input
+    recordToggleAvatar.src = "./images/mic_on.svg";
+    recordButton.className = "displayNone";
+    chatInput.className = "cognigy-chat-input";
+    chatForm.style.justifyContent = "space-between";
   }
 }
 
