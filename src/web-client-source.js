@@ -7710,6 +7710,10 @@ var CognigyClient = function () {
             }).then(function (socket) {
                 var resetState = false;
                 var resetContext = false;
+                var resetFlow = true;
+
+                if (_this2.options.resetFlow !== null && _this2.options.resetFlow !== undefined && _this2.options.resetFlow === false)
+                  resetFlow = false;
                 if (_this2.options.resetState !== null && _this2.options.resetState !== undefined && _this2.options.resetState === true) resetState = true;
                 if (_this2.options.resetContext !== null && _this2.options.resetContext !== undefined && _this2.options.resetContext === true) resetContext = true;
                 socket.emit("init", {
@@ -7717,7 +7721,8 @@ var CognigyClient = function () {
                     language: _this2.options.language,
                     version: _this2.options.version,
                     passthroughIP: _this2.options.passthroughIP,
-                    resetFlow: _this2.firstLoad,
+                    resetFlow: resetFlow,
+                    reloadFlow: (_this2.options.resetFlow !== undefined) ? _this2.options.resetFlow : _this2.firstLoad,
                     resetState: resetState,
                     resetContext: resetContext
                 });
