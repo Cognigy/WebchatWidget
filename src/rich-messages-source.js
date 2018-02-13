@@ -34,8 +34,8 @@ var RichMessages = (function () {
         var quickReplyContainer = document.createElement("div");
         quickReplyContainer.className = "quick_reply_container";
 
-        /* The logoUrl comes from index.html, if it is defined */
-        displayCognigyMessage(this.quickReplyText, logoUrl);
+        /* The messageLogoUrl comes from index.html, if it is defined */
+        displayCognigyMessage(this.quickReplyText, messageLogoUrl);
 
         if (!this.quickReplies)
             return null;
@@ -373,12 +373,12 @@ var RichMessages = (function () {
         /* If we can load the logo image, then we use it. Otherwise we use the Cognigy logo */
         var img = new Image();
         img.onload = function () {
-            avatar.src = logoUrl;
+            avatar.src = messageLogoUrl;
         };
         img.onerror = function () {
             avatar.src = "./images/cognigy_logo.svg";
         };
-        img.src = logoUrl;
+        img.src = messageLogoUrl;
 
         messageInnerContainer.appendChild(avatar);
     }
