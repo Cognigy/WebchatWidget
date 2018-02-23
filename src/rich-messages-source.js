@@ -220,16 +220,16 @@ var RichMessages = (function () {
         informationContainer.appendChild(information);
         return informationContainer;
     };
-    RichMessages.prototype.carouselButtons = function (elementContainers, index) {
+    RichMessages.prototype.carouselButtons = function (elementContainers, index, randomIDValue) {
         //Increment and decrement buttons
         var carouselButtonsContainer = document.createElement("div");
         carouselButtonsContainer.className = "generic_template_carousel_buttons_container";
         var increment = document.createElement("div");
         increment.className = "generic_template_increment";
-        increment.id = "genericTemplateIncrement" + index;
+        increment.id = "genericTemplateIncrement" + index + randomIDValue;
         var decrement = document.createElement("div");
         decrement.className = "visibility_hidden";
-        decrement.id = "genericTemplateDecrement" + index;
+        decrement.id = "genericTemplateDecrement" + index + randomIDValue;
         carouselButtonsContainer.appendChild(decrement);
         carouselButtonsContainer.appendChild(increment);
         //Start off by displaying the first elementContainer
@@ -241,10 +241,10 @@ var RichMessages = (function () {
                 elementContainers[index].className = "display_none";
                 elementContainers[index + 1].className = "generic_template_element_container";
                 //Show decrement button after first increment
-                document.getElementById("genericTemplateDecrement" + (index + 1)).className = "generic_template_decrement";
+                document.getElementById("genericTemplateDecrement" + (index + 1) + randomIDValue).className = "generic_template_decrement";
                 //Hide next increment button when viewing last item
                 if (index === (elementContainers.length - 2)) {
-                    document.getElementById("genericTemplateIncrement" + (index + 1)).className = "visibility_hidden";
+                    document.getElementById("genericTemplateIncrement" + (index + 1) + randomIDValue).className = "visibility_hidden";
                 }
             });
             //Decrement index when clicking button, thereby viewing prevous item. Hidden to begin with
@@ -252,10 +252,10 @@ var RichMessages = (function () {
                 elementContainers[index].className = "display_none";
                 elementContainers[index - 1].className = "generic_template_element_container";
                 //Show next increment button after first decrement
-                document.getElementById("genericTemplateIncrement" + (index - 1)).className = "generic_template_increment";
+                document.getElementById("genericTemplateIncrement" + (index - 1) + randomIDValue).className = "generic_template_increment";
                 //Hide Decrement button when viewing first item
                 if (index === 0) {
-                    document.getElementById("genericTemplateDecrement" + (index - 1)).className = "visibility_hidden";
+                    document.getElementById("genericTemplateDecrement" + (index - 1) + randomIDValue).className = "visibility_hidden";
                 }
             });
         }
@@ -270,6 +270,10 @@ var RichMessages = (function () {
         var genericContainer = document.createElement("div");
         genericContainer.className = "generic_template_container";
         var elementContainers = [];
+
+        // Create a randomIDValue to assign to carouselButtons so they are unique per gallery template
+        var randomIDValue = Date.now().toString();
+
         this.findElements().forEach(function (element, index) {
             var elementContainer = document.createElement("div");
             elementContainers.push(elementContainer);
@@ -288,7 +292,7 @@ var RichMessages = (function () {
             //appendChild carousel mode if there are several elements
             if (_this.findElements().length > 1) {
                 elementContainer.className = "display_none";
-                var carouselButtonsContainer = _this.carouselButtons(elementContainers, index);
+                var carouselButtonsContainer = _this.carouselButtons(elementContainers, index, randomIDValue);
                 elementContainer.appendChild(carouselButtonsContainer);
             }
   
