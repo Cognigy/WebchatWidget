@@ -1,351 +1,553 @@
-    "use strict";
+import Cognigy from "./web-client-source.js";
+import { Helpers } from "./helpers.js";
+import { BrowserDetect } from "./browserDetect.js";
+import main_css from './index.css';
+import rich_message_css from './rich_message_style.css';
+import custom_color_css from './custom_colors.css';
+import center_webchat_css from './center_webchat.css';
+main_css.use();
+rich_message_css.use();
+custom_color_css.use();
+BrowserDetect.init();
 
-    //Function to create html elements
-    var createElement = function createElement(type, className, id) {
-      var element = document.createElement(type);
-      element.className = className;
-      if (id) {
-      element.id = id;
-      }
+const defaultOptions = {
+    resetContext: true,
+	resetState: true,
+	enableTTS: false,
+	enableSTT: false,
+	enableFileUpload: false,
+	user: Date.now(),
+	centered: true
+}
 
-      return element;
-    };
-    var mainChatElement = document.getElementById("cognigy");
-    var outerContainer = createElement("div", "cognigy-outer-container__closed", "cognigy-outer-container");
-    var toggleChatState = createElement("div", "cognigy-chat-state-closed", "cognigy-toggle-state");
-    toggleChatState.onclick = handleChatOpen;
-    mainChatElement.appendChild(outerContainer);
-    mainChatElement.appendChild(toggleChatState);
+/* This function inits the CognigyClient connection */
+const init = function init(userOptions) {
+	/**
+	 * 1. Add polyfill for map function. This is required for compatibility with IE
+	 */
+	if (!Array.prototype.map) {
+		Array.prototype.map = mapPolyfill;
+	}
 
-    //Create standard header with text
-    var headerContainer = createElement("div", "cognigy-chat-header-container__open", "cognigy-header");
-    var header = createElement("div", "cognigy-chat-header");
+	/**
+	 * 2. We build the HTML required for the webchat
+	 */
+	buildHTMLDocument();
 
-    //Create header title and subtitle
-    var headerText = createElement("div", "cognigy-header-text");
-    var headerTitle = createElement("span", "cognigy-header-title");
-    var headerSubtitle = createElement("span", "cognigy-header-subtitle");
-    headerTitle.appendChild(document.createTextNode("Chat"));
-    headerSubtitle.appendChild(document.createTextNode("Online"));
-    headerText.appendChild(headerTitle);
-    headerText.appendChild(headerSubtitle);
+	/**
+	 * 3. We initialize logos, colors and so on based on the user options
+	 */
 
-    //Create bot avatar with Cognigy logo and append to header
-    var avatar = createElement("img", "cognigy-header-avatar");
-    avatar.src = "./images/cognigy_avatar.svg";
-    avatar.id = "cognigyHeaderLogo";
-    header.appendChild(avatar);
+	/* Create options object based on userOptions and defaultOptions */
+	const options = Object.assign({}, defaultOptions, userOptions);
 
-    // Close button for header on mobile
-    var headerMobileClose = createElement("div", "displayNone", "cognigy-toggle-state-mobile");
-    headerMobileClose.onclick = handleChatOpen;
+	/* URL to use for file uploads and message logos. */
+	let fileUploadUrl = null;
+	const messageLogoUrl = options.messageLogoUrl;
+	let recording = false;
 
-    header.appendChild(headerText);
-    header.appendChild(headerMobileClose);
-    headerContainer.appendChild(header);
-    outerContainer.appendChild(headerContainer);
+	/* Check whether we can load the header logo. */
+	var img = new Image();
+	img.onload = function() {
+		var headerLogo = document.getElementById("cognigyHeaderLogo");
+		headerLogo.src = options.headerLogoUrl;
+	}
+	img.src = options.headerLogoUrl;
 
-    /** 
-     * The first character in window.location.search is the "?". Remove it and put parameters in an array. 
-     * Then store all parameters in an object (so ?q=test becomes { q: test }) 
-     */ 
-    var urlParameters = {}
-    window.location.search.slice(1).split("&")
-      .map(function(parameter) {
-        var key = parameter.substr(0, parameter.indexOf("="));
-        var value = parameter.substr(parameter.indexOf("=") + 1);
-        urlParameters[key] = value;
-      });
+	/* Check whether we can load the background image */
+	var img = new Image();
+	img.onload = function() {
+		var body = document.getElementsByTagName("body")[0];
+		body.style.backgroundImage = "url(" + options.backgroundImage + ")";
+	}; 
+	img.src = options.backgroundImage;
+
+	/* Check whether we have a custom color scheme defined and whether we don't use IE */
+	if (options.colorScheme && BrowserDetect.browser !== "MSIE") {
+		document.documentElement.style.setProperty("--color", options.colorScheme);
+		var link = document.createElement("link");
+
+		link.rel = "stylesheet";
+		link.type = "text/css";
+		link.href = custom_color_css;
+
+		document.head.appendChild(link);
+	}
+
+	/* Check whether whether the webchat should be centered */
+	if (options.centered) {
+		center_webchat_css.use();
+	}
+
+	/* Create functiont to read cognigyMessages */
+	let readCognigyMessage;
+	if (options.enableTTS) {
+		readCognigyMessage = function(message) {
+			if (client && client.isConnected() && message) {
+				console.log(message)
+				client.say(message);
+			}
+		}
+	} else {
+		readCognigyMessage = function() {
+			return;
+		}
+	}
+
+	/**
+	 * 4. We initialize the CognigyClient
+	 */
+
+	/* Function to call on output from Cognigy AI */
+	options.handleOutput = function(output) {
+        /* Check whether we have received a url to use for file uploads */
+        if (output.data && output.data.fileUploadUrl) {
+            fileUploadUrl = output.data.fileUploadUrl;
+        }
+
+		/* Display the cognigy message */
+		Helpers.displayCognigyMessage(output, messageLogoUrl, readCognigyMessage, handleCognigyMessage);
+		
+	}
+
+	const client = new Cognigy.CognigyWebClient(options);
+
+	client.connect()
+	.catch(function(error) {
+			alert("Error connecting. Please check your connection parameters.");
+			console.log(error);
+	});
+
+	/**
+	 * 5. We initialize functionality for recordings, fileUploads, postBack buttons etc.
+	 */
+
+	//Function used by postback buttons
+	const handleCognigyMessage = function(message) {
+		if (client && client.isConnected() && message) {
+			const inputValue = document.getElementById("cognigy-input").textContent
+			document.getElementById("cognigy-input").textContent = "";
+			if (message) {
+				client.sendMessage(message, { 
+					"browser": {
+						"browser": BrowserDetect.browser,
+						"version": BrowserDetect.version
+					 }
+				});
+			} else {
+				client.sendMessage(inputValue, { 
+					"browser": {
+						"browser": BrowserDetect.browser,
+						"version": BrowserDetect.version
+					 }
+				});
+			}
+		}
+	}
+
+	/* Get Started button functionality */
+	const getStartedButton = document.getElementById("cognigy-get-started-button");
+
+	/* Check whether we have options to define chat text */
+	let getStartedText;
+	if (options && options.getStartedText) {
+		getStartedText = options.getStartedText;
+	} else {
+		getStartedText = "Get Started";
+	}
+
+	/* Check whether we have options to define postback text */
+	let getStartedPostback;
+	if (options && options.getStartedPostback) {
+		getStartedPostback = options.getStartedPostback;
+	} else {
+		getStartedPostback = "GET_STARTED";
+	}
+
+	getStartedButton.onclick = function() {
+		Helpers.handleGetStartedButton(getStartedText, getStartedPostback, handleCognigyMessage);
+	}
+
+	// Recording functionality
+	const enableSTT = document.getElementById("cognigy-record");
+
+	if (client && client.isConnected) {
+		if (enableSTT !== null) {
+			enableSTT.onclick = function () {
+				recording = !recording;
+
+				enableSTT.style.backgroundImage = (recording) ? "url(https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic-animate.gif)" : "url(https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic.gif)";
+
+				if (recording) {
+					var beep = new Audio("https://www.freesound.org/data/previews/259/259703_4486188-lq.mp3");
+					beep.play();
+				}
+
+				client.toggleRec();
+			}
+		}
+
+		client.registerOnRecEnd( function(transcript) {
+			Helpers.handleDisplayRecording(transcript)
+			client.sendMessage(transcript, { 
+				"browser": {
+					"browser": BrowserDetect.browser,
+					"version": BrowserDetect.version
+				 }
+			});
+			console.log("what you said was: ", transcript);
+		})
+	}
+
+	// listen on form submit event and use handleCognigyMessage function
+	const formElement = document.getElementById("cognigy-form");
+
+	formElement.addEventListener("submit", function() {
+		if (client && client.isConnected()) {
+			var inputValue = document.getElementById("cognigy-input").textContent
+			document.getElementById("cognigy-input").textContent = "";
+
+			client.sendMessage(inputValue, { 
+				"browser": {
+					"browser": BrowserDetect.browser,
+					"version": BrowserDetect.version
+				 }
+			});
+		}
+	}, false);
+
+	/* Add eventListener to messages from popups (fbextensions) */
+	window.addEventListener("message", receiveMessage, false);
+
+	/* If we receive a message event, display the message and send it to Cognigy */
+	function receiveMessage(event) {
+		Helpers.handleDisplayPostbackMessage(event.data);
+		handleCognigyMessage(event.data);
+	}
+
+	/* Handle file uploads. This requires that Cognigy sends us a file upload url in a data object */
+	document.getElementById('cognigy-file-upload-form')
+		.addEventListener("submit", function(e) {
+			if(e)
+				e.preventDefault()
+
+			/* Check whether we have received a file upload url from Cognigy at some point */
+			if (!fileUploadUrl) {
+				console.error("Sorry, no file upload was specified. Cannot complete file upload");
+				return;
+			}
+
+			var files = document.getElementById("cognigy-file-upload-input").files;
+			var data = new FormData();
+			var fileNames = [];
+
+			/* Loop through the files, append the files to FormData and print the file names in the chat */
+			Array.prototype.map.call(files, function(file) {
+				data.append("file", file, file.name);
+				fileNames.push(file.name);
+				Helpers.handleDisplayPostbackMessage(file.name); 
+			})
+
+			var request = new XMLHttpRequest();
+
+			/* Send message back to Cognigy when we get a response from the server */
+			request.onreadystatechange = function() {
+				if(request.readyState === XMLHttpRequest.DONE && request.status === 200) {
+					client.sendMessage("File upload completed", {
+						event: "FileUpload",
+						fileUpload: {
+							fileNames: fileNames,
+							statusCode: request.status,
+							event: "fileUploadCompleted"
+						},
+						browser: {
+							"browser": BrowserDetect.browser,
+							"version": BrowserDetect.version
+						}
+					})
+				} else if (request.status >= 400) {
+					client.sendMessage(null, {
+						event: "FileUploadError",
+						fileUpload: {
+							fileNames: fileNames,
+							statusCode: request.status,
+							event: "fileUploadError"
+						},
+						browser: {
+							"browser": BrowserDetect.browser,
+							"version": BrowserDetect.version
+						}
+					})
+				}
+			}
+
+			request.open("POST", fileUploadUrl);
+			request.send(data);
+	})
+}
+
+const buildHTMLDocument = () => {
+	/* Start by creating main div and inserting it in the body */
+	const mainCognigyDiv = Helpers.createElement("div", "cognigy-web-chat", "cognigy");
+	const body = document.getElementsByTagName("body")[0];
+	body.appendChild(mainCognigyDiv);
+
+	//Function to create html elements
+	var mainChatElement = document.getElementById("cognigy");
+	var outerContainer = Helpers.createElement("div", "cognigy-outer-container__closed", "cognigy-outer-container");
+	var toggleChatState = Helpers.createElement("div", "cognigy-chat-state-closed", "cognigy-toggle-state");
+	toggleChatState.onclick = Helpers.handleChatOpen;
+	mainChatElement.appendChild(outerContainer);
+	mainChatElement.appendChild(toggleChatState);
+
+	//Create standard header with text
+	var headerContainer = Helpers.createElement("div", "cognigy-chat-header-container__open", "cognigy-header");
+	var header = Helpers.createElement("div", "cognigy-chat-header");
+
+	//Create header title and subtitle
+	var headerText = Helpers.createElement("div", "cognigy-header-text");
+	var headerTitle = Helpers.createElement("span", "cognigy-header-title");
+	var headerSubtitle = Helpers.createElement("span", "cognigy-header-subtitle");
+	headerTitle.appendChild(document.createTextNode("Chat"));
+	headerSubtitle.appendChild(document.createTextNode("Online"));
+	headerText.appendChild(headerTitle);
+	headerText.appendChild(headerSubtitle);
+
+	//Create bot avatar with Cognigy logo and append to header
+	var avatar = Helpers.createElement("img", "cognigy-header-avatar");
+	avatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/cognigy_avatar.svg";
+	avatar.id = "cognigyHeaderLogo";
+	header.appendChild(avatar);
+
+	// Close button for header on mobile
+	var headerMobileClose = Helpers.createElement("div", "displayNone", "cognigy-toggle-state-mobile");
+	headerMobileClose.onclick = Helpers.handleChatOpen;
+
+	header.appendChild(headerText);
+	header.appendChild(headerMobileClose);
+	headerContainer.appendChild(header);
+	outerContainer.appendChild(headerContainer);
+
+	//Create chatContainer
+	var chatContainer = Helpers.createElement("div", "cognigy-chat-container", "cognigy-container");
+	outerContainer.appendChild(chatContainer);
+
+	var getStartedButton = Helpers.createElement("button", "cognigy-get-started-button", "cognigy-get-started-button");
+	
+	var getStartedButtonTitle = document.createTextNode("GET STARTED");
+	getStartedButton.appendChild(getStartedButtonTitle);
+
+	outerContainer.appendChild(getStartedButton);
+
+	//Create chatForm with input, send button, record button and record toggle button
+	var chatForm = Helpers.createElement("form", "displayNone", "cognigy-form");
+	outerContainer.appendChild(chatForm);
+
+	var chatInput = Helpers.createElement("div", "cognigy-chat-input", "cognigy-input");
+	chatInput.setAttribute("data-text", "Write a reply");
+	chatInput.contentEditable = true;
+	chatInput.returnKeyType = "Send";
+
+	// Send message on enter and not on shift + enter
+	//IE 11 polyfill for events
+	(function () {
+
+		if (typeof window.CustomEvent === "function") return false;
+
+		function CustomEvent(event, params) {
+		params = params || { bubbles: false, cancelable: false, detail: undefined };
+		var evt = document.createEvent('CustomEvent');
+		evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+		return evt;
+		}
+
+		CustomEvent.prototype = window.Event.prototype;
+
+		window.CustomEvent = CustomEvent;
+	})();
+
+	var messageEvent = new CustomEvent('submit', { cancelable: true });
+	chatInput.onkeydown = function (e) {
+		e.keyCode === 13 && !e.shiftKey ? function () {
+		if (e)
+			e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+		document.getElementById('cognigy-form').dispatchEvent(messageEvent);
+		}() : null;
+	};
+	chatForm.appendChild(chatInput);
+
+	var chatButton = Helpers.createElement("button", "cognigy-chat-button", "cognigy-button");
+	var sendAvatar = Helpers.createElement("img", "cognigy-send-icon");
+	sendAvatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/send.svg";
+	chatButton.appendChild(sendAvatar);
+	chatForm.appendChild(chatButton);
+
+	var recordToggleButton = Helpers.createElement("button", "cognigy-record-toggle-button", "cognigy-record-toggle");
+	recordToggleButton.onclick = function () {
+		handleRecordToggle();
+	};
+
+	recordToggleButton.type = "button";
+	var recordToggleAvatar = Helpers.createElement("img", "displayNone");
+
+	if (options && options.enableSTT) {
+		recordToggleAvatar.className = "cognigy-record-toggle-icon";
+	}
+
+	recordToggleAvatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic_on.svg";
+	recordToggleButton.appendChild(recordToggleAvatar);
+	chatForm.appendChild(recordToggleButton);
+
+	var enableSTT = Helpers.createElement("button", "displayNone", "cognigy-record");
+	enableSTT.type = "button";
+	chatForm.insertBefore(enableSTT, recordToggleButton);
+
+	/* This input will be hidden, so users see the button instead */
+	var fileUploadInput = Helpers.createElement("input", "cognigy-file-upload-input", "cognigy-file-upload-input");
+	fileUploadInput.type = "file";
+	fileUploadInput.multiple = "true";
+	fileUploadInput.onchange = function() {
+		document.getElementById('cognigy-file-upload-form').dispatchEvent(messageEvent);
+	}
+
+	var fileUploadForm = Helpers.createElement("form", "displayNone", "cognigy-file-upload-form");
+	fileUploadForm.enctype = "multipart/form-data"
+	fileUploadForm.appendChild(fileUploadInput);
+
+	chatForm.appendChild(fileUploadForm);
+
+	var fileUploadButton = Helpers.createElement("button", "displayNone", "cognigy-file-upload-button");
+
+	fileUploadButton.type = "button";
+	var fileUploadAvatar = Helpers.createElement("img", "cognigy-file-upload-icon");
+	fileUploadAvatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/file_upload.svg";
+	fileUploadButton.appendChild(fileUploadAvatar);
+	chatForm.appendChild(fileUploadButton);
+
+	if (options && options.fileUpload && options.enableSTT) {
+		fileUploadForm.className = "cognigy-file-upload-form";
+		fileUploadButton.className = "cognigy-file-upload-button";
+	} else if (options && options.fileUpload && !options.enableSTT) {
+		fileUploadForm.className = "cognigy-file-upload-form";
+		fileUploadButton.className = "cognigy-file-upload-button-no-record-button";
+		fileUploadInput.className = "cognigy-file-upload-input-no-record-button";
+	}
+
+	var recordToggled = false;
+	function handleRecordToggle() {
+		recordToggled = !recordToggled;
+
+		if (recordToggled) {
+		recordToggleAvatar.src = 'https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic_off.svg';
+		//Change input to mic button
+		chatInput.className = "displayNone";
+		chatForm.style.justifyContent = "center";
+		enableSTT.className = "cognigy-record-button";
+		} else {
+		//Change from mic button to text input
+		recordToggleAvatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic_on.svg";
+		enableSTT.className = "displayNone";
+		chatInput.className = "cognigy-chat-input";
+		chatForm.style.justifyContent = "space-between";
+		}
+	}
 
 
-    //Create chatContainer
-    var chatContainer = createElement("div", "cognigy-chat-container", "cognigy-container");
-    outerContainer.appendChild(chatContainer);
+	//Add event listener for form submit event
+	var formElement = document.getElementById("cognigy-form");
+	formElement.addEventListener("submit", function (event) {
+	if (event)
+	event.preventDefault ? event.preventDefault() : (event.returnValue = false);
+	Helpers.handleSendMessage(event);
+	}, false);
+}
 
-    var getStartedButton = createElement("button", "cognigy-get-started-button", "cognigy-get-started-button");
+const mapPolyfill= function mapPolyfill() {
+	// Production steps of ECMA-262, Edition 5, 15.4.4.19
+	// Reference: http://es5.github.io/#x15.4.4.19
+	var T, A, k;
 
-    /* Check whether we have urlParameters to define text */
-    if (urlParameters && urlParameters.getStartedText) {
-      var getStartedText = decodeURI(urlParameters.getStartedText);
-    } else {
-      var getStartedText = "Get Started";
-    }
+	if (this == null) {
+		throw new TypeError('this is null or not defined');
+	}
 
-    /* Check whether we have urlParamerts to define postback text */
-    if (urlParameters && urlParameters.getStartedPostback) {
-      var getStartedPostback = urlParameters.getStartedPostback;
-    } else {
-      var getStartedPostback = "GET_STARTED";
-    }
+	// 1. Let O be the result of calling ToObject passing the |this| 
+	//    value as the argument.
+	var O = Object(this);
 
-    var getStartedButtonTitle = document.createTextNode("GET STARTED");
-    getStartedButton.appendChild(getStartedButtonTitle);
+	// 2. Let lenValue be the result of calling the Get internal 
+	//    method of O with the argument "length".
+	// 3. Let len be ToUint32(lenValue).
+	var len = O.length >>> 0;
 
-    getStartedButton.onclick = function() {
-      handleGetStartedButton(getStartedText, getStartedPostback);
-    }
+	// 4. If IsCallable(callback) is false, throw a TypeError exception.
+	// See: http://es5.github.com/#x9.11
+	if (typeof callback !== 'function') {
+		throw new TypeError(callback + ' is not a function');
+	}
 
-    outerContainer.appendChild(getStartedButton);
+	// 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
+	if (arguments.length > 1) {
+		T = arguments[1];
+	}
 
-    //Create chatForm with input, send button, record button and record toggle button
-    var chatForm = createElement("form", "displayNone", "cognigy-form");
-    outerContainer.appendChild(chatForm);
+	// 6. Let A be a new array created as if by the expression new Array(len) 
+	//    where Array is the standard built-in constructor with that name and 
+	//    len is the value of len.
+	A = new Array(len);
 
-    var chatInput = createElement("div", "cognigy-chat-input", "cognigy-input");
-    chatInput.setAttribute("data-text", "Write a reply");
-    chatInput.contentEditable = true;
-    chatInput.returnKeyType = "Send";
+	// 7. Let k be 0
+	k = 0;
 
-    // Send message on enter and not on shift + enter
-    //IE 11 polyfill for events
-    (function () {
+	// 8. Repeat, while k < len
+	while (k < len) {
 
-      if (typeof window.CustomEvent === "function") return false;
+		var kValue, mappedValue;
 
-      function CustomEvent(event, params) {
-      params = params || { bubbles: false, cancelable: false, detail: undefined };
-      var evt = document.createEvent('CustomEvent');
-      evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-      return evt;
-      }
+		// a. Let Pk be ToString(k).
+		//   This is implicit for LHS operands of the in operator
+		// b. Let kPresent be the result of calling the HasProperty internal 
+		//    method of O with argument Pk.
+		//   This step can be combined with c
+		// c. If kPresent is true, then
+		if (k in O) {
 
-      CustomEvent.prototype = window.Event.prototype;
+		// i. Let kValue be the result of calling the Get internal 
+		//    method of O with argument Pk.
+		kValue = O[k];
 
-      window.CustomEvent = CustomEvent;
-    })();
+		// ii. Let mappedValue be the result of calling the Call internal 
+		//     method of callback with T as the this value and argument 
+		//     list containing kValue, k, and O.
+		mappedValue = callback.call(T, kValue, k, O);
 
-    var messageEvent = new CustomEvent('submit', { cancelable: true });
-    chatInput.onkeydown = function (e) {
-      e.keyCode === 13 && !e.shiftKey ? function () {
-        if (e)
-          e.preventDefault ? e.preventDefault() : (e.returnValue = false);
-        document.getElementById('cognigy-form').dispatchEvent(messageEvent);
-      }() : null;
-    };
-    chatForm.appendChild(chatInput);
+		// iii. Call the DefineOwnProperty internal method of A with arguments
+		// Pk, Property Descriptor
+		// { Value: mappedValue,
+		//   Writable: true,
+		//   Enumerable: true,
+		//   Configurable: true },
+		// and false.
 
-    var chatButton = createElement("button", "cognigy-chat-button", "cognigy-button");
-    var sendAvatar = createElement("img", "cognigy-send-icon");
-    sendAvatar.src = "./images/send.svg";
-    chatButton.appendChild(sendAvatar);
-    chatForm.appendChild(chatButton);
+		// In browsers that support Object.defineProperty, use the following:
+		// Object.defineProperty(A, k, {
+		//   value: mappedValue,
+		//   writable: true,
+		//   enumerable: true,
+		//   configurable: true
+		// });
 
-    var recordToggleButton = createElement("button", "cognigy-record-toggle-button", "cognigy-record-toggle");
-    recordToggleButton.onclick = function () {
-      handleRecordToggle();
-    };
+		// For best browser support, use the following:
+		A[k] = mappedValue;
+		}
+		// d. Increase k by 1.
+		k++;
+	}
 
-    recordToggleButton.type = "button";
-    var recordToggleAvatar = createElement("img", "displayNone");
+	// 9. return A
+	return A;
+} 
 
-    if (urlParameters && urlParameters.recordButton) {
-      recordToggleAvatar.className = "cognigy-record-toggle-icon";
-    }
-
-    recordToggleAvatar.src = "./images/mic_on.svg";
-    recordToggleButton.appendChild(recordToggleAvatar);
-    chatForm.appendChild(recordToggleButton);
-
-    var recordButton = createElement("button", "displayNone", "cognigy-record");
-    recordButton.type = "button";
-    chatForm.insertBefore(recordButton, recordToggleButton);
-
-    /* This input will be hidden, so users see the button instead */
-    var fileUploadInput = createElement("input", "cognigy-file-upload-input", "cognigy-file-upload-input");
-    fileUploadInput.type = "file";
-    fileUploadInput.multiple = "true";
-    fileUploadInput.onchange = function() {
-      document.getElementById('cognigy-file-upload-form').dispatchEvent(messageEvent);
-    }
-
-    var fileUploadForm = createElement("form", "displayNone", "cognigy-file-upload-form");
-    fileUploadForm.enctype = "multipart/form-data"
-    fileUploadForm.appendChild(fileUploadInput);
-
-    chatForm.appendChild(fileUploadForm);
-
-    var fileUploadButton = createElement("button", "displayNone", "cognigy-file-upload-button");
-
-    fileUploadButton.type = "button";
-    var fileUploadAvatar = createElement("img", "cognigy-file-upload-icon");
-    fileUploadAvatar.src = "./images/file_upload.svg";
-    fileUploadButton.appendChild(fileUploadAvatar);
-    chatForm.appendChild(fileUploadButton);
-
-    if (urlParameters && urlParameters.fileUpload && urlParameters.recordButton) {
-      fileUploadForm.className = "cognigy-file-upload-form";
-      fileUploadButton.className = "cognigy-file-upload-button";
-    } else if (urlParameters && urlParameters.fileUpload && !urlParameters.recordButton) {
-      fileUploadForm.className = "cognigy-file-upload-form";
-      fileUploadButton.className = "cognigy-file-upload-button-no-record-button";
-      fileUploadInput.className = "cognigy-file-upload-input-no-record-button";
-    }
-
-    var recordToggled = false;
-    function handleRecordToggle() {
-      recordToggled = !recordToggled;
-
-      if (recordToggled) {
-        recordToggleAvatar.src = './images/mic_off.svg';
-        //Change input to mic button
-        chatInput.className = "displayNone";
-        chatForm.style.justifyContent = "center";
-        recordButton.className = "cognigy-record-button";
-      } else {
-        //Change from mic button to text input
-        recordToggleAvatar.src = "./images/mic_on.svg";
-        recordButton.className = "displayNone";
-        chatInput.className = "cognigy-chat-input";
-        chatForm.style.justifyContent = "space-between";
-      }
-    }
-
-    function handleChatOpen() {
-      var toggleChatState = document.getElementById("cognigy-toggle-state");
-      var toggleMobileChatState = document.getElementById("cognigy-toggle-state-mobile");
-      var chatContainer = document.getElementById("cognigy-outer-container");
-      var chatHeader = document.getElementById("cognigy-header");
-      if (toggleChatState.className === "cognigy-chat-state-closed") {
-      chatContainer.className = "cognigy-outer-container__open";
-      toggleChatState.className = "cognigy-chat-state-open";
-      toggleMobileChatState.className = "cognigy-mobile-close";
-      } else {
-      chatContainer.className = "cognigy-outer-container__closed";
-      toggleChatState.className = "cognigy-chat-state-closed";
-      toggleMobileChatState.className = "displayNone";
-      }
-    }
-
-    function handleSendMessage(e) {
-      if (e)
-        e.preventDefault ? e.preventDefault() : (e.returnValue = false);
-      //Get the value from input, then create two divs to store/display the message
-      var inputValue = document.getElementById("cognigy-input").innerHTML;
-      var replaceNonBreakableSpace = new RegExp(String.fromCharCode(160), "g"); 
-      inputValue = inputValue.replace(/<br>/g, "\n")
-        .replace(/&nbsp;/g, "");
-      var chatContainer = document.getElementById("cognigy-container");
-      var messageContainer = document.createElement("div");
-      var message = document.createElement("div");
-      var messageValue = document.createTextNode(inputValue);
-      message.className = "cognigy-chat-user-message";
-      messageContainer.className = "cognigy-chat-user-message-container";
-      message.appendChild(messageValue);
-      messageContainer.appendChild(message);
-
-      //Create user avatar and appendChild to message contanier
-      var avatar = document.createElement("img");
-      avatar.className = "cognigy-chat-user-avatar";
-      avatar.src = "./images/user_avatar.jpg";
-      messageContainer.appendChild(avatar);
-
-      chatContainer.appendChild(messageContainer);
-      //Keep scrollbar fixed at bottom when new messages are added
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    }
-
-    //Add event listener for form submit event
-    var formElement = document.getElementById("cognigy-form");
-    formElement.addEventListener("submit", function (event) {
-      if (event)
-        event.preventDefault ? event.preventDefault() : (event.returnValue = false);
-      handleSendMessage(event);
-    }, false);
-
-    function handleDisplayRecording(transcript) {
-      var chatContainer = document.getElementById("cognigy-container");
-      var messageContainer = document.createElement("div");
-      var message = document.createElement("div");
-      var messageValue = document.createTextNode(transcript);
-      message.className = "cognigy-chat-user-message";
-      messageContainer.className = "cognigy-chat-user-message-container";
-      message.appendChild(messageValue);
-      messageContainer.appendChild(message);
-
-      //Create user avatar and appendChild to message contanier
-      var avatar = document.createElement("img");
-      avatar.className = "cognigy-chat-user-avatar";
-      avatar.src = "./images/user_avatar.jpg";
-      messageContainer.appendChild(avatar);
-
-      chatContainer.appendChild(messageContainer);
-      //Keep scrollbar fixed at bottom when new messages are added
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    }
-
-    function handleDisplayPostbackMessage(text) {
-      var chatContainer = document.getElementById("cognigy-container");
-      var messageContainer = document.createElement("div");
-      var message = document.createElement("div");
-      var messageValue = document.createTextNode(text.replace(/&nbsp;/g, ""));
-      message.className = "cognigy-chat-user-message";
-      messageContainer.className = "cognigy-chat-user-message-container";
-      message.appendChild(messageValue);
-      messageContainer.appendChild(message);
-
-      //Create user avatar and append to message contanier
-      var avatar = document.createElement("img");
-      avatar.className = "cognigy-chat-user-avatar";
-      avatar.src = "./images/user_avatar.jpg";
-      messageContainer.appendChild(avatar);
-
-      chatContainer.appendChild(messageContainer);
-      //Keep scrollbar fixed at bottom when new messages are added
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    }
-
-    function displayCognigyMessage(answerFromCognigy, logoUrl) {
-      if (!answerFromCognigy || answerFromCognigy.text === "") return null;
-      var cognigyAnswer = answerFromCognigy && answerFromCognigy.text;
-      var chatContainer = document.getElementById("cognigy-container");
-
-      //Display Facebook message if it is there. Otherwise display normal message
-      if (answerFromCognigy && answerFromCognigy.data && (answerFromCognigy.data.facebook || answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._facebook)) {
-        var renderRichMessage = new RichMessages(answerFromCognigy.data, chatContainer);
-        renderRichMessage.renderMessage();
-      } else if (typeof cognigyAnswer !== 'undefined') {
-        var messageContainer = document.createElement("div");
-        var message = document.createElement("div");
-        var messageValue = document.createTextNode(cognigyAnswer);
-
-        //Create bot avatar with Cognigy logo and append to message contanier
-        var _avatar = createElement("img", "cognigy-chat-bot-avatar");
-
-        /* If we can load the logo image, then we use it. Otherwise we use the Cognigy logo */
-        var img = new Image();
-        img.onload = function () {
-          _avatar.src = logoUrl;
-        };
-        img.onerror = function () {
-          _avatar.src = "./images/cognigy_logo.svg";
-        };
-        img.src = logoUrl;
-
-        messageContainer.appendChild(_avatar);
-
-        // appendChild message to UI
-        message.className = "cognigy-chat-bot-message";
-        messageContainer.className = "cognigy-chat-bot-message-container";
-        message.appendChild(messageValue);
-        messageContainer.appendChild(message);
-
-        chatContainer.appendChild(messageContainer);
-
-        /* Read message */
-        readCognigyMessage(cognigyAnswer);
-      }
-
-      //Keep scrollbar fixed at bottom when new messages are added
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    }
-
-    /* Function to handle the getStartedButton */
-    function handleGetStartedButton(getStartedText, getStartedPostback) {
-      /* Send getStarted text to Cognigy and display it in the webchat */
-      handleDisplayPostbackMessage(getStartedText);
-      handleCognigyMessage(getStartedPostback);
-
-      /* Display form and hide getStartedButton */
-      document.getElementById("cognigy-form").className = "cognigy-chat-form";
-      document.getElementById("cognigy-get-started-button").className = "displayNone";
-    }
+module.exports = {
+	init
+}

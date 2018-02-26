@@ -1,0 +1,21 @@
+:root {
+	--color: #333333;
+}
+
+/* Overwrite color scheme to custom colors defined in query parameter */
+.button_template_container, 
+.button,
+.list_template_element_button,
+.quick_reply {
+	color: var(--color);
+}
+
+/* Overwrite color scheme to custom colors defined in query parameter */
+.button_template_text,
+.cognigy-chat-state-closed,
+.cognigy-chat-state-open,
+.cognigy-chat-header-container,
+.cognigy-chat-header-container__open,
+.cognigy-chat-bot-message {
+	background-color: var(--color);
+}

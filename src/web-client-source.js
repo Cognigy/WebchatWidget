@@ -18872,3 +18872,7 @@ module.exports = __webpack_require__(146);
 /***/ })
 /******/ ]);
 //# sourceMappingURL=cognigy-web-client.js.map
+
+module.exports = {
+  CognigyWebClient: Cognigy.CognigyWebClient
+}

@@ -1,0 +1,75 @@
+/* This css documents overwrites some of the native styling on the webchat */
+.cognigy-outer-container__open, .cognigy-outer-container__closed {
+	display: -ms-flexbox;
+	-ms-flex-align: center;
+	-ms-flex-direction: column;
+	display: flex;
+	flex-direction: column;
+    box-shadow: 0px 5px 10px 6px #888888;
+	align-items: center;
+	border-radius: 10px;
+	font-family: Ubuntu, sans-serif;
+	height: 40rem;
+	width: 30rem;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transition: all .200s ease-out;
+	margin-top: -20rem;
+	margin-left: -15rem;
+	/* Make sure chat is always visible */
+	opacity: 1;
+}
+	
+	
+/* Styling for toggle chat state (we remove this in this demo) */
+.cognigy-chat-state-closed, .cognigy-chat-state-open {
+	display: none;
+}
+
+/* Cannot change font size on the body; Have to do it individually */
+.cognigy-header-title {
+	font-size: 16px;
+}
+
+.cognigy-chat-container {
+	font-size: 16px;
+}
+
+.cognigy-chat-input {
+	font-size: 16px;
+}
+
+.quick-reply {
+	font-size: 16px;
+}
+
+@media screen and (max-width: 700px) {
+	.cognigy-outer-container__open, .cognigy-outer-container__closed {
+	  width: 100% !important;
+	  height: 100% !important;
+	  margin: 0;
+	  border-radius: 0;
+	  /* Always keep the chat open on small screens */
+	  opacity: 1;
+	  top: unset !important;
+	  left: unset !important;
+	}
+}
+  
+@media only screen and (max-width: 700px) {
+	.cognigy-chat-state-closed, .cognigy-chat-state-open {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.cognigy-chat-header-container__open {
+	  border-radius: 0;
+	}
+}
+
+.cognigy-get-started-button {
+	height: 50px;
+	font-size: 14px;
+}
