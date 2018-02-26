@@ -16,8 +16,10 @@ const defaultOptions = {
 	enableTTS: false,
 	enableSTT: false,
 	enableFileUpload: false,
-	user: Date.now(),
-	centered: true
+	keepMarkup: true,
+	user: Date.now().toString(),
+	designTemplate: 1,
+	channel: "website"
 }
 
 /* This function inits the CognigyClient connection */
@@ -74,8 +76,8 @@ const init = function init(userOptions) {
 		document.head.appendChild(link);
 	}
 
-	/* Check whether whether the webchat should be centered */
-	if (options.centered) {
+	/* Check whether we should use displayTempalte 2 */
+	if (options.designTemplate === 2) {
 		center_webchat_css.use();
 	}
 
@@ -157,15 +159,15 @@ const init = function init(userOptions) {
 	}
 
 	/* Check whether we have options to define postback text */
-	let getStartedPostback;
-	if (options && options.getStartedPostback) {
-		getStartedPostback = options.getStartedPostback;
+	let getStartedPayload;
+	if (options && options.getStartedPayload) {
+		getStartedPayload = options.getStartedPayload;
 	} else {
-		getStartedPostback = "GET_STARTED";
+		getStartedPayload = "GET_STARTED";
 	}
 
 	getStartedButton.onclick = function() {
-		Helpers.handleGetStartedButton(getStartedText, getStartedPostback, handleCognigyMessage);
+		Helpers.handleGetStartedButton(getStartedText, getStartedPayload, handleCognigyMessage);
 	}
 
 	// Recording functionality
