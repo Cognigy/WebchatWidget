@@ -1,214 +1,69 @@
-# Cognigy Web Chat
+# Cognigy Webchat
 
-This repo contains a chat component which connects to the Cognigy brain, and which can be deployed easily on a website.
-
-## Note!
-
-Please note that video and audio files are currently not supported.
-
-## Image
-![Image of webchat](images/webchat.jpg)
+This repo contains a webchat that seemlessly integrates with your website and lets your users chat with your conversational assistant built with Cognigy AI.
 
 ## Usage
-To use the Cognigy Web Chat, simply:
-- Download/clone all the files to your project.
-- Add an empty div component with the class "cognigy-web-chat" and an id of "cognigy".
-- Add `<link rel="stylesheet" type="text/css" href="index.css">` and `<link rel="stylesheet" type="text/css" href="rich_message_style.css">`
-- At the bottom of the body tag (or at least after aforementioned div), insert these two scripts:
-  ```
-  <script src="cognigy-web-chat.js"></script>
-  <script src="cognigy-web-client.js"></script>
-  <script src="rich-messages.js"></script>
-  ```
-- Add the following script for minimal functionality:
+Integrating the Cognigy Webchat is as simple as inserting the following two scripts into the body of your HTML:
+
 ```
- <script>
+<script type="text/javascript" src="https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/latest/cognigyWebChat.js"></script>
+<script>
     const options = {
-        baseUrl: 'host',
-        user: 'username',
-        apikey: 'apikey',
-        channel: 'my-website',
-        flow: 'flow',
-        language: 'language',
-        resetContext: true,
-        resetState: true,
-        handleOutput: function(output) {
-            displayCognigyMessage(output);
-        }
+        baseUrl: "https://....",
+        ...someMoreOptions
     };
-    const inputValue = document.getElementById("cognigy-input").textContent;
-    //Reset input value
-    document.getElementById("cognigy-input").textContent = "";
-    const client = new Cognigy.CognigyWebClient(options);
 
-    client.connect()
-    .catch(function(error) {
-            console.log(error);
-    });
-
-    //Function used by postback buttons
-    const handleCognigyMessage = (message) => {
-        if (client && client.isConnected()) {
-            const inputValue = document.getElementById("cognigy-input").textContent;
-            document.getElementById("cognigy-input").textContent = "";
-            if (message) {
-                client.sendMessage(message, undefined);
-            } else {
-                client.sendMessage(inputValue, undefined);
-            }
-        }
-    }
-
-    // listen on form submit event and use handleCognigyMessage function
-    formElement.addEventListener("submit", () => {
-        if (client && client.isConnected()) {
-            const inputValue = document.getElementById("cognigy-input").textContent;
-            document.getElementById("cognigy-input").textContent = "";
-
-            client.sendMessage(inputValue, undefined);
-        }
-    }, false);
-
-    /* Add eventListener to messages from popups (fbextensions) */
-    window.addEventListener("message", receiveMessage, false);
-
-    /* If we receive a message event, display the message and send it to Cognigy */
-    function receiveMessage(event) {
-        handleDisplayPostbackMessage(event.data);
-        handleCognigyMessage(event.data);
-    }
+    Cognigy.init(options);
 </script>
 ```
 
- ## Example
+The first snippet loads a specific [version](#versioning) of the Cognigy Webchat, while the second snippet initializes the Cognigy Webchat based on your [options](#options). Please read about [versioning](#versioning) and the different [options](#options) before integrating this into your website.
 
-```
-<head>
-   <link rel="stylesheet" type="text/css" href="index.css">
-   <link rel="stylesheet" type="text/css" href="rich_message_style.css">
-</head>
-  
-<body>
-    <div class="cognigy-web-chat" id="cognigy"></div>
+## Options
+These are the following options you need to initialize the Cognigy Webchat:
 
-    <script src="cognigy-web-chat.js"></script>
-    <script src="cognigy-web-client.js"></script>
-    <script src="rich-messages.js"></script>
+| Name              | Type           | Default       | Required | Description
+| ------------      | ---------------| --------      | -------- | -----------
+| baseUrl           | string         |               | true     | This is the url to environment, e.g. "https://api-yourOrganisation....."
+| apikey            | string         |               | true     | This is the apikey to your env. You can find it in admin > settings in the UI console.
+| flow              | string         |               | true     | The name of the flow you wish to use in the webchat
+| user              | string         | Random user   |          | The username of the user that connects. We initialize the user randomly per default, but you should use a username to have access to the context on multiple visits.
+| channel           | string         | "website"     |          | You can access this parameter in the flow via ci.channel, and it is also used in our analytics. The default is "website", but you can change it if you e.g. have multiple websites.
+| getStartedText    | string         | "Get Started" |          | The text to display in the chat when clicking the GET_STARTED button on the webchat.
+| getStartedPayload | string         | "GET_STARTED" |            | The text to send to your flow when clicking the GET_STARTED button on the webchat.
+| messageLogoUrl    | string         |  Cognigy logo |          | The logo to display next to the messages from your bot in the webchat. Defaults to a Cognigy logo.
+| headerLogoUrl     | string         | Cognigy Logo  |          | The logo to display in the header of the webchat. Defaults to a Cognigy logo.
+| designTemplate    | string         | 1             |          | The webchat design template to use. We default to design template 1. Go [here](#design-templates) for more info.
+| colorScheme       | string         | #333333       |          | The background color of the header and bot messages in the webchat
+| enableSTT         | boolean        | false         |          | Whether to enable a microphone button that lets the user speak to the webchat instead of only typing.
+| enableTTS         | boolean        | false         |          | Whether to enable the browser to read the bot messages aloud.
+| resetContext      | boolean        | true          |          | Whether to reset the flow context on each conversation. We highly suggest keeping this value at true.
+| resetState        | boolean        | true          |          | Whether to reset the flow state on each converstation. We highly suggest keeping this value at true.
 
-    <script>
-        let recording = false;
-        const options = {
-            baseUrl: 'host',
-            user: 'username',
-            apikey: 'apikey',
-            channel: 'my-website',
-            flow: 'flow',
-            language: 'language',
-            resetContext: true,
-            resetState: true,
-            handleOutput: function(output) {
-                displayCognigyMessage(output);
-            }
-        };
-        const inputValue = document.getElementById("cognigy-input").textContent;
-        //Reset input value
-        document.getElementById("cognigy-input").textContent = "";
-        var client = new Cognigy.CognigyWebClient(options);
+## Versioning
+We deploy the webchat into specific version folders on our AWS s3 bucket. The baseUrl will always be: https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat, followed by a version name, followed by "cognigyWebChat.js". So release v1.0.0 of our webchat is at https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.0/cognigyWebChat.js. To see all relesases go [here](#releases).
 
-        client.connect()
-        .catch(function(error) {
-                console.log(error);
-        });
+We also keep our very latest webchat deployment as a "latest" release: https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/latest/cognigyWebChat.js. You can use this during development to make sure that you have all of the latest features and fixes, however this should not be used in a production website.
 
-        //Function used by postback buttons
-        const handleCognigyMessage = (message) => {
-            if (client && client.isConnected()) {
-                var inputValue = document.getElementById("cognigy-input").textContent;
-                document.getElementById("cognigy-input").textContent = "";
-                if (message) {
-                    client.sendMessage(message, undefined);
-                } else {
-                    client.sendMessage(inputValue, undefined);
-                }
-            }
-        }
+## Design Templates
+Here at Cognigy, we focus a lot on building conversations, but we are not limited to only building your dialogues - we want to build entire conversational experiences that range from the inner workings of the chatbot to the integration on your website. That is why we have built these design templates that let you experience how you can make conversations a natural and integrated part of your websites. We currently only have two design templates, but there are many more to come.
 
-    	if (client && client.isConnected) {
-			if (recordButton !== null) {
-				recordButton.onclick = function () {
-					recording = !recording;
+### Design Template 1
+Our first (and default) design template is the standard website chat that you often see in the lower right corner of websites:
 
-					recordButton.style.backgroundImage = (recording) ? "url(./images/mic-animate.gif)" : "url(./images/mic.gif)";
+![Design Template 1](src/images/webchat.jpg)
 
-					if (recording) {
-						var beep = new Audio("https://www.freesound.org/data/previews/259/259703_4486188-lq.mp3");
-						beep.play();
-					}
+This is a standard and safe place to put your webchat, and lets your user's communicate with the bot in a standard way.
 
-					client.toggleRec();
-				}
-			}
+### Design Template 2
+Our second design template looks like the first, however it is enlarged and centered on the page, enabling you to really put your conversational assistant in focus on your website, or to display the functionality to customers in a nice way.
 
-			client.registerOnRecEnd( transcript => {
-				handleDisplayRecording(transcript)
-				client.sendMessage(transcript, undefined);
-				console.log("what you said was: ", transcript);
-			})
-		}
+![Design Template 2](src/images/design_template_2.jpg)
 
-        // listen on form submit event and use handleCognigyMessage function
-        formElement.addEventListener("submit", () => {
-            if (client && client.isConnected()) {
-                const inputValue = document.getElementById("cognigy-input").textContent;
-                document.getElementById("cognigy-input").textContent = "";
+Note that the color is not unique to the design template, but something that you can freely choose in the colorScheme option in the [options](#options) object.
 
-                client.sendMessage(inputValue, undefined);
-            }
-        }, false);
+## Releases
+For a detailed list of changes in each release, please go to our [changelog](./changelog.md).
 
-        /* Add eventListener to messages from popups (fbextensions) */
-		window.addEventListener("message", receiveMessage, false);
-
-		/* If we receive a message event, display the message and send it to Cognigy */
-		function receiveMessage(event) {
-			handleDisplayPostbackMessage(event.data);
-			handleCognigyMessage(event.data);
-		}
-
-        /* Handle file uploads. This requires that Cognigy sends us a file upload url in a data object */
-        document.getElementById('cognigy-file-upload-form')
-            .addEventListener("submit", function(e) {
-                e.preventDefault()
-
-                /* Check whether we have received a file upload url from Cognigy at some point */
-                if (!fileUploadUrl) {
-                    console.error("Sorry, no file upload was specified. Cannot complete file upload");
-                    return;
-                }
-
-                var files = document.getElementById("cognigy-file-upload-input").files;
-                var data = new FormData();
-
-                /* Loop through the files, append the files to FormData and print the file names in the chat */
-                for (var file of files) {
-                    data.append("file", file, file.name);
-                    handleDisplayPostbackMessage(file.name); 
-                }
-
-                var request = new XMLHttpRequest();
-
-                /* Send message back to Cognigy when we get a response from the server */
-                request.onreadystatechange = function() {
-                    if(request.readyState === XMLHttpRequest.DONE && request.status === 200) {
-                        client.sendMessage("File upload completed", { event: "FileUpload" });
-                    } else if (request.status >= 400) {
-                        client.sendMessage(null, { event: "FileUploadError" });
-                    }
-                }
-
-                request.open("POST", fileUploadUrl);
-                request.send(data);
-            })
-    </script>
-</body>
- ```
+    - Latest: https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/latest/cognigyWebChat.js
+    - v1.0.0: https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.0/cognigyWebChat.js

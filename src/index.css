@@ -70,11 +70,11 @@ html {
 }
 
 .cognigy-chat-state-open {
-  background-image: url('./images/close.svg');
+  background-image: url('https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/close.svg');
 }
 
 .cognigy-chat-state-closed {
-  background-image: url('./images/chat_bubble.svg');  
+  background-image: url('https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/chat_bubble.svg');  
 }
 
 /*The header is comprised of an outer container which ensures that the
@@ -293,7 +293,7 @@ header content is only 90% of the total width of the chat box - just like the co
   display: flex;
   -webkit-box-align: center;
           align-items: center;
-  background-image: url('./images/mic.gif');
+  background-image: url('https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic.gif');
   background-position: center;
   background-repeat: no-repeat;
 }

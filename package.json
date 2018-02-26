@@ -1,0 +1,35 @@
+{
+  "name": "cognigywebchat",
+  "version": "1.0.0",
+  "description": "This repo contains a chat component which connects to the Cognigy brain, and which can be deployed easily on a website.",
+  "main": "cognigy-web-chat.js",
+  "scripts": {
+    "build": "webpack -p",
+    "build-unminified": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cognigy/CognigyWebChat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cognigy/CognigyWebChat/issues"
+  },
+  "homepage": "https://github.com/Cognigy/CognigyWebChat#readme",
+  "dependencies": {
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "babel-loader": "^8.0.0-beta.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2016": "^6.24.1",
+    "css-loader": "^0.28.10",
+    "style-loader": "^0.20.2",
+    "svg-url-loader": "^2.3.1",
+    "webpack": "^3.11.0"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "image-webpack-loader": "^4.1.0"
+  }
+}
