@@ -149,23 +149,59 @@
 
 
 .generic_template_container {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
     -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-        -ms-flex-direction: column-reverse;
-            flex-direction: column-reverse;
-    margin-right: 20px;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 10px;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    flex-direction: row;
+    overflow: hidden;
+    display: flex;
 }
 
 .generic_template_text_container {
     padding-left: 10px;
+    padding-left: 10px;
+    height: 160px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.generic_template_element_container {
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 10px;
+    width: 96%;
+    margin-right: 10;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+} 
+
+.generic_template_element_container_display_next_preview {
+    background: -webkit-linear-gradient(left, white, rgba(0, 0, 0, 0));
+    -webkit-mask-image: -webkit-linear-gradient(left, rgba(0,0,0,0.7), rgba(0, 0, 0, 0));
+    width: 75%;
+    flex-direction: column;
+    flex-grow: 0;
+    display: flex;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 10px;
+    height: fit-content;
+}
+
+.generic_template_element_container_display_previous_preview {
+    background: -webkit-linear-gradient(left, white, rgba(0, 0, 0, 0));
+    -webkit-mask-image: -webkit-linear-gradient(right, rgba(0,0,0,0.7), rgba(0, 0, 0, 0));
+    width: 75%;
+    flex-direction: column;
+    flex-grow: 0;
+    display: flex;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 10px;
+    margin-right: 10px;
+    height: fit-content;
 }
 
 .text_title {
@@ -317,6 +353,7 @@
     display: -ms-flexbox;
     display: flex;
     width: 100%;
+    height: 20px;
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;

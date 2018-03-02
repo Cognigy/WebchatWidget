@@ -225,7 +225,7 @@ var RichMessages = (function () {
         informationContainer.appendChild(information);
         return informationContainer;
     };
-    RichMessages.prototype.carouselButtons = function (elementContainers, index, randomIDValue) {
+    RichMessages.prototype.carouselButtons = function (parentElement, elementContainers, index, randomIDValue, avatar) {
         //Increment and decrement buttons
         var carouselButtonsContainer = document.createElement("div");
         carouselButtonsContainer.className = "generic_template_carousel_buttons_container";
@@ -240,22 +240,114 @@ var RichMessages = (function () {
         //Start off by displaying the first elementContainer
         var i = 0;
         if (this.findElements()) {
+            /* Show the first element */
             elementContainers[i].className = "generic_template_element_container";
+
+            /* Initialize genericTemplateMarginLeft to be 0 */
+            parentElement.style.marginLeft = 0;
+
+            /* Show preview of the next element */
+            if (elementContainers[i + 1]) {
+                /* Initialize width to be 150 % since we have two elements of 75 % */
+                parentElement.style.minWidth = "150%";
+                elementContainers[i + 1].className = "generic_template_element_container_display_next_preview";
+            } else {
+                /* Initialize width to be 75 % since we have one element of 75 % */
+                parentElement.style.minWidth = "75%";
+            }
+
             //Increment index from elementContainer when clicking button, thereby viewing next item
             increment.addEventListener('click', function () {
-                elementContainers[index].className = "display_none";
+                /* Show next element */
                 elementContainers[index + 1].className = "generic_template_element_container";
-                //Show decrement button after first increment
+
+                /* Hide Logo */
+                avatar.className = "displayNone";
+
+                /* Show preview of second gallery item in the row if exists */
+                if (elementContainers[index + 2]) {
+                    /* Set width to be 225 % since we have three elements of 75 % */
+                    parentElement.style.minWidth = "225%";
+                    elementContainers[index + 2].className = "generic_template_element_container_display_next_preview";
+
+                    /* Hide decrement arrow of next element */
+                    document.getElementById("genericTemplateDecrement" + (index + 2) + randomIDValue).className = "visibility_hidden";
+                } else {
+                    /* Set width to be 150 % since we have two elements of 75 % */
+                    parentElement.style.minWidth = "150%";
+                }
+
+                /* Find parent width and calculate margin values so there is an equal amount on both sides. The minus 6 is due to the scrollbar width */
+                const parentsParentWidth = parentElement.parentElement.clientWidth;
+                const genericTemplateMarginLeft = -((parentsParentWidth * 2.25 - parentsParentWidth) / 2) - 6;
+                
+                parentElement.style.marginLeft = genericTemplateMarginLeft;
+
+                /* Show preview of previous element */
+                elementContainers[index].className = "generic_template_element_container_display_previous_preview";
+
+                /* Hide increment arrow of previous element */
+                document.getElementById("genericTemplateIncrement" + (index) + randomIDValue).className = "visibility_hidden"
+
+                //Show decrement button on main element after first increment
                 document.getElementById("genericTemplateDecrement" + (index + 1) + randomIDValue).className = "generic_template_decrement";
-                //Hide next increment button when viewing last item
+
+                /* Remove second previous item */
+                if (elementContainers[index - 1]) {
+                    elementContainers[index - 1].className = "displayNone";
+                }
+
+                //Hide main element increment button when viewing last item
                 if (index === (elementContainers.length - 2)) {
                     document.getElementById("genericTemplateIncrement" + (index + 1) + randomIDValue).className = "visibility_hidden";
+
+                    /* Adjust margin on main element */
+                    elementContainers[index + 1].style.marginRight = 38;
+                } else {
+                    /* Adjust margin on next element */
+                    elementContainers[index + 1].style.marginRight = 10;
                 }
             });
+
             //Decrement index when clicking button, thereby viewing prevous item. Hidden to begin with
             decrement.addEventListener('click', function () {
-                elementContainers[index].className = "display_none";
                 elementContainers[index - 1].className = "generic_template_element_container";
+
+                /* Hide decrement arrow of next element */
+                document.getElementById("genericTemplateDecrement" + (index) + randomIDValue).className = "visibility_hidden";
+
+                /* Show preview of next element */
+                elementContainers[index].className = "generic_template_element_container_display_next_preview";
+
+                /* Adjust margin on next element */
+                elementContainers[index].style.marginRight = 0;
+
+                /* Find parent width and calculate margin values so there is an equal amount on both sides. The minus 6 is due to the scrollbar width */
+                const parentsParentWidth = parentElement.parentElement.clientWidth;
+                const genericTemplateMarginLeft = -((parentsParentWidth * 2.25 - parentsParentWidth) / 2) - 6;
+                
+                parentElement.style.marginLeft = genericTemplateMarginLeft;
+
+                /* Display previev of previous elemet if it exists and calculate width + margin */
+                if (elementContainers[index - 2]) {
+                    /* Set width to be 225 % since we have three elements of 75 % */
+                    parentElement.style.minWidth = "225%";
+                    elementContainers[index - 2].className = "generic_template_element_container_display_previous_preview"
+                } else {
+                    /* Set width to be 150 % since we have two elements of 75 % */
+                    parentElement.style.minWidth = "150%";
+
+                    /* Show logo again */
+                    avatar.className = "cognigy-chat-bot-avatar";
+
+                    /* Reset margin to 0 */
+                    parentElement.style.marginLeft = 0;
+                }
+
+                if (elementContainers[index + 1]) {
+                    elementContainers[index + 1].className = "displayNone";
+                }
+
                 //Show next increment button after first decrement
                 document.getElementById("genericTemplateIncrement" + (index - 1) + randomIDValue).className = "generic_template_increment";
                 //Hide Decrement button when viewing first item
@@ -269,7 +361,7 @@ var RichMessages = (function () {
     RichMessages.prototype.genericTemplate = function () {
         var _this = this;
         var messageInnerContainer = createElement("div", "cognigy-chat-bot-message-container");
-        this.createAvatar(messageInnerContainer);
+        const avatar = this.createAvatar(messageInnerContainer);
 
         //Render container for image, title and buttons
         var genericContainer = document.createElement("div");
@@ -289,16 +381,18 @@ var RichMessages = (function () {
             img.style.height = "200px";
             img.style.borderRadius = '10px 10px 0 0';
             elementContainer.appendChild(img);
-            //appendChild default action if specified
+            // default action if specified
             if (element.default_action) {
                 img.onclick = function () { return window.open(element.default_action.url); };
             }
 
-            //appendChild carousel mode if there are several elements
+            // carousel mode if there are several elements
             if (_this.findElements().length > 1) {
                 elementContainer.className = "display_none";
-                var carouselButtonsContainer = _this.carouselButtons(elementContainers, index, randomIDValue);
+                var carouselButtonsContainer = _this.carouselButtons(genericContainer, elementContainers, index, randomIDValue, avatar);
                 elementContainer.appendChild(carouselButtonsContainer);
+            } else {
+                elementContainer.className = "generic_template_element_container";
             }
   
             //Render container for title + subtitle
@@ -390,6 +484,8 @@ var RichMessages = (function () {
         img.src = this.messageLogoUrl;
 
         messageInnerContainer.appendChild(avatar);
+
+        return avatar;
     }
 
     RichMessages.prototype.renderMessage = function () {
