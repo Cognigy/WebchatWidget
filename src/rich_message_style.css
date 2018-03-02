@@ -169,7 +169,7 @@
     border: 1px solid rgba(0,0,0,.1);
     border-radius: 10px;
     width: 96%;
-    margin-right: 10;
+    margin-right: 10px;
     display: flex;
     flex-direction: column;
     height: fit-content;

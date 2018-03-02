@@ -15,7 +15,7 @@ const defaultOptions = {
 	resetState: true,
 	enableTTS: false,
 	enableSTT: false,
-	enableFileUpload: false,
+	fileUpload: false,
 	keepMarkup: true,
 	user: Date.now().toString(),
 	designTemplate: 1,
@@ -34,14 +34,15 @@ const init = function init(userOptions) {
 	/**
 	 * 2. We build the HTML required for the webchat
 	 */
-	buildHTMLDocument();
+
+	/* Create options object based on userOptions and defaultOptions */
+	const options = Object.assign({}, defaultOptions, userOptions);
+
+	buildHTMLDocument(options);
 
 	/**
 	 * 3. We initialize logos, colors and so on based on the user options
 	 */
-
-	/* Create options object based on userOptions and defaultOptions */
-	const options = Object.assign({}, defaultOptions, userOptions);
 
 	/* URL to use for file uploads and message logos. */
 	let fileUploadUrl = null;
@@ -55,14 +56,6 @@ const init = function init(userOptions) {
 		headerLogo.src = options.headerLogoUrl;
 	}
 	img.src = options.headerLogoUrl;
-
-	/* Check whether we can load the background image */
-	var img = new Image();
-	img.onload = function() {
-		var body = document.getElementsByTagName("body")[0];
-		body.style.backgroundImage = "url(" + options.backgroundImage + ")";
-	}; 
-	img.src = options.backgroundImage;
 
 	/* Check whether we have a custom color scheme defined and whether we don't use IE */
 	if (options.colorScheme && BrowserDetect.browser !== "MSIE") {
@@ -288,7 +281,7 @@ const init = function init(userOptions) {
 	})
 }
 
-const buildHTMLDocument = () => {
+const buildHTMLDocument = (options) => {
 	/* Start by creating main div and inserting it in the body */
 	const mainCognigyDiv = Helpers.createElement("div", "cognigy-web-chat", "cognigy");
 	const body = document.getElementsByTagName("body")[0];

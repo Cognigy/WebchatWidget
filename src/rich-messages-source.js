@@ -244,7 +244,7 @@ var RichMessages = (function () {
             elementContainers[i].className = "generic_template_element_container";
 
             /* Initialize genericTemplateMarginLeft to be 0 */
-            parentElement.style.marginLeft = 0;
+            parentElement.style.marginLeft = 0 + "px";
 
             /* Show preview of the next element */
             if (elementContainers[i + 1]) {
@@ -280,8 +280,7 @@ var RichMessages = (function () {
                 /* Find parent width and calculate margin values so there is an equal amount on both sides. The minus 6 is due to the scrollbar width */
                 const parentsParentWidth = parentElement.parentElement.clientWidth;
                 const genericTemplateMarginLeft = -((parentsParentWidth * 2.25 - parentsParentWidth) / 2) - 6;
-                
-                parentElement.style.marginLeft = genericTemplateMarginLeft;
+                parentElement.style.marginLeft = genericTemplateMarginLeft + "px";
 
                 /* Show preview of previous element */
                 elementContainers[index].className = "generic_template_element_container_display_previous_preview";
@@ -302,10 +301,10 @@ var RichMessages = (function () {
                     document.getElementById("genericTemplateIncrement" + (index + 1) + randomIDValue).className = "visibility_hidden";
 
                     /* Adjust margin on main element */
-                    elementContainers[index + 1].style.marginRight = 38;
+                    elementContainers[index + 1].style.marginRight = 38 + "px";
                 } else {
                     /* Adjust margin on next element */
-                    elementContainers[index + 1].style.marginRight = 10;
+                    elementContainers[index + 1].style.marginRight = 10 + "px";
                 }
             });
 
@@ -320,13 +319,13 @@ var RichMessages = (function () {
                 elementContainers[index].className = "generic_template_element_container_display_next_preview";
 
                 /* Adjust margin on next element */
-                elementContainers[index].style.marginRight = 0;
+                elementContainers[index].style.marginRight = 0 + "px";
 
                 /* Find parent width and calculate margin values so there is an equal amount on both sides. The minus 6 is due to the scrollbar width */
                 const parentsParentWidth = parentElement.parentElement.clientWidth;
                 const genericTemplateMarginLeft = -((parentsParentWidth * 2.25 - parentsParentWidth) / 2) - 6;
                 
-                parentElement.style.marginLeft = genericTemplateMarginLeft;
+                parentElement.style.marginLeft = genericTemplateMarginLeft + "px";
 
                 /* Display previev of previous elemet if it exists and calculate width + margin */
                 if (elementContainers[index - 2]) {
@@ -341,7 +340,7 @@ var RichMessages = (function () {
                     avatar.className = "cognigy-chat-bot-avatar";
 
                     /* Reset margin to 0 */
-                    parentElement.style.marginLeft = 0;
+                    parentElement.style.marginLeft = 0 + "px";
                 }
 
                 if (elementContainers[index + 1]) {
