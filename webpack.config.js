@@ -7,10 +7,20 @@ module.exports = {
     entry: './src/index.js',
     output: {
         // Webpack prefers an absolute path:
-        path: path.resolve(__dirname, './build'),
+        path: path.resolve(__dirname, '../demos/generic-webchat-demo/public'),
 		filename: 'cognigyWebChat.js',
 		library: 'Cognigy'
 	},
+	plugins: [
+		new webpack.ProvidePlugin({
+		  $: "jquery",
+		  jQuery: "jquery"
+		}),
+		new webpack.optimize.CommonsChunkPlugin({
+			children: true, 
+			minChunks: 6
+		  })
+	],
     module: {
 		rules: [
 				{

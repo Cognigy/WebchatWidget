@@ -1,3 +1,9 @@
+import * as slick from "./slick/slick.min.js";
+import slick_css from './slick/slick.css';
+import slick_theme_css from "./slick/slick-theme.css";
+slick_css.use();
+slick_theme_css.use();
+
 //This class renders several of Facebook's templates for rich media.
 var RichMessages = (function () {
     function RichMessages(messageData, messageContainer, readCognigyMessage, handleDisplayPostbackMessage, handleCognigyMessage, messageLogoUrl, displayCognigyMessage) {
@@ -240,119 +246,15 @@ var RichMessages = (function () {
         //Start off by displaying the first elementContainer
         var i = 0;
         if (this.findElements()) {
-            /* Show the first element */
-            elementContainers[i].className = "generic_template_element_container";
-
-            /* Initialize genericTemplateMarginLeft to be 0 */
-            parentElement.style.marginLeft = 0 + "px";
-
-            /* Show preview of the next element */
-            if (elementContainers[i + 1]) {
-                /* Initialize width to be 150 % since we have two elements of 75 % */
-                parentElement.style.minWidth = "150%";
-                elementContainers[i + 1].className = "generic_template_element_container_display_next_preview";
-            } else {
-                /* Initialize width to be 75 % since we have one element of 75 % */
-                parentElement.style.minWidth = "75%";
-            }
-
             //Increment index from elementContainer when clicking button, thereby viewing next item
             increment.addEventListener('click', function () {
-                /* Show next element */
-                elementContainers[index + 1].className = "generic_template_element_container";
-
-                /* Hide Logo */
-                avatar.className = "displayNone";
-
-                /* Show preview of second gallery item in the row if exists */
-                if (elementContainers[index + 2]) {
-                    /* Set width to be 225 % since we have three elements of 75 % */
-                    parentElement.style.minWidth = "225%";
-                    elementContainers[index + 2].className = "generic_template_element_container_display_next_preview";
-
-                    /* Hide decrement arrow of next element */
-                    document.getElementById("genericTemplateDecrement" + (index + 2) + randomIDValue).className = "visibility_hidden";
-                } else {
-                    /* Set width to be 150 % since we have two elements of 75 % */
-                    parentElement.style.minWidth = "150%";
-                }
-
-                /* Find parent width and calculate margin values so there is an equal amount on both sides. The minus 6 is due to the scrollbar width */
-                const parentsParentWidth = parentElement.parentElement.clientWidth;
-                const genericTemplateMarginLeft = -((parentsParentWidth * 2.25 - parentsParentWidth) / 2) - 6;
-                parentElement.style.marginLeft = genericTemplateMarginLeft + "px";
-
-                /* Show preview of previous element */
-                elementContainers[index].className = "generic_template_element_container_display_previous_preview";
-
-                /* Hide increment arrow of previous element */
-                document.getElementById("genericTemplateIncrement" + (index) + randomIDValue).className = "visibility_hidden"
-
-                //Show decrement button on main element after first increment
-                document.getElementById("genericTemplateDecrement" + (index + 1) + randomIDValue).className = "generic_template_decrement";
-
-                /* Remove second previous item */
-                if (elementContainers[index - 1]) {
-                    elementContainers[index - 1].className = "displayNone";
-                }
-
-                //Hide main element increment button when viewing last item
-                if (index === (elementContainers.length - 2)) {
-                    document.getElementById("genericTemplateIncrement" + (index + 1) + randomIDValue).className = "visibility_hidden";
-
-                    /* Adjust margin on main element */
-                    elementContainers[index + 1].style.marginRight = 38 + "px";
-                } else {
-                    /* Adjust margin on next element */
-                    elementContainers[index + 1].style.marginRight = 10 + "px";
-                }
+                $(parentElement).slick("slickNext");
+                
             });
 
             //Decrement index when clicking button, thereby viewing prevous item. Hidden to begin with
             decrement.addEventListener('click', function () {
-                elementContainers[index - 1].className = "generic_template_element_container";
-
-                /* Hide decrement arrow of next element */
-                document.getElementById("genericTemplateDecrement" + (index) + randomIDValue).className = "visibility_hidden";
-
-                /* Show preview of next element */
-                elementContainers[index].className = "generic_template_element_container_display_next_preview";
-
-                /* Adjust margin on next element */
-                elementContainers[index].style.marginRight = 0 + "px";
-
-                /* Find parent width and calculate margin values so there is an equal amount on both sides. The minus 6 is due to the scrollbar width */
-                const parentsParentWidth = parentElement.parentElement.clientWidth;
-                const genericTemplateMarginLeft = -((parentsParentWidth * 2.25 - parentsParentWidth) / 2) - 6;
-                
-                parentElement.style.marginLeft = genericTemplateMarginLeft + "px";
-
-                /* Display previev of previous elemet if it exists and calculate width + margin */
-                if (elementContainers[index - 2]) {
-                    /* Set width to be 225 % since we have three elements of 75 % */
-                    parentElement.style.minWidth = "225%";
-                    elementContainers[index - 2].className = "generic_template_element_container_display_previous_preview"
-                } else {
-                    /* Set width to be 150 % since we have two elements of 75 % */
-                    parentElement.style.minWidth = "150%";
-
-                    /* Show logo again */
-                    avatar.className = "cognigy-chat-bot-avatar";
-
-                    /* Reset margin to 0 */
-                    parentElement.style.marginLeft = 0 + "px";
-                }
-
-                if (elementContainers[index + 1]) {
-                    elementContainers[index + 1].className = "displayNone";
-                }
-
-                //Show next increment button after first decrement
-                document.getElementById("genericTemplateIncrement" + (index - 1) + randomIDValue).className = "generic_template_increment";
-                //Hide Decrement button when viewing first item
-                if (index === 0) {
-                    document.getElementById("genericTemplateDecrement" + (index - 1) + randomIDValue).className = "visibility_hidden";
-                }
+                $(parentElement).slick("slickPrev");
             });
         }
         return carouselButtonsContainer;
@@ -364,7 +266,8 @@ var RichMessages = (function () {
 
         //Render container for image, title and buttons
         var genericContainer = document.createElement("div");
-        genericContainer.className = "generic_template_container";
+        genericContainer.style.minWidth = "150%";
+
         var elementContainers = [];
 
         // Create a randomIDValue to assign to carouselButtons so they are unique per gallery template
@@ -382,18 +285,23 @@ var RichMessages = (function () {
             elementContainer.appendChild(img);
             // default action if specified
             if (element.default_action) {
-                img.onclick = function () { return window.open(element.default_action.url); };
+                // img.onclick = function () { return window.open(element.default_action.url); };
             }
 
             // carousel mode if there are several elements
             if (_this.findElements().length > 1) {
-                elementContainer.className = "display_none";
                 var carouselButtonsContainer = _this.carouselButtons(genericContainer, elementContainers, index, randomIDValue, avatar);
                 elementContainer.appendChild(carouselButtonsContainer);
-            } else {
-                elementContainer.className = "generic_template_element_container";
+            } 
+
+            // carousel mode if there are several elements
+            elementContainer.className = "generic_template_element_container";
+            elementContainer.id = "generic_template_element_container" + index + randomIDValue;
+            if (index === 0) {
+                elementContainer.style.marginRight = "10px";
+                elementContainer.style.maxWidth = "25rem";
             }
-  
+
             //Render container for title + subtitle
             var textContainer = document.createElement("div");
             textContainer.className = "generic_template_text_container";
@@ -434,7 +342,107 @@ var RichMessages = (function () {
                 var buttonContainer = _this.renderButton(button);
                 genericContainer.appendChild(buttonContainer);
             });
-        }
+        };
+
+        var slickOpts = {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            centerMode: true,
+            centerPadding: ["custom", 0],
+            arrows: false,
+            infinite: false,
+            mobileFirst: true,
+        };
+
+        $(genericContainer).slick(slickOpts);
+
+        $(genericContainer).on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+            if (currentSlide === nextSlide) {
+                return;
+            };
+
+            if (nextSlide !== 0) {
+                /* Hide logo when viewing next item */
+                avatar.className = "visibilityHidden + cognigy-chat-bot-avatar";
+
+                slick.$slides[nextSlide].style.marginRight = "10px";
+                slick.$slides[nextSlide].style.marginLeft = "10px";
+                slick.$slides[nextSlide].style.maxWidth = "25rem";
+                slick.$slides[currentSlide].style.marginRight = "0px";
+                slick.$slides[currentSlide].style.maxWidth = "unset";
+                console.log(slick)
+                slick.$slider[0].style.marginLeft = "-40px";
+
+                $(genericContainer).slick("slickSetOption", "centerPadding", ["custom", 17]);
+
+ 
+            } else {
+                slick.$slides[nextSlide].style.marginRight = "10px";
+                slick.$slides[nextSlide].style.marginLeft = "0px";
+                slick.$slides[nextSlide].style.maxWidth = "25rem";
+
+                $(genericContainer).slick("slickSetOption", "centerPadding", ["custom", 0]);
+
+                /* Show logo when viewing first item */
+                avatar.className = "cognigy-chat-bot-avatar";
+            }
+
+            if (slick.$slides[nextSlide + 1]) {
+                /* Hide decrement arrow of next element */
+                document.getElementById("genericTemplateDecrement" + (nextSlide + 1) + randomIDValue).className = "visibility_hidden";
+            }
+
+            /* Hide increment arrow of previous element */
+            if (slick.$slides[nextSlide - 1]) {
+                document.getElementById("genericTemplateIncrement" + (nextSlide - 1) + randomIDValue).className = "visibility_hidden"
+            };
+
+            /* Show decrement button on main element after first increment */
+            document.getElementById("genericTemplateDecrement" + (nextSlide) + randomIDValue).className = "generic_template_decrement";
+
+            //Hide main element increment button when viewing last item
+            if (nextSlide === (slick.$slides.length - 1)) {
+                document.getElementById("genericTemplateIncrement" + (nextSlide) + randomIDValue).className = "visibility_hidden";
+
+            } else if (slick.$slides[nextSlide]) {
+                //Show next increment button after first decrement
+                document.getElementById("genericTemplateIncrement" + (nextSlide) + randomIDValue).className = "generic_template_increment";
+            };
+
+            if (slick.$slides[nextSlide + 1]) {
+                /* Hide decrement arrow of next element */
+                document.getElementById("genericTemplateDecrement" + (nextSlide + 1) + randomIDValue).className = "visibility_hidden";
+            };
+
+            //Hide Decrement button when viewing first item
+            if (nextSlide === 0) {
+                document.getElementById("genericTemplateDecrement" + (nextSlide) + randomIDValue).className = "visibility_hidden";
+            }
+        });
+
+        var currentIndex;
+        $(genericContainer).on("afterChange", function(event, slick, currentSlide) {
+            currentIndex = currentSlide;
+            // slick.$slides[currentSlide - 1].style.marginLeft = "30px";
+            if (currentSlide === 0) {
+                // $(genericContainer).slick("slickSetOption", "centerPadding", "0px");
+            } else {
+               // $(genericContainer).slick("slickSetOption", "centerPadding", ["custom", "17px"]);
+            }
+        });
+
+
+        $(genericContainer).on("setPosition", function(event, slick, currentSlide) {
+            console.log("setPosition")
+            if (slick.$slides[currentIndex - 1]) {
+                slick.$slides[currentIndex - 1].style.marginLeft = "30px";
+            }
+            if (currentSlide === 0) {
+                // $(genericContainer).slick("slickSetOption", "centerPadding", "0px");
+            } else {
+               // $(genericContainer).slick("slickSetOption", "centerPadding", ["custom", "17px"]);
+            }
+        });
 
         messageInnerContainer.appendChild(genericContainer);
         this.messageContainer.appendChild(messageInnerContainer);
