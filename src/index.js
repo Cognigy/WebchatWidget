@@ -19,7 +19,8 @@ const defaultOptions = {
 	keepMarkup: true,
 	user: Date.now().toString(),
 	designTemplate: 1,
-	channel: "website"
+	channel: "website",
+	locale: "en-US"
 }
 
 /* This function inits the CognigyClient connection */
@@ -328,8 +329,16 @@ const buildHTMLDocument = (options) => {
 	outerContainer.appendChild(chatContainer);
 
 	var getStartedButton = Helpers.createElement("button", "cognigy-get-started-button", "cognigy-get-started-button");
-	
-	var getStartedButtonTitle = document.createTextNode("GET STARTED");
+
+	/* Render the getStartedButton title based on the locale */
+	if (options.locale && options.locale === "de-DE") {
+		var getStartedButtonTitle = document.createTextNode("LOS GEHT'S");
+	} else if (options.locale && options.locale === "en-US") {
+		var getStartedButtonTitle = document.createTextNode("GET STARTED");
+	} else {
+		var getStartedButtonTitle = document.createTextNode("GET STARTED");
+	}
+
 	getStartedButton.appendChild(getStartedButtonTitle);
 
 	outerContainer.appendChild(getStartedButton);
@@ -339,7 +348,16 @@ const buildHTMLDocument = (options) => {
 	outerContainer.appendChild(chatForm);
 
 	var chatInput = Helpers.createElement("div", "cognigy-chat-input", "cognigy-input");
-	chatInput.setAttribute("data-text", "Write a reply");
+
+	/* Render the input placeholder text based on the locale */
+	if (options.locale && options.locale === "de-DE") {
+		chatInput.setAttribute("data-text", "Antwort eingeben");
+	} else if (options.locale && options.locale === "en-US") {
+		chatInput.setAttribute("data-text", "Write a reply");
+	} else {
+		chatInput.setAttribute("data-text", "Write a reply");
+	}
+	
 	chatInput.contentEditable = true;
 	chatInput.returnKeyType = "Send";
 
