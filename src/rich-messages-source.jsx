@@ -1,6 +1,12 @@
-import * as slick from "./slick/slick.min.js";
+/* Node modules */
+import { h, render } from 'preact';
+
+/* Custom modules */
 import slick_css from './slick/slick.css';
 import slick_theme_css from "./slick/slick-theme.css";
+import Carousel from "./Carousel.jsx";
+
+/* Initialize css */
 slick_css.use();
 slick_theme_css.use();
 
@@ -19,7 +25,7 @@ var RichMessages = (function () {
         else if (messageData._cognigy && messageData._cognigy._facebook && messageData._cognigy._facebook.message &&
             messageData._cognigy._facebook.message.attachment && messageData._cognigy._facebook.message.attachment.payload) {
             this.messageData = messageData._cognigy._facebook.message.attachment.payload;
-        }
+        }   
         this.messageContainer = messageContainer;
         this.quickReplies = messageData.facebook && messageData.facebook.quick_replies || (messageData._cognigy && messageData._cognigy._facebook
             && messageData._cognigy._facebook.message && messageData._cognigy._facebook.message.quick_replies);
@@ -260,192 +266,194 @@ var RichMessages = (function () {
         return carouselButtonsContainer;
     };
     RichMessages.prototype.genericTemplate = function () {
-        var _this = this;
-        var messageInnerContainer = createElement("div", "cognigy-chat-bot-message-container");
-        const avatar = this.createAvatar(messageInnerContainer);
+        // var _this = this;
+        // var messageInnerContainer = createElement("div", "cognigy-chat-bot-message-container");
+        // const avatar = this.createAvatar(messageInnerContainer);
 
-        //Render container for image, title and buttons
-        var genericContainer = document.createElement("div");
-        genericContainer.style.minWidth = "150%";
+        // //Render container for image, title and buttons
+        // var genericContainer = document.createElement("div");
+        // genericContainer.style.minWidth = "150%";
 
-        var elementContainers = [];
+        // var elementContainers = [];
 
-        // Create a randomIDValue to assign to carouselButtons so they are unique per gallery template
-        var randomIDValue = Date.now().toString();
+        // // Create a randomIDValue to assign to carouselButtons so they are unique per gallery template
+        // var randomIDValue = Date.now().toString();
 
-        this.findElements().forEach(function (element, index) {
-            var elementContainer = document.createElement("div");
-            elementContainers.push(elementContainer);
-            //Get image - needs to be before the buttons
-            var img = document.createElement("img");
-            img.src = element.image_url;
-            img.style.width = "100%";
-            img.style.height = "200px";
-            img.style.borderRadius = '10px 10px 0 0';
-            elementContainer.appendChild(img);
-            // default action if specified
-            if (element.default_action) {
-                // img.onclick = function () { return window.open(element.default_action.url); };
-            }
+        // this.findElements().forEach(function (element, index) {
+        //     var elementContainer = document.createElement("div");
+        //     elementContainers.push(elementContainer);
+        //     //Get image - needs to be before the buttons
+        //     var img = document.createElement("img");
+        //     img.src = element.image_url;
+        //     img.style.width = "100%";
+        //     img.style.height = "200px";
+        //     img.style.borderRadius = '10px 10px 0 0';
+        //     elementContainer.appendChild(img);
+        //     // default action if specified
+        //     if (element.default_action) {
+        //         // img.onclick = function () { return window.open(element.default_action.url); };
+        //     }
 
-            // carousel mode if there are several elements
-            if (_this.findElements().length > 1) {
-                var carouselButtonsContainer = _this.carouselButtons(genericContainer, elementContainers, index, randomIDValue, avatar);
-                elementContainer.appendChild(carouselButtonsContainer);
-            } 
+        //     // carousel mode if there are several elements
+        //     if (_this.findElements().length > 1) {
+        //         var carouselButtonsContainer = _this.carouselButtons(genericContainer, elementContainers, index, randomIDValue, avatar);
+        //         elementContainer.appendChild(carouselButtonsContainer);
+        //     } 
 
-            // carousel mode if there are several elements
-            elementContainer.className = "generic_template_element_container";
-            elementContainer.id = "generic_template_element_container" + index + randomIDValue;
-            if (index === 0) {
-                elementContainer.style.marginRight = "10px";
-                elementContainer.style.maxWidth = "25rem";
-            }
+        //     // carousel mode if there are several elements
+        //     elementContainer.className = "generic_template_element_container";
+        //     elementContainer.id = "generic_template_element_container" + index + randomIDValue;
+        //     if (index === 0) {
+        //         elementContainer.style.marginRight = "10px";
+        //         elementContainer.style.maxWidth = "25rem";
+        //     }
 
-            //Render container for title + subtitle
-            var textContainer = document.createElement("div");
-            textContainer.className = "generic_template_text_container";
-            elementContainer.appendChild(textContainer);
-            //Get Title
-            if (element.title) {
-                var genericTitle = document.createElement("p");
-                genericTitle.className = "text_title";
-                var elementTitle = document.createTextNode(element.title)
-                genericTitle.appendChild(elementTitle);
-                textContainer.appendChild(genericTitle);
-            }
-            if (element.subtitle) {
-                var genericSubtitle = document.createElement("p");
-                genericSubtitle.className = "text_subtitle";
-                /* Only allow 1 consecutive newline (facebook formats it this way) */
-                var elementSubtitle = document.createTextNode(element.subtitle.replace(/\n\s*\n/g, '\n'))     
+        //     //Render container for title + subtitle
+        //     var textContainer = document.createElement("div");
+        //     textContainer.className = "generic_template_text_container";
+        //     elementContainer.appendChild(textContainer);
+        //     //Get Title
+        //     if (element.title) {
+        //         var genericTitle = document.createElement("p");
+        //         genericTitle.className = "text_title";
+        //         var elementTitle = document.createTextNode(element.title)
+        //         genericTitle.appendChild(elementTitle);
+        //         textContainer.appendChild(genericTitle);
+        //     }
+        //     if (element.subtitle) {
+        //         var genericSubtitle = document.createElement("p");
+        //         genericSubtitle.className = "text_subtitle";
+        //         /* Only allow 1 consecutive newline (facebook formats it this way) */
+        //         var elementSubtitle = document.createTextNode(element.subtitle.replace(/\n\s*\n/g, '\n'))     
 
-                /* Read subtitle */
-                if (element.subtitle) {
-                    _this.readCognigyMessage(element.subtitle);
-                }
+        //         /* Read subtitle */
+        //         if (element.subtitle) {
+        //             _this.readCognigyMessage(element.subtitle);
+        //         }
 
-                genericSubtitle.appendChild(elementSubtitle);
-                textContainer.appendChild(genericSubtitle);
-            }
-            //Get eventual buttons
-            if (element.buttons) {
-                element.buttons.forEach(function (button) {
-                    var buttonContainer = _this.renderButton(button);
-                    elementContainer.appendChild(buttonContainer);
-                });
-            }
-            genericContainer.appendChild(elementContainer);
-        });
-        if (this.findButtons()) {
-            this.findButtons().forEach(function (button) {
-                var buttonContainer = _this.renderButton(button);
-                genericContainer.appendChild(buttonContainer);
-            });
-        };
+        //         genericSubtitle.appendChild(elementSubtitle);
+        //         textContainer.appendChild(genericSubtitle);
+        //     }
+        //     //Get eventual buttons
+        //     if (element.buttons) {
+        //         element.buttons.forEach(function (button) {
+        //             var buttonContainer = _this.renderButton(button);
+        //             elementContainer.appendChild(buttonContainer);
+        //         });
+        //     }
+        //     genericContainer.appendChild(elementContainer);
+        // });
+        // if (this.findButtons()) {
+        //     this.findButtons().forEach(function (button) {
+        //         var buttonContainer = _this.renderButton(button);
+        //         genericContainer.appendChild(buttonContainer);
+        //     });
+        // };
 
-        var slickOpts = {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            centerMode: true,
-            centerPadding: ["custom", 0],
-            arrows: false,
-            infinite: false,
-            mobileFirst: true,
-        };
+        // var slickOpts = {
+        //     slidesToShow: 1,
+        //     slidesToScroll: 1,
+        //     centerMode: true,
+        //     centerPadding: ["custom", 0],
+        //     arrows: false,
+        //     infinite: false,
+        //     mobileFirst: true,
+        // };
 
-        $(genericContainer).slick(slickOpts);
+        // $(genericContainer).slick(slickOpts);
 
-        $(genericContainer).on('beforeChange', function(event, slick, currentSlide, nextSlide) {
-            if (currentSlide === nextSlide) {
-                return;
-            };
+        // $(genericContainer).on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+        //     if (currentSlide === nextSlide) {
+        //         return;
+        //     };
 
-            if (nextSlide !== 0) {
-                /* Hide logo when viewing next item */
-                avatar.className = "visibilityHidden + cognigy-chat-bot-avatar";
+        //     if (nextSlide !== 0) {
+        //         /* Hide logo when viewing next item */
+        //         avatar.className = "visibilityHidden + cognigy-chat-bot-avatar";
 
-                slick.$slides[nextSlide].style.marginRight = "10px";
-                slick.$slides[nextSlide].style.marginLeft = "10px";
-                slick.$slides[nextSlide].style.maxWidth = "25rem";
-                slick.$slides[currentSlide].style.marginRight = "0px";
-                slick.$slides[currentSlide].style.maxWidth = "unset";
-                console.log(slick)
-                slick.$slider[0].style.marginLeft = "-40px";
+        //         slick.$slides[nextSlide].style.marginRight = "10px";
+        //         slick.$slides[nextSlide].style.marginLeft = "10px";
+        //         slick.$slides[nextSlide].style.maxWidth = "25rem";
+        //         slick.$slides[currentSlide].style.marginRight = "0px";
+        //         slick.$slides[currentSlide].style.maxWidth = "unset";
+        //         console.log(slick)
+        //         slick.$slider[0].style.marginLeft = "-40px";
 
-                $(genericContainer).slick("slickSetOption", "centerPadding", ["custom", 17]);
+        //         $(genericContainer).slick("slickSetOption", "centerPadding", ["custom", 17]);
 
  
-            } else {
-                slick.$slides[nextSlide].style.marginRight = "10px";
-                slick.$slides[nextSlide].style.marginLeft = "0px";
-                slick.$slides[nextSlide].style.maxWidth = "25rem";
+        //     } else {
+        //         slick.$slides[nextSlide].style.marginRight = "10px";
+        //         slick.$slides[nextSlide].style.marginLeft = "0px";
+        //         slick.$slides[nextSlide].style.maxWidth = "25rem";
 
-                $(genericContainer).slick("slickSetOption", "centerPadding", ["custom", 0]);
+        //         $(genericContainer).slick("slickSetOption", "centerPadding", ["custom", 0]);
 
-                /* Show logo when viewing first item */
-                avatar.className = "cognigy-chat-bot-avatar";
-            }
+        //         /* Show logo when viewing first item */
+        //         avatar.className = "cognigy-chat-bot-avatar";
+        //     }
 
-            if (slick.$slides[nextSlide + 1]) {
-                /* Hide decrement arrow of next element */
-                document.getElementById("genericTemplateDecrement" + (nextSlide + 1) + randomIDValue).className = "visibility_hidden";
-            }
+        //     if (slick.$slides[nextSlide + 1]) {
+        //         /* Hide decrement arrow of next element */
+        //         document.getElementById("genericTemplateDecrement" + (nextSlide + 1) + randomIDValue).className = "visibility_hidden";
+        //     }
 
-            /* Hide increment arrow of previous element */
-            if (slick.$slides[nextSlide - 1]) {
-                document.getElementById("genericTemplateIncrement" + (nextSlide - 1) + randomIDValue).className = "visibility_hidden"
-            };
+        //     /* Hide increment arrow of previous element */
+        //     if (slick.$slides[nextSlide - 1]) {
+        //         document.getElementById("genericTemplateIncrement" + (nextSlide - 1) + randomIDValue).className = "visibility_hidden"
+        //     };
 
-            /* Show decrement button on main element after first increment */
-            document.getElementById("genericTemplateDecrement" + (nextSlide) + randomIDValue).className = "generic_template_decrement";
+        //     /* Show decrement button on main element after first increment */
+        //     document.getElementById("genericTemplateDecrement" + (nextSlide) + randomIDValue).className = "generic_template_decrement";
 
-            //Hide main element increment button when viewing last item
-            if (nextSlide === (slick.$slides.length - 1)) {
-                document.getElementById("genericTemplateIncrement" + (nextSlide) + randomIDValue).className = "visibility_hidden";
+        //     //Hide main element increment button when viewing last item
+        //     if (nextSlide === (slick.$slides.length - 1)) {
+        //         document.getElementById("genericTemplateIncrement" + (nextSlide) + randomIDValue).className = "visibility_hidden";
 
-            } else if (slick.$slides[nextSlide]) {
-                //Show next increment button after first decrement
-                document.getElementById("genericTemplateIncrement" + (nextSlide) + randomIDValue).className = "generic_template_increment";
-            };
+        //     } else if (slick.$slides[nextSlide]) {
+        //         //Show next increment button after first decrement
+        //         document.getElementById("genericTemplateIncrement" + (nextSlide) + randomIDValue).className = "generic_template_increment";
+        //     };
 
-            if (slick.$slides[nextSlide + 1]) {
-                /* Hide decrement arrow of next element */
-                document.getElementById("genericTemplateDecrement" + (nextSlide + 1) + randomIDValue).className = "visibility_hidden";
-            };
+        //     if (slick.$slides[nextSlide + 1]) {
+        //         /* Hide decrement arrow of next element */
+        //         document.getElementById("genericTemplateDecrement" + (nextSlide + 1) + randomIDValue).className = "visibility_hidden";
+        //     };
 
-            //Hide Decrement button when viewing first item
-            if (nextSlide === 0) {
-                document.getElementById("genericTemplateDecrement" + (nextSlide) + randomIDValue).className = "visibility_hidden";
-            }
-        });
+        //     //Hide Decrement button when viewing first item
+        //     if (nextSlide === 0) {
+        //         document.getElementById("genericTemplateDecrement" + (nextSlide) + randomIDValue).className = "visibility_hidden";
+        //     }
+        // });
 
-        var currentIndex;
-        $(genericContainer).on("afterChange", function(event, slick, currentSlide) {
-            currentIndex = currentSlide;
-            // slick.$slides[currentSlide - 1].style.marginLeft = "30px";
-            if (currentSlide === 0) {
-                // $(genericContainer).slick("slickSetOption", "centerPadding", "0px");
-            } else {
-               // $(genericContainer).slick("slickSetOption", "centerPadding", ["custom", "17px"]);
-            }
-        });
+        // var currentIndex;
+        // $(genericContainer).on("afterChange", function(event, slick, currentSlide) {
+        //     currentIndex = currentSlide;
+        //     // slick.$slides[currentSlide - 1].style.marginLeft = "30px";
+        //     if (currentSlide === 0) {
+        //         // $(genericContainer).slick("slickSetOption", "centerPadding", "0px");
+        //     } else {
+        //        // $(genericContainer).slick("slickSetOption", "centerPadding", ["custom", "17px"]);
+        //     }
+        // });
 
 
-        $(genericContainer).on("setPosition", function(event, slick, currentSlide) {
-            console.log("setPosition")
-            if (slick.$slides[currentIndex - 1]) {
-                slick.$slides[currentIndex - 1].style.marginLeft = "30px";
-            }
-            if (currentSlide === 0) {
-                // $(genericContainer).slick("slickSetOption", "centerPadding", "0px");
-            } else {
-               // $(genericContainer).slick("slickSetOption", "centerPadding", ["custom", "17px"]);
-            }
-        });
+        // $(genericContainer).on("setPosition", function(event, slick, currentSlide) {
+        //     console.log("setPosition")
+        //     if (slick.$slides[currentIndex - 1]) {
+        //         slick.$slides[currentIndex - 1].style.marginLeft = "30px";
+        //     }
+        //     if (currentSlide === 0) {
+        //         // $(genericContainer).slick("slickSetOption", "centerPadding", "0px");
+        //     } else {
+        //        // $(genericContainer).slick("slickSetOption", "centerPadding", ["custom", "17px"]);
+        //     }
+        // });
 
-        messageInnerContainer.appendChild(genericContainer);
-        this.messageContainer.appendChild(messageInnerContainer);
+        // messageInnerContainer.appendChild(genericContainer);
+        // this.messageContainer.appendChild(messageInnerContainer);
+
+ 
     };
     RichMessages.prototype.buttonTemplate = function () {
         var _this = this;
@@ -508,7 +516,12 @@ var RichMessages = (function () {
 
         //Render generic template
         if (this.findTemplate() === "generic") {
-            this.genericTemplate();
+            render(
+                <Carousel 
+                    messageLogoUrl={this.messageLogoUrl}
+                    galleryElements={this.findElements()}
+                />,
+            this.messageContainer);
         }
 
         //Render quick replies

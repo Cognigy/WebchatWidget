@@ -322,6 +322,12 @@ header content is only 90% of the total width of the chat box - just like the co
   margin: 10px 0 15px 10px;
   -webkit-box-align: end;
           align-items: flex-end;
+  min-width: 0 !important;
+  min-height: 0 !important;
+}
+
+.overflow__hidden {
+  overflow: hidden;
 }
 
 .cognigy-chat-user-message {

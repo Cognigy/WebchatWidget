@@ -147,9 +147,14 @@
     border-radius: 10px 10px 0 0;    
 }
 
-.generic_template_element_container {
+.generic_template_element_container_selected, .generic_template_element_container {
     border: 1px solid rgba(0,0,0,.1);
     border-radius: 10px;
+}
+
+.generic_template_element_container_selected {
+    /* width: 400px !important; */
+
 }
 
 .generic_template_element_container:focus {

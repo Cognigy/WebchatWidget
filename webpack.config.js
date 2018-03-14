@@ -4,24 +4,26 @@ var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
-    entry: './src/index.js',
-    output: {
-        // Webpack prefers an absolute path:
-        path: path.resolve(__dirname, '../demos/generic-webchat-demo/public'),
+	entry: './src/index.js',
+	output: {
+		// Webpack prefers an absolute path:
+		path: path.resolve(__dirname, '../demos/generic-webchat-demo/public'),
 		filename: 'cognigyWebChat.js',
 		library: 'Cognigy'
 	},
 	plugins: [
-		new webpack.ProvidePlugin({
-		  $: "jquery",
-		  jQuery: "jquery"
-		}),
 		new webpack.optimize.CommonsChunkPlugin({
 			children: true, 
 			minChunks: 6
-		  })
+			})
 	],
-    module: {
+	resolve: {
+		alias: {
+			"react": "preact-compat",
+			"react-dom": "preact-compat"
+		}
+ 	},
+	module: {
 		rules: [
 				{
 					// Uses regex to test for a file type - in this case, ends with `.css`
@@ -30,7 +32,7 @@ module.exports = {
 					use: ['style-loader/useable', 'css-loader']
 				},
 				{
-					test: /\.js$/,
+					test: /\.js|.jsx$/,
 					exclude: /(node_modules|bower_components)/,
 					use: {
 						loader: 'babel-loader',
@@ -40,5 +42,5 @@ module.exports = {
 				}
 			}
 		]
-    }
+	}
 }	
