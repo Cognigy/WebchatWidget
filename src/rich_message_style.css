@@ -150,11 +150,7 @@
 .generic_template_element_container_selected, .generic_template_element_container {
     border: 1px solid rgba(0,0,0,.1);
     border-radius: 10px;
-}
-
-.generic_template_element_container_selected {
-    /* width: 400px !important; */
-
+    background-color: white !important;
 }
 
 .generic_template_element_container:focus {
@@ -173,11 +169,13 @@
     font-weight: bold;
     font-size: 13px;
     color: black;
+    text-align: left;
 }
 
 .text_subtitle {
     color: rgba(0,0,0,0.45);
     white-space: pre-line;
+    text-align: left;
 }
 
 .quick_reply_container {
@@ -313,6 +311,13 @@
     height: 24px;
     background-image: url('https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/arrow_back.svg');
     cursor: pointer;
+}
+
+/* Disable arrows on mobile */
+@media only screen and (max-width: 1000px) {
+    .generic_template_decrement, .generic_template_increment {
+        visibility: hidden !important;
+    }
 }
 
 .generic_template_carousel_buttons_container {

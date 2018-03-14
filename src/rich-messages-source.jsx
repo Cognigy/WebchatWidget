@@ -520,6 +520,8 @@ var RichMessages = (function () {
                 <Carousel 
                     messageLogoUrl={this.messageLogoUrl}
                     galleryElements={this.findElements()}
+                    handleButtonPostback={this.handleButtonPostback.bind(this)}
+                    handleButtonWebUrl={this.handleButtonWebUrl.bind(this)}
                 />,
             this.messageContainer);
         }
