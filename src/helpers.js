@@ -1,4 +1,4 @@
-const { RichMessages } = require("./rich-messages-source.jsx");
+const { RichMessages } = require("./rich-messages-source.js");
 
 class Helpers {
 	handleChatOpen = () => {

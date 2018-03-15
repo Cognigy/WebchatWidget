@@ -2,9 +2,7 @@
 import { h, render } from 'preact';
 
 /* Custom modules */
-import slick_css from './slick/slick.css';
-import slick_theme_css from "./slick/slick-theme.css";
-import Carousel from "./Carousel.jsx";
+import Carousel from "./carousel/Carousel.jsx";
 
 /* Initialize css */
 slick_css.use();

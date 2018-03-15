@@ -5,7 +5,7 @@ import styles from './carousel.css';
 styles.use();
 
 /* Custom modules */
-import { Avatar } from "./Avatar.jsx";
+import { Avatar } from "../Avatar.jsx";
 
 class Carousel extends Component {
 	constructor() {
