@@ -4,10 +4,6 @@ import { h, render } from 'preact';
 /* Custom modules */
 import Carousel from "./carousel/Carousel.jsx";
 
-/* Initialize css */
-slick_css.use();
-slick_theme_css.use();
-
 //This class renders several of Facebook's templates for rich media.
 var RichMessages = (function () {
     function RichMessages(messageData, messageContainer, readCognigyMessage, handleDisplayPostbackMessage, handleCognigyMessage, messageLogoUrl, displayCognigyMessage) {
