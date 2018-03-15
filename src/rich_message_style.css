@@ -314,7 +314,13 @@
 }
 
 /* Disable arrows on mobile */
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 800px) {
+    .generic_template_decrement, .generic_template_increment {
+        visibility: hidden !important;
+    }
+}
+
+@media screen and (max-width: 1500px) and (orientation: landscape) and (min-width: 720px) {
     .generic_template_decrement, .generic_template_increment {
         visibility: hidden !important;
     }

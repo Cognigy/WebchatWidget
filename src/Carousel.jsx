@@ -25,7 +25,10 @@ class Carousel extends Component {
             this.setState({
                 currentSlide
             });
-        } else if (currentSlide === (galleryElements.length - 1)) {
+        } 
+        
+        /* If we are at the last slide (minus the clone slide), we don't slide further */
+        else if (currentSlide === (galleryElements.length - 1)) {
             this.setState({
                 currentSlide: currentSlide - 1
             });
@@ -56,9 +59,7 @@ class Carousel extends Component {
                     marginLeft: this.state.currentSlide !== 0 ? "0px" : "10px"
                 }}
             >
-                { /* Add overflow__hidden to Slider in order to have a flex container around it */ }
                 <Slider 
-                    // className="overflow__hidden" 
                     {...sliderSettings}
                     style={{ background: "white" }}
                     onChange={(currentSlide) => this.handleSlideChange(galleryElements, currentSlide)}
@@ -74,8 +75,8 @@ class Carousel extends Component {
                             <Avatar 
                                 style={{ 
                                     visibility: index !== 0 ? "hidden" : "visible",
-                                    minWidth: index !== 0 ? "8px" : "20px",
-                                    maxWidth: index !== 0 ? "8px" : "20px",
+                                    minWidth: index !== 0 ? "10px" : "20px",
+                                    maxWidth: index !== 0 ? "10px" : "20px",
                                     marginBottom: "1px"
                                 }}
                                 messageLogoUrl={ this.props.messageLogoUrl }
@@ -103,6 +104,7 @@ class Carousel extends Component {
                                     <div 
                                         className="generic_template_decrement"
                                         onClick={() => {
+                                            /* Set cancelClik state on the slider to avoid default behavoir */
                                             this.setState.bind(this.slider)({ cancelClick: true }, () => {
                                                 this.slider.decrement();
                                             });     
@@ -117,6 +119,7 @@ class Carousel extends Component {
                                     <div 
                                         className="generic_template_increment"
                                         onClick={() => {
+                                            /* Set cancelClik state on the slider to avoid default behavoir */
                                             this.setState.bind(this.slider)({ cancelClick: true }, () => {
                                                 this.slider.increment();
                                             });

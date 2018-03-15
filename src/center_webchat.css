@@ -44,30 +44,56 @@
 	font-size: 16px;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1500px) and (orientation: landscape) and (min-width: 720px) {
 	.cognigy-outer-container__open, .cognigy-outer-container__closed {
-	  width: 100% !important;
-	  height: 100% !important;
-	  margin: 0;
-	  border-radius: 0;
+	  width: 40% !important;
+	  height: 95% !important;
+	  border-radius: 10px;
 	  /* Always keep the chat open on small screens */
 	  opacity: 1;
-	  top: unset !important;
-	  left: unset !important;
+	  top: 0 !important;
+	  left: 0 !important;
+	  right: 0 !important;
+	  bottom: 0 !important;
+	  margin: auto;
 	}
 }
   
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 1500px) and (orientation: landscape) and (min-width: 720px) {
 	.cognigy-chat-state-closed, .cognigy-chat-state-open {
 		display: none;
 	}
 }
 
-@media screen and (max-width: 700px) {
+@media only screen and (max-width: 800px) {
+	.cognigy-chat-state-closed, .cognigy-chat-state-open {
+		display: none;
+	}
+
 	.cognigy-chat-header-container__open {
-	  border-radius: 0;
+		border-radius: 0;
+	}
+
+	.cognigy-outer-container__open, .cognigy-outer-container__closed {
+		width: 100% !important;
+		height: 100% !important;
+		margin: 0;
+		border-radius: 0;
+		/* Always keep the chat open on small screens */
+		opacity: 1;
+		top: unset !important;
+		left: unset !important;
+	  }
+
+	.cognigy-get-started-button {
+		border-radius: 0;
+	}
+
+	.cognigy-chat-form {
+		border-radius: 0;
 	}
 }
+
 
 .cognigy-get-started-button {
 	height: 50px;
