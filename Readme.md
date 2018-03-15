@@ -66,5 +66,6 @@ Note that the color is not unique to the design template, but something that you
 For a detailed list of changes in each release, please go to our [changelog](./changelog.md).
 
     - Latest: https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/latest/cognigyWebChat.js
+    - v1.0.2: Added gallery swiping; Improved view on tablet. https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.2/cognigyWebChat.js
     - v1.0.1: Added gallery previews. https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.1/cognigyWebChat.js
     - v1.0.0: https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.0/cognigyWebChat.js
