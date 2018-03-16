@@ -1,6 +1,10 @@
 # Changelog
 This changelog contains a brief description of all released versions.
 
+## [1.0.2 - hotfix] (16.03.2018)
+#### Bugfixes
+* Fixed ``record button`` appearing on ``mobile`` when clicking too far left of the send button
+
 ## [1.0.2] (15.03.2018)
 #### Features
 * Implemented ``Gallery Swiping`` so that users can swipe gallery elements with touch on mobiles and tablets
