@@ -396,15 +396,15 @@ const buildHTMLDocument = (options) => {
 	chatForm.appendChild(chatButton);
 
 	var recordToggleButton = Helpers.createElement("button", "cognigy-record-toggle-button", "cognigy-record-toggle");
-	recordToggleButton.onclick = function () {
-		handleRecordToggle();
-	};
 
 	recordToggleButton.type = "button";
 	var recordToggleAvatar = Helpers.createElement("img", "displayNone");
 
 	if (options && options.enableSTT) {
 		recordToggleAvatar.className = "cognigy-record-toggle-icon";
+		recordToggleButton.onclick = function () {
+			handleRecordToggle();
+		};
 	}
 
 	recordToggleAvatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic_on.svg";
