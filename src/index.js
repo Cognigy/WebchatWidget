@@ -1,10 +1,17 @@
+/* Node modules */
+import { h, render } from 'preact';
+
+/* Custom modules */
 import Cognigy from "./web-client-source.js";
 import { Helpers } from "./helpers.js";
 import { BrowserDetect } from "./browserDetect.js";
+import PersistentMenu from "./utils/PersistentMenu.jsx";
 import main_css from './index.css';
 import rich_message_css from './rich_message_style.css';
 import custom_color_css from './custom_colors.css';
 import center_webchat_css from './center_webchat.css';
+
+/* Use CSS */
 main_css.use();
 rich_message_css.use();
 custom_color_css.use();
@@ -217,8 +224,14 @@ const init = function init(userOptions) {
 
 	/* If we receive a message event, display the message and send it to Cognigy */
 	function receiveMessage(event) {
-		Helpers.handleDisplayPostbackMessage(event.data);
-		handleCognigyMessage(event.data);
+		/* If the event is a postback, display the title instead of the payload */
+		if (event && event.data && event.data.type === "postback") {
+			Helpers.handleDisplayPostbackMessage(event.data.title);
+			handleCognigyMessage(event.data.payload);
+		} else {
+			Helpers.handleDisplayPostbackMessage(event.data);
+			handleCognigyMessage(event.data);
+		}
 	}
 
 	/* Handle file uploads. This requires that Cognigy sends us a file upload url in a data object */
@@ -346,6 +359,28 @@ const buildHTMLDocument = (options) => {
 	//Create chatForm with input, send button, record button and record toggle button
 	var chatForm = Helpers.createElement("form", "displayNone", "cognigy-form");
 	outerContainer.appendChild(chatForm);
+
+	/* Check if the persistentMenu option is specified */
+	if (options.persistentMenu) {
+		try {
+			let persistentMenu;
+			if (typeof options.persistentMenu === "string") {
+				persistentMenu = JSON.parse(options.persistentMenu); 
+			} else {
+				persistentMenu = options.persistentMenu;
+			}
+
+			render(
+				<PersistentMenu
+					title={persistentMenu.title}
+					menuItems={persistentMenu.menuItems}
+				/>,
+				chatForm
+			);
+		} catch (error) {
+			console.log("There was an error loading the persistent menu. Please check that the the URL to the persistent menu config is correct and that the config contains valid JSON");
+		}
+	}
 
 	var chatInput = Helpers.createElement("div", "cognigy-chat-input", "cognigy-input");
 

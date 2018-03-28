@@ -219,7 +219,6 @@ header content is only 90% of the total width of the chat box - just like the co
   display: -webkit-flex;
   display: flex;
   -webkit-box-pack: justify;
-          justify-content: space-between;
   background-color: #f4f7f9;
   margin-bottom: 0;
   width: 100%;
@@ -430,4 +429,50 @@ header content is only 90% of the total width of the chat box - just like the co
   border-left: none;
   border-right: none;
   background-color: #f4f7f9;
+}
+
+.cognigy-persistent-menu-button {
+  cursor: pointer;
+  margin-left: 15px;
+  opacity: 0.3;
+  align-self: flex-end;
+  display: flex;
+}
+
+.cognigy-persistent-menu-title {
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #dddfe2;
+  color: rgba(0,0,0,0.87);
+}
+
+.cognigy-persistent-menu-item {
+  font-size: 14px;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.cognigy-persistent-menu-container {
+  width: 300px;
+  background-color: white;
+  border: 0;
+  position: absolute;
+  bottom: 60px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .1), 0 1px 10px rgba(0, 0, 0, .35);
+  margin-left: 8px;
+}
+.cognigy-persistent-menu-container-arrow {
+  position: absolute;
+  bottom: 39px;
+  height: 40px;
+  width: 40px;
+  left: 6px;
+}
+
+.cognigy-persistent-menu-outer-container {
+  display: flex;
+  align-items: flex-end;
 }

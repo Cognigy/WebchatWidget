@@ -6,6 +6,7 @@
 .button_template_container, 
 .button,
 .list_template_element_button,
+.cognigy-persistent-menu-item,
 .quick_reply {
 	color: var(--color);
 }

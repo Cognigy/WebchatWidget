@@ -36,7 +36,7 @@ class Carousel extends Component {
     }
 
 	render() {
-		const sliderSettings = {
+        const sliderSettings = {
             showArrows: false,
             showStatus: false,
             showThumbs: false,
@@ -44,6 +44,10 @@ class Carousel extends Component {
             transitionTime: 300,
             centerMode: true,
             centerSlidePercentage: this.state.currenSlide === 0 ? (this.state.currentSlide === 2) ? 85 : 80: 90,
+            onClickItem: (index) => {
+                /* Update the currentSlide so the state of this component is up to date with the internal state of the Carousel */
+                this.setState({ currentSlide: index });
+            }
         };
 
         /* Create array of gallery elements with extra clone at the end */
@@ -91,13 +95,14 @@ class Carousel extends Component {
                                         width: "100%"
                                 }}
                             >
-                                <img
+                                <div
                                     style={{
-                                        width: "100%",
                                         height: "200px",
-                                        borderRadius: "10px 10px 0 0"
+                                        borderRadius: "10px 10px 0 0",
+                                        backgroundImage: `url(${element.image_url})`,
+                                        backgroundSize: "cover",
+                                        backgroundPosition: "center"
                                     }}
-                                    src={element.image_url}
                                 />
 
                                 <div className="generic_template_carousel_buttons_container">
@@ -165,8 +170,8 @@ class Carousel extends Component {
                 </Slider>
 
             </div>
-		);
-	}
+        );
+    }
 };
 
 export default Carousel;
