@@ -323,6 +323,7 @@ header content is only 90% of the total width of the chat box - just like the co
           align-items: flex-end;
   min-width: 0 !important;
   min-height: 0 !important;
+  position: relative;
 }
 
 .overflow__hidden {

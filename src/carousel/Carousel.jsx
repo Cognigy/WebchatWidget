@@ -35,6 +35,14 @@ class Carousel extends Component {
         }
     }
 
+    componentDidMount() {
+        /* Set the slider width to 100% for IE support */
+        if(this.slider && this.slider.base && this.slider.base.style) {
+            this.slider.base.style.width = "100%";
+            this.slider.base.style.maxWidth = "100%";
+        }
+    }
+
 	render() {
         const sliderSettings = {
             showArrows: false,
