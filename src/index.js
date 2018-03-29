@@ -224,11 +224,11 @@ const init = function init(userOptions) {
 
 	/* If we receive a message event, display the message and send it to Cognigy */
 	function receiveMessage(event) {
-		/* If the event is a postback, display the title instead of the payload */
-		if (event && event.data && event.data.type === "postback") {
-			Helpers.handleDisplayPostbackMessage(event.data.title);
-			handleCognigyMessage(event.data.payload);
-		} else {
+		/* If the event is a postback, display the title instead of the payload. In this case, we use CustomEvent instead of MessageEvent for IE support */
+		if (event && event.detail && event.detail.type === "postback") {
+			Helpers.handleDisplayPostbackMessage(event.detail.title);
+			handleCognigyMessage(event.detail.payload);
+		} else if (event && event.data) {
 			Helpers.handleDisplayPostbackMessage(event.data);
 			handleCognigyMessage(event.data);
 		}

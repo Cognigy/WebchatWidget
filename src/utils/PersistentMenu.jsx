@@ -18,9 +18,9 @@ class PersistentMenu extends Component {
 
 	handleMenuItemClick(title, payload) {
 		/* Dispatch message event */
-		const event = new MessageEvent("message",
+		const event = new CustomEvent("message",
 			{ 
-				data: {
+				detail: {
 					payload,
 					title,
 					type: "postback"

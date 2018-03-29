@@ -1,6 +1,15 @@
 # Changelog
 This changelog contains a brief description of all released versions.
 
+## [1.0.3] (29.03.2018)
+#### Features
+* Implemented configurable ``Persistent Menu``
+
+#### Bugfixes
+* Fixed ``Carousel Images`` losing their original ``aspect ratio``
+* Fixed ``Carousel`` not rendering properly on ``IE and Edge``
+* Fixed clicking ``Carousel Items`` making ``arrows`` appear out of place
+
 ## [1.0.2 - hotfix] (16.03.2018)
 #### Bugfixes
 * Fixed ``record button`` appearing on ``mobile`` when clicking too far left of the send button

@@ -9,8 +9,22 @@ Integrating the Cognigy Webchat is as simple as inserting the following two scri
 <script type="text/javascript" src="https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/latest/cognigyWebChat.js"></script>
 <script>
     const options = {
-        baseUrl: "https://....",
-        ...someMoreOptions
+        "flow": "someFlow",
+        "baseUrl": "https://...",
+        "apikey": "apikey",
+        "designTemplate": 2,
+        "colorScheme": "#3D6FBD",
+        "persistentMenu": {
+            "title": "Menu",
+            "menuItems": [
+                {
+                    "title": "Help",
+                    "payload": "Help"
+                }
+            ]
+        },
+        "getStartedText": "Hello",
+        "getStartedPayload": "Hello"
     };
 
     Cognigy.init(options);
@@ -39,6 +53,37 @@ These are the following options you need to initialize the Cognigy Webchat:
 | enableTTS         | boolean        | false         |          | Whether to enable the browser to read the bot messages aloud.
 | resetContext      | boolean        | true          |          | Whether to reset the flow context on each conversation. We highly suggest keeping this value at true.
 | resetState        | boolean        | true          |          | Whether to reset the flow state on each converstation. We highly suggest keeping this value at true.
+| persistentMenu    | JSON           | None          |          | You can configure a small menu that can help your users navigate through your flow or to switch between mutliple flows. See the example [below](#persistent-menu).
+
+## Persistent Menu
+The persistent menu is a great way to show your users all of the capabilites that your bot has. You can use it to switch to different conversation stages, to guide the user and much more. The user can open the menu at any time during the conversation through a small icon in the left corner:
+
+![Persistent Menu](https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/webchat_persistent_menu.jpg)
+
+As soon as the user clicks on one of the menu items, a specified payload is sent to your flow.
+
+An example of how to create the persistentMenu is below. The title is the title of the menu ("Menu", "Bots" etc.), and the "menuItems" is a list of all the menuItems you need to help your user. We recommend not putting too much information here as it might confuse more than it helps. Each menuItem has a title, which is what the user sees, and a payload, which is what is sent to your flow.
+
+```
+{
+  "persistentMenu": {
+    "title": "Menu",
+    "menuItems": [
+        {
+          "title": "Help",
+          "payload": "Help"
+        },
+        {
+          "title": "Find Restaurants",
+          "payload": "Find restaurants near me"
+        },
+        {
+          "title": "Get Recommendations",
+          "payload": "Get recommendations for places to eat"
+        }
+    ]
+  }
+```
 
 ## Versioning
 We deploy the webchat into specific version folders on our AWS s3 bucket. The baseUrl will always be: https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat, followed by a version name, followed by "cognigyWebChat.js". So release v1.0.0 of our webchat is at https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.0/cognigyWebChat.js. To see all relesases go [here](#releases).
@@ -66,6 +111,8 @@ Note that the color is not unique to the design template, but something that you
 For a detailed list of changes in each release, please go to our [changelog](./changelog.md).
 
     - Latest: https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/latest/cognigyWebChat.js
-    - v1.0.2: Added gallery swiping; Improved view on tablet. https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.2/cognigyWebChat.js
-    - v1.0.1: Added gallery previews. https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.1/cognigyWebChat.js
+    - v1.0.3: Added Persistent Menu; Improved carousel on IE and Edge.
+    https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.3/cognigyWebChat.js
+    - v1.0.2: Added carousel swiping; Improved view on tablet. https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.2/cognigyWebChat.js
+    - v1.0.1: Added carousel previews. https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.1/cognigyWebChat.js
     - v1.0.0: https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.0/cognigyWebChat.js
