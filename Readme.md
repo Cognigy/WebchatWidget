@@ -111,6 +111,7 @@ Note that the color is not unique to the design template, but something that you
 For a detailed list of changes in each release, please go to our [changelog](./changelog.md).
 
     - Latest: https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/latest/cognigyWebChat.js
+    - v1.0.4: Fixed displaying quick reply text wrong in the webchat. https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.4/cognigyWebChat.js
     - v1.0.3: Added Persistent Menu; Improved carousel on IE and Edge.
     https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.3/cognigyWebChat.js
     - v1.0.2: Added carousel swiping; Improved view on tablet. https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/v1.0.2/cognigyWebChat.js

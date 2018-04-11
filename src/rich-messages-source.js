@@ -74,7 +74,7 @@ var RichMessages = (function () {
             }
 
             quickReplyButton.onclick = () => { 
-                this.handleDisplayPostbackMessage(reply.payload);
+                this.handleDisplayPostbackMessage(reply.title);
                 return this.handleCognigyMessage(reply.payload); 
             };
             quickReplyButton.className = "quick_reply";
