@@ -22,7 +22,7 @@ const defaultOptions = {
 	resetState: true,
 	enableTTS: false,
 	enableSTT: false,
-	fileUpload: false,
+	enableFileUpload: false,
 	keepMarkup: true,
 	user: Date.now().toString(),
 	designTemplate: 1,
@@ -469,10 +469,10 @@ const buildHTMLDocument = (options) => {
 	fileUploadButton.appendChild(fileUploadAvatar);
 	chatForm.appendChild(fileUploadButton);
 
-	if (options && options.fileUpload && options.enableSTT) {
+	if (options && options.enableFileUpload && options.enableSTT) {
 		fileUploadForm.className = "cognigy-file-upload-form";
 		fileUploadButton.className = "cognigy-file-upload-button";
-	} else if (options && options.fileUpload && !options.enableSTT) {
+	} else if (options && options.enableFileUpload && !options.enableSTT) {
 		fileUploadForm.className = "cognigy-file-upload-form";
 		fileUploadButton.className = "cognigy-file-upload-button-no-record-button";
 		fileUploadInput.className = "cognigy-file-upload-input-no-record-button";
