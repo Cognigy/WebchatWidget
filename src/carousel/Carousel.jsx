@@ -1,6 +1,8 @@
 /* Node modules */
 import { Component, render, h } from "preact";
 import { Carousel as Slider } from 'react-responsive-carousel';
+import ClampLines from "react-clamp-lines";
+
 import styles from './carousel.css';
 styles.use();
 
@@ -152,9 +154,12 @@ class Carousel extends Component {
                                     }
 
                                     { element.subtitle &&
-                                        <p className="text_subtitle">
-                                            { element.subtitle }
-                                        </p>
+                                        <ClampLines
+                                            text={element.subtitle}
+                                            buttons={false}
+                                            lines="5"
+                                            className="text_subtitle"
+                                        />
                                     }
                                 </div>
 
