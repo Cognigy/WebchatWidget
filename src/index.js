@@ -232,10 +232,17 @@ const init = function init(userOptions) {
 
 	/* If we receive a message event, display the message and send it to Cognigy */
 	function receiveMessage(event) {
+		// TODO: Improve security
+		// This temparily fixes a bug caused by the Grammarly extension posting window events
+		if (event && event.data && typeof event.data === "string" && event.data.match("setImmediate")) {
+			return;
+		}
+
 		/* If the event is a postback, display the title instead of the payload. In this case, we use CustomEvent instead of MessageEvent for IE support */
 		if (event && event.detail && event.detail.type === "postback") {
 			Helpers.handleDisplayPostbackMessage(event.detail.title);
 			handleCognigyMessage(event.detail.payload);
+
 		} else if (event && event.data) {
 			Helpers.handleDisplayPostbackMessage(event.data);
 			handleCognigyMessage(event.data);
