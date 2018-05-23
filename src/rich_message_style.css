@@ -1,15 +1,15 @@
 .button_template_container {
     width: 80%;
     color: #333333;
-    padding: 0 10px;
     text-align: center;
     background: white;
     display: block;
-    line-height: 32px;
     font-weight: 500;
+    padding: 7px 10px;
     cursor: pointer;
-    height: 32px;
+    line-height: 16px;
 }
+
 
 .button_template_outer_container {
     width: 60%;
