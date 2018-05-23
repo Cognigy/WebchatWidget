@@ -8,25 +8,26 @@ styles.use();
 import { Avatar } from "../Avatar.jsx";
 
 class Carousel extends Component {
-	constructor() {
-		super();
+    constructor() {
+        super();
 
-		this.state = {
-			currentSlide: 0
+        this.state = {
+            currentSlide: 0,
+            imageUrl: null
         };
 
         this.handleSlideChange = this.handleSlideChange.bind(this);
-        
+
     }
-    
+
     handleSlideChange = (galleryElements, currentSlide) => {
         /* Set the currentSlide value to the slide we are switching to */
         if (currentSlide !== (galleryElements.length - 1)) {
             this.setState({
                 currentSlide
             });
-        } 
-        
+        }
+
         /* If we are at the last slide (minus the clone slide), we don't slide further */
         else if (currentSlide === (galleryElements.length - 1)) {
             this.setState({
@@ -35,15 +36,30 @@ class Carousel extends Component {
         }
     }
 
+    componentWillMount() {
+        /* If we can load the logo image, then we use it. Otherwise we use the Cognigy logo */
+        const img = new Image();
+
+        img.onload = () => {
+            this.setState({ imageUrl: this.props.messageLogoUrl });
+        }
+
+        img.onerror = () => {
+            this.setState({ imageUrl: "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/cognigy_logo.svg" });
+        }
+
+        img.src = this.props.messageLogoUrl;
+    }
+
     componentDidMount() {
         /* Set the slider width to 100% for IE support */
-        if(this.slider && this.slider.base && this.slider.base.style) {
+        if (this.slider && this.slider.base && this.slider.base.style) {
             this.slider.base.style.width = "100%";
             this.slider.base.style.maxWidth = "100%";
         }
     }
 
-	render() {
+    render() {
         const sliderSettings = {
             showArrows: false,
             showStatus: false,
@@ -51,7 +67,7 @@ class Carousel extends Component {
             showIndicators: false,
             transitionTime: 300,
             centerMode: true,
-            centerSlidePercentage: this.state.currenSlide === 0 ? (this.state.currentSlide === 2) ? 85 : 80: 90,
+            centerSlidePercentage: this.state.currenSlide === 0 ? (this.state.currentSlide === 2) ? 85 : 80 : 90,
             onClickItem: (index) => {
                 /* Update the currentSlide so the state of this component is up to date with the internal state of the Carousel */
                 this.setState({ currentSlide: index });
@@ -65,42 +81,42 @@ class Carousel extends Component {
         }
 
         return (
-            <div 
+            <div
                 className="cognigy-chat-bot-message-container"
                 style={{
                     marginLeft: this.state.currentSlide !== 0 ? "0px" : "10px"
                 }}
             >
-                <Slider 
+                <Slider
                     {...sliderSettings}
                     style={{ background: "white" }}
                     onChange={(currentSlide) => this.handleSlideChange(galleryElements, currentSlide)}
                     selectedItem={this.state.currentSlide}
                     ref={(slider) => { this.slider = slider }}
                 >
-                    { galleryElements && galleryElements.map((element, index) => (
+                    {this.state.imageUrl && galleryElements && galleryElements.map((element, index) => (
                         <div style={{
                             display: "flex",
                             flexDirection: "row",
                             alignItems: "flex-end",
                         }}>
-                            <Avatar 
-                                style={{ 
+                            <Avatar
+                                style={{
                                     visibility: index !== 0 ? "hidden" : "visible",
                                     minWidth: index !== 0 ? "10px" : "20px",
                                     maxWidth: index !== 0 ? "10px" : "20px",
                                     marginBottom: "1px"
                                 }}
-                                messageLogoUrl={ this.props.messageLogoUrl }
+                                imageUrl={this.state.imageUrl}
                             />
                             <div
                                 key={index + element.title}
                                 className="generic_template_element_container"
                                 style={{
-                                        /* Don't display the last element since it is a cloned element only there for styling purposes */
-                                        display: index === (galleryElements.length - 1) ? "none": "auto",
-                                        marginBottom: "5px",
-                                        width: "100%"
+                                    /* Don't display the last element since it is a cloned element only there for styling purposes */
+                                    display: index === (galleryElements.length - 1) ? "none" : "auto",
+                                    marginBottom: "5px",
+                                    width: "100%"
                                 }}
                             >
                                 <div
@@ -114,14 +130,14 @@ class Carousel extends Component {
                                 />
 
                                 <div className="generic_template_carousel_buttons_container">
-                                    <div 
+                                    <div
                                         className="generic_template_decrement"
                                         onClick={() => {
                                             /* Set cancelClik state on the slider to avoid default behavoir */
                                             this.setState.bind(this.slider)({ cancelClick: true }, () => {
                                                 this.slider.decrement();
-                                            });     
-                                        }}    
+                                            });
+                                        }}
                                         style={{
                                             visibility: this.state.currentSlide !== index || this.state.currentSlide === 0
                                                 ? "hidden"
@@ -129,7 +145,7 @@ class Carousel extends Component {
                                         }}
                                     />
 
-                                    <div 
+                                    <div
                                         className="generic_template_increment"
                                         onClick={() => {
                                             /* Set cancelClik state on the slider to avoid default behavoir */
@@ -145,21 +161,21 @@ class Carousel extends Component {
                                     />
                                 </div>
                                 <div className="generic_template_text_container">
-                                    { element.title && 
+                                    {element.title &&
                                         <p className="text_title">
-                                            { element.title }
+                                            {element.title}
                                         </p>
                                     }
 
-                                    { element.subtitle &&
+                                    {element.subtitle &&
                                         <p className="text_subtitle">
-                                            { element.subtitle }
+                                            {element.subtitle}
                                         </p>
                                     }
                                 </div>
 
-                                { element.buttons && element.buttons.map(button => (
-                                    <div 
+                                {element.buttons && element.buttons.map(button => (
+                                    <div
                                         className="button"
                                         onClick={() => {
                                             if (button.type === "postback") {
@@ -169,11 +185,11 @@ class Carousel extends Component {
                                             };
                                         }}
                                     >
-                                        { button.title }
+                                        {button.title}
                                     </div>
                                 ))}
                             </div>
-                        </div>                 
+                        </div>
                     ))}
                 </Slider>
 
