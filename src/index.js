@@ -18,12 +18,13 @@ custom_color_css.use();
 BrowserDetect.init();
 
 const defaultOptions = {
-    resetContext: true,
+	resetContext: true,
 	resetState: true,
 	enableTTS: false,
 	enableSTT: false,
 	fileUpload: false,
 	keepMarkup: true,
+	displayGetStartedButton: true,
 	user: Date.now().toString(),
 	designTemplate: 1,
 	channel: "website",
@@ -59,7 +60,7 @@ const init = function init(userOptions) {
 
 	/* Check whether we can load the header logo. */
 	var img = new Image();
-	img.onload = function() {
+	img.onload = function () {
 		var headerLogo = document.getElementById("cognigyHeaderLogo");
 		headerLogo.src = options.headerLogoUrl;
 	}
@@ -85,14 +86,14 @@ const init = function init(userOptions) {
 	/* Create functiont to read cognigyMessages */
 	let readCognigyMessage;
 	if (options.enableTTS) {
-		readCognigyMessage = function(message) {
+		readCognigyMessage = function (message) {
 			if (client && client.isConnected() && message) {
 				console.log(message)
 				client.say(message);
 			}
 		}
 	} else {
-		readCognigyMessage = function() {
+		readCognigyMessage = function () {
 			return;
 		}
 	}
@@ -102,73 +103,81 @@ const init = function init(userOptions) {
 	 */
 
 	/* Function to call on output from Cognigy AI */
-	options.handleOutput = function(output) {
-        /* Check whether we have received a url to use for file uploads */
-        if (output.data && output.data.fileUploadUrl) {
-            fileUploadUrl = output.data.fileUploadUrl;
-        }
+	options.handleOutput = function (output) {
+		/* Check whether we have received a url to use for file uploads */
+		if (output.data && output.data.fileUploadUrl) {
+			fileUploadUrl = output.data.fileUploadUrl;
+		}
 
 		/* Display the cognigy message */
 		Helpers.displayCognigyMessage(output, messageLogoUrl, readCognigyMessage, handleCognigyMessage);
-		
+
 	}
 
 	const client = new Cognigy.CognigyWebClient(options);
 
 	client.connect()
-	.catch(function(error) {
+		.catch(function (error) {
 			alert("Error connecting. Please check your connection parameters.");
 			console.log(error);
-	});
+		});
 
 	/**
 	 * 5. We initialize functionality for recordings, fileUploads, postBack buttons etc.
 	 */
 
 	//Function used by postback buttons
-	const handleCognigyMessage = function(message) {
+	const handleCognigyMessage = function (message) {
 		if (client && client.isConnected() && message) {
 			const inputValue = document.getElementById("cognigy-input").textContent
 			document.getElementById("cognigy-input").textContent = "";
 			if (message) {
-				client.sendMessage(message, { 
+				client.sendMessage(message, {
 					"browser": {
 						"browser": BrowserDetect.browser,
 						"version": BrowserDetect.version
-					 }
+					}
 				});
 			} else {
-				client.sendMessage(inputValue, { 
+				client.sendMessage(inputValue, {
 					"browser": {
 						"browser": BrowserDetect.browser,
 						"version": BrowserDetect.version
-					 }
+					}
 				});
 			}
 		}
 	}
 
 	/* Get Started button functionality */
-	const getStartedButton = document.getElementById("cognigy-get-started-button");
+	if (options.displayGetStartedButton) {
 
-	/* Check whether we have options to define chat text */
-	let getStartedText;
-	if (options && options.getStartedText) {
-		getStartedText = options.getStartedText;
+		const getStartedButton = document.getElementById("cognigy-get-started-button");
+
+		/* Check whether we have options to define chat text */
+		let getStartedText;
+		if (options && options.getStartedText) {
+			getStartedText = options.getStartedText;
+		} else {
+			getStartedText = "Get Started";
+		}
+
+		/* Check whether we have options to define postback text */
+		let getStartedPayload;
+		if (options && options.getStartedPayload) {
+			getStartedPayload = options.getStartedPayload;
+		} else {
+			getStartedPayload = "GET_STARTED";
+		}
+
+		getStartedButton.onclick = function () {
+			Helpers.handleGetStartedButton(getStartedText, getStartedPayload, handleCognigyMessage);
+		}
+
 	} else {
-		getStartedText = "Get Started";
-	}
 
-	/* Check whether we have options to define postback text */
-	let getStartedPayload;
-	if (options && options.getStartedPayload) {
-		getStartedPayload = options.getStartedPayload;
-	} else {
-		getStartedPayload = "GET_STARTED";
-	}
-
-	getStartedButton.onclick = function() {
-		Helpers.handleGetStartedButton(getStartedText, getStartedPayload, handleCognigyMessage);
+		/* Display input field */
+		document.getElementById("cognigy-form").className = "cognigy-chat-form";
 	}
 
 	// Recording functionality
@@ -190,13 +199,13 @@ const init = function init(userOptions) {
 			}
 		}
 
-		client.registerOnRecEnd( function(transcript) {
+		client.registerOnRecEnd(function (transcript) {
 			Helpers.handleDisplayRecording(transcript)
-			client.sendMessage(transcript, { 
+			client.sendMessage(transcript, {
 				"browser": {
 					"browser": BrowserDetect.browser,
 					"version": BrowserDetect.version
-				 }
+				}
 			});
 			console.log("what you said was: ", transcript);
 		})
@@ -205,16 +214,16 @@ const init = function init(userOptions) {
 	// listen on form submit event and use handleCognigyMessage function
 	const formElement = document.getElementById("cognigy-form");
 
-	formElement.addEventListener("submit", function() {
+	formElement.addEventListener("submit", function () {
 		if (client && client.isConnected()) {
 			var inputValue = document.getElementById("cognigy-input").textContent
 			document.getElementById("cognigy-input").textContent = "";
 
-			client.sendMessage(inputValue, { 
+			client.sendMessage(inputValue, {
 				"browser": {
 					"browser": BrowserDetect.browser,
 					"version": BrowserDetect.version
-				 }
+				}
 			});
 		}
 	}, false);
@@ -242,8 +251,8 @@ const init = function init(userOptions) {
 
 	/* Handle file uploads. This requires that Cognigy sends us a file upload url in a data object */
 	document.getElementById('cognigy-file-upload-form')
-		.addEventListener("submit", function(e) {
-			if(e)
+		.addEventListener("submit", function (e) {
+			if (e)
 				e.preventDefault()
 
 			/* Check whether we have received a file upload url from Cognigy at some point */
@@ -257,17 +266,17 @@ const init = function init(userOptions) {
 			var fileNames = [];
 
 			/* Loop through the files, append the files to FormData and print the file names in the chat */
-			Array.prototype.map.call(files, function(file) {
+			Array.prototype.map.call(files, function (file) {
 				data.append("file", file, file.name);
 				fileNames.push(file.name);
-				Helpers.handleDisplayPostbackMessage(file.name); 
+				Helpers.handleDisplayPostbackMessage(file.name);
 			})
 
 			var request = new XMLHttpRequest();
 
 			/* Send message back to Cognigy when we get a response from the server */
-			request.onreadystatechange = function() {
-				if(request.readyState === XMLHttpRequest.DONE && request.status === 200) {
+			request.onreadystatechange = function () {
+				if (request.readyState === XMLHttpRequest.DONE && request.status === 200) {
 					client.sendMessage("File upload completed", {
 						event: "FileUpload",
 						fileUpload: {
@@ -298,7 +307,7 @@ const init = function init(userOptions) {
 
 			request.open("POST", fileUploadUrl);
 			request.send(data);
-	})
+		})
 }
 
 const buildHTMLDocument = (options) => {
@@ -347,20 +356,24 @@ const buildHTMLDocument = (options) => {
 	var chatContainer = Helpers.createElement("div", "cognigy-chat-container", "cognigy-container");
 	outerContainer.appendChild(chatContainer);
 
-	var getStartedButton = Helpers.createElement("button", "cognigy-get-started-button", "cognigy-get-started-button");
+	/* Render the getStartedButton */
+	if (options.displayGetStartedButton) {
+		var getStartedButton = Helpers.createElement("button", "cognigy-get-started-button", "cognigy-get-started-button");
 
-	/* Render the getStartedButton title based on the locale */
-	if (options.locale && options.locale === "de-DE") {
-		var getStartedButtonTitle = document.createTextNode("LOS GEHT'S");
-	} else if (options.locale && options.locale === "en-US") {
-		var getStartedButtonTitle = document.createTextNode("GET STARTED");
-	} else {
-		var getStartedButtonTitle = document.createTextNode("GET STARTED");
+		/* Render the getStartedButton title based on the locale */
+		if (options.locale && options.locale === "de-DE") {
+			var getStartedButtonTitle = document.createTextNode("LOS GEHT'S");
+		} else if (options.locale && options.locale === "en-US") {
+			var getStartedButtonTitle = document.createTextNode("GET STARTED");
+		} else {
+			var getStartedButtonTitle = document.createTextNode("GET STARTED");
+		}
+
+		getStartedButton.appendChild(getStartedButtonTitle);
+
+		outerContainer.appendChild(getStartedButton);
 	}
 
-	getStartedButton.appendChild(getStartedButtonTitle);
-
-	outerContainer.appendChild(getStartedButton);
 
 	//Create chatForm with input, send button, record button and record toggle button
 	var chatForm = Helpers.createElement("form", "displayNone", "cognigy-form");
@@ -371,7 +384,7 @@ const buildHTMLDocument = (options) => {
 		try {
 			let persistentMenu;
 			if (typeof options.persistentMenu === "string") {
-				persistentMenu = JSON.parse(options.persistentMenu); 
+				persistentMenu = JSON.parse(options.persistentMenu);
 			} else {
 				persistentMenu = options.persistentMenu;
 			}
@@ -398,7 +411,7 @@ const buildHTMLDocument = (options) => {
 	} else {
 		chatInput.setAttribute("data-text", "Write a reply");
 	}
-	
+
 	chatInput.contentEditable = true;
 	chatInput.returnKeyType = "Send";
 
@@ -409,10 +422,10 @@ const buildHTMLDocument = (options) => {
 		if (typeof window.CustomEvent === "function") return false;
 
 		function CustomEvent(event, params) {
-		params = params || { bubbles: false, cancelable: false, detail: undefined };
-		var evt = document.createEvent('CustomEvent');
-		evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-		return evt;
+			params = params || { bubbles: false, cancelable: false, detail: undefined };
+			var evt = document.createEvent('CustomEvent');
+			evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+			return evt;
 		}
 
 		CustomEvent.prototype = window.Event.prototype;
@@ -423,9 +436,9 @@ const buildHTMLDocument = (options) => {
 	var messageEvent = new CustomEvent('submit', { cancelable: true });
 	chatInput.onkeydown = function (e) {
 		e.keyCode === 13 && !e.shiftKey ? function () {
-		if (e)
-			e.preventDefault ? e.preventDefault() : (e.returnValue = false);
-		document.getElementById('cognigy-form').dispatchEvent(messageEvent);
+			if (e)
+				e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+			document.getElementById('cognigy-form').dispatchEvent(messageEvent);
 		}() : null;
 	};
 	chatForm.appendChild(chatInput);
@@ -460,7 +473,7 @@ const buildHTMLDocument = (options) => {
 	var fileUploadInput = Helpers.createElement("input", "cognigy-file-upload-input", "cognigy-file-upload-input");
 	fileUploadInput.type = "file";
 	fileUploadInput.multiple = "true";
-	fileUploadInput.onchange = function() {
+	fileUploadInput.onchange = function () {
 		document.getElementById('cognigy-file-upload-form').dispatchEvent(messageEvent);
 	}
 
@@ -492,17 +505,17 @@ const buildHTMLDocument = (options) => {
 		recordToggled = !recordToggled;
 
 		if (recordToggled) {
-		recordToggleAvatar.src = 'https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic_off.svg';
-		//Change input to mic button
-		chatInput.className = "displayNone";
-		chatForm.style.justifyContent = "center";
-		enableSTT.className = "cognigy-record-button";
+			recordToggleAvatar.src = 'https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic_off.svg';
+			//Change input to mic button
+			chatInput.className = "displayNone";
+			chatForm.style.justifyContent = "center";
+			enableSTT.className = "cognigy-record-button";
 		} else {
-		//Change from mic button to text input
-		recordToggleAvatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic_on.svg";
-		enableSTT.className = "displayNone";
-		chatInput.className = "cognigy-chat-input";
-		chatForm.style.justifyContent = "space-between";
+			//Change from mic button to text input
+			recordToggleAvatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic_on.svg";
+			enableSTT.className = "displayNone";
+			chatInput.className = "cognigy-chat-input";
+			chatForm.style.justifyContent = "space-between";
 		}
 	}
 
@@ -510,13 +523,13 @@ const buildHTMLDocument = (options) => {
 	//Add event listener for form submit event
 	var formElement = document.getElementById("cognigy-form");
 	formElement.addEventListener("submit", function (event) {
-	if (event)
-	event.preventDefault ? event.preventDefault() : (event.returnValue = false);
-	Helpers.handleSendMessage(event);
+		if (event)
+			event.preventDefault ? event.preventDefault() : (event.returnValue = false);
+		Helpers.handleSendMessage(event);
 	}, false);
 }
 
-const mapPolyfill= function mapPolyfill() {
+const mapPolyfill = function mapPolyfill() {
 	// Production steps of ECMA-262, Edition 5, 15.4.4.19
 	// Reference: http://es5.github.io/#x15.4.4.19
 	var T, A, k;
@@ -566,33 +579,33 @@ const mapPolyfill= function mapPolyfill() {
 		// c. If kPresent is true, then
 		if (k in O) {
 
-		// i. Let kValue be the result of calling the Get internal 
-		//    method of O with argument Pk.
-		kValue = O[k];
+			// i. Let kValue be the result of calling the Get internal 
+			//    method of O with argument Pk.
+			kValue = O[k];
 
-		// ii. Let mappedValue be the result of calling the Call internal 
-		//     method of callback with T as the this value and argument 
-		//     list containing kValue, k, and O.
-		mappedValue = callback.call(T, kValue, k, O);
+			// ii. Let mappedValue be the result of calling the Call internal 
+			//     method of callback with T as the this value and argument 
+			//     list containing kValue, k, and O.
+			mappedValue = callback.call(T, kValue, k, O);
 
-		// iii. Call the DefineOwnProperty internal method of A with arguments
-		// Pk, Property Descriptor
-		// { Value: mappedValue,
-		//   Writable: true,
-		//   Enumerable: true,
-		//   Configurable: true },
-		// and false.
+			// iii. Call the DefineOwnProperty internal method of A with arguments
+			// Pk, Property Descriptor
+			// { Value: mappedValue,
+			//   Writable: true,
+			//   Enumerable: true,
+			//   Configurable: true },
+			// and false.
 
-		// In browsers that support Object.defineProperty, use the following:
-		// Object.defineProperty(A, k, {
-		//   value: mappedValue,
-		//   writable: true,
-		//   enumerable: true,
-		//   configurable: true
-		// });
+			// In browsers that support Object.defineProperty, use the following:
+			// Object.defineProperty(A, k, {
+			//   value: mappedValue,
+			//   writable: true,
+			//   enumerable: true,
+			//   configurable: true
+			// });
 
-		// For best browser support, use the following:
-		A[k] = mappedValue;
+			// For best browser support, use the following:
+			A[k] = mappedValue;
 		}
 		// d. Increase k by 1.
 		k++;
@@ -600,7 +613,7 @@ const mapPolyfill= function mapPolyfill() {
 
 	// 9. return A
 	return A;
-} 
+}
 
 module.exports = {
 	init
