@@ -168,7 +168,7 @@ class Carousel extends Component {
                                         className="button"
                                         onClick={() => {
                                             if (button.type === "postback") {
-                                                return this.props.handleButtonPostback(button.payload);
+                                                return this.props.handleButtonPostback(button.title, button.payload);
                                             } else if (button.type === "web_url") {
                                                 return this.props.handleButtonWebUrl(button.url);
                                             };
