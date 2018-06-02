@@ -24,6 +24,7 @@ const defaultOptions = {
 	enableSTT: false,
 	enableFileUpload: false,
 	keepMarkup: true,
+	displayGetStartedButton: true,
 	user: Date.now().toString(),
 	designTemplate: 1,
 	channel: "website",
