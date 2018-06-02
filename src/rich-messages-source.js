@@ -13,18 +13,14 @@ var RichMessages = (function () {
 		this.messageLogoUrl = messageLogoUrl;
 		this.displayCognigyMessage = displayCognigyMessage;
 
-        if (messageData.facebook && messageData.facebook.attachment && messageData.facebook.attachment.payload) {
-            this.messageData = messageData.facebook.attachment.payload;
-        }
-        else if (messageData._cognigy && messageData._cognigy._facebook && messageData._cognigy._facebook.message &&
-            messageData._cognigy._facebook.message.attachment && messageData._cognigy._facebook.message.attachment.payload) {
-            this.messageData = messageData._cognigy._facebook.message.attachment.payload;
+
+        if (messageData.message && messageData.message.attachment && messageData.message.attachment.payload) {
+            this.messageData = messageData.message.attachment.payload;
         }   
+
         this.messageContainer = messageContainer;
-        this.quickReplies = messageData.facebook && messageData.facebook.quick_replies || (messageData._cognigy && messageData._cognigy._facebook
-            && messageData._cognigy._facebook.message && messageData._cognigy._facebook.message.quick_replies);
-        this.quickReplyText =  (messageData._cognigy && messageData._cognigy._facebook
-            && messageData._cognigy._facebook.message);
+        this.quickReplies = messageData.message && messageData.message.quick_replies;
+        this.quickReplyText =  messageData.message;
     }
     RichMessages.prototype.findTemplate = function () {
         if (this.messageData) {
@@ -74,7 +70,7 @@ var RichMessages = (function () {
             }
 
             quickReplyButton.onclick = () => { 
-                this.handleDisplayPostbackMessage(reply.payload);
+                this.handleDisplayPostbackMessage(reply.title);
                 return this.handleCognigyMessage(reply.payload); 
             };
             quickReplyButton.className = "quick_reply";
@@ -93,7 +89,7 @@ var RichMessages = (function () {
         buttonContainer.appendChild(buttonTitle);
         //Postback button sends a message to the server when clicked
         if (button.type === "postback") {
-            buttonContainer.onclick = function () { return _this.handleButtonPostback(button.payload); };
+            buttonContainer.onclick = function () { return _this.handleButtonPostback(button.title, button.payload); };
         }
         //URL button redirects to a website
         if (button.type == "web_url") {
@@ -101,8 +97,8 @@ var RichMessages = (function () {
         }
         return buttonContainer;
     };
-    RichMessages.prototype.handleButtonPostback = function (postbackMessage) {
-        this.handleDisplayPostbackMessage(postbackMessage);
+    RichMessages.prototype.handleButtonPostback = function (title, postbackMessage) {
+        this.handleDisplayPostbackMessage(title);
         this.handleCognigyMessage(postbackMessage);
     };
     RichMessages.prototype.handleButtonWebUrl = function (url) {
@@ -139,7 +135,7 @@ var RichMessages = (function () {
         buttonContainer.appendChild(buttonTitle);
         //Postback button sends a message to the server when clicked
         if (button.type === "postback") {
-            buttonContainer.onclick = function () { return _this.handleButtonPostback(button.payload); };
+            buttonContainer.onclick = function () { return _this.handleButtonPostback(button.title, button.payload); };
         }
         //URL button redirects to a website
         if (button.type == "web_url") {

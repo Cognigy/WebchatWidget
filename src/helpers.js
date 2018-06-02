@@ -94,8 +94,12 @@ class Helpers {
 		var chatContainer = document.getElementById("cognigy-container");
 
 		//Display Facebook message if it is there. Otherwise display normal message
-		if (answerFromCognigy && answerFromCognigy.data && (answerFromCognigy.data.facebook || answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._facebook)) {
-			var renderRichMessage = new RichMessages(answerFromCognigy.data, chatContainer, readCognigyMessage, this.handleDisplayPostbackMessage, handleCognigyMessage, messageLogoUrl, this.displayCognigyMessage);
+		if (answerFromCognigy && answerFromCognigy.data && answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._webchat) {
+			var renderRichMessage = new RichMessages(answerFromCognigy.data._cognigy._webchat, chatContainer, readCognigyMessage, this.handleDisplayPostbackMessage, handleCognigyMessage, messageLogoUrl, this.displayCognigyMessage);
+			renderRichMessage.renderMessage();
+
+		} else if (answerFromCognigy && answerFromCognigy.data && answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._facebook) {
+			var renderRichMessage = new RichMessages(answerFromCognigy.data._cognigy._facebook, chatContainer, readCognigyMessage, this.handleDisplayPostbackMessage, handleCognigyMessage, messageLogoUrl, this.displayCognigyMessage);
 			renderRichMessage.renderMessage();
 		} else if (typeof cognigyAnswer !== 'undefined') {
 			var messageContainer = document.createElement("div");

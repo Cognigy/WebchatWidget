@@ -1,6 +1,8 @@
 /* Node modules */
 import { Component, render, h } from "preact";
 import { Carousel as Slider } from 'react-responsive-carousel';
+import ClampLines from "react-clamp-lines";
+
 import styles from './carousel.css';
 styles.use();
 
@@ -167,10 +169,13 @@ class Carousel extends Component {
                                         </p>
                                     }
 
-                                    {element.subtitle &&
-                                        <p className="text_subtitle">
-                                            {element.subtitle}
-                                        </p>
+                                    { element.subtitle &&
+                                        <ClampLines
+                                            text={element.subtitle}
+                                            buttons={false}
+                                            lines="5"
+                                            className="text_subtitle"
+                                        />
                                     }
                                 </div>
 
@@ -179,7 +184,7 @@ class Carousel extends Component {
                                         className="button"
                                         onClick={() => {
                                             if (button.type === "postback") {
-                                                return this.props.handleButtonPostback(button.payload);
+                                                return this.props.handleButtonPostback(button.title, button.payload);
                                             } else if (button.type === "web_url") {
                                                 return this.props.handleButtonWebUrl(button.url);
                                             };

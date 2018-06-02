@@ -1,6 +1,10 @@
 # Changelog
 This changelog contains a brief description of all released versions.
 
+## [1.0.4] (11.04.2018)
+#### Bugfixes
+* Fixed ``Quick Replies`` displaying the ``payload`` instead of the ``text`` in the webchat
+
 ## [1.0.3] (29.03.2018)
 #### Features
 * Implemented configurable ``Persistent Menu``

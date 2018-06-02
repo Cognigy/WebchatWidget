@@ -22,12 +22,15 @@ const defaultOptions = {
 	resetState: true,
 	enableTTS: false,
 	enableSTT: false,
-	fileUpload: false,
+	enableFileUpload: false,
 	keepMarkup: true,
 	displayGetStartedButton: true,
 	user: Date.now().toString(),
 	designTemplate: 1,
 	channel: "website",
+	enablePersistentMenu: false,
+	displayGetStartedButton: true,
+	inputPlaceholder: "Write a reply",
 	locale: "en-US"
 }
 
@@ -151,7 +154,6 @@ const init = function init(userOptions) {
 
 	/* Get Started button functionality */
 	if (options.displayGetStartedButton) {
-
 		const getStartedButton = document.getElementById("cognigy-get-started-button");
 
 		/* Check whether we have options to define chat text */
@@ -173,9 +175,7 @@ const init = function init(userOptions) {
 		getStartedButton.onclick = function () {
 			Helpers.handleGetStartedButton(getStartedText, getStartedPayload, handleCognigyMessage);
 		}
-
 	} else {
-
 		/* Display input field */
 		document.getElementById("cognigy-form").className = "cognigy-chat-form";
 	}
@@ -243,6 +243,7 @@ const init = function init(userOptions) {
 		if (event && event.detail && event.detail.type === "postback") {
 			Helpers.handleDisplayPostbackMessage(event.detail.title);
 			handleCognigyMessage(event.detail.payload);
+
 		} else if (event && event.data) {
 			Helpers.handleDisplayPostbackMessage(event.data);
 			handleCognigyMessage(event.data);
@@ -358,19 +359,11 @@ const buildHTMLDocument = (options) => {
 
 	/* Render the getStartedButton */
 	if (options.displayGetStartedButton) {
-		var getStartedButton = Helpers.createElement("button", "cognigy-get-started-button", "cognigy-get-started-button");
+		const getStartedButton = Helpers.createElement("button", "cognigy-get-started-button", "cognigy-get-started-button");
 
-		/* Render the getStartedButton title based on the locale */
-		if (options.locale && options.locale === "de-DE") {
-			var getStartedButtonTitle = document.createTextNode("LOS GEHT'S");
-		} else if (options.locale && options.locale === "en-US") {
-			var getStartedButtonTitle = document.createTextNode("GET STARTED");
-		} else {
-			var getStartedButtonTitle = document.createTextNode("GET STARTED");
-		}
+		const getStartedButtonTitle = document.createTextNode(`${options.getStartedButtonText || "GET STARTED"}`);
 
 		getStartedButton.appendChild(getStartedButtonTitle);
-
 		outerContainer.appendChild(getStartedButton);
 	}
 
@@ -380,7 +373,7 @@ const buildHTMLDocument = (options) => {
 	outerContainer.appendChild(chatForm);
 
 	/* Check if the persistentMenu option is specified */
-	if (options.persistentMenu) {
+	if (options.enablePersistentMenu) {
 		try {
 			let persistentMenu;
 			if (typeof options.persistentMenu === "string") {
@@ -403,14 +396,7 @@ const buildHTMLDocument = (options) => {
 
 	var chatInput = Helpers.createElement("div", "cognigy-chat-input", "cognigy-input");
 
-	/* Render the input placeholder text based on the locale */
-	if (options.locale && options.locale === "de-DE") {
-		chatInput.setAttribute("data-text", "Antwort eingeben");
-	} else if (options.locale && options.locale === "en-US") {
-		chatInput.setAttribute("data-text", "Write a reply");
-	} else {
-		chatInput.setAttribute("data-text", "Write a reply");
-	}
+	chatInput.setAttribute("data-text", `${options.inputPlaceholder}`);
 
 	chatInput.contentEditable = true;
 	chatInput.returnKeyType = "Send";
@@ -491,10 +477,10 @@ const buildHTMLDocument = (options) => {
 	fileUploadButton.appendChild(fileUploadAvatar);
 	chatForm.appendChild(fileUploadButton);
 
-	if (options && options.fileUpload && options.enableSTT) {
+	if (options && options.enableFileUpload && options.enableSTT) {
 		fileUploadForm.className = "cognigy-file-upload-form";
 		fileUploadButton.className = "cognigy-file-upload-button";
-	} else if (options && options.fileUpload && !options.enableSTT) {
+	} else if (options && options.enableFileUpload && !options.enableSTT) {
 		fileUploadForm.className = "cognigy-file-upload-form";
 		fileUploadButton.className = "cognigy-file-upload-button-no-record-button";
 		fileUploadInput.className = "cognigy-file-upload-input-no-record-button";
