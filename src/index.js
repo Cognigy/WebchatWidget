@@ -35,7 +35,7 @@ const defaultOptions = {
 }
 
 /* This function inits the CognigyClient connection */
-const init = function init(userOptions) {
+const init = function init(userOptions, outputCallback) {
 	/**
 	 * 1. Add polyfill for map function. This is required for compatibility with IE
 	 */
@@ -107,6 +107,12 @@ const init = function init(userOptions) {
 
 	/* Function to call on output from Cognigy AI */
 	options.handleOutput = function (output) {
+
+		/* If the user has defined a callback function, then we execute it on each output */
+		if (outputCallback) {
+			outputCallback(output);
+		}
+		
 		/* Check whether we have received a url to use for file uploads */
 		if (output.data && output.data.fileUploadUrl) {
 			fileUploadUrl = output.data.fileUploadUrl;
