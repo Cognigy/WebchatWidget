@@ -23,19 +23,19 @@ const defaultOptions = {
 	enableTTS: false,
 	enableSTT: false,
 	enableFileUpload: false,
+	userId: window.localStorage.getItem("userId") || generateRandomId(),
+	sessionId: generateRandomId(),
 	keepMarkup: true,
 	displayGetStartedButton: true,
-	user: Date.now().toString(),
 	designTemplate: 1,
 	channel: "website",
 	enablePersistentMenu: false,
 	displayGetStartedButton: true,
 	inputPlaceholder: "Write a reply",
-	locale: "en-US"
 }
 
 /* This function inits the CognigyClient connection */
-const init = function init(userOptions, outputCallback) {
+async function init(userOptions, outputCallback) {
 	/**
 	 * 1. Add polyfill for map function. This is required for compatibility with IE
 	 */
@@ -44,16 +44,81 @@ const init = function init(userOptions, outputCallback) {
 	}
 
 	/**
-	 * 2. We build the HTML required for the webchat
+	 * 2. Fetch Webchat configuration. The following cases exist:
+	 * 
+	 * 1. The userOptions is a string. This means that the user has only specified
+	 * a config URL that we should use to fetch the entire Webchat configuration.
+	 *
+	 * 2. The userOptions is an object that contains a configUrl key. In this case, we will
+	 * fetch the Webchat configuration from this specified URL. Any other options that are specified as part of the
+	 * userOptions object will override the settings in the config that is fetched. This is especially useful to specify userIds.
+	 * 
+	 * 3. The userOptions is an object that does not contain a configUrl key. In this case
+	 * we try to load the Webchat based on the options in the userOptions object and the default options.
 	 */
+	let options;
 
-	/* Create options object based on userOptions and defaultOptions */
-	const options = Object.assign({}, defaultOptions, userOptions);
+	try {
+		if (typeof userOptions === "string") {
 
-	buildHTMLDocument(options);
+			/** Fetch the webchat configuration from the userOptions URL */
+			const webchatConfigResponse = await window.fetch(userOptions);
+			const webchatConfig = await webchatConfigResponse.json();
+
+			/** Create the options object with the following priorization order */
+			options = Object.assign({},
+				defaultOptions,
+				webchatConfig,
+				webchatConfig.settings
+			);
+
+			/** Get the baseUrl by removing the URLToken from the URL. */
+			options.baseUrl = userOptions.split("/").slice(0, -1).join("/");
+
+		} else if (userOptions.configUrl) {
+
+			/** Fetch the webchat configuration from the specified configURL */
+			const webchatConfigResponse = await window.fetch(userOptions.configUrl);
+			const webchatConfig = await webchatConfigResponse.json();
+
+			/** Create the options object. Any additional settings in the userOptions have highest priority */
+			options = Object.assign({},
+				defaultOptions,
+				webchatConfig,
+				webchatConfig.settings,
+				userOptions
+			);
+
+			/** Get the baseUrl by removing the URLToken from the URL. */
+			options.baseUrl = userOptions.configUrl.split("/").slice(0, -1).join("/");
+
+		} else {
+			/* Create options object based on userOptions and defaultOptions */
+			options = Object.assign({}, defaultOptions, userOptions);
+		}
+
+	} catch (error) {
+		console.error(`Unable to get Webchat configuration. Error was: ${error}`);
+		return;
+	}
+
+	/* Explicitly check whether the endpoint is disabled */
+	if (options.active === false) {
+		alert("This Webchat Endpoint is currently disabled. You can enable it in the COGNIY.AI User Interface.");
+	}
+
+	/* Set the userId in localStorage */
+	window.localStorage.setItem("userId", options.userId);
+
 
 	/**
-	 * 3. We initialize logos, colors and so on based on the user options
+	 * 3. We build the HTML required for the webchat
+	 */
+	buildHTMLDocument(options);
+
+
+	/**
+	 * 4. We initialize logos, colors and so on based on the user options
 	 */
 
 	/* URL to use for file uploads and message logos. */
@@ -102,7 +167,7 @@ const init = function init(userOptions, outputCallback) {
 	}
 
 	/**
-	 * 4. We initialize the CognigyClient
+	 * 5. We initialize the CognigyClient
 	 */
 
 	/* Function to call on output from Cognigy AI */
@@ -112,7 +177,7 @@ const init = function init(userOptions, outputCallback) {
 		if (outputCallback) {
 			outputCallback(output);
 		}
-		
+
 		/* Check whether we have received a url to use for file uploads */
 		if (output.data && output.data.fileUploadUrl) {
 			fileUploadUrl = output.data.fileUploadUrl;
@@ -132,7 +197,7 @@ const init = function init(userOptions, outputCallback) {
 		});
 
 	/**
-	 * 5. We initialize functionality for recordings, fileUploads, postBack buttons etc.
+	 * 6. We initialize functionality for recordings, fileUploads, postBack buttons etc.
 	 */
 
 	//Function used by postback buttons
@@ -322,6 +387,11 @@ const buildHTMLDocument = (options) => {
 	const mainCognigyDiv = Helpers.createElement("div", "cognigy-web-chat", "cognigy");
 	const body = document.getElementsByTagName("body")[0];
 	body.appendChild(mainCognigyDiv);
+
+	/* If there is a backgroundImage specified, then we load it */
+	if (options.backgroundImageUrl) {
+		body.style.backgroundImage = `url(${options.backgroundImageUrl})`;
+	}
 
 	//Function to create html elements
 	var mainChatElement = document.getElementById("cognigy");
@@ -519,6 +589,26 @@ const buildHTMLDocument = (options) => {
 			event.preventDefault ? event.preventDefault() : (event.returnValue = false);
 		Helpers.handleSendMessage(event);
 	}, false);
+}
+
+/** Convert an integer to a hex string */
+function numberToString(number) {
+	return ('0' + number.toString(16)).substr(-2)
+}
+
+function generateRandomId() {
+
+	/* If window.crypto is available, we use this to create a new random id */
+	if (window && window.crypto && window.crypto.getRandomValues) {
+		const intArray = new Uint8Array(20);
+		window.crypto.getRandomValues(intArray);
+
+		return Array.from(intArray, (number) => numberToString(number)).join('');
+
+	} else {
+		/* Else we just use Date.now */
+		return Date.now();
+	}
 }
 
 const mapPolyfill = function mapPolyfill() {
