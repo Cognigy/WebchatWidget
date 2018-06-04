@@ -1,6 +1,10 @@
 # Changelog
 This changelog contains a brief description of all released versions.
 
+## [1.1.0] (29.05.2018)
+#### Features
+* The Webchat is now compatible with COGNIGY.AI version 3.0.0
+
 ## [1.0.4] (11.04.2018)
 #### Bugfixes
 * Fixed ``Quick Replies`` displaying the ``payload`` instead of the ``text`` in the webchat
