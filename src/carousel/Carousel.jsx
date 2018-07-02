@@ -84,7 +84,7 @@ class Carousel extends Component {
 
         return (
             <div
-                className="cognigy-chat-bot-message-container"
+                className="cognigy-chat-bot-message-container cognigy-chat-bot-gallery-container"
                 style={{
                     marginLeft: this.state.currentSlide !== 0 ? "0px" : "10px"
                 }}

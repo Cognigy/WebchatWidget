@@ -326,6 +326,10 @@ header content is only 90% of the total width of the chat box - just like the co
   position: relative;
 }
 
+.cognigy-chat-bot-gallery-container > div {
+  width: 100%;
+}
+
 .overflow__hidden {
   overflow: hidden;
 }
