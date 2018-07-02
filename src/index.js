@@ -35,7 +35,7 @@ const defaultOptions = {
 }
 
 /* This function inits the CognigyClient connection */
-async function init(userOptions, outputCallback) {
+async function init(userOptions, outputCallback, exposeClientCallback) {
 	/**
 	 * 1. Add polyfill for map function. This is required for compatibility with IE
 	 */
@@ -185,16 +185,17 @@ async function init(userOptions, outputCallback) {
 
 		/* Display the cognigy message */
 		Helpers.displayCognigyMessage(output, messageLogoUrl, readCognigyMessage, handleCognigyMessage);
-
 	}
 
 	const client = new Cognigy.CognigyWebClient(options);
 
-	client.connect()
-		.catch(function (error) {
-			alert("Error connecting. Please check your connection parameters.");
-			console.log(error);
-		});
+	try {
+		await client.connect();
+		
+	} catch (error) {
+		alert("Error connecting. Please check your connection parameters.");
+		console.log(error);
+	}
 
 	/**
 	 * 6. We initialize functionality for recordings, fileUploads, postBack buttons etc.
@@ -380,6 +381,13 @@ async function init(userOptions, outputCallback) {
 			request.open("POST", fileUploadUrl);
 			request.send(data);
 		})
+
+	/* Call the 'exposeClientCallback' with the client if defined */
+	if (exposeClientCallback && typeof exposeClientCallback === "function") {
+		exposeClientCallback(client);
+	}
+
+	return client;
 }
 
 const buildHTMLDocument = (options) => {
