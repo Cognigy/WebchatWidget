@@ -388,6 +388,11 @@ const buildHTMLDocument = (options) => {
 	const body = document.getElementsByTagName("body")[0];
 	body.appendChild(mainCognigyDiv);
 
+	/** Add the wirecard script to the page - displays the modal for payment */
+	const wirecardScript = document.createElement('script');
+	wirecardScript.setAttribute('src', 'https://wpp.wirecard.com/loader/paymentPage.js');
+	body.appendChild(wirecardScript);
+
 	/* If there is a backgroundImage specified, then we load it */
 	if (options.backgroundImageUrl) {
 		body.style.backgroundImage = `url(${options.backgroundImageUrl})`;

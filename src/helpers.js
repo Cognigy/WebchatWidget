@@ -90,6 +90,11 @@ class Helpers {
 
 	displayCognigyMessage = (answerFromCognigy, messageLogoUrl, readCognigyMessage, handleCognigyMessage) => {
 		if (!answerFromCognigy || answerFromCognigy.text === "") return null;
+
+		if (answerFromCognigy.data._wirecard) {
+			this.handleWirecardRequest(answerFromCognigy.data._wirecard);
+		}
+
 		var cognigyAnswer = answerFromCognigy && answerFromCognigy.text;
 		var chatContainer = document.getElementById("cognigy-container");
 
@@ -134,6 +139,40 @@ class Helpers {
 		chatContainer.scrollTop = chatContainer.scrollHeight;
 
 		readCognigyMessage(cognigyAnswer);
+	}
+
+	handleWirecardRequest = (wirecardData) => {
+
+		const { firstName, lastName, value, currency, paymentMethod } = wirecardData;
+
+		var request = new XMLHttpRequest();
+
+		request.onreadystatechange = function () {
+			if (request.readyState == XMLHttpRequest.DONE) {
+				let response = request.response;
+
+				if (response === 'error') {
+					alert('Error in execution');
+					return;
+				}
+
+				WPP.embeddedPayUrl(response);
+			}
+		}
+
+		request.open('POST', `${window.location.href}/wirecard`, true);
+		request.setRequestHeader('Content-Type', 'application/json');
+		request.send(JSON.stringify(
+			{
+				frameAncestor: window.location.href,
+				data: {
+					firstName,
+					lastName,
+					value,
+					currency,
+					paymentMethod
+				}
+			}));
 	}
 
 	/* Function to handle the getStartedButton */
