@@ -7,7 +7,7 @@ export function Avatar(props) {
 	
 	return (
 		<img
-			className="cognigy-chat-bot-avatar"
+			className={`cognigy-chat-bot-avatar ${props.className}`}
 			src={props.imageUrl}
 			style={ props.style }
 		/>

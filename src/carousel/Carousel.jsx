@@ -84,9 +84,10 @@ class Carousel extends Component {
 
         return (
             <div
-                className="cognigy-chat-bot-message-container cognigy-chat-bot-gallery-container"
+                // className="cognigy-chat-bot-message-container cognigy-chat-bot-gallery-container"
                 style={{
-                    marginLeft: this.state.currentSlide !== 0 ? "0px" : "10px"
+                    // Enable if logos are enabled
+                    // marginLeft: this.state.currentSlide !== 0 ? "0px" : "10px"
                 }}
             >
                 <Slider
@@ -101,6 +102,10 @@ class Carousel extends Component {
                             display: "flex",
                             flexDirection: "row",
                             alignItems: "flex-end",
+
+                            // Used when logos are disabled
+                            marginLeft: "10px",
+                            marginRight: "10px",
                         }}>
                             <Avatar
                                 style={{
@@ -109,6 +114,7 @@ class Carousel extends Component {
                                     maxWidth: index !== 0 ? "10px" : "20px",
                                     marginBottom: "1px"
                                 }}
+                                className={index === 0 ? "cognigy-chat-bot-gallery-avatar__first" : "cognigy-chat-bot-gallery-avatar"}
                                 imageUrl={this.state.imageUrl}
                             />
                             <div
