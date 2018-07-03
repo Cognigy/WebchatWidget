@@ -91,15 +91,39 @@ class Helpers {
 	displayCognigyMessage = (answerFromCognigy, messageLogoUrl, readCognigyMessage, handleCognigyMessage) => {
 		if (!answerFromCognigy || answerFromCognigy.text === "") return null;
 
-		if (answerFromCognigy.data._wirecard) {
-			this.handleWirecardRequest(answerFromCognigy.data._wirecard);
-		}
-
 		var cognigyAnswer = answerFromCognigy && answerFromCognigy.text;
 		var chatContainer = document.getElementById("cognigy-container");
 
-		//Display Facebook message if it is there. Otherwise display normal message
-		if (answerFromCognigy && answerFromCognigy.data && answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._webchat) {
+		//Display Wirecard payment button or facebook message if it is there. Otherwise display normal message
+		if (answerFromCognigy && answerFromCognigy.data && answerFromCognigy.data._wirecard) {
+			const wirecardData = answerFromCognigy.data._wirecard;
+
+			answerFromCognigy.data = {
+				_cognigy: {
+					_wirecard: {
+						message: {
+							attachment: {
+								payload: {
+									template_type: "button",
+									text: answerFromCognigy.text,
+									buttons: [
+										{
+											title: "Pay with Wirecard",
+											type: "wirecard",
+											callback: () => { this.handleWirecardRequest(wirecardData); }
+										}
+									]
+								}
+							}
+						}
+					}
+				}
+			}
+
+			var renderRichMessage = new RichMessages(answerFromCognigy.data._cognigy._wirecard, chatContainer, readCognigyMessage, this.handleDisplayPostbackMessage, handleCognigyMessage, messageLogoUrl, this.displayCognigyMessage);
+			renderRichMessage.renderMessage();
+		}
+		else if (answerFromCognigy && answerFromCognigy.data && answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._webchat) {
 			var renderRichMessage = new RichMessages(answerFromCognigy.data._cognigy._webchat, chatContainer, readCognigyMessage, this.handleDisplayPostbackMessage, handleCognigyMessage, messageLogoUrl, this.displayCognigyMessage);
 			renderRichMessage.renderMessage();
 
@@ -164,7 +188,7 @@ class Helpers {
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.send(JSON.stringify(
 			{
-				frameAncestor: window.location.href,
+				frameAncestor: window.location.origin,
 				data: {
 					firstName,
 					lastName,

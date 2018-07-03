@@ -10,17 +10,17 @@ var RichMessages = (function () {
         this.readCognigyMessage = readCognigyMessage;
         this.handleDisplayPostbackMessage = handleDisplayPostbackMessage;
         this.handleCognigyMessage = handleCognigyMessage;
-		this.messageLogoUrl = messageLogoUrl;
-		this.displayCognigyMessage = displayCognigyMessage;
+        this.messageLogoUrl = messageLogoUrl;
+        this.displayCognigyMessage = displayCognigyMessage;
 
 
         if (messageData.message && messageData.message.attachment && messageData.message.attachment.payload) {
             this.messageData = messageData.message.attachment.payload;
-        }   
+        }
 
         this.messageContainer = messageContainer;
         this.quickReplies = messageData.message && messageData.message.quick_replies;
-        this.quickReplyText =  messageData.message;
+        this.quickReplyText = messageData.message;
     }
     RichMessages.prototype.findTemplate = function () {
         if (this.messageData) {
@@ -69,14 +69,14 @@ var RichMessages = (function () {
                 quickReplyButton.appendChild(img);
             }
 
-            quickReplyButton.onclick = () => { 
+            quickReplyButton.onclick = () => {
                 this.handleDisplayPostbackMessage(reply.title);
-                return this.handleCognigyMessage(reply.payload); 
+                return this.handleCognigyMessage(reply.payload);
             };
             quickReplyButton.className = "quick_reply";
-            var buttonTitle = document.createTextNode(reply.title)            
+            var buttonTitle = document.createTextNode(reply.title)
             quickReplyButton.appendChild(buttonTitle);
-            
+
             quickReplyContainer.appendChild(quickReplyButton);
         });
         this.messageContainer.appendChild(quickReplyContainer);
@@ -95,6 +95,11 @@ var RichMessages = (function () {
         if (button.type == "web_url") {
             buttonContainer.onclick = function () { return _this.handleButtonWebUrl(button.url); };
         }
+
+        //Wirecard button initializes wirecard payment 
+        if (button.type == "wirecard") {
+            buttonContainer.onclick = function () { return button.callback();}
+        }
         return buttonContainer;
     };
     RichMessages.prototype.handleButtonPostback = function (title, postbackMessage) {
@@ -102,30 +107,30 @@ var RichMessages = (function () {
         this.handleCognigyMessage(postbackMessage);
     };
     RichMessages.prototype.handleButtonWebUrl = function (url) {
-		/* Check whether the url is an fbextension. If it is, we open the window as a popup */
-		if (url.match("fbextension")) {
-			/* The code below ensures that the popup opens centered, even on dual monitors */
-			var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
-			var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
-		
-			var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-			var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-		
-			var w = 900;
-			var h = 500;
+        /* Check whether the url is an fbextension. If it is, we open the window as a popup */
+        if (url.match("fbextension")) {
+            /* The code below ensures that the popup opens centered, even on dual monitors */
+            var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+            var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
 
-			var left = ((width / 2) - (w / 2)) + dualScreenLeft;
-			var top = ((height / 2) - (h / 2)) + dualScreenTop;
-			var newWindow = window.open(url, "cognigyWebchat", 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
-		
-			// Puts focus on the newWindow
-			if (window.focus) {
-				newWindow.focus();
-			}
+            var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+            var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
 
-		} else {
-			window.open(url);
-		}
+            var w = 900;
+            var h = 500;
+
+            var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+            var top = ((height / 2) - (h / 2)) + dualScreenTop;
+            var newWindow = window.open(url, "cognigyWebchat", 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+            // Puts focus on the newWindow
+            if (window.focus) {
+                newWindow.focus();
+            }
+
+        } else {
+            window.open(url);
+        }
     };
     RichMessages.prototype.renderListButton = function (button) {
         var _this = this;
@@ -146,7 +151,7 @@ var RichMessages = (function () {
     RichMessages.prototype.renderListElement = function (element, index) {
         var elementContainer = document.createElement("div");
         var elementContent = document.createElement("div");
-        var elementTitle = document.createTextNode(element.title)    
+        var elementTitle = document.createTextNode(element.title)
         /* Don't render two consecutive newlines */
         var elementSubtitle = document.createElement("p");
         elementSubtitle.className = "text_subtitle";
@@ -256,7 +261,7 @@ var RichMessages = (function () {
         this.messageContainer.appendChild(messageInnerContainer);
     };
 
-    RichMessages.prototype.createAvatar = function(messageInnerContainer) {
+    RichMessages.prototype.createAvatar = function (messageInnerContainer) {
         //Create bot avatar with Cognigy logo and appendChild to message contanier
         let avatar = createElement("img", "cognigy-chat-bot-avatar");
 
@@ -289,13 +294,13 @@ var RichMessages = (function () {
         //Render generic template
         if (this.findTemplate() === "generic") {
             render(
-                <Carousel 
+                <Carousel
                     messageLogoUrl={this.messageLogoUrl}
                     galleryElements={this.findElements()}
                     handleButtonPostback={this.handleButtonPostback.bind(this)}
                     handleButtonWebUrl={this.handleButtonWebUrl.bind(this)}
                 />,
-            this.messageContainer);
+                this.messageContainer);
         }
 
         //Render quick replies
