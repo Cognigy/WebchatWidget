@@ -1,6 +1,9 @@
 {
 	"plugins": [
+		"syntax-flow",
+		"transform-flow-strip-types",
 		"transform-class-properties",
 		["transform-react-jsx", { "pragma":"h" }]
-	]
+	],
+	"presets": ["flow", "env"]
 }
