@@ -98,7 +98,7 @@ var RichMessages = (function () {
 
         //Wirecard button initializes wirecard payment 
         if (button.type == "wirecard") {
-            buttonContainer.onclick = function () { return button.callback();}
+            buttonContainer.onclick = function () { return button.callback(); }
         }
         return buttonContainer;
     };
@@ -261,6 +261,39 @@ var RichMessages = (function () {
         this.messageContainer.appendChild(messageInnerContainer);
     };
 
+    RichMessages.prototype.wirecardTemplate = function () {
+        var _this = this;
+        var messageInnerContainer = createElement("div", "cognigy-chat-bot-message-container");
+        this.createAvatar(messageInnerContainer);
+
+        var wirecardContainer = createElement("div", "wirecard-container");
+        var seamlessFormTarget = document.createElement("div");
+
+        if (this.messageData.data) {
+            var wirecardFormText = document.createElement("div");
+            wirecardFormText.className = "wirecard-form-text";
+            wirecardFormText.appendChild(document.createTextNode(`Grand Total: ${this.messageData.data.value}$`));
+            wirecardContainer.appendChild(wirecardFormText);
+        }
+
+        const divId = "seamless-form-target" + Date.now();
+        seamlessFormTarget.id = divId;
+        seamlessFormTarget.className = "seamless-form-target";
+
+        var buttonContainer = document.createElement("div");
+        buttonContainer.className = "wirecard-button";
+        var buttonTitle = document.createTextNode("pay")
+        buttonContainer.appendChild(buttonTitle);
+
+        buttonContainer.onclick = () => { this.messageData.callback("wirecard"); };
+
+        wirecardContainer.appendChild(seamlessFormTarget);
+        wirecardContainer.appendChild(buttonContainer);
+        messageInnerContainer.appendChild(wirecardContainer);
+        this.messageContainer.appendChild(messageInnerContainer);
+        this.messageData.render(divId);
+    }
+
     RichMessages.prototype.createAvatar = function (messageInnerContainer) {
         //Create bot avatar with Cognigy logo and appendChild to message contanier
         let avatar = createElement("img", "cognigy-chat-bot-avatar");
@@ -301,6 +334,10 @@ var RichMessages = (function () {
                     handleButtonWebUrl={this.handleButtonWebUrl.bind(this)}
                 />,
                 this.messageContainer);
+        }
+
+        if (this.findTemplate() === "wirecard") {
+            this.wirecardTemplate();
         }
 
         //Render quick replies
