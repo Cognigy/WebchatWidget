@@ -104,15 +104,10 @@ class Helpers {
 						message: {
 							attachment: {
 								payload: {
-									template_type: "button",
-									text: answerFromCognigy.text,
-									buttons: [
-										{
-											title: "Pay with Wirecard",
-											type: "wirecard",
-											callback: () => { this.handleWirecardRequest(wirecardData); }
-										}
-									]
+									template_type: "wirecard",
+									render: (divId) => { this.handleWirecardRequest(wirecardData, divId) },
+									callback: () => { this.handlePayRequest(); },
+									data: wirecardData
 								}
 							}
 						}
@@ -165,7 +160,7 @@ class Helpers {
 		readCognigyMessage(cognigyAnswer);
 	}
 
-	handleWirecardRequest = (wirecardData) => {
+	handleWirecardRequest = (wirecardData, divId) => {
 
 		const { firstName, lastName, value, currency, paymentMethod } = wirecardData;
 
@@ -180,11 +175,20 @@ class Helpers {
 					return;
 				}
 
-				WPP.embeddedPayUrl(response);
+				WPP.seamlessRender({
+					url: response,
+					wrappingDivId: divId,
+					onSuccess: (response) => {
+						console.log(`Successfully rendered WPP seamless form\n${response}`);
+					},
+					onError: (response) => {
+						console.log(`Error on rendering WPP seamless form\n${response}`);
+					}
+				});
 			}
 		}
 
-		request.open('POST', `${window.location.href}/wirecard`, true);
+		request.open('POST', `${window.location.origin}/wirecard`, true);
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.send(JSON.stringify(
 			{
@@ -197,6 +201,17 @@ class Helpers {
 					paymentMethod
 				}
 			}));
+	}
+
+	handlePayRequest = () => {
+		WPP.seamlessSubmit({
+			onSuccess: (response) => {
+				console.log(`Successfully submitted\n${response}`);
+			},
+			onError: (response) => {
+				console.log(`Error on Submitting\n${response}`);
+			}
+		});
 	}
 
 	/* Function to handle the getStartedButton */
