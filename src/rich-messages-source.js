@@ -269,10 +269,25 @@ var RichMessages = (function () {
         var wirecardContainer = createElement("div", "wirecard-container");
         var seamlessFormTarget = document.createElement("div");
 
+        /** Currently some hard coded values and just three (POC)*/
+        let currencySymbol = "";
+
+        switch(this.messageData.data.currency){
+            case "EUR":
+                currencySymbol = "€";
+                break;
+            case "USD":
+                currencySymbol = "$";
+                break;
+            case "GBP":
+                currencySymbol = "£";
+                break;
+        }
+
         if (this.messageData.data) {
             var wirecardFormText = document.createElement("div");
             wirecardFormText.className = "wirecard-form-text";
-            wirecardFormText.appendChild(document.createTextNode(`Grand Total: ${this.messageData.data.value}$`));
+            wirecardFormText.appendChild(document.createTextNode(`Grand Total: ${this.messageData.data.value}${currencySymbol}`));
             wirecardContainer.appendChild(wirecardFormText);
         }
 
