@@ -310,6 +310,20 @@ async function init(userOptions, outputCallback) {
 			return;
 		}
 
+		//This prevents WPP posting window events or in case it's a successfull submit a submit message to the AI
+		if (event && event.origin && typeof event.origin === "string" && event.origin.match('https://wpp-test.wirecard.com')) {
+			if (event.data && typeof event.data === "string") {
+				let eventData = JSON.parse(event.data);
+
+				if (eventData.type === "wdPostMessage_seamlessSubmitSuccessResp") {
+					Helpers.handleDisplayPostbackMessage('payment_submit');
+					handleCognigyMessage('payment_submit');
+					return;
+				}
+			}
+			return;
+		}
+
 		/* If the event is a postback, display the title instead of the payload. In this case, we use CustomEvent instead of MessageEvent for IE support */
 		if (event && event.detail && event.detail.type === "postback") {
 			Helpers.handleDisplayPostbackMessage(event.detail.title);
@@ -479,7 +493,7 @@ const buildHTMLDocument = (options) => {
 
 	chatInput.setAttribute("data-text", `${options.inputPlaceholder}`);
 
-	chatInput.contentEditable = true;
+	chatInput.contentEditable = true; 
 	chatInput.returnKeyType = "Send";
 
 	// Send message on enter and not on shift + enter
