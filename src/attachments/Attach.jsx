@@ -4,9 +4,6 @@ import ReactPlayer from 'react-player';
 import { Avatar } from "../Avatar.jsx";
 import Placeholder from './Placeholder.jsx';
 
-import styles from './attach.css';
-styles.use();
-
 class Attachment extends Component {
 	constructor(props) {
 		super(props);
