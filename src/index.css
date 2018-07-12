@@ -141,7 +141,6 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 /*The close icon disappears when the header is closed*/
-
 .cognigy-chat-header-container>.cognigy-chat-header>.cognigy-close-icon {
   display: none;
 }
@@ -171,7 +170,6 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 /*Container for chat content: Same function as header content defined above*/
-
 .cognigy-chat-container {
   width: 100%;
   font-size: 12px;
@@ -188,7 +186,6 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 /*Style scrollbar*/
-
 .cognigy-chat-container::-webkit-scrollbar {
   width: 6px;
 }
@@ -215,7 +212,6 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 /*Below is styling for the form, input, button and window components*/
-
 .cognigy-chat-form {
   display: -ms-flexbox;
   -ms-flex-pack: justify;
@@ -301,7 +297,6 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 /*Styling for messages sent by the user and received from the bot*/
-
 .cognigy-chat-user-message-container {
   display: -ms-flexbox;
   -ms-flex-align: end;
@@ -355,7 +350,6 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 /*Styling for avatars*/
-
 .cognigy-chat-bot-avatar {
   height: 20px;
   min-width: 20px;
@@ -412,7 +406,6 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 /* Placeholder text for textarea (which is really a div) */
-
 [contentEditable=true]:empty:not(:focus):before {
   content: attr(data-text)
 }
