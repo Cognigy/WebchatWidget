@@ -29,7 +29,7 @@ class Placeholder extends Component {
 				break;
 			case "image":
 			default:
-				img = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/videocam.svg";
+				img = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/camera-alt.svg";
 				break;
 		}
 
