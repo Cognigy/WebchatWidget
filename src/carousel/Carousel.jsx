@@ -16,7 +16,9 @@ class Carousel extends Component {
         this.state = {
             currentSlide: 0,
             imageUrl: null
-        };
+		};
+		
+		this.hasScrolled = false;
 
         this.handleSlideChange = this.handleSlideChange.bind(this);
 
@@ -58,8 +60,18 @@ class Carousel extends Component {
         if (this.slider && this.slider.base && this.slider.base.style) {
             this.slider.base.style.width = "100%";
             this.slider.base.style.maxWidth = "100%";
-        }
-    }
+		}
+	}
+	
+	componentDidUpdate() {
+
+		// Scroll to bottom of chat just *once* after the first component update. We have to do it here because the actual DOM hasn't fully updated in componentDidMount yet.
+		if (!this.hasScrolled) {
+			const chatContainer = document.getElementById("cognigy-container");
+			if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
+			this.hasScrolled = true;
+		};
+	}
 
     render() {
         const sliderSettings = {
