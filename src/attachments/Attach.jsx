@@ -35,6 +35,9 @@ class Attachment extends Component {
 
 	handleResourceLoaded(img) {
 		this.setState({ validUrl: true, loadingResource: false });
+
+		const chatContainer = document.getElementById("cognigy-container");
+		if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
 	}
 
 
