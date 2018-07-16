@@ -9,7 +9,6 @@ import Attachment from "./attachments/Attach.jsx";
 var RichMessages = (function () {
 	function RichMessages(messageData, messageContainer, readCognigyMessage, handleDisplayPostbackMessage, handleCognigyMessage, messageLogoUrl, displayCognigyMessage) {
 
-		console.log({ messageData });
 		this.readCognigyMessage = readCognigyMessage;
 		this.handleDisplayPostbackMessage = handleDisplayPostbackMessage;
 		this.handleCognigyMessage = handleCognigyMessage;
