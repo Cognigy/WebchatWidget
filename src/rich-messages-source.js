@@ -310,7 +310,7 @@ var RichMessages = (function () {
 		}
 
 		// Render Attachments
-		if (this.messageData && this.messageData.url && this.messageType) {
+		if (this.messageData && this.messageData.url && this.messageType && (this.messageType === "video" || this.messageType === "audio" || this.messageType === "image") ) {
 			render(
 				<Attachment 
 					url={this.messageData.url}
