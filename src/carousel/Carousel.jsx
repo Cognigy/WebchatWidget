@@ -101,8 +101,7 @@ class Carousel extends Component {
                         <div style={{
                             display: "flex",
                             flexDirection: "row",
-                            alignItems: "flex-end",
-                            height: "100%",
+                            flexGrow: 1,
 
                             // Used when logos are disabled
                             marginLeft: "10px",
@@ -181,7 +180,7 @@ class Carousel extends Component {
                                             text={element.subtitle}
                                             buttons={false}
                                             lines="5"
-                                            className="text_subtitle"
+                                            className="text_subtitle text_subtitle_gallery"
                                         />
                                     }
                                 </div>
