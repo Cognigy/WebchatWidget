@@ -372,14 +372,14 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 /* Styling for the avatar that appears in gallery elements */
-.cognigy-chat-bot-gallery-avatar {
+/* .cognigy-chat-bot-gallery-avatar {
   display: none !important;
-}
+} */
 
 /* Special styling for the first avatar gallery element */
-.cognigy-chat-bot-gallery-avatar__first {
+/* .cognigy-chat-bot-gallery-avatar__first {
   display: none !important;
-}
+} */
 
 .cognigy-send-icon, .cognigy-record-toggle-icon, .cognigy-file-upload-icon {
   width: 40px;

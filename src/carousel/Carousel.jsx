@@ -87,7 +87,7 @@ class Carousel extends Component {
                 className="cognigy-chat-bot-message-container cognigy-chat-bot-gallery-container"
                 style={{
                     // Enable if logos are enabled
-                    // marginLeft: this.state.currentSlide !== 0 ? "0px" : "10px"
+                    marginLeft: this.state.currentSlide !== 0 ? "0px" : "10px"
                 }}
             >
                 <Slider
@@ -101,22 +101,24 @@ class Carousel extends Component {
                         <div style={{
                             display: "flex",
                             flexDirection: "row",
-                            flexGrow: 1,
+                            flexGrow: 1
 
                             // Used when logos are disabled
-                            marginLeft: "10px",
-                            marginRight: "10px",
+                            // marginLeft: "10px",
+                            // marginRight: "10px",
                         }}>
-                            <Avatar
-                                style={{
-                                    visibility: index !== 0 ? "hidden" : "visible",
-                                    minWidth: index !== 0 ? "10px" : "20px",
-                                    maxWidth: index !== 0 ? "10px" : "20px",
-                                    marginBottom: "1px"
-                                }}
-                                className={index === 0 ? "cognigy-chat-bot-gallery-avatar__first" : "cognigy-chat-bot-gallery-avatar"}
-                                imageUrl={this.state.imageUrl}
-                            />
+                            <div style={{ alignItems: "flex-end", display: "flex" }}>
+                                <Avatar
+                                    style={{
+                                        visibility: index !== 0 ? "hidden" : "visible",
+                                        minWidth: index !== 0 ? "10px" : "20px",
+                                        maxWidth: index !== 0 ? "10px" : "20px",
+                                        marginBottom: "1px"
+                                    }}
+                                    className={index === 0 ? "cognigy-chat-bot-gallery-avatar__first" : "cognigy-chat-bot-gallery-avatar"}
+                                    imageUrl={this.state.imageUrl}
+                                />
+                            </div>
                             <div
                                 key={index + element.title}
                                 className="generic_template_element_container"
