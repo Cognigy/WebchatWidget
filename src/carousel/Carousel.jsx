@@ -86,7 +86,6 @@ class Carousel extends Component {
             <div
                 className="cognigy-chat-bot-message-container cognigy-chat-bot-gallery-container"
                 style={{
-                    // Enable if logos are enabled
                     marginLeft: this.state.currentSlide !== 0 ? "0px" : "10px"
                 }}
             >
@@ -102,10 +101,6 @@ class Carousel extends Component {
                             display: "flex",
                             flexDirection: "row",
                             flexGrow: 1
-
-                            // Used when logos are disabled
-                            // marginLeft: "10px",
-                            // marginRight: "10px",
                         }}>
                             <div style={{ alignItems: "flex-end", display: "flex" }}>
                                 <Avatar
@@ -131,7 +126,6 @@ class Carousel extends Component {
                                 style={{
                                     /* Don't display the last element since it is a cloned element only there for styling purposes */
                                     display: index === (galleryElements.length - 1) ? "none" : "auto",
-                                    // marginBottom: "5px",
                                     width: "100%"
                                 }}
                             >
