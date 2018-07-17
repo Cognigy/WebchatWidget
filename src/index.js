@@ -1,3 +1,6 @@
+// @flow
+// @jsx PersistentMenu
+
 /* Node modules */
 import { h, render } from 'preact';
 
@@ -10,6 +13,7 @@ import main_css from './index.css';
 import rich_message_css from './rich_message_style.css';
 import custom_color_css from './custom_colors.css';
 import center_webchat_css from './center_webchat.css';
+
 
 /* Use CSS */
 main_css.use();
@@ -35,13 +39,13 @@ const defaultOptions = {
 }
 
 /* This function inits the CognigyClient connection */
-async function init(userOptions, outputCallback, exposeClientCallback) {
+async function init(userOptions: any, outputCallback: (output: { text: string, data: any }) => any, exposeClientCallback: (client: Cognigy.CognigyWebClient) => any) {
 	/**
 	 * 1. Add polyfill for map function. This is required for compatibility with IE
 	 */
-	if (!Array.prototype.map) {
-		Array.prototype.map = mapPolyfill;
-	}
+	// if (!Array.prototype.map) {
+	// 	Array.prototype.map = mapPolyfill;
+	// }
 
 	/**
 	 * 2. Fetch Webchat configuration. The following cases exist:
@@ -129,21 +133,14 @@ async function init(userOptions, outputCallback, exposeClientCallback) {
 	/* Check whether we can load the header logo. */
 	var img = new Image();
 	img.onload = function () {
-		var headerLogo = document.getElementById("cognigyHeaderLogo");
+		var headerLogo = ((document.getElementById("cognigyHeaderLogo"): any): HTMLImageElement);
 		headerLogo.src = options.headerLogoUrl;
 	}
 	img.src = options.headerLogoUrl;
 
 	/* Check whether we have a custom color scheme defined and whether we don't use IE */
 	if (options.colorScheme && BrowserDetect.browser !== "MSIE") {
-		document.documentElement.style.setProperty("--color", options.colorScheme);
-		var link = document.createElement("link");
-
-		link.rel = "stylesheet";
-		link.type = "text/css";
-		link.href = custom_color_css;
-
-		document.head.appendChild(link);
+		document.documentElement && document.documentElement.style.setProperty("--color", options.colorScheme);
 	}
 
 	/* Check whether we should use displayTempalte 2 */
@@ -191,7 +188,7 @@ async function init(userOptions, outputCallback, exposeClientCallback) {
 
 	try {
 		await client.connect();
-		
+
 	} catch (error) {
 		alert("Error connecting. Please check your connection parameters.");
 		console.log(error);
@@ -204,8 +201,9 @@ async function init(userOptions, outputCallback, exposeClientCallback) {
 	//Function used by postback buttons
 	const handleCognigyMessage = function (message) {
 		if (client && client.isConnected() && message) {
-			const inputValue = document.getElementById("cognigy-input").textContent
-			document.getElementById("cognigy-input").textContent = "";
+			const inputEl = document.getElementById("cognigy-input");
+			const inputValue = inputEl && inputEl.textContent;
+			if (inputEl) inputEl.textContent = "";
 			if (message) {
 				client.sendMessage(message, {
 					"browser": {
@@ -244,12 +242,13 @@ async function init(userOptions, outputCallback, exposeClientCallback) {
 			getStartedPayload = "GET_STARTED";
 		}
 
-		getStartedButton.onclick = function () {
+		if (getStartedButton) getStartedButton.onclick = function () {
 			Helpers.handleGetStartedButton(getStartedText, getStartedPayload, handleCognigyMessage);
 		}
 	} else {
 		/* Display input field */
-		document.getElementById("cognigy-form").className = "cognigy-chat-form";
+		const formElement = document.getElementById("cognigy-form");
+		if (formElement) formElement.className = "cognigy-chat-form";
 	}
 
 	// Recording functionality
@@ -263,6 +262,7 @@ async function init(userOptions, outputCallback, exposeClientCallback) {
 				enableSTT.style.backgroundImage = (recording) ? "url(https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic-animate.gif)" : "url(https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic.gif)";
 
 				if (recording) {
+					// $FlowFixMe
 					var beep = new Audio("https://www.freesound.org/data/previews/259/259703_4486188-lq.mp3");
 					beep.play();
 				}
@@ -286,10 +286,11 @@ async function init(userOptions, outputCallback, exposeClientCallback) {
 	// listen on form submit event and use handleCognigyMessage function
 	const formElement = document.getElementById("cognigy-form");
 
-	formElement.addEventListener("submit", function () {
+	formElement && formElement.addEventListener("submit", function () {
 		if (client && client.isConnected()) {
-			var inputValue = document.getElementById("cognigy-input").textContent
-			document.getElementById("cognigy-input").textContent = "";
+			const inputEl = document.getElementById("cognigy-input");
+			const inputValue = inputEl && inputEl.textContent;
+			if (inputEl) inputEl.textContent = "";
 
 			client.sendMessage(inputValue, {
 				"browser": {
@@ -299,6 +300,7 @@ async function init(userOptions, outputCallback, exposeClientCallback) {
 			});
 		}
 	}, false);
+
 
 	/* Add eventListener to messages from popups (fbextensions) */
 	window.addEventListener("message", receiveMessage, false);
@@ -323,8 +325,8 @@ async function init(userOptions, outputCallback, exposeClientCallback) {
 	}
 
 	/* Handle file uploads. This requires that Cognigy sends us a file upload url in a data object */
-	document.getElementById('cognigy-file-upload-form')
-		.addEventListener("submit", function (e) {
+	const uploadForm = document.getElementById('cognigy-file-upload-form');
+		uploadForm && uploadForm.addEventListener("submit", function (e) {
 			if (e)
 				e.preventDefault()
 
@@ -334,7 +336,8 @@ async function init(userOptions, outputCallback, exposeClientCallback) {
 				return;
 			}
 
-			var files = document.getElementById("cognigy-file-upload-input").files;
+			const uploadInputEl = ((document.getElementById("cognigy-file-upload-input"): any): HTMLInputElement);
+			var files = uploadInputEl.files;
 			var data = new FormData();
 			var fileNames = [];
 
@@ -349,7 +352,8 @@ async function init(userOptions, outputCallback, exposeClientCallback) {
 
 			/* Send message back to Cognigy when we get a response from the server */
 			request.onreadystatechange = function () {
-				if (request.readyState === XMLHttpRequest.DONE && request.status === 200) {
+				// $FlowFixMe
+				if (request.readyState === XMLHttpRequest['DONE'] && request.status === 200) {
 					client.sendMessage("File upload completed", {
 						event: "FileUpload",
 						fileUpload: {
@@ -406,8 +410,8 @@ const buildHTMLDocument = (options) => {
 	var outerContainer = Helpers.createElement("div", "cognigy-outer-container__closed", "cognigy-outer-container");
 	var toggleChatState = Helpers.createElement("div", "cognigy-chat-state-closed", "cognigy-toggle-state");
 	toggleChatState.onclick = Helpers.handleChatOpen;
-	mainChatElement.appendChild(outerContainer);
-	mainChatElement.appendChild(toggleChatState);
+	mainChatElement && mainChatElement.appendChild(outerContainer);
+	mainChatElement && mainChatElement.appendChild(toggleChatState);
 
 	//Create standard header with text
 	var headerContainer = Helpers.createElement("div", "cognigy-chat-header-container__open", "cognigy-header");
@@ -423,7 +427,7 @@ const buildHTMLDocument = (options) => {
 	headerText.appendChild(headerSubtitle);
 
 	//Create bot avatar with Cognigy logo and append to header
-	var avatar = Helpers.createElement("img", "cognigy-header-avatar");
+	var avatar = ((Helpers.createElement("img", "cognigy-header-avatar"): any): HTMLImageElement);
 	avatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/cognigy_avatar.svg";
 	avatar.id = "cognigyHeaderLogo";
 	header.appendChild(avatar);
@@ -478,7 +482,7 @@ const buildHTMLDocument = (options) => {
 		}
 	}
 
-	var chatInput = Helpers.createElement("div", "cognigy-chat-input", "cognigy-input");
+	var chatInput: any = Helpers.createElement("div", "cognigy-chat-input", "cognigy-input");
 
 	chatInput.setAttribute("data-text", `${options.inputPlaceholder}`);
 
@@ -508,21 +512,22 @@ const buildHTMLDocument = (options) => {
 		e.keyCode === 13 && !e.shiftKey ? function () {
 			if (e)
 				e.preventDefault ? e.preventDefault() : (e.returnValue = false);
-			document.getElementById('cognigy-form').dispatchEvent(messageEvent);
+			const cognigyFormEl = document.getElementById('cognigy-form');
+			cognigyFormEl && cognigyFormEl.dispatchEvent(messageEvent);
 		}() : null;
 	};
 	chatForm.appendChild(chatInput);
 
 	var chatButton = Helpers.createElement("button", "cognigy-chat-button", "cognigy-button");
-	var sendAvatar = Helpers.createElement("img", "cognigy-send-icon");
+	var sendAvatar = ((Helpers.createElement("img", "cognigy-send-icon"): any): HTMLImageElement);
 	sendAvatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/send.svg";
 	chatButton.appendChild(sendAvatar);
 	chatForm.appendChild(chatButton);
 
-	var recordToggleButton = Helpers.createElement("button", "cognigy-record-toggle-button", "cognigy-record-toggle");
+	var recordToggleButton = ((Helpers.createElement("button", "cognigy-record-toggle-button", "cognigy-record-toggle"): any): HTMLButtonElement);
 
 	recordToggleButton.type = "button";
-	var recordToggleAvatar = Helpers.createElement("img", "displayNone");
+	var recordToggleAvatar = ((Helpers.createElement("img", "displayNone"): any): HTMLImageElement);
 
 	if (options && options.enableSTT) {
 		recordToggleAvatar.className = "cognigy-record-toggle-icon";
@@ -535,28 +540,29 @@ const buildHTMLDocument = (options) => {
 	recordToggleButton.appendChild(recordToggleAvatar);
 	chatForm.appendChild(recordToggleButton);
 
-	var enableSTT = Helpers.createElement("button", "displayNone", "cognigy-record");
+	var enableSTT = ((Helpers.createElement("button", "displayNone", "cognigy-record"): any): HTMLInputElement);
 	enableSTT.type = "button";
 	chatForm.insertBefore(enableSTT, recordToggleButton);
 
 	/* This input will be hidden, so users see the button instead */
-	var fileUploadInput = Helpers.createElement("input", "cognigy-file-upload-input", "cognigy-file-upload-input");
+	var fileUploadInput = ((Helpers.createElement("input", "cognigy-file-upload-input", "cognigy-file-upload-input"): any): HTMLInputElement);
 	fileUploadInput.type = "file";
-	fileUploadInput.multiple = "true";
+	fileUploadInput.multiple = true;
 	fileUploadInput.onchange = function () {
-		document.getElementById('cognigy-file-upload-form').dispatchEvent(messageEvent);
+		const uploadFormEl = document.getElementById('cognigy-file-upload-form');
+		uploadFormEl && uploadFormEl.dispatchEvent(messageEvent);
 	}
 
-	var fileUploadForm = Helpers.createElement("form", "displayNone", "cognigy-file-upload-form");
+	var fileUploadForm = ((Helpers.createElement("form", "displayNone", "cognigy-file-upload-form"): any): HTMLFormElement);
 	fileUploadForm.enctype = "multipart/form-data"
 	fileUploadForm.appendChild(fileUploadInput);
 
 	chatForm.appendChild(fileUploadForm);
 
-	var fileUploadButton = Helpers.createElement("button", "displayNone", "cognigy-file-upload-button");
+	var fileUploadButton = ((Helpers.createElement("button", "displayNone", "cognigy-file-upload-button"): any): HTMLButtonElement);
 
 	fileUploadButton.type = "button";
-	var fileUploadAvatar = Helpers.createElement("img", "cognigy-file-upload-icon");
+	var fileUploadAvatar = ((Helpers.createElement("img", "cognigy-file-upload-icon"): any): HTMLImageElement);
 	fileUploadAvatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/file_upload.svg";
 	fileUploadButton.appendChild(fileUploadAvatar);
 	chatForm.appendChild(fileUploadButton);
@@ -591,9 +597,10 @@ const buildHTMLDocument = (options) => {
 
 
 	//Add event listener for form submit event
-	var formElement = document.getElementById("cognigy-form");
-	formElement.addEventListener("submit", function (event) {
+	const formElement = document.getElementById("cognigy-form");
+	formElement && formElement.addEventListener("submit", function (event) {
 		if (event)
+		// $FlowFixMe
 			event.preventDefault ? event.preventDefault() : (event.returnValue = false);
 		Helpers.handleSendMessage(event);
 	}, false);
@@ -617,92 +624,6 @@ function generateRandomId() {
 		/* Else we just use Date.now */
 		return Date.now();
 	}
-}
-
-const mapPolyfill = function mapPolyfill() {
-	// Production steps of ECMA-262, Edition 5, 15.4.4.19
-	// Reference: http://es5.github.io/#x15.4.4.19
-	var T, A, k;
-
-	if (this == null) {
-		throw new TypeError('this is null or not defined');
-	}
-
-	// 1. Let O be the result of calling ToObject passing the |this| 
-	//    value as the argument.
-	var O = Object(this);
-
-	// 2. Let lenValue be the result of calling the Get internal 
-	//    method of O with the argument "length".
-	// 3. Let len be ToUint32(lenValue).
-	var len = O.length >>> 0;
-
-	// 4. If IsCallable(callback) is false, throw a TypeError exception.
-	// See: http://es5.github.com/#x9.11
-	if (typeof callback !== 'function') {
-		throw new TypeError(callback + ' is not a function');
-	}
-
-	// 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
-	if (arguments.length > 1) {
-		T = arguments[1];
-	}
-
-	// 6. Let A be a new array created as if by the expression new Array(len) 
-	//    where Array is the standard built-in constructor with that name and 
-	//    len is the value of len.
-	A = new Array(len);
-
-	// 7. Let k be 0
-	k = 0;
-
-	// 8. Repeat, while k < len
-	while (k < len) {
-
-		var kValue, mappedValue;
-
-		// a. Let Pk be ToString(k).
-		//   This is implicit for LHS operands of the in operator
-		// b. Let kPresent be the result of calling the HasProperty internal 
-		//    method of O with argument Pk.
-		//   This step can be combined with c
-		// c. If kPresent is true, then
-		if (k in O) {
-
-			// i. Let kValue be the result of calling the Get internal 
-			//    method of O with argument Pk.
-			kValue = O[k];
-
-			// ii. Let mappedValue be the result of calling the Call internal 
-			//     method of callback with T as the this value and argument 
-			//     list containing kValue, k, and O.
-			mappedValue = callback.call(T, kValue, k, O);
-
-			// iii. Call the DefineOwnProperty internal method of A with arguments
-			// Pk, Property Descriptor
-			// { Value: mappedValue,
-			//   Writable: true,
-			//   Enumerable: true,
-			//   Configurable: true },
-			// and false.
-
-			// In browsers that support Object.defineProperty, use the following:
-			// Object.defineProperty(A, k, {
-			//   value: mappedValue,
-			//   writable: true,
-			//   enumerable: true,
-			//   configurable: true
-			// });
-
-			// For best browser support, use the following:
-			A[k] = mappedValue;
-		}
-		// d. Increase k by 1.
-		k++;
-	}
-
-	// 9. return A
-	return A;
 }
 
 module.exports = {
