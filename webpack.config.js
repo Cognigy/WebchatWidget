@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 
 module.exports = {
-	entry: ['babel-polyfill', './src/index.js'],
+	entry: ['whatwg-fetch', 'babel-polyfill', './src/index.js'],
 	output: {
 		// Webpack prefers an absolute path:
 		path: path.resolve(__dirname, './build'),

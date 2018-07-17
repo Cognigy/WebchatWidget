@@ -3,6 +3,11 @@
 
 /* Node modules */
 import { h, render } from 'preact';
+import 'whatwg-fetch';
+import Promise from 'promise-polyfill';
+if (!window.Promise) {
+		window.Promise = Promise;
+	}
 
 /* Custom modules */
 import Cognigy from "./web-client-source.js";
