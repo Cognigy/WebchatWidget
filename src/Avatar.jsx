@@ -10,6 +10,7 @@ export function Avatar(props) {
 			className={`cognigy-chat-bot-avatar ${props.className}`}
 			src={props.imageUrl}
 			style={ props.style }
+			ref={props.refCallback}
 		/>
 	)
 }

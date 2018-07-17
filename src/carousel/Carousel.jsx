@@ -117,6 +117,12 @@ class Carousel extends Component {
                                     }}
                                     className={index === 0 ? "cognigy-chat-bot-gallery-avatar__first" : "cognigy-chat-bot-gallery-avatar"}
                                     imageUrl={this.state.imageUrl}
+                                    refCallback={node => {
+                                        /* Make it impossible to add 'display: none' to these avatar elements */
+                                        if (node && index !== 0) {
+                                            node.style.setProperty("display", "block", "important");
+                                        }
+                                    }}
                                 />
                             </div>
                             <div
