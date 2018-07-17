@@ -318,7 +318,7 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 			Helpers.handleDisplayPostbackMessage(event.detail.title);
 			handleCognigyMessage(event.detail.payload);
 
-		} else if (event && event.data) {
+		} else if (event && event.data && event.origin === "https://fbextensions.cognigy.com") {
 			Helpers.handleDisplayPostbackMessage(event.data);
 			handleCognigyMessage(event.data);
 		}
