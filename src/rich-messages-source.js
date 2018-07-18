@@ -7,321 +7,361 @@ import Attachment from "./attachments/Attach.jsx";
 
 //This class renders several of Facebook's templates for rich media.
 var RichMessages = (function () {
-	function RichMessages(messageData, messageContainer, readCognigyMessage, handleDisplayPostbackMessage, handleCognigyMessage, messageLogoUrl, displayCognigyMessage) {
+    function RichMessages(messageData, messageContainer, readCognigyMessage, handleDisplayPostbackMessage, handleCognigyMessage, messageLogoUrl, displayCognigyMessage) {
+        this.readCognigyMessage = readCognigyMessage;
+        this.handleDisplayPostbackMessage = handleDisplayPostbackMessage;
+        this.handleCognigyMessage = handleCognigyMessage;
+        this.messageLogoUrl = messageLogoUrl;
+        this.displayCognigyMessage = displayCognigyMessage;
 
-		this.readCognigyMessage = readCognigyMessage;
-		this.handleDisplayPostbackMessage = handleDisplayPostbackMessage;
-		this.handleCognigyMessage = handleCognigyMessage;
-		this.messageLogoUrl = messageLogoUrl;
-		this.displayCognigyMessage = displayCognigyMessage;
 
+        if (messageData.message && messageData.message.attachment && messageData.message.attachment.payload) {
+            this.messageData = messageData.message.attachment.payload;
+        }
 
-		if (messageData.message && messageData.message.attachment && messageData.message.attachment.payload) {
-			this.messageData = messageData.message.attachment.payload;
-		};
+        this.messageContainer = messageContainer;
+        this.quickReplies = messageData.message && messageData.message.quick_replies;
+        this.quickReplyText = messageData.message;
+    }
+    RichMessages.prototype.findTemplate = function () {
+        if (this.messageData) {
+            return this.messageData.template_type;
+        }
+    };
+    RichMessages.prototype.findElements = function () {
+        if (this.messageData) {
+            return this.messageData.elements;
+        }
+    };
+    RichMessages.prototype.findButtons = function () {
+        if (this.messageData) {
+            return this.messageData.buttons;
+        }
+    };
+    //Quick reply buttons
+    RichMessages.prototype.renderQuickReplies = function () {
+        var quickReplyContainer = document.createElement("div");
+        quickReplyContainer.className = "quick_reply_container";
 
-		if (messageData.message && messageData.message.attachment && messageData.message.attachment.type) {
-			this.messageType = messageData.message.attachment.type;
-		};
+        this.displayCognigyMessage(this.quickReplyText, this.messageLogoUrl, this.readCognigyMessage);
 
-		this.messageContainer = messageContainer;
-		this.quickReplies = messageData.message && messageData.message.quick_replies;
-		this.quickReplyText = messageData.message;
-	}
-	RichMessages.prototype.findTemplate = function () {
-		if (this.messageData) {
-			return this.messageData.template_type;
-		}
-	};
-	RichMessages.prototype.findElements = function () {
-		if (this.messageData) {
-			return this.messageData.elements;
-		}
-	};
-	RichMessages.prototype.findButtons = function () {
-		if (this.messageData) {
-			return this.messageData.buttons;
-		}
-	};
-	//Quick reply buttons
-	RichMessages.prototype.renderQuickReplies = function () {
-		var quickReplyContainer = document.createElement("div");
-		quickReplyContainer.className = "quick_reply_container";
+        if (!this.quickReplies)
+            return null;
+        //Add flex wrap wen there are more than three elements
+        if (this.quickReplies.length > 3) {
+            quickReplyContainer.className += " flex_wrap";
+        }
+        this.quickReplies.forEach((reply) => {
+            //Don't render button if there isn't a title
+            if (!reply.title) {
+                return null;
+            }
 
-		this.displayCognigyMessage(this.quickReplyText, this.messageLogoUrl, this.readCognigyMessage);
+            //Render quick reply button
+            var quickReplyButton = document.createElement("button");
 
-		if (!this.quickReplies)
-			return null;
-		//Add flex wrap wen there are more than three elements
-		if (this.quickReplies.length > 3) {
-			quickReplyContainer.className += " flex_wrap";
-		}
-		this.quickReplies.forEach((reply) => {
-			//Don't render button if there isn't a title
-			if (!reply.title) {
-				return null;
-			}
+            //Render eventual image
+            if (reply.image_url) {
+                var img = document.createElement("img");
+                img.src = reply.image_url;
+                img.style.width = "24px";
+                img.style.height = "24px";
+                img.style.marginRight = "5px";
+                quickReplyButton.appendChild(img);
+            }
 
-			//Render quick reply button
-			var quickReplyButton = document.createElement("button");
+            quickReplyButton.onclick = () => {
+                this.handleDisplayPostbackMessage(reply.title);
+                return this.handleCognigyMessage(reply.payload);
+            };
+            quickReplyButton.className = "quick_reply";
+            var buttonTitle = document.createTextNode(reply.title)
+            quickReplyButton.appendChild(buttonTitle);
 
-			//Render eventual image
-			if (reply.image_url) {
-				var img = document.createElement("img");
-				img.src = reply.image_url;
-				img.style.width = "24px";
-				img.style.height = "24px";
-				img.style.marginRight = "5px";
-				quickReplyButton.appendChild(img);
-			}
+            quickReplyContainer.appendChild(quickReplyButton);
+        });
+        this.messageContainer.appendChild(quickReplyContainer);
+    };
+    RichMessages.prototype.renderButton = function (button) {
+        var _this = this;
+        var buttonContainer = document.createElement("div");
+        buttonContainer.className = "button";
+        var buttonTitle = document.createTextNode(button.title)
+        buttonContainer.appendChild(buttonTitle);
+        //Postback button sends a message to the server when clicked
+        if (button.type === "postback") {
+            buttonContainer.onclick = function () { return _this.handleButtonPostback(button.title, button.payload); };
+        }
+        //URL button redirects to a website
+        if (button.type == "web_url") {
+            buttonContainer.onclick = function () { return _this.handleButtonWebUrl(button.url); };
+        }
 
-			quickReplyButton.onclick = () => {
-				this.handleDisplayPostbackMessage(reply.title);
-				return this.handleCognigyMessage(reply.payload);
-			};
-			quickReplyButton.className = "quick_reply";
-			var buttonTitle = document.createTextNode(reply.title)
-			quickReplyButton.appendChild(buttonTitle);
+        //Wirecard button initializes wirecard payment 
+        if (button.type == "wirecard") {
+            buttonContainer.onclick = function () { return button.callback(); }
+        }
+        return buttonContainer;
+    };
+    RichMessages.prototype.handleButtonPostback = function (title, postbackMessage) {
+        this.handleDisplayPostbackMessage(title);
+        this.handleCognigyMessage(postbackMessage);
+    };
+    RichMessages.prototype.handleButtonWebUrl = function (url) {
+        /* Check whether the url is an fbextension. If it is, we open the window as a popup */
+        if (url.match("fbextension")) {
+            /* The code below ensures that the popup opens centered, even on dual monitors */
+            var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+            var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
 
-			quickReplyContainer.appendChild(quickReplyButton);
-		});
-		this.messageContainer.appendChild(quickReplyContainer);
-	};
-	RichMessages.prototype.renderButton = function (button) {
-		var _this = this;
-		var buttonContainer = document.createElement("div");
-		buttonContainer.className = "button";
-		var buttonTitle = document.createTextNode(button.title)
-		buttonContainer.appendChild(buttonTitle);
-		//Postback button sends a message to the server when clicked
-		if (button.type === "postback") {
-			buttonContainer.onclick = function () { return _this.handleButtonPostback(button.title, button.payload); };
-		}
-		//URL button redirects to a website
-		if (button.type == "web_url") {
-			buttonContainer.onclick = function () { return _this.handleButtonWebUrl(button.url); };
-		}
-		return buttonContainer;
-	};
-	RichMessages.prototype.handleButtonPostback = function (title, postbackMessage) {
-		this.handleDisplayPostbackMessage(title);
-		this.handleCognigyMessage(postbackMessage);
-	};
-	RichMessages.prototype.handleButtonWebUrl = function (url) {
-		/* Check whether the url is an fbextension. If it is, we open the window as a popup */
-		if (url.match("fbextension")) {
-			/* The code below ensures that the popup opens centered, even on dual monitors */
-			var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
-			var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+            var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+            var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
 
-			var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-			var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+            var w = 900;
+            var h = 500;
 
-			var w = 900;
-			var h = 500;
+            var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+            var top = ((height / 2) - (h / 2)) + dualScreenTop;
+            var newWindow = window.open(url, "cognigyWebchat", 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
 
-			var left = ((width / 2) - (w / 2)) + dualScreenLeft;
-			var top = ((height / 2) - (h / 2)) + dualScreenTop;
-			var newWindow = window.open(url, "cognigyWebchat", 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+            // Puts focus on the newWindow
+            if (window.focus) {
+                newWindow.focus();
+            }
 
-			// Puts focus on the newWindow
-			if (window.focus) {
-				newWindow.focus();
-			}
+        } else {
+            window.open(url);
+        }
+    };
+    RichMessages.prototype.renderListButton = function (button) {
+        var _this = this;
+        var buttonContainer = document.createElement("button");
+        buttonContainer.className = "list_template_element_button";
+        var buttonTitle = document.createTextNode(button.title)
+        buttonContainer.appendChild(buttonTitle);
+        //Postback button sends a message to the server when clicked
+        if (button.type === "postback") {
+            buttonContainer.onclick = function () { return _this.handleButtonPostback(button.title, button.payload); };
+        }
+        //URL button redirects to a website
+        if (button.type == "web_url") {
+            buttonContainer.onclick = function () { return _this.handleButtonWebUrl(button.url); };
+        }
+        return buttonContainer;
+    };
+    RichMessages.prototype.renderListElement = function (element, index) {
+        var elementContainer = document.createElement("div");
+        var elementContent = document.createElement("div");
+        var elementTitle = document.createTextNode(element.title)
+        /* Don't render two consecutive newlines */
+        var elementSubtitle = document.createElement("p");
+        elementSubtitle.className = "text_subtitle";
+        var elementSubtitleText = document.createTextNode(element.subtitle.replace(/\n\s*\n/g, '\n'));
+        elementSubtitle.appendChild(elementSubtitleText);
 
-		} else {
-			window.open(url);
-		}
-	};
-	RichMessages.prototype.renderListButton = function (button) {
-		var _this = this;
-		var buttonContainer = document.createElement("button");
-		buttonContainer.className = "list_template_element_button";
-		var buttonTitle = document.createTextNode(button.title)
-		buttonContainer.appendChild(buttonTitle);
-		//Postback button sends a message to the server when clicked
-		if (button.type === "postback") {
-			buttonContainer.onclick = function () { return _this.handleButtonPostback(button.title, button.payload); };
-		}
-		//URL button redirects to a website
-		if (button.type == "web_url") {
-			buttonContainer.onclick = function () { return _this.handleButtonWebUrl(button.url); };
-		}
-		return buttonContainer;
-	};
-	RichMessages.prototype.renderListElement = function (element, index) {
-		var elementContainer = document.createElement("div");
-		var elementContent = document.createElement("div");
-		var elementTitle = document.createTextNode(element.title)
-		/* Don't render two consecutive newlines */
-		var elementSubtitle = document.createElement("p");
-		elementSubtitle.className = "text_subtitle";
-		var elementSubtitleText = document.createTextNode(element.subtitle.replace(/\n\s*\n/g, '\n'));
-		elementSubtitle.appendChild(elementSubtitleText);
+        /* Read subtitle */
+        if (element.subtitle) {
+            this.readCognigyMessage(element.subtitle);
+        }
 
-		/* Read subtitle */
-		if (element.subtitle) {
-			this.readCognigyMessage(element.subtitle);
-		}
+        elementContent.appendChild(elementTitle);
+        elementContent.appendChild(elementSubtitle);
+        //Special styling for first list item
+        if (this.messageData.top_element_style === "large" && index === 0) {
+            elementContainer.className = "list_template_element_container_first";
+            elementContent.className = "list_template_element_content_first";
+            elementContainer.style.background = "url(" + element.image_url + ") center center / cover no-repeat, linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)) no-repeat";
+            elementContainer.appendChild(elementContent);
+        }
+        else {
+            elementContainer.className = "list_template_element_container";
+            elementContent.className = "list_template_element_content";
+            elementContainer.appendChild(elementContent);
+            var img = document.createElement("img");
+            img.src = element.image_url;
+            img.style.minWidth = "50px";
+            img.style.height = "50px";
+            elementContainer.appendChild(img);
+            //appendChild default action if specified
+            if (element.default_action) {
+                img.onclick = function () { return window.open(element.default_action.url); };
+            }
+        }
+        return { elementContainer: elementContainer, elementContent: elementContent };
+    };
+    RichMessages.prototype.listTemplate = function () {
+        var _this = this;
+        var messageInnerContainer = createElement("div", "cognigy-chat-bot-message-container");
+        this.createAvatar(messageInnerContainer);
 
-		elementContent.appendChild(elementTitle);
-		elementContent.appendChild(elementSubtitle);
-		//Special styling for first list item
-		if (this.messageData.top_element_style === "large" && index === 0) {
-			elementContainer.className = "list_template_element_container_first";
-			elementContent.className = "list_template_element_content_first";
-			elementContainer.style.background = "url(" + element.image_url + ") center center / cover no-repeat, linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)) no-repeat";
-			elementContainer.appendChild(elementContent);
-		}
-		else {
-			elementContainer.className = "list_template_element_container";
-			elementContent.className = "list_template_element_content";
-			elementContainer.appendChild(elementContent);
-			var img = document.createElement("img");
-			img.src = element.image_url;
-			img.style.minWidth = "50px";
-			img.style.height = "50px";
-			elementContainer.appendChild(img);
-			//appendChild default action if specified
-			if (element.default_action) {
-				img.onclick = function () { return window.open(element.default_action.url); };
-			}
-		}
-		return { elementContainer: elementContainer, elementContent: elementContent };
-	};
-	RichMessages.prototype.listTemplate = function () {
-		var _this = this;
-		var messageInnerContainer = createElement("div", "cognigy-chat-bot-message-container");
-		this.createAvatar(messageInnerContainer);
+        var listContainer = document.createElement("div");
+        listContainer.className = "list_template_container";
+        this.findElements().forEach(function (element, index) {
+            var _a = _this.renderListElement(element, index), elementContainer = _a.elementContainer, elementContent = _a.elementContent;
+            if (element.buttons) {
+                element.buttons.forEach(function (button) {
+                    var buttonContainer = _this.renderListButton(button);
+                    //Special styling for first button
+                    if (_this.messageData.top_element_style === "large" && index === 0) {
+                        buttonContainer.className = "list_template_element_button_first";
+                    }
+                    elementContent.appendChild(buttonContainer);
+                });
+            }
+            //Hide bottom border on last element
+            if (_this.findElements().length === (index + 1)) {
+                elementContainer.style.borderBottom = "none";
+            }
+            listContainer.appendChild(elementContainer);
+        });
+        if (this.findButtons()) {
+            this.findButtons().forEach(function (button, index) {
+                var buttonContainer = _this.renderButton(button);
+                listContainer.appendChild(buttonContainer);
+            });
+        }
 
-		var listContainer = document.createElement("div");
-		listContainer.className = "list_template_container";
-		this.findElements().forEach(function (element, index) {
-			var _a = _this.renderListElement(element, index), elementContainer = _a.elementContainer, elementContent = _a.elementContent;
-			if (element.buttons) {
-				element.buttons.forEach(function (button) {
-					var buttonContainer = _this.renderListButton(button);
-					//Special styling for first button
-					if (_this.messageData.top_element_style === "large" && index === 0) {
-						buttonContainer.className = "list_template_element_button_first";
-					}
-					elementContent.appendChild(buttonContainer);
-				});
-			}
-			//Hide bottom border on last element
-			if (_this.findElements().length === (index + 1)) {
-				elementContainer.style.borderBottom = "none";
-			}
-			listContainer.appendChild(elementContainer);
-		});
-		if (this.findButtons()) {
-			this.findButtons().forEach(function (button, index) {
-				var buttonContainer = _this.renderButton(button);
-				listContainer.appendChild(buttonContainer);
-			});
-		}
+        messageInnerContainer.appendChild(listContainer);
+        this.messageContainer.appendChild(messageInnerContainer);
+    };
+    RichMessages.prototype.renderInformation = function (title) {
+        var information = document.createElement("span");
+        var informationContainer = document.createElement("div");
+        informationContainer.className = "receipt_template_information_container";
+        information.className = "receipt_template_information";
+        information.appendChild(title);
+        informationContainer.appendChild(information);
+        return informationContainer;
+    };
+    RichMessages.prototype.buttonTemplate = function () {
+        var _this = this;
+        var messageInnerContainer = createElement("div", "cognigy-chat-bot-message-container");
+        this.createAvatar(messageInnerContainer);
 
-		messageInnerContainer.appendChild(listContainer);
-		this.messageContainer.appendChild(messageInnerContainer);
-	};
-	RichMessages.prototype.renderInformation = function (title) {
-		var information = document.createElement("span");
-		var informationContainer = document.createElement("div");
-		informationContainer.className = "receipt_template_information_container";
-		information.className = "receipt_template_information";
-		information.appendChild(title);
-		informationContainer.appendChild(information);
-		return informationContainer;
-	};
-	RichMessages.prototype.buttonTemplate = function () {
-		var _this = this;
-		var messageInnerContainer = createElement("div", "cognigy-chat-bot-message-container");
-		this.createAvatar(messageInnerContainer);
+        var buttonsOuterContainer = document.createElement("div");
+        buttonsOuterContainer.className = "button_template_outer_container";
+        if (this.messageData.text) {
+            /* Read text */
+            _this.readCognigyMessage(this.messageData.text);
 
-		var buttonsOuterContainer = document.createElement("div");
-		buttonsOuterContainer.className = "button_template_outer_container";
-		if (this.messageData.text) {
-			/* Read text */
-			_this.readCognigyMessage(this.messageData.text);
+            var buttonText = document.createElement("div");
+            buttonText.className = "button_template_text";
+            buttonText.appendChild(document.createTextNode(this.messageData.text));
+            buttonsOuterContainer.appendChild(buttonText);
+        }
+        this.messageData.buttons.forEach(function (button, index) {
+            var buttonContainer = _this.renderButton(button);
+            if (index !== 0) {
+                buttonContainer.style.borderTop = "1px solid rgba(0,0,0,0.1)";
+            }
+            buttonContainer.className = "button_template_container";
+            buttonsOuterContainer.appendChild(buttonContainer);
+        });
 
-			var buttonText = document.createElement("div");
-			buttonText.className = "button_template_text";
-			buttonText.appendChild(document.createTextNode(this.messageData.text));
-			buttonsOuterContainer.appendChild(buttonText);
-		}
-		this.messageData.buttons.forEach(function (button, index) {
-			var buttonContainer = _this.renderButton(button);
-			if (index !== 0) {
-				buttonContainer.style.borderTop = "1px solid rgba(0,0,0,0.1)";
-			}
-			buttonContainer.className = "button_template_container";
-			buttonsOuterContainer.appendChild(buttonContainer);
-		});
+        messageInnerContainer.appendChild(buttonsOuterContainer);
+        this.messageContainer.appendChild(messageInnerContainer);
+    };
 
-		messageInnerContainer.appendChild(buttonsOuterContainer);
-		this.messageContainer.appendChild(messageInnerContainer);
-	};
+    RichMessages.prototype.wirecardTemplate = function () {
+        var _this = this;
+        var messageInnerContainer = createElement("div", "cognigy-chat-bot-message-container");
+        this.createAvatar(messageInnerContainer);
 
-	RichMessages.prototype.createAvatar = function (messageInnerContainer) {
-		//Create bot avatar with Cognigy logo and appendChild to message contanier
-		let avatar = createElement("img", "cognigy-chat-bot-avatar");
+        var wirecardContainer = createElement("div", "wirecard-container");
+        var seamlessFormTarget = document.createElement("div");
 
-		/* If we can load the logo image, then we use it. Otherwise we use the Cognigy logo */
-		var img = new Image();
-		img.onload = () => {
-			avatar.src = this.messageLogoUrl;
-		};
-		img.onerror = function () {
-			avatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/cognigy_logo.svg";
-		};
-		img.src = this.messageLogoUrl;
+        /** Currently some hard coded values and just three (POC)*/
+        let currencySymbol = "";
 
-		messageInnerContainer.appendChild(avatar);
+        switch(this.messageData.data.currency){
+            case "EUR":
+                currencySymbol = "€";
+                break;
+            case "USD":
+                currencySymbol = "$";
+                break;
+            case "GBP":
+                currencySymbol = "£";
+                break;
+        }
 
-		return avatar;
-	}
+        if (this.messageData.data) {
+            var wirecardFormText = document.createElement("div");
+            wirecardFormText.className = "wirecard-form-text";
+            wirecardFormText.appendChild(document.createTextNode(`Grand Total: ${this.messageData.data.value}${currencySymbol}`));
+            wirecardContainer.appendChild(wirecardFormText);
+        }
 
-	RichMessages.prototype.renderMessage = function () {
-		//Render button template
-		if (this.findTemplate() === "button") {
-			this.buttonTemplate();
-		}
+        const divId = "seamless-form-target" + Date.now();
+        seamlessFormTarget.id = divId;
+        seamlessFormTarget.className = "seamless-form-target";
 
-		//Render list template
-		if (this.findTemplate() === "list") {
-			this.listTemplate();
-		}
+        var buttonContainer = document.createElement("div");
+        buttonContainer.className = "wirecard-button";
+        var buttonTitle = document.createTextNode("pay")
+        buttonContainer.appendChild(buttonTitle);
 
-		//Render generic template
-		if (this.findTemplate() === "generic") {
-			render(
-				<Carousel
-					messageLogoUrl={this.messageLogoUrl}
-					galleryElements={this.findElements()}
-					handleButtonPostback={this.handleButtonPostback.bind(this)}
-					handleButtonWebUrl={this.handleButtonWebUrl.bind(this)}
-				/>,
-				this.messageContainer);
-		}
+        buttonContainer.onclick = () => { this.messageData.callback(); };
 
-		//Render quick replies
-		if (this.quickReplies || this.quickReplyText) {
-			this.renderQuickReplies();
-		}
+        wirecardContainer.appendChild(seamlessFormTarget);
+        wirecardContainer.appendChild(buttonContainer);
+        messageInnerContainer.appendChild(wirecardContainer);
+        this.messageContainer.appendChild(messageInnerContainer);
+        this.messageData.render(divId);
+    }
 
-		// Render Attachments
-		if (this.messageData && this.messageData.url && this.messageType && (this.messageType === "video" || this.messageType === "audio" || this.messageType === "image") ) {
-			render(
-				<Attachment 
-					url={this.messageData.url}
-					type={this.messageType}
-					messageLogoUrl={this.messageLogoUrl}
-				/>,
-				this.messageContainer);
-		};
+    RichMessages.prototype.createAvatar = function (messageInnerContainer) {
+        //Create bot avatar with Cognigy logo and appendChild to message contanier
+        let avatar = createElement("img", "cognigy-chat-bot-avatar");
 
-	};
-	return RichMessages;
+        /* If we can load the logo image, then we use it. Otherwise we use the Cognigy logo */
+        var img = new Image();
+        img.onload = () => {
+            avatar.src = this.messageLogoUrl;
+        };
+        img.onerror = function () {
+            avatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/cognigy_logo.svg";
+        };
+        img.src = this.messageLogoUrl;
+
+        messageInnerContainer.appendChild(avatar);
+
+        return avatar;
+    }
+
+    RichMessages.prototype.renderMessage = function () {
+        //Render button template
+        if (this.findTemplate() === "button") {
+            this.buttonTemplate();
+        }
+
+        //Render list template
+        if (this.findTemplate() === "list") {
+            this.listTemplate();
+        }
+
+        //Render generic template
+        if (this.findTemplate() === "generic") {
+            render(
+                <Carousel
+                    messageLogoUrl={this.messageLogoUrl}
+                    galleryElements={this.findElements()}
+                    handleButtonPostback={this.handleButtonPostback.bind(this)}
+                    handleButtonWebUrl={this.handleButtonWebUrl.bind(this)}
+                />,
+                this.messageContainer);
+        }
+
+        if (this.findTemplate() === "wirecard") {
+            this.wirecardTemplate();
+        }
+
+        //Render quick replies
+        if (this.quickReplies || this.quickReplyText) {
+            this.renderQuickReplies();
+        }
+    };
+    return RichMessages;
 }());
 var createElement = function (type, className, id) {
 	var element = document.createElement(type);

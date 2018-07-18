@@ -97,8 +97,31 @@ class Helpers {
 		var cognigyAnswer = answerFromCognigy && answerFromCognigy.text;
 		var chatContainer = document.getElementById("cognigy-container");
 
-		//Display Facebook message if it is there. Otherwise display normal message
-		if (answerFromCognigy && answerFromCognigy.data && answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._webchat) {
+		//Display Wirecard payment button or facebook message if it is there. Otherwise display normal message
+		if (answerFromCognigy && answerFromCognigy.data && answerFromCognigy.data._wirecard) {
+			const wirecardData = answerFromCognigy.data._wirecard;
+
+			answerFromCognigy.data = {
+				_cognigy: {
+					_wirecard: {
+						message: {
+							attachment: {
+								payload: {
+									template_type: "wirecard",
+									render: (divId) => { this.handleWirecardRequest(wirecardData, divId) },
+									callback: () => { this.handlePayRequest(); },
+									data: wirecardData
+								}
+							}
+						}
+					}
+				}
+			}
+
+			var renderRichMessage = new RichMessages(answerFromCognigy.data._cognigy._wirecard, chatContainer, readCognigyMessage, this.handleDisplayPostbackMessage, handleCognigyMessage, messageLogoUrl, this.displayCognigyMessage);
+			renderRichMessage.renderMessage();
+		}
+		else if (answerFromCognigy && answerFromCognigy.data && answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._webchat) {
 			var renderRichMessage = new RichMessages(answerFromCognigy.data._cognigy._webchat, chatContainer, readCognigyMessage, this.handleDisplayPostbackMessage, handleCognigyMessage, messageLogoUrl, this.displayCognigyMessage);
 			renderRichMessage.renderMessage();
 
@@ -140,6 +163,60 @@ class Helpers {
 		readCognigyMessage(cognigyAnswer);
 	}
 
+	handleWirecardRequest = (wirecardData: any, divId: string) => {
+		const { firstName, lastName, value, currency, paymentMethod } = wirecardData;
+
+		var request = new XMLHttpRequest();
+
+		request.onreadystatechange = function () {
+			if (request.readyState === 4) {
+				let response = request.response;
+
+				if (response === 'error') {
+					alert('Error in execution');
+					return;
+				}
+				// $FlowFixMe
+				WPP.seamlessRender({
+					url: response,
+					wrappingDivId: divId,
+					onSuccess: (response) => {
+						console.log(`Successfully rendered WPP seamless form\n${response}`);
+					},
+					onError: (response) => {
+						console.log(`Error on rendering WPP seamless form\n${response}`);
+					}
+				});
+			}
+		}
+
+		request.open('POST', `${window.location.origin}/wirecard`, true);
+		request.setRequestHeader('Content-Type', 'application/json');
+		request.send(JSON.stringify(
+			{
+				frameAncestor: window.location.origin,
+				data: {
+					firstName,
+					lastName,
+					value,
+					currency,
+					paymentMethod
+				}
+			}));
+	}
+
+	handlePayRequest = () => {
+		// $FlowFixMe
+		WPP.seamlessSubmit({
+			onSuccess: (response) => {
+				console.log(`Successfully submitted\n${response}`);
+			},
+			onError: (response) => {
+				console.log(`Error on Submitting\n${response}`);
+			}
+		});
+	}
+
 	/* Function to handle the getStartedButton */
 	handleGetStartedButton = (getStartedText: string, getStartedPostback: any, handleCognigyMessage: any) => {
 		/* Send getStarted text to Cognigy and display it in the webchat */
@@ -147,7 +224,7 @@ class Helpers {
 		handleCognigyMessage(getStartedPostback);
 
 		/* Display form and hide getStartedButton */
-		const cognigyForm = ((document.getElementById("cognigy-form"):any): HTMLFormElement);
+		const cognigyForm = ((document.getElementById("cognigy-form"): any): HTMLFormElement);
 		cognigyForm.className = "cognigy-chat-form";
 		const buttonEl = ((document.getElementById("cognigy-get-started-button"): any): HTMLButtonElement);
 		buttonEl.className = "displayNone";

@@ -14,8 +14,8 @@ html {
 
 .cognigy-outer-container__open, .cognigy-outer-container__closed {
   display: -ms-flexbox;
-	-ms-flex-align: center;
-	-ms-flex-direction: column;
+  -ms-flex-align: center;
+  -ms-flex-direction: column;
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
@@ -24,7 +24,7 @@ html {
   -webkit-box-shadow: -2px 2px 10px rgb(0, 0 , 0, 0.5);
           box-shadow: -2px 2px 10px rgb(0, 0 , 0, 0.5);
   -webkit-box-align: center;
-          align-items: center;
+  align-items: center;
   border-radius: 10px;
   font-family: Ubuntu, sans-serif;
   height: 30rem;
@@ -35,22 +35,22 @@ html {
   margin: 0 50px 100px 0;
   -webkit-transition: all .200s ease-out;
   -o-transition: all .200s ease-out;
-  transition: all .200s ease-out  
+  transition: all .200s ease-out
 }
 
 @media only screen and (max-width: 1000px) {
   .cognigy-outer-container__open, .cognigy-outer-container__closed {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      /* Always keep the chat open on small screens */
-      opacity: 1; 
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    /* Always keep the chat open on small screens */
+    opacity: 1;
   }
 }
 
 @media only screen and (max-width: 1000px) {
   .cognigy-chat-state-closed, .cognigy-chat-state-open {
-      display: none;
+    display: none;
   }
 }
 
@@ -74,7 +74,7 @@ html {
 }
 
 .cognigy-chat-state-closed {
-  background-image: url('https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/chat_bubble.svg');  
+  background-image: url('https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/chat_bubble.svg');
 }
 
 /*The header is comprised of an outer container which ensures that the
@@ -89,7 +89,7 @@ header content is only 90% of the total width of the chat box - just like the co
   display: -ms-flexbox;
   -ms-flex-pack: center;
   -webkit-box-pack: center;
-          justify-content: center;
+  justify-content: center;
 }
 
 .cognigy-chat-header-container {
@@ -105,12 +105,12 @@ header content is only 90% of the total width of the chat box - just like the co
 
 .cognigy-header-text {
   display: -ms-flexbox;
-	-ms-flex-direction: column;
+  -ms-flex-direction: column;
   display: -webkit-box;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-          flex-direction: column;
+  flex-direction: column;
 }
 
 .cognigy-header-title {
@@ -118,12 +118,12 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 .cognigy-header-title:after {
-  content:"\a";
+  content: "\a";
   white-space: pre;
 }
 
 .cognigy-header-subtitle {
-  color: hsla(0,0%,100%,.8);
+  color: hsla(0, 0%, 100%, .8);
   font-size: 12px;
   margin-top: 3px;
 }
@@ -141,49 +141,49 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 /*The close icon disappears when the header is closed*/
-.cognigy-chat-header-container > .cognigy-chat-header > .cognigy-close-icon {
+.cognigy-chat-header-container>.cognigy-chat-header>.cognigy-close-icon {
   display: none;
 }
 
-.cognigy-chat-header-container > .cognigy-chat-header {
+.cognigy-chat-header-container>.cognigy-chat-header {
   -ms-flex-pack: center;
   -webkit-box-pack: center !important;
-          justify-content: center !important;
+  justify-content: center !important;
 }
 
 .cognigy-chat-header-container__open {
   height: 4rem;
   border-radius: 10px 10px 0 0;
-  flex-shrink: 0;  
+  flex-shrink: 0;
   -ms-flex-negative: 0;
 }
 
 .cognigy-chat-header {
   display: -ms-flexbox;
-	-ms-flex-align: center;
+  -ms-flex-align: center;
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;
-          align-items: center;
+  align-items: center;
   width: 100%;
   height: 100%;
 }
 
 /*Container for chat content: Same function as header content defined above*/
 .cognigy-chat-container {
-	width: 100%;
-	font-size: 12px;
-	/* Random number to fix overflow-y: scroll problem in IE 10 */
-	-ms-flex-preferred-size: 1px;
-	-ms-flex-positive: 1;
-	-webkit-box-flex: 1;
-	        flex-grow: 1;
-	padding-top: 10px;
+  width: 100%;
+  font-size: 12px;
+  /* Random number to fix overflow-y: scroll problem in IE 10 */
+  -ms-flex-preferred-size: 1px;
+  -ms-flex-positive: 1;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  padding-top: 10px;
   overflow-y: scroll;
   overflow-x: hidden;
-	padding-bottom: 20px;
-	background-color: white;
-  }
+  padding-bottom: 20px;
+  background-color: white;
+}
 
 /*Style scrollbar*/
 .cognigy-chat-container::-webkit-scrollbar {
@@ -191,14 +191,14 @@ header content is only 90% of the total width of the chat box - just like the co
 }
 
 .cognigy-chat-container::-webkit-scrollbar-thumb {
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgba(0, 0, 0, 0.3);
   outline: 1px solid slategrey;
   border-radius: 20px;
   display: -ms-flexbox;
-	-ms-flex-direction: column-reverse;
+  -ms-flex-direction: column-reverse;
   -webkit-box-orient: vertical;
   -webkit-box-direction: reverse;
-	        flex-direction: column-reverse;
+  flex-direction: column-reverse;
   display: -webkit-box;
   display: flex;
 }
@@ -223,13 +223,13 @@ header content is only 90% of the total width of the chat box - just like the co
   margin-bottom: 0;
   width: 100%;
   -webkit-box-align: center;
-          align-items: center;
+  align-items: center;
   border-radius: 0 0 10px 10px;
-  -webkit-transition: background-color .2s ease,-webkit-box-shadow .2s ease;
-  transition: background-color .2s ease,-webkit-box-shadow .2s ease;
-  -o-transition: background-color .2s ease,box-shadow .2s ease;
-  transition: background-color .2s ease,box-shadow .2s ease;
-  transition: background-color .2s ease,box-shadow .2s ease,-webkit-box-shadow .2s ease;
+  -webkit-transition: background-color .2s ease, -webkit-box-shadow .2s ease;
+  transition: background-color .2s ease, -webkit-box-shadow .2s ease;
+  -o-transition: background-color .2s ease, box-shadow .2s ease;
+  transition: background-color .2s ease, box-shadow .2s ease;
+  transition: background-color .2s ease, box-shadow .2s ease, -webkit-box-shadow .2s ease;
   height: 50px;
   min-height: 50px;
   overflow: hidden;
@@ -251,7 +251,7 @@ header content is only 90% of the total width of the chat box - just like the co
   outline: none;
 }
 
-.cognigy-chat-button  {
+.cognigy-chat-button {
   border: 10px;
   border-radius: 20px;
   padding: 0.3rem;
@@ -286,11 +286,11 @@ header content is only 90% of the total width of the chat box - just like the co
   background-color: white;
   padding: 20px 30px;
   display: -ms-flexbox;
-	-ms-flex-align: center;
+  -ms-flex-align: center;
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;
-          align-items: center;
+  align-items: center;
   background-image: url('https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/mic.gif');
   background-position: center;
   background-repeat: no-repeat;
@@ -305,22 +305,22 @@ header content is only 90% of the total width of the chat box - just like the co
   display: flex;
   word-break: break-word;
   -webkit-box-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
   margin-bottom: 0.5rem;
   -webkit-box-align: end;
-          align-items: flex-end;
+  align-items: flex-end;
   margin-right: 10px;
 }
 
 .cognigy-chat-bot-message-container {
   display: -ms-flexbox;
-	-ms-flex-align: end;
+  -ms-flex-align: end;
   display: -webkit-box;
   display: flex;
   word-break: break-word;
   margin: 10px 0 15px 10px;
   -webkit-box-align: end;
-          align-items: flex-end;
+  align-items: flex-end;
   min-width: 0 !important;
   min-height: 0 !important;
   position: relative;
@@ -335,7 +335,7 @@ header content is only 90% of the total width of the chat box - just like the co
   border-radius: 20px 20px 4px 20px;
   padding: 10px 15px;
   margin: 0.5rem 0;
-  color: rgba(0,0,0,0.8);
+  color: rgba(0, 0, 0, 0.8);
   max-width: 55%;
   white-space: pre-line;
 }
@@ -344,7 +344,7 @@ header content is only 90% of the total width of the chat box - just like the co
   background-color: #333333;
   border-radius: 20px 20px 20px 4px;
   padding: 10px 15px;
-  max-width: 55%;  
+  max-width: 55%;
   color: white;
   white-space: pre-line
 }
@@ -407,7 +407,7 @@ header content is only 90% of the total width of the chat box - just like the co
 
 /* Placeholder text for textarea (which is really a div) */
 [contentEditable=true]:empty:not(:focus):before {
-  content:attr(data-text)
+  content: attr(data-text)
 }
 
 .cognigy-get-started-button {
@@ -421,7 +421,7 @@ header content is only 90% of the total width of the chat box - just like the co
   font-weight: 500;
   height: 32px;
   cursor: pointer;
-  border-top: 1px solid rgba(0,0,0,0.1) !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
   border-radius: 0 0 10px 10px;
   width: 100%;
   margin: 0;
@@ -446,7 +446,7 @@ header content is only 90% of the total width of the chat box - just like the co
   display: flex;
   justify-content: center;
   border-bottom: 1px solid #dddfe2;
-  color: rgba(0,0,0,0.87);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .cognigy-persistent-menu-item {
@@ -465,6 +465,7 @@ header content is only 90% of the total width of the chat box - just like the co
   box-shadow: 0 0 0 1px rgba(0, 0, 0, .1), 0 1px 10px rgba(0, 0, 0, .35);
   margin-left: 8px;
 }
+
 .cognigy-persistent-menu-container-arrow {
   position: absolute;
   bottom: 39px;
@@ -476,4 +477,75 @@ header content is only 90% of the total width of the chat box - just like the co
 .cognigy-persistent-menu-outer-container {
   display: flex;
   align-items: flex-end;
+}
+
+/* Wirecard */
+.wirecard-container {
+  display: -ms-flexbox;
+  -ms-flex-align: end;
+  display: -webkit-box;
+  display: flex;
+  flex-direction: column;
+  word-break: break-word;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: -30px;
+  -webkit-box-align: end;
+  align-items: flex-end;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  position: relative;
+}
+
+.wirecard-form-text {
+  color: #222222;
+  width: 100%;
+  height: 35px;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  vertical-align: middle;
+  font-family: "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system;
+}
+
+.seamless-form-target {
+  margin-right: auto;
+  margin-left: auto;
+  width: 100% !important;
+  height: 400px !important;
+}
+
+.wirecard-button {
+  background-color: #363636;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  height: 35px;
+  font-family: "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system;
+  line-height: 30px;
+  padding: 0 1.5rem;
+  margin-right: 35px;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .8px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  vertical-align: middle;
+  white-space: nowrap;
+  outline: none;
+  border: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  border-radius: 2px;
+  transition: all .3s ease-out;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.225);
+}
+
+.wirecard-button:hover {
+  text-decoration: none;
+  box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.225);
 }
