@@ -14,7 +14,6 @@ import rich_message_css from './rich_message_style.css';
 import custom_color_css from './custom_colors.css';
 import center_webchat_css from './center_webchat.css';
 
-
 /* Use CSS */
 main_css.use();
 rich_message_css.use();
@@ -313,6 +312,20 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 			return;
 		}
 
+		//This prevents WPP posting window events or in case it's a successfull submit a submit message to the AI
+		if (event && event.origin && typeof event.origin === "string" && event.origin.match('https://wpp-test.wirecard.com')) {
+			if (event.data && typeof event.data === "string") {
+				let eventData = JSON.parse(event.data);
+
+				if (eventData.type === "wdPostMessage_seamlessSubmitSuccessResp") {
+					Helpers.handleDisplayPostbackMessage('payment_submit');
+					handleCognigyMessage('payment_submit');
+					return;
+				}
+			}
+			return;
+		}
+
 		/* If the event is a postback, display the title instead of the payload. In this case, we use CustomEvent instead of MessageEvent for IE support */
 		if (event && event.detail && event.detail.type === "postback") {
 			Helpers.handleDisplayPostbackMessage(event.detail.title);
@@ -326,72 +339,72 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 
 	/* Handle file uploads. This requires that Cognigy sends us a file upload url in a data object */
 	const uploadForm = document.getElementById('cognigy-file-upload-form');
-		uploadForm && uploadForm.addEventListener("submit", function (e) {
-			if (e)
-				e.preventDefault()
+	uploadForm && uploadForm.addEventListener("submit", function (e) {
+		if (e)
+			e.preventDefault()
 
-			/* Check whether we have received a file upload url from Cognigy at some point */
-			if (!fileUploadUrl) {
-				console.error("Sorry, no file upload was specified. Cannot complete file upload");
-				return;
-			}
+		/* Check whether we have received a file upload url from Cognigy at some point */
+		if (!fileUploadUrl) {
+			console.error("Sorry, no file upload was specified. Cannot complete file upload");
+			return;
+		}
 
-			const uploadInputEl = ((document.getElementById("cognigy-file-upload-input"): any): HTMLInputElement);
-			var files = uploadInputEl.files;
-			var data = new FormData();
-			var fileNames = [];
+		const uploadInputEl = ((document.getElementById("cognigy-file-upload-input"): any): HTMLInputElement);
+	var files = uploadInputEl.files;
+	var data = new FormData();
+	var fileNames = [];
 
-			/* Loop through the files, append the files to FormData and print the file names in the chat */
-			Array.prototype.map.call(files, function (file) {
-				data.append("file", file, file.name);
-				fileNames.push(file.name);
-				Helpers.handleDisplayPostbackMessage(file.name);
-			})
+	/* Loop through the files, append the files to FormData and print the file names in the chat */
+	Array.prototype.map.call(files, function (file) {
+		data.append("file", file, file.name);
+		fileNames.push(file.name);
+		Helpers.handleDisplayPostbackMessage(file.name);
+	})
 
-			var request = new XMLHttpRequest();
+	var request = new XMLHttpRequest();
 
-			/* Send message back to Cognigy when we get a response from the server */
-			request.onreadystatechange = function () {
-				// $FlowFixMe
-				if (request.readyState === XMLHttpRequest['DONE'] && request.status === 200) {
-					client.sendMessage("File upload completed", {
-						event: "FileUpload",
-						fileUpload: {
-							fileNames: fileNames,
-							statusCode: request.status,
-							event: "fileUploadCompleted"
-						},
-						browser: {
-							"browser": BrowserDetect.browser,
-							"version": BrowserDetect.version
-						}
-					})
-				} else if (request.status >= 400) {
-					client.sendMessage(null, {
-						event: "FileUploadError",
-						fileUpload: {
-							fileNames: fileNames,
-							statusCode: request.status,
-							event: "fileUploadError"
-						},
-						browser: {
-							"browser": BrowserDetect.browser,
-							"version": BrowserDetect.version
-						}
-					})
+	/* Send message back to Cognigy when we get a response from the server */
+	request.onreadystatechange = function () {
+		// $FlowFixMe
+		if (request.readyState === XMLHttpRequest['DONE'] && request.status === 200) {
+			client.sendMessage("File upload completed", {
+				event: "FileUpload",
+				fileUpload: {
+					fileNames: fileNames,
+					statusCode: request.status,
+					event: "fileUploadCompleted"
+				},
+				browser: {
+					"browser": BrowserDetect.browser,
+					"version": BrowserDetect.version
 				}
-			}
-
-			request.open("POST", fileUploadUrl);
-			request.send(data);
-		})
-
-	/* Call the 'exposeClientCallback' with the client if defined */
-	if (exposeClientCallback && typeof exposeClientCallback === "function") {
-		exposeClientCallback(client);
+			})
+		} else if (request.status >= 400) {
+			client.sendMessage(null, {
+				event: "FileUploadError",
+				fileUpload: {
+					fileNames: fileNames,
+					statusCode: request.status,
+					event: "fileUploadError"
+				},
+				browser: {
+					"browser": BrowserDetect.browser,
+					"version": BrowserDetect.version
+				}
+			})
+		}
 	}
 
-	return client;
+	request.open("POST", fileUploadUrl);
+	request.send(data);
+})
+
+/* Call the 'exposeClientCallback' with the client if defined */
+if (exposeClientCallback && typeof exposeClientCallback === "function") {
+	exposeClientCallback(client);
+}
+
+return client;
 }
 
 const buildHTMLDocument = (options) => {
@@ -399,6 +412,11 @@ const buildHTMLDocument = (options) => {
 	const mainCognigyDiv = Helpers.createElement("div", "cognigy-web-chat", "cognigy");
 	const body = document.getElementsByTagName("body")[0];
 	body.appendChild(mainCognigyDiv);
+
+	/** Add the wirecard script to the page - displays the modal for payment */
+	const wirecardScript = document.createElement('script');
+	wirecardScript.setAttribute('src', 'https://wpp.wirecard.com/loader/paymentPage.js');
+	body.appendChild(wirecardScript);
 
 	/* If there is a backgroundImage specified, then we load it */
 	if (options.backgroundImageUrl) {
@@ -600,7 +618,7 @@ const buildHTMLDocument = (options) => {
 	const formElement = document.getElementById("cognigy-form");
 	formElement && formElement.addEventListener("submit", function (event) {
 		if (event)
-		// $FlowFixMe
+			// $FlowFixMe
 			event.preventDefault ? event.preventDefault() : (event.returnValue = false);
 		Helpers.handleSendMessage(event);
 	}, false);
