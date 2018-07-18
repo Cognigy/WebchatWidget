@@ -7,7 +7,8 @@
 .button,
 .list_template_element_button,
 .cognigy-persistent-menu-item,
-.quick_reply {
+.quick_reply,
+.wirecard-form-text {
 	color: var(--color);
 }
 
@@ -17,6 +18,7 @@
 .cognigy-chat-state-open,
 .cognigy-chat-header-container,
 .cognigy-chat-header-container__open,
-.cognigy-chat-bot-message {
+.cognigy-chat-bot-message,
+.wirecard-button {
 	background-color: var(--color);
 }
