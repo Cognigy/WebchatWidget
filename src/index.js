@@ -111,6 +111,11 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 		return;
 	}
 
+	if (options.colorScheme && (BrowserDetect.browser === "MSIE" || BrowserDetect.browser === "Microsoft Edge")) {
+		document.webchatColor = options.colorScheme;
+	};
+
+
 	/* Explicitly check whether the endpoint is disabled */
 	if (options.active === false) {
 		alert("This Webchat Endpoint is currently disabled. You can enable it in the COGNIY.AI User Interface.");
@@ -427,12 +432,18 @@ const buildHTMLDocument = (options) => {
 	var mainChatElement = document.getElementById("cognigy");
 	var outerContainer = Helpers.createElement("div", "cognigy-outer-container__closed", "cognigy-outer-container");
 	var toggleChatState = Helpers.createElement("div", "cognigy-chat-state-closed", "cognigy-toggle-state");
+	if (document.webchatColor) {
+		toggleChatState.style.backgroundColor = document.webchatColor;
+	}
 	toggleChatState.onclick = Helpers.handleChatOpen;
 	mainChatElement && mainChatElement.appendChild(outerContainer);
 	mainChatElement && mainChatElement.appendChild(toggleChatState);
 
 	//Create standard header with text
 	var headerContainer = Helpers.createElement("div", "cognigy-chat-header-container__open", "cognigy-header");
+	if (document.webchatColor) {
+		headerContainer.style.backgroundColor = document.webchatColor;
+	}
 	var header = Helpers.createElement("div", "cognigy-chat-header");
 
 	//Create header title and subtitle
