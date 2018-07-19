@@ -151,6 +151,8 @@
     border: 1px solid rgba(0,0,0,.1);
     border-radius: 10px;
     background-color: white !important;
+    display: flex;
+    flex-direction: column;
 }
 
 .generic_template_element_container:focus {
@@ -160,9 +162,9 @@
 .generic_template_text_container {
     padding-left: 10px;
     padding-left: 10px;
-    height: 160px;
     text-overflow: ellipsis;
     overflow: hidden;
+    flex-grow: 1;
 }
 
 .text_title {
@@ -176,6 +178,12 @@
     color: rgba(0,0,0,0.45);
     white-space: pre-line;
     text-align: left;
+    padding-bottom: 15px;
+}
+
+/* Disable breaks being added by firefox due to bug in clamp-lines library */
+.text_subtitle_gallery > div > br {
+    display: none;
 }
 
 .quick_reply_container {

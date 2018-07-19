@@ -130,7 +130,9 @@
 		display: flex; }
 		.carousel .slider-wrapper.axis-horizontal .slider .slide {
 		  flex-direction: column;
-		  flex-flow: column; }
+			flex-flow: column;
+			display: flex;
+		}
 	  .carousel .slider-wrapper.axis-vertical {
 		-ms-box-orient: horizontal;
 		display: -webkit-box;
