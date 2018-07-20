@@ -22,9 +22,11 @@
   "dependencies": {
     "preact": "^8.2.7",
     "preact-compat": "^3.18.0",
+    "promise-polyfill": "^8.0.0",
     "react-clamp-lines": "^1.1.0",
     "react-player": "^1.6.4",
-    "react-responsive-carousel": "^3.1.33"
+    "react-responsive-carousel": "^3.1.33",
+    "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

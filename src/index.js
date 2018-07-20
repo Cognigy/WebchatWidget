@@ -3,6 +3,11 @@
 
 /* Node modules */
 import { h, render } from 'preact';
+import 'whatwg-fetch';
+import Promise from 'promise-polyfill';
+if (!window.Promise) {
+		window.Promise = Promise;
+	}
 
 /* Custom modules */
 import Cognigy from "./web-client-source.js";
@@ -106,6 +111,11 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 		return;
 	}
 
+	if (options.colorScheme && (BrowserDetect.browser === "MSIE" || BrowserDetect.browser === "Microsoft Edge")) {
+		document.webchatColor = options.colorScheme;
+	};
+
+
 	/* Explicitly check whether the endpoint is disabled */
 	if (options.active === false) {
 		alert("This Webchat Endpoint is currently disabled. You can enable it in the COGNIY.AI User Interface.");
@@ -139,8 +149,21 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 	img.src = options.headerLogoUrl;
 
 	/* Check whether we have a custom color scheme defined and whether we don't use IE */
-	if (options.colorScheme && BrowserDetect.browser !== "MSIE") {
+	if (options.colorScheme && BrowserDetect.browser !== "MSIE" && BrowserDetect.browser !== "Microsoft Edge") {
 		document.documentElement && document.documentElement.style.setProperty("--color", options.colorScheme);
+	} else if (options.colorScheme) {
+		const colorCollection = document.querySelectorAll(".button_template_container, .button, .list_template_element_button,	.cognigy-persistent-menu-item, .quick_reply");
+		changeColor(colorCollection, "color", options.colorScheme);
+
+		const bgColorCollection = document.querySelectorAll(".button_template_text,	.cognigy-chat-state-closed,	.cognigy-chat-state-open, .cognigy-chat-header-container, .cognigy-chat-header-container__open, .cognigy-chat-bot-message");
+		changeColor(bgColorCollection, "background-color", options.colorScheme);
+
+		function changeColor(coll, key, value){
+			for(var i=0, len=coll.length; i<len; i++)
+			{
+				coll[i].style[key] = value;
+			}
+		}
 	}
 
 	/* Check whether we should use displayTempalte 2 */
@@ -409,12 +432,18 @@ const buildHTMLDocument = (options) => {
 	var mainChatElement = document.getElementById("cognigy");
 	var outerContainer = Helpers.createElement("div", "cognigy-outer-container__closed", "cognigy-outer-container");
 	var toggleChatState = Helpers.createElement("div", "cognigy-chat-state-closed", "cognigy-toggle-state");
+	if (document.webchatColor) {
+		toggleChatState.style.backgroundColor = document.webchatColor;
+	}
 	toggleChatState.onclick = Helpers.handleChatOpen;
 	mainChatElement && mainChatElement.appendChild(outerContainer);
 	mainChatElement && mainChatElement.appendChild(toggleChatState);
 
 	//Create standard header with text
 	var headerContainer = Helpers.createElement("div", "cognigy-chat-header-container__open", "cognigy-header");
+	if (document.webchatColor) {
+		headerContainer.style.backgroundColor = document.webchatColor;
+	}
 	var header = Helpers.createElement("div", "cognigy-chat-header");
 
 	//Create header title and subtitle
@@ -622,7 +651,7 @@ function generateRandomId() {
 
 	} else {
 		/* Else we just use Date.now */
-		return Date.now();
+		return Date.now().toString();
 	}
 }
 

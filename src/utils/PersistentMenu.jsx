@@ -56,7 +56,8 @@ class PersistentMenu extends Component {
 									className="cognigy-persistent-menu-item"
 									style={{
 										/* Set a bottom border on all items except the last one */
-										borderBottom: index !== (menuItems.length - 1) ? "1px solid #dddfe2" : null
+										borderBottom: index !== (menuItems.length - 1) ? "1px solid #dddfe2" : null,
+										color: document.webchatColor ? document.webchatColor : null
 									}}
 									onClick={() => this.handleMenuItemClick(item.title, item.payload)}
 								>

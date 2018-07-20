@@ -129,6 +129,9 @@ class Helpers {
 			message.className = "cognigy-chat-bot-message";
 			messageContainer.className = "cognigy-chat-bot-message-container";
 			message.innerHTML = cognigyAnswer;
+			if (document.webchatColor) {
+				message.style.backgroundColor = document.webchatColor;
+			}
 			messageContainer.appendChild(message);
 
 			chatContainer && chatContainer.appendChild(messageContainer);

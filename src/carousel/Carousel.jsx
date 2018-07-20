@@ -109,12 +109,8 @@ class Carousel extends Component {
                     ref={(slider) => { this.slider = slider }}
                 >
                     {this.state.imageUrl && galleryElements && galleryElements.map((element, index) => (
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            flexGrow: 1
-                        }}>
-                            <div style={{ alignItems: "flex-end", display: "flex" }}>
+                        <div className="galleryFlexContainer">
+                            <div className="galleryFlexAvatar">
                                 <Avatar
                                     style={{
                                         visibility: index !== 0 ? "hidden" : "visible",

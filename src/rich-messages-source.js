@@ -80,6 +80,10 @@ var RichMessages = (function () {
 				return this.handleCognigyMessage(reply.payload);
 			};
 			quickReplyButton.className = "quick_reply";
+			if (document.webchatColor) {
+				quickReplyButton.style.color = document.webchatColor;
+			}
+
 			var buttonTitle = document.createTextNode(reply.title)
 			quickReplyButton.appendChild(buttonTitle);
 
@@ -91,6 +95,9 @@ var RichMessages = (function () {
 		var _this = this;
 		var buttonContainer = document.createElement("div");
 		buttonContainer.className = "button";
+		if (document.webchatColor) {
+			buttonContainer.style.color = document.webchatColor;
+		}
 		var buttonTitle = document.createTextNode(button.title)
 		buttonContainer.appendChild(buttonTitle);
 		//Postback button sends a message to the server when clicked
@@ -137,6 +144,9 @@ var RichMessages = (function () {
 		var _this = this;
 		var buttonContainer = document.createElement("button");
 		buttonContainer.className = "list_template_element_button";
+		if (document.webchatColor) {
+			buttonContainer.style.color = document.webchatColor;
+		}
 		var buttonTitle = document.createTextNode(button.title)
 		buttonContainer.appendChild(buttonTitle);
 		//Postback button sends a message to the server when clicked
@@ -246,6 +256,9 @@ var RichMessages = (function () {
 
 			var buttonText = document.createElement("div");
 			buttonText.className = "button_template_text";
+			if (document.webchatColor) {
+				buttonText.style.backgroundColor = document.webchatColor;
+			}
 			buttonText.appendChild(document.createTextNode(this.messageData.text));
 			buttonsOuterContainer.appendChild(buttonText);
 		}
@@ -255,6 +268,9 @@ var RichMessages = (function () {
 				buttonContainer.style.borderTop = "1px solid rgba(0,0,0,0.1)";
 			}
 			buttonContainer.className = "button_template_container";
+			if (document.webchatColor) {
+				buttonContainer.style.color = document.webchatColor;
+			}
 			buttonsOuterContainer.appendChild(buttonContainer);
 		});
 
