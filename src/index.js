@@ -1,5 +1,4 @@
 // @flow
-// @jsx PersistentMenu
 
 /* Node modules */
 import { h, render } from 'preact';
@@ -507,7 +506,7 @@ const buildHTMLDocument = (options) => {
 				chatForm
 			);
 		} catch (error) {
-			console.log("There was an error loading the persistent menu. Please check that the the URL to the persistent menu config is correct and that the config contains valid JSON");
+			console.log("There was an error loading the persistent menu. Error was:", error);
 		}
 	}
 
