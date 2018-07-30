@@ -16,7 +16,9 @@ class Carousel extends Component {
         this.state = {
             currentSlide: 0,
             imageUrl: null
-        };
+		};
+		
+		this.hasScrolled = false;
 
         this.handleSlideChange = this.handleSlideChange.bind(this);
 
@@ -58,8 +60,18 @@ class Carousel extends Component {
         if (this.slider && this.slider.base && this.slider.base.style) {
             this.slider.base.style.width = "100%";
             this.slider.base.style.maxWidth = "100%";
-        }
-    }
+		}
+	}
+	
+	componentDidUpdate() {
+
+		// Scroll to bottom of chat just *once* after the first component update. We have to do it here because the actual DOM hasn't fully updated in componentDidMount yet.
+		if (!this.hasScrolled) {
+			const chatContainer = document.getElementById("cognigy-container");
+			if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
+			this.hasScrolled = true;
+		};
+	}
 
     render() {
         const sliderSettings = {
@@ -84,7 +96,7 @@ class Carousel extends Component {
 
         return (
             <div
-                className="cognigy-chat-bot-message-container"
+                className="cognigy-chat-bot-message-container cognigy-chat-bot-gallery-container"
                 style={{
                     marginLeft: this.state.currentSlide !== 0 ? "0px" : "10px"
                 }}
@@ -97,27 +109,31 @@ class Carousel extends Component {
                     ref={(slider) => { this.slider = slider }}
                 >
                     {this.state.imageUrl && galleryElements && galleryElements.map((element, index) => (
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "flex-end",
-                        }}>
-                            <Avatar
-                                style={{
-                                    visibility: index !== 0 ? "hidden" : "visible",
-                                    minWidth: index !== 0 ? "10px" : "20px",
-                                    maxWidth: index !== 0 ? "10px" : "20px",
-                                    marginBottom: "1px"
-                                }}
-                                imageUrl={this.state.imageUrl}
-                            />
+                        <div className="galleryFlexContainer">
+                            <div className="galleryFlexAvatar">
+                                <Avatar
+                                    style={{
+                                        visibility: index !== 0 ? "hidden" : "visible",
+                                        minWidth: index !== 0 ? "10px" : "20px",
+                                        maxWidth: index !== 0 ? "10px" : "20px",
+                                        marginBottom: "1px"
+                                    }}
+                                    className={index === 0 ? "cognigy-chat-bot-gallery-avatar__first" : "cognigy-chat-bot-gallery-avatar"}
+                                    imageUrl={this.state.imageUrl}
+                                    refCallback={node => {
+                                        /* Make it impossible to add 'display: none' to these avatar elements */
+                                        if (node && index !== 0) {
+                                            node.style.setProperty("display", "block", "important");
+                                        }
+                                    }}
+                                />
+                            </div>
                             <div
                                 key={index + element.title}
                                 className="generic_template_element_container"
                                 style={{
                                     /* Don't display the last element since it is a cloned element only there for styling purposes */
                                     display: index === (galleryElements.length - 1) ? "none" : "auto",
-                                    marginBottom: "5px",
                                     width: "100%"
                                 }}
                             >
@@ -174,7 +190,7 @@ class Carousel extends Component {
                                             text={element.subtitle}
                                             buttons={false}
                                             lines="5"
-                                            className="text_subtitle"
+                                            className="text_subtitle text_subtitle_gallery"
                                         />
                                     }
                                 </div>
