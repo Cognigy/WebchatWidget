@@ -1,8 +1,5 @@
 /* Node modules */
-import { h, Component, render } from 'preact';
-
-/* Custom modules */
-import { Helpers } from "../helpers.js";
+import { Component, h } from 'preact';
 
 /**
  * This method creates a persistent menu similar to the one on Facebook
