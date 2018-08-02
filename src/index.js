@@ -1,12 +1,12 @@
 // @flow
 
 /* Node modules */
-import { h, render } from 'preact';
+import { h, render, } from 'preact';
 import 'whatwg-fetch';
 import Promise from 'promise-polyfill';
 if (!window.Promise) {
-		window.Promise = Promise;
-	}
+	window.Promise = Promise;
+}
 
 /* Custom modules */
 import Cognigy from "./web-client-source.js";
@@ -111,7 +111,7 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 	}
 
 	if (options.colorScheme && (BrowserDetect.browser === "MSIE" || BrowserDetect.browser === "Microsoft Edge")) {
-		document.webchatColor = options.colorScheme;
+		(document: any).webchatColor = options.colorScheme;
 	};
 
 
@@ -157,9 +157,8 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 		const bgColorCollection = document.querySelectorAll(".button_template_text,	.cognigy-chat-state-closed,	.cognigy-chat-state-open, .cognigy-chat-header-container, .cognigy-chat-header-container__open, .cognigy-chat-bot-message");
 		changeColor(bgColorCollection, "background-color", options.colorScheme);
 
-		function changeColor(coll, key, value){
-			for(var i=0, len=coll.length; i<len; i++)
-			{
+		function changeColor(coll: any, key: any, value: any) {
+			for (var i = 0, len = coll.length; i < len; i++) {
 				coll[i].style[key] = value;
 			}
 		}
@@ -348,72 +347,72 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 
 	/* Handle file uploads. This requires that Cognigy sends us a file upload url in a data object */
 	const uploadForm = document.getElementById('cognigy-file-upload-form');
-		uploadForm && uploadForm.addEventListener("submit", function (e) {
-			if (e)
-				e.preventDefault()
+	uploadForm && uploadForm.addEventListener("submit", function (e) {
+		if (e)
+			e.preventDefault()
 
-			/* Check whether we have received a file upload url from Cognigy at some point */
-			if (!fileUploadUrl) {
-				console.error("Sorry, no file upload was specified. Cannot complete file upload");
-				return;
-			}
+		/* Check whether we have received a file upload url from Cognigy at some point */
+		if (!fileUploadUrl) {
+			console.error("Sorry, no file upload was specified. Cannot complete file upload");
+			return;
+		}
 
-			const uploadInputEl = ((document.getElementById("cognigy-file-upload-input"): any): HTMLInputElement);
-			var files = uploadInputEl.files;
-			var data = new FormData();
-			var fileNames = [];
+		const uploadInputEl = ((document.getElementById("cognigy-file-upload-input"): any): HTMLInputElement);
+	var files = uploadInputEl.files;
+	var data = new FormData();
+	var fileNames = [];
 
-			/* Loop through the files, append the files to FormData and print the file names in the chat */
-			Array.prototype.map.call(files, function (file) {
-				data.append("file", file, file.name);
-				fileNames.push(file.name);
-				Helpers.handleDisplayPostbackMessage(file.name);
-			})
+	/* Loop through the files, append the files to FormData and print the file names in the chat */
+	Array.prototype.map.call(files, function (file) {
+		data.append("file", file, file.name);
+		fileNames.push(file.name);
+		Helpers.handleDisplayPostbackMessage(file.name);
+	})
 
-			var request = new XMLHttpRequest();
+	var request = new XMLHttpRequest();
 
-			/* Send message back to Cognigy when we get a response from the server */
-			request.onreadystatechange = function () {
-				// $FlowFixMe
-				if (request.readyState === XMLHttpRequest['DONE'] && request.status === 200) {
-					client.sendMessage("File upload completed", {
-						event: "FileUpload",
-						fileUpload: {
-							fileNames: fileNames,
-							statusCode: request.status,
-							event: "fileUploadCompleted"
-						},
-						browser: {
-							"browser": BrowserDetect.browser,
-							"version": BrowserDetect.version
-						}
-					})
-				} else if (request.status >= 400) {
-					client.sendMessage(null, {
-						event: "FileUploadError",
-						fileUpload: {
-							fileNames: fileNames,
-							statusCode: request.status,
-							event: "fileUploadError"
-						},
-						browser: {
-							"browser": BrowserDetect.browser,
-							"version": BrowserDetect.version
-						}
-					})
+	/* Send message back to Cognigy when we get a response from the server */
+	request.onreadystatechange = function () {
+		// $FlowFixMe
+		if (request.readyState === XMLHttpRequest['DONE'] && request.status === 200) {
+			client.sendMessage("File upload completed", {
+				event: "FileUpload",
+				fileUpload: {
+					fileNames: fileNames,
+					statusCode: request.status,
+					event: "fileUploadCompleted"
+				},
+				browser: {
+					"browser": BrowserDetect.browser,
+					"version": BrowserDetect.version
 				}
-			}
-
-			request.open("POST", fileUploadUrl);
-			request.send(data);
-		})
-
-	/* Call the 'exposeClientCallback' with the client if defined */
-	if (exposeClientCallback && typeof exposeClientCallback === "function") {
-		exposeClientCallback(client);
+			})
+		} else if (request.status >= 400) {
+			client.sendMessage(null, {
+				event: "FileUploadError",
+				fileUpload: {
+					fileNames: fileNames,
+					statusCode: request.status,
+					event: "fileUploadError"
+				},
+				browser: {
+					"browser": BrowserDetect.browser,
+					"version": BrowserDetect.version
+				}
+			})
+		}
 	}
 
-	return client;
+	request.open("POST", fileUploadUrl);
+	request.send(data);
+})
+
+/* Call the 'exposeClientCallback' with the client if defined */
+if (exposeClientCallback && typeof exposeClientCallback === "function") {
+	exposeClientCallback(client);
+}
+
+return client;
 }
 
 const buildHTMLDocument = (options) => {
@@ -431,8 +430,8 @@ const buildHTMLDocument = (options) => {
 	var mainChatElement = document.getElementById("cognigy");
 	var outerContainer = Helpers.createElement("div", "cognigy-outer-container__closed", "cognigy-outer-container");
 	var toggleChatState = Helpers.createElement("div", "cognigy-chat-state-closed", "cognigy-toggle-state");
-	if (document.webchatColor) {
-		toggleChatState.style.backgroundColor = document.webchatColor;
+	if ((document: any).webchatColor) {
+		toggleChatState.style.backgroundColor = (document: any).webchatColor;
 	}
 	toggleChatState.onclick = Helpers.handleChatOpen;
 	mainChatElement && mainChatElement.appendChild(outerContainer);
@@ -440,8 +439,8 @@ const buildHTMLDocument = (options) => {
 
 	//Create standard header with text
 	var headerContainer = Helpers.createElement("div", "cognigy-chat-header-container__open", "cognigy-header");
-	if (document.webchatColor) {
-		headerContainer.style.backgroundColor = document.webchatColor;
+	if ((document: any).webchatColor) {
+		headerContainer.style.backgroundColor = (document: any).webchatColor;
 	}
 	var header = Helpers.createElement("div", "cognigy-chat-header");
 
@@ -499,6 +498,7 @@ const buildHTMLDocument = (options) => {
 			}
 
 			render(
+				// $FlowFixMe
 				<PersistentMenu
 					title={persistentMenu.title}
 					menuItems={persistentMenu.menuItems}
@@ -628,7 +628,7 @@ const buildHTMLDocument = (options) => {
 	const formElement = document.getElementById("cognigy-form");
 	formElement && formElement.addEventListener("submit", function (event) {
 		if (event)
-		// $FlowFixMe
+			// $FlowFixMe
 			event.preventDefault ? event.preventDefault() : (event.returnValue = false);
 		Helpers.handleSendMessage(event);
 	}, false);
