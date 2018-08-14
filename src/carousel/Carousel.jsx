@@ -138,7 +138,8 @@ class Carousel extends Component {
                                         height: "200px",
                                         borderRadius: "10px 10px 0 0",
                                         backgroundImage: `url(${element.image_url})`,
-                                        backgroundSize: "cover",
+                                        backgroundSize: "contain",
+                                        backgroundRepeat: "no-repeat",
                                         backgroundPosition: "center"
                                     }}
                                 />
