@@ -105,7 +105,7 @@ class Helpers {
 		} else if (answerFromCognigy && answerFromCognigy.data && answerFromCognigy.data._cognigy && answerFromCognigy.data._cognigy._facebook) {
 			var renderRichMessage = new RichMessages(answerFromCognigy.data._cognigy._facebook, chatContainer, readCognigyMessage, this.handleDisplayPostbackMessage, handleCognigyMessage, messageLogoUrl, this.displayCognigyMessage);
 			renderRichMessage.renderMessage();
-		} else if (typeof cognigyAnswer !== 'undefined') {
+		} else if (cognigyAnswer) {
 			var messageContainer = document.createElement("div");
 			var message = document.createElement("div");
 			var messageValue = document.createTextNode(cognigyAnswer);
