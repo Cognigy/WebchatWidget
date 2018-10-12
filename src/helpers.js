@@ -11,7 +11,7 @@ class Helpers {
 		if (toggleChatState && chatContainer && toggleMobileChatState && toggleChatState.className === "cognigy-chat-state-closed") {
 			chatContainer.className = "cognigy-outer-container__open";
 			toggleChatState.className = "cognigy-chat-state-open";
-			toggleMobileChatState.className = "cognigy-mobile-close";
+			toggleMobileChatState.className = "cognigy-mobile-open";
 		} else if (chatContainer && toggleChatState && toggleMobileChatState) {
 			chatContainer.className = "cognigy-outer-container__closed";
 			toggleChatState.className = "cognigy-chat-state-closed";

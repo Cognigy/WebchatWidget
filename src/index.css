@@ -40,19 +40,16 @@ html {
     transition: all .200s ease-out
 }
 
-@media only screen and (max-width: 1000px) {
-    .cognigy-outer-container__open,
-    .cognigy-outer-container__closed {
+@media only screen and (max-width: 800px) {
+    .cognigy-outer-container__open{
         width: 100%;
         height: 100%;
         margin: 0;
-        /* Always keep the chat open on small screens */
         opacity: 1;
     }
 }
 
-@media only screen and (max-width: 1000px) {
-    .cognigy-chat-state-closed,
+@media only screen and (max-width: 800px) {
     .cognigy-chat-state-open {
         display: none;
     }
@@ -118,6 +115,7 @@ html {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     flex-direction: column;
+    flex-grow: 1;
 }
 
 .cognigy-header-title {
@@ -535,4 +533,44 @@ html {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+}
+@media only screen and (max-width: 800px) {
+    .cognigy-mobile-open {
+        width: 24px;
+        height: 24px;
+        margin-right: 20px;
+        background-image: url('https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/close.svg');
+    }
+    
+    .cognigy-chat-state-open {
+		display: none;
+	}
+
+	.cognigy-chat-header-container__open {
+		border-radius: 0;
+	}
+
+	.cognigy-outer-container__open {
+		width: 100% !important;
+		height: 100% !important;
+		margin: 0;
+		border-radius: 0;
+		/* Always keep the chat open on small screens */
+		opacity: 1;
+		top: unset !important;
+		left: unset !important;
+	  }
+
+	.cognigy-get-started-button {
+		border-radius: 0;
+	}
+
+	.cognigy-chat-form {
+		border-radius: 0;
+    }
+    
+    .cognigy-get-started-button {
+        height: 50px;
+        font-size: 14px;
+    }
 }
