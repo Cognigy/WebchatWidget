@@ -40,6 +40,13 @@ const defaultOptions = {
 	enablePersistentMenu: false,
 	displayGetStartedButton: true,
 	inputPlaceholder: "Write a reply",
+
+	/**
+	 * We have to force a websocket connection for Safari,
+	 * because they do not support cookie based sticky sessions.
+	 * Polling can therefore not work with Traefik.
+	 */
+	forceWebsockets: BrowserDetect.browser && BrowserDetect.browser.toLowerCase() === "safari"
 }
 
 /* This function inits the CognigyClient connection */
