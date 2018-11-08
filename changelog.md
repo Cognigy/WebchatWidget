@@ -1,7 +1,7 @@
 # Changelog
 This changelog contains a brief description of all released versions.
 
-## [1.1.6]
+## [1.1.6] (08.11.2018)
 ### What changed:
 * Fixes compatibility issue with Safari
 
