@@ -426,7 +426,7 @@ const sendMessageCopy = client.sendMessage.bind(client);
  * message sent with the client.
  */ 
 client.sendMessage = (text, data, displayMessage) => {
-	if (displayMessage) {
+	if (text && text.trim() && displayMessage) {
 		Helpers.handleDisplayPostbackMessage(text);
 	}
 
