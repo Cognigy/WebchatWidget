@@ -414,6 +414,26 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 	request.send(data);
 })
 
+
+/**
+ * Create a copy of the sendMessage function
+ * so that we can add functionality to the function.
+ **/
+const sendMessageCopy = client.sendMessage.bind(client);
+
+/**
+ * Add the functionality to display the
+ * message sent with the client.
+ */ 
+client.sendMessage = (text, data, displayMessage) => {
+	if (displayMessage) {
+		Helpers.handleDisplayPostbackMessage(text);
+	}
+
+	return sendMessageCopy(text, data);
+}
+
+
 /* Call the 'exposeClientCallback' with the client if defined */
 if (exposeClientCallback && typeof exposeClientCallback === "function") {
 	exposeClientCallback(client);
