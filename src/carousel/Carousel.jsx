@@ -16,9 +16,9 @@ class Carousel extends Component {
         this.state = {
             currentSlide: 0,
             imageUrl: null
-		};
-		
-		this.hasScrolled = false;
+        };
+
+        this.hasScrolled = false;
 
         this.handleSlideChange = this.handleSlideChange.bind(this);
 
@@ -60,18 +60,18 @@ class Carousel extends Component {
         if (this.slider && this.slider.base && this.slider.base.style) {
             this.slider.base.style.width = "100%";
             this.slider.base.style.maxWidth = "100%";
-		}
-	}
-	
-	componentDidUpdate() {
+        }
+    }
 
-		// Scroll to bottom of chat just *once* after the first component update. We have to do it here because the actual DOM hasn't fully updated in componentDidMount yet.
-		if (!this.hasScrolled) {
-			const chatContainer = document.getElementById("cognigy-container");
-			if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
-			this.hasScrolled = true;
-		};
-	}
+    componentDidUpdate() {
+
+        // Scroll to bottom of chat just *once* after the first component update. We have to do it here because the actual DOM hasn't fully updated in componentDidMount yet.
+        if (!this.hasScrolled) {
+            const chatContainer = document.getElementById("cognigy-container");
+            if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
+            this.hasScrolled = true;
+        };
+    }
 
     render() {
         const sliderSettings = {
@@ -138,12 +138,16 @@ class Carousel extends Component {
                                 }}
                             >
                                 <div
+                                    onClick={e => {
+                                        window.open(element.default_action.url ? element.default_action.url : element.image_url);
+                                    }}
                                     style={{
                                         height: "200px",
                                         borderRadius: "10px 10px 0 0",
                                         backgroundImage: `url(${element.image_url})`,
                                         backgroundSize: "cover",
-                                        backgroundPosition: "center"
+                                        backgroundPosition: "center",
+                                        cursor: "pointer"
                                     }}
                                 />
 
@@ -185,7 +189,7 @@ class Carousel extends Component {
                                         </p>
                                     }
 
-                                    { element.subtitle &&
+                                    {element.subtitle &&
                                         <ClampLines
                                             text={element.subtitle}
                                             buttons={false}
