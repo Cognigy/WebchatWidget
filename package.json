@@ -1,6 +1,6 @@
 {
   "name": "cognigywebchat",
-  "version": "1.0.2",
+  "version": "1.1.7",
   "description": "This repo contains a chat component which connects to the Cognigy brain, and which can be deployed easily on a website.",
   "main": "cognigy-web-chat.js",
   "scripts": {

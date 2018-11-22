@@ -1,6 +1,13 @@
 # Changelog
 This changelog contains a brief description of all released versions.
 
+## [1.1.7] (XX.11.2018) NOT RELEASED, YET!
+### What changed
+* Fixes compatibility issue with IE11
+
+### Download:
+* https://downloads.cognigy.com/CognigyWebchat/v1.1.7/cognigyWebChat.js (NOT YET THERE!)
+
 ## [1.1.6] (08.11.2018)
 ### What changed:
 * Fixes compatibility issue with Safari
