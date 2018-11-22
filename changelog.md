@@ -4,6 +4,7 @@ This changelog contains a brief description of all released versions.
 ## [1.1.7] (22.11.2018)
 ### What changed
 * Fixes compatibility issue with IE11
+* Open Facebook-Gallery link within a new tab
 
 ### Download:
 * https://downloads.cognigy.com/CognigyWebchat/v1.1.7/cognigyWebChat.js
