@@ -201,7 +201,7 @@ class Carousel extends Component {
 
                                 {element.buttons && element.buttons.map(button => (
                                     <div
-                                        className="button"
+                                        className="cognigy_gallery_button"
                                         onClick={() => {
                                             if (button.type === "postback") {
                                                 return this.props.handleButtonPostback(button.title, button.payload);
