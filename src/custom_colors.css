@@ -4,7 +4,7 @@
 
 /* Overwrite color scheme to custom colors defined in query parameter */
 .button_template_container, 
-.button,
+.cognigy_gallery_button,
 .list_template_element_button,
 .cognigy-persistent-menu-item,
 .quick_reply {
