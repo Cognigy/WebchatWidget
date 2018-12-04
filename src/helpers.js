@@ -38,9 +38,8 @@ class Helpers {
 		messageContainer.appendChild(message);
 
 		//Create user avatar and appendChild to message contanier
-		var avatar = document.createElement("img");
+		var avatar = document.createElement("div");
 		avatar.className = "cognigy-chat-user-avatar";
-		avatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/user_avatar.jpg";
 		messageContainer.appendChild(avatar);
 
 		chatContainer && chatContainer.appendChild(messageContainer);
@@ -60,9 +59,8 @@ class Helpers {
 		messageContainer.appendChild(message);
 
 		//Create user avatar and appendChild to message contanier
-		var avatar = document.createElement("img");
+		var avatar = document.createElement("div");
 		avatar.className = "cognigy-chat-user-avatar";
-		avatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/user_avatar.jpg";
 		messageContainer.appendChild(avatar);
 
 		chatContainer && chatContainer.appendChild(messageContainer);
@@ -82,9 +80,8 @@ class Helpers {
 		messageContainer.appendChild(message);
 
 		//Create user avatar and append to message contanier
-		var avatar = document.createElement("img");
+		var avatar = document.createElement("div");
 		avatar.className = "cognigy-chat-user-avatar";
-		avatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/user_avatar.jpg";
 		messageContainer.appendChild(avatar);
 
 		chatContainer && chatContainer.appendChild(messageContainer);

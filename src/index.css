@@ -381,6 +381,9 @@ html {
     min-width: 20px;
     max-width: 20px;
     border-radius: 20px;
+    background-image: url('https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/user_avatar.jpg');
+    background-size: cover;
+    background-position: center;
 }
 
 .cognigy-send-icon,
