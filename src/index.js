@@ -46,7 +46,7 @@ const defaultOptions = {
 	 * because they do not support cookie based sticky sessions.
 	 * Polling can therefore not work with Traefik.
 	 */
-	forceWebsockets: BrowserDetect.browser && BrowserDetect.browser.toLowerCase() === "safari"
+	forceWebsockets: BrowserDetect.browser && (BrowserDetect.browser.toLowerCase() === "safari" || BrowserDetect.browser.toLowerCase() === "msie")
 }
 
 /* This function inits the CognigyClient connection */
