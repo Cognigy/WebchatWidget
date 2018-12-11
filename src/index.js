@@ -45,8 +45,12 @@ const defaultOptions = {
 	 * We have to force a websocket connection for Safari,
 	 * because they do not support cookie based sticky sessions.
 	 * Polling can therefore not work with Traefik.
+	 *
+	 * We also force IE to use websockets since IE11 has issue
+	 * with polling as well. IE will not get detected the correct way
+	 * but looks like 'microsoft edge' ('edge' looks like chrome).
 	 */
-	forceWebsockets: BrowserDetect.browser && BrowserDetect.browser.toLowerCase() === "safari"
+	forceWebsockets: BrowserDetect.browser && (BrowserDetect.browser.toLowerCase() === "safari" || BrowserDetect.browser.toLowerCase() === "microsoft edge")
 }
 
 /* This function inits the CognigyClient connection */
