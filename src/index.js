@@ -162,7 +162,7 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 	if (options.colorScheme && BrowserDetect.browser !== "MSIE" && BrowserDetect.browser !== "Microsoft Edge") {
 		document.documentElement && document.documentElement.style.setProperty("--color", options.colorScheme);
 	} else if (options.colorScheme) {
-		const colorCollection = document.querySelectorAll(".button_template_container, .button, .list_template_element_button,	.cognigy-persistent-menu-item, .quick_reply");
+		const colorCollection = document.querySelectorAll(".button_template_container, .cognigy_gallery_button, .list_template_element_button,	.cognigy-persistent-menu-item, .quick_reply");
 		changeColor(colorCollection, "color", options.colorScheme);
 
 		const bgColorCollection = document.querySelectorAll(".button_template_text,	.cognigy-chat-state-closed,	.cognigy-chat-state-open, .cognigy-chat-header-container, .cognigy-chat-header-container__open, .cognigy-chat-bot-message");
