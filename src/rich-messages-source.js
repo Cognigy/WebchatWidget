@@ -94,7 +94,7 @@ var RichMessages = (function () {
 	RichMessages.prototype.renderButton = function (button) {
 		var _this = this;
 		var buttonContainer = document.createElement("div");
-		buttonContainer.className = "button";
+		buttonContainer.className = "cognigy_gallery_button";
 		if (document.webchatColor) {
 			buttonContainer.style.color = document.webchatColor;
 		}
