@@ -202,6 +202,7 @@ class Helpers {
 				return;
 			}
 
+			/* Wait 300 ms to not show the typing indicators immediately */
 			await new Promise(resolve => window.setTimeout(resolve, 300));
 
 			const typingIndicatorContainer = document.createElement("div");
