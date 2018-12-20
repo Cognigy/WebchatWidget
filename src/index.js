@@ -40,7 +40,6 @@ const defaultOptions = {
 	enablePersistentMenu: false,
 	displayGetStartedButton: true,
 	inputPlaceholder: "Write a reply",
-	enableTypingIndicator: true,
 
 	/**
 	 * We have to force a websocket connection for Safari,

@@ -1,3 +1,4 @@
+/** @jsx h */
 // @flow
 import { h, render, } from 'preact';
 import { Avatar } from "./Avatar.jsx";
@@ -5,6 +6,11 @@ import { Avatar } from "./Avatar.jsx";
 const { RichMessages } = require("./rich-messages-source.js");
 
 class Helpers {
+	typingStatusBuffer: Array<string>;
+	enableTypingIndicator: boolean;
+	messageLogoUrl: string;
+	isProcessingTypingStatus: boolean;
+
 	constructor() {
 		this.typingStatusBuffer = [];
 	}
@@ -180,7 +186,7 @@ class Helpers {
 		return element;
 	};
 
-	handleTypingStatus = async (status) => {
+	handleTypingStatus = async (status: string) => {
 		if (this.isProcessingTypingStatus) {
 			this.typingStatusBuffer.push(status);
 			return;
@@ -188,22 +194,24 @@ class Helpers {
 
 		this.isProcessingTypingStatus = true;
 
+		const chatContainer = document.getElementById("cognigy-container");
+
 		if (status === "typingOn") {
 			if (document.getElementById("cognigy_typing_indicator")) {
+				this.isProcessingTypingStatus = false;
 				return;
 			}
 
 			await new Promise(resolve => window.setTimeout(resolve, 300));
 
-			const chatContainer = document.getElementById("cognigy-container");
 			const typingIndicatorContainer = document.createElement("div");
 			const typingIndicator = document.createElement("div");
 			typingIndicator.className = "cognigy-chat-bot-message cognigy-typing-indicator";
 			typingIndicatorContainer.className = "cognigy-chat-bot-message-container";
 			typingIndicatorContainer.id = "cognigy_typing_indicator";
 
-			if (document.webchatColor) {
-				typingIndicator.style.backgroundColor = document.webchatColor;
+			if ((document: any).webchatColor) {
+				typingIndicator.style.backgroundColor = (document: any).webchatColor;
 			}
 	
 			const span1 = document.createElement("span");
@@ -226,9 +234,12 @@ class Helpers {
 		} else if (status === "typingOff") {
 			const typingIndicator = document.getElementById("cognigy_typing_indicator");
 			if (typingIndicator) {
-				typingIndicator.parentNode.removeChild(typingIndicator);
+				(typingIndicator: any).parentNode.removeChild(typingIndicator);
 			}
 		}
+
+		//Keep scrollbar fixed at bottom when new messages are added
+		if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
 
 		this.isProcessingTypingStatus = false;
 

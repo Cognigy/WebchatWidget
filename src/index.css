@@ -581,11 +581,9 @@ html {
 
 .cognigy-typing-indicator {
     background-color: #333333;
-    will-change: transform;
     width: auto;
     display: table;
     position: relative;
-    /* animation: 2s bulge infinite ease-out; */
 }
 
 .cognigy-typing-indicator span {
@@ -600,25 +598,47 @@ html {
 }
 
 .cognigy-typing-indicator span:nth-of-type(1) {
-    animation: 1s blink infinite 0.3333s;
+    -webkit-animation-name: blink;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-delay: 0s;
+    animation-name: blink;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-delay: 0s;
 }
 
 .cognigy-typing-indicator span:nth-of-type(2) {
-    animation: 1s blink infinite 0.6666s;
+    -webkit-animation-name: blink;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-delay: 0.3333s;
+    animation-name: blink;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.3333s;
 }
 
 .cognigy-typing-indicator span:nth-of-type(3) {
-    animation: 1s blink infinite 0.9999s;
+    -webkit-animation-name: blink;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-delay: 0.6666s;
+    animation-name: blink;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.6666s;
+}
+
+
+@-webkit-keyframes blink {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0 }
 }
 
 @keyframes blink {
-    50% {
-        opacity: 1;
-    }
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0 }
 }
-
-/* @keyframes bulge {
-    50% {
-        transform: scale(1.05);
-    }
-} */
