@@ -5,6 +5,10 @@ import { Avatar } from "./Avatar.jsx";
 const { RichMessages } = require("./rich-messages-source.js");
 
 class Helpers {
+	constructor() {
+		this.typingStatusBuffer = [];
+	}
+
 	handleChatOpen = () => {
 		var toggleChatState = document.getElementById("cognigy-toggle-state");
 		var toggleMobileChatState = document.getElementById("cognigy-toggle-state-mobile");
@@ -176,11 +180,20 @@ class Helpers {
 		return element;
 	};
 
-	handleTypingStatus = (status) => {
+	handleTypingStatus = async (status) => {
+		if (this.isProcessingTypingStatus) {
+			this.typingStatusBuffer.push(status);
+			return;
+		}
+
+		this.isProcessingTypingStatus = true;
+
 		if (status === "typingOn") {
 			if (document.getElementById("cognigy_typing_indicator")) {
 				return;
 			}
+
+			await new Promise(resolve => window.setTimeout(resolve, 300));
 
 			const chatContainer = document.getElementById("cognigy-container");
 			const typingIndicatorContainer = document.createElement("div");
@@ -215,6 +228,12 @@ class Helpers {
 			if (typingIndicator) {
 				typingIndicator.parentNode.removeChild(typingIndicator);
 			}
+		}
+
+		this.isProcessingTypingStatus = false;
+
+		if (this.typingStatusBuffer.length > 0) {
+			this.handleTypingStatus(this.typingStatusBuffer.shift());
 		}
 	} 
 }
