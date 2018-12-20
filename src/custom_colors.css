@@ -17,6 +17,7 @@
 .cognigy-chat-state-open,
 .cognigy-chat-header-container,
 .cognigy-chat-header-container__open,
+.cognigy-typing-indicator,
 .cognigy-chat-bot-message {
 	background-color: var(--color);
 }

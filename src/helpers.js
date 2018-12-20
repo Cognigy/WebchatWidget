@@ -1,4 +1,6 @@
 // @flow
+import { h, render, } from 'preact';
+import { Avatar } from "./Avatar.jsx";
 
 const { RichMessages } = require("./rich-messages-source.js");
 
@@ -187,9 +189,9 @@ class Helpers {
 			typingIndicatorContainer.className = "cognigy-chat-bot-message-container";
 			typingIndicatorContainer.id = "cognigy_typing_indicator";
 
-			var avatar = document.createElement("img");
-			avatar.className = "cognigy-chat-bot-avatar";
-			avatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/cognigy_logo.svg";
+			if (document.webchatColor) {
+				typingIndicator.style.backgroundColor = document.webchatColor;
+			}
 	
 			const span1 = document.createElement("span");
 			typingIndicator.appendChild(span1);
@@ -198,7 +200,12 @@ class Helpers {
 			const span3 = document.createElement("span");
 			typingIndicator.appendChild(span3);
 
-			typingIndicatorContainer.appendChild(avatar);
+			render(
+				<Avatar
+					imageUrl={this.messageLogoUrl}
+				/>,
+				typingIndicatorContainer);
+
 			typingIndicatorContainer.appendChild(typingIndicator);
 
 			chatContainer && chatContainer.appendChild(typingIndicatorContainer);
