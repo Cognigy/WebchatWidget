@@ -20,8 +20,14 @@ class Helpers {
 	}
 
 	handleSendMessage = (e: any) => {
-		if (e)
+		if (e) {
 			e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+		}
+
+		if (this.enableTypingIndicator) {
+			this.handleTypingStatus("typingOff");
+		}
+
 		//Get the value from input, then create two divs to store/display the message
 		const inputEl = ((document.getElementById("cognigy-input"): any): HTMLInputElement);
 		var inputValue = inputEl.innerHTML;
@@ -45,6 +51,10 @@ class Helpers {
 		chatContainer && chatContainer.appendChild(messageContainer);
 		//Keep scrollbar fixed at bottom when new messages are added
 		if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
+
+		if (this.enableTypingIndicator) {
+			this.handleTypingStatus("typingOn");
+		}
 	}
 
 
@@ -91,6 +101,7 @@ class Helpers {
 
 	displayCognigyMessage = (answerFromCognigy: any, messageLogoUrl: any, readCognigyMessage: any, handleCognigyMessage: any) => {
 		if (!answerFromCognigy || (!answerFromCognigy.text && !answerFromCognigy.data)) return null;
+
 		var cognigyAnswer = answerFromCognigy && answerFromCognigy.text;
 		var chatContainer = document.getElementById("cognigy-container");
 
@@ -162,6 +173,43 @@ class Helpers {
 
 		return element;
 	};
+
+	handleTypingStatus = (status) => {
+		if (status === "typingOn") {
+			if (document.getElementById("cognigy_typing_indicator")) {
+				return;
+			}
+
+			const chatContainer = document.getElementById("cognigy-container");
+			const typingIndicatorContainer = document.createElement("div");
+			const typingIndicator = document.createElement("div");
+			typingIndicator.className = "cognigy-chat-bot-message cognigy-typing-indicator";
+			typingIndicatorContainer.className = "cognigy-chat-bot-message-container";
+			typingIndicatorContainer.id = "cognigy_typing_indicator";
+
+			var avatar = document.createElement("img");
+			avatar.className = "cognigy-chat-bot-avatar";
+			avatar.src = "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/cognigy_logo.svg";
+	
+			const span1 = document.createElement("span");
+			typingIndicator.appendChild(span1);
+			const span2 = document.createElement("span");
+			typingIndicator.appendChild(span2);
+			const span3 = document.createElement("span");
+			typingIndicator.appendChild(span3);
+
+			typingIndicatorContainer.appendChild(avatar);
+			typingIndicatorContainer.appendChild(typingIndicator);
+
+			chatContainer && chatContainer.appendChild(typingIndicatorContainer);
+			
+		} else if (status === "typingOff") {
+			const typingIndicator = document.getElementById("cognigy_typing_indicator");
+			if (typingIndicator) {
+				typingIndicator.parentNode.removeChild(typingIndicator);
+			}
+		}
+	} 
 }
 
 module.exports = {

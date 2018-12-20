@@ -577,3 +577,47 @@ html {
         font-size: 14px;
     }
 }
+
+.cognigy-typing-indicator {
+    background-color: #e6e7ed;
+    will-change: transform;
+    width: auto;
+    display: table;
+    position: relative;
+    /* animation: 2s bulge infinite ease-out; */
+}
+
+.cognigy-typing-indicator span {
+    height: 10px;
+    width: 10px;
+    float: left;
+    margin: 0 1px;
+    background-color: #9e9ea1;
+    display: block;
+    border-radius: 50%;
+    opacity: 0.4;
+}
+
+.cognigy-typing-indicator span:nth-of-type(1) {
+    animation: 1s blink infinite 0.3333s;
+}
+
+.cognigy-typing-indicator span:nth-of-type(2) {
+    animation: 1s blink infinite 0.6666s;
+}
+
+.cognigy-typing-indicator span:nth-of-type(3) {
+    animation: 1s blink infinite 0.9999s;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 1;
+    }
+}
+
+/* @keyframes bulge {
+    50% {
+        transform: scale(1.05);
+    }
+} */

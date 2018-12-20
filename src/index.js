@@ -40,6 +40,7 @@ const defaultOptions = {
 	enablePersistentMenu: false,
 	displayGetStartedButton: true,
 	inputPlaceholder: "Write a reply",
+	enableTypingIndicator: true,
 
 	/**
 	 * We have to force a websocket connection for Safari,
@@ -214,6 +215,12 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 
 		/* Display the cognigy message */
 		Helpers.displayCognigyMessage(output, messageLogoUrl, readCognigyMessage, handleCognigyMessage);
+	}
+
+	Helpers.enableTypingIndicator = options.enableTypingIndicator;
+
+	if (options.enableTypingIndicator) {
+		options.handleTypingStatus = Helpers.handleTypingStatus;
 	}
 
 	const client = new Cognigy.CognigyWebClient(options);
