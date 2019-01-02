@@ -187,11 +187,15 @@ var RichMessages = (function () {
 			elementContainer.className = "list_template_element_container";
 			elementContent.className = "list_template_element_content";
 			elementContainer.appendChild(elementContent);
-			var img = document.createElement("img");
-			img.src = element.image_url;
-			img.style.minWidth = "50px";
-			img.style.height = "50px";
-			elementContainer.appendChild(img);
+			
+			if (element.image_url) {
+				var img = document.createElement("img");
+				img.src = element.image_url;
+				img.style.minWidth = "50px";
+				img.style.height = "50px";
+				elementContainer.appendChild(img);
+			}
+
 			//appendChild default action if specified
 			if (element.default_action) {
 				img.onclick = function () { return window.open(element.default_action.url); };
