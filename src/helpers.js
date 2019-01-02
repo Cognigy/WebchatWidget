@@ -114,6 +114,10 @@ class Helpers {
 	displayCognigyMessage = (answerFromCognigy: any, messageLogoUrl: any, readCognigyMessage: any, handleCognigyMessage: any) => {
 		if (!answerFromCognigy || (!answerFromCognigy.text && !answerFromCognigy.data)) return null;
 
+		if (this.enableTypingIndicator) {
+			this.handleTypingStatus("typingOff");
+		}
+
 		var cognigyAnswer = answerFromCognigy && answerFromCognigy.text;
 		var chatContainer = document.getElementById("cognigy-container");
 
@@ -170,7 +174,7 @@ class Helpers {
 		handleCognigyMessage(getStartedPostback);
 
 		/* Display form and hide getStartedButton */
-		const cognigyForm = ((document.getElementById("cognigy-form"):any): HTMLFormElement);
+		const cognigyForm = ((document.getElementById("cognigy-form"): any): HTMLFormElement);
 		cognigyForm.className = "cognigy-chat-form";
 		const buttonEl = ((document.getElementById("cognigy-get-started-button"): any): HTMLButtonElement);
 		buttonEl.className = "displayNone";
@@ -197,8 +201,20 @@ class Helpers {
 		const chatContainer = document.getElementById("cognigy-container");
 
 		if (status === "typingOn") {
+
+			/**
+			 * If the typing indicator is already on,
+			 * then we skip this status and process the next status
+			 * in the statusBuffer.
+			 */
 			if (document.getElementById("cognigy_typing_indicator")) {
 				this.isProcessingTypingStatus = false;
+
+
+				if (this.typingStatusBuffer.length > 0) {
+					this.handleTypingStatus(this.typingStatusBuffer.shift());
+				}
+
 				return;
 			}
 
@@ -214,7 +230,7 @@ class Helpers {
 			if ((document: any).webchatColor) {
 				typingIndicator.style.backgroundColor = (document: any).webchatColor;
 			}
-	
+
 			const span1 = document.createElement("span");
 			typingIndicator.appendChild(span1);
 			const span2 = document.createElement("span");
@@ -231,7 +247,7 @@ class Helpers {
 			typingIndicatorContainer.appendChild(typingIndicator);
 
 			chatContainer && chatContainer.appendChild(typingIndicatorContainer);
-			
+
 		} else if (status === "typingOff") {
 			const typingIndicator = document.getElementById("cognigy_typing_indicator");
 			if (typingIndicator) {
@@ -247,7 +263,7 @@ class Helpers {
 		if (this.typingStatusBuffer.length > 0) {
 			this.handleTypingStatus(this.typingStatusBuffer.shift());
 		}
-	} 
+	}
 }
 
 module.exports = {
