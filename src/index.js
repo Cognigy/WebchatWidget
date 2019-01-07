@@ -147,8 +147,10 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 
 	/* URL to use for file uploads and message logos. */
 	let fileUploadUrl = null;
-	const messageLogoUrl = options.messageLogoUrl;
 	let recording = false;
+
+	const messageLogoUrl = options.messageLogoUrl || "https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/cognigy_logo.svg";
+	Helpers.messageLogoUrl = messageLogoUrl;
 
 	/* Check whether we can load the header logo. */
 	var img = new Image();
@@ -165,7 +167,7 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 		const colorCollection = document.querySelectorAll(".button_template_container, .cognigy_gallery_button, .list_template_element_button,	.cognigy-persistent-menu-item, .quick_reply");
 		changeColor(colorCollection, "color", options.colorScheme);
 
-		const bgColorCollection = document.querySelectorAll(".button_template_text,	.cognigy-chat-state-closed,	.cognigy-chat-state-open, .cognigy-chat-header-container, .cognigy-chat-header-container__open, .cognigy-chat-bot-message");
+		const bgColorCollection = document.querySelectorAll(".button_template_text,	.cognigy-chat-state-closed,	.cognigy-chat-state-open, .cognigy-chat-header-container, .cognigy-chat-header-container__open, .cognigy-chat-bot-message, .cognigy-typing-indicator");
 		changeColor(bgColorCollection, "background-color", options.colorScheme);
 
 		function changeColor(coll: any, key: any, value: any) {
@@ -214,6 +216,12 @@ async function init(userOptions: any, outputCallback: (output: { text: string, d
 
 		/* Display the cognigy message */
 		Helpers.displayCognigyMessage(output, messageLogoUrl, readCognigyMessage, handleCognigyMessage);
+	}
+
+	Helpers.enableTypingIndicator = options.enableTypingIndicator;
+
+	if (options.enableTypingIndicator) {
+		options.handleTypingStatus = Helpers.handleTypingStatus;
 	}
 
 	const client = new Cognigy.CognigyWebClient(options);
