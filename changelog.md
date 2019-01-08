@@ -6,6 +6,10 @@ This changelog contains a brief description of all released versions.
 * Adds configurable typing indicators and artificial delay to the Webchat
 * Fixes certain stylings in the list element
 
+
+### Download:
+* https://downloads.cognigy.com/CognigyWebchat/v1.1.9/cognigyWebChat.js
+
 ## [1.1.8] (12.12.2018)
 ### What changed
 * Changes certain css clases to avoid name conflicts
