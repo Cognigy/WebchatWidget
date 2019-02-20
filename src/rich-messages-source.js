@@ -52,8 +52,8 @@ var RichMessages = (function () {
 
 		if (!this.quickReplies)
 			return null;
-		//Add flex wrap wen there are more than three elements
-		if (this.quickReplies.length > 3) {
+		//Add flex wrap if there is more than one element
+		if (this.quickReplies.length > 1) {
 			quickReplyContainer.className += " flex_wrap";
 		}
 		this.quickReplies.forEach((reply) => {
