@@ -5,6 +5,8 @@ import { Component, h } from 'preact';
  * This method creates a persistent menu similar to the one on Facebook
  */
 class PersistentMenu extends Component {
+	node;
+
 	constructor() {
 		super();
 
@@ -30,11 +32,28 @@ class PersistentMenu extends Component {
 		this.setState({ openPersistentMenu: false });
 	}
 
+	componentWillMount() {
+		document.addEventListener("mousedown", this.handleClick, false);
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener("mousedown", this.handleClick, false);
+	}
+
+	/* Close the persistent menu when clicking outside the container */
+	handleClick = (e) => {
+		if (this.node.contains(e.target) || !this.state.openPersistentMenu) {
+			return;
+		}
+
+		this.setState({ openPersistentMenu: false });
+	}
+
 	render() {
 		const { menuItems } = this.props;
 
 		return (
-			<div>
+			<div ref={node => this.node = node}>
 				<img
 					className="cognigy-persistent-menu-button"
 					src="https://s3.eu-central-1.amazonaws.com/cognigydev/CognigyWebchat/images/menuIcon.svg"

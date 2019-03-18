@@ -8,6 +8,8 @@ if (!window.Promise) {
 	window.Promise = Promise;
 }
 
+import striptags from "striptags";
+
 /* Custom modules */
 import Cognigy from "./web-client-source.js";
 import { Helpers } from "./helpers.js";
@@ -436,7 +438,7 @@ const sendMessageCopy = client.sendMessage.bind(client);
 /**
  * Add the functionality to display the
  * message sent with the client.
- */ 
+ */
 client.sendMessage = (text, data, displayMessage) => {
 	if (text && text.trim() && displayMessage) {
 		Helpers.handleDisplayPostbackMessage(text);
@@ -555,6 +557,34 @@ const buildHTMLDocument = (options) => {
 
 	chatInput.contentEditable = true;
 	chatInput.returnKeyType = "Send";
+
+	// Sanitize paste input to get rid of html tags in the pasted text;
+	chatInput.onpaste = (e) => {
+		/* We don't sanitize in IE */
+		if (BrowserDetect.browser === "MSIE" || BrowserDetect.browser === "Microsoft Edge") {
+			return;
+		}
+
+		e.preventDefault();
+		e.stopPropagation();
+
+		const text = e && e.clipboardData && e.clipboardData.getData("text");
+
+		if (!text) {
+			return false;
+		}
+
+		// Find the cursor location or highlighted area
+		const selection = window.getSelection();
+
+		// Cancel the paste operation if the cursor or highlighted area isn't found
+		if (!selection.rangeCount) {
+			return false;
+		}
+
+		// Paste the modified clipboard content where it was intended to go
+		selection.getRangeAt(0).insertNode(document.createTextNode(text));
+	};
 
 	// Send message on enter and not on shift + enter
 	//IE 11 polyfill for events

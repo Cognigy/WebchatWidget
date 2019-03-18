@@ -1,5 +1,5 @@
 .button_template_container {
-    width: 80%;
+    width: calc(100% - 20px);
     color: #333333;
     text-align: center;
     background: white;

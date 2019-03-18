@@ -25,6 +25,7 @@ class Carousel extends Component {
     }
 
     handleSlideChange = (galleryElements, currentSlide) => {
+
         /* Set the currentSlide value to the slide we are switching to */
         if (currentSlide !== (galleryElements.length - 1)) {
             this.setState({
@@ -83,6 +84,13 @@ class Carousel extends Component {
             centerMode: true,
             centerSlidePercentage: this.state.currenSlide === 0 ? (this.state.currentSlide === 2) ? 85 : 80 : 90,
             onClickItem: (index) => {
+
+                /* Prevent scrolling to the hidden clone slide */
+                if (index === this.props.galleryElements.length) {
+                    this.setState({ currentSlide: index -1 });
+                    return;
+                }
+
                 /* Update the currentSlide so the state of this component is up to date with the internal state of the Carousel */
                 this.setState({ currentSlide: index });
             }

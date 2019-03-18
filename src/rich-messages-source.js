@@ -266,7 +266,7 @@ var RichMessages = (function () {
 			buttonText.appendChild(document.createTextNode(this.messageData.text));
 			buttonsOuterContainer.appendChild(buttonText);
 		}
-		this.messageData.buttons.forEach(function (button, index) {
+		this.messageData.buttons.forEach((button, index) => {
 			var buttonContainer = _this.renderButton(button);
 			if (index !== 0) {
 				buttonContainer.style.borderTop = "1px solid rgba(0,0,0,0.1)";
@@ -275,6 +275,12 @@ var RichMessages = (function () {
 			if (document.webchatColor) {
 				buttonContainer.style.color = document.webchatColor;
 			}
+
+			/* Special styling for the last button */
+			if (index === this.messageData.buttons.length - 1) {
+				buttonContainer.style.borderRadius = "0 0 20px 20px";
+			}
+
 			buttonsOuterContainer.appendChild(buttonContainer);
 		});
 
