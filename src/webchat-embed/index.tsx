@@ -4,16 +4,9 @@ import { styled } from '../webchat-ui/style';
 import uuid from 'uuid';
 
 // load plugins
-import '../plugins/input/get-started';
-// import '../plugins/input/speech';
-
-import '../plugins/message/date-picker';
-import '../plugins/message/messenger';
-// import '../plugins/message/demos/rating';
-// import '../plugins/message/demos/rating-fullscreen';
-// import '../plugins/message/demos/rating-react';
-// import '../plugins/message/demos/rating-styled';
-// import '../plugins/message/demos/uppercase';
+import '../plugins/get-started-button-input';
+import '../plugins/date-picker';
+import '../plugins/messenger';
 
 import EmbeddedWebchat from './components/presentational/EmbeddedWebchat';
 import { Webchat } from '../webchat/components/Webchat';
