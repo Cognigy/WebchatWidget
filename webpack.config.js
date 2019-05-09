@@ -1,49 +1,47 @@
-// webpack.config.js
-// Configure CSS processing & injection
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 
 module.exports = {
-	entry: ['whatwg-fetch', 'babel-polyfill', './src/index.js'],
-	output: {
-		// Webpack prefers an absolute path:
-		path: path.resolve(__dirname, './build'),
-		filename: 'cognigyWebChat.js',
-		library: 'Cognigy'
-	},
-	plugins: [
-		new HtmlWebpackPlugin({
-			template: './src/index.html',
-			inject: 'head'
-		})
-	],
-	resolve: {
-		alias: {
-			"react": "preact-compat",
-			"react-dom": "preact-compat"
-		}
-	},
-	module: {
-		rules: [
-			{
-				// Uses regex to test for a file type - in this case, ends with `.css`
-				test: /\.css$/,
-				// Apply these loaders if test returns true
-				use: ['style-loader/useable', 'css-loader']
-			},
-			{
-				test: /\.js|.jsx$/,
-				exclude: /(node_modules|bower_components)/,
-				use: {
-					loader: 'babel-loader'
-				}
-			}
-		]
-	},
-	devServer: {
-		contentBase: path.resolve(__dirname, 'build'),
-		compress: true,
-		publicPath: '/'
-	}
-}	
+    mode: 'development',
+    entry: ['./src/webchat-embed/index.tsx'],
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'webchat.js'
+    },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.json']
+    },
+    node: {
+        Buffer: false
+    },
+    // devtool: 'source-map',
+    module: {
+        rules: [
+            {
+                // Include ts, tsx, js, and jsx files.
+                test: /\.(ts|js)x?$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                options: {
+                    presets: [
+                        "@babel/typescript",
+                        "@babel/preset-react"
+                    ],
+                    plugins: [
+                        "@babel/proposal-class-properties"
+                    ]
+                }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+            }, 
+            {
+                test: /\.svg$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'svg-react-loader'
+                },
+            }
+        ],
+    }
+};

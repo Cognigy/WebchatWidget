@@ -1,0 +1,79 @@
+
+
+/* Information */
+
+[data-cognigy-webchat-root] .info {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+    padding: 3%;
+    background-color: white;
+}
+
+[data-cognigy-webchat-root] .title {
+    font-size: 150%;
+    font-family: Helvetica, sans-serif;
+    font-weight: bolder;
+    color: rgb(0,0,0,0.7);
+}
+
+[data-cognigy-webchat-root] .infoText {
+    font-weight: bold;
+    color: rgb(0,0,0,0.7);
+}
+
+[data-cognigy-webchat-root] .infoTextDiv{
+    display: flex;
+    font-family: Helvetica, sans-serif;
+}
+
+/* Flightmap */
+
+[data-cognigy-webchat-root] .RowNumber {
+    font-weight: normal;
+    width: 35px;
+    /* margin-left: 8%; */
+    flex-direction: column;
+    display: flex;
+    text-align: center;
+    color: #9E9E9E;
+}
+
+[data-cognigy-webchat-root] .Row {
+    font-family: "Helvetica";
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+[data-cognigy-webchat-root] .Row--enabled:hover { 
+    background-color: #F5F5F5; 
+}
+
+[data-cognigy-webchat-root] .Row--selected {
+    background-color: #F5F5F5;
+}
+
+
+[data-cognigy-webchat-root] .flightmap {
+    display: flex;
+    justify-content: center;
+    flex-grow: inherit;
+    background-color: white;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: 5%;
+}
+
+
+/* Buttons */
+
+[data-cognigy-webchat-root] .controlButtons {
+    display: flex;
+    justify-content: space-around;
+    background-color: white;
+    height: 5%;
+    padding: 3%;
+    align-items: center;
+}

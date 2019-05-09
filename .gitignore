@@ -1,3 +1,5 @@
-server.js
-node_modules/
-build/
+node_modules
+lib/
+dist/*.js
+dist/*.zip
+dist/*.webmanifest

@@ -1,0 +1,19 @@
+{
+  "_plugin": {
+    "type": "date-picker",
+    "data": {
+      "event": "Fighting against Gondor",
+      "locale": "de",
+      "enableTime": true,
+      "mode": "range",
+      "disable": [
+        {
+          "from": "2019-03-05",
+          "to": "2019-03-06"
+        }
+      ],
+      "minDate": "today",
+      "maxDate": "2019-03-20"
+    }
+  }
+}
