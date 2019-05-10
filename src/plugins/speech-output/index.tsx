@@ -31,7 +31,8 @@ const speechOutput: MessagePluginFactory = ({ React }) => {
         match,
         component: MemoizedSpeechOutput,
         options: {
-            passthrough: true
+            passthrough: true,
+            fullwidth: true
         }
     }
 }
