@@ -53,14 +53,12 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
     }
 
     componentDidUpdate(prevProps: InnerProps, prevState: IState, wasScrolledToBottom: boolean) {
-        console.log('did update', { wasScrolledToBottom });
         if (wasScrolledToBottom) {
             this.scrollToBottom();
         }
     }
 
     componentDidMount() {
-        console.log('did mount');
         this.scrollToBottom();
     }
 
