@@ -23,7 +23,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         cursor: 'pointer'
     }));
 
-    const Image = styled.div<{ url: string }>(({ theme }) => ({
+    const Image = styled.div(({ theme }) => ({
         width: theme.blockSize,
         height: theme.blockSize,
         backgroundSize: 'cover',
@@ -57,7 +57,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         const button = buttons && buttons[0];
 
         const imgStyle: React.CSSProperties = {
-            backgroundImage: `url('${image_url}')`
+            backgroundImage: `url("${encodeURI(image_url)}")`
         }
 
         return (
@@ -76,7 +76,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
                     )}
                 </div>
                 {image_url && (
-                    <Image url={image_url} style={imgStyle} />
+                    <Image style={imgStyle} />
                 )}
             </Root>
         )
