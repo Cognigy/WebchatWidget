@@ -3,7 +3,7 @@ import { Options, WebchatClient } from '@cognigy/webchat-client';
 import { Store } from 'redux';
 import { StoreState, createWebchatStore } from '../store/store';
 import { Provider } from 'react-redux';
-import { ConnectedWebchatUI } from './ConnectedWebchatUI';
+import { ConnectedWebchatUI, FromProps } from './ConnectedWebchatUI';
 import { setOptions } from '../store/options/options-reducer';
 import { MessagePlugin } from '../../common/interfaces/message-plugin';
 import { InputPlugin } from '../../common/interfaces/input-plugin';
@@ -13,11 +13,10 @@ import { MessageSender } from '../../webchat-ui/interfaces';
 import { setOpen, toggleOpen } from '../store/ui/ui-reducer';
 import { IMessage } from '../../common/interfaces/message';
 
-export interface WebchatProps {
+export interface WebchatProps extends FromProps {
     url: string;
     options?: Partial<Options>;
     messagePlugins?: MessagePlugin[];
-    inputPlugins?: InputPlugin[];
 }
 
 export class Webchat extends React.PureComponent<WebchatProps> {

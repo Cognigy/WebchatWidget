@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { styled } from '../webchat-ui/style';
 import uuid from 'uuid';
+import './embedded-webchat-styles.css';
 
 // load plugins
 import '../plugins/get-started-button-input';

@@ -1,5 +1,18 @@
 # Changelog
 
+## WIP
+
+### Breaking Changes
+- `WebchatUI` will now pass the rest props to a wrapper around the webchat root, not to the webchat root itself anymore.
+
+### New Features
+- automatic scrolling in webchat will now happen smoothly if supported by browser
+- in mobile view, the webchat header will now show a 'close' button to the right
+
+### Bug Fixes
+- incoming bot messages will not scroll the webchat history to the bottom if it was scrolled up before
+- fixed a bug where special characters in image urls would result in the image not being displayed correctly when using messenger templates
+
 ## v2.2.0
 
 ### Breaking Changes
