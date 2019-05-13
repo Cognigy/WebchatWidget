@@ -111,12 +111,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 theme: createWebchatTheme({ primaryColor: this.props.config.settings.colorScheme })
             })
         }
-
-        if (this.props.messages !== prevProps.messages) {
-            if (this.history.current) {
-                this.history.current.scrollToBottom();
-            }
-        }
     }
 
     sendMessage: MessageSender = (...args) => {
