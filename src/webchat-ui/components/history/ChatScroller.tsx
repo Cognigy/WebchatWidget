@@ -34,7 +34,6 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
 
         try {
             root.scroll({
-                behavior: 'smooth',
                 top: scrollTop
             });
         } catch (e) {
