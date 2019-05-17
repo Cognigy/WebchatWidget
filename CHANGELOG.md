@@ -4,10 +4,18 @@
 
 ### Breaking Changes
 - `WebchatUI` will now pass the rest props to a wrapper around the webchat root, not to the webchat root itself anymore.
+- the webchat will now show a toggle button by default, this is changable by passing `disableToggleButton: true` in the webchat settings
 
 ### New Features
-- automatic scrolling in webchat will now happen smoothly if supported by browser
 - in mobile view, the webchat header will now show a 'close' button to the right
+- you can now pass webchat settings within the second parameter of `initWebchat`, e.g. 
+```javascript
+initWebchat('https://example.com', { 
+  settings: {
+    disableToggleButton: true
+  }
+});
+```
 
 ### Bug Fixes
 - incoming bot messages will not scroll the webchat history to the bottom if it was scrolled up before

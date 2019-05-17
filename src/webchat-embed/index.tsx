@@ -11,8 +11,14 @@ import '../plugins/messenger';
 import { Webchat } from '../webchat/components/Webchat';
 
 
+type SocketOptions = React.ComponentProps<typeof Webchat>['options'];
+type WebchatSettings = React.ComponentProps<typeof Webchat>['settings'];
 
-const initWebchat = async (webchatConfigUrl: string, options?: React.ComponentProps<typeof Webchat>['options'], callback?: (webchat: Webchat) => void) => {
+type InitWebchatOptions = SocketOptions & {
+    settings?: WebchatSettings;
+}
+
+const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOptions, callback?: (webchat: Webchat) => void) => {
     // @ts-ignore
     const messagePlugins = (window.cognigyWebchatMessagePlugins || [])
         .map(plugin => typeof plugin === 'function'
@@ -46,6 +52,12 @@ const initWebchat = async (webchatConfigUrl: string, options?: React.ComponentPr
         options.userId = userId;
     }
 
+    let settings: Partial<WebchatSettings> = {};
+    if (options && options.settings) {
+        settings = options.settings;
+        options.settings = undefined;
+    }
+
     const webchatRoot = document.createElement('div');
     document.body.appendChild(webchatRoot);
 
@@ -57,6 +69,7 @@ const initWebchat = async (webchatConfigUrl: string, options?: React.ComponentPr
                 ref={ref => cognigyWebchat = ref}
                 url={webchatConfigUrl}
                 options={options}
+                settings={settings}
                 messagePlugins={messagePlugins}
                 inputPlugins={inputPlugins}
             />

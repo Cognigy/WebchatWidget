@@ -12,10 +12,12 @@ import { setConfig } from '../store/config/config-reducer';
 import { MessageSender } from '../../webchat-ui/interfaces';
 import { setOpen, toggleOpen } from '../store/ui/ui-reducer';
 import { IMessage } from '../../common/interfaces/message';
+import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 
 export interface WebchatProps extends FromProps {
     url: string;
     options?: Partial<Options>;
+    settings?: Partial<IWebchatConfig['settings']>;
     messagePlugins?: MessagePlugin[];
 }
 
@@ -52,8 +54,24 @@ export class Webchat extends React.PureComponent<WebchatProps> {
 
         await client.connect()
 
+        const endpointSettings = client.webchatConfig.settings;
+        const embedSettings = this.props.settings;
+        const settings = {
+            ...client.webchatConfig.settings,
+            ...this.props.settings
+        }
+
+        console.log({
+            endpointSettings,
+            embedSettings,
+            settings
+        });
+
         store.dispatch(setOptions(client.socketOptions));
-        store.dispatch(setConfig(client.webchatConfig));
+        store.dispatch(setConfig({
+            ...client.webchatConfig,
+            settings
+        }));
     }
 
     sendMessage: MessageSender = (text, data, options) => {
