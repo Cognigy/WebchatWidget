@@ -168,7 +168,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
           || moment().format('YYYY-MM-DD'),
         disable: [] as string[],
         enable: [] as string[],
-        enableTime: data.enableTime || true,
+        enableTime: (data.enableTime === false || data.enableTime === 'false') ? false : true,
         event: data.eventName || 'Pick a date',
         inline: true,
         locale: data.locale || l10n['en'],
