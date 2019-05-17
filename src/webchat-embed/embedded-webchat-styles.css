@@ -29,9 +29,11 @@
 
 @media screen and (min-width: 576px) {
     [data-cognigy-webchat-root] {
+        position: fixed;
+
         left: initial;
         top: initial;
-        bottom: 104;
+        bottom: 104px;
         right: 32px;
 
         overflow: initial;
