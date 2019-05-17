@@ -61,12 +61,6 @@ export class Webchat extends React.PureComponent<WebchatProps> {
             ...this.props.settings
         }
 
-        console.log({
-            endpointSettings,
-            embedSettings,
-            settings
-        });
-
         store.dispatch(setOptions(client.socketOptions));
         store.dispatch(setConfig({
             ...client.webchatConfig,

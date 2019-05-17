@@ -167,8 +167,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         } = props;
         const { theme } = state;
 
-        console.log(config.settings);
-
         const { disableToggleButton } = config.settings;
 
         if (!this.props.config.active)
