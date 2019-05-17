@@ -15,11 +15,11 @@ const HeaderBar = styled(Toolbar)(({ theme }) => ({
     fontWeight: 700
 }))
 
-const HeaderIconButton = styled(IconButton)({
-    color: 'inherit',
-    fill: 'inherit',
-    stroke: 'inherit'
-});
+const HeaderIconButton = styled(IconButton)(({ theme }) => ({
+    color: theme.primaryContrastColor,
+    fill: theme.primaryContrastColor,
+    // stroke: theme.primaryContrastColor
+}));
 
 interface HeaderProps {
     title: string;
