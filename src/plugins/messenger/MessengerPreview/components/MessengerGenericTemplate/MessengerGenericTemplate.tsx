@@ -59,7 +59,7 @@ export const getMessengerGenericTemplate = ({ React, styled }: MessagePluginFact
         }
     });
 
-    const Image = styled.div<{ url: string }>(({ url }) => ({
+    const Image = styled.div(() => ({
         paddingTop: '50%',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
@@ -71,8 +71,10 @@ export const getMessengerGenericTemplate = ({ React, styled }: MessagePluginFact
 
     const MessengerGenericTemplate = class MessengerGenericTemplate extends React.Component<IMessengerGenericTemplateProps & React.HTMLProps<HTMLDivElement>, IMessengerGenericTemplateState> {
         getImageStyles = (element: IFBMGenericTemplateElement) => {
+            const backgroundImage = `url("${encodeURI(element.image_url)}")`;
+
             const styles: React.CSSProperties = {
-                backgroundImage: `url('${element.image_url}')`
+                backgroundImage
             }
 
             return styles;
@@ -91,7 +93,6 @@ export const getMessengerGenericTemplate = ({ React, styled }: MessagePluginFact
                         {image_url && (
                             <>
                                 <Image
-                                    url={image_url}
                                     onClick={e => default_action && onAction(e, default_action)}
                                     style={this.getImageStyles(element)}
                                 />

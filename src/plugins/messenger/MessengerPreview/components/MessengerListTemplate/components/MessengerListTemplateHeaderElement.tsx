@@ -11,7 +11,7 @@ interface IMessengerListTemplateHeaderElementProps extends IWithFBMActionEventHa
 export const getMessengerListTemplateHeaderElement = ({ React, styled }: MessagePluginFactoryProps) => {
     const MessengerSubtitle = getMessengerSubtitle({ React, styled });
     const MessengerTitle = getMessengerTitle({ React, styled });
-    const Root = styled.div<{ url: string }>(({ url }) => ({
+    const Root = styled.div(() => ({
         position: 'relative',
         paddingTop: '50%',
         backgroundSize: 'cover',
@@ -50,12 +50,11 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
         // TODO buttons, default_action
 
         const styles: React.CSSProperties = {
-            backgroundImage: `url('${image_url}')`
+            backgroundImage: `url("${encodeURI(image_url)}")`
         }
 
         return (
             <Root
-                url={image_url}
                 onClick={default_action && (e => onAction(e, default_action))}
                 style={styles}
             >
