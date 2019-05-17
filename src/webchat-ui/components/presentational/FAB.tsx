@@ -14,7 +14,12 @@ const FAB = styled(IconButton)(({ theme }) => ({
     overflow: 'visible',
     boxShadow: theme.shadow,
     borderRadius: '50%',
-    marginTop: theme.unitSize * 2
+    marginTop: theme.unitSize * 2,
+
+    '&.active, &:hover': {
+        color: theme.primaryContrastColor,
+        fill: theme.primaryContrastColor
+    }
 }));
 
 export default FAB;
