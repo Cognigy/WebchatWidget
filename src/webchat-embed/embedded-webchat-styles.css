@@ -14,19 +14,25 @@
 [data-cognigy-webchat-root] [data-cognigy-webchat] {
     width: 100%;
     height: 100%;
+
+    z-index: 2;
 }
 
 
 [data-cognigy-webchat-root] button[data-cognigy-webchat-toggle] {
-    display: none;
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    box-shadow: 0 5px 18px 0 rgba(151, 124, 156, 0.2), 0 5px 32px 0 rgba(203, 195, 212, 0.2), 0 8px 58px 0 rgba(216, 212, 221, 0.1);
+    z-index: 1;
 }
 
 @media screen and (min-width: 576px) {
     [data-cognigy-webchat-root] {
         left: initial;
         top: initial;
-        bottom: 64px;
-        right: 64px;
+        bottom: 104;
+        right: 32px;
 
         overflow: initial;
         width: initial;
@@ -40,12 +46,7 @@
         box-shadow: 0 5px 18px 0 rgba(151, 124, 156, 0.2), 0 5px 32px 0 rgba(203, 195, 212, 0.2), 0 8px 58px 0 rgba(216, 212, 221, 0.1);
     }
 
-    [data-cognigy-webchat-root] [data-cognigy-webchat-header-close-button] {
-        display: none;
-    }
-
     [data-cognigy-webchat-root] button[data-cognigy-webchat-toggle] {
         display: block;
-        box-shadow: 0 5px 18px 0 rgba(151, 124, 156, 0.2), 0 5px 32px 0 rgba(203, 195, 212, 0.2), 0 8px 58px 0 rgba(216, 212, 221, 0.1);
     }
 }

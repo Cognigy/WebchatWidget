@@ -8,13 +8,11 @@ import './embedded-webchat-styles.css';
 import '../plugins/get-started-button-input';
 import '../plugins/date-picker';
 import '../plugins/messenger';
-
-import EmbeddedWebchat from './components/presentational/EmbeddedWebchat';
 import { Webchat } from '../webchat/components/Webchat';
 
 
 
-const initWebchat = async (webchatConfigUrl: string, options?: React.ComponentProps<typeof EmbeddedWebchat>['options'], callback?: (webchat: Webchat) => void) => {
+const initWebchat = async (webchatConfigUrl: string, options?: React.ComponentProps<typeof Webchat>['options'], callback?: (webchat: Webchat) => void) => {
     // @ts-ignore
     const messagePlugins = (window.cognigyWebchatMessagePlugins || [])
         .map(plugin => typeof plugin === 'function'
@@ -55,7 +53,7 @@ const initWebchat = async (webchatConfigUrl: string, options?: React.ComponentPr
 
     ReactDOM.render(
         (
-            <EmbeddedWebchat
+            <Webchat
                 ref={ref => cognigyWebchat = ref}
                 url={webchatConfigUrl}
                 options={options}
