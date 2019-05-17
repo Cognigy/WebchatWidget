@@ -16,10 +16,9 @@ export const getMessengerMediaTemplate = ({ React, styled }: MessagePluginFactor
         paddingTop: '75%'
     });
 
-    const Image = styled(FourThirds)<{ url: string }>(({ url }) => ({
+    const Image = styled(FourThirds)(() => ({
         backgroundSize: 'cover',
-        backgroundPosition: 'center center',
-        backgroundImage: `url('${url}')`
+        backgroundPosition: 'center center'
     }));
 
     const Video = styled(FourThirds)({
@@ -44,9 +43,13 @@ export const getMessengerMediaTemplate = ({ React, styled }: MessagePluginFactor
         // TODO add buttons
 
         if (media_type === 'image') {
+            const styles:React.CSSProperties = {
+                backgroundImage: `url("${encodeURI(url)}")`
+            }
+
             return (
                 <MessengerFrame {...divProps}>
-                    <Image url={url} />
+                    <Image style={styles} />
                 </MessengerFrame>
             )
         }

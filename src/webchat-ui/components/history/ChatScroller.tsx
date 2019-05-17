@@ -2,7 +2,7 @@ import * as React from 'react'
 
 const CLIENT_HEIGHT_OFFSET = 10;
 
-export interface OuterProps extends React.HTMLProps<HTMLDivElement> {}
+export interface OuterProps extends React.HTMLProps<HTMLDivElement> { }
 
 type InnerProps = OuterProps;
 
@@ -30,7 +30,15 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         if (!root)
             return;
 
-        root.scrollTop = root.scrollHeight - root.clientHeight;
+        const scrollTop = root.scrollHeight - root.clientHeight;
+
+        try {
+            root.scroll({
+                top: scrollTop
+            });
+        } catch (e) {
+            root.scrollTop = scrollTop;
+        }
     }
 
     getSnapshotBeforeUpdate() {

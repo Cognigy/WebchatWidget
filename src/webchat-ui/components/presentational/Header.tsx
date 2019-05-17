@@ -15,6 +15,12 @@ const HeaderBar = styled(Toolbar)(({ theme }) => ({
     fontWeight: 700
 }))
 
+const HeaderIconButton = styled(IconButton)({
+    color: 'inherit',
+    fill: 'inherit',
+    stroke: 'inherit'
+});
+
 interface HeaderProps {
     title: string;
     connected: boolean;
@@ -26,11 +32,11 @@ export default ({ logoUrl, connected, title, onClose, ...props }: HeaderProps) =
     <HeaderBar color='primary' {...props}>
         {logoUrl && <Logo src={logoUrl} />}
         <span style={{ flexGrow: 1 }}>{title}</span>
-        <IconButton
-            data-cognigy-webchat-header-close-button
+        <HeaderIconButton 
+            data-header-close-button 
             onClick={onClose}
         >
             <CloseIcon />
-        </IconButton>
+        </HeaderIconButton>
     </HeaderBar>
 );
