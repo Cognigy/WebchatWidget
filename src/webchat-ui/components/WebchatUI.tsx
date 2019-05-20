@@ -42,6 +42,7 @@ export interface WebchatUIProps {
 
     inputMode: string;
     onSetInputMode: (inputMode: string) => void;
+    onClose: () => void;
 }
 
 interface WebchatUIState {
@@ -109,12 +110,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             this.setState({
                 theme: createWebchatTheme({ primaryColor: this.props.config.settings.colorScheme })
             })
-        }
-
-        if (this.props.messages !== prevProps.messages) {
-            if (this.history.current) {
-                this.history.current.scrollToBottom();
-            }
         }
     }
 
@@ -193,6 +188,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     connected={config.active}
                     logoUrl={config.settings.headerLogoUrl}
                     title={config.settings.title || 'Cognigy Webchat'}
+                    onClose={this.props.onClose}
                 />
                 <HistoryWrapper ref={this.history as any}>
                     {this.renderHistory()}
