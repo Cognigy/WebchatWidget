@@ -10,6 +10,7 @@ const getInitialState = (): ConfigState => ({
         backgroundImageUrl: '',
         colorScheme: '',
         designTemplate: 1,
+        disableToggleButton: false,
         startBehavior: 'none',
         enableFileUpload: false,
         enablePersistentMenu: false,

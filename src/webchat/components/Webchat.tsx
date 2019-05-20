@@ -3,7 +3,7 @@ import { Options, WebchatClient } from '@cognigy/webchat-client';
 import { Store } from 'redux';
 import { StoreState, createWebchatStore } from '../store/store';
 import { Provider } from 'react-redux';
-import { ConnectedWebchatUI } from './ConnectedWebchatUI';
+import { ConnectedWebchatUI, FromProps } from './ConnectedWebchatUI';
 import { setOptions } from '../store/options/options-reducer';
 import { MessagePlugin } from '../../common/interfaces/message-plugin';
 import { InputPlugin } from '../../common/interfaces/input-plugin';
@@ -12,12 +12,13 @@ import { setConfig } from '../store/config/config-reducer';
 import { MessageSender } from '../../webchat-ui/interfaces';
 import { setOpen, toggleOpen } from '../store/ui/ui-reducer';
 import { IMessage } from '../../common/interfaces/message';
+import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 
-export interface WebchatProps {
+export interface WebchatProps extends FromProps {
     url: string;
     options?: Partial<Options>;
+    settings?: Partial<IWebchatConfig['settings']>;
     messagePlugins?: MessagePlugin[];
-    inputPlugins?: InputPlugin[];
 }
 
 export class Webchat extends React.PureComponent<WebchatProps> {
@@ -53,8 +54,18 @@ export class Webchat extends React.PureComponent<WebchatProps> {
 
         await client.connect()
 
+        const endpointSettings = client.webchatConfig.settings;
+        const embedSettings = this.props.settings;
+        const settings = {
+            ...client.webchatConfig.settings,
+            ...this.props.settings
+        }
+
         store.dispatch(setOptions(client.socketOptions));
-        store.dispatch(setConfig(client.webchatConfig));
+        store.dispatch(setConfig({
+            ...client.webchatConfig,
+            settings
+        }));
     }
 
     sendMessage: MessageSender = (text, data, options) => {
