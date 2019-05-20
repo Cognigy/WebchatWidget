@@ -14,7 +14,7 @@ It is divided into multiple sub-projects
 
 ## Building the Webchat
 To build the webchat, you will need an installed version of `Node.js`.
-Clone this repository, then run `npm i` and `npm run bundle` within the root folder to install dependencies and create bundles.
+Clone this repository, then run `npm i` and `npm run bundle` within the root folder to install dependencies and create bundle files in `dist/`.
 
 ## Development
 For development, you may use `npm run dev`, which will spawn a http-server on port 8080 that features the webchat in the current form from the source code. On updating source files, it will reload automatically to ease up the development process.
