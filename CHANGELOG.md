@@ -1,6 +1,11 @@
 # Changelog
 
-## WIP
+## v2.3.1
+
+### Bug Fixed
+- fixed webchat to cause more than one open socket connection
+
+## v2.3.0
 
 ### Breaking Changes
 - `WebchatUI` will now pass the rest props to a wrapper around the webchat root, not to the webchat root itself anymore.

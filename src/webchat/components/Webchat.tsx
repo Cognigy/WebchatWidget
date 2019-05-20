@@ -39,10 +39,6 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         this.store = store;
     }
 
-    componentDidMount() {
-        this.connect();
-    }
-
     componentWillUnmount() {
         this.client.disconnect();
     }
@@ -52,7 +48,7 @@ export class Webchat extends React.PureComponent<WebchatProps> {
     connect = async () => {
         const { client, store } = this;
 
-        await client.connect()
+        await client.connect();
 
         const endpointSettings = client.webchatConfig.settings;
         const embedSettings = this.props.settings;
