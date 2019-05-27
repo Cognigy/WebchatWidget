@@ -53,12 +53,18 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
                     />
                 );
 
+                // empty messages should not have reserved space and avatar
+                if (!messageElement)
+                    return null;
+
                 const key = `${index}:${JSON.stringify(message)}`;
 
+                // fullscreen messages are rendered directly
                 if (isFullscreen) {
                     return messageElement;
                 }
-
+                
+                // fullwidth messages get wrapped for 100% width and spacing
                 if (options && options.fullwidth) {
                     return (
                         <FullWidthMessageRow
@@ -69,7 +75,7 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
                     )
                 }
 
-
+                // regular messages get wrapped with spacing, alignment by source and an avatar
                 return (
                     <MessageRow
                         key={key}
