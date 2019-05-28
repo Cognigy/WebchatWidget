@@ -7,7 +7,7 @@ import { getPluginsForMessage } from '../../../plugins/helper';
 import MessageRow from '../presentational/MessageRow';
 import Avatar from '../presentational/Avatar';
 import { defaultBotAvatar, defaultUserImg } from '../WebchatUI';
-import { styled } from '../../style';
+import { styled, IWebchatTheme } from '../../style';
 
 export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
     message: IMessage;
@@ -17,6 +17,7 @@ export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
     onDismissFullscreen: () => void;
     plugins: MessagePlugin[];
     isFullscreen?: boolean;
+    theme: IWebchatTheme;
 }
 
 const FullWidthMessageRow = styled.div(({ theme }) => ({
@@ -26,7 +27,7 @@ const FullWidthMessageRow = styled.div(({ theme }) => ({
     paddingBottom: theme.unitSize
 }))
 
-export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFullscreen, onDismissFullscreen, ...props }: MessageProps): JSX.Element => {
+export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFullscreen, onDismissFullscreen, theme, ...props }: MessageProps): JSX.Element => {
     const attributes = Object.keys(props).length > 0
         ? props
         : undefined;
@@ -50,6 +51,7 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
                         onDismissFullscreen={onDismissFullscreen}
                         attributes={attributes}
                         isFullscreen={isFullscreen}
+                        theme={theme}
                     />
                 );
 

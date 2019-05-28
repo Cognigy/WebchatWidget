@@ -138,6 +138,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 config={this.props.config}
                 onSetInputMode={this.props.onSetInputMode}
                 inputMode={this.props.inputMode}
+                theme={this.state.theme}
             />
         );
     }
@@ -246,6 +247,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 onSetFullscreen={() => { }}
                 onDismissFullscreen={onDismissFullscreenMessage}
                 message={fullscreenMessage as IMessage}
+                theme={this.state.theme}
             />
         )
     }
@@ -269,6 +271,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         onDismissFullscreen={() => { }}
                         config={config}
                         plugins={messagePlugins}
+                        theme={this.state.theme}
                     />
                 ))}
                 {typingIndicator && (
