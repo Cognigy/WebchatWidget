@@ -13,11 +13,11 @@ export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
     message: IMessage;
     config: IWebchatConfig;
     onSendMessage: MessageSender;
-    onSetFullscreen: () => void;
-    onDismissFullscreen: () => void;
+    onSetFullscreen?: () => void;
+    onDismissFullscreen?: () => void;
     plugins: MessagePlugin[];
     isFullscreen?: boolean;
-    theme: IWebchatTheme;
+    webchatTheme: IWebchatTheme;
 }
 
 const FullWidthMessageRow = styled.div(({ theme }) => ({
@@ -27,7 +27,7 @@ const FullWidthMessageRow = styled.div(({ theme }) => ({
     paddingBottom: theme.unitSize
 }))
 
-export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFullscreen, onDismissFullscreen, theme, ...props }: MessageProps): JSX.Element => {
+export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFullscreen, onDismissFullscreen, webchatTheme, ...props }: MessageProps): JSX.Element => {
     const attributes = Object.keys(props).length > 0
         ? props
         : undefined;
@@ -51,7 +51,7 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
                         onDismissFullscreen={onDismissFullscreen}
                         attributes={attributes}
                         isFullscreen={isFullscreen}
-                        theme={theme}
+                        theme={webchatTheme}
                     />
                 );
 

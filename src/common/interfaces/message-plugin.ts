@@ -9,9 +9,9 @@ export interface MessageComponentProps {
     config: IWebchatConfig;
     isFullscreen?: boolean;
     message: IMessage;
-    onDismissFullscreen: () => void;
+    onDismissFullscreen?: () => void;
     onSendMessage: MessageSender;
-    onSetFullscreen: () => void;
+    onSetFullscreen?: () => void;
     theme: IWebchatTheme;
 }
 

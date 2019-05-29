@@ -2,14 +2,15 @@ import * as React from 'react';
 import { InputComponentProps, InputPlugin, RuleInputPlugin, SelectInputPlugin } from '../../../common/interfaces/input-plugin';
 import { IMessage } from '../../../common/interfaces/message';
 import Toolbar from '../presentational/Toolbar';
-import { styled } from '../../style';
+import { styled, IWebchatTheme } from '../../style';
 import IconButton from '../presentational/IconButton';
 
 export interface InputProps extends InputComponentProps, React.HTMLProps<HTMLDivElement> {
     plugins: InputPlugin[];
     messages: IMessage[];
     onSetInputMode: (inputMode: string) => void;
-    inputMode: string
+    inputMode: string;
+    webchatTheme: IWebchatTheme;
 }
 
 const SmallToolbar = styled(Toolbar)({
@@ -29,7 +30,7 @@ const InputRoot = styled.div(({ theme }) => ({
     backgroundColor: 'white'
 }))
 
-export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInputMode, ...props }: InputProps): JSX.Element => {
+export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInputMode, webchatTheme, ...props }: InputProps): JSX.Element => {
     const results: any[] = [];
 
     const attributes = Object.keys(props).length > 0
@@ -46,6 +47,7 @@ export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInpu
                 config={config}
                 onSendMessage={onSendMessage}
                 attributes={attributes}
+                theme={webchatTheme}
             />
         )
     }
@@ -79,6 +81,7 @@ export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInpu
                     config={config}
                     onSendMessage={onSendMessage}
                     attributes={attributes}
+                    theme={webchatTheme}
                 />
             )}
         </InputRoot>
