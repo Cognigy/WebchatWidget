@@ -2,16 +2,17 @@ import React from 'react';
 import { IMessage } from "./message";
 import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
 import { MessageSender } from '../../webchat-ui/interfaces';
-import { styled } from '../../webchat-ui/style';
+import { styled, IWebchatTheme } from '../../webchat-ui/style';
 
 export interface MessageComponentProps {
-    message: IMessage;
-    config: IWebchatConfig;
-    onSendMessage: MessageSender;
-    onSetFullscreen: () => void;
-    onDismissFullscreen: () => void;
-    isFullscreen?: boolean;
     attributes?: React.HTMLProps<HTMLDivElement>;
+    config: IWebchatConfig;
+    isFullscreen?: boolean;
+    message: IMessage;
+    onDismissFullscreen?: () => void;
+    onSendMessage: MessageSender;
+    onSetFullscreen?: () => void;
+    theme: IWebchatTheme;
 }
 
 export type MessageMatcher = (message: IMessage) => boolean;

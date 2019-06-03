@@ -3,15 +3,17 @@ import { IMessage } from "./message";
 import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
 import { MessageSender } from '../../webchat-ui/interfaces';
 import { MessagePluginFactoryProps } from './message-plugin';
+import { IWebchatTheme } from '../../webchat-ui/style';
 
 export interface InputButtonProps extends React.HTMLProps<HTMLButtonElement> {
     active: boolean;
 }
 
 export interface InputComponentProps {
+    attributes?: React.HTMLProps<HTMLDivElement>;
     config: IWebchatConfig;
     onSendMessage: MessageSender;
-    attributes?: React.HTMLProps<HTMLDivElement>;
+    theme: IWebchatTheme;
 }
 
 interface MatcherArgs {
