@@ -161,29 +161,33 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     static getOptionsFromMessage(message: IMessage) {
       const { data } = message.data._plugin;
 
+      const dateFormat = data.dateFormat || 'YYYY-MM-DD';
+      const defaultDate = DatePicker.transformNamedDate(data.defaultDate)
+        || DatePicker.transformNamedDate(data.minDate)
+        || moment().format(dateFormat);
+
+      const localeId = data.locale || 'en'
+      const locale = l10n[localeId];
+      const enableTime = !!data.enableTime;
+      const outputFormat = enableTime ? 'L LT' : 'L';
+
       const options = {
-        dateFormat: data.dateFormat || 'YYYY-MM-DD',
-        defaultDate: DatePicker.transformNamedDate(data.defaultDate)
-          || DatePicker.transformNamedDate(data.minDate)
-          || moment().format('YYYY-MM-DD'),
+        dateFormat,
+        defaultDate,
         disable: [] as string[],
         enable: [] as string[],
-        enableTime: (data.enableTime === false || data.enableTime === 'false') ? false : true,
+        enableTime,
         event: data.eventName || 'Pick a date',
         inline: true,
-        locale: data.locale || l10n['en'],
+        locale,
         maxDate: DatePicker.transformNamedDate(data.maxDate) || '',
         minDate: DatePicker.transformNamedDate(data.minDate) || '',
         mode: data.mode || 'single',
         static: true,
         time_24hr: data.time_24hr || false,
         parseDate: dateString => moment(dateString).toDate(),
-        formatDate: date => moment(date).format('YYYY/MM/DD')
+        formatDate: date => moment(date).locale(localeId).format(outputFormat)
       };
-
-      if (options.enableTime) {
-        options.formatDate = date => moment(date).format('YYYY/MM/DD HH:mm')
-      }
 
       const mask: string[] = [...(data.enable_disable || [])]
         // add special rule for weekends
