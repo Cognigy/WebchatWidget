@@ -7,7 +7,7 @@
     "main": "lib/webchat/index.js",
     "scripts": {
         "build": "tsc",
-        "bundle": "yarn webchat && yarn webchat-legacy && yarn speech-input && yarn speech-input-legacy && yarn speech-output && yarn speech-output-legacy && yarn date-picker && yarn date-picker-legacy",
+        "bundle": "npm run webchat && npm run webchat-legacy && npm run speech-input && npm run speech-input-legacy && npm run speech-output && npm run speech-output-legacy && npm run date-picker && npm run date-picker-legacy",
         "dev": "webpack-dev-server --config webpack.dev.js --content-base dist/ --host 0.0.0.0 --disable-host-check",
         "date-picker-legacy": "webpack --config webpack.production.legacy.js --entry ./src/plugins/date-picker/index.tsx --output dist/date-picker.webchat-plugin.legacy.js",
         "date-picker": "webpack --config webpack.production.js --entry ./src/plugins/date-picker/index.tsx --output dist/date-picker.webchat-plugin.js",
