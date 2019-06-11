@@ -12,6 +12,8 @@
 }
 
 [data-cognigy-webchat-root] [data-cognigy-webchat] {
+    position: relative;
+    
     width: 100%;
     height: 100%;
 
@@ -31,14 +33,14 @@
     [data-cognigy-webchat-root] {
         position: fixed;
 
-        left: initial;
-        top: initial;
+        left: auto;
+        top: auto;
         bottom: 104px;
         right: 32px;
 
-        overflow: initial;
-        width: initial;
-        height: initial;
+        overflow: visible;
+        width: auto;
+        height: auto;
     }
 
     [data-cognigy-webchat-root] [data-cognigy-webchat] {
