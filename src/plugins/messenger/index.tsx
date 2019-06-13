@@ -32,7 +32,7 @@ const isFullscreenMessengerGenericPayload = rawMessage => {
     const { message } = messengerPayload;
     if (!message)
         return false;
-    
+
     const { attachment } = message;
     if (!attachment)
         return false;
@@ -68,7 +68,7 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
                     }
 
                     // @ts-ignore
-                    if (action.type === 'web_url') {
+                    if (action.type === 'web_url' && action.url) {
                         // @ts-ignore
                         window.open(action.url, '_blank');
                     }
