@@ -21,7 +21,7 @@
         "webchat": "webpack --config webpack.production.js"
     },
     "dependencies": {
-        "@cognigy/webchat-client": "^4.0.3",
+        "@cognigy/webchat-client": "4.0.4",
         "@emotion/cache": "^10.0.0",
         "@emotion/core": "^10.0.6",
         "@emotion/provider": "^0.11.2",
