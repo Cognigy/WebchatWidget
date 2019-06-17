@@ -7,7 +7,7 @@ import './flatpickr.css';
 
 // languages
 import l10n from './langHelper';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { MessageComponentProps, MessagePlugin, MessagePluginFactory } from "../../common/interfaces/message-plugin";
 import { createMessagePlugin, registerMessagePlugin } from "../helper";
@@ -140,19 +140,19 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     static isWeekendDate(date: string) {
       // 1 is monday
       // 7 is sunday
-      return [1, 7].includes(moment(date).isoWeekday());
+      return [1, 7].includes(dayjs(date).isoWeekday());
     }
 
     static transformNamedDate(namedDate: string) {
       switch (namedDate) {
         case "today":
-          return moment().format('YYYY-MM-DD');
+          return dayjs().format('YYYY-MM-DD');
 
         case "tomorrow":
-          return moment().add(1, 'days').format('YYYY-MM-DD');
+          return dayjs().add(1, 'days').format('YYYY-MM-DD');
 
         case "yesterday":
-          return moment().add(-1, 'days').format('YYYY-MM-DD');
+          return dayjs().add(-1, 'days').format('YYYY-MM-DD');
       }
 
       return namedDate
@@ -165,7 +165,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         dateFormat: data.dateFormat || 'YYYY-MM-DD',
         defaultDate: DatePicker.transformNamedDate(data.defaultDate)
           || DatePicker.transformNamedDate(data.minDate)
-          || moment().format('YYYY-MM-DD'),
+          || dayjs().format('YYYY-MM-DD'),
         disable: [] as string[],
         enable: [] as string[],
         enableTime: (data.enableTime === false || data.enableTime === 'false') ? false : true,
@@ -177,12 +177,12 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         mode: data.mode || 'single',
         static: true,
         time_24hr: data.time_24hr || false,
-        parseDate: dateString => moment(dateString).toDate(),
-        formatDate: date => moment(date).format('YYYY/MM/DD')
+        parseDate: dateString => dayjs(dateString).toDate(),
+        formatDate: date => dayjs(date).format('YYYY/MM/DD')
       };
 
       if (options.enableTime) {
-        options.formatDate = date => moment(date).format('YYYY/MM/DD HH:mm')
+        options.formatDate = date => dayjs(date).format('YYYY/MM/DD HH:mm')
       }
 
       const mask: string[] = [...(data.enable_disable || [])]
