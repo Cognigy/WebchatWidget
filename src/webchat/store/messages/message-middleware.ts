@@ -6,6 +6,7 @@ import { addMessage } from "./message-reducer";
 import { Omit } from "react-redux";
 import { setFullscreenMessage } from "../ui/ui-reducer";
 import { SetConfigAction } from "../config/config-reducer";
+import { connect } from "../connection/connection-middleware";
 
 export interface ISendMessageOptions {
     /* overrides the displayed text within a chat bubble. useful for e.g. buttons */
@@ -41,10 +42,11 @@ export const createMessageMiddleware = (client: WebchatClient): Middleware<{}, S
         case 'SET_CONFIG': {
             const config = action.config;
 
-            if (config) {
+            if (config && store.getState().messages.length === 0) {
                 const isInjectBehavior = config.settings.startBehavior === 'injection';
 
                 if (isInjectBehavior) {
+                    store.dispatch(connect());
                     const text = config.settings.getStartedPayload;
                     const label = config.settings.getStartedText;
                     

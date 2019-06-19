@@ -3,13 +3,15 @@ import { options } from "./options/options-reducer";
 import { messages } from "./messages/message-reducer";
 import { ui } from "./ui/ui-reducer";
 import { config } from "./config/config-reducer";
+import { connection } from "./connection/connection-reducer";
 import { StoreState } from "./store";
 
 const rootReducer = combineReducers({
     messages,
     options,
     config,
-    ui
+    ui,
+    connection
 });
 
 const RESET_STATE = 'RESET_STATE';

@@ -44,7 +44,6 @@ export const config: Reducer<ConfigState, SetConfigAction> = (state = getInitial
 
     switch (action.type) {
         case 'SET_CONFIG': {
-
             return {
                 ...state,
                 ...action.config,

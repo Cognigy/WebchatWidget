@@ -81,11 +81,6 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
     while (!cognigyWebchat) {
         await new Promise(resolve => setTimeout(resolve, 500));
     }
-
-    await (cognigyWebchat as Webchat).connect();
-
-    // @ts-ignore
-    // window.cognigyWebchat.open();
     if (callback) {
         return callback(cognigyWebchat)
     }
