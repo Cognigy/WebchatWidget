@@ -7,7 +7,7 @@ import './flatpickr.css';
 
 // languages
 import l10n from './langHelper';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { MessageComponentProps, MessagePlugin, MessagePluginFactory } from "../../common/interfaces/message-plugin";
 import { createMessagePlugin, registerMessagePlugin } from "../helper";
@@ -140,19 +140,19 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     static isWeekendDate(date: string) {
       // 1 is monday
       // 7 is sunday
-      return [1, 7].includes(moment(date).isoWeekday());
+      return [1, 7].includes(dayjs(date).isoWeekday());
     }
 
     static transformNamedDate(namedDate: string) {
       switch (namedDate) {
         case "today":
-          return moment().format('YYYY-MM-DD');
+          return dayjs().format('YYYY-MM-DD');
 
         case "tomorrow":
-          return moment().add(1, 'days').format('YYYY-MM-DD');
+          return dayjs().add(1, 'days').format('YYYY-MM-DD');
 
         case "yesterday":
-          return moment().add(-1, 'days').format('YYYY-MM-DD');
+          return dayjs().add(-1, 'days').format('YYYY-MM-DD');
       }
 
       return namedDate
@@ -164,7 +164,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       const dateFormat = data.dateFormat || 'YYYY-MM-DD';
       const defaultDate = DatePicker.transformNamedDate(data.defaultDate)
         || DatePicker.transformNamedDate(data.minDate)
-        || moment().format(dateFormat);
+        || dayjs().format(dateFormat);
 
       const localeId = data.locale || 'en'
       const locale = l10n[localeId];
@@ -185,8 +185,8 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         mode: data.mode || 'single',
         static: true,
         time_24hr: data.time_24hr || false,
-        parseDate: dateString => moment(dateString).toDate(),
-        formatDate: date => moment(date).locale(localeId).format(outputFormat)
+        parseDate: dateString => dayjs(dateString).toDate(),
+        formatDate: date => dayjs(date).locale(localeId).format(outputFormat)
       };
 
       const mask: string[] = [...(data.enable_disable || [])]
