@@ -46,7 +46,6 @@ export const createMessageMiddleware = (client: WebchatClient): Middleware<{}, S
                 const isInjectBehavior = config.settings.startBehavior === 'injection';
 
                 if (isInjectBehavior) {
-                    store.dispatch(connect());
                     const text = config.settings.getStartedPayload;
                     const label = config.settings.getStartedText;
                     
