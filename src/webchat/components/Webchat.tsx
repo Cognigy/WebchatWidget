@@ -84,6 +84,7 @@ export class Webchat extends React.PureComponent<WebchatProps> {
                     {...props}
                     messagePlugins={messagePlugins}
                     inputPlugins={inputPlugins}
+                    onEmitAnalytics={this.client.emitAnalytics.bind(this.client)}
                 />
             </Provider>
         )

@@ -54,11 +54,14 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
     const MessengerPreview = getMessengerPreview({ React, styled });
 
     return ({
+        name: 'messenger',
         match: isMessengerPayload,
-        component: ({ message, onSendMessage, config }: MessageComponentProps) => (
+        component: ({ message, onSendMessage, config, onEmitAnalytics }: MessageComponentProps) => (
             <MessengerPreview
                 message={transformMessage(getMessengerPayload(message).message)}
                 onAction={(e, action) => {
+                    onEmitAnalytics('action', action);
+
                     // @ts-ignore
                     if (action.type === 'postback' || action.content_type === 'text') {
                         // @ts-ignore
@@ -85,11 +88,14 @@ const fullscreenMessengerGenericPlugin: MessagePluginFactory = ({ React, styled 
     const MessengerPreview = getMessengerPreview({ React, styled });
 
     return ({
+        name: 'messenger',
         match: isFullscreenMessengerGenericPayload,
-        component: ({ message, onSendMessage, config }: MessageComponentProps) => (
+        component: ({ message, onSendMessage, config, onEmitAnalytics }: MessageComponentProps) => (
             <MessengerPreview
                 message={transformMessage(getMessengerPayload(message).message)}
                 onAction={(e, action) => {
+                    onEmitAnalytics('action', action);
+
                     // @ts-ignore
                     if (action.type === 'postback' || action.content_type === 'text') {
                         // @ts-ignore
