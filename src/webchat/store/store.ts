@@ -9,6 +9,7 @@ import { registerTypingHandler } from './typing/typing-handler';
 import { createConnectionMiddleware } from './connection/connection-middleware';
 import { createConfigMiddleware } from './config/config-middleware';
 import { IWebchatConfig, IWebchatSettings } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
+import { createAnalyticsMiddleware } from './analytics/analytics-middleware';
 
 
 export type StoreState = StateType<typeof reducer>;
@@ -19,6 +20,7 @@ export const createWebchatStore = (client: WebchatClient, defaultSettings?: IWeb
     const store = createStore(
         reducer,
         applyMiddleware(
+            createAnalyticsMiddleware(client),
             createConnectionMiddleware(client),
             createMessageMiddleware(client),
             createConfigMiddleware(client, defaultSettings),
