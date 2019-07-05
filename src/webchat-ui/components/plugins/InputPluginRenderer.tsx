@@ -30,7 +30,7 @@ const InputRoot = styled.div(({ theme }) => ({
     backgroundColor: 'white'
 }))
 
-export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInputMode, webchatTheme, ...props }: InputProps): JSX.Element => {
+export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInputMode, webchatTheme, onEmitAnalytics, ...props }: InputProps): JSX.Element => {
     const results: any[] = [];
 
     const attributes = Object.keys(props).length > 0
@@ -42,12 +42,15 @@ export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInpu
         .find(plugin => (plugin as RuleInputPlugin).rule({ messages, config }));
 
     if (rulePlugin) {
+        const emitAnalytics = (event: string, payload?: any) => onEmitAnalytics(`plugin/${rulePlugin.name || 'unknown'}/${event}`, payload);
+
         return (
             <rulePlugin.component
                 config={config}
                 onSendMessage={onSendMessage}
                 attributes={attributes}
                 theme={webchatTheme}
+                onEmitAnalytics={emitAnalytics}
             />
         )
     }
@@ -73,6 +76,8 @@ export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInpu
         </SmallToolbar>
     );
 
+    const emitAnalytics = ((event: string, payload?: any) => onEmitAnalytics(`plugin/${(matchedSelectInput && matchedSelectInput.name) || 'unknown'}/${event}`, payload));
+
     return (
         <InputRoot>
             {tabs}
@@ -82,6 +87,7 @@ export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInpu
                     onSendMessage={onSendMessage}
                     attributes={attributes}
                     theme={webchatTheme}
+                    onEmitAnalytics={emitAnalytics}
                 />
             )}
         </InputRoot>

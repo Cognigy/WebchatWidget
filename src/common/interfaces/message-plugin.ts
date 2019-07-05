@@ -10,6 +10,7 @@ export interface MessageComponentProps {
     isFullscreen?: boolean;
     message: IMessage;
     onDismissFullscreen?: () => void;
+    onEmitAnalytics: (name: string, data?: any) => void;
     onSendMessage: MessageSender;
     onSetFullscreen?: () => void;
     theme: IWebchatTheme;
@@ -27,6 +28,7 @@ export type MessageComponent = ((props: MessageComponentProps) => JSX.Element | 
     | React.ComponentClass<MessageComponentProps>;
 
 export interface MessagePlugin {
+    name?: string;
     match: MessageMatcher | string;
     component: MessageComponent;
     options?: Partial<MessagePluginOptions>;

@@ -163,14 +163,24 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
     }
 
     handleMenuButton = () => {
+        const mode = this.state.mode === 'menu'
+            ? 'text'
+            : 'menu';
+
         this.setState({
-            mode: this.state.mode === 'menu'
-                ? 'text'
-                : 'menu'
+            mode
+        }, () => {
+            this.props.onEmitAnalytics(mode === 'menu' ? 'open-persistent-menu' : 'close-persistent-menu');
         });
     }
 
     handleMenuItem = (item: IPersistentMenuItem) => {
+        
+        this.props.onEmitAnalytics('click-persistent-menu-item', {
+            text: item.payload,
+            label: item.title
+        });
+        
         this.props.onSendMessage(item.payload, null, { label: item.title });
         
         this.setState({

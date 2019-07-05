@@ -7,6 +7,7 @@ import { Omit } from "react-redux";
 import { setFullscreenMessage } from "../ui/ui-reducer";
 import { SetConfigAction } from "../config/config-reducer";
 import { connect } from "../connection/connection-middleware";
+import { ReceiveMessageAction } from "./message-handler";
 
 export interface ISendMessageOptions {
     /* overrides the displayed text within a chat bubble. useful for e.g. buttons */
@@ -22,7 +23,7 @@ export const sendMessage = (message: Omit<IMessage, 'source'>, options: Partial<
 export type SendMessageAction = ReturnType<typeof sendMessage>;
 
 // forwards messages to the socket
-export const createMessageMiddleware = (client: WebchatClient): Middleware<{}, StoreState> => store => next => (action: SendMessageAction | SetConfigAction) => {
+export const createMessageMiddleware = (client: WebchatClient): Middleware<{}, StoreState> => store => next => (action: SendMessageAction | ReceiveMessageAction | SetConfigAction) => {
     switch (action.type) {
         case 'SEND_MESSAGE': {
             const { message, options } = action;
@@ -37,6 +38,11 @@ export const createMessageMiddleware = (client: WebchatClient): Middleware<{}, S
 
             next(setFullscreenMessage(undefined));
             return next(addMessage(displayMessage));
+        }
+
+        case 'RECEIVE_MESSAGE': {
+            const { message } = action;
+            return next(addMessage(message));
         }
 
         case 'SET_CONFIG': {

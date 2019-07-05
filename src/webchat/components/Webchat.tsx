@@ -45,6 +45,9 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         this.client.disconnect();
     }
 
+    get registerAnalyticsService() {
+        return this.client.registerAnalyticsService.bind(this.client);
+    }
 
     // component API (for usage via ref)
     connect = async () => {
@@ -66,7 +69,7 @@ export class Webchat extends React.PureComponent<WebchatProps> {
     toggle = () => {
         this.store.dispatch(toggleOpen());
     }
-    
+
     on = (event, handler) => {
         this.client.on(event, handler);
     }
@@ -84,6 +87,7 @@ export class Webchat extends React.PureComponent<WebchatProps> {
                     {...props}
                     messagePlugins={messagePlugins}
                     inputPlugins={inputPlugins}
+                    onEmitAnalytics={this.client.emitAnalytics.bind(this.client)}
                 />
             </Provider>
         )

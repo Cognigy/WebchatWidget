@@ -1,17 +1,23 @@
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="manifest" href="/manifest.webmanifest">
-    </head>
-    <body>
-        <!-- <script src="./persistent-menu.webchat-plugin.js"></script> -->
-        <script src="./flightseat-picker.webchat-plugin.js"></script>
-        <script src="./webchat.js"></script>
-        <script>
-            initWebchat('https://endpoint-dev.cognigy.com/f7d316bceb80ea4afeba518fccf563153e6f8d174d292bbf73f8d15bba025a5e').then(webchat => {
-                window.cognigyWebchat = webchat;
-                webchat.open();
-            });
-        </script>
-    </body>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.webmanifest">
+</head>
+
+<body>
+    <!-- <script src="./persistent-menu.webchat-plugin.js"></script> -->
+    <script src="./webchat.js"></script>
+    <script>
+        initWebchat('https://endpoint-dev.cognigy.com/f7d316bceb80ea4afeba518fccf563153e6f8d174d292bbf73f8d15bba025a5e', {
+            settings: {
+                // colorScheme: '#FAB'
+            }
+        }).then(webchat => {
+            window.cognigyWebchat = webchat;
+            // webchat.open();
+        });
+    </script>
+</body>
+
 </html>

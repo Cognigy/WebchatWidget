@@ -15,6 +15,7 @@ export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
     onSendMessage: MessageSender;
     onSetFullscreen?: () => void;
     onDismissFullscreen?: () => void;
+    onEmitAnalytics: (name: string, payload?: any) => void;
     plugins: MessagePlugin[];
     isFullscreen?: boolean;
     webchatTheme: IWebchatTheme;
@@ -27,7 +28,7 @@ const FullWidthMessageRow = styled.div(({ theme }) => ({
     paddingBottom: theme.unitSize
 }))
 
-export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFullscreen, onDismissFullscreen, webchatTheme, ...props }: MessageProps): JSX.Element => {
+export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFullscreen, onDismissFullscreen, webchatTheme, onEmitAnalytics, ...props }: MessageProps): JSX.Element => {
     const attributes = Object.keys(props).length > 0
         ? props
         : undefined;
@@ -40,7 +41,9 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
 
     return (
         <>
-            {matchedPlugins.map(({ component: Component, options }, index) => {
+            {matchedPlugins.map(({ component: Component, options, name = 'unknown' }, index) => {
+                const emitAnalytics = (event: string, payload?: any) => onEmitAnalytics(`plugin/${name}/${event}`, payload);
+
                 const messageElement = (
                     <Component
                         key={index}
@@ -52,6 +55,7 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
                         attributes={attributes}
                         isFullscreen={isFullscreen}
                         theme={webchatTheme}
+                        onEmitAnalytics={emitAnalytics}
                     />
                 );
 

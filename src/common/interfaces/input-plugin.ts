@@ -13,6 +13,7 @@ export interface InputComponentProps {
     attributes?: React.HTMLProps<HTMLDivElement>;
     config: IWebchatConfig;
     onSendMessage: MessageSender;
+    onEmitAnalytics: (name: string, data?: any) => void;
     theme: IWebchatTheme;
 }
 
@@ -37,6 +38,7 @@ export type InputButtonComponent = Component<InputButtonProps>;
 type InputPluginType = 'select' | 'rule';
 
 interface InputPluginBase {
+    name?: string;
     type: InputPluginType;
     component: InputComponent;
     options?: Partial<InputPluginOptions>;

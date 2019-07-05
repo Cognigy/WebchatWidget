@@ -49,6 +49,8 @@ export interface WebchatUIProps {
     onClose: () => void;
     onToggle: () => void;
 
+    onEmitAnalytics: (event: string, payload?: any) => void;
+
     webchatRootProps?: React.ComponentProps<typeof WebchatRoot>;
     webchatToggleProps?: React.ComponentProps<typeof FAB>;
 }
@@ -139,6 +141,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 onSetInputMode={this.props.onSetInputMode}
                 inputMode={this.props.inputMode}
                 webchatTheme={this.state.theme}
+                onEmitAnalytics={this.props.onEmitAnalytics}
             />
         );
     }
@@ -151,6 +154,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             open,
             fullscreenMessage,
             typingIndicator,
+            onEmitAnalytics,
             onSetInputMode,
             onSetFullscreenMessage,
             onDismissFullscreenMessage,
@@ -234,7 +238,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const {
             config,
             fullscreenMessage,
-            onDismissFullscreenMessage
+            onDismissFullscreenMessage,
+            onEmitAnalytics
         } = this.props;
 
         const { messagePlugins } = this.state;
@@ -248,6 +253,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 onDismissFullscreen={onDismissFullscreenMessage}
                 message={fullscreenMessage as IMessage}
                 webchatTheme={this.state.theme}
+                onEmitAnalytics={onEmitAnalytics}
             />
         )
     }
@@ -257,7 +263,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     }
 
     renderHistory() {
-        const { messages, typingIndicator, config } = this.props;
+        const { messages, typingIndicator, config, onEmitAnalytics } = this.props;
         const { messagePlugins = [] } = this.state;
 
         return (
@@ -272,6 +278,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         config={config}
                         plugins={messagePlugins}
                         webchatTheme={this.state.theme}
+                        onEmitAnalytics={onEmitAnalytics}
                     />
                 ))}
                 {typingIndicator && (
