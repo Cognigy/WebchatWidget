@@ -1,11 +1,19 @@
 import { MessageComponentProps, MessagePluginFactory, MessageMatcher } from '../../common/interfaces/message-plugin';
 import { registerMessagePlugin } from '../helper';
 
+const processedMessageIds = new Set<string>();
+
 const speechOutput: MessagePluginFactory = ({ React }) => {
     // only read out incoming messages with text
     const match: MessageMatcher = ({ text, source }) => source === 'bot' && !!text;
 
     const SpeechOutput = (props: MessageComponentProps) => {
+        if (processedMessageIds.has(props.message.traceId)) {
+            return null;
+        }
+
+        processedMessageIds.add(props.message.traceId);
+
         // check whether text to speech is available in client
         if (!speechSynthesis)
             return null;
