@@ -6,17 +6,17 @@
 </head>
 
 <body>
-    <!-- <script src="./persistent-menu.webchat-plugin.js"></script> -->
-    <script src="./webchat.js"></script>
+    <script src="./webchat.legacy.js"></script>
+    <script src="./file-upload.webchat-plugin.js"></script>
     <script>
-        initWebchat('https://endpoint-dev.cognigy.com/f7d316bceb80ea4afeba518fccf563153e6f8d174d292bbf73f8d15bba025a5e', {
-            settings: {
-                // colorScheme: '#FAB'
-            }
-        }).then(webchat => {
+        initWebchat('https://endpoint-demo.cognigy.ai/6df7f60281a3025cfa0d10206bbd466a1e1c0853f604f8427d7ab56652e6c8d9', function (webchat) {
             window.cognigyWebchat = webchat;
-            // webchat.open();
-        });
+        })
+        // initWebchat('https://endpoint-dev.cognigy.com/f7d316bceb80ea4afeba518fccf563153e6f8d174d292bbf73f8d15bba025a5e')
+            // .then(webchat => {
+            //     window.cognigyWebchat = webchat;
+            //     // webchat.open();
+            // });
     </script>
 </body>
 
