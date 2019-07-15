@@ -90,3 +90,8 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
 
 // @ts-ignore
 window.initWebchat = initWebchat;
+
+// @ts-ignore
+window.__COGNIGY_WEBCHAT = {
+    React
+};
