@@ -28,6 +28,7 @@ import FAB from './presentational/FAB';
 import WebchatWrapper from './presentational/WebchatWrapper';
 import ChatIcon from '../assets/baseline-chat-24px.svg';
 import CloseIcon from '../assets/baseline-close-24px.svg';
+import DisconnectOverlay from './presentational/DisconnectOverlay';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -53,6 +54,8 @@ export interface WebchatUIProps {
 
     webchatRootProps?: React.ComponentProps<typeof WebchatRoot>;
     webchatToggleProps?: React.ComponentProps<typeof FAB>;
+
+    connected: boolean;
 }
 
 interface WebchatUIState {
@@ -162,6 +165,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onToggle,
             webchatRootProps,
             webchatToggleProps,
+            connected,
             ...restProps
         } = props;
         const { theme } = state;
@@ -187,6 +191,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             ? this.renderRegularLayout()
                                             : this.renderFullscreenMessageLayout()
                                         }
+                                        {!connected && <DisconnectOverlay />}
                                     </WebchatRoot>
                                 )}
                                 {!disableToggleButton && (
