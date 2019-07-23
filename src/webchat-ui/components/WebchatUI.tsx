@@ -177,12 +177,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             connected,
             ...restProps
         } = props;
-        const { theme } = state;
+        const { theme, hadConnection } = state;
 
-        const { disableToggleButton } = config.settings;
+        const { disableToggleButton, enableConnectionStatusIndicator } = config.settings;
 
         if (!this.props.config.active)
             return null;
+
+        const showDisconnectOverlay =  enableConnectionStatusIndicator && !connected && hadConnection;
 
         return (
             <>
@@ -200,7 +202,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             ? this.renderRegularLayout()
                                             : this.renderFullscreenMessageLayout()
                                         }
-                                        {!connected && this.state.hadConnection && <DisconnectOverlay />}
+                                        {showDisconnectOverlay && <DisconnectOverlay />}
                                     </WebchatRoot>
                                 )}
                                 {!disableToggleButton && (
