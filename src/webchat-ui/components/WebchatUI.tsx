@@ -62,6 +62,8 @@ interface WebchatUIState {
     theme: IWebchatTheme;
     messagePlugins: MessagePlugin[];
     inputPlugins: InputPlugin[];
+    /* Initially false, true from the point of first connection */
+    hadConnection: boolean; 
 }
 
 const styleCache = createCache({
@@ -85,7 +87,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     state = {
         theme: createWebchatTheme(),
         messagePlugins: [],
-        inputPlugins: []
+        inputPlugins: [],
+        hadConnection: false
     };
 
     history: React.RefObject<ChatScroller>;
@@ -116,10 +119,16 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         });
     }
 
-    componentDidUpdate(prevProps: WebchatUIProps) {
+    componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
         if (this.props.config.settings.colorScheme !== prevProps.config.settings.colorScheme) {
             this.setState({
                 theme: createWebchatTheme({ primaryColor: this.props.config.settings.colorScheme })
+            })
+        }
+
+        if (!prevState.hadConnection && this.props.connected) {
+            this.setState({
+                hadConnection: true
             })
         }
     }
@@ -191,7 +200,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             ? this.renderRegularLayout()
                                             : this.renderFullscreenMessageLayout()
                                         }
-                                        {!connected && <DisconnectOverlay />}
+                                        {!connected && this.state.hadConnection && <DisconnectOverlay />}
                                     </WebchatRoot>
                                 )}
                                 {!disableToggleButton && (
