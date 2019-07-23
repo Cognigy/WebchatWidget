@@ -33,7 +33,7 @@
         "react": "^16.7.0",
         "react-animate-height": "^2.0.8",
         "react-dom": "^16.7.0",
-        "react-dropzone": "^10.1.5",
+        "react-dropzone": "^10.1.6",
         "react-emotion": "^10.0.0",
         "react-player": "^1.9.3",
         "react-redux": "^6.0.0",
