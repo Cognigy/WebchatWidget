@@ -19,13 +19,12 @@ export const getMessengerTextWithQuickReplies = ({ React, styled }: MessagePlugi
     }));
 
     const QuickReplies = styled.div({
-        display: 'flex',
+        textAlign: 'center',
 
         margin: -5,
         marginTop: 3,
         flexWrap: 'wrap',
 
-        justifyContent: 'center',
 
         '&>*': {
             margin: 5

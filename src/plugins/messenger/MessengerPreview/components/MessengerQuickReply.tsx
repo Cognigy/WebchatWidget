@@ -3,8 +3,6 @@ import { MessagePluginFactoryProps } from '../../../../common/interfaces/message
 export const getMessengerQuickReply = ({ React, styled }: MessagePluginFactoryProps) => {
 
     const MessengerQuickReply = styled.button(({ theme }) => ({
-        display: 'flex',
-        alignItems: 'center',
         backgroundColor: 'transparent',
         border: `1px solid ${theme.primaryColor}`,
         borderRadius: theme.unitSize * 5,
