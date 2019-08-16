@@ -138,9 +138,17 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     }
 
     static isWeekendDate(date: string) {
-      // 1 is monday
-      // 7 is sunday
-      return [1, 7].includes(moment(date).isoWeekday());
+      const isoWeekday = moment(date).isoWeekday();
+
+      switch (isoWeekday) {
+        // 6 is saturday
+        case 6:
+        // 7 is sunday
+        case 7:
+          return true;
+      }
+
+      return false;
     }
 
     static transformNamedDate(namedDate: string) {
