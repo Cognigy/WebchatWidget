@@ -14,9 +14,16 @@ const getMessengerPayload = message => {
     if (!_cognigy)
         return null;
 
-    const { _facebook, _webchat } = _cognigy;
+    const { _facebook, _webchat, syncWebchatWithFacebook } = _cognigy;
 
-    return _webchat || _facebook;
+    // preserve compatibility with older cognigy versions
+    if (syncWebchatWithFacebook === undefined) {
+        return _webchat || _facebook;
+    }
+
+    return syncWebchatWithFacebook
+        ? _facebook
+        : _webchat;
 }
 
 const isMessengerPayload = message => !!getMessengerPayload(message);
