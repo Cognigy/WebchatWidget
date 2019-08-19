@@ -13,6 +13,7 @@ import './carousel.css';
 import { element } from 'prop-types';
 import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 import { getFlexImage } from '../FlexImage';
+import { config } from '../../../../../webchat/store/config/config-reducer';
 
 export interface IMessengerGenericTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMGenericTemplatePayload;
@@ -90,20 +91,16 @@ export const getMessengerGenericTemplate = ({ React, styled }: MessagePluginFact
 
             const isCentered = this.props.config.settings.designTemplate === 2;
 
-            const Image = FlexImage;
+            const image = image_url
+                ? this.props.config.settings.dynamicImageAspectRatio
+                    ? <FlexImage src={image_url} />
+                    : <FixedImage src={image_url} />
+                : null
 
             return (
                 <ElementRoot key={index}>
                     <Frame className={isCentered ? 'wide' : ''}>
-                        {image_url && (
-                            <>
-                                <Image
-                                    onClick={e => default_action && onAction(e, default_action)}
-                                    src={image_url}
-                                />
-                                <Divider />
-                            </>
-                        )}
+                        {image}
                         <GenericContent
                             onClick={e => default_action && onAction(e, default_action)}
                         >

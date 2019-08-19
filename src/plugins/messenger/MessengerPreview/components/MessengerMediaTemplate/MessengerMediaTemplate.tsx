@@ -3,20 +3,24 @@ import { getMessengerFrame } from '../MessengerFrame';
 import { IFBMMediaTemplatePayload, IFBMMediaTemplateUrlElement } from '../../interfaces/MediaTemplatePayload.interface';
 import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
+import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
+import { getFlexImage } from '../FlexImage';
 
 interface IProps extends IWithFBMActionEventHandler {
     payload: IFBMMediaTemplatePayload;
+    config: IWebchatConfig;
 }
 
 export const getMessengerMediaTemplate = ({ React, styled }: MessagePluginFactoryProps) => {
 
     const MessengerFrame = getMessengerFrame({ React, styled });
+    const FlexImage = getFlexImage({ React, styled });
 
     const FourThirds = styled.div({
         paddingTop: '75%'
     });
 
-    const Image = styled(FourThirds)(() => ({
+    const FixedImage = styled(FourThirds)(() => ({
         backgroundSize: 'cover',
         backgroundPosition: 'center center'
     }));
@@ -32,7 +36,7 @@ export const getMessengerMediaTemplate = ({ React, styled }: MessagePluginFactor
         backgroundColor: 'black'
     })
 
-    const MessengerMediaTemplate = ({ payload, onAction, ...divProps }: IProps & React.HTMLProps<HTMLDivElement>) => {
+    const MessengerMediaTemplate = ({ payload, onAction, config, ...divProps }: IProps & React.HTMLProps<HTMLDivElement>) => {
         const { elements } = payload;
         const element = elements && elements[0];
 
@@ -43,13 +47,13 @@ export const getMessengerMediaTemplate = ({ React, styled }: MessagePluginFactor
         // TODO add buttons
 
         if (media_type === 'image') {
-            const styles:React.CSSProperties = {
-                backgroundImage: `url("${encodeURI(url)}")`
-            }
+            const image = config.settings.dynamicImageAspectRatio
+                    ? <FlexImage src={url} />
+                    : <FixedImage style={{ backgroundImage: `url("${encodeURI(url)}")` }} />
 
             return (
                 <MessengerFrame {...divProps}>
-                    <Image style={styles} />
+                    {image}
                 </MessengerFrame>
             )
         }

@@ -77,6 +77,7 @@ export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps
                                     {...divProps}
                                     payload={payload as IFBMListTemplatePayload}
                                     onAction={onAction}
+                                    config={config}
                                 />
                             );
                         }
@@ -87,6 +88,7 @@ export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps
                                     {...divProps}
                                     payload={payload as IFBMMediaTemplatePayload}
                                     onAction={onAction}
+                                    config={config}
                                 />
                             );
                         }
