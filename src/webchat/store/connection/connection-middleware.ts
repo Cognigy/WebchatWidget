@@ -26,9 +26,6 @@ export const createConnectionMiddleware = (client: WebchatClient): Middleware<{}
                     .then(() => {
                         // set options
                         store.dispatch(setOptions(client.socketOptions));
-
-                        // set connection status
-                        store.dispatch(setConnected(true));
                     })
             }
             break;

@@ -8,19 +8,20 @@ import { MessagePlugin } from '../../common/interfaces/message-plugin';
 import { IMessage } from '../../common/interfaces/message';
 import { getPluginsForMessage, isFullscreenPlugin } from '../../plugins/helper';
 
-type FromState = Pick<WebchatUIProps, 'messages' | 'open' | 'typingIndicator' | 'inputMode' | 'fullscreenMessage' | 'config'>;
+type FromState = Pick<WebchatUIProps, 'messages' | 'open' | 'typingIndicator' | 'inputMode' | 'fullscreenMessage' | 'config' | 'connected'>;
 type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' >;
 export type FromProps = Pick<WebchatUIProps, 'messagePlugins' | 'inputPlugins' | 'webchatRootProps' | 'webchatToggleProps'>;
 type Merge = FromState & FromDispatch & FromProps & Pick<WebchatUIProps, 'fullscreenMessage'>;
 
 export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Merge, StoreState>(
-    ({ messages, ui: { open, typing, inputMode, fullscreenMessage }, config }) => ({
+    ({ messages, connection: { connected }, ui: { open, typing, inputMode, fullscreenMessage }, config }) => ({
         messages,
         open,
         typingIndicator: typing,
         inputMode,
         fullscreenMessage,
-        config
+        config,
+        connected
     }),
     dispatch => ({
         onSendMessage: (text, data, options) => dispatch(sendMessage({ text, data }, options)),

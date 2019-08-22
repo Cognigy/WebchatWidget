@@ -28,6 +28,7 @@ import FAB from './presentational/FAB';
 import WebchatWrapper from './presentational/WebchatWrapper';
 import ChatIcon from '../assets/baseline-chat-24px.svg';
 import CloseIcon from '../assets/baseline-close-24px.svg';
+import DisconnectOverlay from './presentational/DisconnectOverlay';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -53,12 +54,16 @@ export interface WebchatUIProps {
 
     webchatRootProps?: React.ComponentProps<typeof WebchatRoot>;
     webchatToggleProps?: React.ComponentProps<typeof FAB>;
+
+    connected: boolean;
 }
 
 interface WebchatUIState {
     theme: IWebchatTheme;
     messagePlugins: MessagePlugin[];
     inputPlugins: InputPlugin[];
+    /* Initially false, true from the point of first connection */
+    hadConnection: boolean; 
 }
 
 const styleCache = createCache({
@@ -82,7 +87,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     state = {
         theme: createWebchatTheme(),
         messagePlugins: [],
-        inputPlugins: []
+        inputPlugins: [],
+        hadConnection: false
     };
 
     history: React.RefObject<ChatScroller>;
@@ -113,10 +119,16 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         });
     }
 
-    componentDidUpdate(prevProps: WebchatUIProps) {
+    componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
         if (this.props.config.settings.colorScheme !== prevProps.config.settings.colorScheme) {
             this.setState({
                 theme: createWebchatTheme({ primaryColor: this.props.config.settings.colorScheme })
+            })
+        }
+
+        if (!prevState.hadConnection && this.props.connected) {
+            this.setState({
+                hadConnection: true
             })
         }
     }
@@ -162,14 +174,17 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onToggle,
             webchatRootProps,
             webchatToggleProps,
+            connected,
             ...restProps
         } = props;
-        const { theme } = state;
+        const { theme, hadConnection } = state;
 
-        const { disableToggleButton } = config.settings;
+        const { disableToggleButton, enableConnectionStatusIndicator } = config.settings;
 
         if (!this.props.config.active)
             return null;
+
+        const showDisconnectOverlay =  enableConnectionStatusIndicator && !connected && hadConnection;
 
         return (
             <>
@@ -187,6 +202,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             ? this.renderRegularLayout()
                                             : this.renderFullscreenMessageLayout()
                                         }
+                                        {showDisconnectOverlay && <DisconnectOverlay />}
                                     </WebchatRoot>
                                 )}
                                 {!disableToggleButton && (

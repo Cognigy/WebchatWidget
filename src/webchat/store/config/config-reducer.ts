@@ -17,6 +17,7 @@ const getInitialState = (): ConfigState => ({
         enableSTT: false,
         enableTTS: false,
         enableTypingIndicator: false,
+        enableConnectionStatusIndicator: false,
         getStartedButtonText: '',
         getStartedPayload: '',
         getStartedText: '',
