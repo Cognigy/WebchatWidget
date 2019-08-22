@@ -6,9 +6,11 @@ import { getMessengerButton } from '../MessengerButton/MessengerButton';
 import { getMessengerListTemplateElement } from './components/MessengerListTemplateElement';
 import { getMessengerFrame } from '../MessengerFrame';
 import { getMessengerListTemplateHeaderElement } from './components/MessengerListTemplateHeaderElement';
+import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 
 export interface IMessengerListTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMListTemplatePayload;
+    config: IWebchatConfig;
 }
 
 export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactoryProps) => {
@@ -18,7 +20,7 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
     const MessengerButton = getMessengerButton({ React, styled });
     const Divider = getDivider({ React, styled });
 
-    const MessengerListTemplate = ({ payload, onAction, ...divProps }: IMessengerListTemplateProps & React.HTMLProps<HTMLDivElement>) => {
+    const MessengerListTemplate = ({ payload, onAction, config, ...divProps }: IMessengerListTemplateProps & React.HTMLProps<HTMLDivElement>) => {
         const { elements, top_element_style, buttons } = payload;
 
         const regularElements = top_element_style === 'large'
@@ -37,6 +39,7 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
                     <MessengerListTemplateHeaderElement
                         element={headerElement}
                         onAction={onAction}
+                        config={config}
                     />
                 )}
                 {regularElements.map((element, index) => (

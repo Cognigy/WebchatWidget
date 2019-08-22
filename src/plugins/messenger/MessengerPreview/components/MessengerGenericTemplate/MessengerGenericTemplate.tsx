@@ -12,6 +12,8 @@ import { Carousel } from 'react-responsive-carousel';
 import './carousel.css';
 import { element } from 'prop-types';
 import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
+import { getFlexImage } from '../FlexImage';
+import { config } from '../../../../../webchat/store/config/config-reducer';
 
 export interface IMessengerGenericTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMGenericTemplatePayload;
@@ -29,6 +31,7 @@ export const getMessengerGenericTemplate = ({ React, styled }: MessagePluginFact
     const MessengerContent = getMessengerContent({ React, styled });
     const MessengerButton = getMessengerButton({ React, styled });
     const Divider = getDivider({ React, styled });
+    const FlexImage = getFlexImage({ React, styled });
 
     const CarouselRoot = styled(Carousel)(({ theme }) => ({
         marginBottom: -32,
@@ -59,10 +62,11 @@ export const getMessengerGenericTemplate = ({ React, styled }: MessagePluginFact
         }
     });
 
-    const Image = styled.div(() => ({
+    const FixedImage = styled.div<{ src: string }>(({ src }) => ({
         paddingTop: '50%',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
+        backgroundImage: `url("${encodeURI(src)}")`
     }));
 
     const GenericContent = styled(MessengerContent)({
@@ -85,20 +89,18 @@ export const getMessengerGenericTemplate = ({ React, styled }: MessagePluginFact
             const { onAction, ...divProps } = this.props;
             const { image_url, title, subtitle, buttons, default_action } = element;
 
-            const isCentered = this.props.config.settings.designTemplate === 2
+            const isCentered = this.props.config.settings.designTemplate === 2;
+
+            const image = image_url
+                ? this.props.config.settings.dynamicImageAspectRatio
+                    ? <FlexImage src={image_url} />
+                    : <FixedImage src={image_url} />
+                : null
 
             return (
                 <ElementRoot key={index}>
                     <Frame className={isCentered ? 'wide' : ''}>
-                        {image_url && (
-                            <>
-                                <Image
-                                    onClick={e => default_action && onAction(e, default_action)}
-                                    style={this.getImageStyles(element)}
-                                />
-                                <Divider />
-                            </>
-                        )}
+                        {image}
                         <GenericContent
                             onClick={e => default_action && onAction(e, default_action)}
                         >
