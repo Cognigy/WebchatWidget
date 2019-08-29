@@ -61,7 +61,7 @@
         "babel-polyfill": "^6.26.0",
         "css-loader": "^2.1.0",
         "idempotent-babel-polyfill": "^7.4.4",
-        "react-svg-loader": "^2.1.0",
+        "react-svg-loader": "^3.0.3",
         "style-loader": "^0.23.1",
         "svg-inline-loader": "^0.8.0",
         "svg-react-loader": "^0.4.6",
