@@ -38,7 +38,8 @@
         "react-responsive-carousel": "^3.1.47",
         "redux": "^4.0.1",
         "styled-jss": "^2.2.3",
-        "tinycolor2": "^1.4.1"
+        "tinycolor2": "^1.4.1",
+        "url-polyfill": "^1.1.7"
     },
     "devDependencies": {
         "@babel/cli": "^7.2.3",
