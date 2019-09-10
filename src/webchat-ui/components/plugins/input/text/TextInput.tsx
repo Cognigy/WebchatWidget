@@ -137,6 +137,8 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         active: false
     } as TextInputState;
 
+    inputRef = React.createRef<HTMLInputElement>();
+
     handleChangeState = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             text: (e.target as any).value
@@ -159,6 +161,9 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
             text: ''
         }, () => {
             this.props.onSendMessage(text, null);
+
+            if (this.inputRef.current)
+                this.inputRef.current.focus();
         })
     }
 
@@ -175,14 +180,14 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
     }
 
     handleMenuItem = (item: IPersistentMenuItem) => {
-        
+
         this.props.onEmitAnalytics('click-persistent-menu-item', {
             text: item.payload,
             label: item.title
         });
-        
+
         this.props.onSendMessage(item.payload, null, { label: item.title });
-        
+
         this.setState({
             mode: 'text'
         });
@@ -213,6 +218,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                 {mode === 'text' && (
                     <>
                         <Input
+                            ref={this.inputRef}
                             autoFocus
                             value={text}
                             onChange={this.handleChangeState}
