@@ -7,6 +7,7 @@ const RegularMessage = ({ message: { text, source } }: MessageComponentProps) =>
         color={source === 'bot' ? 'primary' : 'default'}
         align={source === 'bot' ? 'left' : 'right'}
         dangerouslySetInnerHTML={{ __html: text || '' }}
+        className={source === 'bot' ? 'webchat-chat-message-bot-text' : 'webchat-chat-message-user-text'}
     />
 )
 

@@ -80,8 +80,11 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
                     <MessageRow
                         key={key}
                         align={message.source === 'bot' ? 'left' : 'right'}
+                        className={message.source === 'bot' ? 'webchat-chat-message-bot': 'webchat-chat-message-user'}
                     >
-                        <Avatar src={avatarImg} />
+                        <Avatar src={avatarImg}
+                        className={message.source === 'bot'? 'webchat-chat-message-bot-avatar': 'webchat-chat-message-user-avatar'}
+                        />
                         {messageElement}
                     </MessageRow>
                 )

@@ -209,9 +209,12 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
             <InputForm
                 data-active={active}
                 onSubmit={this.handleSubmit}
+                className="webchat-input-menu-form"
             >
                 {enablePersistentMenu && (
-                    <MenuButton type='button' onClick={this.handleMenuButton}>
+                    <MenuButton type='button'
+                        onClick={this.handleMenuButton}
+                        className="webchat-input-button-menu" >
                         <MenuIcon />
                     </MenuButton>
                 )}
@@ -225,16 +228,18 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                             onFocus={() => this.setState({ active: true })}
                             onBlur={() => this.setState({ active: false })}
                             placeholder={props.config.settings.inputPlaceholder}
+                            className="webchat-input-message-input"
+
                         />
-                        <SubmitButton disabled={this.state.text === ''}>
+                        <SubmitButton disabled={this.state.text === ''} className="webchat-input-button-send">
                             <SendIcon />
                         </SubmitButton>
                     </>
                 )}
                 {mode === 'menu' && (
-                    <PersistentMenu>
+                    <PersistentMenu className="webchat-input-persistent-menu">
                         {title && (
-                            <PersistentMenuTitle>
+                            <PersistentMenuTitle className="webchat-input-persistent-menu-title">
                                 {title}
                             </PersistentMenuTitle>
                         )}
@@ -242,6 +247,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                             <PersistentMenuItem
                                 key={`${item.title}${item.payload}`}
                                 onClick={() => this.handleMenuItem(item)}
+                                className="webchat-input-persistent-menu-item"
                             >
                                 {item.title}
                             </PersistentMenuItem>
