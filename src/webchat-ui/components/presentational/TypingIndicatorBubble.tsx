@@ -6,6 +6,7 @@ export default () => (
     <MessageBubble
         align='left'
         color='primary'
+        className='webchat-chat-message-bot-text-typing-indicator'
     >
         <TypingIndicator />
     </MessageBubble>
