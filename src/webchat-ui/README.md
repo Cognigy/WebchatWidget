@@ -22,6 +22,7 @@ There are several classes that you need to take in consideration if you want to 
 * *webchat-chat-message-bot-avatar*
 * *webchat-chat-message-user-text*
 * *webchat-chat-message-bot-text*
+* *webchat-chat-message-bot-text-typing-indicator*
 * *webchat-input*
 * *webchat-input-menu-form*
 * *webchat-input-button-menu*
@@ -165,6 +166,15 @@ The text of the message from the bot, you can change the font and style the dial
     box-shadow: none;
 }
 ```
+* *webchat-chat-message-bot-text-typing-indicator*  
+The typing indicator bubble of the message from the bot, you can change the background color.
+```CSS
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-chat-message-bot-text-typing-indicator {
+
+    background: rgb(5, 5, 131);
+}
+```
+
 * *webchat-input*  
 The footer of the Webchat, it contains some other components like the text input, menu and buttons.
 Careful to modify the height here since it will influence the input menu
@@ -337,6 +347,11 @@ Here is an example that you could put in your code directly and see how it chang
 
     background: rgb(5, 5, 131);    
     box-shadow: none;
+}
+    
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-chat-message-bot-text-typing-indicator {
+
+    background: rgb(5, 5, 131);
 }
 
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input {
