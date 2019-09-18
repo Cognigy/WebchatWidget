@@ -38,6 +38,7 @@
         "react-responsive-carousel": "^3.1.47",
         "redux": "^4.0.1",
         "styled-jss": "^2.2.3",
+        "stylis-rtl": "^1.0.1",
         "tinycolor2": "^1.4.1"
     },
     "devDependencies": {
