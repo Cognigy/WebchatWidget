@@ -7,7 +7,7 @@ This part handles how to render a webchat
 In order to enhance the visual design of the Webchat, there is the possibillity to apply custom CSS.
 You will have to add the style to your embeded Webchat or just link a CSS file to it
 
-There are several classes that you need to take in consideration if you want to make some changes to the Webchat, these are the following:
+There are several classes that you need to take in consideration if you want to make some changes to the Webchat, the classes '*bot*' and '*user*' are used as helper classes that give us the possibility to customize the messages from the user and the bot separatly. The classes are the following:
 
 * *webchat-root*
 * *webchat*
@@ -16,15 +16,15 @@ There are several classes that you need to take in consideration if you want to 
 * *webchat-header-title*
 * *webchat-header-close-button*
 * *webchat-chat-history*
+* *webchat-message-row*
 * *regular-message*
-* *regular-message-text*
-* *regular-message-avatar*
-* *regular-message-bot*
-* *regular-message-bot-text*
-* *regular-message-bot-avatar*
-* *regular-message-user*
-* *regular-message-user-text*
-* *regular-message-user-avatar*
+* *webchat-avatar*
+* *webchat-message-row + bot*
+* *regular-message + bot*
+* *webchat-avatar + bot*
+* *webchat-message-row + user*
+* *regular-message + user*
+* *webchat-avatar + user*
 * *webchat-chat-typing-indicator*
 * *webchat-input*
 * *webchat-input-menu-form*
@@ -109,19 +109,19 @@ This is the element where all the messages of the chat are are showed, you could
     background-color: rgb(48, 48, 48);
 }
 ```
-* *regular-message*  
-The general class for any message in the chat, containing the message and the avatar logo, this one comes from the regular message plugin that comes shipped with the Webchat
+* *webchat-message-row*  
+The general class for any message in the chat, containing the message and the avatar logo.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-message-row {
 
     padding-right: 10px;
 
 }
 ```
-* *regular-message-text*  
-The text of the message, you can change the font and style the dialog bubble.
+* *regular-message*  
+The text of the message, you can change the font and style the dialog bubble,  this one comes from the regular message plugin that comes shipped with the Webchat!
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-text {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message {
 
     border:2px solid  white;
     background: black;
@@ -130,7 +130,7 @@ The text of the message, you can change the font and style the dialog bubble.
 
 }
 ```
-* *regular-message-avatar*  
+* *webchat-message*  
 The icon from the avatar that will be show when a message is written or received. You can put the avatar you like by adding a URL to it.
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-avatar {
@@ -140,28 +140,28 @@ The icon from the avatar that will be show when a message is written or received
     height: 28px;
 }
 ```
-* *regular-message-bot*  
-The class for the bot message in the chat, containing the message and the avatar logo.
+* *webchat-message-row + bot*  
+The classes for the bot message in the chat, containing the message and the avatar logo.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-bot {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-message-row .bot {
 
     padding-right: 10px;
 
 }
 ```
-* *regular-message-bot-text*  
+* *regular-message + bot* 
 The text of the message from the bot, you can change the font and style the dialog bubble.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-bot-text {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message .bot {
 
     background: rgb(5, 5, 131);    
     box-shadow: none;
 }
 ```
-* *regular-message-bot-avatar*  
+* *webchat-avatar + bot*
 The icon from the bot that will be show when a message is received. You can put the avatar you like by adding a URL to it.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-bot-avatar {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar .bot {
 
     background-image: url(https://***.png);
     width: 30px;
@@ -169,28 +169,28 @@ The icon from the bot that will be show when a message is received. You can put 
     
 }
 ```
-* *regular-message-user*  
+* *webchat-message-row + user*  
 The class for the user message in the chat, containing the message and the avatar logo.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-user {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-message-row .user {
 
     padding-right: 10px;
 
 }
 ```
-* *regular-message-user-text*  
+* *regular-message + user*  
 The text of the message from the user, you can change the font and style the dialog bubble.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-user-text {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message .user {
 
     background: rgb(5, 5, 131);    
     box-shadow: none;
 }
 ```
-* *regular-message-user-avatar*  
+* *webchat-avatar + user* 
 The icon from the user that will be show when a message is received. You can put the avatar you like by adding a URL to it.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-user-avatar {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar .user {
 
     background-image: url(https://***.png);
     width: 30px;
@@ -201,7 +201,7 @@ The icon from the user that will be show when a message is received. You can put
 * *webchat-chat-typing-indicator*  
 The typing indicator bubble of the message from the bot, you can change the background color.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-chat-message-bot-text-typing-indicator {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-typing-indicator {
 
     background: rgb(5, 5, 131);
 }
