@@ -2,8 +2,8 @@ import * as React from 'react';
 import { MessagePlugin, MessageComponentProps } from '../../../../../common/interfaces/message-plugin';
 import MessageBubble from '../../../presentational/MessageBubble';
 
-const regularMessageBot = 'regular-message-text regular-message-bot-text';
-const regularMessageUser = 'regular-message-text regular-message-user-text';
+const regularMessageBot = 'regular-message bot';
+const regularMessageUser = 'regular-message user';
 
 const RegularMessage = ({ message: { text, source } }: MessageComponentProps) => (
     <MessageBubble

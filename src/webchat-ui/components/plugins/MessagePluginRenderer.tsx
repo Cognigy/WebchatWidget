@@ -39,10 +39,10 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
 
     const matchedPlugins = getPluginsForMessage(plugins)(message);
 
-    const regularMessageBot = 'regular-message regular-message-bot';
-    const regularMessageUser = 'regular-message regular-message-user';
-    const botAvatar = 'regular-message-avatar regular-message-bot-avatar';
-    const userAvatar =  'regular-message-avatar rgular-message-user-avatar';
+    const regularMessageBot = 'webchat-message-row bot';
+    const regularMessageUser = 'webchat-message-row user';
+    const botAvatar = 'webchat-avatar bot';
+    const userAvatar =  'webchat-avatar user';
 
     return (
         <>
