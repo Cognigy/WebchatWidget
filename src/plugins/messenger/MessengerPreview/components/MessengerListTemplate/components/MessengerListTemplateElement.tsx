@@ -5,6 +5,7 @@ import { MessagePluginFactoryProps } from '../../../../../../common/interfaces/m
 import { getMessengerContent } from '../../MessengerContent';
 import { getMessengerSubtitle } from '../../MessengerSubtitle';
 import { getMessengerTitle } from '../../MessengerTitle';
+import { getMessengerListButton } from '../../MessengerListButton';
 
 interface IMessengerListTemplateElementProps extends IWithFBMActionEventHandler {
     element: IFBMListTemplateElement;
@@ -14,6 +15,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
     const MessengerSubtitle = getMessengerSubtitle({ React, styled });
     const MessengerTitle = getMessengerTitle({ React, styled });
     const MessengerContent = getMessengerContent({ React, styled });
+    const ListButton = getMessengerListButton({ React, styled });
 
     const Root = styled(MessengerContent)(({ theme }) => ({
         display: 'grid',
@@ -31,24 +33,6 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         borderRadius: theme.unitSize
     }));
 
-    const Button = styled.button(({ theme }) => ({
-        backgroundColor: 'transparent',
-        borderRadius: theme.unitSize,
-        padding: `${theme.unitSize}px ${theme.unitSize * 2}px`,
-        marginTop: theme.unitSize,
-        color: theme.primaryColor,
-        border: `1px solid ${theme.primaryColor}`,
-        cursor: 'pointer',
-        outline: 'none',
-
-        '&:hover': {
-            backgroundColor: 'hsl(0, 0%, 97%)'
-        },
-
-        '&:active': {
-            backgroundColor: 'hsl(0, 0%, 92%)'
-        }
-    }));
 
     const MessengerListTemplateElement = ({ element, onAction }: IMessengerListTemplateElementProps) => {
         const { title, subtitle, image_url, buttons, default_action } = element;
@@ -68,11 +52,11 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
                     <MessengerTitle>{title}</MessengerTitle>
                     <MessengerSubtitle>{subtitle}</MessengerSubtitle>
                     {button && (
-                        <Button
+                        <ListButton
                             onClick={e => onAction(e, button)}
                         >
                             {getButtonLabel(button)}
-                        </Button>
+                        </ListButton>
                     )}
                 </div>
                 {image_url && (

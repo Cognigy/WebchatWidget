@@ -5,6 +5,8 @@ import { getMessengerSubtitle } from '../../MessengerSubtitle';
 import { getMessengerTitle } from '../../MessengerTitle';
 import { getFlexImage } from '../../FlexImage';
 import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
+import { getMessengerListButton } from '../../MessengerListButton';
+import { getButtonLabel } from '../../MessengerButton/lib/messengerButtonHelpers';
 
 interface IMessengerListTemplateHeaderElementProps extends IWithFBMActionEventHandler {
     element: IFBMListTemplateElement;
@@ -15,6 +17,7 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
     const MessengerSubtitle = getMessengerSubtitle({ React, styled });
     const MessengerTitle = getMessengerTitle({ React, styled });
     const FlexImage = getFlexImage({ React, styled });
+    const ListButton = getMessengerListButton({ React, styled });
 
     const Root = styled.div(() => ({
         position: 'relative',
@@ -53,9 +56,27 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
         backgroundPosition: 'center center'
     }));
 
+    const ListHeaderButton = styled(ListButton)(({ theme }) => ({
+        backgroundColor: theme.primaryColor,
+        color: theme.primaryContrastColor,
+        border: `none`,
+        cursor: 'pointer',
+        outline: 'none',
+
+        '&:hover': {
+            backgroundColor: theme.primaryWeakColor
+        },
+
+        '&:active': {
+            backgroundColor: theme.primaryStrongColor
+        }
+    }))
+
     const MessengerListTemplateHeaderElement = ({ element, onAction, config }: IMessengerListTemplateHeaderElementProps) => {
-        const { title, subtitle, image_url, default_action } = element;
+        const { title, subtitle, image_url, default_action, buttons } = element;
         // TODO buttons, default_action
+
+        const button = buttons && buttons[0];
 
         const image = config.settings.dynamicImageAspectRatio
             ? <FlexImage src={image_url} />
@@ -70,6 +91,13 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
                 <Content>
                     <Title>{title}</Title>
                     <Subtitle>{subtitle}</Subtitle>
+                    {button && (
+                        <ListHeaderButton
+                            onClick={e => onAction(e, button)}
+                        >
+                            {getButtonLabel(button)}
+                        </ListHeaderButton>
+                    )}
                 </Content>
             </Root>
         )
