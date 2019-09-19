@@ -39,6 +39,11 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
 
     const matchedPlugins = getPluginsForMessage(plugins)(message);
 
+    const regularMessageBot = 'regular-message regular-message-bot';
+    const regularMessageUser = 'regular-message regular-message-user';
+    const botAvatar = 'regular-message-avatar regular-message-bot-avatar';
+    const userAvatar =  'regular-message-avatar rgular-message-user-avatar';
+
     return (
         <>
             {matchedPlugins.map(({ component: Component, options, name = 'unknown' }, index) => {
@@ -80,10 +85,10 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
                     <MessageRow
                         key={key}
                         align={message.source === 'bot' ? 'left' : 'right'}
-                        className={message.source === 'bot' ? 'webchat-chat-message-bot': 'webchat-chat-message-user'}
+                        className={message.source === 'bot' ? regularMessageBot : regularMessageUser }
                     >
                         <Avatar src={avatarImg}
-                        className={message.source === 'bot'? 'webchat-chat-message-bot-avatar': 'webchat-chat-message-user-avatar'}
+                            className={message.source === 'bot' ? botAvatar : userAvatar }
                         />
                         {messageElement}
                     </MessageRow>
