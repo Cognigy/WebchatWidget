@@ -201,7 +201,7 @@ The icon from the user that will be show when a message is received. You can put
 * *webchat-chat-typing-indicator*  
 The typing indicator bubble of the message from the bot, you can change the background color.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-chat-message-bot-text-typing-indicator {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-typing-indicator {
 
     background: rgb(5, 5, 131);
 }
