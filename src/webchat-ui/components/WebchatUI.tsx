@@ -19,6 +19,7 @@ import Avatar from './presentational/Avatar';
 import MessagePluginRenderer from './plugins/MessagePluginRenderer';
 import regularMessagePlugin from './plugins/message/regular';
 import { InputPlugin } from '../../common/interfaces/input-plugin';
+import stylisRTL  from 'stylis-rtl';
 
 import TypingIndicatorBubble from './presentational/TypingIndicatorBubble';
 import '../utils/normalize.css';
@@ -66,11 +67,24 @@ interface WebchatUIState {
     hadConnection: boolean; 
 }
 
+const stylisPlugins = [
+    isolate('[data-cognigy-webchat-root]')
+];
+
+/**
+ * for RTL-layout websites, use the stylis-rtl plugin to convert CSS,
+ * e.g. padding-left becomes padding-right etc.
+ */
+(() => {
+    const dir = document.getElementsByTagName('html')[0].attributes['dir'];
+    if (dir && dir.value === 'rtl') {
+        stylisPlugins.push(stylisRTL);
+    }
+})();
+
 const styleCache = createCache({
     key: 'cognigy-webchat',
-    stylisPlugins: [
-        isolate('[data-cognigy-webchat-root]'),
-    ]
+    stylisPlugins
 });
 
 const HistoryWrapper = styled(History)(({ theme }) => ({
