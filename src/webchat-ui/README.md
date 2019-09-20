@@ -143,7 +143,7 @@ The icon from the avatar that will be show when a message is written or received
 * *webchat-message-row + bot*  
 The classes for the bot message in the chat, containing the message and the avatar logo.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-message-row .bot {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-message-row.bot {
 
     padding-right: 10px;
 
@@ -152,7 +152,7 @@ The classes for the bot message in the chat, containing the message and the avat
 * *regular-message + bot* 
 The text of the message from the bot, you can change the font and style the dialog bubble.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message .bot {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message.bot {
 
     background: rgb(5, 5, 131);    
     box-shadow: none;
@@ -161,7 +161,7 @@ The text of the message from the bot, you can change the font and style the dial
 * *webchat-avatar + bot*
 The icon from the bot that will be show when a message is received. You can put the avatar you like by adding a URL to it.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar .bot {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar.bot {
 
     background-image: url(https://***.png);
     width: 30px;
@@ -172,7 +172,7 @@ The icon from the bot that will be show when a message is received. You can put 
 * *webchat-message-row + user*  
 The class for the user message in the chat, containing the message and the avatar logo.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-message-row .user {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-message-row.user {
 
     padding-right: 10px;
 
@@ -181,7 +181,7 @@ The class for the user message in the chat, containing the message and the avata
 * *regular-message + user*  
 The text of the message from the user, you can change the font and style the dialog bubble.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message .user {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message.user {
 
     background: rgb(5, 5, 131);    
     box-shadow: none;
@@ -190,7 +190,7 @@ The text of the message from the user, you can change the font and style the dia
 * *webchat-avatar + user* 
 The icon from the user that will be show when a message is received. You can put the avatar you like by adding a URL to it.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar .user {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar.user {
 
     background-image: url(https://***.png);
     width: 30px;
