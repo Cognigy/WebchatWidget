@@ -130,7 +130,7 @@ The text of the message, you can change the font and style the dialog bubble,  t
 
 }
 ```
-* *webchat-avatar*  
+* *regular-message-avatar*  
 The icon from the avatar that will be show when a message is written or received. You can put the avatar you like by adding a URL to it.
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-avatar {
