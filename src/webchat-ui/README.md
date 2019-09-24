@@ -292,7 +292,7 @@ This is the button to open the Webchat, if you want to modify its color you have
 
 ### Example
 
-Here is an example that you could put in your code directly and see how it changes the whole Webchat. We have left some of the properties empty for the sake of the design, but we let them the so you can get the whole picture!
+Here is an example that you could put in your code directly and see how it changes the whole Webchat. We have left some of the properties empty for the sake of the design, but we let them there so you can get the whole picture!
 
 
 ```html
