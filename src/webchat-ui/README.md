@@ -130,7 +130,7 @@ The text of the message, you can change the font and style the dialog bubble,  t
 
 }
 ```
-* *webchat-message*  
+* *webchat-avatar*  
 The icon from the avatar that will be show when a message is written or received. You can put the avatar you like by adding a URL to it.
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-avatar {
@@ -149,7 +149,7 @@ The classes for the bot message in the chat, containing the message and the avat
 
 }
 ```
-* *regular-message + bot* 
+* *regular-message + bot*  
 The text of the message from the bot, you can change the font and style the dialog bubble.
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message.bot {
@@ -158,7 +158,7 @@ The text of the message from the bot, you can change the font and style the dial
     box-shadow: none;
 }
 ```
-* *webchat-avatar + bot*
+* *webchat-avatar + bot*  
 The icon from the bot that will be show when a message is received. You can put the avatar you like by adding a URL to it.
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar.bot {
@@ -187,7 +187,7 @@ The text of the message from the user, you can change the font and style the dia
     box-shadow: none;
 }
 ```
-* *webchat-avatar + user* 
+* *webchat-avatar + user*  
 The icon from the user that will be show when a message is received. You can put the avatar you like by adding a URL to it.
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar.user {
@@ -292,146 +292,173 @@ This is the button to open the Webchat, if you want to modify its color you have
 
 ### Example
 
-Here is an example that you could put in your code directly and see how it changes the whole Webchat.
+Here is an example that you could put in your code directly and see how it changes the whole Webchat. We have left some of the properties empty for the sake of the design, but we let them the so you can get the whole picture!
 
 
 ```html
 <style>{
-
-[data-cognigy-webchat-root].webchat-root {
-
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat {
-
-    animation: grow 0.5s;
-}
-
-@keyframes grow {
-    0% {
-      height: 5.8px;
-    }
-    100% {
-        height: 580px;
-    }
-  }
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-bar {
-
-    background: rgb(5, 5, 131);
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-logo {
-
-    background-image: url(https://www.iconsdb.com/icons/preview/white/emoticon-30-xxl.png);
-    margin-left: 10px;
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-title {
-
-    text-align: center;
-    font-size: 20px;
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-close-button {
-    margin-right:10px;
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-chat-history {
-
-    background-color: rgb(48, 48, 48);
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-user {
-
-    padding-right: 10px;
-
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-bot {
-
-    padding-left: 10px;
-
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-user-avatar {
-    background-image: url(https://www.iconsdb.com/icons/preview/white/user-2-xxl.png);
-    width: 30px;
-    height: 28px;
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-bot-avatar {
-
-    background-image: url(https://www.iconsdb.com/icons/preview/white/emoticon-30-xxl.png);
-    width: 30px;
-    height: 28px;
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-user-text {
-
-    border:2px solid  white;
-    background: black;
-    color:white;
-    box-shadow: none;
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-bot-text {
-
-    background: rgb(5, 5, 131);    
-    box-shadow: none;
-}
+   [data-cognigy-webchat-root].webchat-root {
     
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-typing-indicator {
-
-    background: rgb(5, 5, 131);
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input {
-    background: rgb(5, 5, 131);
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-menu-form {
-
-    border-bottom-color: rgb(5, 5, 131);
-}
-
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-button-menu {
-
-    border-radius: 5px;
-    background-color: white;
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-message-input {
-    color: white;
-
-}
-
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-button-send {
-
-    border-radius: 20px;
-    background-color: white;
+    }
     
-}
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat {
+    
+        animation: grow 0.5s;
+        border-radius: 80px;
+    }
+    
+    @keyframes grow {
+        0% {
+          height: 5.8px;
+        }
+        100% {
+            height: 580px;
+        }
+      }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-bar {
+    
+        background: black;
+        box-shadow: none;
+        margin-left: 50px;
+    }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-logo {
+        background-image: url('https://image.flaticon.com/icons/svg/1283/1283028.svg');
+        margin-left: 10px;
+        margin-right: 40px;
+    }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-title {
+    
+        text-align: center;
+        font-size: 20px;
+    }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-close-button {
+        margin-right:10px;
+    }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-chat-history {
+    
+        background-image: url('https://cdn.pixabay.com/photo/2019/07/23/11/45/bright-4357415_960_720.jpg');
+        background-size: cover;
+        background-position: center;
+        
+        
+    }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-message-row {
 
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-persistent-menu {
+        padding-right: 10px;
+    
+    }
 
-}
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message {
 
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-persistent-menu-title {
-    color: white;
-}
+        border: 2px solid white;
+        background: #479ecaad;
+        color: white;
+        box-shadow: 1px 8px 4px 5px rgba(86, 186, 207, 0.32), 1px 0px 16px 0 rgba(203,195,212,0.1), 0 8px 20px 20px rgba(216,212,221,0.1);
+        border-radius: 0;
+    }
+    
 
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-persistent-menu-item {
-    border-color: white;
-    color:white;
-}
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-avatar {
 
-[data-cognigy-webchat-root] [data-cognigy-webchat-toggle].webchat-toggle-button {
+        width: 30px;
+        height: 28px;
+    }
 
-    background-image: none;
-    background-color: rgb(5, 5, 131);
-}
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-message-row.bot {
 
-}
+        padding-right: 10px;
+    
+    }
+
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message.bot {
+
+    }
+
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar.bot {
+        background-image: url('https://image.flaticon.com/icons/svg/1283/1283028.svg');
+        width: 30px;
+        height: 28px;
+        
+    }
+
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-message-row.user {
+
+        padding-right: 10px;
+    
+    }
+
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message.user {
+
+    }
+
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar.user {
+
+
+        width: 30px;
+        height: 28px;
+        
+    }
+
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-typing-indicator {
+    
+        background: #479ecaad;
+    }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input {
+        background: rgb(0, 0, 0);
+        box-shadow: none;
+    }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-menu-form {
+    
+        border-bottom-color: rgb(5, 5, 131);
+    }
+    
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-button-menu {
+    
+        border-radius: 20px;
+        background-color: #58c3e5;
+        margin-bottom: 20px;
+        margin-left: 30px;
+    }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-message-input {
+        color: white;
+    
+    }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-button-send {
+    
+        border-radius: 20px;
+        background-color: #58c3e5;
+        margin-bottom: 10px;
+        margin-right: 30px;
+        
+    }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-persistent-menu {
+    
+    }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-persistent-menu-title {
+        color: white;
+    }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-persistent-menu-item {
+        border-color: white;
+        color:white;
+    }
+    
+    [data-cognigy-webchat-root] [data-cognigy-webchat-toggle].webchat-toggle-button {
+    
+        background-image: none;
+        background-color: rgb(88, 195, 229);
+    }
 </style>
