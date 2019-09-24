@@ -130,10 +130,10 @@ The text of the message, you can change the font and style the dialog bubble,  t
 
 }
 ```
-* *regular-message-avatar*  
+* *webchat-avatar*  
 The icon from the avatar that will be show when a message is written or received. You can put the avatar you like by adding a URL to it.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-avatar {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar {
 
     background-image: url(https://***.png);
     width: 30px;
@@ -296,8 +296,9 @@ Here is an example that you could put in your code directly and see how it chang
 
 
 ```html
-<style>{
-   [data-cognigy-webchat-root].webchat-root {
+<style>
+
+    [data-cognigy-webchat-root].webchat-root {
     
     }
     
@@ -320,13 +321,11 @@ Here is an example that you could put in your code directly and see how it chang
     
         background: black;
         box-shadow: none;
-        margin-left: 50px;
     }
     
     [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-logo {
         background-image: url('https://image.flaticon.com/icons/svg/1283/1283028.svg');
-        margin-left: 10px;
-        margin-right: 40px;
+        margin-left: 40px;
     }
     
     [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-title {
@@ -364,7 +363,7 @@ Here is an example that you could put in your code directly and see how it chang
     }
     
 
-    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message-avatar {
+    [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar {
 
         width: 30px;
         height: 28px;
@@ -461,4 +460,5 @@ Here is an example that you could put in your code directly and see how it chang
         background-image: none;
         background-color: rgb(88, 195, 229);
     }
+    
 </style>
