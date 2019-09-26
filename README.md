@@ -3,6 +3,7 @@
 This repo contains a Webchat that seemlessly integrates with your website and lets your users chat with your Conversational AI built with COGNIGY.AI.
 
 Please read the Documentation [here](https://docs.cognigy.com/docs/embedding-the-cognigy-webchat) for information about how you can integrate this Webchat on your own website.
+For customization of styling, please read the [guide on applying custom CSS to the Webchat](./src/webchat-ui/README.md).
 
 ## About this Repository
 This repository contains the source code for the Cognigy Webchat within our product.
