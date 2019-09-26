@@ -1,6 +1,6 @@
 # webchat-ui
 
-This part handles how to render a webchat
+This part handles how to render a Cognigy.AI webchat
 
 ## Applying custom CSS to the Webchat
 
