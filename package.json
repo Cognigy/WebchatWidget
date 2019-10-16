@@ -1,9 +1,9 @@
 {
     "name": "@cognigy/webchat",
-    "version": "2.8.1",
+    "version": "2.9.0",
     "description": "> TODO: description",
     "author": "Robin Schuster <r.schuster@cognigy.com>",
-    "license": "ISC",
+    "license": "SEE LICENSE IN LICENSE",
     "main": "lib/webchat/index.js",
     "scripts": {
         "build": "npm run bundle",
@@ -38,8 +38,9 @@
         "react-responsive-carousel": "^3.1.47",
         "redux": "^4.0.1",
         "styled-jss": "^2.2.3",
-        "tinycolor2": "^1.4.1",
-        "url-polyfill": "^1.1.7"
+        "url-polyfill": "^1.1.7",
+        "stylis-rtl": "^1.0.1",
+        "tinycolor2": "^1.4.1"
     },
     "devDependencies": {
         "@babel/cli": "^7.2.3",

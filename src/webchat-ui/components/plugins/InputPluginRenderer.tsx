@@ -79,7 +79,7 @@ export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInpu
     const emitAnalytics = ((event: string, payload?: any) => onEmitAnalytics(`plugin/${(matchedSelectInput && matchedSelectInput.name) || 'unknown'}/${event}`, payload));
 
     return (
-        <InputRoot>
+        <InputRoot className="webchat-input">
             {tabs}
             {matchedSelectInput && (
                 <matchedSelectInput.component

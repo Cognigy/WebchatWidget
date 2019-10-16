@@ -39,6 +39,11 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
 
     const matchedPlugins = getPluginsForMessage(plugins)(message);
 
+    const regularMessageBot = 'webchat-message-row bot';
+    const regularMessageUser = 'webchat-message-row user';
+    const botAvatar = 'webchat-avatar bot';
+    const userAvatar =  'webchat-avatar user';
+
     return (
         <>
             {matchedPlugins.map(({ component: Component, options, name = 'unknown' }, index) => {
@@ -80,8 +85,11 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
                     <MessageRow
                         key={key}
                         align={message.source === 'bot' ? 'left' : 'right'}
+                        className={message.source === 'bot' ? regularMessageBot : regularMessageUser }
                     >
-                        <Avatar src={avatarImg} />
+                        <Avatar src={avatarImg}
+                            className={message.source === 'bot' ? botAvatar : userAvatar }
+                        />
                         {messageElement}
                     </MessageRow>
                 )

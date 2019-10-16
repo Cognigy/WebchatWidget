@@ -19,6 +19,7 @@ import Avatar from './presentational/Avatar';
 import MessagePluginRenderer from './plugins/MessagePluginRenderer';
 import regularMessagePlugin from './plugins/message/regular';
 import { InputPlugin } from '../../common/interfaces/input-plugin';
+import stylisRTL  from 'stylis-rtl';
 
 import TypingIndicatorBubble from './presentational/TypingIndicatorBubble';
 import '../utils/normalize.css';
@@ -66,11 +67,24 @@ interface WebchatUIState {
     hadConnection: boolean; 
 }
 
+const stylisPlugins = [
+    isolate('[data-cognigy-webchat-root]')
+];
+
+/**
+ * for RTL-layout websites, use the stylis-rtl plugin to convert CSS,
+ * e.g. padding-left becomes padding-right etc.
+ */
+(() => {
+    const dir = document.getElementsByTagName('html')[0].attributes['dir'];
+    if (dir && dir.value === 'rtl') {
+        stylisPlugins.push(stylisRTL);
+    }
+})();
+
 const styleCache = createCache({
     key: 'cognigy-webchat',
-    stylisPlugins: [
-        isolate('[data-cognigy-webchat-root]'),
-    ]
+    stylisPlugins
 });
 
 const HistoryWrapper = styled(History)(({ theme }) => ({
@@ -191,12 +205,13 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 <ThemeProvider theme={theme}>
                     {/* <Global styles={cssReset} /> */}
                     <>
-                        <WebchatWrapper data-cognigy-webchat-root {...restProps}>
+                        <WebchatWrapper data-cognigy-webchat-root {...restProps} className="webchat-root">
                             <CacheProvider value={styleCache}>
                                 {open && (
                                     <WebchatRoot
                                         data-cognigy-webchat
                                         {...webchatRootProps}
+                                        className="webchat"
                                     >
                                         {!fullscreenMessage
                                             ? this.renderRegularLayout()
@@ -211,6 +226,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                         onClick={onToggle}
                                         {...webchatToggleProps}
                                         type='button'
+                                        className="webchat-toggle-button"
                                     >
                                         {open ? (
                                             <CloseIcon />
@@ -242,7 +258,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     logoUrl={config.settings.headerLogoUrl}
                     title={config.settings.title || 'Cognigy Webchat'}
                 />
-                <HistoryWrapper ref={this.history as any}>
+                <HistoryWrapper ref={this.history as any} className="webchat-chat-history">
                     {this.renderHistory()}
                 </HistoryWrapper>
                 {this.renderInput()}
