@@ -2,6 +2,7 @@ export interface IBaseMessage {
     text?: string;
     data?: any;
     source: string;
+    avatarUrl?: string;
 }
 
 export interface IUserMessage extends IBaseMessage {

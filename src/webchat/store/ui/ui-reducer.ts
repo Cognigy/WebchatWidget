@@ -6,6 +6,8 @@ export interface UIState {
     typing: boolean;
     inputMode: string;
     fullscreenMessage: IMessage | undefined;
+    botAvatarOverrideUrl?: string;
+    userAvatarOverrideUrl?: string;
 }
 
 const SET_OPEN = 'SET_OPEN';
@@ -42,15 +44,37 @@ export const setFullscreenMessage = (fullscreenMessage: IMessage | undefined) =>
 });
 type SetFullscreenMessageAction = ReturnType<typeof setFullscreenMessage>;
 
+const SET_BOT_AVATAR_OVERRIDE_URL = 'SET_BOT_AVATAR_OVERRIDE_URL';
+export const setBotAvatarOverrideUrl = (url: string) => ({
+    type: SET_BOT_AVATAR_OVERRIDE_URL as 'SET_BOT_AVATAR_OVERRIDE_URL',
+    url
+});
+type SetBotAvatarOverrideUrlAction = ReturnType<typeof setBotAvatarOverrideUrl>;
+
+const SET_USER_AVATAR_OVERRIDE_URL = 'SET_USER_AVATAR_OVERRIDE_URL';
+export const setUserAvatarOverrideUrl = (url: string) => ({
+    type: SET_USER_AVATAR_OVERRIDE_URL as 'SET_USER_AVATAR_OVERRIDE_URL',
+    url
+});
+type SetUserAvatarOverrideUrlAction = ReturnType<typeof setUserAvatarOverrideUrl>;
+
 
 const getInitialState = (): UIState => ({
     open: false,
     typing: false,
     inputMode: 'text',
-    fullscreenMessage: undefined
+    fullscreenMessage: undefined,
+    botAvatarOverrideUrl: undefined,
+    userAvatarOverrideUrl: undefined
 });
 
-type UIAction = SetOpenAction | ToggleOpenAction | SetTypingAction | SetInputModeAction | SetFullscreenMessageAction;
+type UIAction = SetOpenAction 
+    | ToggleOpenAction 
+    | SetTypingAction 
+    | SetInputModeAction 
+    | SetFullscreenMessageAction 
+    | SetBotAvatarOverrideUrlAction 
+    | SetUserAvatarOverrideUrlAction;
 
 
 export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action) => {
@@ -87,6 +111,20 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
             return {
                 ...state,
                 fullscreenMessage: action.fullscreenMessage
+            }
+        }
+
+        case SET_BOT_AVATAR_OVERRIDE_URL: {
+            return {
+                ...state,
+                botAvatarOverrideUrl: action.url
+            }
+        }
+
+        case SET_USER_AVATAR_OVERRIDE_URL: {
+            return {
+                ...state,
+                userAvatarOverrideUrl: action.url
             }
         }
     }

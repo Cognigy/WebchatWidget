@@ -33,16 +33,12 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
         ? props
         : undefined;
 
-    const avatarImg = message.source === 'bot'
-        ? config.settings.messageLogoUrl || defaultBotAvatar
-        : defaultUserImg;
-
     const matchedPlugins = getPluginsForMessage(plugins)(message);
 
     const regularMessageBot = 'webchat-message-row bot';
     const regularMessageUser = 'webchat-message-row user';
     const botAvatar = 'webchat-avatar bot';
-    const userAvatar =  'webchat-avatar user';
+    const userAvatar = 'webchat-avatar user';
 
     return (
         <>
@@ -85,10 +81,10 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
                     <MessageRow
                         key={key}
                         align={message.source === 'bot' ? 'left' : 'right'}
-                        className={message.source === 'bot' ? regularMessageBot : regularMessageUser }
+                        className={message.source === 'bot' ? regularMessageBot : regularMessageUser}
                     >
-                        <Avatar src={avatarImg}
-                            className={message.source === 'bot' ? botAvatar : userAvatar }
+                        <Avatar src={message.avatarUrl as string}
+                            className={message.source === 'bot' ? botAvatar : userAvatar}
                         />
                         {messageElement}
                     </MessageRow>

@@ -1,6 +1,6 @@
 import { Middleware } from "redux";
 import { StoreState } from "../store";
-import { IMessage } from "../../../common/interfaces/message";
+import { IMessage, IBotMessage, IUserMessage } from "../../../common/interfaces/message";
 import { WebchatClient } from '@cognigy/webchat-client';
 import { addMessage } from "./message-reducer";
 import { Omit } from "react-redux";
@@ -8,6 +8,7 @@ import { setFullscreenMessage } from "../ui/ui-reducer";
 import { SetConfigAction } from "../config/config-reducer";
 import { connect } from "../connection/connection-middleware";
 import { ReceiveMessageAction } from "./message-handler";
+import { defaultBotAvatar, defaultUserImg } from "../../../webchat-ui";
 
 export interface ISendMessageOptions {
     /* overrides the displayed text within a chat bubble. useful for e.g. buttons */
@@ -37,12 +38,26 @@ export const createMessageMiddleware = (client: WebchatClient): Middleware<{}, S
                 displayMessage.text = options.label;
 
             next(setFullscreenMessage(undefined));
-            return next(addMessage(displayMessage));
+            return next(addMessage({ 
+                ...displayMessage, 
+                avatarUrl: store.getState().ui.userAvatarOverrideUrl || defaultUserImg
+            }));
         }
 
         case 'RECEIVE_MESSAGE': {
             const { message } = action;
-            return next(addMessage(message));
+
+            const state = store.getState();
+
+            const avatarUrl = state.ui.botAvatarOverrideUrl
+                || state.config.settings.messageLogoUrl
+                || defaultBotAvatar;
+
+            return next(addMessage({
+                ...message,
+                source: 'bot',
+                avatarUrl
+            } as IBotMessage));
         }
 
         case 'SET_CONFIG': {
