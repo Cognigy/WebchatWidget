@@ -10,10 +10,9 @@ import { getMessengerSubtitle } from '../MessengerSubtitle';
 import { Carousel } from 'react-responsive-carousel';
 
 import './carousel.css';
-import { element } from 'prop-types';
 import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 import { getFlexImage } from '../FlexImage';
-import { config } from '../../../../../webchat/store/config/config-reducer';
+import { getBackgroundImage } from '../../lib/css';
 
 export interface IMessengerGenericTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMGenericTemplatePayload;
@@ -62,28 +61,17 @@ export const getMessengerGenericTemplate = ({ React, styled }: MessagePluginFact
         }
     });
 
-    const FixedImage = styled.div<{ src: string }>(({ src }) => ({
+    const FixedImage = styled.div({
         paddingTop: '50%',
         backgroundSize: 'cover',
-        backgroundPosition: 'center center',
-        backgroundImage: `url("${encodeURI(src)}")`
-    }));
+        backgroundPosition: 'center center'
+    });
 
     const GenericContent = styled(MessengerContent)({
         flexGrow: 1
     });
 
     const MessengerGenericTemplate = class MessengerGenericTemplate extends React.Component<IMessengerGenericTemplateProps & React.HTMLProps<HTMLDivElement>, IMessengerGenericTemplateState> {
-        getImageStyles = (element: IFBMGenericTemplateElement) => {
-            const backgroundImage = `url("${encodeURI(element.image_url)}")`;
-
-            const styles: React.CSSProperties = {
-                backgroundImage
-            }
-
-            return styles;
-        }
-
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
 
             const { onAction, ...divProps } = this.props;
@@ -93,8 +81,8 @@ export const getMessengerGenericTemplate = ({ React, styled }: MessagePluginFact
 
             const image = image_url
                 ? this.props.config.settings.dynamicImageAspectRatio
-                    ? <FlexImage src={image_url} />
-                    : <FixedImage src={image_url} />
+                    ? <FlexImage  style={{ backgroundImage: getBackgroundImage(image_url) }} />
+                    : <FixedImage style={{ backgroundImage: getBackgroundImage(image_url) }} />
                 : null
 
             return (

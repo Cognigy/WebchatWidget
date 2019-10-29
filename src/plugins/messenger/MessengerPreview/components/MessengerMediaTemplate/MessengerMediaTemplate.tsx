@@ -49,7 +49,7 @@ export const getMessengerMediaTemplate = ({ React, styled }: MessagePluginFactor
         if (media_type === 'image') {
             const image = config.settings.dynamicImageAspectRatio
                     ? <FlexImage src={url} />
-                    : <FixedImage style={{ backgroundImage: `url("${encodeURI(url)}")` }} />
+                    : <FixedImage style={{ backgroundImage: getBackgroundImage(url) }} />
 
             return (
                 <MessengerFrame {...divProps}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { styled } from '../../style';
 import { CSSProperties } from 'react';
+import { getBackgroundImage } from '../../../plugins/messenger/MessengerPreview/lib/css';
 
 interface IAvatarProps {
 	src: string;
@@ -11,7 +12,7 @@ export default styled.div<IAvatarProps>(({ theme, src }) => ({
     height: theme.unitSize * 3,
     width: theme.unitSize * 3,
 	border: `1px solid ${theme.greyWeakColor}`,
-	backgroundImage: `url('${src}')`,
+	backgroundImage: getBackgroundImage(src),
 	backgroundSize: "contain",
 	backgroundPosition: "center center",
 	backgroundRepeat: "no-repeat"
