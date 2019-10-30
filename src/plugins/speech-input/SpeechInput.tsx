@@ -142,7 +142,7 @@ export const getSpeechInput = ({ React, styled }: InputPluginFactoryProps) => {
 
             // only send messages that are not 'interim'
             if (isFinal) {
-                this.props.onSendMessage(transcript + JSON.stringify(result[0], null, 2));
+                this.props.onSendMessage(transcript);
             }
         }
 
