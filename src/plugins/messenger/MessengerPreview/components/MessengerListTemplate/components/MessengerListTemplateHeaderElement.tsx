@@ -7,6 +7,7 @@ import { getFlexImage } from '../../FlexImage';
 import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 import { getMessengerListButton } from '../../MessengerListButton';
 import { getButtonLabel } from '../../MessengerButton/lib/messengerButtonHelpers';
+import { getBackgroundImage } from '../../../lib/css';
 
 interface IMessengerListTemplateHeaderElementProps extends IWithFBMActionEventHandler {
     element: IFBMListTemplateElement;
@@ -80,7 +81,7 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
 
         const image = config.settings.dynamicImageAspectRatio
             ? <FlexImage src={image_url} />
-            : <FixedImage style={{ backgroundImage: image_url ? `url("${encodeURI(image_url)}")` : undefined }} />
+            : <FixedImage style={{ backgroundImage: image_url ? getBackgroundImage(image_url) : undefined }} />
 
         return (
             <Root

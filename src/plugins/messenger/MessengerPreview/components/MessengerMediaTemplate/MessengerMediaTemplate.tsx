@@ -5,6 +5,7 @@ import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
 import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 import { getFlexImage } from '../FlexImage';
+import { getBackgroundImage } from '../../lib/css';
 
 interface IProps extends IWithFBMActionEventHandler {
     payload: IFBMMediaTemplatePayload;
@@ -49,7 +50,7 @@ export const getMessengerMediaTemplate = ({ React, styled }: MessagePluginFactor
         if (media_type === 'image') {
             const image = config.settings.dynamicImageAspectRatio
                     ? <FlexImage src={url} />
-                    : <FixedImage style={{ backgroundImage: `url("${encodeURI(url)}")` }} />
+                    : <FixedImage style={{ backgroundImage: getBackgroundImage(url) }} />
 
             return (
                 <MessengerFrame {...divProps}>

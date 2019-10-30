@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { styled } from '../../style';
 import { interactionCss } from '../../utils/css';
+import { getBackgroundImage } from '../../../plugins/messenger/MessengerPreview/lib/css';
 
 interface ILogoProps {
     src: string;
@@ -8,7 +9,7 @@ interface ILogoProps {
 
 export default styled.div<ILogoProps>(({ src }) => ({
     ...interactionCss,
-    backgroundImage: `url('${src}')`,
+    backgroundImage: getBackgroundImage(src),
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center'

@@ -6,6 +6,7 @@ import { getMessengerContent } from '../../MessengerContent';
 import { getMessengerSubtitle } from '../../MessengerSubtitle';
 import { getMessengerTitle } from '../../MessengerTitle';
 import { getMessengerListButton } from '../../MessengerListButton';
+import { getBackgroundImage } from '../../../lib/css';
 
 interface IMessengerListTemplateElementProps extends IWithFBMActionEventHandler {
     element: IFBMListTemplateElement;
@@ -41,7 +42,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         const button = buttons && buttons[0];
 
         const imgStyle: React.CSSProperties = {
-            backgroundImage: `url("${encodeURI(image_url)}")`
+            backgroundImage: getBackgroundImage(image_url)
         }
 
         return (
