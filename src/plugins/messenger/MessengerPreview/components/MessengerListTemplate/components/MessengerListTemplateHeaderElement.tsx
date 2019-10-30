@@ -7,6 +7,7 @@ import { getFlexImage } from '../../FlexImage';
 import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 import { getMessengerListButton } from '../../MessengerListButton';
 import { getButtonLabel } from '../../MessengerButton/lib/messengerButtonHelpers';
+import { getBackgroundImage } from '../../../lib/css';
 
 interface IMessengerListTemplateHeaderElementProps extends IWithFBMActionEventHandler {
     element: IFBMListTemplateElement;
