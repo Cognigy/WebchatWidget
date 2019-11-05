@@ -19,6 +19,40 @@ interface IState {
   msg: string,
 }
 
+
+/**
+ * Transforms regional locales to flatpicks internal locale key
+ */
+const getFlatpickrLocaleId = (locale: string) => {
+  switch (locale) {
+    case 'us':
+    case 'gb':
+    case 'au':
+    case 'ca':
+      return 'en';
+  }
+
+  return locale;
+}
+
+/**
+ * Transforms regional locales to flatpicks internal locale key
+ */
+const getMomemtLocaleId = (locale: string) => {
+  switch (locale) {
+    case 'au':
+      return 'en-au';
+    case 'ca':
+      return 'en-ca';
+    case 'gb':
+      return 'en-gb';
+    case 'us':
+      return 'en';
+  }
+
+  return locale;
+}
+
 const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
 
@@ -174,8 +208,10 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         || DatePicker.transformNamedDate(data.minDate)
         || moment().format(dateFormat);
 
-      const localeId = data.locale || 'en'
-      const locale = l10n[localeId];
+      const localeId = data.locale || 'us';
+      const momentLocaleId = getMomemtLocaleId(localeId);
+      const flatpickrLocaleId = getFlatpickrLocaleId(localeId);
+      const locale = l10n[flatpickrLocaleId];
       const enableTime = !!data.enableTime;
       const outputFormat = enableTime ? 'L LT' : 'L';
 
@@ -194,7 +230,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         static: true,
         time_24hr: data.time_24hr || false,
         parseDate: dateString => moment(dateString).toDate(),
-        formatDate: date => moment(date).locale(localeId).format(outputFormat)
+        formatDate: date => moment(date).locale(momentLocaleId).format(outputFormat)
       };
 
       const mask: string[] = [...(data.enable_disable || [])]
