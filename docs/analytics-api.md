@@ -5,7 +5,7 @@ This can be used to create integrations with custom analytics services.
 Plugins can now access the `onEmitAnalytics` function to emit analytics that will be forwarded to the analytics service.
 
 Example code:
-```
+```javascript
 webchat.registerAnalyticsService(event => {
     const { type, payload } = event;
     // console.info(`[ANALYTICS] ${type}`);
