@@ -1,6 +1,4 @@
-# Webchat API
-
-## Analytics API
+# Analytics API
 
 It is possible to register to analytics events via `webchat.registerAnalyticsService`. 
 This can be used to create integrations with custom analytics services.

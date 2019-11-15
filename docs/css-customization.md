@@ -1,4 +1,4 @@
-# Applying custom CSS to the Webchat
+# CSS Customization
 
 In order to enhance the visual design of the Webchat, there is the possibillity to apply custom CSS.
 You will have to add the style to your embeded Webchat or just link a CSS file to it
