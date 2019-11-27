@@ -1,6 +1,11 @@
 # Documentation
 This Page contains an index of guides on how to integrate and make use of the Cognigy Webchat
 
+## [Embedding](./embedding.md)
+Learn how to embed the Cognigy Webchat into your Website
+
+## [Webchat API](./webchat-api.md)
+Use the Webchat API to create tightly coupled integrations
 
 ## [CSS Customization](./css-customization.md)
 Customize the look and feel of the Webchat to match the design language of your Website
