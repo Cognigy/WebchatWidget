@@ -29,3 +29,6 @@ initWebchat("...", {
   webchat.open();
 });
 ```
+
+See it in action:  
+[![Edit Local Persistent History](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/local-persistent-history-jpr6z?fontsize=14&hidenavigation=1&theme=dark)

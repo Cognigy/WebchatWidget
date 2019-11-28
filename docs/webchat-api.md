@@ -69,4 +69,5 @@ See it in action:
 [![Edit Sending Messages via the Webchat API](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/using-the-webchat-api-hnd6r?fontsize=14&hidenavigation=1&theme=dark)
 
 
-TODO add analytics api
+## Analytics API
+Read more on how to register to Webchat events on our seperate, in-depth [Analytics API](./analytics-api.md) Guide.
