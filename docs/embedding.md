@@ -11,6 +11,14 @@ See it in action:
 ## Using a Compatiblity Build
 For older browsers, we ship a seperate build of the Webchat called `webchat.legacy.js`, which comes with extra compatibility at the cost of increased size.
 
+| Browser | Version |
+| - | - |
+| Google Chrome | `>= 63` |
+| Firefox | `>= 55` |
+| Microsoft Edge | `>= 15` |
+| Internet Explorer | `>= 11` |
+| Safari | `>= 9` |
+
 See it in action:  
 [![Edit Using a Compatibility Build](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/embedding-the-cognigy-webchat-yu1yg?fontsize=14&hidenavigation=1&theme=dark)
 
@@ -54,7 +62,7 @@ See it in action:
 | headerLogoUrl | string | COGNIGY.AI Logo | The logo to display in the header of the Webchat. Defaults to a COGNIGY.AI logo. 
 | enableConnectionStatusIndicator | boolean | false | Whether to show a warning if the connection is lost during a conversation. The warning will disappear when the connection is re-established. | enableTypingIndicator | boolean | true | Whether to enable typing indicators in the Webchat when the Conversational AI is replying. Requires a messageDelay to be set. 
 | enablePersistentMenu | boolean | false | Whether to enable the Persistent Menu 
-| persistentMenu | [Persitent Menu](#persistent-menu) | - | The Persistent Menu to render in the Webchat.
+| persistentMenu | [Persistent Menu](#persistent-menu) | - | The Persistent Menu to render in the Webchat.
 
 See it in action:  
 [![Edit Override Endpoint Settings](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/embedding-the-cognigy-webchat-bpz1r?fontsize=14&hidenavigation=1&theme=dark)
@@ -63,10 +71,10 @@ See it in action:
 | Name | Type | Default | Description |
 | - | - | - | - |
 | title | string | `""` | The title of the Persistent Menu |
-| menuItems | List of [Persitent Menu Item](#persistent-menu-item)s | `[]` | A List of Items that should appear in the Persistent Menu
+| menuItems | Array of [Persistent Menu Items](#persistent-menu-item) | `[]` | A List of Items that should appear in the Persistent Menu
 
 #### Persistent Menu Item
 | Name | Type | Default | Description |
 | - | - | - | - |
 | title | string | `""` | The label of the Persisted Menu Item and visible Text on the Message |
-| payload | string | inherited from `title` | The actual text message that should be sent |
+| payload | string | `""` | The actual text message that should be sent |

@@ -1,7 +1,10 @@
 # CSS Customization
 
 In order to enhance the visual design of the Webchat, there is the possibillity to apply custom CSS.
-You will have to add the style to your embeded Webchat or just link a CSS file to it
+You will have to add the style to your embeded Webchat or just link a CSS file to it.
+
+See it in action:  
+[![Edit CSS Customization](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/css-customization-gv35e?fontsize=14&hidenavigation=1&theme=dark)
 
 There are several classes that you need to take in consideration if you want to make some changes to the Webchat, the classes '*bot*' and '*user*' are used as helper classes that give us the possibility to customize the messages from the user and the bot separatly. The classes are the following:
 
@@ -370,10 +373,3 @@ This is the button to open the Webchat, if you want to modify its color you have
 }
 
 ```
-
-### Example
-
-Here is an example that you could put in your code directly and see how it changes the whole Webchat. We have left some of the properties empty for the sake of the design, but we let them there so you can get the whole picture!
-
-See it in action:  
-[![Edit CSS Customization](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/css-customization-gv35e?fontsize=14&hidenavigation=1&theme=dark)
