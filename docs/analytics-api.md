@@ -1,78 +1,37 @@
 # Analytics API
-
-It is possible to register to analytics events via `webchat.registerAnalyticsService`. 
-This can be used to create integrations with custom analytics services.
-Plugins can now access the `onEmitAnalytics` function to emit analytics that will be forwarded to the analytics service.
-
-Example code:
+You can register to a set of various events that occur within the Webchat, from data flows like "a message was received from Cognigy" to interactions like "persistent menu was closed".  
+To do that, use the `webchat.registerAnalyticsService` function to execute a callback when events occur:
 ```javascript
 webchat.registerAnalyticsService(event => {
-    const { type, payload } = event;
-    // console.info(`[ANALYTICS] ${type}`);
-
-    switch (type) {
-        // CB When a user opens/closes the chatbot
-        case 'webchat/open':
-            console.log('WEBCHAT WAS OPENED')
-            break;
-
-        case 'webchat/close':
-            console.log('WEBCHAT WAS CLOSED')
-            break;
-
-        // CB When a user sends a message to the chatbot (either by clicking the “Send” button or by hitting Enter on the keyboard)
-        case 'webchat/incoming-message': {
-            const { text, data } = payload;
-            console.log('INCOMING MESSAGE');
-
-            break;
-        }
-
-        case 'webchat/outgoing-message': {
-            const { text, data } = payload;
-            console.log('OUTGOING MESSAGE');
-
-            break;
-        }
-
-        // CB When the user opens the persistent menu
-        case 'plugin/text-input/open-persistent-menu':
-            console.log('OPENED PERSISTENT MENU');
-            break;
-
-        // CB When the user closes the persistent menu
-        case 'plugin/text-input/close-persistent-menu':
-            console.log('CLOSED PERSISTENT MENU');
-            break;
-
-        // CB When the user clicks on an item in the persistent menu
-        case 'plugin/text-input/click-persistent-menu-item': {
-            const { text } = payload;
-            console.log('CLICKED PERSISTENT MENU ITEM');
-
-            break;
-        }
-
-        // CB When a user clicks on a button and/or link inside of a result from the chatbot
-        case 'plugin/messenger/action':
-            const { type } = payload;
-            console.log('HANDLED MESSENGER ACTION');
-
-            if (payload.type === 'web_url' && payload.url) {
-                const { url } = payload;
-                // user clicked a link in a messenger preview
-            }
-
-            if (payload.type === 'postback') {
-                const { text } = payload;
-                // user clicked a 'postback' button that sends a message
-            }
-
-            if (payload.type === '') {
-
-            }
-
-            break;
-    }
-})
+    // react to the event that ocurred
+});
 ```
+
+If you e.g. want to react to incoming messages from Cognigy, you can do it like this:
+```javascript
+webchat.registerAnalyticsService(event => {
+    if (event.type === "webchat/incoming-messsage") {
+        console.log("incoming message: " + event.payload.text);
+    }
+});
+```
+
+Anytime an event is being emitted within the Webchat, it will cause the passed callback function to be executed.
+The `event` object will always have a `type` property and may have a `payload` property depending on the event.
+By checking for `event.type`, you can filter events for the ones you are interested in.
+
+
+## Webchat Events
+| Type | Payload | Description |
+| - | - | - |
+| `webchat/open` | - | The webchat was opened |
+| `webchat/close` | - | The webchat was closed |
+| `webchat/incoming-message` | `{ text, data }` | A message was received from Cognigy |
+| `webchat/outgoing-message` | `{ text, data }` | A message was sent to Cognigy |
+| `plugin/text-input/open-persistent-menu` | - | The persistent menu was opened |
+| `plugin/text-input/close-persistent-menu` | - | The persistent menu was closed |
+| `plugin/text-input/click-persistent-menu-item` | `{ text }` | A persistent menu item was clicked |
+| `plugin/messenger/action` | `Object` | An action was triggered from a Webchat or Messenger Template | 
+
+See it in action:  
+[![Edit Analytics API](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/using-the-webchat-api-ho5nk?fontsize=14&hidenavigation=1&theme=dark)
