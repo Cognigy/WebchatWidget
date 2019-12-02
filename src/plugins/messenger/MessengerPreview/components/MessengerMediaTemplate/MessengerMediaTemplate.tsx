@@ -1,94 +1,95 @@
-import ReactPlayer from 'react-player';
-import { getMessengerFrame } from '../MessengerFrame';
-import { IFBMMediaTemplatePayload, IFBMMediaTemplateUrlElement } from '../../interfaces/MediaTemplatePayload.interface';
-import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
-import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
-import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
-import { getFlexImage } from '../FlexImage';
-import { getBackgroundImage } from '../../lib/css';
+import ReactPlayer from "react-player";
+import { getMessengerFrame } from "../MessengerFrame";
+import {
+  IFBMMediaTemplatePayload,
+  IFBMMediaTemplateUrlElement
+} from "../../interfaces/MediaTemplatePayload.interface";
+import { IWithFBMActionEventHandler } from "../../MessengerPreview.interface";
+import { MessagePluginFactoryProps } from "../../../../../common/interfaces/message-plugin";
+import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
+import { getFlexImage } from "../FlexImage";
+import { getBackgroundImage } from "../../lib/css";
 
 interface IProps extends IWithFBMActionEventHandler {
-    payload: IFBMMediaTemplatePayload;
-    config: IWebchatConfig;
+  payload: IFBMMediaTemplatePayload;
+  config: IWebchatConfig;
 }
 
-export const getMessengerMediaTemplate = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerMediaTemplate = ({
+  React,
+  styled
+}: MessagePluginFactoryProps) => {
+  const MessengerFrame = getMessengerFrame({ React, styled });
+  const FlexImage = getFlexImage({ React, styled });
 
-    const MessengerFrame = getMessengerFrame({ React, styled });
-    const FlexImage = getFlexImage({ React, styled });
+  const FourThirds = styled.div({
+    paddingTop: "75%"
+  });
 
-    const FourThirds = styled.div({
-        paddingTop: '75%'
-    });
+  const FixedImage = styled(FourThirds)(() => ({
+    backgroundSize: "cover",
+    backgroundPosition: "center center"
+  }));
 
-    const FixedImage = styled(FourThirds)(() => ({
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center'
-    }));
+  const Video = styled(FourThirds)({
+    position: "relative"
+  });
 
-    const Video = styled(FourThirds)({
-        position: 'relative'
-    })
+  const VideoPlayer = styled(ReactPlayer)({
+    position: "absolute",
+    left: 0,
+    top: 0,
+    backgroundColor: "black"
+  });
 
-    const VideoPlayer = styled(ReactPlayer)({
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        backgroundColor: 'black'
-    })
+  const MessengerMediaTemplate = ({
+    payload,
+    onAction,
+    config,
+    ...divProps
+  }: IProps & React.HTMLProps<HTMLDivElement>) => {
+    const { elements } = payload;
+    const element = elements && elements[0];
 
-    const MessengerMediaTemplate = ({ payload, onAction, config, ...divProps }: IProps & React.HTMLProps<HTMLDivElement>) => {
-        const { elements } = payload;
-        const element = elements && elements[0];
+    if (!element) return null;
 
-        if (!element)
-            return null;
+    const { media_type, url } = element as IFBMMediaTemplateUrlElement;
+    // TODO add buttons
 
-        const { media_type, url } = element as IFBMMediaTemplateUrlElement;
-        // TODO add buttons
+    if (media_type === "image") {
+      const image = config.settings.dynamicImageAspectRatio ? (
+        <FlexImage src={url} />
+      ) : (
+        <FixedImage style={{ backgroundImage: getBackgroundImage(url) }} />
+      );
 
-        if (media_type === 'image') {
-            const image = config.settings.dynamicImageAspectRatio
-                    ? <FlexImage src={url} />
-                    : <FixedImage style={{ backgroundImage: getBackgroundImage(url) }} />
-
-            return (
-                <MessengerFrame {...divProps}>
-                    {image}
-                </MessengerFrame>
-            )
-        }
-
-        if (media_type === 'video') {
-            return (
-                <MessengerFrame {...divProps}>
-                    <Video>
-                        <VideoPlayer
-                            url={url}
-                            controls
-                            width="100%"
-                            height="100%"
-                        />
-                    </Video>
-                </MessengerFrame>
-            )
-        }
-
-        if (media_type === 'audio') {
-            return (
-                <MessengerFrame {...divProps}>
-                    <ReactPlayer
-                        url={url}
-                        controls
-                        width="100%"
-                        height="50px"
-                    />
-                </MessengerFrame>
-            )
-        }
-
-        return null;
+      return (
+        <MessengerFrame {...divProps} className="messenger-media-image">
+          {image}
+        </MessengerFrame>
+      );
     }
 
-    return MessengerMediaTemplate;
-}
+    if (media_type === "video") {
+      return (
+        <MessengerFrame {...divProps} className="messenger-media-video">
+          <Video>
+            <VideoPlayer url={url} controls width="100%" height="100%" />
+          </Video>
+        </MessengerFrame>
+      );
+    }
+
+    if (media_type === "audio") {
+      return (
+        <MessengerFrame {...divProps} className="messenger-media-audio">
+          <ReactPlayer url={url} controls width="100%" height="50px" />
+        </MessengerFrame>
+      );
+    }
+
+    return null;
+  };
+
+  return MessengerMediaTemplate;
+};

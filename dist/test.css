@@ -1,0 +1,54 @@
+.messenger-quick-reply {
+  background-color: red !important;
+}
+
+[data-cognigy-webchat-root] .messenger-quick-reply-header-message {
+  background: black;
+  color: white;
+}
+
+[data-cognigy-webchat-root] .messenger-quick-reply-replies {
+  background: aqua;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-cognigy-webchat-root]
+  .messenger-quick-reply-replies
+  .messenger-quick-reply-reply-container {
+  border-radius: 0px;
+  border-color: red;
+  font-size: 10px;
+}
+
+[data-cognigy-webchat-root]
+  .messenger-quick-reply-replies
+  .messenger-quick-reply-reply-container
+  .messenger-quick-reply-reply-text {
+  border-radius: 0px;
+  border-color: red;
+}
+
+[data-cognigy-webchat-root] .messenger-buttons-header {
+  color: blue;
+  font-size: 12px;
+}
+
+[data-cognigy-webchat-root] .messenger-buttons-header .messenger-button {
+  color: grey;
+  font-size: 20px;
+}
+
+[data-cognigy-webchat-root]
+  .messenger-carousel-container
+  .messenger-carousel-title {
+  color: purple;
+}
+
+[data-cognigy-webchat-root] .messenger-carousel-subtitle {
+  color: purple;
+}
+
+[data-cognigy-webchat-root] .messenger-media-image {
+  padding: 50px;
+}

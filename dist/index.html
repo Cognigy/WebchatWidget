@@ -1,23 +1,25 @@
 <html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+  </head>
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="/manifest.webmanifest">
-</head>
-
-<body>
+  <body>
     <!-- <script src="./persistent-menu.webchat-plugin.js"></script> -->
     <script src="./webchat.js"></script>
+    <link rel="stylesheet" href="test.css" />
     <script>
-        initWebchat('https://endpoint-dev.cognigy.ai/f7d316bceb80ea4afeba518fccf563153e6f8d174d292bbf73f8d15bba025a5e', {
-            settings: {
-                // colorScheme: '#FAB'
-            }
-        }).then(webchat => {
-            window.cognigyWebchat = webchat;
-            // webchat.open();
-        });
+      initWebchat(
+        "https://endpoint-dev.cognigy.ai/7cc0a99a27c0763af513bb063b7cff0e6d08ca8942740c4d80599c0c4761ed3e",
+        {
+          settings: {
+            // colorScheme: '#FAB'
+          }
+        }
+      ).then(webchat => {
+        window.cognigyWebchat = webchat;
+        // webchat.open();
+      });
     </script>
-</body>
-
+  </body>
 </html>
