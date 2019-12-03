@@ -34,7 +34,7 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
         const button = buttons && buttons[0];
 
         return (
-            <MessengerFrame {...divProps}>
+            <MessengerFrame {...divProps} className="messenger-list-container">
                 {headerElement && (
                     <MessengerListTemplateHeaderElement
                         element={headerElement}

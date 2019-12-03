@@ -86,15 +86,17 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
         return (
             <Root
                 onClick={default_action && (e => onAction(e, default_action))}
+                className="messenger-list-header"
             >
                 {image}
                 <DarkLayer />
-                <Content>
-                    <Title>{title}</Title>
-                    <Subtitle>{subtitle}</Subtitle>
+                <Content className="messenger-list-header-content">
+                    <Title className="messenger-list-header-title">{title}</Title>
+                    <Subtitle className="messenger-list-header-subtitle">{subtitle}</Subtitle>
                     {button && (
                         <ListHeaderButton
                             onClick={e => onAction(e, button)}
+                            className="messenger-list-header-button"
                         >
                             {getButtonLabel(button)}
                         </ListHeaderButton>

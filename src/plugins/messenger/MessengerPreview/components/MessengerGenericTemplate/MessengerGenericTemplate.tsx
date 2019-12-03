@@ -106,6 +106,7 @@ export const getMessengerGenericTemplate = ({
             {image}
             <GenericContent
               onClick={e => default_action && onAction(e, default_action)}
+              className="messenger-carousel-text-content"
             >
               <MessengerTitle className="messenger-carousel-title">
                 {title}
@@ -121,6 +122,7 @@ export const getMessengerGenericTemplate = ({
                   <MessengerButton
                     button={button}
                     onClick={e => onAction(e, button)}
+                    className="messenger-carousel-button"
                   />
                 </React.Fragment>
               ))}

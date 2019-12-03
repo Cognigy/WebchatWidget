@@ -48,13 +48,15 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         return (
             <Root
                 onClick={default_action && (e => onAction(e, default_action))}
+                className="messenger-list-element"
             >
                 <div>
-                    <MessengerTitle>{title}</MessengerTitle>
-                    <MessengerSubtitle>{subtitle}</MessengerSubtitle>
+                    <MessengerTitle className="messenger-list-element-title">{title}</MessengerTitle>
+                    <MessengerSubtitle className="messenger-list-element-subtitle">{subtitle}</MessengerSubtitle>
                     {button && (
                         <ListButton
                             onClick={e => onAction(e, button)}
+                            className="messenger-list-element-button"
                         >
                             {getButtonLabel(button)}
                         </ListButton>
