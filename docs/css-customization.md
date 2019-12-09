@@ -310,7 +310,7 @@ This is the header message of the Quick Reply.
   text-align: center;
   background: #e3f6f5;
   color: #272343;
-  animation: easeOutElastic 1s ;
+  animation: "Some animation" ;
 }
 
 ```
