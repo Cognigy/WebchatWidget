@@ -9,6 +9,7 @@ import { SetConfigAction } from "../config/config-reducer";
 import { connect } from "../connection/connection-middleware";
 import { ReceiveMessageAction } from "./message-handler";
 import { defaultBotAvatar, defaultUserImg } from "../../../webchat-ui";
+import { sanitizeHTML } from "../../helper/sanitize";
 
 export interface ISendMessageOptions {
     /* overrides the displayed text within a chat bubble. useful for e.g. buttons */
@@ -30,9 +31,11 @@ export const createMessageMiddleware = (client: WebchatClient): Middleware<{}, S
             const { message, options } = action;
             const { text, data } = message;
 
-            client.sendMessage(text || '', data);
+            const sanitizedText = sanitizeHTML(text || '');
 
-            const displayMessage = { ...message };
+            client.sendMessage(sanitizedText || '', data);
+
+            const displayMessage = { ...message, text: sanitizedText };
 
             if (options.label)
                 displayMessage.text = options.label;
