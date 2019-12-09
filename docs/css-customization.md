@@ -281,7 +281,7 @@ This is the button to open the Webchat, if you want to modify its color you have
 }
 
 ```
-## Messenger messages customization
+## Facebook Messenger messages customization
 
 Our Webchat ships with "Facebook-Messenger-like" message templates out of the box (Quick replies, Buttons, Image Galleries, Media, Lists) these elements can be also customized to meet design guidelines even more!
 
