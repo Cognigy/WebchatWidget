@@ -271,7 +271,7 @@ The persistent input menu items, where you can modify it borders, and fonts for 
    
 }
 ```
-* *webchat-toggle-button*
+* *webchat-toggle-button* 
 This is the button to open the Webchat, if you want to modify its color you have to set the "background-image" to none.
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat-toggle].webchat-toggle-button {
@@ -291,6 +291,57 @@ See it in action:
 
 
 ### Quick Replies
+
+* *messenger-quick-reply*  
+This class contains the whole Quick Reply element, you can modify it's size for example.
+```CSS
+[data-cognigy-webchat-root] .messenger-quick-reply {
+width: 500px;
+height: 500px;
+}
+
+```
+* *messenger-quick-reply-header-message*  
+This is the header message of the Quick Reply.
+```CSS
+[data-cognigy-webchat-root] .messenger-quick-reply-header-message { 
+  border:2px solid  #fffffe;
+  border-radius: 0;
+  text-align: center;
+  background: #e3f6f5;
+  color: #272343;
+  animation: easeOutElastic 1s ;
+}
+
+```
+* *messenger-quick-reply-replies*  
+This is the element holding all Quick Replies, you can change the way they are shown. Like a column.
+```CSS
+[data-cognigy-webchat-root] .messenger-quick-reply-replies {
+  display: flex;
+  flex-direction: column;
+}
+
+```
+* *messenger-quick-reply-reply-container*  
+This is the single Quick Reply element, all of them will be modified.
+```CSS
+[data-cognigy-webchat-root] .messenger-quick-reply-replies .messenger-quick-reply-reply-container {
+    animation: easeOutElastic 1s ;
+    border-color:#272343;
+    color: #2d334a;
+}
+
+```
+* *messenger-quick-reply-reply-text*  
+This is the text inside the Quick Reply, all of them will be modified
+```CSS
+[data-cognigy-webchat-root] .messenger-quick-reply-replies .messenger-quick-reply-reply-container
+  .messenger-quick-reply-reply-text {
+}
+
+```
+
 ### Buttons
 ### Image Gallery
 ### Media
