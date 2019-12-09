@@ -327,7 +327,7 @@ This is the element holding all Quick Replies, you can change the way they are s
 This is the single Quick Reply element, all of them will be modified.
 ```CSS
 [data-cognigy-webchat-root] .messenger-quick-reply-replies .messenger-quick-reply-reply-container {
-    animation: easeOutElastic 1s ;
+    animation: "Some animation" ;
     border-color:#272343;
     color: #2d334a;
 }
