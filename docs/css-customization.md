@@ -283,7 +283,7 @@ This is the button to open the Webchat, if you want to modify its color you have
 ```
 ## Messenger messages customization
 
-Our Webchat ships with "Facebook-Messenger-like" message templates out of the box (Quick replies, Buttons, Image Galleries, Media, Lists) this elements can be also customized to meet all design guidelines even more! Here are the classes that you can use to modify it:
+Our Webchat ships with "Facebook-Messenger-like" message templates out of the box (Quick replies, Buttons, Image Galleries, Media, Lists) these elements can be also customized to meet all design guidelines even more! Here are the classes that you can use to modify it:
 
 See it in action:
 
