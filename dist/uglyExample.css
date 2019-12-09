@@ -1,14 +1,51 @@
+
+[data-cognigy-webchat-root] [data-cognigy-webchat-toggle].webchat-toggle-button {
+background: #ffd803;
+}
+
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat {
+  animation: rotate 1s;
+  border: 1px solid #272343;
+}
+
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-bar {
+  background: #fffffe;
+  color: #272343;
+  border-bottom:  1px solid #272343;
+  box-shadow: none;
+}
+
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message {
+
+  border:2px solid  #fffffe;
+  background: #e3f6f5;
+  color:#2d334a;
+  box-shadow: #272343;
+
+}
+
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-typing-indicator {
+
+  background: #bae8e8;
+  color: black;
+}
+
+
 .messenger-quick-reply {
-  background-color: red !important;
 }
 
 [data-cognigy-webchat-root] .messenger-quick-reply-header-message {
-  background: black;
-  color: white;
+  
+  border:2px solid  #fffffe;
+  border-radius: 0;
+  text-align: center;
+  background: #e3f6f5;
+  color: #272343;
+  animation: easeOutElastic 1s ;
+
 }
 
 [data-cognigy-webchat-root] .messenger-quick-reply-replies {
-  background: aqua;
   display: flex;
   flex-direction: column;
 }
@@ -16,55 +53,70 @@
 [data-cognigy-webchat-root]
   .messenger-quick-reply-replies
   .messenger-quick-reply-reply-container {
-  border-radius: 0px;
-  border-color: red;
-  font-size: 10px;
+    animation: easeOutElastic 1s ;
+    border-color:#272343;
+    color: #2d334a;
+
 }
 
 [data-cognigy-webchat-root]
   .messenger-quick-reply-replies
   .messenger-quick-reply-reply-container
   .messenger-quick-reply-reply-text {
-  border-radius: 0px;
-  border-color: red;
+}
+
+[data-cognigy-webchat-root] .messenger-buttons {
+  border-radius: 0;
+  animation: easeOutElastic 1s ;
+
 }
 
 [data-cognigy-webchat-root] .messenger-buttons-header {
-  color: blue;
-  font-size: 12px;
+  text-align: center;
+  font-weight: bold;
+  background: #e3f6f5;
 }
 
-[data-cognigy-webchat-root] .messenger-buttons-header .messenger-button {
-  color: grey;
-  font-size: 20px;
+[data-cognigy-webchat-root] .messenger-buttons .messenger-button-container {
+    background-color: #fffffe;
+    color: #2d334a;
+}
+
+[data-cognigy-webchat-root] .messenger-buttons .messenger-button-container:hover {
+  animation: swing 1s ease;
+animation-iteration-count: 1;
+font-weight: bold;
+}
+
+
+[data-cognigy-webchat-root] .messenger-carousel-text-content {
+  background: #e3f6f5;
+
 }
 
 [data-cognigy-webchat-root]
   .messenger-carousel-container
   .messenger-carousel-title {
-  color: purple;
-}
-
-[data-cognigy-webchat-root] .messenger-carousel-text-content {
-  background: black;
 }
 
 [data-cognigy-webchat-root] .messenger-carousel-subtitle {
-  color: purple;
 }
 
 [data-cognigy-webchat-root] .messenger-carousel-button {
-  background: green;
-  color: yellow;
+  color: #272343;
+  background: #ffd803;
+}
+
+[data-cognigy-webchat-root] .messenger-carousel-button:hover {
+  background: #cfb000;
 }
 
 
 [data-cognigy-webchat-root] .messenger-media-image {
-  padding: 50px;
+  animation: rotate 1s;
 }
 
 [data-cognigy-webchat-root] .messenger-media-video {
-  width: 100px;
 }
 
 
@@ -73,42 +125,99 @@
 }
 
 [data-cognigy-webchat-root] .messenger-list-header {
-  padding: 10px;
 }
 
 [data-cognigy-webchat-root] .messenger-list-header-content {
-  margin-bottom: 40;
 }
 
 [data-cognigy-webchat-root] .messenger-list-header-title {
-  color: yellow;
 }
 
 [data-cognigy-webchat-root] .messenger-list-header-subtitle {
-  color: blue;
 }
 
 [data-cognigy-webchat-root] .messenger-list-header-button {
-background: brown;
-color: black;
+  background: #ffd803;
+  color: #272343;
 }
 
+[data-cognigy-webchat-root] .messenger-list-header-button:hover {
+  background: #cfb000;
+}
+
+
 [data-cognigy-webchat-root] .messenger-list-element {
-  background: yellow;
+  background: #e3f6f5;
 }
 
 
 [data-cognigy-webchat-root] .messenger-list-element-title {
-  color: white;
-  font-size: 40px;
 }
 
 [data-cognigy-webchat-root] .messenger-list-element-subtitle {
-  color: blue;
 }
 
 [data-cognigy-webchat-root] .messenger-list-element-button {
-  background: brown;
-  color: black;
+  border-color: #ffd803;
+  background-color: #fffffe;
+    color: #272343;
+    
   }
+
+  [data-cognigy-webchat-root] .messenger-list-element-button:hover {
+ background-color: #cfb00071;
+      
+    }
   
+
+
+  @keyframes easeOutElastic {
+    0% {
+      transform: translateX(-100%);
+    }
+  
+    20% {
+      transform: translateX(10%);
+    }
+  
+    60% {
+      transform: translateX(20%);
+    }
+  
+    100% {
+      transform: translateX(0%);
+    }
+  
+  }
+
+
+  @keyframes rotate {
+0%{
+  transform: rotateX(0deg);
+}
+100% {
+  transform: rotateX(360deg);
+}
+  
+  }
+
+
+  @keyframes swing {
+    15% {
+    transform: translateX(5px);
+    }
+    30% {
+    transform: translateX(-5px);
+    }
+    50% {
+    transform: translateX(3px);
+    }
+    65% {
+    transform: translateX(-3px);
+    }
+    80% {
+    transform: translateX(2px);
+    }
+    100% {
+    transform: translateX(0);
+    }

@@ -29,15 +29,15 @@ export const getMessengerButtonTemplate = ({
     const { text, buttons } = payload;
 
     return (
-      <MessengerFrame {...divProps} className="messenger-buttons-header">
-        {text && <Text>{text}</Text>}
+      <MessengerFrame {...divProps} className="messenger-buttons">
+        {text && <Text className="messenger-buttons-header">{text}</Text>}
         {buttons.map((button, index) => (
           <React.Fragment key={index}>
             <Divider />
             <MessengerButton
               button={button}
               onClick={e => onAction(e, button)}
-              className="messenger-button"
+              className="messenger-button-container"
             />
           </React.Fragment>
         ))}
