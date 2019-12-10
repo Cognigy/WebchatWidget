@@ -6,7 +6,6 @@ import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-c
 import { getPluginsForMessage } from '../../../plugins/helper';
 import MessageRow from '../presentational/MessageRow';
 import Avatar from '../presentational/Avatar';
-import { defaultBotAvatar, defaultUserImg } from '../WebchatUI';
 import { styled, IWebchatTheme } from '../../style';
 
 export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
@@ -34,11 +33,28 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
         : undefined;
 
     const matchedPlugins = getPluginsForMessage(plugins)(message);
+    const source = message.source;
+    const align = (source === 'bot' || source === 'agent') ? 'left' : 'right'; 
 
-    const regularMessageBot = 'webchat-message-row bot';
-    const regularMessageUser = 'webchat-message-row user';
-    const botAvatar = 'webchat-avatar bot';
-    const userAvatar = 'webchat-avatar user';
+    let className;
+    let avatar;
+
+        switch (source) {
+            case 'user':
+                className = 'webchat-message-row user';
+                avatar = 'webchat-avatar user';
+                break;
+            case 'bot':
+                className = 'webchat-message-row bot';
+                avatar = 'webchat-avatar bot';
+                break;
+            case 'agent':
+                className =  'webchat-message-row agent';
+                avatar = 'webchat-avatar agent';
+                break;
+            default:
+                break;
+        }
 
     return (
         <>
@@ -80,11 +96,11 @@ export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFu
                 return (
                     <MessageRow
                         key={key}
-                        align={message.source === 'bot' ? 'left' : 'right'}
-                        className={message.source === 'bot' ? regularMessageBot : regularMessageUser}
+                        align={align}
+                        className={className}
                     >
                         <Avatar src={message.avatarUrl as string}
-                            className={message.source === 'bot' ? botAvatar : userAvatar}
+                            className={avatar}
                         />
                         {messageElement}
                     </MessageRow>

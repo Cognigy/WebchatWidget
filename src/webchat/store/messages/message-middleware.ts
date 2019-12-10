@@ -52,10 +52,9 @@ export const createMessageMiddleware = (client: WebchatClient): Middleware<{}, S
             const avatarUrl = state.ui.botAvatarOverrideUrl
                 || state.config.settings.messageLogoUrl
                 || defaultBotAvatar;
-
             return next(addMessage({
-                ...message,
                 source: 'bot',
+                ...message,
                 avatarUrl
             } as IBotMessage));
         }
