@@ -433,7 +433,7 @@ The Button at the bottom of the card, containing a URL.
 The media element can be of three forms, Image, Video and Audio. You can modify it's container or put some animations on it
 ```CSS
 [data-cognigy-webchat-root] .messenger-media-image {
-  animation: rotate 1s;
+  animation: "Some animation" 1s;
 }
 
 [data-cognigy-webchat-root] .messenger-media-video {
