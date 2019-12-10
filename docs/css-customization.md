@@ -470,7 +470,7 @@ The content of the header, here you can center all elements for example.
 The title of the header element.
 ```CSS
 [data-cognigy-webchat-root] .messenger-list-header-title {
-  color: greeen;
+  color: green;
 }
 ```
 * *messenger-list-header-subtitle*  
