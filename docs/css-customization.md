@@ -281,30 +281,27 @@ This is the button to open the Webchat, if you want to modify its color you have
 }
 
 ```
-## Facebook Messenger messages customization
+## Webchat templates messages customization
 
-Our Webchat ships with "Facebook-Messenger-like" message templates out of the box (Quick replies, Buttons, Image Galleries, Media, Lists) these elements can be also customized to meet design guidelines even more!
+Our Webchat ships with message templates out of the box (Quick replies, Buttons, Image Galleries, Media, Lists) these elements can be also customized to meet design guidelines even more!
 
 Here are the classes that you can use to modify it:
 
-See it in action:
-
-
 ### Quick Replies
 
-* *messenger-quick-reply*  
-This class contains the whole Quick Reply element, you can modify it's size for example.
+* *webchat-quick-reply-template-root*  
+This class contains the whole Quick Reply element, you can modify its size for example.
 ```CSS
-[data-cognigy-webchat-root] .messenger-quick-reply {
+[data-cognigy-webchat-root] .webchat-quick-reply-template-root {
 width: 500px;
 height: 500px;
 }
 
 ```
-* *messenger-quick-reply-header-message*  
+* *webchat-quick-reply-template-header-message*  
 This is the header message of the Quick Reply.
 ```CSS
-[data-cognigy-webchat-root] .messenger-quick-reply-header-message { 
+[data-cognigy-webchat-root] .webchat-quick-reply-template-header-message { 
   border:2px solid  #fffffe;
   border-radius: 0;
   text-align: center;
@@ -314,65 +311,56 @@ This is the header message of the Quick Reply.
 }
 
 ```
-* *messenger-quick-reply-replies*  
+* *webchat-quick-reply-template-replies-container*  
 This is the element holding all Quick Replies, you can change the way they are shown. Like a column.
 ```CSS
-[data-cognigy-webchat-root] .messenger-quick-reply-replies {
+[data-cognigy-webchat-root] .webchat-quick-reply-template-replies-container {
   display: flex;
   flex-direction: column;
 }
 
 ```
-* *messenger-quick-reply-reply-container*  
-This is the single Quick Reply element, all of them will be modified.
+* *webchat-quick-reply-template-reply*  
+This is the style of the single Quick Reply element, all of them will be modified.
 ```CSS
-[data-cognigy-webchat-root] .messenger-quick-reply-replies .messenger-quick-reply-reply-container {
+[data-cognigy-webchat-root] .webchat-quick-reply-template-replies-container .webchat-quick-reply-template-reply {
     animation: "Some animation" ;
     border-color:#272343;
     color: #2d334a;
 }
 
 ```
-* *messenger-quick-reply-reply-text*  
-This is the text inside the Quick Reply, all of them will be modified
-```CSS
-[data-cognigy-webchat-root] .messenger-quick-reply-replies .messenger-quick-reply-reply-container
-  .messenger-quick-reply-reply-text {
-  color: yellow;
-}
-
-```
 
 ### Buttons
 
-* *messenger-buttons*  
-This class contents the Buttons element.
+* *webchat-buttons-template-root*  
+This class contains the Buttons element.
 ```CSS
-[data-cognigy-webchat-root] .messenger-buttons {
+[data-cognigy-webchat-root] .webchat-buttons-template-root {
   border-radius: 0;
   animation: "Some animation" ;
 }
 
 ```
-* *messenger-buttons-header*  
-The container and header of the buttons, you could modify the text position and style.
+* *webchat-buttons-template-header*  
+The container and header of the buttons, you can modify the text position and style.
 ```CSS
-[data-cognigy-webchat-root] .messenger-buttons-header {
+[data-cognigy-webchat-root] .webchat-buttons-template-header {
   text-align: center;
   font-weight: bold;
   background: #e3f6f5;
 }
 
 ```
-* *messenger-button-container*  
-The container of a single button, you can add cool animations when hovering and styling  .
+* *webchat-buttons-template-button*  
+The class of a single button, you can add cool animations when hovering and styling, this will take effect for all buttons in the list.  
 ```CSS
-[data-cognigy-webchat-root] .messenger-buttons .messenger-button-container {
+[data-cognigy-webchat-root] .webchat-buttons-template .webchat-buttons-template-button {
     background-color: #fffffe;
     color: #2d334a;
 }
 
-[data-cognigy-webchat-root] .messenger-buttons .messenger-button-container:hover {
+[data-cognigy-webchat-root] .webchat-buttons-template .webchat-buttons-template-button:hover {
   animation: "Some animation" 1s ease;
   animation-iteration-count: 1;
   font-weight: bold;
@@ -382,147 +370,147 @@ The container of a single button, you can add cool animations when hovering and 
 
 ### Image Gallery
 
-* *messenger-carousel-container*  
-The element that contains the card from a Gallery, here you can increase it's size for example.
+* *webchat-carousel-template-root*  
+The card element a Gallery, here you can increase its size for example.
 ```CSS
-[data-cognigy-webchat-root] .messenger-carousel-container {
+[data-cognigy-webchat-root] .webchat-carousel-template-root {
   width: 200px;
 }
 
 ```
-* *messenger-carousel-text-content*  
+* *webchat-carousel-template-content*  
 The content of the card, you can modify it's height and make it look smaller so you could show more content.
 ```CSS
-[data-cognigy-webchat-root] .messenger-carousel-text-content {
+[data-cognigy-webchat-root] .webchat-carousel-template-content {
   background: #e3f6f5;
   height: 200px;
 }
 
 ```
-* *messenger-carousel-title*  
+* *webchat-carousel-template-title*  
 The title of the card.
 ```CSS
-[data-cognigy-webchat-root] .messenger-carousel-title {
+[data-cognigy-webchat-root] .webchat-carousel-template-title {
     color:blue;
 }
 
 ```
-* *messenger-carousel-subtitle*  
-The title of the card.
+* *webchat-carousel-template-subtitle*  
+The subtitle of the card.
 ```CSS
-[data-cognigy-webchat-root] .messenger-carousel-subtitle {
+[data-cognigy-webchat-root] .webchat-carousel-template-subtitle {
   color:white;
 }
 ```
-* *messenger-carousel-button*  
+* *webchat-carousel-template-button*  
 The Button at the bottom of the card, containing a URL.
 ```CSS
-[data-cognigy-webchat-root] .messenger-carousel-button {
+[data-cognigy-webchat-root] .webchat-carousel-template-button {
   color: #272343;
   background: #ffd803;
 }
 
-[data-cognigy-webchat-root] .messenger-carousel-button:hover {
+[data-cognigy-webchat-root] .webchat-carousel-template-button:hover {
   background: #cfb000;
 }
 ```
 
 ### Media
 
-* *messenger-media*  
-The media element can be of three forms, Image, Video and Audio. You can modify it's container or put some animations on it
+* *webchat-media-template*  
+The media element can be of three forms, Image, Video or Audio. You can modify its container or put some animations on it
 ```CSS
-[data-cognigy-webchat-root] .messenger-media-image {
+[data-cognigy-webchat-root] .webchat-media-template-image {
   animation: "Some animation" 1s;
 }
 
-[data-cognigy-webchat-root] .messenger-media-video {
+[data-cognigy-webchat-root] .webchat-media-template-video {
 }
 
-[data-cognigy-webchat-root] .messenger-media-audio {
+[data-cognigy-webchat-root] .webchat-media-template-audio {
 }
 ```
 
 ### List
 
-* *messenger-list-container*  
-The container element of the List, we could remove the border-radius that comes with it.
+* *webchat-list-template-root*  
+The container element of the List, you can remove the border-radius that comes with it.
 ```CSS
-[data-cognigy-webchat-root] .messenger-list-container {
+[data-cognigy-webchat-root] .webchat-list-template-root {
   border-radius: 0;
 }
 ```
-* *messenger-list-header*  
+* *webchat-list-template-header*  
 This is the header element, which is above all other componets of the list.
 ```CSS
-[data-cognigy-webchat-root] .messenger-list-header {
+[data-cognigy-webchat-root] .webchat-list-template-header {
   heigth: 200px;
 }
 ```
-* *messenger-list-header-content*  
+* *webchat-list-template-header-content*  
 The content of the header, here you can center all elements for example.
 ```CSS
-[data-cognigy-webchat-root] .messenger-list-header-content {
+[data-cognigy-webchat-root] .webchat-list-template-header-content {
   text-align: center;
 }
 ```
-* *messenger-list-header-title*  
+* *webchat-list-template-header-title*  
 The title of the header element.
 ```CSS
-[data-cognigy-webchat-root] .messenger-list-header-title {
+[data-cognigy-webchat-root] .webchat-list-template-header-title {
   color: green;
 }
 ```
-* *messenger-list-header-subtitle*  
+* *webchat-list-template-header-subtitle*  
 The subtitle of the header element.
 ```CSS
-[data-cognigy-webchat-root] .messenger-list-header-subtitle {
+[data-cognigy-webchat-root] .webchat-list-template-header-subtitle {
   color: green;
 }
 ```
-* *messenger-list-header-button*  
+* *webchat-list-template-header-button*  
 This is the button inside the header, it can look better if you add some hovering effects.
 ```CSS
-[data-cognigy-webchat-root] .messenger-list-header-button {
+[data-cognigy-webchat-root] .webchat-list-template-header-button {
   background: #ffd803;
   color: #272343;
 }
 
-[data-cognigy-webchat-root] .messenger-list-header-button:hover {
+[data-cognigy-webchat-root] .webchat-list-template-header-button:hover {
   background: #cfb000;
 }
 ```
-* *messenger-list-element*  
+* *webchat-list-template-element*  
 The element that contains a single list element
 ```CSS
-[data-cognigy-webchat-root] .messenger-list-element {
+[data-cognigy-webchat-root] .webchat-list-template-element {
   background: #e3f6f5;
 }
 ```
-* *messenger-list-element-title*  
-The title in every list element.
+* *webchat-list-template-element-title*  
+The title of every list element.
 ```CSS
-[data-cognigy-webchat-root] .messenger-list-element-title {
+[data-cognigy-webchat-root] .webchat-list-template-element-title {
   color: yellow;
 }
 ```
-* *messenger-list-element-subtitle*  
-The subtitle in every list element.
+* *webchat-list-template-element-subtitle*  
+The subtitle of every list element.
 ```CSS
-[data-cognigy-webchat-root] .messenger-list-element-subtitle {
+[data-cognigy-webchat-root] .webchat-list-template-element-subtitle {
   color: yellow;
 }
 ```
-* *messenger-list-element-button*  
+* *webchat-list-template-element-button*  
 This is the button inside every list element, adding some hovering effects or animation can make it look better.
 ```CSS
-[data-cognigy-webchat-root] .messenger-list-element-button {
+[data-cognigy-webchat-root] .webchat-list-template-element-button {
   border-color: #ffd803;
   background-color: #fffffe;
   color: #272343;
 }
 
-[data-cognigy-webchat-root] .messenger-list-element-button:hover {
+[data-cognigy-webchat-root] .webchat-list-template-element-button:hover {
   background-color: #cfb00071;   
 }
 ```
