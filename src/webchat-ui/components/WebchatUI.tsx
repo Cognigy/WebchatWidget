@@ -2,7 +2,6 @@ import * as React from 'react';
 import { css, Global } from '@emotion/core';
 import { IMessage } from '../../common/interfaces/message';
 import Header from './presentational/Header';
-import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 import { ThemeProvider } from 'emotion-theming';
 import { CacheProvider } from '@emotion/core';
 import { IWebchatTheme, createWebchatTheme, styled } from '../style';
@@ -30,6 +29,7 @@ import WebchatWrapper from './presentational/WebchatWrapper';
 import ChatIcon from '../assets/baseline-chat-24px.svg';
 import CloseIcon from '../assets/baseline-close-24px.svg';
 import DisconnectOverlay from './presentational/DisconnectOverlay';
+import { IWebchatConfig } from '../../common/interfaces/webchat-config';
 
 export interface WebchatUIProps {
     messages: IMessage[];

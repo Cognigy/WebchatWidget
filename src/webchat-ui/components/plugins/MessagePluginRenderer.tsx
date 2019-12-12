@@ -2,12 +2,11 @@ import * as React from 'react';
 import { IMessage } from '../../../common/interfaces/message';
 import { MessagePlugin } from '../../../common/interfaces/message-plugin';
 import { MessageSender } from '../../interfaces';
-import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 import { getPluginsForMessage } from '../../../plugins/helper';
 import MessageRow from '../presentational/MessageRow';
 import Avatar from '../presentational/Avatar';
-import { defaultBotAvatar, defaultUserImg } from '../WebchatUI';
 import { styled, IWebchatTheme } from '../../style';
+import { IWebchatConfig } from '../../../common/interfaces/webchat-config';
 
 export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
     message: IMessage;

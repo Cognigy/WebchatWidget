@@ -1,9 +1,9 @@
-import React, { ComponentProps } from 'react';
+import React from 'react';
 import { IMessage } from "./message";
-import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
 import { MessageSender } from '../../webchat-ui/interfaces';
 import { MessagePluginFactoryProps } from './message-plugin';
 import { IWebchatTheme } from '../../webchat-ui/style';
+import { IWebchatConfig } from './webchat-config';
 
 export interface InputButtonProps extends React.HTMLProps<HTMLButtonElement> {
     active: boolean;
