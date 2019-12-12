@@ -12,6 +12,7 @@ const getInitialState = (): ConfigState => ({
         designTemplate: 1,
         disableToggleButton: false,
         dynamicImageAspectRatio: false,
+        enableConnectionStatusIndicator: false,
         enableFileUpload: false,
         enablePersistentMenu: false,
         enableSTT: false,
