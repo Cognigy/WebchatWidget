@@ -11,6 +11,7 @@ import { setOpen, toggleOpen } from '../store/ui/ui-reducer';
 import { IWebchatSettings } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 import { loadConfig } from '../store/config/config-middleware';
 import { connect } from '../store/connection/connection-middleware';
+import { EventEmitter } from 'events';
 
 export interface WebchatProps extends FromProps {
     url: string;
@@ -22,6 +23,7 @@ export interface WebchatProps extends FromProps {
 export class Webchat extends React.PureComponent<WebchatProps> {
     public store: Store<StoreState>;
     public client: WebchatClient;
+    public analytics: EventEmitter = new EventEmitter();
 
 
     // component lifecycle methods
@@ -31,9 +33,9 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         const { url, options, settings } = props;
 
         const client = new WebchatClient(url, options);
-        const store = createWebchatStore(client, settings);
-
         this.client = client;
+
+        const store = createWebchatStore(this, settings);
         this.store = store;
     }
 
@@ -45,8 +47,15 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         this.client.disconnect();
     }
 
-    get registerAnalyticsService() {
-        return this.client.registerAnalyticsService.bind(this.client);
+    registerAnalyticsService(handler: (event: { type: string; payload?: any; }) => void) {
+        this.analytics.on('analytics-event', handler);
+    }
+
+    emitAnalytics(type: string, payload?: any) {
+        this.analytics.emit('analytics-event', {
+            type,
+            payload
+        });
     }
 
     // component API (for usage via ref)
