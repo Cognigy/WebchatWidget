@@ -1,3 +1,16 @@
 {
-    "typescript.tsdk": "node_modules/typescript/lib"
+	"editor.useTabStops": true,
+	"editor.formatOnSave": true,
+	"editor.formatOnPaste": true,
+	"editor.tabSize": 4,
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+	"[typescript]": {
+		"editor.useTabStops": true,
+		"editor.formatOnSave": true,
+		"editor.formatOnPaste": true,
+		"editor.tabSize": 4,
+		"editor.insertSpaces": false,
+		"editor.detectIndentation": false
+	}
 }
