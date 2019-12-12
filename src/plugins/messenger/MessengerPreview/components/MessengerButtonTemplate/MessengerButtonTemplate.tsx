@@ -6,44 +6,44 @@ import { getMessengerButton } from '../MessengerButton/MessengerButton';
 import { getMessengerFrame } from '../MessengerFrame';
 
 interface IMessengerButtonTemplateProps extends IWithFBMActionEventHandler {
-	payload: IFBMButtonTemplatePayload;
+    payload: IFBMButtonTemplatePayload;
 }
 
 export const getMessengerButtonTemplate = ({
-	React,
-	styled
+    React,
+    styled
 }: MessagePluginFactoryProps) => {
-	const MessengerFrame = getMessengerFrame({ React, styled });
-	const MessengerButton = getMessengerButton({ React, styled });
-	const Divider = getDivider({ React, styled });
+    const MessengerFrame = getMessengerFrame({ React, styled });
+    const MessengerButton = getMessengerButton({ React, styled });
+    const Divider = getDivider({ React, styled });
 
-	const Text = styled.div(({ theme }) => ({
-		padding: theme.unitSize
-	}));
+    const Text = styled.div(({ theme }) => ({
+        padding: theme.unitSize
+    }));
 
-	const MessengerButtonTemplate = ({
-		payload,
-		onAction,
-		...divProps
-	}: IMessengerButtonTemplateProps & React.HTMLProps<HTMLDivElement>) => {
-		const { text, buttons } = payload;
+    const MessengerButtonTemplate = ({
+        payload,
+        onAction,
+        ...divProps
+    }: IMessengerButtonTemplateProps & React.HTMLProps<HTMLDivElement>) => {
+        const { text, buttons } = payload;
 
-		return (
-			<MessengerFrame {...divProps} className="webchat-buttons-template-root">
-				{text && <Text className="webchat-buttons-template-header">{text}</Text>}
-				{buttons.map((button, index) => (
-					<React.Fragment key={index}>
-						<Divider />
-						<MessengerButton
-							button={button}
-							onClick={e => onAction(e, button)}
-							className="webchat-buttons-template-button"
-						/>
-					</React.Fragment>
-				))}
-			</MessengerFrame>
-		);
-	};
+        return (
+            <MessengerFrame {...divProps} className="webchat-buttons-template-root">
+                {text && <Text className="webchat-buttons-template-header">{text}</Text>}
+                {buttons.map((button, index) => (
+                    <React.Fragment key={index}>
+                        <Divider />
+                        <MessengerButton
+                            button={button}
+                            onClick={e => onAction(e, button)}
+                            className="webchat-buttons-template-button"
+                        />
+                    </React.Fragment>
+                ))}
+            </MessengerFrame>
+        );
+    };
 
-	return MessengerButtonTemplate;
+    return MessengerButtonTemplate;
 };
