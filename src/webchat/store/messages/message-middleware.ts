@@ -28,20 +28,22 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
     switch (action.type) {
         case 'SEND_MESSAGE': {
             const { message, options } = action;
-            const { text, data } = message;
+            let { text, data } = message;
 
-            const sanitizedText = sanitizeHTML(text || '');
+            if (!store.getState().config.settings.disableTextInputSanitization) {
+                text = sanitizeHTML(text || '');
+            }
 
-            client.sendMessage(sanitizedText || '', data);
+            client.sendMessage(text || '', data);
 
-            const displayMessage = { ...message, text: sanitizedText };
+            const displayMessage = { ...message, text };
 
             if (options.label)
                 displayMessage.text = options.label;
 
             next(setFullscreenMessage(undefined));
-            return next(addMessage({ 
-                ...displayMessage, 
+            return next(addMessage({
+                ...displayMessage,
                 avatarUrl: store.getState().ui.userAvatarOverrideUrl || defaultUserImg
             }));
         }
@@ -71,7 +73,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
                 if (isInjectBehavior) {
                     const text = config.settings.getStartedPayload;
                     const label = config.settings.getStartedText;
-                    
+
                     client.sendMessage(text);
                     next(addMessage({ text: label, source: 'user' }))
                 }
