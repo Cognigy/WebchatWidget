@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware } from 'redux';
 import { StateType } from 'typesafe-actions';
-import { WebchatClient } from '@cognigy/webchat-client/lib/webchat-client';
 import { createMessageMiddleware } from './messages/message-middleware';
 import { registerMessageHandler } from './messages/message-handler';
 import { optionsMiddleware } from './options/options-middleware';
@@ -8,23 +7,26 @@ import { reducer } from './reducer';
 import { registerTypingHandler } from './typing/typing-handler';
 import { createConnectionMiddleware } from './connection/connection-middleware';
 import { createConfigMiddleware } from './config/config-middleware';
-import { IWebchatSettings } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 import { createAnalyticsMiddleware } from './analytics/analytics-middleware';
 import { registerConnectionHandler } from './connection/connection-handler';
+import { Webchat } from '../components/Webchat';
+import { Options } from '@cognigy/socket-client/lib/interfaces/options';
+import { IWebchatSettings } from '../../common/interfaces/webchat-config';
 
 
 export type StoreState = StateType<typeof reducer>;
 
 // creates a store and connects it to a webchat client
-export const createWebchatStore = (client: WebchatClient, defaultSettings?: IWebchatSettings) => {
+export const createWebchatStore = (webchat: Webchat, url: string, overrideWebchatSettings?: IWebchatSettings) => {
+    const { client } = webchat;
 
     const store = createStore(
         reducer,
         applyMiddleware(
-            createAnalyticsMiddleware(client),
+            createAnalyticsMiddleware(webchat),
             createConnectionMiddleware(client),
             createMessageMiddleware(client),
-            createConfigMiddleware(client, defaultSettings),
+            createConfigMiddleware(url, overrideWebchatSettings),
             optionsMiddleware,
         )
     );

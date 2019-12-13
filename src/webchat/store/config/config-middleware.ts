@@ -1,8 +1,10 @@
-import { WebchatClient } from "@cognigy/webchat-client";
 import { Middleware } from "redux";
 import { StoreState } from "../store";
-import { setConfig } from "./config-reducer";
-import { IWebchatSettings } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
+import { setConfig, ConfigState } from "./config-reducer";
+import { SocketClient } from "@cognigy/socket-client";
+import { fetchWebchatConfig } from "../../helper/endpoint";
+import { Options } from "@cognigy/socket-client/lib/interfaces/options";
+import { IWebchatSettings } from "../../../common/interfaces/webchat-config";
 
 export interface ISendMessageOptions {
     /* overrides the displayed text within a chat bubble. useful for e.g. buttons */
@@ -16,24 +18,27 @@ export const loadConfig = () => ({
 export type LoadConfigAction = ReturnType<typeof loadConfig>;
 
 // forwards messages to the socket
-export const createConfigMiddleware = (client: WebchatClient, defaultSettings?: IWebchatSettings): Middleware<{}, StoreState> => store => next => (action: LoadConfigAction) => {
+export const createConfigMiddleware = (url: string, overrideWebchatSettings?: IWebchatSettings): Middleware<{}, StoreState> => store => next => (action: LoadConfigAction) => {
     switch (action.type) {
         case 'LOAD_CONFIG': {
-            if (!client.webchatConfig) {
-                client.loadWebchatConfig()
-                    .then(() => {
-                        // set the webchat settings (overridable by embed default settings)
-                        const settings = {
-                            ...client.webchatConfig.settings,
-                            ...defaultSettings
-                        }
-                        
-                        store.dispatch(setConfig({
-                            ...client.webchatConfig,
-                            settings
-                        }));
-                    })
-            }
+            // we might want to check whether we need to fetch the config
+
+            (async () => {
+                const endpointConfig = await fetchWebchatConfig(url);
+                
+                const settings: IWebchatSettings = {
+                    ...endpointConfig.settings,
+                    ...overrideWebchatSettings
+                };
+
+                const config: ConfigState = {
+                    ...endpointConfig,
+                    settings
+                };
+
+                store.dispatch(setConfig(config));
+            })();
+            
 
             break;
         }

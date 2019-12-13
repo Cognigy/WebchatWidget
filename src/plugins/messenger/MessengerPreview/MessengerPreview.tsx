@@ -12,7 +12,7 @@ import { getMessengerMediaTemplate } from './components/MessengerMediaTemplate/M
 import { FBMActionEventHandler } from './MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../common/interfaces/message-plugin';
 import { getMessengerTextWithQuickReplies } from './components/MessengerTextWithQuickReplies/MessengerTextWithQuickReplies';
-import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
+import { IWebchatConfig } from '../../../common/interfaces/webchat-config';
 
 export interface IMessengerPreviewProps extends React.HTMLProps<HTMLDivElement> {
     /** input.data._cognigy._facebook */
