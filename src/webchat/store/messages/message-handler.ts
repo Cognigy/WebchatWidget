@@ -1,8 +1,8 @@
 import { Store } from "redux";
-import { WebchatClient } from "@cognigy/webchat-client";
 import { IMessage } from "../../../common/interfaces/message";
 import { ISendMessageOptions } from "./message-middleware";
-import { setBotAvatarOverrideUrl, setUserAvatarOverrideUrl } from "../ui/ui-reducer";
+import { setBotAvatarOverrideUrl, setUserAvatarOverrideUrl, setAgentAvatarOverrideUrl } from "../ui/ui-reducer";
+import { SocketClient } from "@cognigy/socket-client";
 
 const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
 export const receiveMessage = (message: IMessage, options: Partial<ISendMessageOptions> = {}) => ({
@@ -12,11 +12,15 @@ export const receiveMessage = (message: IMessage, options: Partial<ISendMessageO
 });
 export type ReceiveMessageAction = ReturnType<typeof receiveMessage>;
 
-export const registerMessageHandler = (store: Store, client: WebchatClient) => {
+export const registerMessageHandler = (store: Store, client: SocketClient) => {
     client.on('output', output => {
         // handle custom webchat actions
         if (output.data && output.data._webchat) {
-            const { botAvatarOverrideUrl, userAvatarOverrideUrl } = output.data._webchat;
+            const { agentAvatarOverrideUrl, botAvatarOverrideUrl, userAvatarOverrideUrl } = output.data._webchat;
+
+            if (agentAvatarOverrideUrl !== undefined) {
+                store.dispatch(setAgentAvatarOverrideUrl(agentAvatarOverrideUrl));
+            }
 
             if (botAvatarOverrideUrl !== undefined) {
                 store.dispatch(setBotAvatarOverrideUrl(botAvatarOverrideUrl));

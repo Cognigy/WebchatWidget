@@ -6,7 +6,7 @@ import { getMessengerButton } from '../MessengerButton/MessengerButton';
 import { getMessengerListTemplateElement } from './components/MessengerListTemplateElement';
 import { getMessengerFrame } from '../MessengerFrame';
 import { getMessengerListTemplateHeaderElement } from './components/MessengerListTemplateHeaderElement';
-import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
+import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
 
 export interface IMessengerListTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMListTemplatePayload;

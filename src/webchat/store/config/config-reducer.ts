@@ -1,5 +1,5 @@
 import { Reducer } from "redux";
-import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
+import { IWebchatConfig } from "../../../common/interfaces/webchat-config";
 
 export type ConfigState = IWebchatConfig;
 
@@ -7,17 +7,19 @@ const getInitialState = (): ConfigState => ({
     URLToken: '',
     active: false,
     settings: {
+        agentAvatarUrl: '',
         backgroundImageUrl: '',
         colorScheme: '',
         designTemplate: 1,
+        disableTextInputSanitization: false,
         disableToggleButton: false,
-        startBehavior: 'none',
+        dynamicImageAspectRatio: false,
+        enableConnectionStatusIndicator: false,
         enableFileUpload: false,
         enablePersistentMenu: false,
         enableSTT: false,
         enableTTS: false,
         enableTypingIndicator: false,
-        enableConnectionStatusIndicator: false,
         getStartedButtonText: '',
         getStartedPayload: '',
         getStartedText: '',
@@ -29,8 +31,10 @@ const getInitialState = (): ConfigState => ({
             title: '',
             menuItems: []
         },
+        startBehavior: 'none',
         STTLanguage: '',
-        title: ''
+        title: '',
+        userAvatarUrl: ''
     }
 });
 

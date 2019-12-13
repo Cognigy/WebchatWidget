@@ -1,5 +1,5 @@
-import { Options } from "@cognigy/webchat-client";
 import { Reducer } from "redux";
+import { Options } from "@cognigy/socket-client/lib/interfaces/options";
 
 export type OptionsState = Pick<Options, 'userId' | 'sessionId' | 'channel'>;
 
