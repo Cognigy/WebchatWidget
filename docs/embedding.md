@@ -60,7 +60,7 @@ See it in action:
 | colorScheme | string | The background color of the header and bot messages in the Webchat. | designTemplate | 1 or 2 | 1 | The Webchat design template to use. We default to design template 1 (bottom right with a button), you can switch to template 2, which is the centered webchat. 
 | messageLogoUrl | string | COGNIGY.AI Logo | A custom avatar that should be displayed next to bot messages. Defaults to a COGNIGY.AI logo. 
 | userAvatarUrl | string | undefined | A custom avatar that should be displayed next to user messages. Defaults to a user icon.
-| agentAvatarUrl | astring | undefined | A custom avatar that sould be displayed next to agent messages
+| agentAvatarUrl | string | undefined | A custom avatar that sould be displayed next to agent messages
 | headerLogoUrl | string | COGNIGY.AI Logo | The logo to display in the header of the Webchat. Defaults to a COGNIGY.AI logo. 
 | enableConnectionStatusIndicator | boolean | false | Whether to show a warning if the connection is lost during a conversation. The warning will disappear when the connection is re-established. | enableTypingIndicator | boolean | true | Whether to enable typing indicators in the Webchat when the Conversational AI is replying. Requires a messageDelay to be set. 
 | disableTextInputSanitization | boolean | false | By default, text inputs from the user will be sanitized for HTML with scripting. If you set this to true, users can send any kind of HTML text, including script-tags and onload-attributes etc.
