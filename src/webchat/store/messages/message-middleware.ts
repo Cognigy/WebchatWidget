@@ -7,6 +7,7 @@ import { setFullscreenMessage } from "../ui/ui-reducer";
 import { SetConfigAction } from "../config/config-reducer";
 import { ReceiveMessageAction } from "./message-handler";
 import { defaultBotAvatar, defaultUserImg } from "../../../webchat-ui";
+import { sanitizeHTML } from "../../helper/sanitize";
 import { SocketClient } from "@cognigy/socket-client";
 
 export interface ISendMessageOptions {
@@ -27,18 +28,22 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
     switch (action.type) {
         case 'SEND_MESSAGE': {
             const { message, options } = action;
-            const { text, data } = message;
+            let { text, data } = message;
+
+            if (!store.getState().config.settings.disableTextInputSanitization) {
+                text = sanitizeHTML(text || '');
+            }
 
             client.sendMessage(text || '', data);
 
-            const displayMessage = { ...message };
+            const displayMessage = { ...message, text };
 
             if (options.label)
                 displayMessage.text = options.label;
 
             next(setFullscreenMessage(undefined));
-            return next(addMessage({ 
-                ...displayMessage, 
+            return next(addMessage({
+                ...displayMessage,
                 avatarUrl: store.getState().ui.userAvatarOverrideUrl || defaultUserImg
             }));
         }
@@ -68,7 +73,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
                 if (isInjectBehavior) {
                     const text = config.settings.getStartedPayload;
                     const label = config.settings.getStartedText;
-                    
+
                     client.sendMessage(text);
                     next(addMessage({ text: label, source: 'user' }))
                 }
