@@ -11,6 +11,7 @@ const getInitialState = (): ConfigState => ({
         backgroundImageUrl: '',
         colorScheme: '',
         designTemplate: 1,
+        disableTextInputSanitization: false,
         disableToggleButton: false,
         dynamicImageAspectRatio: false,
         enableConnectionStatusIndicator: false,
