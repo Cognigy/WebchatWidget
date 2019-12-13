@@ -6,6 +6,7 @@ export interface UIState {
     typing: boolean;
     inputMode: string;
     fullscreenMessage: IMessage | undefined;
+    agentAvatarOverrideUrl?: string;
     botAvatarOverrideUrl?: string;
     userAvatarOverrideUrl?: string;
 }
@@ -44,6 +45,13 @@ export const setFullscreenMessage = (fullscreenMessage: IMessage | undefined) =>
 });
 type SetFullscreenMessageAction = ReturnType<typeof setFullscreenMessage>;
 
+const SET_AGENT_AVATAR_OVERRIDE_URL = 'SET_AGENT_AVATAR_OVERRIDE_URL';
+export const setAgentAvatarOverrideUrl = (url: string) => ({
+    type: SET_AGENT_AVATAR_OVERRIDE_URL as 'SET_AGENT_AVATAR_OVERRIDE_URL',
+    url
+});
+type SetAgentAvatarOverrideUrlAction = ReturnType<typeof setAgentAvatarOverrideUrl>;
+
 const SET_BOT_AVATAR_OVERRIDE_URL = 'SET_BOT_AVATAR_OVERRIDE_URL';
 export const setBotAvatarOverrideUrl = (url: string) => ({
     type: SET_BOT_AVATAR_OVERRIDE_URL as 'SET_BOT_AVATAR_OVERRIDE_URL',
@@ -64,6 +72,7 @@ const getInitialState = (): UIState => ({
     typing: false,
     inputMode: 'text',
     fullscreenMessage: undefined,
+    agentAvatarOverrideUrl: undefined,
     botAvatarOverrideUrl: undefined,
     userAvatarOverrideUrl: undefined
 });
@@ -73,6 +82,7 @@ type UIAction = SetOpenAction
     | SetTypingAction 
     | SetInputModeAction 
     | SetFullscreenMessageAction 
+    | SetAgentAvatarOverrideUrlAction
     | SetBotAvatarOverrideUrlAction 
     | SetUserAvatarOverrideUrlAction;
 
@@ -111,6 +121,13 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
             return {
                 ...state,
                 fullscreenMessage: action.fullscreenMessage
+            }
+        }
+
+        case SET_AGENT_AVATAR_OVERRIDE_URL: {
+            return {
+                ...state,
+                agentAvatarOverrideUrl: action.url
             }
         }
 

@@ -7,6 +7,7 @@ const getInitialState = (): ConfigState => ({
     URLToken: '',
     active: false,
     settings: {
+        agentAvatarUrl: '',
         backgroundImageUrl: '',
         colorScheme: '',
         designTemplate: 1,
@@ -31,7 +32,8 @@ const getInitialState = (): ConfigState => ({
         },
         startBehavior: 'none',
         STTLanguage: '',
-        title: ''
+        title: '',
+        userAvatarUrl: ''
     }
 });
 

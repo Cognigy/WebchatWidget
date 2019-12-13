@@ -36,3 +36,21 @@ Reset the bot avatar
   }
 }
 ```
+
+Set an agent avatar override
+```json
+{
+  "_webchat": {
+    "agentAvatarOverrideUrl": "https://placekitten.com/200/200"
+  }
+}
+```
+
+Reset the agent avatar
+```json
+{
+  "_webchat": {
+    "agentAvatarOverrideUrl": ""
+  }
+}
+```

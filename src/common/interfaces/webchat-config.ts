@@ -4,6 +4,7 @@ export interface IPersistentMenuItem {
 }
 
 export interface IWebchatSettings {
+    agentAvatarUrl: string;
     backgroundImageUrl: string;
     colorScheme: string;
     designTemplate: number;
@@ -21,6 +22,7 @@ export interface IWebchatSettings {
     headerLogoUrl: string;
     inputPlaceholder: string;
     messageDelay: number;
+    /** this is the botAvatarUrl (rename for major) */
     messageLogoUrl: string;
     persistentMenu: {
         title: string;
@@ -29,6 +31,7 @@ export interface IWebchatSettings {
     startBehavior: "none" | "button" | "injection";
     STTLanguage: string;
     title: string;
+    userAvatarUrl: string;
 }
 
 export interface IWebchatConfig {
