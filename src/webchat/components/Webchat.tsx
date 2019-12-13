@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Options, WebchatClient } from '@cognigy/webchat-client';
 import { Store } from 'redux';
 import { StoreState, createWebchatStore } from '../store/store';
 import { Provider } from 'react-redux';
@@ -8,9 +7,13 @@ import { MessagePlugin } from '../../common/interfaces/message-plugin';
 import { sendMessage } from '../store/messages/message-middleware';
 import { MessageSender } from '../../webchat-ui/interfaces';
 import { setOpen, toggleOpen } from '../store/ui/ui-reducer';
-import { IWebchatSettings } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 import { loadConfig } from '../store/config/config-middleware';
 import { connect } from '../store/connection/connection-middleware';
+import { EventEmitter } from 'events';
+import { SocketClient } from '@cognigy/socket-client';
+import { getEndpointBaseUrl, getEndpointUrlToken } from '../helper/endpoint';
+import { IWebchatSettings } from '../../common/interfaces/webchat-config';
+import { Options } from '@cognigy/socket-client/lib/interfaces/options';
 
 export interface WebchatProps extends FromProps {
     url: string;
@@ -21,7 +24,8 @@ export interface WebchatProps extends FromProps {
 
 export class Webchat extends React.PureComponent<WebchatProps> {
     public store: Store<StoreState>;
-    public client: WebchatClient;
+    public client: SocketClient;
+    public analytics: EventEmitter = new EventEmitter();
 
 
     // component lifecycle methods
@@ -30,10 +34,17 @@ export class Webchat extends React.PureComponent<WebchatProps> {
 
         const { url, options, settings } = props;
 
-        const client = new WebchatClient(url, options);
-        const store = createWebchatStore(client, settings);
+        const baseUrl = getEndpointBaseUrl(url);
+        const token = getEndpointUrlToken(url);
+        const socketOptions = {
+            channel: 'webchat-client',
+            ...options
+        }
 
+        const client = new SocketClient(baseUrl, token, socketOptions);
         this.client = client;
+
+        const store = createWebchatStore(this, url, settings);
         this.store = store;
     }
 
@@ -45,8 +56,15 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         this.client.disconnect();
     }
 
-    get registerAnalyticsService() {
-        return this.client.registerAnalyticsService.bind(this.client);
+    registerAnalyticsService(handler: (event: { type: string; payload?: any; }) => void) {
+        this.analytics.on('analytics-event', handler);
+    }
+
+    emitAnalytics = (type: string, payload?: any) => {
+        this.analytics.emit('analytics-event', {
+            type,
+            payload
+        });
     }
 
     // component API (for usage via ref)
@@ -87,7 +105,7 @@ export class Webchat extends React.PureComponent<WebchatProps> {
                     {...props}
                     messagePlugins={messagePlugins}
                     inputPlugins={inputPlugins}
-                    onEmitAnalytics={this.client.emitAnalytics.bind(this.client)}
+                    onEmitAnalytics={this.emitAnalytics}
                 />
             </Provider>
         )

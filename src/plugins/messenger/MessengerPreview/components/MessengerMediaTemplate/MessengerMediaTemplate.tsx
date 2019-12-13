@@ -6,9 +6,9 @@ import {
 } from '../../interfaces/MediaTemplatePayload.interface';
 import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
-import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 import { getFlexImage } from '../FlexImage';
 import { getBackgroundImage } from '../../lib/css';
+import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
 
 interface IProps extends IWithFBMActionEventHandler {
     payload: IFBMMediaTemplatePayload;

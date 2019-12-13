@@ -1,10 +1,9 @@
 import { Middleware } from "redux";
 import { StoreState } from "../store";
-import { WebchatClient } from '@cognigy/webchat-client';
-import { setConnected } from "./connection-reducer";
 import { SetOpenAction, ToggleOpenAction } from "../ui/ui-reducer";
 import { SendMessageAction } from "../messages/message-middleware";
 import { setOptions } from "../options/options-reducer";
+import { SocketClient } from "@cognigy/socket-client";
 
 export interface ISendMessageOptions {
     /* overrides the displayed text within a chat bubble. useful for e.g. buttons */
@@ -18,7 +17,7 @@ export const connect = () => ({
 export type ConnectAction = ReturnType<typeof connect>;
 
 // forwards messages to the socket
-export const createConnectionMiddleware = (client: WebchatClient): Middleware<{}, StoreState> => store => next => (action: SetOpenAction | ToggleOpenAction | ConnectAction | SendMessageAction) => {
+export const createConnectionMiddleware = (client: SocketClient): Middleware<{}, StoreState> => store => next => (action: SetOpenAction | ToggleOpenAction | ConnectAction | SendMessageAction) => {
     switch (action.type) {
         case 'CONNECT': {
             if (!client.connected) {

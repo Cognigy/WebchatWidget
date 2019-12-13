@@ -4,10 +4,10 @@ import { MessagePluginFactoryProps } from '../../../../../../common/interfaces/m
 import { getMessengerSubtitle } from '../../MessengerSubtitle';
 import { getMessengerTitle } from '../../MessengerTitle';
 import { getFlexImage } from '../../FlexImage';
-import { IWebchatConfig } from '@cognigy/webchat-client/lib/interfaces/webchat-config';
 import { getMessengerListButton } from '../../MessengerListButton';
 import { getButtonLabel } from '../../MessengerButton/lib/messengerButtonHelpers';
 import { getBackgroundImage } from '../../../lib/css';
+import { IWebchatConfig } from '../../../../../../common/interfaces/webchat-config';
 
 interface IMessengerListTemplateHeaderElementProps extends IWithFBMActionEventHandler {
     element: IFBMListTemplateElement;

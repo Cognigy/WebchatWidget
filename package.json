@@ -19,7 +19,7 @@
         "webchat": "webpack --config webpack.production.js"
     },
     "dependencies": {
-        "@cognigy/webchat-client": "^4.3.1",
+        "@cognigy/socket-client": "^4.1.1",
         "@emotion/cache": "^10.0.19",
         "@emotion/core": "^10.0.22",
         "@emotion/provider": "^0.11.2",
@@ -58,6 +58,7 @@
         "@types/react-redux": "^6.0.12",
         "@types/tinycolor2": "^1.4.2",
         "@types/uuid": "^3.4.6",
+        "@types/whatwg-fetch": "0.0.33",
         "babel-loader": "^8.0.6",
         "babel-polyfill": "^6.26.0",
         "css-loader": "^2.1.0",
