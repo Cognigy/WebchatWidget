@@ -1,15 +1,14 @@
 import { Middleware } from "redux";
 import { StoreState } from "../store";
-import { IMessage, IBotMessage, IUserMessage } from "../../../common/interfaces/message";
-import { WebchatClient } from '@cognigy/webchat-client';
+import { IMessage, IBotMessage } from "../../../common/interfaces/message";
 import { addMessage } from "./message-reducer";
 import { Omit } from "react-redux";
 import { setFullscreenMessage } from "../ui/ui-reducer";
 import { SetConfigAction } from "../config/config-reducer";
-import { connect } from "../connection/connection-middleware";
 import { ReceiveMessageAction } from "./message-handler";
 import { defaultBotAvatar, defaultUserImg } from "../../../webchat-ui";
 import { sanitizeHTML } from "../../helper/sanitize";
+import { SocketClient } from "@cognigy/socket-client";
 
 export interface ISendMessageOptions {
     /* overrides the displayed text within a chat bubble. useful for e.g. buttons */
@@ -25,7 +24,7 @@ export const sendMessage = (message: Omit<IMessage, 'source'>, options: Partial<
 export type SendMessageAction = ReturnType<typeof sendMessage>;
 
 // forwards messages to the socket
-export const createMessageMiddleware = (client: WebchatClient): Middleware<{}, StoreState> => store => next => (action: SendMessageAction | ReceiveMessageAction | SetConfigAction) => {
+export const createMessageMiddleware = (client: SocketClient): Middleware<{}, StoreState> => store => next => (action: SendMessageAction | ReceiveMessageAction | SetConfigAction) => {
     switch (action.type) {
         case 'SEND_MESSAGE': {
             const { message, options } = action;
