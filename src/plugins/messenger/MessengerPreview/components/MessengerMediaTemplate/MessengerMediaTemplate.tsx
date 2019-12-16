@@ -1,6 +1,9 @@
 import ReactPlayer from 'react-player';
 import { getMessengerFrame } from '../MessengerFrame';
-import { IFBMMediaTemplatePayload, IFBMMediaTemplateUrlElement } from '../../interfaces/MediaTemplatePayload.interface';
+import {
+    IFBMMediaTemplatePayload,
+    IFBMMediaTemplateUrlElement
+} from '../../interfaces/MediaTemplatePayload.interface';
 import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
 import { getFlexImage } from '../FlexImage';
@@ -12,83 +15,81 @@ interface IProps extends IWithFBMActionEventHandler {
     config: IWebchatConfig;
 }
 
-export const getMessengerMediaTemplate = ({ React, styled }: MessagePluginFactoryProps) => {
-
+export const getMessengerMediaTemplate = ({
+    React,
+    styled
+}: MessagePluginFactoryProps) => {
     const MessengerFrame = getMessengerFrame({ React, styled });
     const FlexImage = getFlexImage({ React, styled });
 
     const FourThirds = styled.div({
-        paddingTop: '75%'
+        paddingTop: "75%"
     });
 
     const FixedImage = styled(FourThirds)(() => ({
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center'
+        backgroundSize: "cover",
+        backgroundPosition: "center center"
     }));
 
     const Video = styled(FourThirds)({
-        position: 'relative'
-    })
+        position: "relative"
+    });
 
     const VideoPlayer = styled(ReactPlayer)({
-        position: 'absolute',
+        position: "absolute",
         left: 0,
         top: 0,
-        backgroundColor: 'black'
-    })
+        backgroundColor: "black"
+    });
 
-    const MessengerMediaTemplate = ({ payload, onAction, config, ...divProps }: IProps & React.HTMLProps<HTMLDivElement>) => {
+    const MessengerMediaTemplate = ({
+        payload,
+        onAction,
+        config,
+        ...divProps
+    }: IProps & React.HTMLProps<HTMLDivElement>) => {
         const { elements } = payload;
         const element = elements && elements[0];
 
-        if (!element)
-            return null;
+        if (!element) return null;
 
         const { media_type, url } = element as IFBMMediaTemplateUrlElement;
         // TODO add buttons
 
-        if (media_type === 'image') {
-            const image = config.settings.dynamicImageAspectRatio
-                    ? <FlexImage src={url} />
-                    : <FixedImage style={{ backgroundImage: getBackgroundImage(url) }} />
+        if (media_type === "image") {
+            const image = config.settings.dynamicImageAspectRatio ? (
+                <FlexImage src={url} />
+            ) : (
+                    <FixedImage style={{ backgroundImage: getBackgroundImage(url) }} />
+                );
 
             return (
-                <MessengerFrame {...divProps}>
+                <MessengerFrame {...divProps} className="webchat-media-template-image">
                     {image}
                 </MessengerFrame>
-            )
+            );
         }
 
-        if (media_type === 'video') {
+        if (media_type === "video") {
             return (
-                <MessengerFrame {...divProps}>
+                <MessengerFrame {...divProps} className="webchat-media-template-video">
                     <Video>
-                        <VideoPlayer
-                            url={url}
-                            controls
-                            width="100%"
-                            height="100%"
-                        />
+                        <VideoPlayer url={url} controls width="100%" height="100%" />
                     </Video>
                 </MessengerFrame>
-            )
+            );
         }
 
-        if (media_type === 'audio') {
+        if (media_type === "audio") {
             return (
-                <MessengerFrame {...divProps}>
-                    <ReactPlayer
-                        url={url}
-                        controls
-                        width="100%"
-                        height="50px"
-                    />
+                <MessengerFrame {...divProps} className="webchat-media-template-audio">
+                    <ReactPlayer url={url} controls width="100%" height="50px" />
                 </MessengerFrame>
-            )
+            );
         }
 
         return null;
-    }
+    };
 
     return MessengerMediaTemplate;
-}
+};

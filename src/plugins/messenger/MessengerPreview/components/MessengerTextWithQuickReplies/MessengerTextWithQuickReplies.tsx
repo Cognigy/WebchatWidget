@@ -1,5 +1,8 @@
 import { IFBMRegularMessage } from '../../interfaces/Message.interface';
-import { IFBMTextQuickReply, IFBMQuickReply } from '../../interfaces/QuickReply.interface';
+import {
+    IFBMTextQuickReply,
+    IFBMQuickReply
+} from '../../interfaces/QuickReply.interface';
 import { getMessengerQuickReply } from '../MessengerQuickReply';
 import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
@@ -9,8 +12,10 @@ interface Props extends IWithFBMActionEventHandler {
     message: IFBMRegularMessage;
 }
 
-export const getMessengerTextWithQuickReplies = ({ React, styled }: MessagePluginFactoryProps) => {
-
+export const getMessengerTextWithQuickReplies = ({
+    React,
+    styled
+}: MessagePluginFactoryProps) => {
     const MessengerQuickReply = getMessengerQuickReply({ React, styled });
     const MessengerBubble = getMessengerBubble({ React, styled });
 
@@ -19,14 +24,13 @@ export const getMessengerTextWithQuickReplies = ({ React, styled }: MessagePlugi
     }));
 
     const QuickReplies = styled.div({
-        textAlign: 'center',
+        textAlign: "center",
 
         margin: -5,
         marginTop: 3,
-        flexWrap: 'wrap',
+        flexWrap: "wrap",
 
-
-        '&>*': {
+        "&>*": {
             margin: 5
         }
     });
@@ -37,7 +41,11 @@ export const getMessengerTextWithQuickReplies = ({ React, styled }: MessagePlugi
         marginRight: theme.unitSize
     }));
 
-    const MessengerTextWithQuickReplies = ({ message, onAction, ...divProps }: Props & React.HTMLProps<HTMLDivElement>) => {
+    const MessengerTextWithQuickReplies = ({
+        message,
+        onAction,
+        ...divProps
+    }: Props & React.HTMLProps<HTMLDivElement>) => {
         const { text, quick_replies } = message;
 
         const hasQuickReplies = quick_replies && quick_replies.length > 0;
@@ -45,41 +53,40 @@ export const getMessengerTextWithQuickReplies = ({ React, styled }: MessagePlugi
         // TODO add click behaviour
 
         return (
-            <div {...divProps}>
-                <BorderBubble dangerouslySetInnerHTML={{ __html: text }}>
-                </BorderBubble>
+            <div {...divProps} className="webchat-quick-reply-template-root">
+                <BorderBubble
+                    className="webchat-quick-reply-template-header-message"
+                    dangerouslySetInnerHTML={{ __html: text }}
+                ></BorderBubble>
 
                 {hasQuickReplies && (
-                    <QuickReplies>
+                    <QuickReplies className="webchat-quick-reply-template-replies-container">
                         {(quick_replies as IFBMQuickReply[]).map((quickReply, index) => {
                             const { content_type } = quickReply;
 
-                            let label: string = '';
+                            let label: string = "";
                             let image: React.ReactNode;
 
                             switch (content_type) {
-                                case 'location': {
-                                    label = 'Send Location';
+                                case "location": {
+                                    label = "Send Location";
                                     break;
                                 }
 
-                                case 'text': {
+                                case "text": {
                                     const { title, image_url } = quickReply as IFBMTextQuickReply;
                                     label = title;
-                                    if (image_url)
-                                        image = (
-                                            <QuickReplyImage src={image_url} />
-                                        )
+                                    if (image_url) image = <QuickReplyImage src={image_url} />;
                                     break;
                                 }
 
-                                case 'user_email': {
-                                    label = 'Send Email-Address';
+                                case "user_email": {
+                                    label = "Send Email-Address";
                                     break;
                                 }
 
-                                case 'user_phone_number': {
-                                    label = 'Send Phone Number';
+                                case "user_phone_number": {
+                                    label = "Send Phone Number";
                                     break;
                                 }
                             }
@@ -88,6 +95,7 @@ export const getMessengerTextWithQuickReplies = ({ React, styled }: MessagePlugi
                                 <MessengerQuickReply
                                     key={index}
                                     onClick={e => onAction(e, quickReply)}
+                                    className="webchat-quick-reply-template-reply"
                                 >
                                     {image}
                                     <span dangerouslySetInnerHTML={{ __html: label }} />
@@ -97,8 +105,8 @@ export const getMessengerTextWithQuickReplies = ({ React, styled }: MessagePlugi
                     </QuickReplies>
                 )}
             </div>
-        )
-    }
+        );
+    };
 
     return MessengerTextWithQuickReplies;
-}
+};

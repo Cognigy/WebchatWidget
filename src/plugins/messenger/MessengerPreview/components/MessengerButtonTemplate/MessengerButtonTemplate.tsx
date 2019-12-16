@@ -6,10 +6,13 @@ import { getMessengerButton } from '../MessengerButton/MessengerButton';
 import { getMessengerFrame } from '../MessengerFrame';
 
 interface IMessengerButtonTemplateProps extends IWithFBMActionEventHandler {
-    payload: IFBMButtonTemplatePayload
+    payload: IFBMButtonTemplatePayload;
 }
 
-export const getMessengerButtonTemplate = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerButtonTemplate = ({
+    React,
+    styled
+}: MessagePluginFactoryProps) => {
     const MessengerFrame = getMessengerFrame({ React, styled });
     const MessengerButton = getMessengerButton({ React, styled });
     const Divider = getDivider({ React, styled });
@@ -18,30 +21,29 @@ export const getMessengerButtonTemplate = ({ React, styled }: MessagePluginFacto
         padding: theme.unitSize
     }));
 
-    const MessengerButtonTemplate = ({ payload, onAction, ...divProps }: IMessengerButtonTemplateProps & React.HTMLProps<HTMLDivElement>) => {
+    const MessengerButtonTemplate = ({
+        payload,
+        onAction,
+        ...divProps
+    }: IMessengerButtonTemplateProps & React.HTMLProps<HTMLDivElement>) => {
         const { text, buttons } = payload;
 
         return (
-            <MessengerFrame {...divProps}>
-                {text && (
-                    <Text>
-                        {text}
-                    </Text>
-                )}
+            <MessengerFrame {...divProps} className="webchat-buttons-template-root">
+                {text && <Text className="webchat-buttons-template-header">{text}</Text>}
                 {buttons.map((button, index) => (
-                    <React.Fragment
-                        key={index}
-                    >
+                    <React.Fragment key={index}>
                         <Divider />
                         <MessengerButton
                             button={button}
                             onClick={e => onAction(e, button)}
+                            className="webchat-buttons-template-button"
                         />
                     </React.Fragment>
                 ))}
             </MessengerFrame>
-        )
-    }
+        );
+    };
 
     return MessengerButtonTemplate;
-}
+};

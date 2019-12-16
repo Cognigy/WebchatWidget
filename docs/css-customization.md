@@ -93,98 +93,6 @@ The text that is in the header, you can modify the font as you wish.
     font-size: 20px;
 }
 ```
-* *webchat-header-close-button*  
-The close "X" button of the Webchat. Applying custom CSS to the Webchat
-
-In order to enhance the visual design of the Webchat, there is the possibillity to apply custom CSS.
-You will have to add the style to your embeded Webchat or just link a CSS file to it
-
-There are several classes that you need to take in consideration if you want to make some changes to the Webchat, the classes '*bot*' and '*user*' are used as helper classes that give us the possibility to customize the messages from the user and the bot separatly. The classes are the following:
-
-* *webchat-root*
-* *webchat*
-* *webchat-header-bar*
-* *webchat-header-logo*
-* *webchat-header-title*
-* *webchat-header-close-button*
-* *webchat-chat-history*
-* *webchat-message-row*
-* *regular-message*
-* *webchat-avatar*
-* *webchat-message-row + bot*
-* *regular-message + bot*
-* *webchat-avatar + bot*
-* *webchat-message-row + user*
-* *regular-message + user*
-* *webchat-avatar + user*
-* *webchat-chat-typing-indicator*
-* *webchat-input*
-* *webchat-input-menu-form*
-* *webchat-input-button-menu*
-* *webchat-input-message-input*
-* *webchat-input-button-send*
-* *webchat-input-persistent-menu*
-* *webchat-input-persistent-menu-title*
-* *webchat-input-persistent-menu-item*
-* *webchat-toggle-button*
-
-If you want to be sure that the custom CSS that you apply will be showed, you will have to add some other selectors to those classes, for the Webchat we will use the attribute selectors:
-```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat] [data-cognigy-webchat-toggle]
-```
-This way we asure specificity of the classes in our script.
-
-An example where we change the color of the Webchat header:
-```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-bar {
-
-    background: rgb(15, 15, 194);
-}
-```
-### Here are the used classes with an example on how to apply them.
-
-The following code snippets are just suggestions so it shows the syntax required to acces all classes, the examples shown here are simple design changes so you get the idea how it works. You can change all this properties in any way you want, keep in mind that some components are nested in others and that some properties won't have an effect due to the nature of the Webchat widget
-
-* *webchat-root*  
-This is the root <div> containingthe webchat, not much to customize here.
-```CSS
-[data-cognigy-webchat-root].webchat-root {
-
-}
-```
-* *webchat*  
-This class is the main Webchat component that can be customized, you can add size like height or width in it.
-```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat {
-    width: 500px;
-    height:500px;
-}
-```
-* *webchat-header-bar*  
-The header bar of the Webchat, here you can change color, it also contains other components like the header logo and header title.
-```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-bar {
-
-    background: rgb(5, 5, 131);
-}
-```
-* *webchat-header-logo*  
-The logo of the Webchat, it can be changed by editing the URL.
-```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-logo {
-
-    background-image: url(https://...);
-    margin-left: 10px;
-}
-```
-* *webchat-header-title*  
-The text that is in the header, you can modify the font as you wish.
-```CSS
-```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-close-button {
-    margin-right:10px;
-}
-```
 * *webchat-chat-history*  
 This is the element where all the messages of the chat are are showed, you could change its color for example.
 ```CSS
@@ -363,7 +271,7 @@ The persistent input menu items, where you can modify it borders, and fonts for 
    
 }
 ```
-* *webchat-toggle-button*
+* *webchat-toggle-button* 
 This is the button to open the Webchat, if you want to modify its color you have to set the "background-image" to none.
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat-toggle].webchat-toggle-button {
@@ -372,4 +280,237 @@ This is the button to open the Webchat, if you want to modify its color you have
     background-color: rgb(5, 5, 131);
 }
 
+```
+## Webchat templates messages customization
+
+Our Webchat ships with message templates out of the box (Quick replies, Buttons, Image Galleries, Media, Lists) these elements can be also customized to meet design guidelines even more!
+
+Here are the classes that you can use to modify it:
+
+### Quick Replies
+
+* *webchat-quick-reply-template-root*  
+This class contains the whole Quick Reply element, you can modify its size for example.
+```CSS
+[data-cognigy-webchat-root] .webchat-quick-reply-template-root {
+width: 500px;
+height: 500px;
+}
+
+```
+* *webchat-quick-reply-template-header-message*  
+This is the header message of the Quick Reply.
+```CSS
+[data-cognigy-webchat-root] .webchat-quick-reply-template-header-message { 
+  border:2px solid  #fffffe;
+  border-radius: 0;
+  text-align: center;
+  background: #e3f6f5;
+  color: #272343;
+  animation: "Some animation" ;
+}
+
+```
+* *webchat-quick-reply-template-replies-container*  
+This is the element holding all Quick Replies, you can change the way they are shown, e.g. as a column.
+```CSS
+[data-cognigy-webchat-root] .webchat-quick-reply-template-replies-container {
+  display: flex;
+  flex-direction: column;
+}
+
+```
+* *webchat-quick-reply-template-reply*  
+This is the style of the single Quick Reply element, all of them will be modified.
+```CSS
+[data-cognigy-webchat-root] .webchat-quick-reply-template-replies-container .webchat-quick-reply-template-reply {
+    animation: "Some animation" ;
+    border-color:#272343;
+    color: #2d334a;
+}
+
+```
+
+### Buttons
+
+* *webchat-buttons-template-root*  
+This class contains the Buttons element.
+```CSS
+[data-cognigy-webchat-root] .webchat-buttons-template-root {
+  border-radius: 0;
+  animation: "Some animation" ;
+}
+
+```
+* *webchat-buttons-template-header*  
+The container and header of the buttons, you can modify the text position and style.
+```CSS
+[data-cognigy-webchat-root] .webchat-buttons-template-header {
+  text-align: center;
+  font-weight: bold;
+  background: #e3f6f5;
+}
+
+```
+* *webchat-buttons-template-button*  
+The class of a single button, you can add cool animations when hovering and styling, this will take effect for all buttons in the list.  
+```CSS
+[data-cognigy-webchat-root] .webchat-buttons-template .webchat-buttons-template-button {
+    background-color: #fffffe;
+    color: #2d334a;
+}
+
+[data-cognigy-webchat-root] .webchat-buttons-template .webchat-buttons-template-button:hover {
+  animation: "Some animation" 1s ease;
+  animation-iteration-count: 1;
+  font-weight: bold;
+}
+
+```
+
+### Image Gallery
+
+* *webchat-carousel-template-root*  
+The card element from a Gallery, here you can increase its size for example.
+```CSS
+[data-cognigy-webchat-root] .webchat-carousel-template-root {
+  width: 200px;
+}
+
+```
+* *webchat-carousel-template-content*  
+The content of the card, you can modify it's height and make it look smaller so you could show more content.
+```CSS
+[data-cognigy-webchat-root] .webchat-carousel-template-content {
+  background: #e3f6f5;
+  height: 200px;
+}
+
+```
+* *webchat-carousel-template-title*  
+The title of the card.
+```CSS
+[data-cognigy-webchat-root] .webchat-carousel-template-title {
+    color:blue;
+}
+
+```
+* *webchat-carousel-template-subtitle*  
+The subtitle of the card.
+```CSS
+[data-cognigy-webchat-root] .webchat-carousel-template-subtitle {
+  color:white;
+}
+```
+* *webchat-carousel-template-button*  
+The Button at the bottom of the card, containing a URL.
+```CSS
+[data-cognigy-webchat-root] .webchat-carousel-template-button {
+  color: #272343;
+  background: #ffd803;
+}
+
+[data-cognigy-webchat-root] .webchat-carousel-template-button:hover {
+  background: #cfb000;
+}
+```
+
+### Media
+
+* *webchat-media-template*  
+The media element can be of three forms: Image, Video or Audio. You can modify its container or put some animations on it
+```CSS
+[data-cognigy-webchat-root] .webchat-media-template-image {
+  animation: "Some animation" 1s;
+}
+
+[data-cognigy-webchat-root] .webchat-media-template-video {
+}
+
+[data-cognigy-webchat-root] .webchat-media-template-audio {
+}
+```
+
+### List
+
+* *webchat-list-template-root*  
+The container element of the List, you can remove the border-radius that comes with it.
+```CSS
+[data-cognigy-webchat-root] .webchat-list-template-root {
+  border-radius: 0;
+}
+```
+* *webchat-list-template-header*  
+This is the header element, which is above all other componets of the list.
+```CSS
+[data-cognigy-webchat-root] .webchat-list-template-header {
+  heigth: 200px;
+}
+```
+* *webchat-list-template-header-content*  
+The content of the header, here you can center all elements for example.
+```CSS
+[data-cognigy-webchat-root] .webchat-list-template-header-content {
+  text-align: center;
+}
+```
+* *webchat-list-template-header-title*  
+The title of the header element.
+```CSS
+[data-cognigy-webchat-root] .webchat-list-template-header-title {
+  color: green;
+}
+```
+* *webchat-list-template-header-subtitle*  
+The subtitle of the header element.
+```CSS
+[data-cognigy-webchat-root] .webchat-list-template-header-subtitle {
+  color: green;
+}
+```
+* *webchat-list-template-header-button*  
+This is the button inside the header, it can look better if you add some hovering effects.
+```CSS
+[data-cognigy-webchat-root] .webchat-list-template-header-button {
+  background: #ffd803;
+  color: #272343;
+}
+
+[data-cognigy-webchat-root] .webchat-list-template-header-button:hover {
+  background: #cfb000;
+}
+```
+* *webchat-list-template-element*  
+The element that contains a single list element
+```CSS
+[data-cognigy-webchat-root] .webchat-list-template-element {
+  background: #e3f6f5;
+}
+```
+* *webchat-list-template-element-title*  
+The title of every list element.
+```CSS
+[data-cognigy-webchat-root] .webchat-list-template-element-title {
+  color: yellow;
+}
+```
+* *webchat-list-template-element-subtitle*  
+The subtitle of every list element.
+```CSS
+[data-cognigy-webchat-root] .webchat-list-template-element-subtitle {
+  color: yellow;
+}
+```
+* *webchat-list-template-element-button*  
+This is the button inside every list element, adding some hovering effects or animation can make it look better.
+```CSS
+[data-cognigy-webchat-root] .webchat-list-template-element-button {
+  border-color: #ffd803;
+  background-color: #fffffe;
+  color: #272343;
+}
+
+[data-cognigy-webchat-root] .webchat-list-template-element-button:hover {
+  background-color: #cfb00071;   
+}
 ```
