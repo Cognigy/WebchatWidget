@@ -312,7 +312,7 @@ This is the header message of the Quick Reply.
 
 ```
 * *webchat-quick-reply-template-replies-container*  
-This is the element holding all Quick Replies, you can change the way they are shown. Like a column.
+This is the element holding all Quick Replies, you can change the way they are shown, e.g. as a column.
 ```CSS
 [data-cognigy-webchat-root] .webchat-quick-reply-template-replies-container {
   display: flex;
@@ -371,7 +371,7 @@ The class of a single button, you can add cool animations when hovering and styl
 ### Image Gallery
 
 * *webchat-carousel-template-root*  
-The card element a Gallery, here you can increase its size for example.
+The card element from a Gallery, here you can increase its size for example.
 ```CSS
 [data-cognigy-webchat-root] .webchat-carousel-template-root {
   width: 200px;
@@ -418,7 +418,7 @@ The Button at the bottom of the card, containing a URL.
 ### Media
 
 * *webchat-media-template*  
-The media element can be of three forms, Image, Video or Audio. You can modify its container or put some animations on it
+The media element can be of three forms: Image, Video or Audio. You can modify its container or put some animations on it
 ```CSS
 [data-cognigy-webchat-root] .webchat-media-template-image {
   animation: "Some animation" 1s;
