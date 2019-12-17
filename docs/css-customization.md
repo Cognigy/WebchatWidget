@@ -283,7 +283,7 @@ The icon from the user that will be show when a message is received. You can put
 }
 ```
 * *webchat-message-row + agent*  
-The class for the agent message when using hadnover in the chat, containing the message and the avatar logo.
+The class for the agent message when using handover in the chat, containing the message and the avatar logo.
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-message-row.agent {
 
@@ -292,7 +292,7 @@ The class for the agent message when using hadnover in the chat, containing the 
 }
 ```
 * *regular-message + agent*  
-The text of the message from the agent when using hadnover, you can change the font and style the dialog bubble.
+The text of the message from the agent when using handover, you can change the font and style the dialog bubble.
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message.agent {
 
@@ -301,7 +301,7 @@ The text of the message from the agent when using hadnover, you can change the f
 }
 ```
 * *webchat-avatar + agent*  
-The icon from the agent when using hadnover that will be show when a message is received. You can put the avatar you like by adding a URL to it.
+The icon from the agent when using handover that will be show when a message is received. You can put the avatar you like by adding a URL to it.
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar.agent {
 
