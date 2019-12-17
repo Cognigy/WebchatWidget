@@ -69,13 +69,12 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
         }
 
         case 'RECEIVE_MESSAGE': {
-            const { message } = action;
-            
+            const { message } = action; 
             const avatarUrl = getAvatarForMessage(message, store.getState());
 
             return next(addMessage({
-                ...message,
                 source: 'bot',
+                ...message,
                 avatarUrl
             } as IBotMessage));
         }

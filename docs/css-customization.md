@@ -190,6 +190,36 @@ The icon from the user that will be show when a message is received. You can put
     
 }
 ```
+* *webchat-message-row + agent*  
+The class for the agent message when using handover in the chat, containing the message and the avatar logo.
+```CSS
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-message-row.agent {
+
+    padding-right: 10px;
+
+}
+```
+* *regular-message + agent*  
+The text of the message from the agent when using handover, you can change the font and style the dialog bubble.
+```CSS
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .regular-message.agent {
+
+    background: rgb(5, 5, 131);    
+    box-shadow: none;
+}
+```
+* *webchat-avatar + agent*  
+The icon from the agent when using handover that will be show when a message is received. You can put the avatar you like by adding a URL to it.
+```CSS
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar.agent {
+
+    background-image: url(https://***.png);
+    width: 30px;
+    height: 28px;
+    
+}
+```
+
 * *webchat-chat-typing-indicator*  
 The typing indicator bubble of the message from the bot, you can change the background color.
 ```CSS

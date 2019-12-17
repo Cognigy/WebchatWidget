@@ -1,94 +1,117 @@
-import * as React from 'react';
-import { IMessage } from '../../../common/interfaces/message';
-import { MessagePlugin } from '../../../common/interfaces/message-plugin';
-import { MessageSender } from '../../interfaces';
-import { getPluginsForMessage } from '../../../plugins/helper';
-import MessageRow from '../presentational/MessageRow';
-import Avatar from '../presentational/Avatar';
-import { styled, IWebchatTheme } from '../../style';
-import { IWebchatConfig } from '../../../common/interfaces/webchat-config';
+import * as React from "react";
+import { IMessage } from "../../../common/interfaces/message";
+import { MessagePlugin } from "../../../common/interfaces/message-plugin";
+import { MessageSender } from "../../interfaces";
+import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
+import { getPluginsForMessage } from "../../../plugins/helper";
+import MessageRow from "../presentational/MessageRow";
+import Avatar from "../presentational/Avatar";
+import { styled, IWebchatTheme } from "../../style";
 
 export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
-    message: IMessage;
-    config: IWebchatConfig;
-    onSendMessage: MessageSender;
-    onSetFullscreen?: () => void;
-    onDismissFullscreen?: () => void;
-    onEmitAnalytics: (name: string, payload?: any) => void;
-    plugins: MessagePlugin[];
-    isFullscreen?: boolean;
-    webchatTheme: IWebchatTheme;
+  message: IMessage;
+  config: IWebchatConfig;
+  onSendMessage: MessageSender;
+  onSetFullscreen?: () => void;
+  onDismissFullscreen?: () => void;
+  onEmitAnalytics: (name: string, payload?: any) => void;
+  plugins: MessagePlugin[];
+  isFullscreen?: boolean;
+  webchatTheme: IWebchatTheme;
 }
 
 const FullWidthMessageRow = styled.div(({ theme }) => ({
-    marginTop: theme.unitSize,
-    marginBottom: theme.unitSize,
-    paddingTop: theme.unitSize,
-    paddingBottom: theme.unitSize
-}))
+  marginTop: theme.unitSize,
+  marginBottom: theme.unitSize,
+  paddingTop: theme.unitSize,
+  paddingBottom: theme.unitSize
+}));
 
-export default ({ message, config, onSendMessage, plugins, isFullscreen, onSetFullscreen, onDismissFullscreen, webchatTheme, onEmitAnalytics, ...props }: MessageProps): JSX.Element => {
-    const attributes = Object.keys(props).length > 0
-        ? props
-        : undefined;
+export default ({
+  message,
+  config,
+  onSendMessage,
+  plugins,
+  isFullscreen,
+  onSetFullscreen,
+  onDismissFullscreen,
+  webchatTheme,
+  onEmitAnalytics,
+  ...props
+}: MessageProps): JSX.Element => {
+  const attributes = Object.keys(props).length > 0 ? props : undefined;
 
-    const matchedPlugins = getPluginsForMessage(plugins)(message);
+  const matchedPlugins = getPluginsForMessage(plugins)(message);
+  const source = message.source;
 
-    const regularMessageBot = 'webchat-message-row bot';
-    const regularMessageUser = 'webchat-message-row user';
-    const botAvatar = 'webchat-avatar bot';
-    const userAvatar = 'webchat-avatar user';
+  let className;
+  let avatar;
+  let align;
 
-    return (
-        <>
-            {matchedPlugins.map(({ component: Component, options, name = 'unknown' }, index) => {
-                const emitAnalytics = (event: string, payload?: any) => onEmitAnalytics(`plugin/${name}/${event}`, payload);
+  switch (source) {
+    case "user":
+      className = "webchat-message-row user";
+      avatar = "webchat-avatar user";
+      align = "right";
+      break;
+    case "bot":
+      className = "webchat-message-row bot";
+      avatar = "webchat-avatar bot";
+      align = "left";
+      break;
+    case "agent":
+      className = "webchat-message-row agent";
+      avatar = "webchat-avatar agent";
+      align = "left";
+      break;
+    default:
+      break;
+  }
 
-                const messageElement = (
-                    <Component
-                        key={index}
-                        config={config}
-                        message={message}
-                        onSendMessage={onSendMessage}
-                        onSetFullscreen={onSetFullscreen}
-                        onDismissFullscreen={onDismissFullscreen}
-                        attributes={attributes}
-                        isFullscreen={isFullscreen}
-                        theme={webchatTheme}
-                        onEmitAnalytics={emitAnalytics}
-                    />
-                );
+  return (
+    <>
+      {matchedPlugins.map(
+        ({ component: Component, options, name = "unknown" }, index) => {
+          const emitAnalytics = (event: string, payload?: any) =>
+            onEmitAnalytics(`plugin/${name}/${event}`, payload);
 
-                const key = `${index}:${JSON.stringify(message)}`;
+          const messageElement = (
+            <Component
+              key={index}
+              config={config}
+              message={message}
+              onSendMessage={onSendMessage}
+              onSetFullscreen={onSetFullscreen}
+              onDismissFullscreen={onDismissFullscreen}
+              attributes={attributes}
+              isFullscreen={isFullscreen}
+              theme={webchatTheme}
+              onEmitAnalytics={emitAnalytics}
+            />
+          );
 
-                if (isFullscreen) {
-                    return messageElement;
-                }
+          const key = `${index}:${JSON.stringify(message)}`;
 
-                if (options && options.fullwidth) {
-                    return (
-                        <FullWidthMessageRow
-                            key={key}
-                        >
-                            {messageElement}
-                        </FullWidthMessageRow>
-                    )
-                }
+          if (isFullscreen) {
+            return messageElement;
+          }
 
+          if (options && options.fullwidth) {
+            return (
+              <FullWidthMessageRow key={key}>
+                {messageElement}
+              </FullWidthMessageRow>
+            );
+          }
 
-                return (
-                    <MessageRow
-                        key={key}
-                        align={message.source === 'bot' ? 'left' : 'right'}
-                        className={message.source === 'bot' ? regularMessageBot : regularMessageUser}
-                    >
-                        <Avatar src={message.avatarUrl as string}
-                            className={message.source === 'bot' ? botAvatar : userAvatar}
-                        />
-                        {messageElement}
-                    </MessageRow>
-                )
-            })}
-        </>
-    );
-}
+          return (
+            <MessageRow key={key} align={align} className={className}>
+              <Avatar src={message.avatarUrl as string} className={avatar} />
+              {messageElement}
+            </MessageRow>
+          );
+        }
+      )}
+    </>
+  );
+};
