@@ -315,6 +315,10 @@ This is the button to open the Webchat, if you want to modify its color you have
 
 Our Webchat ships with message templates out of the box (Quick replies, Buttons, Image Galleries, Media, Lists) these elements can be also customized to meet design guidelines even more!
 
+See it in action:  
+[![Edit modern-dawn-9ez8r](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/modern-dawn-9ez8r?fontsize=14&hidenavigation=1&theme=dark)  
+
+
 Here are the classes that you can use to modify it:
 
 ### Quick Replies
