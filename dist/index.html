@@ -9,13 +9,14 @@
     <!-- <script src="./persistent-menu.webchat-plugin.js"></script> -->
     <script src="./webchat.js"></script>
     <script>
-        initWebchat('https://endpoint-dev.cognigy.ai/f7d316bceb80ea4afeba518fccf563153e6f8d174d292bbf73f8d15bba025a5e', {
+        initWebchat('https://endpoint-dev.cognigy.ai/20071358ef60561acb9288e5ccf1b251262538743e527873681010cd63ef926a', {
             settings: {
                 // colorScheme: '#FAB'
             }
         }).then(webchat => {
             window.cognigyWebchat = webchat;
-            // webchat.open();
+            webchat.open();
+            webchat.sendMessage("test");
         });
     </script>
 </body>

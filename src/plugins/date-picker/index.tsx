@@ -8,6 +8,7 @@ import './flatpickr.css';
 // languages
 import l10n from './langHelper';
 import moment from 'moment';
+import { formatISO, addDays, isWeekend } from 'date-fns'
 
 import { MessageComponentProps, MessagePlugin, MessagePluginFactory } from "../../common/interfaces/message-plugin";
 import { createMessagePlugin, registerMessagePlugin } from "../helper";
@@ -171,34 +172,24 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       this.props.onDismissFullscreen();
     }
 
+    formatDate = (date: string) => {
+        return date;
+    }
+
     static isWeekendDate(date: string) {
-      const isoWeekday = moment(date).isoWeekday();
-
-      switch (isoWeekday) {
-        // 6 is saturday
-        case 6:
-        // 7 is sunday
-        case 7:
-          return true;
-      }
-
-      return false;
+        const weekday = new Date(date).getDay();
+        return weekday === 0 || weekday === 6
     }
 
     static transformNamedDate(namedDate: string) {
-      switch (namedDate) {
-        case "today":
-          return moment().format('YYYY-MM-DD');
-
-        case "tomorrow":
-          return moment().add(1, 'days').format('YYYY-MM-DD');
-
-        case "yesterday":
-          return moment().add(-1, 'days').format('YYYY-MM-DD');
-      }
-
-      return namedDate
+        const today = new Date();
+        const format = (date: Date): string => formatISO(date, {representation: 'date' });
+        if (namedDate === "today") return format(today);
+        if (namedDate === "tomorrow") return format(addDays(today, 1));
+        if (namedDate === "yesterday") return format(addDays(today, -1));
+        return namedDate;
     }
+    
 
     static getOptionsFromMessage(message: IMessage) {
       const { data } = message.data._plugin;
@@ -229,7 +220,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         mode: data.mode || 'single',
         static: true,
         time_24hr: data.time_24hr || false,
-        parseDate: dateString => moment(dateString).toDate(),
+        // parseDate: dateString => moment(dateString).toDate(),
         formatDate: date => moment(date).locale(momentLocaleId).format(outputFormat)
       };
 
@@ -286,7 +277,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
           </Header>
           <Content>
             <Flatpickr
-              onChange={(dates, msg) => { this.setState({ msg }) }}
+              onChange={(dates, msg) => { this.setState({ msg }), console.log(msg) }}
               options={
                 options
               }
