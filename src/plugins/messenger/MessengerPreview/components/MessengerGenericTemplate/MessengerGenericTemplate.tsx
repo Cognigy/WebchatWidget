@@ -107,6 +107,7 @@ export const getMessengerGenericTemplate = ({
                         <GenericContent
                             onClick={e => default_action && onAction(e, default_action)}
                             className="webchat-carousel-template-content"
+                            style={{cursor: "pointer"}}
                         >
                             <MessengerTitle className="webchat-carousel-template-title">
                                 {title}
