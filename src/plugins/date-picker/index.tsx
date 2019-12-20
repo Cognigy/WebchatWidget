@@ -1,6 +1,7 @@
 // Changelog:
 // - Moment.js lib is removed. We spare 30% of the bunde size (260K);
 // - We do NOT preselect any date for the user;
+// - disabled status for submit button
 
 import * as React from "react";
 import "./style.css";
@@ -12,19 +13,22 @@ import "./flatpickr.css";
 // languages
 import l10n from "./langHelper";
 
+import { formatISO } from "date-fns";
+
 import {
   MessageComponentProps,
-  MessagePlugin,
   MessagePluginFactory
 } from "../../common/interfaces/message-plugin";
-import { createMessagePlugin, registerMessagePlugin } from "../helper";
-import { IMessage, IBotMessage } from "../../common/interfaces/message";
+import { registerMessagePlugin } from "../helper";
+import { IMessage } from "../../common/interfaces/message";
 
 const datePickerDaySelector =
   ".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay";
 
 interface IState {
   msg: string;
+  dates: string[];
+  offset: number;
 }
 
 /**
@@ -86,6 +90,10 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     color: theme.primaryContrastColor
   }));
 
+  const PrimaryButtonDisabled = styled(Button)(({ theme }) => ({
+    flexGrow: 1
+  }));
+
   const OutlinedButton = styled(Button)(({ theme }) => ({
     backgroundColor: "transparent",
     border: `1px solid ${theme.primaryColor}`,
@@ -93,6 +101,11 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
   }));
 
   const SubmitButton = styled(PrimaryButton)(({ theme }) => ({
+    flexGrow: 2,
+    marginLeft: theme.unitSize * 2
+  }));
+
+  const SubmitButtonDisabled = styled(PrimaryButtonDisabled)(({ theme }) => ({
     flexGrow: 2,
     marginLeft: theme.unitSize * 2
   }));
@@ -142,11 +155,13 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
   const processedMessages: Set<string> = new Set();
 
-  class DatePicker extends React.Component<MessageComponentProps, IState> {
+  class DatePicker extends React.PureComponent<MessageComponentProps, IState> {
     constructor(props) {
       super(props);
       this.state = {
-        msg: ""
+        msg: "",
+        dates: [],
+        offset: new Date().getTimezoneOffset()
       };
     }
 
@@ -156,13 +171,16 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       if (this.state.msg.length > 0) {
         if (message.source === "bot") processedMessages.add(message.traceId);
 
-        this.props.onSendMessage(this.state.msg, {
-          _plugin: "date-picker",
-          date: this.state.msg,
-          unixDate: parseInt(
-            (new Date(this.state.msg).getTime() / 1000).toFixed(0)
-          )
-        });
+        this.props.onSendMessage(
+          JSON.stringify(this.state.dates),
+          {
+            _plugin: "date-picker",
+            date: this.state.msg,
+            datesArr: this.state.dates,
+            offset: this.state.offset
+          },
+          { label: this.state.msg }
+        );
       } else {
         this.handleAbort();
       }
@@ -223,7 +241,6 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         };
 
       const options = {
-        dateFormat: "YYYY-MM-DD",
         disable: [] as Array<Date | ((date: string) => boolean)>,
         enable: [] as Array<Date | ((date: string) => boolean)>,
         enableTime,
@@ -234,7 +251,6 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         minDate: DatePicker.transformDateString(data.minDate) || "",
         mode: data.mode || "single",
         static: true,
-        time_24hr: data.time_24hr || false,
         formatDate: date =>
           new Date(date).toLocaleString(momentLocaleId, outputFormat)
       };
@@ -303,9 +319,12 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
           <Content>
             <Flatpickr
               onChange={(dates, msg) => {
-                console.log(dates);
-                console.log(msg);
-                this.setState({ msg });
+                console.log("MSG: ", msg);
+                dates.map(date => console.log("dates: ", formatISO(date)));
+                this.setState({
+                  msg,
+                  dates: dates.map((date: Date) => formatISO(date))
+                });
               }}
               options={options}
             />
@@ -314,9 +333,21 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
             <CancelButton onClick={this.handleAbort} className="cancelButton">
               {cancelButtonText}
             </CancelButton>
-            <SubmitButton onClick={this.handleSubmit} className="submitButton">
-              {submitButtonText}
-            </SubmitButton>
+            {this.state.msg.length !== 0 ? (
+              <SubmitButton
+                onClick={this.handleSubmit}
+                className="submitButton"
+              >
+                {submitButtonText}
+              </SubmitButton>
+            ) : (
+              <SubmitButtonDisabled
+                disabled
+                className="submitButton submitButtonDisabled"
+              >
+                {submitButtonText}
+              </SubmitButtonDisabled>
+            )}
           </Footer>
         </DatePickerRoot>
       );
