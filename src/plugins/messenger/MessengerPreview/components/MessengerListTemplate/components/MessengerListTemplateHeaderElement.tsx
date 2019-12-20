@@ -90,7 +90,9 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
             >
                 {image}
                 <DarkLayer />
-                <Content className="webchat-list-template-header-content">
+                <Content className="webchat-list-template-header-content"
+                    style={{ cursor: "pointer" }}
+                >
                     <Title className="webchat-list-template-header-title">{title}</Title>
                     <Subtitle className="webchat-list-template-header-subtitle">{subtitle}</Subtitle>
                     {button && (
