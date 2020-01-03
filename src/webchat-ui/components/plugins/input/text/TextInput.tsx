@@ -197,9 +197,9 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         const { props, state } = this;
         const { text, active, mode } = state;
         const {
+            disableInputAutofocus,
             enablePersistentMenu,
             persistentMenu,
-            disableInputAutofocus
         } = props.config.settings;
         const {
             title,
