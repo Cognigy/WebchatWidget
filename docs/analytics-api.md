@@ -10,7 +10,7 @@ webchat.registerAnalyticsService(event => {
 If you e.g. want to react to incoming messages from Cognigy, you can do it like this:
 ```javascript
 webchat.registerAnalyticsService(event => {
-    if (event.type === "webchat/incoming-messsage") {
+    if (event.type === "webchat/incoming-message") {
         console.log("incoming message: " + event.payload.text);
     }
 });
