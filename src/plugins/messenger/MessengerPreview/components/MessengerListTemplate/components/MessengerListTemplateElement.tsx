@@ -23,7 +23,6 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         gridTemplateColumns: '1fr auto',
         gridColumnGap: theme.unitSize,
         backgroundColor: 'white',
-        cursor: 'pointer'
     }));
 
     const Image = styled.div(({ theme }) => ({
@@ -49,6 +48,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
             <Root
                 onClick={default_action && (e => onAction(e, default_action))}
                 className="webchat-list-template-element"
+                style={default_action ? { cursor: "pointer" }:{}}
             >
                 <div>
                     <MessengerTitle className="webchat-list-template-element-title">{title}</MessengerTitle>

@@ -82,7 +82,6 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
         const image = config.settings.dynamicImageAspectRatio
             ? <FlexImage src={image_url} />
             : <FixedImage style={{ backgroundImage: image_url ? getBackgroundImage(image_url) : undefined }} />
-
         return (
             <Root
                 onClick={default_action && (e => onAction(e, default_action))}
@@ -90,7 +89,9 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
             >
                 {image}
                 <DarkLayer />
-                <Content className="webchat-list-template-header-content">
+                <Content className="webchat-list-template-header-content"
+                    style={default_action ? { cursor: "pointer" }:{}}
+                >
                     <Title className="webchat-list-template-header-title">{title}</Title>
                     <Subtitle className="webchat-list-template-header-subtitle">{subtitle}</Subtitle>
                     {button && (
