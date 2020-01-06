@@ -109,7 +109,11 @@ const l10n = {
   tr: Turkish,
   uk: Ukrainian,
   vn: Vietnamese,
-  zh: Mandarin
+  zh: Mandarin,
+  us: english,
+  gb: english,
+  au: english,
+  ca: english,
 };
 
 export default l10n;
