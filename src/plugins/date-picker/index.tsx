@@ -1,8 +1,3 @@
-// Changelog:
-// - Moment.js lib is removed. We spare 30% of the bunde size (260K);
-// - We do NOT preselect any date for the user;
-// - disabled state for submit button
-
 import * as React from "react";
 import "./style.css";
 
