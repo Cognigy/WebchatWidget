@@ -6,10 +6,10 @@
 import * as React from "react";
 import "./style.css";
 
-import Flatpickr from 'react-flatpickr'
+import Flatpickr from "react-flatpickr";
 import "./flatpickr.css";
 
-import {makeFlatpickrConfig} from "./flatpickrAdapter";
+import { makeFlatpickrConfig } from "./flatpickrAdapter";
 
 import {
   MessageComponentProps,
@@ -124,7 +124,6 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     }
 
     static validate(mode: string, dates: any): boolean {
-
       if (mode === "single") return dates.length === 1;
       if (mode === "range") return dates.length === 2;
       if (mode === "multiple") return dates.length > 0;
@@ -133,21 +132,17 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     }
 
     handleSubmit = (): void => {
-
       const { message } = this.props;
       if (message.source === "bot") {
         processedMessages.add(message.traceId);
       }
 
-      this.props.onSendMessage(
-        this.data.msg,
-        {
-          _plugin: "date-picker",
-          isRange: this.data.isRange,
-          dates: this.data.dates.map(date => formatISO(date)),
-          userTimeZoneOffset: this.data.offset
-        },
-      );
+      this.props.onSendMessage(this.data.msg, {
+        _plugin: "date-picker",
+        isRange: this.data.isRange,
+        dates: this.data.dates.map(date => formatISO(date)),
+        userTimeZoneOffset: this.data.offset
+      });
     };
 
     handleAbort = () => {
