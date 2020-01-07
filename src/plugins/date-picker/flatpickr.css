@@ -582,17 +582,6 @@
      border: none;
  }
 
- [data-cognigy-webchat-root] .flatpickr-innerContainer {
-     /* display: block;
-     display: -webkit-box;
-     display: -webkit-flex;
-     display: -ms-flexbox;
-     display: flex;
-     -webkit-box-sizing: border-box;
-     box-sizing: border-box;
-     overflow: hidden; */
- }
-
  [data-cognigy-webchat-root] .flatpickr-rContainer {
      display: flex;
      flex-direction: column;

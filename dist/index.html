@@ -6,17 +6,13 @@
 </head>
 
 <body>
-    <!-- <script src="./persistent-menu.webchat-plugin.js"></script> -->
     <script src="./webchat.js"></script>
+    <!-- <script src="./file-upload.webchat-plugins.js"></script> -->
     <script>
-        initWebchat('https://endpoint-dev.cognigy.ai/20071358ef60561acb9288e5ccf1b251262538743e527873681010cd63ef926a', {
+        var chat = initWebchat('https://endpoint-dev.cognigy.ai/20071358ef60561acb9288e5ccf1b251262538743e527873681010cd63ef926a', {
             settings: {
                 // colorScheme: '#FAB'
             }
-        }).then(webchat => {
-            window.cognigyWebchat = webchat;
-            webchat.open();
-            webchat.sendMessage("test");
         });
     </script>
 </body>

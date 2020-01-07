@@ -6,28 +6,24 @@
 import * as React from "react";
 import "./style.css";
 
-import Flatpickr from "react-flatpickr";
+import Flatpickr from 'react-flatpickr'
 import "./flatpickr.css";
 
-// languages
-import l10n from "./langHelper";
-
-import { formatISO, parseISO } from "date-fns";
+import {makeFlatpickrConfig} from "./flatpickrAdapter";
 
 import {
   MessageComponentProps,
   MessagePluginFactory
 } from "../../common/interfaces/message-plugin";
+
 import { registerMessagePlugin } from "../helper";
-import { IMessage } from "../../common/interfaces/message";
+import { formatISO } from "date-fns";
 
 const datePickerDaySelector =
   ".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay";
 
-interface IState {
+interface State {
   valid: boolean;
-  isRange: boolean;
-  offset: number;
 }
 
 const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
@@ -60,7 +56,12 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
   const OutlinedButton = styled(Button)(({ theme }) => ({
     backgroundColor: "transparent",
     border: `1px solid ${theme.primaryColor}`,
-    color: theme.primaryColor
+    color: theme.primaryColor,
+    "&[disabled]": {
+      borderColor: theme.greyColor,
+      color: theme.greyColor,
+      cursor: "default"
+    }
   }));
 
   const SubmitButton = styled(PrimaryButton)(({ theme }) => ({
@@ -70,14 +71,6 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
   const CancelButton = styled(Button)(({ theme }) => ({
     flexGrow: 1
-  }));
-
-  const OpenDatepickerButton = styled(OutlinedButton)(({ theme }) => ({
-    "&[disabled]": {
-      borderColor: theme.greyColor,
-      color: theme.greyColor,
-      cursor: "default"
-    }
   }));
 
   const Padding = styled.div(({ theme }) => ({
@@ -113,71 +106,24 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
   const processedMessages: Set<string> = new Set();
 
-  class DatePicker extends React.PureComponent<MessageComponentProps, IState> {
+  class DatePicker extends React.PureComponent<MessageComponentProps, State> {
+    pluginConfig = this.props.message.data._plugin.data;
+
+    data = {
+      msg: "",
+      dates: [],
+      isRange: this.pluginConfig.mode === "range",
+      offset: new Date().getTimezoneOffset()
+    };
 
     constructor(props) {
       super(props);
-      const { data } = props.message.data.plugin;
       this.state = {
-        valid: false,
-        isRange: data.mode === 'range',
-        offset: new Date().getTimezoneOffset(),
+        valid: false
       };
     }
 
-    selection = {
-      msg: "",
-      dates: [],
-    };
-
-    handleSubmit = () => {
-      const { message } = this.props;
-
-      if (this.state.valid) {
-        if (message.source === "bot") {
-          processedMessages.add(message.traceId);
-        }
-
-        this.props.onSendMessage(
-          "",
-          {
-            _plugin: "date-picker",
-            isRange: this.state.isRange,
-            dates: this.selection.dates,
-            userTimeZoneOffset: this.state.offset
-          },
-          { label: this.selection.msg }
-        );
-      } else {
-        this.handleAbort();
-      }
-    };
-
-    handleAbort = () => {
-      this.props.onDismissFullscreen && this.props.onDismissFullscreen();
-    };
-
-    static isWeekend(date: string): boolean {
-      const weekDay = new Date(date).getDay();
-      return weekDay === 0 || weekDay === 6;
-    }
-
-    static transformDateString(dateStr: string): Date {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const tomorrow = new Date(today.setDate(today.getDate() + 1));
-      const yesterday = new Date(today.setDate(today.getDate() - 1));
-
-      if (dateStr === "today") return today;
-      if (dateStr === "tomorrow") return tomorrow;
-      if (dateStr === "yesterday") return yesterday;
-
-      return parseISO(dateStr);
-    }
-
-    static validateChoice(mode: string, selection: any): boolean {
-      const { dates } = selection;
+    static validate(mode: string, dates: any): boolean {
 
       if (mode === "single") return dates.length === 1;
       if (mode === "range") return dates.length === 2;
@@ -186,64 +132,27 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       return false;
     }
 
-    static getOptionsFromMessage(message: IMessage) {
-      const { data } = message.data._plugin;
+    handleSubmit = (): void => {
 
-      const localeId = data.locale || "us";
-      const locale = l10n[localeId];
-      const enableTime = data.enableTime;
-      const filterDates = data.enable_disable || [];
-
-      type DateOutputFormatCofig = {
-        year: string;
-        month: string;
-        day: string;
-        hour?: string;
-        minute?: string;
-      };
-
-      let outputFormat: DateOutputFormatCofig = {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit"
-      };
-
-      if (enableTime) {
-        outputFormat = {
-          ...outputFormat,
-          hour: "2-digit",
-          minute: "2-digit"
-        };
+      const { message } = this.props;
+      if (message.source === "bot") {
+        processedMessages.add(message.traceId);
       }
 
-      const options = {
-        disable: [] as Array<Date | ((date: string) => boolean)>,
-        enable: [] as Array<Date | ((date: string) => boolean)>,
-        enableTime,
-        event: data.eventName || "Pick a date",
-        inline: true,
-        locale,
-        maxDate: DatePicker.transformDateString(data.maxDate) || "",
-        minDate: DatePicker.transformDateString(data.minDate) || "",
-        mode: data.mode || "single",
-        static: true,
-        time_24hr: data.time_24hr || false,
-        formatDate: date =>
-          new Date(date).toLocaleString(undefined, outputFormat)
-      };
+      this.props.onSendMessage(
+        this.data.msg,
+        {
+          _plugin: "date-picker",
+          isRange: this.data.isRange,
+          dates: this.data.dates.map(date => formatISO(date)),
+          userTimeZoneOffset: this.data.offset
+        },
+      );
+    };
 
-      const mask: Array<Date | ((date: string) => boolean)> = [
-        ...filterDates
-      ].map(date => {
-        if (date === "weekends") return DatePicker.isWeekend;
-        return DatePicker.transformDateString(date);
-      });
-
-      if (data.wantDisable) options.disable = mask;
-      else options.enable = mask;
-
-      return options;
-    }
+    handleAbort = () => {
+      this.props.onDismissFullscreen && this.props.onDismissFullscreen();
+    };
 
     render() {
       const {
@@ -255,26 +164,21 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         onSetFullscreen
       } = this.props;
 
-      let dateButtonText =
-        message.data._plugin.data.openPickerButtonText || "pick date";
-      let cancelButtonText =
-        message.data._plugin.data.cancelButtonText || "cancel";
-      let submitButtonText =
-        message.data._plugin.data.submitButtonText || "submit";
+      const dateButtonText =
+        this.pluginConfig.openPickerButtonText || "pick date";
+      const cancelButtonText = this.pluginConfig.cancelButtonText || "cancel";
+      const submitButtonText = this.pluginConfig.submitButtonText || "submit";
 
-      const options = DatePicker.getOptionsFromMessage(message);
+      const options = makeFlatpickrConfig(this.pluginConfig);
 
       const handleChoiceChange = (dates, msg) => {
-        this.selection = {
+        this.data = {
+          ...this.data,
           msg,
-          dates: dates.map((date: Date) => formatISO(date))
+          dates
         };
-
         this.setState({
-          valid: DatePicker.validateChoice(
-            message.data._plugin.data.mode,
-            this.selection
-          )
+          valid: DatePicker.validate(this.pluginConfig.mode, this.data.dates)
         });
       };
 
@@ -285,12 +189,12 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
       if (!isFullscreen) {
         return (
-          <OpenDatepickerButton
+          <OutlinedButton
             onClick={onSetFullscreen}
             disabled={datepickerWasOpen}
           >
             {dateButtonText}
-          </OpenDatepickerButton>
+          </OutlinedButton>
         );
       }
 
