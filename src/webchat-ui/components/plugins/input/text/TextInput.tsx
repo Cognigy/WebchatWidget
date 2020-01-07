@@ -197,8 +197,9 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         const { props, state } = this;
         const { text, active, mode } = state;
         const {
+            disableInputAutofocus,
             enablePersistentMenu,
-            persistentMenu
+            persistentMenu,
         } = props.config.settings;
         const {
             title,
@@ -222,7 +223,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                     <>
                         <Input
                             ref={this.inputRef}
-                            autoFocus
+                            autoFocus={!disableInputAutofocus}
                             value={text}
                             onChange={this.handleChangeState}
                             onFocus={() => this.setState({ active: true })}
