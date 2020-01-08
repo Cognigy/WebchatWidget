@@ -53,7 +53,7 @@ const getMomemtLocaleId = (locale: string) => {
   return locale;
 }
 
-const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
+export const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
 
   const DatePickerRoot = styled.div(({ theme }) => ({

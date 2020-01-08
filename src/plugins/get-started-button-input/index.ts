@@ -8,7 +8,7 @@ const rule: InputRule = ({ config: { settings: { startBehavior, getStartedButton
     && !!getStartedPayload
     && (!!getStartedButtonText || !!getStartedText)
 
-const getStartedInputPlugin: InputPlugin = {
+export const getStartedInputPlugin: InputPlugin = {
     type: 'rule',
     rule,
     component: GetStartedInput

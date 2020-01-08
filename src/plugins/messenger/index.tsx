@@ -49,7 +49,7 @@ const isFullscreenMessengerGenericPayload = rawMessage => {
     return elements.length > 1;
 }
 
-const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
+export const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
 
     const MessengerPreview = getMessengerPreview({ React, styled });
 
@@ -83,7 +83,7 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
 }
 
 
-const fullscreenMessengerGenericPlugin: MessagePluginFactory = ({ React, styled }) => {
+export const fullscreenMessengerGenericPlugin: MessagePluginFactory = ({ React, styled }) => {
 
     const MessengerPreview = getMessengerPreview({ React, styled });
 

@@ -4,7 +4,7 @@
     "description": "> TODO: description",
     "author": "Robin Schuster <r.schuster@cognigy.com>",
     "license": "SEE LICENSE IN LICENSE",
-    "main": "lib/webchat/index.js",
+    "main": "lib/index.js",
     "scripts": {
         "build": "npm run bundle",
         "bundle": "npm run webchat && npm run webchat-legacy && npm run date-picker && npm run date-picker-legacy && npm run speech-input && npm run speech-input-legacy && npm run speech-output && npm run speech-output-legacy",
@@ -16,7 +16,8 @@
         "speech-output-legacy": "webpack --config webpack.production-plugin.legacy.js --entry ./src/plugins/speech-output/index.tsx --output dist/speech-output.webchat-plugin.legacy.js",
         "speech-output": "webpack --config webpack.production-plugin.js --entry ./src/plugins/speech-output/index.tsx --output dist/speech-output.webchat-plugin.js",
         "webchat-legacy": "webpack --config webpack.production.legacy.js --output dist/webchat.legacy.js",
-        "webchat": "webpack --config webpack.production.js"
+        "webchat": "webpack --config webpack.production.js",
+        "tsc": "tsc-transpile-only"
     },
     "dependencies": {
         "@cognigy/socket-client": "^4.2.0",
@@ -72,6 +73,7 @@
         "ts-loader": "^5.4.5",
         "typesafe-actions": "^3.0.0",
         "typescript": "^3.7.2",
+        "typescript-transpile-only": "0.0.4",
         "url-polyfill": "^1.1.7",
         "webpack": "^4.41.2",
         "webpack-cli": "^3.3.10",

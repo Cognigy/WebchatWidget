@@ -3,7 +3,7 @@ import { getSpeechInput } from "./SpeechInput";
 import { InputPlugin, InputPluginFactory } from "../../common/interfaces/input-plugin";
 import Button from "./Button";
 
-const speechInput: InputPluginFactory = ({ React, styled }) => {
+export const speechInputPlugin: InputPluginFactory = ({ React, styled }) => {
     const icon = require('./baseline-keyboard_voice-24px.svg');
 
     const Input = getSpeechInput({ React, styled })
@@ -16,6 +16,6 @@ const speechInput: InputPluginFactory = ({ React, styled }) => {
     }
 }
 
-registerInputPlugin(speechInput);
+registerInputPlugin(speechInputPlugin);
 
-export default speechInput
+export default speechInputPlugin

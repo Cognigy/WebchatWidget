@@ -36,7 +36,7 @@ const SpeechOutput = (props: MessageComponentProps) => {
 // make sure to read out messages only once
 const MemoizedSpeechOutput = React.memo(SpeechOutput);
 
-const speechOutput = {
+export const speechOutputPlugin = {
     match,
     component: MemoizedSpeechOutput,
     options: {
@@ -45,4 +45,4 @@ const speechOutput = {
     }
 }
 
-registerMessagePlugin(speechOutput);
+registerMessagePlugin(speechOutputPlugin);
