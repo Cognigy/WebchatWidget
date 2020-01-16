@@ -108,7 +108,8 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       msg: "",
       dates: [],
       isRange: this.pluginConfig.mode === "range",
-      offset: new Date().getTimezoneOffset()
+      granularity: this.pluginConfig.enableTime ? "minutes" : "days",
+      userTimeZoneOffset: new Date().getTimezoneOffset()
     };
 
     constructor(props) {
@@ -132,11 +133,13 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         processedMessages.add(message.traceId);
       }
 
-      this.props.onSendMessage(this.data.msg, {
+      let {dates, granularity, isRange, msg, userTimeZoneOffset} = this.data;
+      this.props.onSendMessage(msg, {
         _plugin: "date-picker",
-        isRange: this.data.isRange,
-        dates: this.data.dates.map(date => formatISO(date)),
-        userTimeZoneOffset: this.data.offset
+        dates: dates.map(date => formatISO(date)),
+        granularity,
+        isRange,
+        userTimeZoneOffset,
       });
     };
 
