@@ -211,10 +211,11 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       const localeId = data.locale || 'us';
       const momentLocaleId = getMomemtLocaleId(localeId);
       const flatpickrLocaleId = getFlatpickrLocaleId(localeId);
-      const locale = l10n[flatpickrLocaleId];
+      let locale = l10n[flatpickrLocaleId];
       const enableTime = !!data.enableTime;
       const outputFormat = enableTime ? 'L LT' : 'L';
 
+      if ( localeId === 'gb' ) locale = { ...locale, firstDayOfWeek: 1 };
       const options = {
         dateFormat,
         defaultDate,
