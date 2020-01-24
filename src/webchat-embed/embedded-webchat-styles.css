@@ -53,7 +53,7 @@
     }
 }
 
-@media screen and (max-height: 684px) {
+@media screen and (min-width: 576px) and (max-height: 684px) {
     [data-cognigy-webchat-root] [data-cognigy-webchat] {
         height: calc(100% - 104px);
     }
