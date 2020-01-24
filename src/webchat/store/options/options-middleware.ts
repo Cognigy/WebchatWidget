@@ -27,9 +27,9 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
     }
 
     const { active } = store.getState().config;
-    const { disableLocalStorage } = store.getState().config.settings;
+    const { disablePersistentHistory } = store.getState().config.settings;
 
-    if (localStorage && active && !disableLocalStorage) {
+    if (localStorage && active && !disablePersistentHistory) {
         localStorage.setItem(key, JSON.stringify(store.getState()));
     }
 

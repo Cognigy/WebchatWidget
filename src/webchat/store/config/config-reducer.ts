@@ -12,7 +12,7 @@ const getInitialState = (): ConfigState => ({
         colorScheme: '',
         designTemplate: 1,
         disableInputAutofocus: false,
-        disableLocalStorage: false,
+        disablePersistentHistory: false,
         disableTextInputSanitization: false,
         disableToggleButton: false,
         dynamicImageAspectRatio: false,
