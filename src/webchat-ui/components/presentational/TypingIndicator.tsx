@@ -20,7 +20,9 @@ const bounce = (theme: IWebchatTheme) => keyframes({
 
 const Container = styled.div(({ theme }) => ({
     paddingTop: theme.unitSize,
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
+    flexBasis: theme.unitSize * 5,
+    height: 11
 }))
 
 const Dot = styled.div(({ theme }) => ({
