@@ -26,10 +26,12 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
         }
     }
 
-    const result = next(action);
+    const { active } = store.getState().config;
+    const { disableLocalStorage } = store.getState().config.settings;
 
-    if (localStorage)
+    if (localStorage && active && !disableLocalStorage) {
         localStorage.setItem(key, JSON.stringify(store.getState()));
+    }
 
-    return result;
+    return next(action);
 }

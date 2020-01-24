@@ -37,13 +37,15 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
             : plugin
         );
 
+    const { disableLocalStorage } = options && options.settings;
+
     // if no specific userId is provided, try to load one from localStorage, otherwise generate one and persist it in localstorage
     if ((!options || !options.userId) && localStorage) {
         let userId = localStorage.getItem('userId');
 
         if (!userId) {
             userId = uuid.v4();
-            localStorage.setItem('userId', userId);
+            !disableLocalStorage && localStorage.setItem('userId', userId);
         }
 
         if (!options)
