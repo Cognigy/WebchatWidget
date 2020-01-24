@@ -307,7 +307,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 ))}
                 {typingIndicator && (
                     <MessageRow align='left'>
-                        <Avatar src="" />
                         <TypingIndicatorBubble />
                     </MessageRow>
                 )}
