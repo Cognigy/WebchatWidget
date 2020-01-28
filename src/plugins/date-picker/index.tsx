@@ -2,7 +2,7 @@ import * as React from "react";
 import "./style.css";
 
 // Flatpickr Datepicker
-import Flatpickr from './components/react-flatpickr';
+import Flatpickr from 'react-flatpickr';
 import './flatpickr.css';
 
 // languages

@@ -17,6 +17,33 @@ It is divided into multiple sub-projects
 - `webchat-embed` takes the `webchat` and renders it into a website without further manual integration into an existing react application
 - `plugins` contains builtin webchat-plugins that can be understood as a basic featureset.
 
+## Use as NPM module
+You can install Webchat with `npm i @cognigy/webchat`
+To use this package in your application you should have css and svg as react component loaders included in your build pipeline.
+For Webpack this can be as easy as: `npm i -D svg-react-loader css-loader style-loader`
+and then in `webpack.config.js`:
+
+```javascript
+module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+    }, 
+    {
+        test: /\.svg$/,
+        loader: 'svg-react-loader'
+    }
+    ]
+  }
+```
+After that anywhere in your your application:
+```javascript
+import { initWebchat } from '@cognigy/webchat';
+let chat = initWebchat('https://endpoint-dev.cognigy.ai/dc1168c982bf9327e5b1210fef911f25581902e5e452a0ead52d2fbd93647c2a')
+```
+
+
 ## Building the Webchat
 To build the webchat, you will need an installed version of `Node.js`.
 Clone this repository, then run `npm i` and `npm run bundle` within the root folder to install dependencies and create bundle files in `dist/`.

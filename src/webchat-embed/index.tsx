@@ -18,7 +18,7 @@ type InitWebchatOptions = SocketOptions & {
     settings?: WebchatSettings;
 }
 
-const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOptions, callback?: (webchat: Webchat) => void) => {
+export const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOptions, callback?: (webchat: Webchat) => void) => {
     // @ts-ignore
     const messagePlugins = (window.cognigyWebchatMessagePlugins || [])
         .map(plugin => typeof plugin === 'function'

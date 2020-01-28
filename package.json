@@ -1,10 +1,10 @@
 {
     "name": "@cognigy/webchat",
     "version": "2.13.0",
-    "description": "> TODO: description",
+    "description": "Webchat to use with Cognigy.AI",
     "author": "Robin Schuster <r.schuster@cognigy.com>",
-    "license": "SEE LICENSE IN LICENSE",
-    "main": "lib/webchat/index.js",
+    "license": "Commercial see LICENSE file",
+    "main": "lib/webchat-embed/index.js",
     "scripts": {
         "build": "npm run bundle",
         "bundle": "npm run webchat && npm run webchat-legacy && npm run date-picker && npm run date-picker-legacy && npm run speech-input && npm run speech-input-legacy && npm run speech-output && npm run speech-output-legacy",
@@ -16,7 +16,8 @@
         "speech-output-legacy": "webpack --config webpack.production-plugin.legacy.js --entry ./src/plugins/speech-output/index.tsx --output dist/speech-output.webchat-plugin.legacy.js",
         "speech-output": "webpack --config webpack.production-plugin.js --entry ./src/plugins/speech-output/index.tsx --output dist/speech-output.webchat-plugin.js",
         "webchat-legacy": "webpack --config webpack.production.legacy.js --output dist/webchat.legacy.js",
-        "webchat": "webpack --config webpack.production.js"
+        "webchat": "webpack --config webpack.production.js",
+        "prepublishOnly": "tsc -p . && copyfiles -u 1 'src/**/*.svg' 'src/**/*.css' lib/"
     },
     "dependencies": {
         "@cognigy/socket-client": "^4.2.0",
@@ -34,6 +35,7 @@
         "react-animate-height": "^2.0.17",
         "react-dom": "^16.12.0",
         "react-emotion": "^10.0.0",
+        "react-flatpickr": "^3.7.1",
         "react-player": "^1.14.2",
         "react-redux": "^6.0.0",
         "react-responsive-carousel": "^3.1.51",
@@ -60,9 +62,9 @@
         "@types/react-redux": "^6.0.12",
         "@types/tinycolor2": "^1.4.2",
         "@types/uuid": "^3.4.6",
-        "@types/whatwg-fetch": "0.0.33",
         "babel-loader": "^8.0.6",
         "babel-polyfill": "^6.26.0",
+        "copyfiles": "^2.2.0",
         "css-loader": "^2.1.0",
         "idempotent-babel-polyfill": "^7.4.4",
         "react-svg-loader": "^3.0.3",
