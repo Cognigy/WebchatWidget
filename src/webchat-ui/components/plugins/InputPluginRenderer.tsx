@@ -9,7 +9,7 @@ export interface InputProps extends InputComponentProps, React.HTMLProps<HTMLDiv
     plugins: InputPlugin[];
     messages: IMessage[];
     onSetInputMode: (inputMode: string) => void;
-    inputMode: string;
+    inputMode: "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
     webchatTheme: IWebchatTheme;
 }
 

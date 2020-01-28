@@ -16,7 +16,7 @@ export const setOptions = (options: Options) => ({
 });
 export type SetOptionsAction = ReturnType<typeof setOptions>;
 
-export const options: Reducer<OptionsState, SetOptionsAction> = (state = getInitialState(), action) => {
+export const options: Reducer<OptionsState, SetOptionsAction> = (state: OptionsState = getInitialState(), action: SetOptionsAction) => {
     switch (action.type) {
         case 'SET_OPTIONS': {
             return action.options;

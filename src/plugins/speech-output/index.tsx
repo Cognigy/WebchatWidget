@@ -9,11 +9,11 @@ const processedMessageIds = new Set<string>();
 const match: MessageMatcher = ({ text, source }) => source === 'bot' && !!text;
 
 const SpeechOutput = (props: MessageComponentProps) => {
-    if (processedMessageIds.has(props.message.traceId)) {
+    if (props.message.source === 'bot' && processedMessageIds.has(props.message.traceId)) {
         return null;
     }
 
-    processedMessageIds.add(props.message.traceId);
+    props.message.source === 'bot' && processedMessageIds.add(props.message.traceId);
 
     // check whether text to speech is available in client
     if (!speechSynthesis)

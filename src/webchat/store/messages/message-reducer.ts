@@ -10,7 +10,7 @@ export const addMessage = (message: IMessage) => ({
 });
 type AddMessageAction = ReturnType<typeof addMessage>;
 
-export const messages: Reducer<MessageState, AddMessageAction> = (state = [], action) => {
+export const messages: Reducer<MessageState, AddMessageAction> = (state: MessageState = [], action: AddMessageAction) => {
     switch (action.type) {
         case 'ADD_MESSAGE': {
             return [...state, action.message];

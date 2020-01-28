@@ -15,7 +15,7 @@ export const setConnected = (connected: boolean) => ({
 });
 export type SetConnectedAction = ReturnType<typeof setConnected>;
 
-export const connection: Reducer<ConnectionState, SetConnectedAction> = (state = initialState, action) => {
+export const connection: Reducer<ConnectionState, SetConnectedAction> = (state: ConnectionState = initialState, action: SetConnectedAction) => {
     switch (action.type) {
         case 'SET_CONNECTED': {
             return {

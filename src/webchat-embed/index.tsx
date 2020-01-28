@@ -52,7 +52,7 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
         options.userId = userId;
     }
 
-    let settings: Partial<WebchatSettings> = {};
+    let settings: WebchatSettings = {} as any;
     if (options && options.settings) {
         settings = options.settings;
         options.settings = undefined;

@@ -87,7 +87,7 @@ type UIAction = SetOpenAction
     | SetUserAvatarOverrideUrlAction;
 
 
-export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action) => {
+export const ui: Reducer<UIState, UIAction> = (state: UIState = getInitialState(), action: UIAction) => {
     switch (action.type) {
         case SET_OPEN: {
             return {

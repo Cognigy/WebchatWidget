@@ -47,7 +47,7 @@ export const setConfig = (config: ConfigState) => ({
 });
 export type SetConfigAction = ReturnType<typeof setConfig>;
 
-export const config: Reducer<ConfigState, SetConfigAction> = (state = getInitialState(), action) => {
+export const config: Reducer<ConfigState, SetConfigAction> = (state: ConfigState = getInitialState(), action: SetConfigAction) => {
 
     switch (action.type) {
         case 'SET_CONFIG': {

@@ -160,7 +160,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
           }
         }, 300);
       } else {
-        this.props.onDismissFullscreen();
+        this.props.onDismissFullscreen && this.props.onDismissFullscreen();
       }
 
     };
@@ -168,7 +168,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     handleAbort = () => {
       const { message } = this.props;
 
-      this.props.onDismissFullscreen();
+      this.props.onDismissFullscreen && this.props.onDismissFullscreen();
     }
 
     static isWeekendDate(date: string) {

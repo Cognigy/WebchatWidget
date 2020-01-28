@@ -14,7 +14,8 @@ export interface InputComponentProps {
     config: IWebchatConfig;
     onSendMessage: MessageSender;
     onEmitAnalytics: (name: string, data?: any) => void;
-    theme: IWebchatTheme;
+    webchatTheme?: IWebchatTheme;
+    theme?: IWebchatTheme;
 }
 
 interface MatcherArgs {

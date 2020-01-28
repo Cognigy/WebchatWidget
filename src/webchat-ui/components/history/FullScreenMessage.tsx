@@ -9,6 +9,7 @@ const FullscreenMessage = styled(Message)({
 });
 
 export default (props: MessageProps) => (
+    // @ts-ignore
     <FullscreenMessage
         {...props}
         isFullscreen={true}

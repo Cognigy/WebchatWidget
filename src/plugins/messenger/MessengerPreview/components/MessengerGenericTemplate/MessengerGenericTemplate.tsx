@@ -13,7 +13,7 @@ import { getMessengerSubtitle } from '../MessengerSubtitle';
 import { Carousel } from 'react-responsive-carousel';
 
 import "./carousel.css";
-import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
+import { IWebchatConfig } from "../../../../../common/interfaces/webchat-config";
 import { getFlexImage } from "../FlexImage";
 import { getBackgroundImage } from "../../lib/css";
 
