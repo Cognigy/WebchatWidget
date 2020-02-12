@@ -68,6 +68,7 @@ See it in action:
 | disableTextInputSanitization | boolean | false | By default, text inputs from the user will be sanitized for HTML with scripting. If you set this to true, users can send any kind of HTML text, including script-tags and onload-attributes etc.
 | enablePersistentMenu | boolean | false | Whether to enable the Persistent Menu 
 | persistentMenu | [Persistent Menu](#persistent-menu) | - | The Persistent Menu to render in the Webchat.
+| useSessionStorage | boolean | false | If true, to store chat history and userId sessionStorage is used instead of localStorage.
 
 See it in action:  
 [![Edit Override Endpoint Settings](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/embedding-the-cognigy-webchat-bpz1r?fontsize=14&hidenavigation=1&theme=dark)
