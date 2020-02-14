@@ -8,12 +8,15 @@ type Actions = SetOptionsAction
 
 export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (action: Actions) => {
     const key = getOptionsKey(store.getState().options);
+    const { active } = store.getState().config; // Actual settings are loaded
+    const { disablePersistentHistory, useSessionStorage } = store.getState().config.settings;
+    const browserStorage = useSessionStorage ? window.sessionStorage : window.localStorage;
 
     switch (action.type) {
         case 'SET_OPTIONS': {
-            const key = getOptionsKey(action.options);
-            if (localStorage) {
-                const persistedString = localStorage.getItem(key);
+            if (browserStorage) {
+                const key = getOptionsKey(action.options);
+                const persistedString = browserStorage.getItem(key);
 
                 if (persistedString) {
                     try {
@@ -26,11 +29,8 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
         }
     }
 
-    const { active } = store.getState().config;
-    const { disablePersistentHistory } = store.getState().config.settings;
-
-    if (localStorage && active && !disablePersistentHistory) {
-        localStorage.setItem(key, JSON.stringify(store.getState()));
+    if (browserStorage && active && !disablePersistentHistory) {
+        browserStorage.setItem(key, JSON.stringify(store.getState()));
     }
 
     return next(action);
