@@ -6,7 +6,7 @@ This repo contains a Webchat that seemlessly integrates with your website and le
 To get started using the Webchat on your Website, you can use the [Documentation section](./docs/README.md) in this repository.
 For Information on how to set up the Webchat on Cognigy side, please refer to the "[Deploy a Webchat Endpoint](https://docs.cognigy.com/docs/deploy-a-webchat-20-endpoint)" guide in our product documentation.
 
-Please read the Documentation [here](https://docs.cognigy.com/docs/embedding-the-cognigy-webchat) for information about how you can integrate this Webchat on your own website.
+Please read the Documentation [here](https://docs.cognigy.com/docs/cognigy-webchat) for information about how you can integrate this Webchat on your own website.
 For customization of styling, please read the [guide on applying custom CSS to the Webchat](./src/webchat-ui/README.md).
 
 ## About this Repository
