@@ -35,6 +35,7 @@ export interface IWebchatSettings {
     STTLanguage: string;
     title: string;
     userAvatarUrl: string;
+    useSessionStorage: boolean;
 }
 
 export interface IWebchatConfig {

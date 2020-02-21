@@ -36,7 +36,8 @@ const getInitialState = (): ConfigState => ({
         startBehavior: 'none',
         STTLanguage: '',
         title: '',
-        userAvatarUrl: ''
+        userAvatarUrl: '',
+        useSessionStorage: false
     }
 });
 
