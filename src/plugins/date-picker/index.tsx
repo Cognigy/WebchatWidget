@@ -57,6 +57,9 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
 
   const DatePickerRoot = styled.div(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: 1,
     [datePickerDaySelector]: {
       background: theme.primaryGradient,
       color: theme.primaryContrastColor,
@@ -281,11 +284,11 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       }
 
       return (
-        <DatePickerRoot {...attributes} style={{ display: "flex", flexDirection: "column" }}>
-          <Header className="info">
+        <DatePickerRoot {...attributes} className="webchat-plugin-date-picker">
+          <Header className="info webchat-plugin-date-picker-header">
             <h2>{options.event}</h2>
           </Header>
-          <Content>
+          <Content className="webchat-plugin-date-picker-content">
             <Flatpickr
               onChange={(dates, msg) => { this.setState({ msg }) }}
               options={
@@ -293,7 +296,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
               }
             />
           </Content>
-          <Footer>
+          <Footer className="webchat-plugin-date-picker-footer">
             <CancelButton onClick={this.handleAbort} className="cancelButton">{cancelButtonText}</CancelButton>
             <SubmitButton onClick={this.handleSubmit} className="submitButton">{submitButtonText}</SubmitButton>
           </Footer>
