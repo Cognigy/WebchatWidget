@@ -14,7 +14,7 @@ const getMessengerPayload = message => {
     if (!_cognigy)
         return null;
 
-    if (!_cognigy.syncWebchatWithFacebook)
+    if (!_cognigy._webchat && !_cognigy.syncWebchatWithFacebook)
         return null;
 
     const { _facebook, _webchat } = _cognigy;
