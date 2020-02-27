@@ -6,20 +6,21 @@ import { transformMessage } from "./MessengerPreview/lib/transform";
 import { IFBMGenericTemplatePayload } from "./MessengerPreview/interfaces/GenericTemplatePayload.interface";
 
 const getMessengerPayload = message => {
-    const { data } = message;
-    if (!data)
-        return null;
+    const { syncWebchatWithFacebook, _webchat, _facebook } = message?.data?._cognigy;
 
-    const { _cognigy } = data;
-    if (!_cognigy)
-        return null;
+    // TODO make this overridable via flag to always be legacy
+    const useLegacy = (syncWebchatWithFacebook === undefined);
 
-    if (!_cognigy._webchat && !_cognigy.syncWebchatWithFacebook)
-        return null;
+    if (useLegacy) {
+        const { _webchat, _facebook } = message?.data?._cognigy;
 
-    const { _facebook, _webchat } = _cognigy;
+        return _webchat || _facebook;
+    }
 
-    return _webchat || _facebook;
+    if (syncWebchatWithFacebook)
+        return _facebook;
+
+    return _webchat;
 }
 
 const isMessengerPayload = message => !!getMessengerPayload(message);
