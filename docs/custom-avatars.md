@@ -5,7 +5,7 @@ Set a user avatar override
 ```json
 {
   "_webchat": {
-   " userAvatarOverrideUrl": "https://placekitten.com/200/200"
+   "userAvatarOverrideUrl": "https://placekitten.com/200/200"
   }
 }
 ```
