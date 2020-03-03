@@ -55,12 +55,10 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
             }
 
             if (store.getState().config.settings.disableHtmlInputRendering) {
-                console.log(text);
                 text = new DOMParser()
                     .parseFromString(text || '', 'text/html')
                     .body
                     .textContent || '';
-                    console.log(text);
             }
 
             client.sendMessage(text || '', data);
