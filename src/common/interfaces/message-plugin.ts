@@ -16,7 +16,7 @@ export interface MessageComponentProps {
     theme: IWebchatTheme;
 }
 
-export type MessageMatcher = (message: IMessage) => boolean;
+export type MessageMatcher = (message: IMessage, config: IWebchatConfig) => boolean;
 
 export interface MessagePluginOptions {
     fullscreen: boolean;

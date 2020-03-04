@@ -41,7 +41,7 @@ export default ({
 }: MessageProps): JSX.Element => {
   const attributes = Object.keys(props).length > 0 ? props : undefined;
 
-  const matchedPlugins = getPluginsForMessage(plugins)(message);
+  const matchedPlugins = getPluginsForMessage(plugins, config)(message);
   const source = message.source;
 
   let className;
