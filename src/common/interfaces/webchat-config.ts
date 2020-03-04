@@ -8,6 +8,7 @@ export interface IWebchatSettings {
     backgroundImageUrl: string;
     colorScheme: string;
     designTemplate: number;
+    disableHtmlInputRendering: boolean;
     disableInputAutofocus: boolean;
     disablePersistentHistory: boolean;
     disableTextInputSanitization: boolean;
