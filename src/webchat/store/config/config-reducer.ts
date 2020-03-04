@@ -21,6 +21,7 @@ const getInitialState = (): ConfigState => ({
         enableFileUpload: false,
         enablePersistentMenu: false,
         enableSTT: false,
+        enableStrictMessengerSync: false,
         enableTTS: false,
         enableTypingIndicator: false,
         getStartedButtonText: '',

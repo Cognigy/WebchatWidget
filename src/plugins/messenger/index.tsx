@@ -4,27 +4,34 @@ import { getMessengerPreview } from "./MessengerPreview/MessengerPreview";
 import { registerMessagePlugin } from '../helper';
 import { transformMessage } from "./MessengerPreview/lib/transform";
 import { IFBMGenericTemplatePayload } from "./MessengerPreview/interfaces/GenericTemplatePayload.interface";
+import { IMessage } from "../../common/interfaces/message";
+import { IWebchatConfig } from "../../common/interfaces/webchat-config";
 
-const getMessengerPayload = message => {
-    const { data } = message;
-    if (!data)
+const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
+    const cognigyData = message.data?._cognigy;
+
+    if (!cognigyData)
         return null;
 
-    const { _cognigy } = data;
-    if (!_cognigy)
-        return null;
+    const { _facebook, _webchat, syncWebchatWithFacebook } = cognigyData;
 
-    const { _facebook, _webchat } = _cognigy;
+    if (config.settings.enableStrictMessengerSync) {
+        if (syncWebchatWithFacebook) {
+            return _facebook;
+        }
+
+        return _webchat;
+    }
 
     return _webchat || _facebook;
 }
 
-const isMessengerPayload = message => !!getMessengerPayload(message);
+const isMessengerPayload = (message: IMessage, config: IWebchatConfig) => !!getMessengerPayload(message, config);
 
 // return true if a message is a messenger generic template with more than one element
 // one element should be rendered like default
-const isFullscreenMessengerGenericPayload = rawMessage => {
-    const messengerPayload = getMessengerPayload(rawMessage);
+const isFullscreenMessengerGenericPayload = (rawMessage: IMessage, config: IWebchatConfig) => {
+    const messengerPayload = getMessengerPayload(rawMessage, config);
 
     if (!messengerPayload)
         return false;
@@ -58,7 +65,7 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
         match: isMessengerPayload,
         component: ({ message, onSendMessage, config, onEmitAnalytics }: MessageComponentProps) => (
             <MessengerPreview
-                message={transformMessage(getMessengerPayload(message).message)}
+                message={transformMessage(getMessengerPayload(message, config).message)}
                 onAction={(e, action) => {
                     onEmitAnalytics('action', action);
 
@@ -92,7 +99,7 @@ const fullscreenMessengerGenericPlugin: MessagePluginFactory = ({ React, styled 
         match: isFullscreenMessengerGenericPayload,
         component: ({ message, onSendMessage, config, onEmitAnalytics }: MessageComponentProps) => (
             <MessengerPreview
-                message={transformMessage(getMessengerPayload(message).message)}
+                message={transformMessage(getMessengerPayload(message, config).message)}
                 onAction={(e, action) => {
                     onEmitAnalytics('action', action);
 
