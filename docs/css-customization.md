@@ -578,3 +578,20 @@ The footer element of the Date picker plugin, give it a custom look with padding
   padding: 1em 3em;
 }
 ```
+* *webchat-plugin-date-picker-weekdays*  
+The Weekdays of the calendar can be customized with e.g. uppercase labels.
+```CSS
+[data-cognigy-webchat-root] .flatpickr-weekday {
+  text-transform: uppercase;
+}
+```
+* *webchat-plugin-date-picker-footer*  
+The look and feel of the selected date can be changed.
+```CSS
+[data-cognigy-webchat-root] .flatpickr-day.selected {
+  background: #28c8ef;
+  color: hsla(0, 0%, 100%, 0.95);
+  font-weight: bold;
+  font-size: 22px;
+}
+```
