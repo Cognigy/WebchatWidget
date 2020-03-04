@@ -548,3 +548,50 @@ This is the button inside every list element, adding some hovering effects or an
   background-color: #cfb00071;   
 }
 ```
+### Date Picker
+
+* *webchat-plugin-date-picker*  
+The container element of the Date picker plugin, you can make it's font appear bigger.
+```CSS
+[data-cognigy-webchat-root] .webchat-plugin-date-picker {
+  font-size: 125%;
+}
+```
+* *webchat-plugin-date-picker-header*  
+The header of the Date picker plugin, it it possible to change e.g. it's background color.
+```CSS
+[data-cognigy-webchat-root] .webchat-plugin-date-picker-header {
+  background-color: linear-gradient(185deg,#36b96e,#2c6caf);
+}
+```
+* *webchat-plugin-date-picker-content*  
+The content container element of the Date picker plugin, let it glow with an inset shadow.
+```CSS
+[data-cognigy-webchat-root] .webchat-plugin-date-picker-content {
+  box-shadow: 0 0 70px #ff99d7 inset;
+}
+```
+* *webchat-plugin-date-picker-footer*  
+The footer element of the Date picker plugin, give it a custom look with padding.
+```CSS
+[data-cognigy-webchat-root] .webchat-plugin-date-picker-footer {
+  padding: 1em 3em;
+}
+```
+* *webchat-plugin-date-picker-weekdays*  
+The Weekdays of the calendar can be customized with e.g. uppercase labels.
+```CSS
+[data-cognigy-webchat-root] .flatpickr-weekday {
+  text-transform: uppercase;
+}
+```
+* *webchat-plugin-date-picker-footer*  
+The look and feel of the selected date can be changed.
+```CSS
+[data-cognigy-webchat-root] .flatpickr-day.selected {
+  background: #28c8ef;
+  color: hsla(0, 0%, 100%, 0.95);
+  font-weight: bold;
+  font-size: 22px;
+}
+```
