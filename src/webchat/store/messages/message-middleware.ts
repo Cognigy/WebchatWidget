@@ -54,7 +54,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
                 text = sanitizeHTML(text || '');
             }
 
-            if (store.getState().config.settings.disableHtmlInputRendering) {
+            if (store.getState().config.settings.disableHtmlInput) {
                 text = new DOMParser()
                     .parseFromString(text || '', 'text/html')
                     .body
