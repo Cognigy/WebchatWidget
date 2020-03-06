@@ -23,9 +23,9 @@ const HeaderIconButton = styled(IconButton)(({ theme }) => ({
 
 interface HeaderProps {
     title: string;
-    connected: boolean;
+    connected?: boolean;
     logoUrl?: string;
-    onClose: () => void;
+    onClose?: () => void;
 }
 
 export default ({ logoUrl, connected, title, onClose, ...props }: HeaderProps) => (

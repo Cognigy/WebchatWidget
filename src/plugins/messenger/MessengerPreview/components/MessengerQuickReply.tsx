@@ -14,6 +14,7 @@ export const getMessengerQuickReply = ({ React, styled }: MessagePluginFactoryPr
         cursor: 'pointer',
         outline: 'none',
         transition: 'transform .1s ease-out',
+        wordBreak: 'break-all',
 
         '&:hover': {
             borderColor: theme.primaryStrongColor,

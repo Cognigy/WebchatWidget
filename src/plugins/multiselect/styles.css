@@ -1,0 +1,36 @@
+[data-cognigy-webchat-root] .multiselect-dropdown {
+    z-index: 3;
+    font-family: sans-serif;
+
+}
+
+[data-cognigy-webchat-root] .rc-select-selection-search-mirror {
+    display: none;
+}
+
+[data-cognigy-webchat-root] .rc-select-selector {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+[data-cognigy-webchat-root] .rc-select-selector > span {
+    flex-shrink: 0;
+    margin: 2px;
+}
+
+[data-cognigy-webchat-root] .rc-select-selection-search {
+    /* width: 5em; */
+
+    min-width: 0;
+    flex-basis: 33%;
+    
+    flex-grow: 1;
+}
+
+[data-cognigy-webchat-root] .rc-select-selection-search-input {
+    outline: none;
+    border: none;
+    padding-top: .2em;
+    padding-bottom: .2em;
+}
