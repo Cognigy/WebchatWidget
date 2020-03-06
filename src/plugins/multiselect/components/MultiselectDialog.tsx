@@ -8,21 +8,10 @@ import Select, { Option, SelectProps } from 'rc-select';
 import { styled, IWebchatTheme } from '../../../webchat-ui/style';
 import { getMessengerQuickReply } from '../../messenger/MessengerPreview/components/MessengerQuickReply';
 import CloseIcon from '../../../webchat-ui/assets/baseline-close-24px.svg';
+import { IMultiselectProps } from '../Multiselect';
 
 
 
-interface IMultiselectMessage extends IBotMessage {
-    data: {
-        _plugin: {
-            type: 'multiselect',
-            options: string[];
-        }
-    }
-}
-
-interface IMultiselectProps extends MessageComponentProps {
-    message: IMultiselectMessage;
-}
 
 const Dropdown = styled.div(({ theme }) => ({
     boxShadow: theme.shadow,
@@ -101,7 +90,7 @@ const MessengerQuickReply = getMessengerQuickReply({ React, styled });
 
 const MultiselectDialog: FC<IMultiselectProps> = props => {
     const { text } = props.message;
-    const { options } = props.message.data._plugin;
+    const { options, submitButtonLabel, cancelButtonLabel } = props.message.data._plugin;
     const [value, setValue] = useState([]);
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -173,10 +162,10 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                         type='button'
                         onClick={props.onDismissFullscreen}
                     >
-                        CANCEL
+                        {cancelButtonLabel}
                     </ToolbarSecondaryButton>
                     <SubmitButton type='submit'>
-                        SUBMIT
+                        {submitButtonLabel}
                     </SubmitButton>
                 </FooterButtons>
             </Footer>
