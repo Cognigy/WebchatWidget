@@ -95,10 +95,6 @@ const Tag = styled.button(({ theme }) => ({
     '&:hover': {
         backgroundColor: theme.greyWeakColor
     }
-
-    // borderColor: theme.primaryColor,
-    // borderStyle: 'solid',
-    // borderWidth: 1,
 }));
 
 const MessengerQuickReply = getMessengerQuickReply({ React, styled });
@@ -107,9 +103,19 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
     const { text } = props.message;
     const { options } = props.message.data._plugin;
 
-    const renderDropdown: SelectProps['dropdownRender'] = menu => (
-        <Dropdown>{menu}</Dropdown>
-    );
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+
+    const renderDropdown: SelectProps['dropdownRender'] = menu => {
+        if (!isDropdownOpen)
+            return null;
+
+        return (
+            <Dropdown>
+                {menu}
+            </Dropdown>
+        );
+    };
 
     const getPopupContainer: SelectProps['getPopupContainer'] = () => document.querySelector('[data-cognigy-webchat-root]') as HTMLElement;
 
@@ -151,6 +157,7 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                         mode='tags'
                         tagRender={renderTag}
                         tags
+                        onDropdownVisibleChange={setIsDropdownOpen}
                     >
                         {options.map(option => <Option value={option}>{option}</Option>)}
                     </Select>
