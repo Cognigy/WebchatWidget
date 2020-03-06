@@ -1,4 +1,4 @@
-import React, { FC, useState, useMemo, useRef } from 'react';
+import React, { FC, useState, useMemo } from 'react';
 import { MessageComponentProps } from '../../../common/interfaces/message-plugin';
 import Header from '../../../webchat-ui/components/presentational/Header';
 import ToolbarPrimaryButton from '../../../webchat-ui/components/presentational/ToolbarPrimaryButton';
@@ -7,7 +7,6 @@ import { IBotMessage } from '../../../common/interfaces/message';
 import Select, { Option, SelectProps } from 'rc-select';
 import { styled, IWebchatTheme } from '../../../webchat-ui/style';
 import { getMessengerQuickReply } from '../../messenger/MessengerPreview/components/MessengerQuickReply';
-import { Global } from '@emotion/core';
 import CloseIcon from '../../../webchat-ui/assets/baseline-close-24px.svg';
 
 
@@ -44,10 +43,11 @@ const Dropdown = styled.div(({ theme }) => ({
     }
 }));
 
-const DialogRoot = styled.div(({ theme }) => ({
+const DialogRoot = styled.form(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
-    flexGrow: 1
+    flexGrow: 1,
+    margin: 0
 }));
 
 const Padding = styled.div(({ theme }) => ({
@@ -102,6 +102,7 @@ const MessengerQuickReply = getMessengerQuickReply({ React, styled });
 const MultiselectDialog: FC<IMultiselectProps> = props => {
     const { text } = props.message;
     const { options } = props.message.data._plugin;
+    const [value, setValue] = useState([]);
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -123,32 +124,31 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
         const { closable, disabled, label, onClose, value } = props;
 
         return (
-            <Tag key={value} onClick={onClose}>
+            <Tag key={value} type='button' onClick={onClose}>
                 <span>{label}</span>
                 <CloseIcon style={{ height: '1em' }} />
             </Tag>
         )
     }
 
-    const styles = useMemo(() => {
-        return <Global styles={(theme: IWebchatTheme) => ({
-            '.rc-select': {
-                color: 'red !important'
-            }
-        })} />
-    }, []);
+    const handleSubmit = e => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        props.onSendMessage('', {
+            multiselect: value
+        });
+    }
 
     return (
-        <DialogRoot {...props.attributes}>
-            {styles}
+        <DialogRoot {...props.attributes} onSubmit={handleSubmit}>
             <Header title={text || ''} />
             <Content>
 
 
             </Content>
             <Footer>
-                <div style={{ lineHeight: 1.5 }}>
-
+                <div>
                     <Select
                         autoFocus
                         dropdownClassName='multiselect-dropdown'
@@ -158,13 +158,26 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                         tagRender={renderTag}
                         tags
                         onDropdownVisibleChange={setIsDropdownOpen}
+                        value={value}
+                        onChange={setValue}
                     >
-                        {options.map(option => <Option value={option}>{option}</Option>)}
+                        {options.map(option => (
+                            <Option value={option}>
+                                {option}
+                            </Option>
+                        ))}
                     </Select>
                 </div>
                 <FooterButtons>
-                    <ToolbarSecondaryButton>CANCEL</ToolbarSecondaryButton>
-                    <SubmitButton>SUBMIT</SubmitButton>
+                    <ToolbarSecondaryButton
+                        type='button'
+                        onClick={props.onDismissFullscreen}
+                    >
+                        CANCEL
+                    </ToolbarSecondaryButton>
+                    <SubmitButton type='submit'>
+                        SUBMIT
+                    </SubmitButton>
                 </FooterButtons>
             </Footer>
         </DialogRoot>
