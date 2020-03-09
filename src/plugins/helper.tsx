@@ -1,6 +1,7 @@
 import { MessagePlugin, MessageComponent, MessagePluginOptions, MessageMatcher, MessagePluginFactory } from "../common/interfaces/message-plugin";
-import { InputPlugin, InputComponent, InputPluginOptions, InputRule, InputPluginFactory } from "../common/interfaces/input-plugin";
+import { InputPlugin, InputPluginFactory } from "../common/interfaces/input-plugin";
 import { IMessage } from "../common/interfaces/message";
+import { IWebchatConfig } from "../common/interfaces/webchat-config";
 
 const createStringMatcher = (name: string): MessageMatcher => message => message.data
     && message.data._plugin
@@ -50,11 +51,11 @@ export const registerInputPlugin = (plugin: InputPlugin | InputPluginFactory) =>
     }
 }
 
-export const getPluginsForMessage = (plugins: MessagePlugin[]) => (message: IMessage): MessagePlugin[] => {
+export const getPluginsForMessage = (plugins: MessagePlugin[], config: IWebchatConfig) => (message: IMessage): MessagePlugin[] => {
     let matchedPlugins: MessagePlugin[] = [];
-
+    
     for (const plugin of plugins) {
-        const isMatch = (plugin.match as MessageMatcher)(message);
+        const isMatch = (plugin.match as MessageMatcher)(message, config);
 
         if (isMatch) {
             matchedPlugins.push(plugin);

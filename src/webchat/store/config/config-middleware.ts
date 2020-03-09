@@ -1,9 +1,7 @@
 import { Middleware } from "redux";
 import { StoreState } from "../store";
 import { setConfig, ConfigState } from "./config-reducer";
-import { SocketClient } from "@cognigy/socket-client";
 import { fetchWebchatConfig } from "../../helper/endpoint";
-import { Options } from "@cognigy/socket-client/lib/interfaces/options";
 import { IWebchatSettings } from "../../../common/interfaces/webchat-config";
 
 export interface ISendMessageOptions {

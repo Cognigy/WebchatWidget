@@ -18,6 +18,7 @@ export interface IWebchatSettings {
     enableFileUpload: boolean;
     enablePersistentMenu: boolean;
     enableSTT: boolean;
+    enableStrictMessengerSync: boolean;
     enableTTS: boolean;
     enableTypingIndicator: boolean;
     getStartedButtonText: string;

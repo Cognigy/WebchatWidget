@@ -56,6 +56,7 @@ See it in action:
 | getStartedButtonText | string | "GET_STARTED" | The text to display on the Get Started Button / when sending the auto message. 
 | inputPlaceholder | string | "Write a reply" | The placeholder text to display in the input field. 
 | enableSTT | boolean | false | Whether to enable speech input that lets the user speak to the Webchat instead of only typing. 
+| enableStrictMessengerSync | boolean | false | If set to true, will NOT render the message from the "Messenger" tab in the SAY node unless "Use Facebook Channel" is checked in the "Webchat" tab. 
 | enableTTS | boolean | false | Whether to enable the browser to read the bot messages aloud. 
 | colorScheme | string | The background color of the header and bot messages in the Webchat. | designTemplate | 1 or 2 | 1 | The Webchat design template to use. We default to design template 1 (bottom right with a button), you can switch to template 2, which is the centered webchat. 
 | messageLogoUrl | string | COGNIGY.AI Logo | A custom avatar that should be displayed next to bot messages. Defaults to a COGNIGY.AI logo. 

@@ -10,7 +10,6 @@ import { createConfigMiddleware } from './config/config-middleware';
 import { createAnalyticsMiddleware } from './analytics/analytics-middleware';
 import { registerConnectionHandler } from './connection/connection-handler';
 import { Webchat } from '../components/Webchat';
-import { Options } from '@cognigy/socket-client/lib/interfaces/options';
 import { IWebchatSettings } from '../../common/interfaces/webchat-config';
 
 
