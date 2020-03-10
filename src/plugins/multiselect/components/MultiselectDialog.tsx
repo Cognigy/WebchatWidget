@@ -8,6 +8,8 @@ import Select, { Option, SelectProps } from 'rc-select';
 import { styled, IWebchatTheme } from '../../../webchat-ui/style';
 import { getMessengerQuickReply } from '../../messenger/MessengerPreview/components/MessengerQuickReply';
 import CloseIcon from '../../../webchat-ui/assets/baseline-close-24px.svg';
+import SendIcon from '../../../webchat-ui/assets/baseline-send-24px.svg';
+
 import { IMultiselectProps } from '../Multiselect';
 
 
@@ -62,9 +64,34 @@ const FooterButtons = styled.div(({ theme }) => ({
     marginTop: theme.unitSize
 }));
 
-const SubmitButton = styled(ToolbarPrimaryButton)(({ theme }) => ({
+const Row = styled.div(({ theme }) => ({
+    display: 'block',
+}));
+const HeaderButton = styled.button(({ theme }) => ({
+    alignItems: 'center',
+    background: 'transparent',
+    border: 'none',
+    color: theme.primaryContrastColor,
+    cursor: 'pointer',
+    display: 'flex',
+    fontWeight: 'bolder',
+    justifyContent: 'space-between',
+}));
+
+const SubmitButton = styled(HeaderButton)(({ theme }) => ({
     flexGrow: 1,
-    marginLeft: theme.unitSize
+    justifyContent: 'flex-end',
+}))
+
+const SubmitButtonIcon = styled(SendIcon)(({ theme }) => ({
+    fill: theme.primaryContrastColor,
+    marginLeft: theme.unitSize * 1.5,
+}))
+
+const Title = styled.div(({ theme }) => ({
+    color: theme.primaryContrastColor,
+    flexGrow: 1,
+    marginTop: theme.unitSize * 2,
 }));
 
 const Tag = styled.button(({ theme }) => ({
@@ -131,10 +158,23 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
 
     return (
         <DialogRoot {...props.attributes} onSubmit={handleSubmit}>
-            <Header title={text || ''} />
+            <Header>
+                <Row>
+                <HeaderButton type='button' onClick={props.onDismissFullscreen}>
+                        {cancelButtonLabel}
+                </HeaderButton>
+                    <SubmitButton type='submit'>
+                        {submitButtonLabel}
+                        <SubmitButtonIcon />
+                    </SubmitButton>
+                    </Row>
+                    <Row>
+                    </Row>
+
+                <Title>text</Title>
+
+            </Header>
             <Content>
-
-
             </Content>
             <Footer>
                 <div>
@@ -158,15 +198,6 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                     </Select>
                 </div>
                 <FooterButtons>
-                    <ToolbarSecondaryButton
-                        type='button'
-                        onClick={props.onDismissFullscreen}
-                    >
-                        {cancelButtonLabel}
-                    </ToolbarSecondaryButton>
-                    <SubmitButton type='submit'>
-                        {submitButtonLabel}
-                    </SubmitButton>
                 </FooterButtons>
             </Footer>
         </DialogRoot>
