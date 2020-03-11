@@ -22,7 +22,7 @@ const InputForm = styled.form(({ theme }) => ({
     },
 }));
 
-const Input = styled.input(({ theme }) => ({
+export const Input = styled.input(({ theme }) => ({
     display: 'block',
     flexGrow: 1,
     alignSelf: 'stretch',
