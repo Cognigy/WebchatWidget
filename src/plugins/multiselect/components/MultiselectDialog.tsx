@@ -1,4 +1,4 @@
-import React, { FC, useState, useMemo } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import tinycolor from 'tinycolor2';
 
 import { MessageComponentProps } from '../../../common/interfaces/message-plugin';
@@ -17,15 +17,14 @@ import SendIcon from '../../../webchat-ui/assets/baseline-send-24px.svg';
 import { IMultiselectProps } from '../Multiselect';
 
 const ActionableHeaderBar = styled(Background)(({ theme }) => ({
-    boxShadow:
-        '0 5px 18px 0 rgba(0, 0, 0, 0.08), 0 5px 32px 0 rgba(0, 0, 0, 0.08), 0 8px 58px 0 rgba(0, 0, 0, 0.08)',
+    boxShadow: '0 5px 18px 0 rgba(0, 0, 0, 0.08), 0 5px 32px 0 rgba(0, 0, 0, 0.08), 0 8px 58px 0 rgba(0, 0, 0, 0.08)',
     boxSizing: 'border-box',
     fontSize: 16,
     fontWeight: 700,
     paddingLeft: theme.unitSize,
     paddingRight: theme.unitSize,
     paddingTop: theme.unitSize,
-    paddingBottom: theme.unitSize,
+    // paddingBottom: theme.unitSize,
     width: '100%',
     zIndex: 2,
 
@@ -34,12 +33,19 @@ const ActionableHeaderBar = styled(Background)(({ theme }) => ({
     }
 }));
 
-const Row = styled.div(() => ({
+const HeaderRow = styled.div(() => ({
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    // marginBottom: 0,
 }));
 
-const HeaderButton = styled.button(({ theme }) => ({
+const ContentRow = styled.div(() => ({
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: 'auto',
+}));
+
+const HeaderAction = styled.button(({ theme }) => ({
     alignItems: 'center',
     background: 'transparent',
     border: 'none',
@@ -77,33 +83,15 @@ const Header = ({ children }) => (
 );
 
 const TextInput = styled(Input)({
-    width: '100%',
-})
-
-const Dropdown = styled.div(({ theme }) => ({
-    boxShadow: theme.shadow,
-    borderRadius: theme.unitSize,
-    backgroundColor: 'white',
-    overflow: 'hidden',
-
-    '& .rc-select-item': {
-        padding: theme.unitSize
-    },
-    '& .rc-select-item-option': {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    '& .rc-select-item-option-active': {
-        backgroundColor: 'hsla(0, 0%, 0%, .12)'
-    }
-}));
+    width: '100%'
+});
 
 const DialogRoot = styled.form(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    margin: 0
+    margin: 0,
+    overflow: 'hidden'
 }));
 
 const Padding = styled.div(({ theme }) => ({
@@ -113,16 +101,20 @@ const Padding = styled.div(({ theme }) => ({
     paddingRight: theme.unitSize * 2
 }));
 
-const Content = styled(Padding)(({ theme }) => ({
+const Content = styled('div')(({ theme }) => ({
     display: 'flex',
-    justifyContent: 'center',
-    flexGrow: 1
+    flexGrow: 1,
+    flexDirection: 'column',
+    overflowY: 'auto',
+    paddingBottom: theme.unitSize,
+    paddingLeft: theme.unitSize * 2,
+    paddingRight: theme.unitSize * 2,
 }));
 
 const Footer = styled.div(({ theme }) => ({
     backgroundColor: 'white',
     boxShadow: theme.shadow,
-    borderBottom: '2px solid #0000',
+    borderBottom: '2px solid #0000'
 }));
 
 const FooterButtons = styled.div(({ theme }) => ({
@@ -131,51 +123,67 @@ const FooterButtons = styled.div(({ theme }) => ({
 }));
 
 const Tag = styled.button(({ theme }) => ({
-    display: 'inline-flex',
     alignItems: 'center',
-
-    padding: '.2em .5em',
-
-    backgroundColor: theme.greyColor,
-    color: theme.greyContrastColor,
-
+    backgroundColor: 'transparent',
     border: 'none',
-    borderRadius: theme.unitSize,
-
+    color: theme.greyContrastColor,
     cursor: 'pointer',
+    display: 'inline-flex',
+    paddingTop: theme.unitSize,
+    paddingBottom: theme.unitSize,
+    paddingLeft: theme.unitSize * 2,
+    paddingRight: theme.unitSize * 2,
+    marginLeft: -theme.unitSize * 2,
+    marginRight: -theme.unitSize * 2,
 
-    '&:hover': {
+    '&:hover, &:focus': {
         backgroundColor: theme.greyWeakColor
-    }
+    },
 }));
 
-const MessengerQuickReply = getMessengerQuickReply({ React, styled });
+const SelectedOptionsContainer = styled('div')(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+}));
+
+const SelectedTag = styled(Tag)(({ theme }) => ({
+    color: 'inherit',
+
+    '&:hover, &:focus': {
+        backgroundColor: theme.greyWeakColor,
+        color: theme.greyContrastColor
+    },
+}));
 
 const MultiselectDialog: FC<IMultiselectProps> = props => {
     const { text } = props.message;
-    const { options, submitButtonLabel, cancelButtonLabel } = props.message.data._plugin;
-    const [value, setValue] = useState([]);
+    const {
+        options,
+        submitButtonLabel,
+        cancelButtonLabel
+    } = props.message.data._plugin;
 
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [inputValue, setInputValue] = useState<string>('');
 
-    const renderDropdown: SelectProps['dropdownRender'] = menu => {
-        if (!isDropdownOpen) return null;
+    const [selected, setSelected] = useState<string[]>([]);
 
-        return <Dropdown>{menu}</Dropdown>;
-    };
+    useEffect(() => {
+        console.log(selected);
+    }, [selected]);
 
-    const getPopupContainer: SelectProps['getPopupContainer'] = () =>
-        document.querySelector('[data-cognigy-webchat-root]') as HTMLElement;
+    const handleOptionClick = event => {
+        event.preventDefault();
+        const value = event.target.textContent;
 
-    const renderTag: SelectProps['tagRender'] = props => {
-        const { closable, disabled, label, onClose, value } = props;
+        if (selected.includes(value)) {
+            setSelected(selected => [
+                ...selected.filter(option => option !== value)
+            ]);
+            return;
+        }
 
-        return (
-            <Tag key={value} type="button" onClick={onClose}>
-                <span>{label}</span>
-                <CloseIcon style={{ height: '1em' }} />
-            </Tag>
-        );
+        setSelected(selected => [...selected, value]);
     };
 
     const handleSubmit = e => {
@@ -183,35 +191,77 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
         e.stopPropagation();
 
         props.onSendMessage('', {
-            multiselect: value
+            multiselect: selected
         });
     };
+
+    const SelectedOptions = () => (
+        <SelectedOptionsContainer>
+            {selected.map(selectedOption => (
+                <SelectedTag
+                    onClick={handleOptionClick}
+                    key={options.indexOf(selectedOption)}
+                >
+                    {selectedOption}
+                </SelectedTag>
+            ))}
+        </SelectedOptionsContainer>
+    );
+
+    const FilteredOptions = () => (
+        <ContentRow>
+            {options
+                .filter(option => {
+                    if (selected.includes(option)) return false;
+                    if (!inputValue) return true;
+                    return option
+                        .toLocaleLowerCase()
+                        .includes(inputValue.toLocaleLowerCase());
+                })
+                .map(option => (
+                    <Tag
+                        onClick={handleOptionClick}
+                        key={options.indexOf(option)}
+                        tabIndex={0}
+                    >
+                        {option}
+                    </Tag>
+                ))}
+        </ContentRow>
+    );
 
     return (
         <DialogRoot {...props.attributes} onSubmit={handleSubmit}>
             <Header>
-                <Row>
-                    <HeaderButton type="button" onClick={props.onDismissFullscreen}>
+                <HeaderRow>
+                    <HeaderAction
+                        type="button"
+                        onClick={props.onDismissFullscreen}
+                    >
                         {cancelButtonLabel}
-                    </HeaderButton>
-                    <HeaderButton type="submit">
+                    </HeaderAction>
+                    <HeaderAction type="submit">
                         {submitButtonLabel}
                         <SubmitButtonIcon />
-                    </HeaderButton>
-                </Row>
-                <Row>
+                    </HeaderAction>
+                </HeaderRow>
+                <HeaderRow>
                     <Title>{text}</Title>
-                </Row>
+                </HeaderRow>
+                <HeaderRow>
+                    <SelectedOptions />
+                </HeaderRow>
             </Header>
-            <Content></Content>
+            <Content>
+                <FilteredOptions />
+            </Content>
             <Footer>
                 <TextInput
                     autoFocus={true}
-                    // onChange={this.handleChangeState}
-                    // onFocus={() => this.setState({ active: true })}
-                    // onBlur={() => this.setState({ active: false })}
+                    onChange={event => setInputValue(event.target.value)}
                     placeholder="Select an option or enter your own"
-                    className="webchat-input-message-input"
+                    className="webchat-multiselect-input"
+                    tabIndex={-1}
                 />
             </Footer>
         </DialogRoot>
