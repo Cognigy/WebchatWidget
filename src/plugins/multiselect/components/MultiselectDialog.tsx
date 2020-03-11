@@ -174,7 +174,7 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
 
     const handleOptionClick = event => {
         event.preventDefault();
-        const value = event.target.textContent;
+        const value = event.target.dataset.value;
 
         if (selected.includes(value)) {
             setSelected(selected => [
@@ -201,8 +201,10 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                 <SelectedTag
                     onClick={handleOptionClick}
                     key={options.indexOf(selectedOption)}
+                    tabIndex={1}
+                    data-value={selectedOption}
                 >
-                    {selectedOption}
+                    - {selectedOption}
                 </SelectedTag>
             ))}
         </SelectedOptionsContainer>
@@ -223,6 +225,7 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                         onClick={handleOptionClick}
                         key={options.indexOf(option)}
                         tabIndex={0}
+                        data-value={option}
                     >
                         {option}
                     </Tag>
