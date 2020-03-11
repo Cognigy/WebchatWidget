@@ -33,7 +33,6 @@ const HeaderRow: HTMLDivElement & IWebchatTheme = styled.div(
     ({ theme }: { theme: IWebchatTheme }) => ({
         display: 'flex',
         justifyContent: 'space-between',
-        // marginBottom: 0,
         margin: theme.unitSize,
         paddingLeft: theme.unitSize,
         paddingRight: theme.unitSize,
@@ -112,16 +111,15 @@ const Footer = styled.div(({ theme }) => ({
 }));
 
 const Tag = styled.button(({ theme }) => ({
-    alignItems: 'center',
     backgroundColor: 'transparent',
     border: 'none',
     color: theme.greyContrastColor,
     cursor: 'pointer',
-    display: 'inline-flex',
     paddingTop: theme.unitSize,
     paddingBottom: theme.unitSize,
     paddingLeft: theme.unitSize * 2,
     paddingRight: theme.unitSize * 2,
+    textAlign: 'left',
 
     '&:hover, &:focus': {
         backgroundColor: theme.greyWeakColor
@@ -130,20 +128,24 @@ const Tag = styled.button(({ theme }) => ({
 
 const SelectedOptionsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
-    flexDirection: 'column',
     flexGrow: 1,
+    flexWrap: 'wrap',
     overflowY: 'auto',
     marginTop: theme.unitSize,
     marginBottom: theme.unitSize,
-
+    paddingLeft: theme.unitSize * 2,  
+    paddingRight: theme.unitSize * 2,
 }));
 
 const SelectedTag = styled(Tag)(({ theme }) => ({
     color: 'inherit',
+    padding: 0,
+    marginBottom: theme.unitSize,
+    marginRight: theme.unitSize * 2,
 
     '&:hover, &:focus': {
-        backgroundColor: theme.greyWeakColor,
-        color: theme.greyContrastColor
+        background: 'transparent',
+        color: theme.greyColor,
     }
 }));
 
@@ -165,7 +167,7 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
             return;
         }
 
-        setSelected(selected => [value, ...selected]);
+        setSelected(selected => [...selected, value]);
     };
 
     const handleSubmit = e => {
