@@ -16,33 +16,35 @@ import SendIcon from '../../../webchat-ui/assets/baseline-send-24px.svg';
 
 import { IMultiselectProps } from '../Multiselect';
 
-const ActionableHeaderBar = styled(Background)(({ theme }) => ({
-    boxShadow: '0 5px 18px 0 rgba(0, 0, 0, 0.08), 0 5px 32px 0 rgba(0, 0, 0, 0.08), 0 8px 58px 0 rgba(0, 0, 0, 0.08)',
+const ActionableHeader = styled(Background)(({ theme }) => ({
+    boxShadow:
+        '0 5px 18px 0 rgba(0, 0, 0, 0.08), 0 5px 32px 0 rgba(0, 0, 0, 0.08), 0 8px 58px 0 rgba(0, 0, 0, 0.08)',
     boxSizing: 'border-box',
-    fontSize: 16,
-    fontWeight: 700,
-    paddingLeft: theme.unitSize,
-    paddingRight: theme.unitSize,
-    paddingTop: theme.unitSize,
-    // paddingBottom: theme.unitSize,
-    width: '100%',
-    zIndex: 2,
-
-    '&>*': {
-        margin: theme.unitSize
-    }
-}));
-
-const HeaderRow = styled.div(() => ({
-    display: 'flex',
-    justifyContent: 'space-between',
-    // marginBottom: 0,
-}));
-
-const ContentRow = styled.div(() => ({
     display: 'flex',
     flexDirection: 'column',
-    marginTop: 'auto',
+    fontSize: 16,
+    fontWeight: 700,
+    maxHeight: '40%',
+    width: '100%',
+    zIndex: 2
+}));
+
+const HeaderRow: HTMLDivElement & IWebchatTheme = styled.div(
+    ({ theme }: { theme: IWebchatTheme }) => ({
+        display: 'flex',
+        justifyContent: 'space-between',
+        // marginBottom: 0,
+        margin: theme.unitSize,
+        paddingLeft: theme.unitSize,
+        paddingRight: theme.unitSize,
+        paddingTop: theme.unitSize
+    })
+);
+
+const ContentRow = styled.div(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: 'auto'
 }));
 
 const HeaderAction = styled.button(({ theme }) => ({
@@ -73,13 +75,13 @@ const SubmitButtonIcon = styled(SendIcon)(({ theme }) => ({
 const Title = styled.div(({ theme }) => ({
     color: theme.primaryContrastColor,
     fontSize: theme.unitSize * 2.5,
-    marginTop: theme.unitSize * 6
+    marginTop: theme.unitSize * 1.5
 }));
 
 const Header = ({ children }) => (
-    <ActionableHeaderBar color="primary" className="webchat-header-bar">
+    <ActionableHeader color="primary" className="webchat-header-bar">
         {children}
-    </ActionableHeaderBar>
+    </ActionableHeader>
 );
 
 const TextInput = styled(Input)({
@@ -94,32 +96,19 @@ const DialogRoot = styled.form(({ theme }) => ({
     overflow: 'hidden'
 }));
 
-const Padding = styled.div(({ theme }) => ({
-    paddingTop: theme.unitSize,
-    paddingBottom: theme.unitSize,
-    paddingLeft: theme.unitSize * 2,
-    paddingRight: theme.unitSize * 2
-}));
-
 const Content = styled('div')(({ theme }) => ({
     display: 'flex',
     flexGrow: 1,
     flexDirection: 'column',
     overflowY: 'auto',
     paddingBottom: theme.unitSize,
-    paddingLeft: theme.unitSize * 2,
-    paddingRight: theme.unitSize * 2,
+    paddingTop: theme.unitSize
 }));
 
 const Footer = styled.div(({ theme }) => ({
     backgroundColor: 'white',
     boxShadow: theme.shadow,
     borderBottom: '2px solid #0000'
-}));
-
-const FooterButtons = styled.div(({ theme }) => ({
-    display: 'flex',
-    marginTop: theme.unitSize
 }));
 
 const Tag = styled.button(({ theme }) => ({
@@ -133,18 +122,20 @@ const Tag = styled.button(({ theme }) => ({
     paddingBottom: theme.unitSize,
     paddingLeft: theme.unitSize * 2,
     paddingRight: theme.unitSize * 2,
-    marginLeft: -theme.unitSize * 2,
-    marginRight: -theme.unitSize * 2,
 
     '&:hover, &:focus': {
         backgroundColor: theme.greyWeakColor
-    },
+    }
 }));
 
 const SelectedOptionsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
+    overflowY: 'auto',
+    marginTop: theme.unitSize,
+    marginBottom: theme.unitSize,
+
 }));
 
 const SelectedTag = styled(Tag)(({ theme }) => ({
@@ -153,37 +144,28 @@ const SelectedTag = styled(Tag)(({ theme }) => ({
     '&:hover, &:focus': {
         backgroundColor: theme.greyWeakColor,
         color: theme.greyContrastColor
-    },
+    }
 }));
 
 const MultiselectDialog: FC<IMultiselectProps> = props => {
     const { text } = props.message;
-    const {
-        options,
-        submitButtonLabel,
-        cancelButtonLabel
-    } = props.message.data._plugin;
+    const { options, submitButtonLabel, cancelButtonLabel } = props.message.data._plugin;
 
     const [inputValue, setInputValue] = useState<string>('');
 
     const [selected, setSelected] = useState<string[]>([]);
 
-    useEffect(() => {
-        console.log(selected);
-    }, [selected]);
-
     const handleOptionClick = event => {
         event.preventDefault();
-        const value = event.target.dataset.value;
+
+        const value = event.target.textContent;
 
         if (selected.includes(value)) {
-            setSelected(selected => [
-                ...selected.filter(option => option !== value)
-            ]);
+            setSelected(selected => [...selected.filter(option => option !== value)]);
             return;
         }
 
-        setSelected(selected => [...selected, value]);
+        setSelected(selected => [value, ...selected]);
     };
 
     const handleSubmit = e => {
@@ -202,9 +184,8 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                     onClick={handleOptionClick}
                     key={options.indexOf(selectedOption)}
                     tabIndex={1}
-                    data-value={selectedOption}
                 >
-                    - {selectedOption}
+                    {selectedOption}
                 </SelectedTag>
             ))}
         </SelectedOptionsContainer>
@@ -216,20 +197,14 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                 .filter(option => {
                     if (selected.includes(option)) return false;
                     if (!inputValue) return true;
-                    return option
-                        .toLocaleLowerCase()
-                        .includes(inputValue.toLocaleLowerCase());
+                    return option.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase());
                 })
                 .map(option => (
-                    <Tag
-                        onClick={handleOptionClick}
-                        key={options.indexOf(option)}
-                        tabIndex={0}
-                        data-value={option}
-                    >
+                    <Tag onClick={handleOptionClick} key={options.indexOf(option)} tabIndex={0}>
                         {option}
                     </Tag>
                 ))}
+            {inputValue && <Tag>{inputValue}</Tag>}
         </ContentRow>
     );
 
@@ -237,10 +212,7 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
         <DialogRoot {...props.attributes} onSubmit={handleSubmit}>
             <Header>
                 <HeaderRow>
-                    <HeaderAction
-                        type="button"
-                        onClick={props.onDismissFullscreen}
-                    >
+                    <HeaderAction type="button" onClick={props.onDismissFullscreen}>
                         {cancelButtonLabel}
                     </HeaderAction>
                     <HeaderAction type="submit">
@@ -251,9 +223,7 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                 <HeaderRow>
                     <Title>{text}</Title>
                 </HeaderRow>
-                <HeaderRow>
-                    <SelectedOptions />
-                </HeaderRow>
+                <SelectedOptions />
             </Header>
             <Content>
                 <FilteredOptions />
