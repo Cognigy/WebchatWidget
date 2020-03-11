@@ -29,16 +29,12 @@ const ActionableHeader = styled(Background)(({ theme }) => ({
     zIndex: 2
 }));
 
-const HeaderRow: HTMLDivElement & IWebchatTheme = styled.div(
-    ({ theme }: { theme: IWebchatTheme }) => ({
-        display: 'flex',
-        justifyContent: 'space-between',
-        margin: theme.unitSize,
-        paddingLeft: theme.unitSize,
-        paddingRight: theme.unitSize,
-        paddingTop: theme.unitSize
-    })
-);
+const HeaderRow = styled.div(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    margin: theme.unitSize,
+    padding: theme.unitSize
+}));
 
 const ContentRow = styled.div(({ theme }) => ({
     display: 'flex',
@@ -133,19 +129,20 @@ const SelectedOptionsContainer = styled('div')(({ theme }) => ({
     overflowY: 'auto',
     marginTop: theme.unitSize,
     marginBottom: theme.unitSize,
-    paddingLeft: theme.unitSize * 2,  
-    paddingRight: theme.unitSize * 2,
+    paddingLeft: theme.unitSize * 2,
+    paddingRight: theme.unitSize * 2
 }));
 
 const SelectedTag = styled(Tag)(({ theme }) => ({
     color: 'inherit',
+    fontSize: theme.unitSize * 1.75,
+    marginBottom: theme.unitSize * 2,
+    marginRight: theme.unitSize,
     padding: 0,
-    marginBottom: theme.unitSize,
-    marginRight: theme.unitSize * 2,
 
     '&:hover, &:focus': {
         background: 'transparent',
-        color: theme.greyColor,
+        color: theme.greyColor
     }
 }));
 
