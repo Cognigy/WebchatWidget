@@ -1,16 +1,10 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useRef } from 'react';
 import tinycolor from 'tinycolor2';
 
-import { MessageComponentProps } from '../../../common/interfaces/message-plugin';
-
 import { Input } from '../../../webchat-ui/components/plugins/input/text/TextInput';
-
 import Background from '../../../webchat-ui/components/presentational/Background';
-
-import { IBotMessage } from '../../../common/interfaces/message';
-import Select, { Option, SelectProps } from 'rc-select';
 import { styled, IWebchatTheme } from '../../../webchat-ui/style';
-import { getMessengerQuickReply } from '../../messenger/MessengerPreview/components/MessengerQuickReply';
+
 import CloseIcon from '../../../webchat-ui/assets/baseline-close-24px.svg';
 import SendIcon from '../../../webchat-ui/assets/baseline-send-24px.svg';
 
@@ -24,7 +18,7 @@ const ActionableHeader = styled(Background)(({ theme }) => ({
     flexDirection: 'column',
     fontSize: 16,
     fontWeight: 700,
-    maxHeight: '40%',
+    maxHeight: '45%',
     width: '100%',
     zIndex: 2
 }));
@@ -69,8 +63,7 @@ const SubmitButtonIcon = styled(SendIcon)(({ theme }) => ({
 
 const Title = styled.div(({ theme }) => ({
     color: theme.primaryContrastColor,
-    fontSize: theme.unitSize * 2.5,
-    marginTop: theme.unitSize * 1.5
+    fontSize: theme.unitSize * 2.5
 }));
 
 const Header = ({ children }) => (
@@ -116,6 +109,7 @@ const Tag = styled.button(({ theme }) => ({
     paddingLeft: theme.unitSize * 2,
     paddingRight: theme.unitSize * 2,
     textAlign: 'left',
+    userSelect: 'none',
 
     '&:hover, &:focus': {
         backgroundColor: theme.greyWeakColor
@@ -127,17 +121,17 @@ const SelectedOptionsContainer = styled('div')(({ theme }) => ({
     flexGrow: 1,
     flexWrap: 'wrap',
     overflowY: 'auto',
-    marginTop: theme.unitSize,
-    marginBottom: theme.unitSize,
     paddingLeft: theme.unitSize * 2,
     paddingRight: theme.unitSize * 2
 }));
 
 const SelectedTag = styled(Tag)(({ theme }) => ({
+    alignItems: 'center',
     color: 'inherit',
+    display: 'flex',
     fontSize: theme.unitSize * 1.75,
-    marginBottom: theme.unitSize * 2,
-    marginRight: theme.unitSize,
+    marginBottom: theme.unitSize,
+    marginRight: theme.unitSize * 1.5,
     padding: 0,
 
     '&:hover, &:focus': {
@@ -146,21 +140,40 @@ const SelectedTag = styled(Tag)(({ theme }) => ({
     }
 }));
 
+const SelectedTagIcon = styled(CloseIcon)(({ theme }) => ({
+    fill: theme.greyWeakColor,
+    marginRight: theme.unitSize * 0.125,
+    width: theme.unitSize * 1.75
+}));
+
 const MultiselectDialog: FC<IMultiselectProps> = props => {
     const { text } = props.message;
-    const { options, submitButtonLabel, cancelButtonLabel } = props.message.data._plugin;
+    const {
+        options,
+        submitButtonLabel,
+        cancelButtonLabel
+    } = props.message.data._plugin;
+
+    const selectedContainer = useRef<HTMLDivElement>(null);
 
     const [inputValue, setInputValue] = useState<string>('');
 
     const [selected, setSelected] = useState<string[]>([]);
 
-    const handleOptionClick = event => {
+    useEffect(() => {
+        if (selectedContainer.current) {
+            selectedContainer.current.scrollTop =
+                selectedContainer.current.scrollHeight;
+        }
+    }, [selected]);
+
+    const handleOptionClick = (event, value) => {
         event.preventDefault();
 
-        const value = event.target.textContent;
-
         if (selected.includes(value)) {
-            setSelected(selected => [...selected.filter(option => option !== value)]);
+            setSelected(selected => [
+                ...selected.filter(option => option !== value)
+            ]);
             return;
         }
 
@@ -177,13 +190,14 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
     };
 
     const SelectedOptions = () => (
-        <SelectedOptionsContainer>
+        <SelectedOptionsContainer ref={selectedContainer}>
             {selected.map(selectedOption => (
                 <SelectedTag
-                    onClick={handleOptionClick}
                     key={options.indexOf(selectedOption)}
+                    onClick={event => handleOptionClick(event, selectedOption)}
                     tabIndex={1}
                 >
+                    <SelectedTagIcon />
                     {selectedOption}
                 </SelectedTag>
             ))}
@@ -196,14 +210,28 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                 .filter(option => {
                     if (selected.includes(option)) return false;
                     if (!inputValue) return true;
-                    return option.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase());
+                    return option
+                        .toLocaleLowerCase()
+                        .includes(inputValue.toLocaleLowerCase());
                 })
                 .map(option => (
-                    <Tag onClick={handleOptionClick} key={options.indexOf(option)} tabIndex={0}>
+                    <Tag
+                        onClick={event => handleOptionClick(event, option)}
+                        key={options.indexOf(option)}
+                        tabIndex={0}
+                    >
                         {option}
                     </Tag>
                 ))}
-            {inputValue && <Tag>{inputValue}</Tag>}
+            {inputValue && (
+                <Tag
+                    onClick={event => handleOptionClick(event, inputValue)}
+                    key={-1}
+                    tabIndex={0}
+                >
+                    ...{inputValue}
+                </Tag>
+            )}
         </ContentRow>
     );
 
@@ -211,7 +239,10 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
         <DialogRoot {...props.attributes} onSubmit={handleSubmit}>
             <Header>
                 <HeaderRow>
-                    <HeaderAction type="button" onClick={props.onDismissFullscreen}>
+                    <HeaderAction
+                        type="button"
+                        onClick={props.onDismissFullscreen}
+                    >
                         {cancelButtonLabel}
                     </HeaderAction>
                     <HeaderAction type="submit">
@@ -222,7 +253,11 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                 <HeaderRow>
                     <Title>{text}</Title>
                 </HeaderRow>
-                <SelectedOptions />
+                <div
+                    style={{ flexDirection: 'column-reverse', display: 'flex', overflow: 'hidden' }}
+                >
+                    <SelectedOptions />
+                </div>
             </Header>
             <Content>
                 <FilteredOptions />
@@ -231,6 +266,7 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                 <TextInput
                     autoFocus={true}
                     onChange={event => setInputValue(event.target.value)}
+                    onKeyDown={event => (event.keyCode === 13) ? handleOptionClick(event, inputValue) : null}
                     placeholder="Select an option or enter your own"
                     className="webchat-multiselect-input"
                     tabIndex={-1}
