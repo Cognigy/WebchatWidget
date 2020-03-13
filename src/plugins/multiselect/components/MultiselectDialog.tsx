@@ -10,7 +10,7 @@ import SendIcon from '../../../webchat-ui/assets/baseline-send-24px.svg';
 
 import { IMultiselectProps } from '../Multiselect';
 
-const ActionableHeader = styled(Background)(({ theme }) => ({
+const Header = styled(Background)(({ theme }) => ({
     boxShadow:
         '0 5px 18px 0 rgba(0, 0, 0, 0.08), 0 5px 32px 0 rgba(0, 0, 0, 0.08), 0 8px 58px 0 rgba(0, 0, 0, 0.08)',
     boxSizing: 'border-box',
@@ -18,7 +18,7 @@ const ActionableHeader = styled(Background)(({ theme }) => ({
     flexDirection: 'column',
     fontSize: 16,
     fontWeight: 700,
-    maxHeight: '45%',
+    maxHeight: '50%',
     width: '100%',
     zIndex: 2
 }));
@@ -63,14 +63,9 @@ const SubmitButtonIcon = styled(SendIcon)(({ theme }) => ({
 
 const Title = styled.div(({ theme }) => ({
     color: theme.primaryContrastColor,
-    fontSize: theme.unitSize * 2.5
+    fontSize: theme.unitSize * 2.5,
+    marginTop: - theme.unitSize
 }));
-
-const Header = ({ children }) => (
-    <ActionableHeader color="primary" className="webchat-header-bar">
-        {children}
-    </ActionableHeader>
-);
 
 const TextInput = styled(Input)({
     width: '100%'
@@ -119,10 +114,19 @@ const Tag = styled.button(({ theme }) => ({
 const SelectedOptionsContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     flexGrow: 1,
+    flexDirection: 'column',
     flexWrap: 'wrap',
-    overflowY: 'auto',
+    overflowX: 'auto',
     paddingLeft: theme.unitSize * 2,
-    paddingRight: theme.unitSize * 2
+    paddingRight: theme.unitSize * 2,
+    scrollbarWidth: 'thin',
+    '&::-webkit-scrollbar': {
+        backgroundColor: tinycolor(theme.primaryColor).lighten(20).toHex8String(),
+        height: '8px',
+    },
+    '&::-webkit-scrollbar-thumb': {
+        backgroundColor: tinycolor(theme.primaryColor).darken(5).toHex8String(),
+    }
 }));
 
 const SelectedTag = styled(Tag)(({ theme }) => ({
@@ -130,7 +134,7 @@ const SelectedTag = styled(Tag)(({ theme }) => ({
     color: 'inherit',
     display: 'flex',
     fontSize: theme.unitSize * 1.75,
-    marginBottom: theme.unitSize,
+    marginBottom: theme.unitSize * 0.5,
     marginRight: theme.unitSize * 1.5,
     padding: 0,
 
@@ -158,26 +162,19 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
 
     const [inputValue, setInputValue] = useState<string>('');
 
-    const [selected, setSelected] = useState<string[]>([]);
-
-    useEffect(() => {
-        if (selectedContainer.current) {
-            selectedContainer.current.scrollTop =
-                selectedContainer.current.scrollHeight;
-        }
-    }, [selected]);
+    const [chosenOptions, setChosenOptions] = useState<string[]>([]);
 
     const handleOptionClick = (event, value) => {
         event.preventDefault();
 
-        if (selected.includes(value)) {
-            setSelected(selected => [
+        if (chosenOptions.includes(value)) {
+            setChosenOptions(selected => [
                 ...selected.filter(option => option !== value)
             ]);
             return;
         }
 
-        setSelected(selected => [...selected, value]);
+        setChosenOptions(selected => [...selected, value]);
     };
 
     const handleSubmit = e => {
@@ -185,13 +182,13 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
         e.stopPropagation();
 
         props.onSendMessage('', {
-            multiselect: selected
+            multiselect: chosenOptions
         });
     };
 
     const SelectedOptions = () => (
-        <SelectedOptionsContainer ref={selectedContainer}>
-            {selected.map(selectedOption => (
+        <SelectedOptionsContainer>
+            {chosenOptions.map(selectedOption => (
                 <SelectedTag
                     key={options.indexOf(selectedOption)}
                     onClick={event => handleOptionClick(event, selectedOption)}
@@ -208,7 +205,7 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
         <ContentRow>
             {options
                 .filter(option => {
-                    if (selected.includes(option)) return false;
+                    if (chosenOptions.includes(option)) return false;
                     if (!inputValue) return true;
                     return option
                         .toLocaleLowerCase()
@@ -237,7 +234,7 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
 
     return (
         <DialogRoot {...props.attributes} onSubmit={handleSubmit}>
-            <Header>
+            <Header color="primary" className="webchat-header-bar">
                 <HeaderRow>
                     <HeaderAction
                         type="button"
@@ -253,11 +250,7 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                 <HeaderRow>
                     <Title>{text}</Title>
                 </HeaderRow>
-                <div
-                    style={{ flexDirection: 'column-reverse', display: 'flex', overflow: 'hidden' }}
-                >
-                    <SelectedOptions />
-                </div>
+                <SelectedOptions />
             </Header>
             <Content>
                 <FilteredOptions />
