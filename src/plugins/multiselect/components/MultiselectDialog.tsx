@@ -1,4 +1,11 @@
-import React, { FC, useState, useEffect, useRef } from 'react';
+import React, {
+    FC,
+    useState,
+    useEffect,
+    useRef,
+    MutableRefObject,
+    ButtonHTMLAttributes
+} from 'react';
 import tinycolor from 'tinycolor2';
 
 import { Input } from '../../../webchat-ui/components/plugins/input/text/TextInput';
@@ -9,6 +16,10 @@ import CloseIcon from '../../../webchat-ui/assets/baseline-close-24px.svg';
 import SendIcon from '../../../webchat-ui/assets/baseline-send-24px.svg';
 
 import { IMultiselectProps } from '../Multiselect';
+
+function mod(n, m) {
+    return ((n % m) + m) % m;
+}
 
 const Header = styled(Background)(({ theme }) => ({
     boxShadow:
@@ -30,7 +41,7 @@ const HeaderRow = styled.div(({ theme }) => ({
     padding: theme.unitSize
 }));
 
-const ContentRow = styled.div(({ theme }) => ({
+const OptionsList = styled.div(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     marginTop: 'auto'
@@ -64,7 +75,7 @@ const SubmitButtonIcon = styled(SendIcon)(({ theme }) => ({
 const Title = styled.div(({ theme }) => ({
     color: theme.primaryContrastColor,
     fontSize: theme.unitSize * 2.5,
-    marginTop: - theme.unitSize
+    marginTop: -theme.unitSize
 }));
 
 const TextInput = styled(Input)({
@@ -84,6 +95,7 @@ const Content = styled('div')(({ theme }) => ({
     flexGrow: 1,
     flexDirection: 'column',
     overflowY: 'auto',
+    overflowX: 'hidden',
     paddingBottom: theme.unitSize,
     paddingTop: theme.unitSize
 }));
@@ -94,7 +106,7 @@ const Footer = styled.div(({ theme }) => ({
     borderBottom: '2px solid #0000'
 }));
 
-const Tag = styled.button(({ theme }) => ({
+const Option = styled.button(({ theme }) => ({
     backgroundColor: 'transparent',
     border: 'none',
     color: theme.greyContrastColor,
@@ -107,11 +119,12 @@ const Tag = styled.button(({ theme }) => ({
     userSelect: 'none',
 
     '&:hover, &:focus': {
-        backgroundColor: theme.greyWeakColor
+        backgroundColor: theme.greyWeakColor,
+        outline: 'none'
     }
 }));
 
-const SelectedOptionsContainer = styled('div')(({ theme }) => ({
+const ChosenOptions = styled('div')(({ theme }) => ({
     display: 'flex',
     flexGrow: 1,
     flexDirection: 'column',
@@ -121,33 +134,55 @@ const SelectedOptionsContainer = styled('div')(({ theme }) => ({
     paddingRight: theme.unitSize * 2,
     scrollbarWidth: 'thin',
     '&::-webkit-scrollbar': {
-        backgroundColor: tinycolor(theme.primaryColor).lighten(20).toHex8String(),
-        height: '8px',
+        backgroundColor: tinycolor(theme.primaryColor)
+            .lighten(20)
+            .toHex8String(),
+        height: '8px'
     },
     '&::-webkit-scrollbar-thumb': {
-        backgroundColor: tinycolor(theme.primaryColor).darken(5).toHex8String(),
+        backgroundColor: tinycolor(theme.primaryColor)
+            .darken(5)
+            .toHex8String()
     }
 }));
 
-const SelectedTag = styled(Tag)(({ theme }) => ({
+const ChosenOption = styled(Option)(({ theme }) => ({
     alignItems: 'center',
     color: 'inherit',
     display: 'flex',
     fontSize: theme.unitSize * 1.75,
-    marginBottom: theme.unitSize * 0.5,
-    marginRight: theme.unitSize * 1.5,
+    // marginBottom: theme.unitSize * 0.5,
+    // marginRight: theme.unitSize * 1.5,
     padding: 0,
+    width: '50%',
 
-    '&:hover, &:focus': {
-        background: 'transparent',
-        color: theme.greyColor
+    '&:focus': {
+        backgroundColor: tinycolor(theme.primaryColor)
+        .darken(20)
+        .toHex8String(),
+        
+    },
+
+    '&:hover': {
+        backgroundColor: 'transparent'
     }
 }));
 
-const SelectedTagIcon = styled(CloseIcon)(({ theme }) => ({
-    fill: theme.greyWeakColor,
-    marginRight: theme.unitSize * 0.125,
-    width: theme.unitSize * 1.75
+const SelectedOptionCloseIcon = styled(CloseIcon)(({ theme }) => ({
+    borderRadius: 100,
+    fill: tinycolor(theme.greyColor)
+        .setAlpha(0.25)
+        .toHex8String(),
+    marginRight: theme.unitSize * 0.5,
+    paddingLeft: theme.unitSize * 0.5,
+    paddingRight: theme.unitSize * 0.5,
+    width: theme.unitSize * 2,
+    '&:hover': {
+        backgroundColor: tinycolor(theme.greyWeakColor)
+            .darken(25)
+            .setAlpha(0.75)
+            .toHex8String()
+    }
 }));
 
 const MultiselectDialog: FC<IMultiselectProps> = props => {
@@ -155,26 +190,85 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
     const {
         options,
         submitButtonLabel,
-        cancelButtonLabel
+        cancelButtonLabel,
+        allowUserOptions
     } = props.message.data._plugin;
-
-    const selectedContainer = useRef<HTMLDivElement>(null);
 
     const [inputValue, setInputValue] = useState<string>('');
 
+    const [filteredOptions, setFilteredOptions] = useState<string[]>([]);
+
     const [chosenOptions, setChosenOptions] = useState<string[]>([]);
+
+    const [selectedIndex, setSelectedIndex] = useState(filteredOptions.length);
+
+    /*
+     ** Filter the options
+     */
+    useEffect(() => {
+        let filtered = options.filter(option => {
+            /*
+             ** Hide already selected options
+             */
+            if (chosenOptions.includes(option)) return false;
+
+            /*
+             ** If no filter include option
+             */
+            if (!inputValue) return true;
+
+            /*
+             ** Otherwise test if option includes filter
+             */
+            return option.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase());
+        });
+
+        /*
+         ** Add input filter value to the list of options
+         */
+        if (inputValue && allowUserOptions) filtered.push(inputValue);
+
+        setFilteredOptions(filtered);
+    }, [inputValue, chosenOptions]);
+
+    /*
+     ** Keyboard navigation on options list
+     */
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+        setSelectedIndex(filteredOptions.length);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [filteredOptions]);
+
+    useEffect(() => {
+        console.log(selectedIndex);
+        optionInFocus.current?.focus();
+    }, [selectedIndex]);
+
+    const optionInFocus = useRef<HTMLButtonElement>(null);
+
+    const textInput = useRef<HTMLInputElement>(null);
+
+    const handleKeyDown = event => {
+        const { keyCode } = event;
+        if ([38, 40, 27].includes(keyCode)) event.preventDefault();
+        if (keyCode === 38) setSelectedIndex(index => mod(index - 1, filteredOptions.length)); // Arrow UP
+        if (keyCode === 40) setSelectedIndex(index => mod(index + 1, filteredOptions.length)); // Arrow Down
+        if (keyCode === 27) setSelectedIndex(filteredOptions.length); // Escape
+    };
 
     const handleOptionClick = (event, value) => {
         event.preventDefault();
 
         if (chosenOptions.includes(value)) {
-            setChosenOptions(selected => [
-                ...selected.filter(option => option !== value)
-            ]);
+            setChosenOptions(selected => [...selected.filter(option => option !== value)]);
             return;
         }
 
         setChosenOptions(selected => [...selected, value]);
+        if (textInput.current) textInput.current.focus();
     };
 
     const handleSubmit = e => {
@@ -186,60 +280,11 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
         });
     };
 
-    const SelectedOptions = () => (
-        <SelectedOptionsContainer>
-            {chosenOptions.map(selectedOption => (
-                <SelectedTag
-                    key={options.indexOf(selectedOption)}
-                    onClick={event => handleOptionClick(event, selectedOption)}
-                    tabIndex={1}
-                >
-                    <SelectedTagIcon />
-                    {selectedOption}
-                </SelectedTag>
-            ))}
-        </SelectedOptionsContainer>
-    );
-
-    const FilteredOptions = () => (
-        <ContentRow>
-            {options
-                .filter(option => {
-                    if (chosenOptions.includes(option)) return false;
-                    if (!inputValue) return true;
-                    return option
-                        .toLocaleLowerCase()
-                        .includes(inputValue.toLocaleLowerCase());
-                })
-                .map(option => (
-                    <Tag
-                        onClick={event => handleOptionClick(event, option)}
-                        key={options.indexOf(option)}
-                        tabIndex={0}
-                    >
-                        {option}
-                    </Tag>
-                ))}
-            {inputValue && (
-                <Tag
-                    onClick={event => handleOptionClick(event, inputValue)}
-                    key={-1}
-                    tabIndex={0}
-                >
-                    ...{inputValue}
-                </Tag>
-            )}
-        </ContentRow>
-    );
-
     return (
         <DialogRoot {...props.attributes} onSubmit={handleSubmit}>
             <Header color="primary" className="webchat-header-bar">
                 <HeaderRow>
-                    <HeaderAction
-                        type="button"
-                        onClick={props.onDismissFullscreen}
-                    >
+                    <HeaderAction type="button" onClick={props.onDismissFullscreen}>
                         {cancelButtonLabel}
                     </HeaderAction>
                     <HeaderAction type="submit">
@@ -250,19 +295,44 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
                 <HeaderRow>
                     <Title>{text}</Title>
                 </HeaderRow>
-                <SelectedOptions />
+                <ChosenOptions>
+                    {chosenOptions.map(option => (
+                        <ChosenOption
+                            key={option}
+                            onClick={event => handleOptionClick(event, option)}
+                            tabIndex={1}
+                        >
+                            <SelectedOptionCloseIcon />
+                            {option}
+                        </ChosenOption>
+                    ))}
+                </ChosenOptions>
             </Header>
             <Content>
-                <FilteredOptions />
+                <OptionsList>
+                    {filteredOptions.map((option, index) => (
+                        <Option
+                            ref={index === selectedIndex ? optionInFocus : null}
+                            onClick={event => handleOptionClick(event, option)}
+                            key={option}
+                            tabIndex={0}
+                        >
+                            {option}
+                        </Option>
+                    ))}
+                </OptionsList>
             </Content>
             <Footer>
                 <TextInput
                     autoFocus={true}
-                    onChange={event => setInputValue(event.target.value)}
-                    onKeyDown={event => (event.keyCode === 13) ? handleOptionClick(event, inputValue) : null}
-                    placeholder="Select an option or enter your own"
                     className="webchat-multiselect-input"
-                    tabIndex={-1}
+                    onChange={event => setInputValue(event.target.value)}
+                    onKeyDown={event =>
+                        event.keyCode === 13 ? handleOptionClick(event, inputValue) : null
+                    }
+                    placeholder="Select an option or enter your own"
+                    ref={textInput}
+                    tabIndex={2}
                 />
             </Footer>
         </DialogRoot>
