@@ -29,7 +29,7 @@ const Header = styled(Background)(({ theme }) => ({
     flexDirection: 'column',
     fontSize: 16,
     fontWeight: 700,
-    maxHeight: '50%',
+    maxHeight: '40%',
     width: '100%',
     zIndex: 2
 }));
@@ -132,6 +132,7 @@ const ChosenOptions = styled('div')(({ theme }) => ({
     overflowX: 'auto',
     paddingLeft: theme.unitSize * 2,
     paddingRight: theme.unitSize * 2,
+    paddingBottom: theme.unitSize,
     scrollbarWidth: 'thin',
     '&::-webkit-scrollbar': {
         backgroundColor: tinycolor(theme.primaryColor)
@@ -243,7 +244,6 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
     }, [filteredOptions]);
 
     useEffect(() => {
-        console.log(selectedIndex);
         optionInFocus.current?.focus();
     }, [selectedIndex]);
 
