@@ -14,6 +14,7 @@ interface IMultiselectMessage extends IBotMessage {
             openButtonLabel: string;
             cancelButtonLabel: string;
             submitButtonLabel: string;
+            allowUserAnswers: boolean;
         }
     }
 }

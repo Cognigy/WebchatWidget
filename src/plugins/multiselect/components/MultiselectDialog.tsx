@@ -27,6 +27,7 @@ const Header = styled(Background)(({ theme }) => ({
     boxSizing: 'border-box',
     display: 'flex',
     flexDirection: 'column',
+    flexShrink: 0,
     fontSize: 16,
     fontWeight: 700,
     maxHeight: '40%',
@@ -36,6 +37,7 @@ const Header = styled(Background)(({ theme }) => ({
 
 const HeaderRow = styled.div(({ theme }) => ({
     display: 'flex',
+    flexShrink: 0,
     justifyContent: 'space-between',
     margin: theme.unitSize,
     padding: theme.unitSize
@@ -44,6 +46,7 @@ const HeaderRow = styled.div(({ theme }) => ({
 const OptionsList = styled.div(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
+    flexShrink: 0,
     marginTop: 'auto'
 }));
 
@@ -54,6 +57,7 @@ const HeaderAction = styled.button(({ theme }) => ({
     color: theme.primaryContrastColor,
     cursor: 'pointer',
     display: 'flex',
+    flexShrink: 0,
     fontWeight: 'normal',
     justifyContent: 'space-between',
     paddingLeft: 0,
@@ -179,10 +183,8 @@ const SelectedOptionCloseIcon = styled(CloseIcon)(({ theme }) => ({
     paddingRight: theme.unitSize * 0.5,
     width: theme.unitSize * 2,
     '&:hover': {
-        backgroundColor: tinycolor(theme.greyWeakColor)
-            .darken(25)
-            .setAlpha(0.75)
-            .toHex8String()
+        background: theme.primaryContrastColor,
+        fill: theme.primaryStrongColor,
     }
 }));
 
@@ -192,7 +194,7 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
         options,
         submitButtonLabel,
         cancelButtonLabel,
-        allowUserOptions
+        allowUserAnswers
     } = props.message.data._plugin;
 
     const [inputValue, setInputValue] = useState<string>('');
@@ -227,7 +229,7 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
         /*
          ** Add input filter value to the list of options
          */
-        if (inputValue && allowUserOptions) filtered.push(inputValue);
+        if (inputValue && allowUserAnswers) filtered.push(inputValue);
 
         setFilteredOptions(filtered);
     }, [inputValue, chosenOptions]);
@@ -268,7 +270,6 @@ const MultiselectDialog: FC<IMultiselectProps> = props => {
         }
 
         setChosenOptions(selected => [...selected, value]);
-        if (textInput.current) textInput.current.focus();
     };
 
     const handleSubmit = e => {
