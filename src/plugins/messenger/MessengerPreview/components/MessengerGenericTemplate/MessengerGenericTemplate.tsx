@@ -71,7 +71,9 @@ export const getMessengerGenericTemplate = ({
     const FixedImage = styled.div({
         paddingTop: "50%",
         backgroundSize: "cover",
-        backgroundPosition: "center center"
+        backgroundPosition: "center center",
+        display: "table",
+        width: "100%"
     });
 
     const GenericContent = styled(MessengerContent)({
@@ -96,7 +98,7 @@ export const getMessengerGenericTemplate = ({
                 ) : (
                         <FixedImage
                             style={{ backgroundImage: getBackgroundImage(image_url) }}
-                        />
+                        ><div></div></FixedImage>
                     )
             ) : null;
 
