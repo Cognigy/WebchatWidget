@@ -39,7 +39,8 @@ You can pass [Webchat Options](#webchat-options) as an additional argument to th
 | sessionId | string | random string | The session's id |
 | channel | string | `"webchat-client"` | The name of your client. Can be useful for analytics
 | reconnection | boolean | `true` | If `true`, will try to re-establish the connection after losing it
-| interval | number | `1000` | Interval time in miliseconds the webchat will wait inbetween polls when falling back to HTTP polling.
+| reconnectionLimit | number | `5` | Limit the maximum number of reconnection attempts
+| interval | number | `10000` | Interval time in miliseconds the webchat will wait inbetween polls when falling back to HTTP polling.
 | forceWebsockets | boolean | `false` | Rule whether to allow fallbacks to HTTP polling when Websockets are not available
 | settings | [Endpoint Settings](#endpoint-settings) | - | Can be used to (partially) override certain Settings from the Webchat Endpoint
 
