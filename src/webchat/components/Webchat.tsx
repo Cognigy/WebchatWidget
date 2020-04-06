@@ -15,6 +15,13 @@ import { getEndpointBaseUrl, getEndpointUrlToken } from '../helper/endpoint';
 import { IWebchatSettings } from '../../common/interfaces/webchat-config';
 import { Options } from '@cognigy/socket-client/lib/interfaces/options';
 
+interface IAnalyticsEvent {
+    type: string;
+    payload?: any;
+}
+
+type TAnalyticsService = (event: IAnalyticsEvent) => void;
+
 export interface WebchatProps extends FromProps {
     url: string;
     options?: Partial<Options>;
@@ -56,8 +63,14 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         this.client.disconnect();
     }
 
-    registerAnalyticsService(handler: (event: { type: string; payload?: any; }) => void) {
-        this.analytics.on('analytics-event', handler);
+    registerAnalyticsService(handler: TAnalyticsService) {
+        this.analytics.on('analytics-event', (event: IAnalyticsEvent) => {
+            try {
+                handler(event);
+            } catch (e) {
+                console.error('[WebchatWidget] Uncaught Error in Analytics Service: ', e);
+            }
+        });
     }
 
     emitAnalytics = (type: string, payload?: any) => {
