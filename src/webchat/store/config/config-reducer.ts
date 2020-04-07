@@ -17,7 +17,7 @@ const getInitialState = (): ConfigState => ({
         disableTextInputSanitization: false,
         disableToggleButton: false,
         dynamicImageAspectRatio: false,
-        enableConnectionStatusIndicator: false,
+        enableConnectionStatusIndicator: true,
         enableFileUpload: false,
         enablePersistentMenu: false,
         enableSTT: false,
