@@ -39,7 +39,7 @@ You can pass [Webchat Options](#webchat-options) as an additional argument to th
 | sessionId | string | random string | The session's id |
 | channel | string | `"webchat-client"` | The name of your client. Can be useful for analytics
 | reconnection | boolean | `true` | If `true`, will try to re-establish the connection after losing it
-| reconnectionLimit | number | `5` | Limit the maximum number of reconnection attempts
+| reconnectionLimit | number | `5` | Limit the maximum number of reconnection attempts, `0` means no limit
 | interval | number | `10000` | Interval time in miliseconds the webchat will wait inbetween polls when falling back to HTTP polling.
 | forceWebsockets | boolean | `false` | Rule whether to allow fallbacks to HTTP polling when Websockets are not available
 | settings | [Endpoint Settings](#endpoint-settings) | - | Can be used to (partially) override certain Settings from the Webchat Endpoint
@@ -53,7 +53,8 @@ See it in action:
 | Name | Type | Default | Description |
 | - | - | - | - |
 | startBehavior | 'none' , 'button', 'injection' | 'none' | If 'none', will start the webchat with a text input, 'button' will display a get started button with a preconfigured message, 'injection' will automatically send a message to the bot. 
-| getStartedText | string | "Get Started" | The text to display in the Webchat when clicking the Get Started Button / when sending the auto message. | getStartedPayload | string | "GET_STARTED" | The payload to send to your Flow when clicking the Get Started Button / when sending the auto message. 
+| getStartedText | string | "Get Started" | The text to display in the Webchat when clicking the Get Started Button / when sending the auto message. 
+| getStartedPayload | string | "GET_STARTED" | The payload to send to your Flow when clicking the Get Started Button / when sending the auto message. 
 | getStartedButtonText | string | "GET_STARTED" | The text to display on the Get Started Button / when sending the auto message. 
 | inputPlaceholder | string | "Write a reply" | The placeholder text to display in the input field. 
 | enableSTT | boolean | false | Whether to enable speech input that lets the user speak to the Webchat instead of only typing. 
