@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { styled } from "../../style";
-import tinycolor from 'tinycolor2';
+import { styled } from '../../style';
 
 const Wrapper = styled.div(({ theme }) => ({
     display: 'flex',
@@ -30,13 +29,16 @@ const Dialog = styled.div(({ theme }) => ({
     boxShadow: theme.shadow,
 }));
 
-export default () => {
+export default ({ isPermanent }) => {
     return (
         <Wrapper>
             <Dialog>
-                <span>Connection lost. Trying to reconnect...</span>
+                {isPermanent ? (
+                    <span>Connection lost. Try to reload the page</span>
+                ) : (
+                    <span>Connection lost. Trying to reconnect...</span>
+                )}
             </Dialog>
         </Wrapper>
-    )
-}
-
+    );
+};

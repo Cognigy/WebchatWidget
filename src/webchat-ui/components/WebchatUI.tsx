@@ -57,6 +57,7 @@ export interface WebchatUIProps {
     webchatToggleProps?: React.ComponentProps<typeof FAB>;
 
     connected: boolean;
+    reconnectionLimit: boolean;
 }
 
 interface WebchatUIState {
@@ -98,7 +99,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         theme: createWebchatTheme(),
         messagePlugins: [],
         inputPlugins: [],
-        hadConnection: false
+        hadConnection: false,
     };
 
     history: React.RefObject<ChatScroller>;
@@ -185,6 +186,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             webchatRootProps,
             webchatToggleProps,
             connected,
+            reconnectionLimit,
             ...restProps
         } = props;
         const { theme, hadConnection } = state;
@@ -213,7 +215,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             ? this.renderRegularLayout()
                                             : this.renderFullscreenMessageLayout()
                                         }
-                                        {showDisconnectOverlay && <DisconnectOverlay />}
+                                        {showDisconnectOverlay && <DisconnectOverlay isPermanent={!!reconnectionLimit}/>}
                                     </WebchatRoot>
                                 )}
                                 {!disableToggleButton && (
