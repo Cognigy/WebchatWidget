@@ -67,7 +67,7 @@ See it in action:
 | headerLogoUrl | string | COGNIGY.AI Logo | The logo to display in the header of the Webchat. Defaults to a COGNIGY.AI logo. 
 | enableConnectionStatusIndicator | boolean | true | Whether to show a warning if the connection is lost during a conversation. The warning will disappear when the connection is re-established.
 | enableTypingIndicator | boolean | true | Whether to enable typing indicators in the Webchat when the Conversational AI is replying. Requires a messageDelay to be set. 
-| disableBranding | boolean | `false` | If true, hides "Powered by Cognigy" link
+| disableBranding | boolean | false | If true, hides "Powered by Cognigy" link
 | disableHtmlInput | boolean | false | If true, strips all html tags out from the input of the user.
 | disableInputAutofocus | boolean | false | By default, the input will automatically focus when a user opens the widget. If you set this to true, the input will no longer focus when opening the widget.
 | disablePersistentHistory | boolean | false | If true, disables storing of the chat history into LocalStorage (used for persistence). 
