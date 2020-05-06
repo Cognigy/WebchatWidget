@@ -70,6 +70,7 @@ See it in action:
 | disableHtmlInput | boolean | false | If true, strips all html tags out from the input of the user.
 
 | disableInputAutofocus | boolean | false | By default, the input will automatically focus when a user opens the widget. If you set this to true, the input will no longer focus when opening the widget.
+| disableLocalStorage | boolean | false | If true, disables storing any information in browsers storage like persistent history and userId. This flag has a higher priority than `useSessionStorage` - setting this to true also disables SessionStorage.
 | disablePersistentHistory | boolean | false | If true, disables storing of the chat history into LocalStorage (used for persistence). 
 | disableTextInputSanitization | boolean | false | By default, text inputs from the user will be sanitized for HTML with scripting. If you set this to true, users can send any kind of HTML text, including script-tags and onload-attributes etc.
 | enablePersistentMenu | boolean | false | Whether to enable the Persistent Menu 

@@ -10,6 +10,7 @@ export interface IWebchatSettings {
     designTemplate: number;
     disableHtmlInput: boolean;
     disableInputAutofocus: boolean;
+    disableLocalStorage: boolean;
     disablePersistentHistory: boolean;
     disableTextInputSanitization: boolean;
     disableToggleButton: boolean;
