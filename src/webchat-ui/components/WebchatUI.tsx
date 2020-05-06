@@ -30,6 +30,7 @@ import ChatIcon from '../assets/baseline-chat-24px.svg';
 import CloseIcon from '../assets/baseline-close-24px.svg';
 import DisconnectOverlay from './presentational/DisconnectOverlay';
 import { IWebchatConfig } from '../../common/interfaces/webchat-config';
+import { TTyping } from '../../common/interfaces/typing';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -39,7 +40,7 @@ export interface WebchatUIProps {
 
     onSendMessage: MessageSender;
     config: IWebchatConfig;
-    typingIndicator: boolean;
+    typingIndicator: TTyping;
 
     open: boolean;
 
@@ -292,6 +293,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const { messages, typingIndicator, config, onEmitAnalytics } = this.props;
         const { messagePlugins = [] } = this.state;
 
+        const renderTypingIndicator = typingIndicator !== "remove";
+        const typingIndicatorHidden = typingIndicator === 'hide';
+
         return (
             <>
                 {messages.map((message, index) => (
@@ -307,8 +311,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         onEmitAnalytics={onEmitAnalytics}
                     />
                 ))}
-                {typingIndicator && (
-                    <MessageRow align='left'>
+                {renderTypingIndicator && (
+                    <MessageRow align='left' hidden={typingIndicatorHidden}>
                         <TypingIndicatorBubble />
                     </MessageRow>
                 )}

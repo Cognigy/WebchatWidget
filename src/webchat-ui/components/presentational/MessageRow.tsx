@@ -5,11 +5,16 @@ export interface IAlignmentProps {
     align?: 'left' | 'right';
 }
 
-export default styled.div<IAlignmentProps>(({ theme, align }) => {
+interface IVisibilityProps {
+    hide?: boolean;
+}
+
+export default styled.div<IAlignmentProps & IVisibilityProps>(({ theme, align, hide }) => {
     let paddingLeft = theme.unitSize * 2;
     let paddingRight = theme.unitSize * 2;
     let flexDirection;
     let avatarStyles: any = {};
+    let visibility: "hidden" | "visible" = hide ? "hidden" : "visible";
     
     switch (align) {
         case 'right': {
@@ -36,6 +41,8 @@ export default styled.div<IAlignmentProps>(({ theme, align }) => {
 		alignItems: "flex-end",
         paddingLeft,
         paddingRight,
+        transition: "visibility 0s linear 200ms",
+        visibility,
 
         '&>*': {
             marginTop: theme.unitSize,

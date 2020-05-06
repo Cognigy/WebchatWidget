@@ -1,9 +1,10 @@
 import { Reducer } from "redux";
 import { IMessage } from "../../../common/interfaces/message";
+import { TTyping } from "../../../common/interfaces/typing";
 
 export interface UIState {
     open: boolean;
-    typing: boolean;
+    typing: TTyping;
     inputMode: string;
     fullscreenMessage: IMessage | undefined;
     agentAvatarOverrideUrl?: string;
@@ -25,7 +26,7 @@ export const toggleOpen = () => ({
 export type ToggleOpenAction = ReturnType<typeof toggleOpen>;
 
 const SET_TYPING = 'SET_TYPING';
-export const setTyping = (typing: boolean) => ({
+export const setTyping = (typing: TTyping) => ({
     type: SET_TYPING as 'SET_TYPING',
     typing
 });
@@ -69,7 +70,7 @@ type SetUserAvatarOverrideUrlAction = ReturnType<typeof setUserAvatarOverrideUrl
 
 const getInitialState = (): UIState => ({
     open: false,
-    typing: false,
+    typing: 'remove',
     inputMode: 'text',
     fullscreenMessage: undefined,
     agentAvatarOverrideUrl: undefined,
