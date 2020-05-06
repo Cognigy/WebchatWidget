@@ -293,7 +293,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const { messages, typingIndicator, config, onEmitAnalytics } = this.props;
         const { messagePlugins = [] } = this.state;
 
-        const renderTypingIndicator = typingIndicator !== "remove";
+        const renderTypingIndicator = typingIndicator !== 'remove';
         const typingIndicatorHidden = typingIndicator === 'hide';
 
         return (
