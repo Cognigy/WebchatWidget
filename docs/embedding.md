@@ -57,6 +57,7 @@ See it in action:
 | getStartedPayload | string | "GET_STARTED" | The payload to send to your Flow when clicking the Get Started Button / when sending the auto message. 
 | getStartedButtonText | string | "GET_STARTED" | The text to display on the Get Started Button / when sending the auto message. 
 | inputPlaceholder | string | "Write a reply" | The placeholder text to display in the input field. 
+| enableSTT | boolean | false | Whether to enable speech input that lets the user speak to the Webchat instead of only typing. 
 | enableStrictMessengerSync | boolean | false | If set to true, will NOT render the message from the "Messenger" tab in the SAY node unless "Use Facebook Channel" is checked in the "Webchat" tab. 
 | enableTTS | boolean | false | Whether to enable the browser to read the bot messages aloud. 
 | colorScheme | string | The background color of the header and bot messages in the Webchat. | designTemplate | 1 or 2 | 1 | The Webchat design template to use. We default to design template 1 (bottom right with a button), you can switch to template 2, which is the centered webchat. 
@@ -69,6 +70,7 @@ See it in action:
 | disableHtmlInput | boolean | false | If true, strips all html tags out from the input of the user.
 
 | disableInputAutofocus | boolean | false | By default, the input will automatically focus when a user opens the widget. If you set this to true, the input will no longer focus when opening the widget.
+| disableLocalStorage | boolean | false | If true, disables storing any information in browsers storage like persistent history and userId. This flag has a higher priority than `useSessionStorage` - setting this to true also disables SessionStorage.
 | disablePersistentHistory | boolean | false | If true, disables storing of the chat history into LocalStorage (used for persistence). 
 | disableTextInputSanitization | boolean | false | By default, text inputs from the user will be sanitized for HTML with scripting. If you set this to true, users can send any kind of HTML text, including script-tags and onload-attributes etc.
 | enablePersistentMenu | boolean | false | Whether to enable the Persistent Menu 
