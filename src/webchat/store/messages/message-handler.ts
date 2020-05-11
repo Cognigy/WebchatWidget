@@ -1,7 +1,7 @@
 import { Store } from "redux";
 import { IMessage } from "../../../common/interfaces/message";
 import { ISendMessageOptions } from "./message-middleware";
-import { setBotAvatarOverrideUrl, setUserAvatarOverrideUrl, setAgentAvatarOverrideUrl } from "../ui/ui-reducer";
+import { setBotAvatarOverrideUrl, setUserAvatarOverrideUrl, setAgentAvatarOverrideUrl, setTyping } from "../ui/ui-reducer";
 import { SocketClient } from "@cognigy/socket-client";
 
 const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
@@ -31,6 +31,7 @@ export const registerMessageHandler = (store: Store, client: SocketClient) => {
             }
         }
 
-        store.dispatch(receiveMessage(output))
+        store.dispatch(setTyping("remove"));
+        store.dispatch(receiveMessage(output));
     });
 }

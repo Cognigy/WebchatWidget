@@ -11,6 +11,7 @@ export interface IWebchatSettings {
     disableBranding: boolean;
     disableHtmlInput: boolean;
     disableInputAutofocus: boolean;
+    disableLocalStorage: boolean;
     disablePersistentHistory: boolean;
     disableTextInputSanitization: boolean;
     disableToggleButton: boolean;

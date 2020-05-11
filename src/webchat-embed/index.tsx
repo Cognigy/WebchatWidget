@@ -37,6 +37,7 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
             : plugin
         );
 
+    const disableLocalStorage = options && options.settings && options.settings.disableLocalStorage;
     const useSessionStorage = options && options.settings && options.settings.useSessionStorage;
     const browserStorage = useSessionStorage ? sessionStorage : localStorage;
 
@@ -46,7 +47,7 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
 
         if (!userId) {
             userId = uuid.v4();
-            browserStorage.setItem('userId', userId);
+            if (!disableLocalStorage) browserStorage.setItem('userId', userId);
         }
 
         if (!options)
