@@ -11,6 +11,7 @@ const HeaderBar = styled(Toolbar)(({ theme }) => ({
     minHeight: 'auto',
     height: theme.unitSize * 7,
     flexBasis: theme.unitSize * 7,
+    flexShrink: 0,
     fontSize: 16,
     fontWeight: 700
 }))

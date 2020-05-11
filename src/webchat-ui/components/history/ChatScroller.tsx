@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Branding from '../branding/Branding'
 
-const CLIENT_HEIGHT_OFFSET = 10;
+const CLIENT_HEIGHT_OFFSET = 0;
 
 export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
     disableBranding: boolean;
@@ -73,7 +73,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
                 ref={this.rootRef}
             >
                 {children}
-                {disableBranding ? null : <Branding />}
+                {!disableBranding && <Branding />}
             </div>
         )
     }
