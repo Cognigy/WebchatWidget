@@ -5,7 +5,8 @@ export const History = styled(ChatScroller)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     paddingTop: theme.unitSize * 2,
-    "& > *:last-child": {
+    "::after": {
+        content: "''",
         paddingBottom: theme.unitSize * 2,
     },
 }));    

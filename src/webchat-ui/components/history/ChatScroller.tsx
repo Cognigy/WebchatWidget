@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Branding from '../branding/Branding'
 
-const CLIENT_HEIGHT_OFFSET = 0;
+const CLIENT_HEIGHT_OFFSET = 16;
 
 export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
     disableBranding: boolean;
