@@ -1,16 +1,7 @@
 import { InputComponentProps, InputPluginFactoryProps } from '../../common/interfaces/input-plugin';
-import Toolbar from '../../webchat-ui/components/presentational/Toolbar';
-// import Input from '../../../webchat-ui/components/presentational/Input';
-import Button from '../../webchat-ui/components/presentational/Button';
-
-
-
-
-
 interface ISpeechInputState {
     speechRecognition: SpeechRecognition;
     active: boolean;
-
     result: string;
     isFinalResult: boolean;
 }
@@ -210,9 +201,10 @@ export const getSpeechInput = ({ React, styled }: InputPluginFactoryProps) => {
                         value={result}
                     />
                     <Button
+                        className={buttonClasses}
                         disabled={!this.isSupported()}
                         onClick={this.toggle}
-                        className={buttonClasses}
+                        type="button"
                     >
                         {this.renderMicIcon()}
                     </Button>
