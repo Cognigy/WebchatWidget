@@ -1,8 +1,11 @@
 import * as React from 'react'
+import Branding from '../branding/Branding'
 
-const CLIENT_HEIGHT_OFFSET = 10;
+const CLIENT_HEIGHT_OFFSET = 16;
 
-export interface OuterProps extends React.HTMLProps<HTMLDivElement> { }
+export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
+    disableBranding: boolean;
+ }
 
 type InnerProps = OuterProps;
 
@@ -62,7 +65,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
     }
 
     render() {
-        const { children, ...props } = this.props;
+        const { children, disableBranding, ...props } = this.props;
 
         return (
             <div
@@ -70,6 +73,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
                 ref={this.rootRef}
             >
                 {children}
+                {!disableBranding && <Branding />}
             </div>
         )
     }

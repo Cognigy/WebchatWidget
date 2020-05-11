@@ -8,6 +8,7 @@ export interface IWebchatSettings {
     backgroundImageUrl: string;
     colorScheme: string;
     designTemplate: number;
+    disableBranding: boolean;
     disableHtmlInput: boolean;
     disableInputAutofocus: boolean;
     disableLocalStorage: boolean;
@@ -28,7 +29,7 @@ export interface IWebchatSettings {
     headerLogoUrl: string;
     inputPlaceholder: string;
     messageDelay: number;
-    /** this is the botAvatarUrl (rename for major) */
+    /** TODO: this is the botAvatarUrl (rename for major) */
     messageLogoUrl: string;
     persistentMenu: {
         title: string;

@@ -11,6 +11,7 @@ const getInitialState = (): ConfigState => ({
         backgroundImageUrl: '',
         colorScheme: '',
         designTemplate: 1,
+        disableBranding: false,
         disableHtmlInput: false,
         disableInputAutofocus: false,
         disableLocalStorage: false,
