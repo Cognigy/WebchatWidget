@@ -26,7 +26,7 @@ const Logo = styled(CognigyLogo)(({ theme }) => ({
 const URL = 'https://cognigy.com/';
 
 const Branding = () => (
-    <Link href={URL}>
+    <Link href={URL} target="_blank">
         Powered by <Logo />
     </Link>
 );
