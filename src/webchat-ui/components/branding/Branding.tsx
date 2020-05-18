@@ -18,16 +18,19 @@ const Link = styled.a(({ theme }) => ({
 }));
 
 const Logo = styled(CognigyLogo)(({ theme }) => ({
-    fill: tinycolor(theme.greyWeakColor).setAlpha(.9).toHex8String(),
+    fill: theme.greyWeakColor,
     height: 11,
+    width: 80,
     marginLeft: 3,
+    opacity: .9
 }));
 
 const URL = 'https://cognigy.com/';
 
 const Branding = () => (
     <Link href={URL} target="_blank">
-        Powered by <Logo />
+        <span>Powered by</span>
+        <Logo />
     </Link>
 );
 
