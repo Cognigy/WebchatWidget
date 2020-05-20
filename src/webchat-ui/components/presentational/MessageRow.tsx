@@ -38,7 +38,8 @@ export default styled.div<IAlignmentProps & IVisibilityProps>(({ theme, align, h
     return {
         display: 'flex',
 		flexDirection,
-		alignItems: "flex-end",
+        alignItems: "flex-end",
+        flexShrink: 0,
         paddingLeft,
         paddingRight,
         transition: "visibility 0s linear 200ms",
