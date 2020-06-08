@@ -11,6 +11,8 @@
         "dev": "webpack-dev-server --config webpack.dev.js --content-base dist/ --host 0.0.0.0 --disable-host-check",
         "date-picker-legacy": "webpack --config webpack.production-plugin.legacy.js --entry ./src/plugins/date-picker/index.tsx --output dist/date-picker.webchat-plugin.legacy.js",
         "date-picker": "webpack --config webpack.production-plugin.js --entry ./src/plugins/date-picker/index.tsx --output dist/date-picker.webchat-plugin.js",
+        "messenger": "webpack --config webpack.production-plugin.js --entry ./src/plugins/messenger/index.tsx --output dist/messenger.webchat-plugin.js",
+        "messenger-legacy": "webpack --config webpack.production-plugin.legacy.js --entry ./src/plugins/messenger/index.tsx --output dist/messenger.webchat-plugin.legacy.js",
         "speech-input-legacy": "webpack --config webpack.production-plugin.legacy.js --entry ./src/plugins/speech-input/index.tsx --output dist/speech-input.webchat-plugin.legacy.js",
         "speech-input": "webpack --config webpack.production-plugin.js --entry ./src/plugins/speech-input/index.tsx --output dist/speech-input.webchat-plugin.js",
         "speech-output-legacy": "webpack --config webpack.production-plugin.legacy.js --entry ./src/plugins/speech-output/index.tsx --output dist/speech-output.webchat-plugin.legacy.js",
