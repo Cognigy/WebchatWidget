@@ -50,32 +50,40 @@ See it in action:
 [![Edit Custom Webchat Options](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/embedding-the-cognigy-webchat-4xkv8?fontsize=14&hidenavigation=1&theme=dark)
 
 ### Endpoint Settings
-| Name | Type | Default | Description |
-| - | - | - | - |
-| startBehavior | 'none' , 'button', 'injection' | 'none' | If 'none', will start the webchat with a text input, 'button' will display a get started button with a preconfigured message, 'injection' will automatically send a message to the bot. 
-| getStartedText | string | "Get Started" | The text to display in the Webchat when clicking the Get Started Button / when sending the auto message. 
-| getStartedPayload | string | "GET_STARTED" | The payload to send to your Flow when clicking the Get Started Button / when sending the auto message. 
-| getStartedButtonText | string | "GET_STARTED" | The text to display on the Get Started Button / when sending the auto message. 
-| inputPlaceholder | string | "Write a reply" | The placeholder text to display in the input field. 
-| enableSTT | boolean | false | Whether to enable speech input that lets the user speak to the Webchat instead of only typing. 
-| enableStrictMessengerSync | boolean | false | If set to true, will NOT render the message from the "Messenger" tab in the SAY node unless "Use Facebook Channel" is checked in the "Webchat" tab. 
-| enableTTS | boolean | false | Whether to enable the browser to read the bot messages aloud. 
-| colorScheme | string | The background color of the header and bot messages in the Webchat. | designTemplate | 1 or 2 | 1 | The Webchat design template to use. We default to design template 1 (bottom right with a button), you can switch to template 2, which is the centered webchat. 
-| messageLogoUrl | string | COGNIGY.AI Logo | A custom avatar that should be displayed next to bot messages. Defaults to a COGNIGY.AI logo. 
-| userAvatarUrl | string | undefined | A custom avatar that should be displayed next to user messages. Defaults to a user icon.
-| agentAvatarUrl | string | undefined | A custom avatar that sould be displayed next to agent messages
-| headerLogoUrl | string | COGNIGY.AI Logo | The logo to display in the header of the Webchat. Defaults to a COGNIGY.AI logo. 
-| enableConnectionStatusIndicator | boolean | true | Whether to show a warning if the connection is lost during a conversation. The warning will disappear when the connection is re-established.
-| enableTypingIndicator | boolean | true | Whether to enable typing indicators in the Webchat when the Conversational AI is replying. Requires a messageDelay to be set. 
-| disableBranding | boolean | false | If true, hides "Powered by Cognigy" link
-| disableHtmlInput | boolean | false | If true, strips all html tags out from the input of the user.
-| disableInputAutofocus | boolean | false | By default, the input will automatically focus when a user opens the widget. If you set this to true, the input will no longer focus when opening the widget.
-| disableLocalStorage | boolean | false | If true, disables storing any information in browsers storage like persistent history and userId. This flag has a higher priority than `useSessionStorage` - setting this to true also disables SessionStorage.
-| disablePersistentHistory | boolean | false | If true, disables storing of the chat history into LocalStorage (used for persistence). 
-| disableTextInputSanitization | boolean | false | By default, text inputs from the user will be sanitized for HTML with scripting. If you set this to true, users can send any kind of HTML text, including script-tags and onload-attributes etc.
-| enablePersistentMenu | boolean | false | Whether to enable the Persistent Menu 
-| persistentMenu | [Persistent Menu](#persistent-menu) | - | The Persistent Menu to render in the Webchat.
-| useSessionStorage | boolean | false | If true, to store chat history and userId sessionStorage is used instead of localStorage. Note: This means the userId will not be persisted after closing and re-opening a browser tab.
+| Name | Type | Default | [UI Config](#UI-Configurable) | [Demo Exclusive](#Demo-Page-Settings) | Description |
+| - | - | - | - | - | - |
+| agentAvatarUrl | string | undefined | x | | A custom avatar that sould be displayed next to agent messages
+| colorScheme | string | #2C6CAF | x | | The background color of the header and bot messages in the Webchat. 
+| designTemplate | 1 or 2 | 1 | x | x | The Webchat design template to use. We default to design template 1 (bottom right with a button), you can switch to template 2, which is the centered webchat.
+| disableBranding | boolean | false | | | If true, hides "Powered by Cognigy" link
+| disableHtmlInput | boolean | false | | | If true, strips all html tags out from the input of the user.
+| disableInputAutofocus | boolean | false | | | By default, the input will automatically focus when a user opens the widget. If you set this to true, the input will no longer focus when opening the widget.
+| disableLocalStorage | boolean | false | | | If true, disables storing any information in browsers storage like persistent history and userId. This flag has a higher priority than `useSessionStorage` - setting this to true also disables SessionStorage.
+| disablePersistentHistory | boolean | false | | | If true, disables storing of the chat history into LocalStorage (used for persistence). 
+| disableTextInputSanitization | boolean | false | | | By default, text inputs from the user will be sanitized for HTML with scripting. If you set this to true, users can send any kind of HTML text, including script-tags and onload-attributes etc.
+| enableConnectionStatusIndicator | boolean | true | | | Whether to show a warning if the connection is lost during a conversation. The warning will disappear when the connection is re-established.
+| enablePersistentMenu | boolean | false | x | | Whether to enable the Persistent Menu 
+| enableStrictMessengerSync | boolean | false | | | If set to true, will NOT render the message from the "Messenger" tab in the SAY node unless "Use Facebook Channel" is checked in the "Webchat" tab. 
+| enableSTT | boolean | false | x | x | Whether to load the speech input plugin.
+| enableTTS | boolean | false | x | x | Whether to load the speech output plugin. 
+| enableTypingIndicator | boolean | true | x | | Whether to enable typing indicators in the Webchat when the Conversational AI is replying. Requires a messageDelay to be set. 
+| getStartedButtonText | string | "GET_STARTED" | x | | The text to display on the Get Started Button / when sending the auto message. 
+| getStartedPayload | string | "GET_STARTED" | x | | The payload to send to your Flow when clicking the Get Started Button / when sending the auto message. 
+| getStartedText | string | "Get Started" | x | | The text to display in the Webchat when clicking the Get Started Button / when sending the auto message. 
+| headerLogoUrl | string | COGNIGY.AI Logo | x | | The logo to display in the header of the Webchat. Defaults to a COGNIGY.AI logo. 
+| inputPlaceholder | string | "Write a reply" | x | | The placeholder text to display in the input field. 
+| messageLogoUrl | string | COGNIGY.AI Logo | x | | A custom avatar that should be displayed next to bot messages. Defaults to a COGNIGY.AI logo. 
+| persistentMenu | [Persistent Menu](#persistent-menu) | - | x | | The Persistent Menu to render in the Webchat.
+| startBehavior | 'none' , 'button', 'injection' | 'none' | x | | If 'none', will start the webchat with a text input, 'button' will display a get started button with a preconfigured message, 'injection' will automatically send a message to the bot. |
+| title | string | Cognigy Webchat | x | | The text that will be shown in the title bar of the Webchat |
+| userAvatarUrl | string | undefined | x | | A custom avatar that should be displayed next to user messages. Defaults to a user icon.
+| useSessionStorage | boolean | false | | | If true, to store chat history and userId sessionStorage is used instead of localStorage. Note: This means the userId will not be persisted after closing and re-opening a browser tab.
+
+##### UI Configurable
+These settings can be controlled by a graphical input within the Endpoint Editor
+
+##### Demo Page Settings
+These settings only take effect on the integrated Demo page reachable through the "OPEN WEBCHAT" button in the Endpoint editor.
 
 See it in action:  
 [![Edit Override Endpoint Settings](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/embedding-the-cognigy-webchat-bpz1r?fontsize=14&hidenavigation=1&theme=dark)
