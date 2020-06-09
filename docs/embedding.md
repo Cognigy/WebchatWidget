@@ -80,7 +80,7 @@ See it in action:
 | useSessionStorage | boolean | false | | | If true, to store chat history and userId sessionStorage is used instead of localStorage. Note: This means the userId will not be persisted after closing and re-opening a browser tab.
 
 ##### UI Configurable
-These settings can be controlled by a graphical input within the Endpoint Editor
+These settings can be controlled by a graphical input within the Endpoint editor
 
 ##### Demo Page Settings
 These settings only take effect on the integrated Demo page reachable through the "OPEN WEBCHAT" button in the Endpoint editor.
