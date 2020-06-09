@@ -216,7 +216,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             ? this.renderRegularLayout()
                                             : this.renderFullscreenMessageLayout()
                                         }
-                                        {showDisconnectOverlay && <DisconnectOverlay isPermanent={!!reconnectionLimit}/>}
+                                        {showDisconnectOverlay && <DisconnectOverlay isPermanent={!!reconnectionLimit} onClose={this.props.onClose} />}
                                     </WebchatRoot>
                                 )}
                                 {!disableToggleButton && (
