@@ -25,7 +25,7 @@ const Logo = styled(CognigyLogo)(({ theme }) => ({
     opacity: .9
 }));
 
-const URL = 'https://cognigy.com/';
+const URL = `https://www.cognigy.com/?utm_campaign=CognigyWebchatEmbedded&utm_medium=webchat&utm_term=webchat&utm_content=webchat&utm_source=${window.location.hostname}`;
 
 const Branding = () => (
     <Link href={URL} target="_blank">
