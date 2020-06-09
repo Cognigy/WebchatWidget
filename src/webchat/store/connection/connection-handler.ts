@@ -3,9 +3,21 @@ import { setConnected, setReconnectionLimit } from "./connection-reducer";
 import { SocketClient } from "@cognigy/socket-client";
 
 export const registerConnectionHandler = (store: Store, client: SocketClient) => {
-    client.on('socket/connect', () => { store.dispatch(setConnected(true)) });
-    client.on('socket/reconnect', () => { store.dispatch(setConnected(true)) });
-    client.on('socket/disconnect', () => { store.dispatch(setConnected(false)) });
+    const handleConnected = () => {
+        store.dispatch(setConnected(true))
+    }
+
+    const handleDisconnected = () => {
+        store.dispatch(setConnected(false));
+    }
+
+    client.on('socket/connect', handleConnected);
+    client.on('socket/reconnect', handleConnected);
+    client.on('socket/pong', handleConnected);
+    client.on('output', handleConnected);
+
+    client.on('socket/disconnect', handleDisconnected);
+
     client.on('socket/error', error => {
         const reconnectionLimit = error.type === 'RECONNECTION_LIMIT';
         if (reconnectionLimit) {

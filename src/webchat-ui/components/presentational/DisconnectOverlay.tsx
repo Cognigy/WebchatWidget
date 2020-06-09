@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { styled } from '../../style';
+import IconButton from './IconButton';
+import CloseIcon from '../../assets/baseline-close-24px.svg';
 
 const Wrapper = styled.div(({ theme }) => ({
     display: 'flex',
@@ -29,16 +31,32 @@ const Dialog = styled.div(({ theme }) => ({
     boxShadow: theme.shadow,
 }));
 
-export default ({ isPermanent }) => {
+const HeaderIconButton = styled(IconButton)(({ theme }) => ({
+    position: 'absolute',
+    right: theme.unitSize,
+    top: theme.unitSize + 1,
+
+    color: theme.primaryContrastColor,
+    fill: theme.primaryContrastColor,
+}));
+
+export default ({ isPermanent, onClose }) => {
     return (
         <Wrapper>
             <Dialog>
                 {isPermanent ? (
                     <span>Connection lost. Try to reload the page</span>
                 ) : (
-                    <span>Connection lost. Trying to reconnect...</span>
-                )}
+                        <span>Connection lost. Trying to reconnect...</span>
+                    )}
             </Dialog>
+            <HeaderIconButton
+                data-header-close-button
+                onClick={onClose}
+                className="webchat-header-close-button"
+            >
+                <CloseIcon />
+            </HeaderIconButton>
         </Wrapper>
     );
 };
