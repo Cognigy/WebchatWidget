@@ -7,7 +7,7 @@ export const registerConnectionHandler = (store: Store, client: SocketClient) =>
         store.dispatch(setConnected(true))
     }
 
-    const handleDicsonnected = () => {
+    const handleDisconnected = () => {
         store.dispatch(setConnected(false));
     }
 
@@ -16,7 +16,7 @@ export const registerConnectionHandler = (store: Store, client: SocketClient) =>
     client.on('socket/pong', handleConnected);
     client.on('output', handleConnected);
 
-    client.on('socket/disconnect', handleDicsonnected);
+    client.on('socket/disconnect', handleDisconnected);
 
     client.on('socket/error', error => {
         const reconnectionLimit = error.type === 'RECONNECTION_LIMIT';
