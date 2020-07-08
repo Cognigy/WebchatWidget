@@ -98,8 +98,8 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
                         <ListHeaderButton
                             onClick={e => onAction(e, button)}
                             className="webchat-list-template-header-button"
+                            dangerouslySetInnerHTML={{__html: getButtonLabel(button)}}
                         >
-                            {getButtonLabel(button)}
                         </ListHeaderButton>
                     )}
                 </Content>

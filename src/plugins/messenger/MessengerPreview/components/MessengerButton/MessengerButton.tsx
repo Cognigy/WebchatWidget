@@ -30,9 +30,7 @@ export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps)
     }));
 
     const MessengerButton = ({ button, ...props }: IMessengerButtonProps & React.ComponentProps<typeof Button>) => (
-        <Button {...props}>
-            {getButtonLabel(button)}
-        </Button>
+        <Button {...props} dangerouslySetInnerHTML={{__html: getButtonLabel(button)}} />
     )
 
     return MessengerButton;

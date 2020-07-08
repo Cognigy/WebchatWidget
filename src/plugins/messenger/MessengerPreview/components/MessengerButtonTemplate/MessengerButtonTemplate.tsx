@@ -30,7 +30,7 @@ export const getMessengerButtonTemplate = ({
 
         return (
             <MessengerFrame {...divProps} className="webchat-buttons-template-root">
-                {text && <Text className="webchat-buttons-template-header">{text}</Text>}
+                {text && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{__html: text}} />}
                 {buttons.map((button, index) => (
                     <React.Fragment key={index}>
                         <Divider />

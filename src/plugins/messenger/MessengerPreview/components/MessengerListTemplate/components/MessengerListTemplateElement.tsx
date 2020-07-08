@@ -51,15 +51,14 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
                 style={default_action ? { cursor: "pointer" }:{}}
             >
                 <div>
-                    <MessengerTitle className="webchat-list-template-element-title">{title}</MessengerTitle>
-                    <MessengerSubtitle className="webchat-list-template-element-subtitle">{subtitle}</MessengerSubtitle>
+                    <MessengerTitle className="webchat-list-template-element-title" dangerouslySetInnerHTML={{__html: title}} />
+                    <MessengerSubtitle className="webchat-list-template-element-subtitle" dangerouslySetInnerHTML={{__html: subtitle}} />
                     {button && (
                         <ListButton
                             onClick={e => onAction(e, button)}
                             className="webchat-list-template-element-button"
-                        >
-                            {getButtonLabel(button)}
-                        </ListButton>
+                            dangerouslySetInnerHTML={{__html: getButtonLabel(button)}}
+                        />
                     )}
                 </div>
                 {image_url && (
