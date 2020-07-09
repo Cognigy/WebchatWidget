@@ -111,12 +111,8 @@ export const getMessengerGenericTemplate = ({
                             className="webchat-carousel-template-content"
                             style={default_action ? { cursor: "pointer" }:{}}
                         >
-                            <MessengerTitle className="webchat-carousel-template-title">
-                                {title}
-                            </MessengerTitle>
-                            <MessengerSubtitle className="webchat-carousel-template-title">
-                                {subtitle}
-                            </MessengerSubtitle>
+                            <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} />
+                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} />
                         </GenericContent>
                         {buttons &&
                             buttons.map((button, index) => (
