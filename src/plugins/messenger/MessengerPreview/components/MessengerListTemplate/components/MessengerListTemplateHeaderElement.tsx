@@ -92,8 +92,8 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
                 <Content className="webchat-list-template-header-content"
                     style={default_action ? { cursor: "pointer" }:{}}
                 >
-                    <Title className="webchat-list-template-header-title">{title}</Title>
-                    <Subtitle className="webchat-list-template-header-subtitle">{subtitle}</Subtitle>
+                    <Title className="webchat-list-template-header-title" dangerouslySetInnerHTML={{__html: title}} />
+                    <Subtitle className="webchat-list-template-header-subtitle" dangerouslySetInnerHTML={{__html: subtitle}} />
                     {button && (
                         <ListHeaderButton
                             onClick={e => onAction(e, button)}
