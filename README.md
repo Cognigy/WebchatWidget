@@ -27,4 +27,4 @@ For development, you may use `npm run dev`, which will spawn a http-server on po
 ## Compatibility Builds
 The `npm run bundle` task will create bundle files for the webchat itself as well as basic webchat plugins.
 It will also create a second version of each bundle ending in `.legacy.js`.
-Those builds contain the same featureset as the regular builds, but are translated into an older standard of JavaScript, providing improved compatibility for older browsers which do not support modern JavaScript features.
+Those builds contain the same featureset as the regular builds, but are translated into an older standard of JavaScript, providing improved compatibility for older browsers which do not support modern JavaScript features (e.g. Internet Explorer 11).
