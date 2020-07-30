@@ -216,10 +216,19 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       const flatpickrLocaleId = getFlatpickrLocaleId(localeId);
       let locale = l10n[flatpickrLocaleId];
       const enableTime = !!data.enableTime;
-      const outputFormat = enableTime ? 'L LT' : 'L';
 
       if ( localeId === 'gb' ) locale = { ...locale, firstDayOfWeek: 1 };
       const options = {
+        // TODO: replace default values
+        defaultHour: 12,
+        defaultMinute: 0,
+        enableSeconds: false,
+        hourIncrement: 1,
+        minuteIncrement: 5,
+        noCalendar: false,
+        showMonths: 1,
+        weekNumbers: false,
+
         dateFormat,
         defaultDate,
         disable: [] as string[],
@@ -234,7 +243,6 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         static: true,
         time_24hr: data.time_24hr || false,
         parseDate: dateString => moment(dateString).toDate(),
-        formatDate: date => moment(date).locale(momentLocaleId).format(outputFormat)
       };
 
       const mask: string[] = [...(data.enable_disable || [])]
