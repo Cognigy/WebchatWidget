@@ -212,15 +212,23 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         || moment().format(dateFormat);
 
       const localeId = data.locale || 'us';
-      const momentLocaleId = getMomemtLocaleId(localeId);
       const flatpickrLocaleId = getFlatpickrLocaleId(localeId);
       let locale = l10n[flatpickrLocaleId];
       const enableTime = !!data.enableTime;
-      const outputFormat = enableTime ? 'L LT' : 'L';
-
+      const timeTemp = data.time_24hr ? 'H:i' : 'h:i'; //12-hour format without AM/PM
+      const timeWithSeconds = data.enableSeconds ? `${timeTemp}:S` : timeTemp;
+      const timeFormat = data.time_24hr ? timeWithSeconds :`${timeWithSeconds} K` //12-hour format with AM/PM
+      
       if ( localeId === 'gb' ) locale = { ...locale, firstDayOfWeek: 1 };
       const options = {
-        dateFormat,
+        defaultHour: data.defaultHour || 12,
+        defaultMinute: data.defaultMinute || 0,
+        enableSeconds: data.enableSeconds || false,
+        hourIncrement: data.hourIncrement || 1,
+        minuteIncrement: data.minuteIncrement || 5,
+        noCalendar: data.noCalendar || false,
+        weekNumbers: data.weekNumbers || false,
+        dateFormat: enableTime ? `${data.dateFormat} ${timeFormat}` : data.dateFormat,
         defaultDate,
         disable: [] as string[],
         enable: [] as string[],
@@ -234,7 +242,6 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         static: true,
         time_24hr: data.time_24hr || false,
         parseDate: dateString => moment(dateString).toDate(),
-        formatDate: date => moment(date).locale(momentLocaleId).format(outputFormat)
       };
 
       const mask: string[] = [...(data.enable_disable || [])]
