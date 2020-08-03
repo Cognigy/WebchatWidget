@@ -228,7 +228,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         minuteIncrement: data.minuteIncrement || 5,
         noCalendar: data.noCalendar || false,
         weekNumbers: data.weekNumbers || false,
-        dateFormat: enableTime ? `${data.dateFormat} ${timeFormat}` : data.dateFormat,
+        dateFormat: enableTime ? `${dateFormat} ${timeFormat}` : dateFormat,
         defaultDate,
         disable: [] as string[],
         enable: [] as string[],
