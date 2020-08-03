@@ -209,7 +209,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       const dateFormat = data.dateFormat || 'YYYY-MM-DD';
       const defaultDate = DatePicker.transformNamedDate(data.defaultDate)
         || DatePicker.transformNamedDate(data.minDate)
-        || moment().format(dateFormat);
+        || undefined;
 
       const localeId = data.locale || 'us';
       const momentLocaleId = getMomemtLocaleId(localeId);
@@ -234,7 +234,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         disable: [] as string[],
         enable: [] as string[],
         enableTime,
-        event: data.eventName || 'Pick a date',
+        event: data.eventName,
         inline: true,
         locale,
         maxDate: DatePicker.transformNamedDate(data.maxDate) || '',
