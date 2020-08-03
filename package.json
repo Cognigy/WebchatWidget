@@ -29,7 +29,7 @@
         "dompurify": "^2.0.7",
         "emotion": "^10.0.23",
         "emotion-theming": "^10.0.19",
-        "flatpickr": "4.5.7",
+        "flatpickr": "^4.6.3",
         "immutable": "^4.0.0-rc.12",
         "moment": "^2.24.0",
         "react": "^16.12.0",
