@@ -212,6 +212,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         || moment().format(dateFormat);
 
       const localeId = data.locale || 'us';
+      const momentLocaleId = getMomemtLocaleId(localeId);
       const flatpickrLocaleId = getFlatpickrLocaleId(localeId);
       let locale = l10n[flatpickrLocaleId];
       const enableTime = !!data.enableTime;
@@ -242,6 +243,10 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         static: true,
         time_24hr: data.time_24hr || false,
         parseDate: dateString => moment(dateString).toDate(),
+        // if no custom formatting is defined, apply default formatting
+        formatDate: !data.dateFormat
+          ? date => moment(date).locale(momentLocaleId).format(enableTime ? 'L LT' : 'L')
+          : undefined
       };
 
       const mask: string[] = [...(data.enable_disable || [])]
