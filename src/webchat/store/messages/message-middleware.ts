@@ -69,21 +69,25 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
                 displayMessage.text = options.label;
 
             next(setFullscreenMessage(undefined));
-            return next(addMessage({
+            next(addMessage({
                 ...displayMessage,
                 avatarUrl: getAvatarForMessage(displayMessage, store.getState())
             }));
+
+            break;
         }
 
         case 'RECEIVE_MESSAGE': {
             const { message } = action; 
             const avatarUrl = getAvatarForMessage(message, store.getState());
 
-            return next(addMessage({
+            next(addMessage({
                 source: 'bot',
                 ...message,
                 avatarUrl
             } as IBotMessage));
+
+            break;
         }
 
         case 'SET_CONFIG': {
