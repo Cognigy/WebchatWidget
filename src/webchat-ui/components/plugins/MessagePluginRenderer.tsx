@@ -21,9 +21,6 @@ export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
 }
 
 const FullWidthMessageRow = styled.div(({ theme }) => ({
-  alignItems: "normal",
-  display: 'flex',
-  flexDirection: "column",
   flexShrink: 0,
   marginTop: theme.unitSize,
   marginBottom: theme.unitSize,
