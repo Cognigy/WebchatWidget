@@ -21,10 +21,14 @@ export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
 }
 
 const FullWidthMessageRow = styled.div(({ theme }) => ({
+  alignItems: "normal",
+  display: 'flex',
+  flexDirection: "column",
+  flexShrink: 0,
   marginTop: theme.unitSize,
   marginBottom: theme.unitSize,
   paddingTop: theme.unitSize,
-  paddingBottom: theme.unitSize
+  paddingBottom: theme.unitSize,
 }));
 
 export default ({
@@ -98,7 +102,7 @@ export default ({
 
           if (options && options.fullwidth) {
             return (
-              <FullWidthMessageRow key={key}>
+              <FullWidthMessageRow className={className} key={key}>
                 {messageElement}
               </FullWidthMessageRow>
             );
