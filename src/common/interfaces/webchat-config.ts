@@ -27,6 +27,7 @@ export interface IWebchatSettings {
     getStartedPayload: string;
     getStartedText: string;
     headerLogoUrl: string;
+    ignoreLineBreaks: boolean;
     inputPlaceholder: string;
     messageDelay: number;
     /** TODO: this is the botAvatarUrl (rename for major) */
