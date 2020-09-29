@@ -71,7 +71,7 @@ See it in action:
 | getStartedPayload | string | "GET_STARTED" | x | | The payload to send to your Flow when clicking the Get Started Button / when sending the auto message. 
 | getStartedText | string | "Get Started" | x | | The text to display in the Webchat when clicking the Get Started Button / when sending the auto message. 
 | headerLogoUrl | string | COGNIGY.AI Logo | x | | The logo to display in the header of the Webchat. Defaults to a COGNIGY.AI logo. 
-| ignoreLineBreaks | boolean | false | x | | Whether to ignore line breaks in the Messenger Generic Templates Subtitle. 
+| ignoreLineBreaks | boolean | false | x | | Whether to ignore line breaks in the Messenger Generic Templates, Gallery Cards Subtitle. 
 | inputPlaceholder | string | "Write a reply" | x | | The placeholder text to display in the input field. 
 | messageLogoUrl | string | COGNIGY.AI Logo | x | | A custom avatar that should be displayed next to bot messages. Defaults to a COGNIGY.AI logo. 
 | persistentMenu | [Persistent Menu](#persistent-menu) | - | x | | The Persistent Menu to render in the Webchat.
