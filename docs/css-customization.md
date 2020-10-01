@@ -412,10 +412,10 @@ The card element from a Gallery, here you can increase its size for example.
 }
 
 * *webchat-carousel-template-frame*  
-The frame that holds the cards and places them next to each other.
+The frame that adds the "card styles" such as background-color or box-shadow.
 ```CSS
 [data-cognigy-webchat-root] .webchat-carousel-template-frame {
-  background-color: red;
+  box-shadow: none;
 }
 
 ```
