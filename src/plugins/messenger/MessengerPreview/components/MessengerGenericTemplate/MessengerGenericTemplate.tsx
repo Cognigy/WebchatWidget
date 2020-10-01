@@ -104,7 +104,7 @@ export const getMessengerGenericTemplate = ({
 
             return (
                 <ElementRoot key={index} className="webchat-carousel-template-root">
-                    <Frame className={isCentered ? "wide" : ""}>
+                    <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`}>
                         {image}
                         <GenericContent
                             onClick={e => default_action && onAction(e, default_action)}
