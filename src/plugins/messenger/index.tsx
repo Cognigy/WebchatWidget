@@ -68,20 +68,20 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
                 message={transformMessage(getMessengerPayload(message, config).message)}
                 onAction={(e, action) => {
                     onEmitAnalytics('action', action);
-
                     // @ts-ignore
-                    if (action.type === 'postback' || action.content_type === 'text') {
+                    if (action.type === 'web_url' && action.href) {
+                        // @ts-ignore
+                        window.open(action.href, action.target);
+                    }
+                    // @ts-ignore
+                    // We keep action.content_type === 'text' to support quickreplies that were there before "url type quick replies" were introduced, they behave exactly like "postback type quick replies"
+                    if (action.type === 'postback' || ( action.content_type === 'text' && !action.type)) {
                         // @ts-ignore
                         const { payload, title } = action;
 
                         onSendMessage(payload, null, { label: title });
                     }
 
-                    // @ts-ignore
-                    if (action.type === 'web_url' && action.url) {
-                        // @ts-ignore
-                        window.open(action.url, '_blank');
-                    }
                 }}
                 config={config}
             />
