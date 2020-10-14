@@ -6,7 +6,7 @@ export const getMessengerSubtitle = ({ React, styled }: MessagePluginFactoryProp
         margin: 0,
         color: 'hsla(0, 0%, 0%, .54)',
         fontSize: 13,
-        whiteSpace: props.config.settings.ignoreLineBreaks ? "initial" : "pre-wrap" ,
+        whiteSpace: props.config.settings.ignoreLineBreaks ? "initial" : "pre-line" ,
     }));
 
     return MessengerSubtitle;
