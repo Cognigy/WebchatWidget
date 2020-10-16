@@ -30,6 +30,7 @@ const getInitialState = (): ConfigState => ({
         getStartedPayload: '',
         getStartedText: '',
         headerLogoUrl: '',
+        ignoreLineBreaks: false,
         inputPlaceholder: '',
         messageDelay: 1000,
         messageLogoUrl: '',

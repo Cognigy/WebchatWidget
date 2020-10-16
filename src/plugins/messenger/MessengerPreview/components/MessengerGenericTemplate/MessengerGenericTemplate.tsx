@@ -29,9 +29,9 @@ export interface IMessengerGenericTemplateState {
 
 export const getMessengerGenericTemplate = ({
     React,
-    styled
+    styled,
 }: MessagePluginFactoryProps) => {
-    const MessengerSubtitle = getMessengerSubtitle({ React, styled });
+    const MessengerSubtitle = getMessengerSubtitle({ React, styled});
     const MessengerTitle = getMessengerTitle({ React, styled });
     const MessengerFrame = getMessengerFrame({ React, styled });
     const MessengerContent = getMessengerContent({ React, styled });
@@ -112,7 +112,7 @@ export const getMessengerGenericTemplate = ({
                             style={default_action ? { cursor: "pointer" }:{}}
                         >
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} />
-                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} />
+                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} />
                         </GenericContent>
                         {buttons &&
                             buttons.map((button, index) => (
