@@ -33,6 +33,7 @@ import { IWebchatConfig } from '../../common/interfaces/webchat-config';
 import { TTyping } from '../../common/interfaces/typing';
 import MessageTeaser from './presentational/MessageTeaser';
 import Badge from './presentational/Badge';
+import getTextFromMessage from '../../webchat/helper/messageTeaser';
 
 
 export interface WebchatUIProps {
@@ -71,8 +72,7 @@ interface WebchatUIState {
     inputPlugins: InputPlugin[];
     /* Initially false, true from the point of first connection */
     hadConnection: boolean;
-    showMessageTeaser: boolean;
-    lastBotMessageText: string;
+    lastUnseenMessageText: string;
 }
 
 const stylisPlugins = [
@@ -107,9 +107,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         messagePlugins: [],
         inputPlugins: [],
         hadConnection: false,
-        // Message Teaser
-        showMessageTeaser: false,
-        lastBotMessageText: ""
+        lastUnseenMessageText: ""
     };
 
     history: React.RefObject<ChatScroller>;
@@ -140,25 +138,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         });
     }
 
-    /**
-     * Get the last sent bot message and trigger the message teaser
-     * @param messages The list of messages sent in the chat
-     */
-    getLastBotMessageText(unseenMessages) {
-        for (let i = unseenMessages.length - 1; i >= 0; --i) {
-            const message = unseenMessages[i];
-            if (message.source === "bot") {
-                if (message !== undefined && message.text !== undefined) {
-                    // return message.text;
-                    this.setState({
-                        showMessageTeaser: true,
-                        lastBotMessageText: message.text
-                    })
-                }
-            }
-        }
-    }
-
     componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
         if (this.props.config.settings.colorScheme !== prevProps.config.settings.colorScheme) {
             this.setState({
@@ -172,9 +151,24 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             })
         }
 
-        let { unseenMessages } = this.props;
-        console.log(unseenMessages)
-        this.getLastBotMessageText(unseenMessages);
+        if (prevProps.unseenMessages !== this.props.unseenMessages) {
+            const { unseenMessages } = this.props;
+
+            if (unseenMessages.length !== 0) {
+                // Get the latest unseen bot message
+                const lastUnseenMessage = unseenMessages[unseenMessages.length - 1];
+                const lastUnseenMessageText = getTextFromMessage(lastUnseenMessage);
+
+                this.setState({
+                    lastUnseenMessageText
+                })
+            } else {
+                this.setState({
+                    lastUnseenMessageText: ""
+                })
+            }
+
+        }
     }
 
     sendMessage: MessageSender = (...args) => {
@@ -223,7 +217,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             reconnectionLimit,
             ...restProps
         } = props;
-        const { theme, hadConnection, showMessageTeaser, lastBotMessageText } = state;
+        const { theme, hadConnection, lastUnseenMessageText } = state;
 
         const { disableToggleButton, enableConnectionStatusIndicator } = config.settings;
 
@@ -256,12 +250,12 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                     <div>
                                         {
                                             // Show the message teaser if there is a last bot message and the webchat is closed
-                                            showMessageTeaser && !open ?
+                                            !!lastUnseenMessageText ?
                                                 <MessageTeaser
                                                     id="teaser"
                                                     onClick={onToggle}
                                                 >
-                                                    {lastBotMessageText}
+                                                    {lastUnseenMessageText}
                                                 </MessageTeaser>
                                                 :
                                                 null
@@ -288,9 +282,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                     </div>
                                 )}
                             </CacheProvider>
-                    </WebchatWrapper>
+                        </WebchatWrapper>
                     </>
-            </ThemeProvider>
+                </ThemeProvider>
             </>
         )
     }
