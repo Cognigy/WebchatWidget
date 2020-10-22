@@ -18,7 +18,7 @@ import Avatar from './presentational/Avatar';
 import MessagePluginRenderer from './plugins/MessagePluginRenderer';
 import regularMessagePlugin from './plugins/message/regular';
 import { InputPlugin } from '../../common/interfaces/input-plugin';
-import stylisRTL  from 'stylis-rtl';
+import stylisRTL from 'stylis-rtl';
 
 import TypingIndicatorBubble from './presentational/TypingIndicatorBubble';
 import '../utils/normalize.css';
@@ -31,9 +31,12 @@ import CloseIcon from '../assets/baseline-close-24px.svg';
 import DisconnectOverlay from './presentational/DisconnectOverlay';
 import { IWebchatConfig } from '../../common/interfaces/webchat-config';
 import { TTyping } from '../../common/interfaces/typing';
+import MessageTeaser from './presentational/MessageTeaser';
+import { get } from 'immutable';
 
 export interface WebchatUIProps {
     messages: IMessage[];
+    unseenMessages: IMessage[];
     fullscreenMessage?: IMessage;
     onSetFullscreenMessage: (message: IMessage) => void;
     onDismissFullscreenMessage: () => void;
@@ -66,7 +69,9 @@ interface WebchatUIState {
     messagePlugins: MessagePlugin[];
     inputPlugins: InputPlugin[];
     /* Initially false, true from the point of first connection */
-    hadConnection: boolean; 
+    hadConnection: boolean;
+    showMessageTeaser: boolean;
+    lastBotMessageText: string;
 }
 
 const stylisPlugins = [
@@ -101,6 +106,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         messagePlugins: [],
         inputPlugins: [],
         hadConnection: false,
+        // Message Teaser
+        showMessageTeaser: false,
+        lastBotMessageText: ""
     };
 
     history: React.RefObject<ChatScroller>;
@@ -131,6 +139,25 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         });
     }
 
+    /**
+     * Get the last sent bot message and trigger the message teaser
+     * @param messages The list of messages sent in the chat
+     */
+    getLastBotMessageText(unseenMessages) {
+        for (let i = unseenMessages.length - 1; i >= 0; --i) {
+            const message = unseenMessages[i];
+            if (message.source === "bot") {
+                if (message !== undefined && message.text !== undefined) {
+                    // return message.text;
+                    this.setState({
+                        showMessageTeaser: true,
+                        lastBotMessageText: message.text
+                    })
+                }
+            }
+        }
+    }
+
     componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
         if (this.props.config.settings.colorScheme !== prevProps.config.settings.colorScheme) {
             this.setState({
@@ -143,7 +170,11 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 hadConnection: true
             })
         }
-    }
+
+        let { unseenMessages } = this.props;
+        console.log(unseenMessages)
+        this.getLastBotMessageText(unseenMessages);
+    } 
 
     sendMessage: MessageSender = (...args) => {
         if (this.history.current) {
@@ -190,14 +221,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             reconnectionLimit,
             ...restProps
         } = props;
-        const { theme, hadConnection } = state;
+        const { theme, hadConnection, showMessageTeaser, lastBotMessageText } = state;
 
         const { disableToggleButton, enableConnectionStatusIndicator } = config.settings;
 
         if (!this.props.config.active)
             return null;
 
-        const showDisconnectOverlay =  enableConnectionStatusIndicator && !connected && hadConnection;
+        const showDisconnectOverlay = enableConnectionStatusIndicator && !connected && hadConnection;
 
         return (
             <>
@@ -220,19 +251,33 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                     </WebchatRoot>
                                 )}
                                 {!disableToggleButton && (
-                                    <FAB
-                                        data-cognigy-webchat-toggle
-                                        onClick={onToggle}
-                                        {...webchatToggleProps}
-                                        type='button'
-                                        className="webchat-toggle-button"
-                                    >
-                                        {open ? (
-                                            <CloseIcon />
-                                        ) : (
-                                                <ChatIcon />
-                                            )}
-                                    </FAB>
+                                    <div>
+                                        {
+                                            // Show the message teaser if there is a last bot message and the webchat is closed
+                                            showMessageTeaser && !open ?
+                                                <MessageTeaser
+                                                    id="teaser"
+                                                    onClick={onToggle}
+                                                >
+                                                    {lastBotMessageText}
+                                                </MessageTeaser>
+                                                :
+                                                null
+                                        }
+                                        <FAB
+                                            data-cognigy-webchat-toggle
+                                            onClick={onToggle}
+                                            {...webchatToggleProps}
+                                            type='button'
+                                            className="webchat-toggle-button"
+                                        >
+                                            {open ? (
+                                                <CloseIcon />
+                                            ) : (
+                                                    <ChatIcon />
+                                                )}
+                                        </FAB>
+                                    </div>
                                 )}
                             </CacheProvider>
                         </WebchatWrapper>
@@ -256,7 +301,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     connected={config.active}
                     logoUrl={config.settings.headerLogoUrl}
                     title={config.settings.title || 'Cognigy Webchat'}
-                />              
+                />
                 <HistoryWrapper disableBranding={config.settings.disableBranding} ref={this.history as any} className="webchat-chat-history">
                     {this.renderHistory()}
                 </HistoryWrapper>

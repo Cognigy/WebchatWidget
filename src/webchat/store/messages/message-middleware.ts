@@ -1,7 +1,7 @@
 import { Middleware, Store } from "redux";
 import { StoreState } from "../store";
 import { IMessage, IBotMessage } from "../../../common/interfaces/message";
-import { addMessage } from "./message-reducer";
+import { addMessage, addUnseenMessage } from "./message-reducer";
 import { Omit } from "react-redux";
 import { setFullscreenMessage } from "../ui/ui-reducer";
 import { SetConfigAction } from "../config/config-reducer";
@@ -86,6 +86,20 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
                 ...message,
                 avatarUrl
             } as IBotMessage));
+
+            /**
+             * Save unseen bot messages to the store
+             * unseenMessages: IMessage[]
+             */
+
+            // Check if the webchat is closed
+            if (!store.getState().ui.open) {
+                next(addUnseenMessage({
+                    source: 'bot',
+                    ...message,
+                    avatarUrl
+                } as IBotMessage));
+            }
 
             break;
         }
