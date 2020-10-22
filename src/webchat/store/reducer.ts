@@ -24,13 +24,13 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
     switch (action.type) {
         case 'RESET_STATE': {
 
-			// We do not want to restore some properties from storage but keep the value from state
-			const newState = action.state as StoreState;
-			newState.connection.connected = state.connection.connected;
+            // We do not want to restore some properties from storage but keep the value from state
+            const newState = action.state as StoreState;
+            newState.connection.connected = state.connection.connected;
 
-			return rootReducer(newState, { type: '' })
-        }
-    }
+            return rootReducer(newState, { type: '' })
+        };
+    };
 
     return rootReducer(state, action);
-}
+};
