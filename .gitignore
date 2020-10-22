@@ -3,3 +3,5 @@ node_modules
 dist/*.js
 dist/*.zip
 dist/*.webmanifest
+/**/.cache
+/**/.DS_Store

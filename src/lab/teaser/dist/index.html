@@ -1,0 +1,39 @@
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="manifest" href="/manifest.webmanifest">
+</head>
+
+<body>
+	<!-- <script src="./persistent-menu.webchat-plugin.js"></script> -->
+	<script src="https://github.com/Cognigy/WebchatWidget/releases/download/v2.17.0/webchat.js"></script>
+	<script src="./app.js"></script>
+	<script>
+
+		let options = {
+			// how long it should take until the teaser is displayed
+			time: 4000,
+			// the text of the teaser bubble
+			text: "Do you want to chat with me?",
+			// the background color of the webchat toggle button
+			colorScheme: "#000000"
+		};
+		
+		// initialize the teaser
+		initTeaser(options, () => {
+			// initialize the webchat connection
+			initWebchat('<INSERT-CONFIG-URL>', {
+				settings: {
+					// colorScheme: '#FAB'
+				}
+			}).then(webchat => {
+				window.cognigyWebchat = webchat;
+				webchat.open();
+
+			})
+		});
+	</script>
+</body>
+
+</html>

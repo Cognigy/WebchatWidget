@@ -1,0 +1,20 @@
+{
+  "name": "teaser",
+  "version": "1.0.0",
+  "description": "Add a webchat teaser",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "parcel build src/app.jsx"
+  },
+  "author": "Cognigy GmbH",
+  "license": "ISC",
+  "dependencies": {
+    "@material-ui/core": "^4.9.13",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/styles": "^4.9.13",
+    "parcel-bundler": "^1.12.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "styled-components": "^5.1.0"
+  }
+}
