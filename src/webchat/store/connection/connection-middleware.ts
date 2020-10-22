@@ -4,6 +4,7 @@ import { SetOpenAction, ToggleOpenAction } from "../ui/ui-reducer";
 import { SendMessageAction } from "../messages/message-middleware";
 import { setOptions } from "../options/options-reducer";
 import { SocketClient } from "@cognigy/socket-client";
+import { clearUnseenMessages } from "../messages/message-reducer";
 
 export interface ISendMessageOptions {
     /* overrides the displayed text within a chat bubble. useful for e.g. buttons */
@@ -36,6 +37,7 @@ export const createConnectionMiddleware = (client: SocketClient): Middleware<{},
                     store.dispatch(connect())
                 }
             }
+
             break;
         }
 
@@ -43,6 +45,10 @@ export const createConnectionMiddleware = (client: SocketClient): Middleware<{},
             if (!store.getState().ui.open) {
                 store.dispatch(connect())
             }
+
+            // Remove all unseen messages
+            store.dispatch(clearUnseenMessages());
+
             break;
         }
 

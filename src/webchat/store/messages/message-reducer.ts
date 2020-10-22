@@ -21,7 +21,7 @@ export const messages: Reducer<MessageState, AddMessageAction> = (state = [], ac
 }
 
 /**
- * Add Unseen Messages
+ * Unseen Messages
  */
 
 export type UnseenMessageState = IMessage[];
@@ -31,15 +31,23 @@ export const addUnseenMessage = (message: IMessage) => ({
     type: ADD_UNSEEN_MESSAGE as 'ADD_UNSEEN_MESSAGE',
     message
 });
-type AddUnseenMessageAction = ReturnType<typeof addUnseenMessage>;
 
-export const unseenMessages: Reducer<UnseenMessageState, AddUnseenMessageAction> = (state = [], action) => {
+const CLEAR_UNSEEN_MESSAGES = 'CLEAR_UNSEEN_MESSAGES'
+export const clearUnseenMessages = () => ({
+    type: CLEAR_UNSEEN_MESSAGES as 'CLEAR_UNSEEN_MESSAGES'
+});
+
+type UnseenMessageAction = ReturnType<typeof addUnseenMessage | typeof clearUnseenMessages>;
+
+export const unseenMessages: Reducer<UnseenMessageState, UnseenMessageAction> = (state = [], action) => {
     switch (action.type) {
         case 'ADD_UNSEEN_MESSAGE': {
             return [...state, action.message];
+        }
+        case 'CLEAR_UNSEEN_MESSAGES': {
+            return [];
         }
     }
 
     return state;
 }
- 

@@ -32,7 +32,8 @@ import DisconnectOverlay from './presentational/DisconnectOverlay';
 import { IWebchatConfig } from '../../common/interfaces/webchat-config';
 import { TTyping } from '../../common/interfaces/typing';
 import MessageTeaser from './presentational/MessageTeaser';
-import { get } from 'immutable';
+import Badge from './presentational/Badge';
+
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -174,7 +175,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         let { unseenMessages } = this.props;
         console.log(unseenMessages)
         this.getLastBotMessageText(unseenMessages);
-    } 
+    }
 
     sendMessage: MessageSender = (...args) => {
         if (this.history.current) {
@@ -204,6 +205,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     render() {
         const { props, state } = this;
         const { messages,
+            unseenMessages,
             onSendMessage,
             config,
             open,
@@ -264,6 +266,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                 :
                                                 null
                                         }
+
                                         <FAB
                                             data-cognigy-webchat-toggle
                                             onClick={onToggle}
@@ -276,13 +279,18 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             ) : (
                                                     <ChatIcon />
                                                 )}
+                                            <Badge
+                                                content={unseenMessages.length}
+                                                backgroundColor={theme.primaryStrongColor}
+                                                fontColor={theme.primaryContrastColor}
+                                            />
                                         </FAB>
                                     </div>
                                 )}
                             </CacheProvider>
-                        </WebchatWrapper>
+                    </WebchatWrapper>
                     </>
-                </ThemeProvider>
+            </ThemeProvider>
             </>
         )
     }
