@@ -18,6 +18,8 @@ const getInitialState = (): ConfigState => ({
         disablePersistentHistory: false,
         disableTextInputSanitization: false,
         disableToggleButton: false,
+        disableUnreadMessageIndicator: false,
+        disableUnreadMessagePreview: false,
         dynamicImageAspectRatio: false,
         enableConnectionStatusIndicator: true,
         enableFileUpload: false,

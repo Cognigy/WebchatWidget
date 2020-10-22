@@ -15,6 +15,8 @@ export interface IWebchatSettings {
     disablePersistentHistory: boolean;
     disableTextInputSanitization: boolean;
     disableToggleButton: boolean;
+    disableUnreadMessageIndicator: boolean;
+    disableUnreadMessagePreview: boolean;
     dynamicImageAspectRatio: boolean;
     enableConnectionStatusIndicator: boolean;
     enableFileUpload: boolean;

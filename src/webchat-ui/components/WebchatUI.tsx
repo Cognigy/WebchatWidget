@@ -157,11 +157,17 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             if (unseenMessages.length !== 0) {
                 // Get the latest unseen bot message
                 const lastUnseenMessage = unseenMessages[unseenMessages.length - 1];
-                const lastUnseenMessageText = getTextFromMessage(lastUnseenMessage);
 
-                this.setState({
-                    lastUnseenMessageText
-                })
+                // Ignore continue true messages
+                if (!lastUnseenMessage.data?.continue) {
+                    const lastUnseenMessageText = getTextFromMessage(lastUnseenMessage);
+                    console.log(lastUnseenMessage)
+
+                    this.setState({
+                        lastUnseenMessageText: lastUnseenMessageText
+                    })
+                }
+
             } else {
                 this.setState({
                     lastUnseenMessageText: ""
@@ -250,9 +256,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                     <div>
                                         {
                                             // Show the message teaser if there is a last bot message and the webchat is closed
-                                            !!lastUnseenMessageText ?
+                                            lastUnseenMessageText && !config.settings.disableUnreadMessagePreview ?
                                                 <MessageTeaser
-                                                    id="teaser"
+                                                    className="webchat-message-teaser"
                                                     onClick={onToggle}
                                                 >
                                                     {lastUnseenMessageText}
@@ -273,11 +279,16 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             ) : (
                                                     <ChatIcon />
                                                 )}
-                                            <Badge
-                                                content={unseenMessages.length}
-                                                backgroundColor={theme.primaryStrongColor}
-                                                fontColor={theme.primaryContrastColor}
-                                            />
+                                            {
+                                                !config.settings.disableUnreadMessageIndicator ?
+                                                    <Badge
+                                                        content={unseenMessages.length}
+                                                        backgroundColor={theme.primaryStrongColor}
+                                                        fontColor={theme.primaryContrastColor}
+                                                    />
+                                                    :
+                                                    null
+                                            }
                                         </FAB>
                                     </div>
                                 )}
