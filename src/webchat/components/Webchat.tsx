@@ -69,7 +69,7 @@ export class Webchat extends React.PureComponent<WebchatProps> {
 
     // component API (for usage via ref)
     connect = async () => {
-		await this.store.dispatch(connect());
+		this.store.dispatch(connect());
     }
 
     sendMessage: MessageSender = (text, data, options) => {
