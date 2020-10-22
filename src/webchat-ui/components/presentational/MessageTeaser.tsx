@@ -11,7 +11,7 @@ const MessageTeaser = styled.div(() => ({
     boxShadow: 'rgba(151, 124, 156, 0.1) 0px 5px 9px 0px, rgba(203, 195, 212, 0.1) 0px 5px 16px 0px, rgba(216, 212, 221, 0.1) 0px 8px 20px 0px',
     color: '#45454',
     fontSize: '14px',
-    fontFamily: "Verdana,-apple-system,system-ui,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue','Noto Sans','Noto Sans SC','Noto Sans TC','MS Gothic','Hiragino Kaku Gothic ProN',SimHei,SimSong,'Yu Gothic',Meiryo,Arial,sans-serif",
+    fontFamily: "sans-serif",
 }));
 
 export default MessageTeaser;
