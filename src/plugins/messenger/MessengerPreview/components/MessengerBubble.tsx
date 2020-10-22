@@ -1,6 +1,6 @@
 import { MessagePluginFactoryProps } from '../../../../common/interfaces/message-plugin';
 
-export const getMessengerBubble = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerBubble = ({ styled }: MessagePluginFactoryProps) => {
     const MessengerBubble = styled.div(({ theme }) => ({
         padding: `${theme.unitSize * 2}px ${theme.unitSize * 3}px`,
     

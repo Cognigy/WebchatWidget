@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { IFBMListTemplatePayload } from '../../interfaces/ListTemplatePayload.interface';
 import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { getDivider } from '../Divider';
@@ -13,7 +15,7 @@ export interface IMessengerListTemplateProps extends IWithFBMActionEventHandler 
     config: IWebchatConfig;
 }
 
-export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerListTemplate = ({ styled }: MessagePluginFactoryProps) => {
     const MessengerListTemplateHeaderElement = getMessengerListTemplateHeaderElement({ React, styled });
     const MessengerFrame = getMessengerFrame({ React, styled });
     const MessengerListTemplateElement = getMessengerListTemplateElement({ React, styled });

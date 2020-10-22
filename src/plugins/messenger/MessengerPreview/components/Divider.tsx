@@ -1,6 +1,8 @@
+import React from 'react';
+
 import { MessagePluginFactoryProps } from '../../../../common/interfaces/message-plugin';
 
-export const getDivider = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getDivider = ({ styled }: MessagePluginFactoryProps) => {
 
     const Divider = styled.div(({ theme }) => ({
         borderBottomWidth: 1,

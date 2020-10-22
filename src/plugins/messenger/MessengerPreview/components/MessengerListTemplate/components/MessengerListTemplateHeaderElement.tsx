@@ -1,5 +1,7 @@
 import { IFBMListTemplateElement } from '../../../interfaces/ListTemplatePayload.interface';
 import { IWithFBMActionEventHandler } from '../../../MessengerPreview.interface';
+import React from 'react';
+
 import { MessagePluginFactoryProps } from '../../../../../../common/interfaces/message-plugin';
 import { getMessengerSubtitle } from '../../MessengerSubtitle';
 import { getMessengerTitle } from '../../MessengerTitle';
@@ -14,7 +16,7 @@ interface IMessengerListTemplateHeaderElementProps extends IWithFBMActionEventHa
     config: IWebchatConfig;
 }
 
-export const getMessengerListTemplateHeaderElement = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerListTemplateHeaderElement = ({ styled }: MessagePluginFactoryProps) => {
     const MessengerSubtitle = getMessengerSubtitle({ React, styled });
     const MessengerTitle = getMessengerTitle({ React, styled });
     const FlexImage = getFlexImage({ React, styled });

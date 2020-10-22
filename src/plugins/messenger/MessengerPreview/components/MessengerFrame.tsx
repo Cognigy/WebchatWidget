@@ -1,6 +1,6 @@
 import { MessagePluginFactoryProps } from '../../../../common/interfaces/message-plugin';
 
-export const getMessengerFrame = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerFrame = ({ styled }: MessagePluginFactoryProps) => {
     const MessengerFrame = styled.div(({ theme }) => ({
         width: 250,
         borderRadius: theme.unitSize * 2,

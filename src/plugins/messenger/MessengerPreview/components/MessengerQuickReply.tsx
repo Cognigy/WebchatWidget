@@ -1,6 +1,6 @@
 import { MessagePluginFactoryProps } from '../../../../common/interfaces/message-plugin';
 
-export const getMessengerQuickReply = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerQuickReply = ({ styled }: MessagePluginFactoryProps) => {
 
     const MessengerQuickReply = styled.button(({ theme }) => ({
         backgroundColor: 'transparent',

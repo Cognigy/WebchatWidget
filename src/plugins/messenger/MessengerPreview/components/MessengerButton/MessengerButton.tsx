@@ -1,3 +1,4 @@
+import React from 'react';
 
 import { IFBMButton } from '../../interfaces/Button.interface';
 import { getButtonLabel } from './lib/messengerButtonHelpers';
@@ -7,7 +8,7 @@ interface IMessengerButtonProps {
     button: IFBMButton;
 }
 
-export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerButton = ({ styled }: MessagePluginFactoryProps) => {
 
     const Button = styled.button(({ theme }) => ({
         display: 'block',

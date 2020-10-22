@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { IFBMListTemplateElement } from '../../../interfaces/ListTemplatePayload.interface';
 import { getButtonLabel } from '../../MessengerButton/lib/messengerButtonHelpers';
 import { IWithFBMActionEventHandler } from '../../../MessengerPreview.interface';
@@ -12,7 +14,7 @@ interface IMessengerListTemplateElementProps extends IWithFBMActionEventHandler 
     element: IFBMListTemplateElement;
 }
 
-export const getMessengerListTemplateElement = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerListTemplateElement = ({ styled }: MessagePluginFactoryProps) => {
     const MessengerSubtitle = getMessengerSubtitle({ React, styled });
     const MessengerTitle = getMessengerTitle({ React, styled });
     const MessengerContent = getMessengerContent({ React, styled });

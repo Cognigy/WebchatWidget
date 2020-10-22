@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { IFBMMessage, IFBMAttachmentMessage, IFBMRegularMessage } from './interfaces/Message.interface';
 import { IFBMButtonTemplatePayload } from './interfaces/ButtonTemplatePayload.interface';
 import { IFBMGenericTemplatePayload } from './interfaces/GenericTemplatePayload.interface';
@@ -21,7 +23,7 @@ export interface IMessengerPreviewProps extends React.HTMLProps<HTMLDivElement> 
     config: IWebchatConfig;
 }
 
-export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerPreview = ({ styled }: MessagePluginFactoryProps) => {
 
     const MessengerButtonTemplate = getMessengerButtonTemplate({ React, styled });
     const MessengerGenericTemplate = getMessengerGenericTemplate({ React, styled });

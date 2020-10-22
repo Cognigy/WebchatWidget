@@ -1,6 +1,6 @@
 import { MessagePluginFactoryProps } from "../../../../common/interfaces/message-plugin";
 
-export const getMessengerListButton = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerListButton = ({ styled }: MessagePluginFactoryProps) => {
     const Button = styled.button(({ theme }) => ({
         backgroundColor: 'transparent',
         borderRadius: theme.unitSize,

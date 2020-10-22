@@ -1,6 +1,6 @@
 import { MessagePluginFactoryProps } from "../../../../common/interfaces/message-plugin";
 
-export const getMessengerTitle = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerTitle = ({ styled }: MessagePluginFactoryProps) => {
     const MessengerTitle = styled.h6({
         marginTop: 2,
         marginBottom: 5,

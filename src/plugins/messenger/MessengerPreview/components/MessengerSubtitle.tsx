@@ -1,7 +1,7 @@
 import { MessagePluginFactoryProps } from "../../../../common/interfaces/message-plugin";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
 
-export const getMessengerSubtitle = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerSubtitle = ({ styled }: MessagePluginFactoryProps) => {
     const MessengerSubtitle = styled.p<{ config: IWebchatConfig }>(props => ({
         margin: 0,
         color: 'hsla(0, 0%, 0%, .54)',

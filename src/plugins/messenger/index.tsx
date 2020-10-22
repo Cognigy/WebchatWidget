@@ -1,3 +1,4 @@
+import React from 'react';
 
 import { MessageComponentProps, MessagePluginFactory } from "../../common/interfaces/message-plugin";
 import { getMessengerPreview } from "./MessengerPreview/MessengerPreview";
@@ -56,7 +57,7 @@ const isFullscreenMessengerGenericPayload = (rawMessage: IMessage, config: IWebc
     return elements.length > 1;
 }
 
-const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
+const messengerPlugin: MessagePluginFactory = ({ styled }) => {
 
     const MessengerPreview = getMessengerPreview({ React, styled });
 
@@ -97,7 +98,7 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
 }
 
 
-const fullscreenMessengerGenericPlugin: MessagePluginFactory = ({ React, styled }) => {
+const fullscreenMessengerGenericPlugin: MessagePluginFactory = ({ styled }) => {
 
     const MessengerPreview = getMessengerPreview({ React, styled });
 
