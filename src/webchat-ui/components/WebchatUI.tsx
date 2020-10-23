@@ -183,12 +183,13 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         }
 
         // Display that the user retreived a message in the browser title
-        if (this.state.lastUnseenMessageText && this.props.unseenMessages.length !== 0) {
+        const { unseenMessages } = this.props;
+        if (this.state.lastUnseenMessageText && unseenMessages.length !== 0) {
             let showsIndicatorTitle: boolean = false;
             let documentTitle: string = window.document.title;
 
             this.webchatTitleIntervalID = setInterval(() => {
-                window.document.title = showsIndicatorTitle ? documentTitle : this.props.config.settings.unreadMessageWebsiteTitle;
+                window.document.title = showsIndicatorTitle ? documentTitle : `(${unseenMessages.length}) ${this.props.config.settings.unreadMessageWebsiteTitle}`;
                 showsIndicatorTitle = !showsIndicatorTitle;
             }, 1000);
         }
