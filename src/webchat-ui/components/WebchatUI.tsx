@@ -35,6 +35,8 @@ import MessageTeaser from './presentational/MessageTeaser';
 import Badge from './presentational/Badge';
 import getTextFromMessage from '../../webchat/helper/message';
 
+// Message notification imports
+import UIfx from 'uifx';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -101,6 +103,9 @@ const HistoryWrapper = styled(History)(({ theme }) => ({
     minHeight: 0,
     height: theme.blockSize
 }));
+
+const notificationSound = new UIfx('/notification-sound.wav');
+
 export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElement> & WebchatUIProps, WebchatUIState> {
     state = {
         theme: createWebchatTheme(),
@@ -185,6 +190,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         // Display that the user retreived a message in the browser title
         const { unseenMessages } = this.props;
         if (this.state.lastUnseenMessageText && unseenMessages.length !== 0) {
+
+            // Play the notification sound
+            notificationSound.play();
+
             let showsIndicatorTitle: boolean = false;
             let documentTitle: string = window.document.title;
 
