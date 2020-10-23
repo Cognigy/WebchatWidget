@@ -157,16 +157,11 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             if (unseenMessages.length !== 0) {
                 // Get the latest unseen bot message
                 const lastUnseenMessage = unseenMessages[unseenMessages.length - 1];
+                const lastUnseenMessageText = getTextFromMessage(lastUnseenMessage);
 
-                // Ignore continue true messages
-                if (!lastUnseenMessage.data?.continue) {
-                    const lastUnseenMessageText = getTextFromMessage(lastUnseenMessage);
-                    console.log(lastUnseenMessage)
-
-                    this.setState({
-                        lastUnseenMessageText: lastUnseenMessageText
-                    })
-                }
+                this.setState({
+                    lastUnseenMessageText: lastUnseenMessageText
+                })
 
             } else {
                 this.setState({

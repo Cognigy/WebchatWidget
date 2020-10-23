@@ -78,7 +78,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
         }
 
         case 'RECEIVE_MESSAGE': {
-            const { message } = action; 
+            const { message } = action;
             const avatarUrl = getAvatarForMessage(message, store.getState());
 
             next(addMessage({
@@ -94,12 +94,16 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
 
             // Check if the webchat is closed
             if (!store.getState().ui.open) {
-                // Store the unseen message
-                next(addUnseenMessage({
-                    source: 'bot',
-                    ...message,
-                    avatarUrl
-                } as IBotMessage));
+                // Check if the current message is readable
+                if (message.text || message.data?._cognigy?._webchat) {
+                    // Store the unseen message
+                    next(addUnseenMessage({
+                        source: 'bot',
+                        ...message,
+                        avatarUrl
+                    } as IBotMessage));
+                }
+
             }
 
             break;
