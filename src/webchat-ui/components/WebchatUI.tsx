@@ -159,9 +159,17 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 const lastUnseenMessage = unseenMessages[unseenMessages.length - 1];
                 const lastUnseenMessageText = getTextFromMessage(lastUnseenMessage);
 
-                this.setState({
-                    lastUnseenMessageText: lastUnseenMessageText
-                })
+                // Check if current unseen message has text
+                if (lastUnseenMessageText) {
+                    this.setState({
+                        lastUnseenMessageText: lastUnseenMessageText
+                    })
+                    // Otherwise show the previous last unseen message text
+                } else {
+                    this.setState({
+                        lastUnseenMessageText: prevState.lastUnseenMessageText
+                    })
+                }
 
             } else {
                 this.setState({
