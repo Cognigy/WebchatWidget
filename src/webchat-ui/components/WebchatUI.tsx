@@ -310,7 +310,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                 !config.settings.disableUnreadMessageIndicator ?
                                                     <Badge
                                                         content={unseenMessages.length}
-                                                        backgroundColor={theme.primaryStrongColor}
+                                                        backgroundColor={'red'}
                                                         fontColor={theme.primaryContrastColor}
                                                     />
                                                     :
