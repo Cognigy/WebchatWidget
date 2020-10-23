@@ -4,6 +4,7 @@ import { getDivider } from '../Divider';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
 import { getMessengerButton } from '../MessengerButton/MessengerButton';
 import { getMessengerFrame } from '../MessengerFrame';
+import { getMessengerButtonTop } from '../MessengerButtonTop';
 
 interface IMessengerButtonTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMButtonTemplatePayload;
@@ -13,12 +14,13 @@ export const getMessengerButtonTemplate = ({
     React,
     styled
 }: MessagePluginFactoryProps) => {
-    const MessengerFrame = getMessengerFrame({ React, styled });
+    const MessengerButtonTop = getMessengerButtonTop({ React, styled });
     const MessengerButton = getMessengerButton({ React, styled });
     const Divider = getDivider({ React, styled });
 
     const Text = styled.div(({ theme }) => ({
-        padding: theme.unitSize
+        padding: `${theme.unitSize * 2}px ${theme.unitSize * 3}px`,
+        whiteSpace: "pre-line"
     }));
 
     const MessengerButtonTemplate = ({
@@ -28,9 +30,11 @@ export const getMessengerButtonTemplate = ({
     }: IMessengerButtonTemplateProps & React.HTMLProps<HTMLDivElement>) => {
         const { text, buttons } = payload;
 
+        const processedText = text.replace('\n', '<br>');
+
         return (
-            <MessengerFrame {...divProps} className="webchat-buttons-template-root">
-                {text && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{__html: text}} />}
+            <MessengerButtonTop {...divProps} className="webchat-buttons-template-root">
+                {processedText && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{__html: processedText}} />}
                 {buttons.map((button, index) => (
                     <React.Fragment key={index}>
                         <Divider />
@@ -41,7 +45,7 @@ export const getMessengerButtonTemplate = ({
                         />
                     </React.Fragment>
                 ))}
-            </MessengerFrame>
+            </MessengerButtonTop>
         );
     };
 
