@@ -52,6 +52,7 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
                         <MessengerListTemplateElement
                             element={element}
                             onAction={onAction}
+                            config={config}
                         />
                     </React.Fragment>
                 ))}
