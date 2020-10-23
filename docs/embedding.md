@@ -80,6 +80,7 @@ See it in action:
 | persistentMenu | [Persistent Menu](#persistent-menu) | - | x | | The Persistent Menu to render in the Webchat.
 | startBehavior | 'none' , 'button', 'injection' | 'none' | x | | If 'none', will start the webchat with a text input, 'button' will display a get started button with a preconfigured message, 'injection' will automatically send a message to the bot. |
 | title | string | Cognigy Webchat | x | | The text that will be shown in the title bar of the Webchat |
+| unreadMessageWebsiteTitle | string | "New Message" | x | | The website title that is displayed when the user retreived a new message |
 | userAvatarUrl | string | undefined | x | | A custom avatar that should be displayed next to user messages. Defaults to a user icon.
 | useSessionStorage | boolean | false | | | If true, to store chat history and userId sessionStorage is used instead of localStorage. Note: This means the userId will not be persisted after closing and re-opening a browser tab.
 
