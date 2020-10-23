@@ -1,6 +1,6 @@
 import { MessagePluginFactoryProps } from '../../../../common/interfaces/message-plugin';
 
-export const getMessengerButtonTop = ({ React, styled }: MessagePluginFactoryProps) => {
+export const getMessengerButtonHeader = ({ React, styled }: MessagePluginFactoryProps) => {
     const MessengerFrame = styled.div(({ theme }) => ({
         width: 250,
         borderRadius: theme.unitSize * 2,

@@ -3,8 +3,7 @@ import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { getDivider } from '../Divider';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
 import { getMessengerButton } from '../MessengerButton/MessengerButton';
-import { getMessengerFrame } from '../MessengerFrame';
-import { getMessengerButtonTop } from '../MessengerButtonTop';
+import { getMessengerButtonHeader } from '../MessengerButtonHeader';
 
 interface IMessengerButtonTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMButtonTemplatePayload;
@@ -14,7 +13,7 @@ export const getMessengerButtonTemplate = ({
     React,
     styled
 }: MessagePluginFactoryProps) => {
-    const MessengerButtonTop = getMessengerButtonTop({ React, styled });
+    const MessengerButtonHeader = getMessengerButtonHeader({ React, styled });
     const MessengerButton = getMessengerButton({ React, styled });
     const Divider = getDivider({ React, styled });
 
@@ -30,11 +29,9 @@ export const getMessengerButtonTemplate = ({
     }: IMessengerButtonTemplateProps & React.HTMLProps<HTMLDivElement>) => {
         const { text, buttons } = payload;
 
-        const processedText = text.replace('\n', '<br>');
-
         return (
-            <MessengerButtonTop {...divProps} className="webchat-buttons-template-root">
-                {processedText && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{__html: processedText}} />}
+            <MessengerButtonHeader {...divProps} className="webchat-buttons-template-root">
+                {text && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{__html: text}} />}
                 {buttons.map((button, index) => (
                     <React.Fragment key={index}>
                         <Divider />
@@ -45,7 +42,7 @@ export const getMessengerButtonTemplate = ({
                         />
                     </React.Fragment>
                 ))}
-            </MessengerButtonTop>
+            </MessengerButtonHeader>
         );
     };
 
