@@ -33,7 +33,7 @@ import { IWebchatConfig } from '../../common/interfaces/webchat-config';
 import { TTyping } from '../../common/interfaces/typing';
 import MessageTeaser from './presentational/MessageTeaser';
 import Badge from './presentational/Badge';
-import getTextFromMessage from '../../webchat/helper/messageTeaser';
+import getTextFromMessage from '../../webchat/helper/message';
 
 
 export interface WebchatUIProps {
