@@ -94,6 +94,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
 
             // Check if the webchat is closed
             if (!store.getState().ui.open) {
+                // Store the unseen message
                 next(addUnseenMessage({
                     source: 'bot',
                     ...message,
