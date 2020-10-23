@@ -110,6 +110,11 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         lastUnseenMessageText: ""
     };
 
+    // Initial interval id
+    webchatTitleIntervalID;
+    // Default website document title from parent website
+    defaultWebchatTitle: string = window.document.title;
+
     history: React.RefObject<ChatScroller>;
 
     constructor(props) {
@@ -170,13 +175,22 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         lastUnseenMessageText: prevState.lastUnseenMessageText
                     })
                 }
-
             } else {
                 this.setState({
                     lastUnseenMessageText: ""
-                })
+                });
             }
+        }
 
+        // Display that the user retreived a message in the browser title
+        if (this.state.lastUnseenMessageText && this.props.unseenMessages.length !== 0) {
+            let showsIndicatorTitle: boolean = false;
+            let documentTitle: string = window.document.title;
+
+            this.webchatTitleIntervalID = setInterval(() => {
+                window.document.title = showsIndicatorTitle ? documentTitle : this.props.config.settings.unreadMessageWebsiteTitle;
+                showsIndicatorTitle = !showsIndicatorTitle;
+            }, 1000);
         }
     }
 
@@ -186,6 +200,15 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         }
 
         this.props.onSendMessage(...args);
+    }
+
+    onClickWebchatToggleButton = () => {
+        // Open the webchat
+        this.props.onToggle();
+
+        // Stop webchat title interval
+        clearInterval(this.webchatTitleIntervalID);
+        window.document.title = this.defaultWebchatTitle;
     }
 
     renderInput = () => {
@@ -272,7 +295,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
                                         <FAB
                                             data-cognigy-webchat-toggle
-                                            onClick={onToggle}
+                                            onClick={this.onClickWebchatToggleButton}
                                             {...webchatToggleProps}
                                             type='button'
                                             className="webchat-toggle-button"

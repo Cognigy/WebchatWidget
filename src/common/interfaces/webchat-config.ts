@@ -41,6 +41,7 @@ export interface IWebchatSettings {
     startBehavior: "none" | "button" | "injection";
     STTLanguage: string;
     title: string;
+    unreadMessageWebsiteTitle: string;
     userAvatarUrl: string;
     useSessionStorage: boolean;
 }
