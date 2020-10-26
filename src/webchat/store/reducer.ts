@@ -1,9 +1,10 @@
 import { combineReducers } from "redux";
 import { options } from "./options/options-reducer";
-import { messages, unseenMessages } from "./messages/message-reducer";
+import { messages } from "./messages/message-reducer";
 import { ui } from "./ui/ui-reducer";
 import { config } from "./config/config-reducer";
 import { connection } from "./connection/connection-reducer";
+import { unseenMessages } from './unseen-messages/unseen-message-reducer';
 import { StoreState } from "./store";
 
 const rootReducer = combineReducers({

@@ -79,7 +79,6 @@ const getInitialState = (): UIState => ({
 });
 
 type UIAction = SetOpenAction 
-    | ToggleOpenAction 
     | SetTypingAction 
     | SetInputModeAction 
     | SetFullscreenMessageAction 
@@ -94,13 +93,6 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
             return {
                 ...state,
                 open: action.open
-            }
-        }
-
-        case TOGGLE_OPEN: {
-            return {
-                ...state,
-                open: !state.open
             }
         }
 
