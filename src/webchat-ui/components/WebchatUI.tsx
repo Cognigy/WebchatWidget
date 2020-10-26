@@ -309,15 +309,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                     <div>
                                         {
                                             // Show the message teaser if there is a last bot message and the webchat is closed
-                                            lastUnseenMessageText && config.settings.enableUnreadMessagePreview ?
+                                            lastUnseenMessageText && (
                                                 <MessageTeaser
                                                     className="webchat-unread-message-preview"
                                                     onClick={onToggle}
                                                 >
                                                     {lastUnseenMessageText}
                                                 </MessageTeaser>
-                                                :
-                                                null
+                                            )
                                         }
 
                                         <FAB
