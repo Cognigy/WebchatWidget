@@ -61,7 +61,6 @@ See it in action:
 | disableLocalStorage | boolean | false | | | If true, disables storing any information in browsers storage like persistent history and userId. This flag has a higher priority than `useSessionStorage` - setting this to true also disables SessionStorage.
 | disablePersistentHistory | boolean | false | | | If true, disables storing of the chat history into LocalStorage (used for persistence). 
 | disableTextInputSanitization | boolean | false | | | By default, text inputs from the user will be sanitized for HTML with scripting. If you set this to true, users can send any kind of HTML text, including script-tags and onload-attributes etc.
-| disableUnreadMessagePreview | boolean | false | | | By default, the webchat shows a message bubble with the latest retreived bot message.
 | dynamicImageAspectRatio | boolean | false | | | If true, images from the "gallery", "attachment" or "top list item" template will not have a forced aspect ratio and will be fully displayed full-width without cropping
 | enableConnectionStatusIndicator | boolean | true | | | Whether to show a warning if the connection is lost during a conversation. The warning will disappear when the connection is re-established.
 | enablePersistentMenu | boolean | false | x | | Whether to enable the Persistent Menu 
@@ -70,6 +69,7 @@ See it in action:
 | enableTTS | boolean | false | x | x | Whether to load the speech output plugin. 
 | enableTypingIndicator | boolean | true | x | | Whether to enable typing indicators in the Webchat when the Conversational AI is replying. Requires a messageDelay to be set. 
 | enableUnreadMessageBadge | boolean | false | | | If true, the webchat shows a badge with the number of unread messages at the toggle button
+| enableUnreadMessagePreview | boolean | false | | | If true, the webchat shows a message bubble with the latest retreived bot message.
 | enableUnreadMessageTitleIndicator | boolean | false | | If true, will indicate the amount of unread messages in the page title every 1000ms
 | getStartedButtonText | string | "GET_STARTED" | x | | The text to display on the Get Started Button / when sending the auto message. 
 | getStartedPayload | string | "GET_STARTED" | x | | The payload to send to your Flow when clicking the Get Started Button / when sending the auto message. 

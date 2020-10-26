@@ -15,7 +15,6 @@ export interface IWebchatSettings {
     disablePersistentHistory: boolean;
     disableTextInputSanitization: boolean;
     disableToggleButton: boolean;
-    disableUnreadMessagePreview: boolean;
     dynamicImageAspectRatio: boolean;
     enableConnectionStatusIndicator: boolean;
     enableFileUpload: boolean;
@@ -25,6 +24,7 @@ export interface IWebchatSettings {
     enableTTS: boolean;
     enableTypingIndicator: boolean;
     enableUnreadMessageBadge: boolean;
+    enableUnreadMessagePreview: boolean;
     enableUnreadMessageTitleIndicator: boolean;
     getStartedButtonText: string;
     getStartedPayload: string;
