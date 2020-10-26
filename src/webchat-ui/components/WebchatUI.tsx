@@ -343,7 +343,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                     <ChatIcon />
                                                 )}
                                             {
-                                                !config.settings.disableUnreadMessageIndicator ?
+                                                config.settings.enableUnreadMessageBadge ?
                                                     <Badge
                                                         content={unseenMessages.length}
                                                         backgroundColor={'red'}
