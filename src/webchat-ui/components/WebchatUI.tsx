@@ -167,37 +167,27 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         if (prevProps.unseenMessages !== this.props.unseenMessages) {
             const { unseenMessages } = this.props;
 
-            if (unseenMessages.length !== 0) {
-                // Get the latest unseen bot message
-                const lastUnseenMessage = unseenMessages[unseenMessages.length - 1];
-                const lastUnseenMessageText = getTextFromMessage(lastUnseenMessage);
-
-                // Check if current unseen message has text
-                if (lastUnseenMessageText) {
-                    this.setState({
-                        lastUnseenMessageText: lastUnseenMessageText
-                    })
-                    // Otherwise show the previous last unseen message text
-                } else {
-                    this.setState({
-                        lastUnseenMessageText: prevState.lastUnseenMessageText
-                    })
+            // update the "unseen message preview" text
+            if (this.props.config.settings.enableUnreadMessagePreview) {
+                let lastUnseenMessageText = '';
+                
+                if (unseenMessages.length > 0) {
+                    const lastUnseenMessage = unseenMessages[unseenMessages.length - 1];
+                    lastUnseenMessageText = getTextFromMessage(lastUnseenMessage);
                 }
-            } else {
+
                 this.setState({
-                    lastUnseenMessageText: ""
+                    lastUnseenMessageText
                 });
+            }
+
+            // play a notification for unread messages
+            if (unseenMessages.length > 0 && this.props.config.settings.enableUnreadMessageSound) {
+                notificationSound.play();
             }
         }
 
-        // Display that the user retreived a message in the browser title
-        const { unseenMessages } = this.props;
-        if (this.state.lastUnseenMessageText && unseenMessages.length !== 0) {
-
-            // Play the notification sound
-            notificationSound.play();
-        }
-
+        // initialize the title indicator if configured
         if (
             this.props.config.settings.enableUnreadMessageTitleIndicator 
             && this.props.config.settings.enableUnreadMessageTitleIndicator !== prevProps.config.settings.enableUnreadMessageTitleIndicator

@@ -28,6 +28,7 @@ const getInitialState = (): ConfigState => ({
         enableTypingIndicator: false,
         enableUnreadMessageBadge: false,
         enableUnreadMessagePreview: false,
+        enableUnreadMessageSound: false,
         enableUnreadMessageTitleIndicator: false,
         getStartedButtonText: '',
         getStartedPayload: '',

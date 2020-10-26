@@ -70,6 +70,7 @@ See it in action:
 | enableTypingIndicator | boolean | true | x | | Whether to enable typing indicators in the Webchat when the Conversational AI is replying. Requires a messageDelay to be set. 
 | enableUnreadMessageBadge | boolean | false | | | If true, the webchat shows a badge with the number of unread messages at the toggle button
 | enableUnreadMessagePreview | boolean | false | | | If true, the webchat shows a message bubble with the latest retreived bot message.
+| enableUnreadMessageSound | boolean | false | x | | If true, plays a notification sound for each incoming unread message  
 | enableUnreadMessageTitleIndicator | boolean | false | | If true, will indicate the amount of unread messages in the page title every 1000ms
 | getStartedButtonText | string | "GET_STARTED" | x | | The text to display on the Get Started Button / when sending the auto message. 
 | getStartedPayload | string | "GET_STARTED" | x | | The payload to send to your Flow when clicking the Get Started Button / when sending the auto message. 
