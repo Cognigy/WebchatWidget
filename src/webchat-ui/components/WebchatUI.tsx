@@ -146,7 +146,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             messagePlugins: [...this.props.messagePlugins || [], regularMessagePlugin]
         });
         
-        if (this.props.config.settings.enableUnreadTitleIndicator) {
+        if (this.props.config.settings.enableUnreadMessageTitleIndicator) {
             this.initializeTitleIndicator();
         }
     }
@@ -199,8 +199,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         }
 
         if (
-            this.props.config.settings.enableUnreadTitleIndicator 
-            && this.props.config.settings.enableUnreadTitleIndicator !== prevProps.config.settings.enableUnreadTitleIndicator
+            this.props.config.settings.enableUnreadMessageTitleIndicator 
+            && this.props.config.settings.enableUnreadMessageTitleIndicator !== prevProps.config.settings.enableUnreadMessageTitleIndicator
         ) {
             this.initializeTitleIndicator();
         }
@@ -233,7 +233,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             this.titleType = 'original';
         } else {
             if (this.props.unseenMessages.length > 0) {
-                document.title = `(${this.props.unseenMessages.length}) ${this.props.config.settings.unreadMessageWebsiteTitle}`;
+                document.title = `(${this.props.unseenMessages.length}) ${this.props.config.settings.unreadMessageTitleText}`;
                 this.titleType = 'unread';
             }
         }
