@@ -115,12 +115,11 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         lastUnseenMessageText: ""
     };
 
-    // Initial interval id
-    webchatTitleIntervalID;
-    // Default website document title from parent website
-    defaultWebchatTitle: string = window.document.title;
-
     history: React.RefObject<ChatScroller>;
+
+    private unreadTitleIndicatorInterval: ReturnType<typeof setTimeout> | null = null;
+    private originalTitle: string = window.document.title;
+    private titleType: 'original' | 'unread' = 'original';
 
     constructor(props) {
         super(props);
@@ -146,6 +145,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             inputPlugins: [...this.props.inputPlugins || [], textInputPlugin],
             messagePlugins: [...this.props.messagePlugins || [], regularMessagePlugin]
         });
+        
+        if (this.props.config.settings.enableUnreadTitleIndicator) {
+            this.initializeTitleIndicator();
+        }
     }
 
     componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
@@ -193,14 +196,46 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
             // Play the notification sound
             notificationSound.play();
+        }
 
-            let showsIndicatorTitle: boolean = false;
-            let documentTitle: string = window.document.title;
+        if (
+            this.props.config.settings.enableUnreadTitleIndicator 
+            && this.props.config.settings.enableUnreadTitleIndicator !== prevProps.config.settings.enableUnreadTitleIndicator
+        ) {
+            this.initializeTitleIndicator();
+        }
+    }
 
-            this.webchatTitleIntervalID = setInterval(() => {
-                window.document.title = showsIndicatorTitle ? documentTitle : `(${unseenMessages.length}) ${this.props.config.settings.unreadMessageWebsiteTitle}`;
-                showsIndicatorTitle = !showsIndicatorTitle;
-            }, 1000);
+    componentWillUnmount() {
+        /**
+         * this tears down the "unread messages" title indicator
+         */
+        if (this.unreadTitleIndicatorInterval) {
+            clearInterval(this.unreadTitleIndicatorInterval);
+            this.unreadTitleIndicatorInterval = null;
+        }
+    }
+    
+    /**
+     * This sets up the "unread messages" title indicator interval.
+     * It should only be registered once!
+     */
+    initializeTitleIndicator = () => {
+        if (this.unreadTitleIndicatorInterval)
+            return;
+
+        this.unreadTitleIndicatorInterval = setInterval(this.toggleTitleIndicator, 1000);
+    }
+
+    toggleTitleIndicator = () => {
+        if (this.titleType === 'unread') {
+            document.title = this.originalTitle;
+            this.titleType = 'original';
+        } else {
+            if (this.props.unseenMessages.length > 0) {
+                document.title = `(${this.props.unseenMessages.length}) ${this.props.config.settings.unreadMessageWebsiteTitle}`;
+                this.titleType = 'unread';
+            }
         }
     }
 
@@ -210,15 +245,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         }
 
         this.props.onSendMessage(...args);
-    }
-
-    onClickWebchatToggleButton = () => {
-        // Open the webchat
-        this.props.onToggle();
-
-        // Stop webchat title interval
-        clearInterval(this.webchatTitleIntervalID);
-        window.document.title = this.defaultWebchatTitle;
     }
 
     renderInput = () => {
@@ -234,6 +260,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 inputMode={this.props.inputMode}
                 webchatTheme={this.state.theme}
                 onEmitAnalytics={this.props.onEmitAnalytics}
+                theme={this.state.theme}
             />
         );
     }
@@ -305,7 +332,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
                                         <FAB
                                             data-cognigy-webchat-toggle
-                                            onClick={this.onClickWebchatToggleButton}
+                                            onClick={onToggle}
                                             {...webchatToggleProps}
                                             type='button'
                                             className="webchat-toggle-button"

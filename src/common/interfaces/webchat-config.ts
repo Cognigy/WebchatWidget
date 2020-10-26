@@ -25,6 +25,7 @@ export interface IWebchatSettings {
     enableStrictMessengerSync: boolean;
     enableTTS: boolean;
     enableTypingIndicator: boolean;
+    enableUnreadTitleIndicator: boolean;
     getStartedButtonText: string;
     getStartedPayload: string;
     getStartedText: string;

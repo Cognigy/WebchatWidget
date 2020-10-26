@@ -28,6 +28,7 @@ const getInitialState = (): ConfigState => ({
         enableStrictMessengerSync: false,
         enableTTS: false,
         enableTypingIndicator: false,
+        enableUnreadTitleIndicator: false,
         getStartedButtonText: '',
         getStartedPayload: '',
         getStartedText: '',
