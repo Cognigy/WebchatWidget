@@ -150,7 +150,6 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
         }
 
         case SET_PAGE_VISIBLE: {
-            console.log('page visibility change', action.visible);
             return {
                 ...state,
                 isPageVisible: action.visible
