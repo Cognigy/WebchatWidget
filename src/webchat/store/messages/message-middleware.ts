@@ -81,7 +81,9 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
             const { message } = action;
             const avatarUrl = getAvatarForMessage(message, store.getState());
 
-            const isUnseen = !store.getState().ui.open;
+            const isWebchatActive = store.getState().ui.open;
+            const isMessageEmpty = !(message.text || message.data?._cognigy?._webchat);
+            const isUnseen = !isWebchatActive && !isMessageEmpty;
 
             next(addMessage({
                 source: 'bot',
