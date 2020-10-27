@@ -4,12 +4,19 @@
 
 import { Reducer } from "react";
 import { IMessage } from "../../../common/interfaces/message";
-import { SetOpenAction } from "../ui/ui-reducer";
 import { AddMessageAction } from "../messages/message-reducer";
 
 export type UnseenMessageState = IMessage[];
 
-type UnseenMessageAction = AddMessageAction | SetOpenAction;
+
+
+const CLEAR_UNSEEN_MESSAGES = 'CLEAR_UNSEEN_MESSAGES';
+export const clearUnseenMessages = () => ({
+    type: CLEAR_UNSEEN_MESSAGES as 'CLEAR_UNSEEN_MESSAGES'
+});
+type ClearUnseenMessagesAction = ReturnType<typeof clearUnseenMessages>;
+
+type UnseenMessageAction = AddMessageAction | ClearUnseenMessagesAction;
 
 export const unseenMessages: Reducer<UnseenMessageState, UnseenMessageAction> = (state = [], action) => {
     switch (action.type) {
@@ -21,12 +28,8 @@ export const unseenMessages: Reducer<UnseenMessageState, UnseenMessageAction> = 
             return state;
         }
 
-        case 'SET_OPEN': {
-            if (action.open) {
-                return [];
-            }
-
-            return state;
+        case 'CLEAR_UNSEEN_MESSAGES': {
+            return [];
         }
     }
 

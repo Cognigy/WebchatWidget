@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { css, Global } from '@emotion/core';
 import { IMessage } from '../../common/interfaces/message';
 import Header from './presentational/Header';
 import { ThemeProvider } from 'emotion-theming';
@@ -14,7 +13,6 @@ import FullScreenMessage from './history/FullScreenMessage';
 import Input from './plugins/InputPluginRenderer';
 import textInputPlugin from './plugins/input/text';
 import MessageRow from './presentational/MessageRow';
-import Avatar from './presentational/Avatar';
 import MessagePluginRenderer from './plugins/MessagePluginRenderer';
 import regularMessagePlugin from './plugins/message/regular';
 import { InputPlugin } from '../../common/interfaces/input-plugin';

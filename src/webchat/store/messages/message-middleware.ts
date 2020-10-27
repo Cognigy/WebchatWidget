@@ -78,10 +78,11 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
         }
 
         case 'RECEIVE_MESSAGE': {
+            const state = store.getState();
             const { message } = action;
-            const avatarUrl = getAvatarForMessage(message, store.getState());
+            const avatarUrl = getAvatarForMessage(message, state);
 
-            const isWebchatActive = store.getState().ui.open;
+            const isWebchatActive = state.ui.open && state.ui.isPageVisible;
             const isMessageEmpty = !(message.text || message.data?._cognigy?._webchat);
             const isUnseen = !isWebchatActive && !isMessageEmpty;
 

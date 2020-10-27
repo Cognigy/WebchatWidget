@@ -1,6 +1,7 @@
 import { Reducer } from "redux";
 import { IMessage } from "../../../common/interfaces/message";
 import { TTyping } from "../../../common/interfaces/typing";
+import { isPageVisible } from '../../helper/page-visibility';
 
 export interface UIState {
     open: boolean;
@@ -10,6 +11,7 @@ export interface UIState {
     agentAvatarOverrideUrl?: string;
     botAvatarOverrideUrl?: string;
     userAvatarOverrideUrl?: string;
+    isPageVisible: boolean;
 }
 
 const SET_OPEN = 'SET_OPEN';
@@ -67,6 +69,13 @@ export const setUserAvatarOverrideUrl = (url: string) => ({
 });
 type SetUserAvatarOverrideUrlAction = ReturnType<typeof setUserAvatarOverrideUrl>;
 
+const SET_PAGE_VISIBLE = 'SET_PAGE_VISIBLE';
+export const setPageVisible = (visible: boolean) => ({
+    type: SET_PAGE_VISIBLE as 'SET_PAGE_VISIBLE',
+    visible
+});
+export type SetPageVisibleAction = ReturnType<typeof setPageVisible>;
+
 
 const getInitialState = (): UIState => ({
     open: false,
@@ -75,7 +84,8 @@ const getInitialState = (): UIState => ({
     fullscreenMessage: undefined,
     agentAvatarOverrideUrl: undefined,
     botAvatarOverrideUrl: undefined,
-    userAvatarOverrideUrl: undefined
+    userAvatarOverrideUrl: undefined,
+    isPageVisible: isPageVisible()
 });
 
 type UIAction = SetOpenAction 
@@ -84,7 +94,8 @@ type UIAction = SetOpenAction
     | SetFullscreenMessageAction 
     | SetAgentAvatarOverrideUrlAction
     | SetBotAvatarOverrideUrlAction 
-    | SetUserAvatarOverrideUrlAction;
+    | SetUserAvatarOverrideUrlAction
+    | SetPageVisibleAction;
 
 
 export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action) => {
@@ -135,6 +146,14 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
             return {
                 ...state,
                 userAvatarOverrideUrl: action.url
+            }
+        }
+
+        case SET_PAGE_VISIBLE: {
+            console.log('page visibility change', action.visible);
+            return {
+                ...state,
+                isPageVisible: action.visible
             }
         }
     }
