@@ -32,9 +32,7 @@ import { TTyping } from '../../common/interfaces/typing';
 import MessageTeaser from './presentational/MessageTeaser';
 import Badge from './presentational/Badge';
 import getTextFromMessage from '../../webchat/helper/message';
-
-// Message notification imports
-import UIfx from 'uifx';
+import notificationSound from '../utils/notification-sound';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -101,8 +99,6 @@ const HistoryWrapper = styled(History)(({ theme }) => ({
     minHeight: 0,
     height: theme.blockSize
 }));
-
-const notificationSound = new UIfx('/notification-sound.wav');
 
 export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElement> & WebchatUIProps, WebchatUIState> {
     state = {
