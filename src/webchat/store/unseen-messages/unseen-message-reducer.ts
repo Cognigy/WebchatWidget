@@ -2,7 +2,7 @@
  * Unseen Messages
  */
 
-import { Reducer } from "react";
+import { Reducer } from "redux";
 import { IMessage } from "../../../common/interfaces/message";
 import { AddMessageAction } from "../messages/message-reducer";
 

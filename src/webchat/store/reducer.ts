@@ -27,8 +27,9 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
         case 'RESET_STATE': {
 
             // We do not want to restore some properties from storage but keep the value from state
-            const newState = action.state as StoreState;
+            const newState = action.state;
             newState.connection.connected = state.connection.connected;
+            newState.ui.isPageVisible = state.ui.isPageVisible;
 
             return rootReducer(newState, { type: '' })
         };
