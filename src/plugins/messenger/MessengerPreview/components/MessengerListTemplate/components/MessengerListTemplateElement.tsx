@@ -7,9 +7,11 @@ import { getMessengerSubtitle } from '../../MessengerSubtitle';
 import { getMessengerTitle } from '../../MessengerTitle';
 import { getMessengerListButton } from '../../MessengerListButton';
 import { getBackgroundImage } from '../../../lib/css';
+import { IWebchatConfig } from '../../../../../../common/interfaces/webchat-config';
 
 interface IMessengerListTemplateElementProps extends IWithFBMActionEventHandler {
     element: IFBMListTemplateElement;
+    config: IWebchatConfig;
 }
 
 export const getMessengerListTemplateElement = ({ React, styled }: MessagePluginFactoryProps) => {
@@ -34,7 +36,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
     }));
 
 
-    const MessengerListTemplateElement = ({ element, onAction }: IMessengerListTemplateElementProps) => {
+    const MessengerListTemplateElement = ({ element, onAction, config }: IMessengerListTemplateElementProps) => {
         const { title, subtitle, image_url, buttons, default_action } = element;
         // TODO default_action
 
@@ -52,7 +54,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
             >
                 <div>
                     <MessengerTitle className="webchat-list-template-element-title" dangerouslySetInnerHTML={{__html: title}} />
-                    <MessengerSubtitle className="webchat-list-template-element-subtitle" dangerouslySetInnerHTML={{__html: subtitle}} />
+                    <MessengerSubtitle className="webchat-list-template-element-subtitle" dangerouslySetInnerHTML={{__html: subtitle}} config={config} />
                     {button && (
                         <ListButton
                             onClick={e => {e.stopPropagation(); onAction(e, button)}}
