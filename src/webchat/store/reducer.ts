@@ -33,6 +33,7 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
             // lossy ui state should not be restored, take the old value!
             newState.connection.connected = state.connection.connected;
             newState.ui.isPageVisible = state.ui.isPageVisible;
+            newState.config = state.config;
 
             // do not restore unseen messages, would be weird with the open and isPageVisible state!
             newState.unseenMessages = [];
