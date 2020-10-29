@@ -29,7 +29,7 @@ import CloseIcon from '../assets/baseline-close-24px.svg';
 import DisconnectOverlay from './presentational/DisconnectOverlay';
 import { IWebchatConfig } from '../../common/interfaces/webchat-config';
 import { TTyping } from '../../common/interfaces/typing';
-import MessageTeaser from './presentational/MessageTeaser';
+import UnreadMessagePreview from './presentational/UnreadMessagePreview';
 import Badge from './presentational/Badge';
 import getTextFromMessage from '../../webchat/helper/message';
 import notificationSound from '../utils/notification-sound';
@@ -304,12 +304,12 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                         {
                                             // Show the message teaser if there is a last bot message and the webchat is closed
                                             lastUnseenMessageText && (
-                                                <MessageTeaser
+                                                <UnreadMessagePreview
                                                     className="webchat-unread-message-preview"
                                                     onClick={onToggle}
                                                 >
                                                     {lastUnseenMessageText}
-                                                </MessageTeaser>
+                                                </UnreadMessagePreview>
                                             )
                                         }
 
@@ -329,8 +329,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                 config.settings.enableUnreadMessageBadge ?
                                                     <Badge
                                                         content={unseenMessages.length}
-                                                        backgroundColor={'red'}
-                                                        fontColor={theme.primaryContrastColor}
+                                                        className='webchat-unread-message-badge'
                                                     />
                                                     :
                                                     null

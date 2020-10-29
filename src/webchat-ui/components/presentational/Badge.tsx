@@ -1,41 +1,38 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
+import { styled } from '../../style';
 
-interface IBadgeProps {
+const BadgeBase = styled.span(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: '-10%',
+    right: '-5%',
+    fontSize: theme.unitSize * 3 / 2,
+    width: theme.unitSize * 3,
+    height: theme.unitSize * 3,
+    borderRadius: '50%',
+    backgroundColor: 'red',
+    color: 'white',
+    fontFamily: 'sans-serif'
+}));
+
+interface IBadgeProps extends ComponentProps<typeof BadgeBase> {
     content: number;
-    backgroundColor: string;
-    fontColor: string;
 }
 
 const Badge = (props: IBadgeProps) => {
 
-    const { content, backgroundColor, fontColor } = props;
-
-    const size = 24;
+    const { content, ...badgeBaseProps } = props;
 
     if (content === 0)
         return null;
 
     return (
-            <span style={{
-                display: 'flex',
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                justifyContent: 'center',
-                alignContent: 'center',
-                alignItems: 'center',
-                position: 'absolute',
-                top: '-10%',
-                right: '-5%',
-                fontSize: size / 2,
-                width: size,
-                height: size,
-                borderRadius: '50%',
-                backgroundColor: backgroundColor,
-                color: fontColor,
-                fontFamily: 'sans-serif'
-            }}>
-                {content}
-            </span>
+        <BadgeBase {...badgeBaseProps}>{content}</BadgeBase>
     );
 }
 

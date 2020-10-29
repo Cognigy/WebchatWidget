@@ -1,6 +1,6 @@
 import { styled } from "../../style";
 
-const MessageTeaser = styled.div(({ theme }) => ({
+const UnreadMessagePreview = styled.div(({ theme }) => ({
     maxWidth: '200px',
     backgroundColor: 'white',
     padding: '16px 24px',
@@ -9,9 +9,9 @@ const MessageTeaser = styled.div(({ theme }) => ({
     right: '80px',
     bottom: '100px',
     boxShadow: theme.shadow,
-    color: theme.primaryColor,
+    color: theme.greyContrastColor,
     fontSize: '14px',
     fontFamily: "sans-serif",
 }));
 
-export default MessageTeaser;
+export default UnreadMessagePreview;
