@@ -33,6 +33,7 @@ import UnreadMessagePreview from './presentational/UnreadMessagePreview';
 import Badge from './presentational/Badge';
 import getTextFromMessage from '../../webchat/helper/message';
 import notificationSound from '../utils/notification-sound';
+import { findReverse } from '../utils/find-reverse';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -164,10 +165,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             // update the "unseen message preview" text
             if (this.props.config.settings.enableUnreadMessagePreview) {
                 let lastUnseenMessageText = '';
-                
-                if (unseenMessages.length > 0) {
-                    const lastUnseenMessage = unseenMessages[unseenMessages.length - 1];
-                    lastUnseenMessageText = getTextFromMessage(lastUnseenMessage);
+
+                // find the last readable message and remember its text
+                const lastReadableUnseenMessage = findReverse(
+                        this.props.unseenMessages, 
+                        message => !!getTextFromMessage(message)
+                );
+                if (lastReadableUnseenMessage) {
+                    lastUnseenMessageText = getTextFromMessage(lastReadableUnseenMessage);
                 }
 
                 this.setState({
