@@ -21,6 +21,7 @@ export const resetState = (state?: StoreState) => ({
     type: RESET_STATE as 'RESET_STATE',
     state
 });
+export type ResetStateAction = ReturnType<typeof resetState>;
 
 export const reducer = (state = rootReducer(undefined, { type: '' }), action) => {
     switch (action.type) {
@@ -28,10 +29,18 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
 
             // We do not want to restore some properties from storage but keep the value from state
             const newState = action.state;
+            
+            // lossy ui state should not be restored, take the old value!
             newState.connection.connected = state.connection.connected;
             newState.ui.isPageVisible = state.ui.isPageVisible;
 
-            return rootReducer(newState, { type: '' })
+            // do not restore unseen messages, would be weird with the open and isPageVisible state!
+            newState.unseenMessages = [];
+
+            // if the webchat was open already, do not close it again
+            newState.ui.open = state.ui.open || newState.ui.open;
+
+            return rootReducer(newState, { type: '' });
         };
     };
 

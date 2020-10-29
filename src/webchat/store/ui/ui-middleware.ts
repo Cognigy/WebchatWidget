@@ -7,13 +7,8 @@ export const uiMiddleware: Middleware<{}, StoreState> = store => next => (action
     switch (action.type) {
         case 'TOGGLE_OPEN': {
             const open = store.getState().ui.open;
-            
-            // if the webchat is toggled to open while the page is active, reset unread messages
-            if (!open && store.getState().ui.isPageVisible) {
-                next(clearUnseenMessages());
-            }
 
-            next(setOpen(!open));
+            store.dispatch(setOpen(!open));
 
             break;
         }
@@ -21,7 +16,7 @@ export const uiMiddleware: Middleware<{}, StoreState> = store => next => (action
         // if the webchat is opened while the page is active, reset unread messages
         case 'SET_OPEN': {
             if (action.open && store.getState().ui.isPageVisible) {
-                next(clearUnseenMessages());
+                store.dispatch(clearUnseenMessages());
             }
 
             break;
@@ -30,7 +25,7 @@ export const uiMiddleware: Middleware<{}, StoreState> = store => next => (action
         // if the page gets active while the webchat is open, reset unread messages
         case 'SET_PAGE_VISIBLE': {
             if (action.visible && store.getState().ui.open) {
-                next(clearUnseenMessages());
+                store.dispatch(clearUnseenMessages());
             }
 
             break;
