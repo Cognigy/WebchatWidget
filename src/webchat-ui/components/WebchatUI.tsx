@@ -222,7 +222,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             this.titleType = 'original';
         } else {
             if (this.props.unseenMessages.length > 0) {
-                document.title = `(${this.props.unseenMessages.length}) ${this.props.config.settings.unreadMessageTitleText}`;
+                document.title = `(${this.props.unseenMessages.length}) ${(this.props.unseenMessages.length === 1) ? this.props.config.settings.unreadMessageTitleText : this.props.config.settings.unreadMessageTitleTextPlural}`; 
                 this.titleType = 'unread';
             }
         }

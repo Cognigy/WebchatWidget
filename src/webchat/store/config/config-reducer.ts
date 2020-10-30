@@ -46,6 +46,7 @@ const getInitialState = (): ConfigState => ({
         STTLanguage: '',
         title: '',
         unreadMessageTitleText: 'New Message',
+        unreadMessageTitleTextPlural: 'New Messages',
         userAvatarUrl: '',
         useSessionStorage: false
     }

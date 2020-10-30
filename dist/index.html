@@ -13,7 +13,10 @@
         initWebchat('https://endpoint-trial.cognigy.ai/325a1e29b99441f4640ba659706763fb77006e00dc0e3720600f523557d7afaa', {
             settings: {
                 // colorScheme: '#FAB'
-                unreadMessageWebsiteTitle: "New Bot Message"
+                enableUnreadMessageSound: true,
+                enableUnreadMessageBadge: true,
+                enableUnreadMessagePreview: true,
+                enableUnreadMessageTitleIndicator: true,
             }
         }).then(function(webchat) {
             window.cognigyWebchat = webchat;

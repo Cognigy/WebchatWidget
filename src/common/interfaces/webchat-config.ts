@@ -44,6 +44,7 @@ export interface IWebchatSettings {
     STTLanguage: string;
     title: string;
     unreadMessageTitleText: string;
+    unreadMessageTitleTextPlural: string;
     userAvatarUrl: string;
     useSessionStorage: boolean;
 }
