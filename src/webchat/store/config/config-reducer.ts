@@ -26,6 +26,10 @@ const getInitialState = (): ConfigState => ({
         enableStrictMessengerSync: false,
         enableTTS: false,
         enableTypingIndicator: false,
+        enableUnreadMessageBadge: false,
+        enableUnreadMessagePreview: false,
+        enableUnreadMessageSound: false,
+        enableUnreadMessageTitleIndicator: false,
         getStartedButtonText: '',
         getStartedPayload: '',
         getStartedText: '',
@@ -41,6 +45,8 @@ const getInitialState = (): ConfigState => ({
         startBehavior: 'none',
         STTLanguage: '',
         title: '',
+        unreadMessageTitleText: 'New Message',
+        unreadMessageTitleTextPlural: 'New Messages',
         userAvatarUrl: '',
         useSessionStorage: false
     }

@@ -36,6 +36,7 @@ export const createConnectionMiddleware = (client: SocketClient): Middleware<{},
                     store.dispatch(connect())
                 }
             }
+
             break;
         }
 
@@ -43,11 +44,14 @@ export const createConnectionMiddleware = (client: SocketClient): Middleware<{},
             if (!store.getState().ui.open) {
                 store.dispatch(connect())
             }
+
             break;
         }
 
         case 'SEND_MESSAGE': {
             store.dispatch(connect())
+
+            break;
         }
     }
 

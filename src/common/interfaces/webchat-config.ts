@@ -23,6 +23,10 @@ export interface IWebchatSettings {
     enableStrictMessengerSync: boolean;
     enableTTS: boolean;
     enableTypingIndicator: boolean;
+    enableUnreadMessageBadge: boolean;
+    enableUnreadMessagePreview: boolean;
+    enableUnreadMessageSound: boolean;
+    enableUnreadMessageTitleIndicator: boolean;
     getStartedButtonText: string;
     getStartedPayload: string;
     getStartedText: string;
@@ -39,6 +43,8 @@ export interface IWebchatSettings {
     startBehavior: "none" | "button" | "injection";
     STTLanguage: string;
     title: string;
+    unreadMessageTitleText: string;
+    unreadMessageTitleTextPlural: string;
     userAvatarUrl: string;
     useSessionStorage: boolean;
 }

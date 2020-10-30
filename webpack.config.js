@@ -17,6 +17,11 @@ module.exports = {
     module: {
         rules: [
             {
+                // Include sound files for message notification sound
+                test: /\.(ogg|mp3|wav|mpe?g)$/i,
+                use: [{ loader: 'url-loader' }]
+            },
+            {
                 // Include ts, tsx, js, and jsx files.
                 test: /\.(ts|js)x?$/,
                 loader: 'babel-loader',

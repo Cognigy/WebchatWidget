@@ -78,14 +78,19 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
         }
 
         case 'RECEIVE_MESSAGE': {
-            const { message } = action; 
-            const avatarUrl = getAvatarForMessage(message, store.getState());
+            const state = store.getState();
+            const { message } = action;
+            const avatarUrl = getAvatarForMessage(message, state);
+
+            const isWebchatActive = state.ui.open && state.ui.isPageVisible;
+            const isMessageEmpty = !(message.text || message.data?._cognigy?._webchat);
+            const isUnseen = !isWebchatActive && !isMessageEmpty;
 
             next(addMessage({
                 source: 'bot',
                 ...message,
                 avatarUrl
-            } as IBotMessage));
+            } as IBotMessage, isUnseen));
 
             break;
         }

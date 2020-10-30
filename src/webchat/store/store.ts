@@ -11,6 +11,8 @@ import { createAnalyticsMiddleware } from './analytics/analytics-middleware';
 import { registerConnectionHandler } from './connection/connection-handler';
 import { Webchat } from '../components/Webchat';
 import { IWebchatSettings } from '../../common/interfaces/webchat-config';
+import { uiMiddleware } from './ui/ui-middleware';
+import { registerUiHandler } from './ui/ui-handler';
 
 
 export type StoreState = StateType<typeof reducer>;
@@ -27,12 +29,14 @@ export const createWebchatStore = (webchat: Webchat, url: string, overrideWebcha
             createMessageMiddleware(client),
             createConfigMiddleware(url, overrideWebchatSettings),
             optionsMiddleware,
+            uiMiddleware
         )
     );
 
     registerMessageHandler(store, client);
     registerTypingHandler(store, client);
     registerConnectionHandler(store, client);
+    registerUiHandler(store);
 
     return store;
 }

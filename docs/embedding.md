@@ -68,6 +68,10 @@ See it in action:
 | enableSTT | boolean | false | x | x | Whether to load the speech input plugin.
 | enableTTS | boolean | false | x | x | Whether to load the speech output plugin. 
 | enableTypingIndicator | boolean | true | x | | Whether to enable typing indicators in the Webchat when the Conversational AI is replying. Requires a messageDelay to be set. 
+| enableUnreadMessageBadge | boolean | false | | | If true, the webchat shows a badge with the number of unread messages at the toggle button
+| enableUnreadMessagePreview | boolean | false | | | If true, the webchat shows a message bubble with the latest retrieved bot message.
+| enableUnreadMessageSound | boolean | false | x | | If true, plays a notification sound for each incoming unread message  
+| enableUnreadMessageTitleIndicator | boolean | false | | If true, will indicate the amount of unread messages in the page title every 1000ms
 | getStartedButtonText | string | "GET_STARTED" | x | | The text to display on the Get Started Button / when sending the auto message. 
 | getStartedPayload | string | "GET_STARTED" | x | | The payload to send to your Flow when clicking the Get Started Button / when sending the auto message. 
 | getStartedText | string | "Get Started" | x | | The text to display in the Webchat when clicking the Get Started Button / when sending the auto message. 
@@ -78,6 +82,8 @@ See it in action:
 | persistentMenu | [Persistent Menu](#persistent-menu) | - | x | | The Persistent Menu to render in the Webchat.
 | startBehavior | 'none' , 'button', 'injection' | 'none' | x | | If 'none', will start the webchat with a text input, 'button' will display a get started button with a preconfigured message, 'injection' will automatically send a message to the bot. |
 | title | string | Cognigy Webchat | x | | The text that will be shown in the title bar of the Webchat |
+| unreadMessageTitleText | string | "New Message" | x | | The website title that is displayed when the user retrieved one new message |
+| unreadMessageTitleTextPlural | string | "New Messages" | x | | The website title that is displayed when the user retrieved more than one new message |
 | userAvatarUrl | string | undefined | x | | A custom avatar that should be displayed next to user messages. Defaults to a user icon.
 | useSessionStorage | boolean | false | | | If true, to store chat history and userId sessionStorage is used instead of localStorage. Note: This means the userId will not be persisted after closing and re-opening a browser tab.
 

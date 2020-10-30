@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { css, Global } from '@emotion/core';
 import { IMessage } from '../../common/interfaces/message';
 import Header from './presentational/Header';
 import { ThemeProvider } from 'emotion-theming';
@@ -14,11 +13,10 @@ import FullScreenMessage from './history/FullScreenMessage';
 import Input from './plugins/InputPluginRenderer';
 import textInputPlugin from './plugins/input/text';
 import MessageRow from './presentational/MessageRow';
-import Avatar from './presentational/Avatar';
 import MessagePluginRenderer from './plugins/MessagePluginRenderer';
 import regularMessagePlugin from './plugins/message/regular';
 import { InputPlugin } from '../../common/interfaces/input-plugin';
-import stylisRTL  from 'stylis-rtl';
+import stylisRTL from 'stylis-rtl';
 
 import TypingIndicatorBubble from './presentational/TypingIndicatorBubble';
 import '../utils/normalize.css';
@@ -31,9 +29,15 @@ import CloseIcon from '../assets/baseline-close-24px.svg';
 import DisconnectOverlay from './presentational/DisconnectOverlay';
 import { IWebchatConfig } from '../../common/interfaces/webchat-config';
 import { TTyping } from '../../common/interfaces/typing';
+import UnreadMessagePreview from './presentational/UnreadMessagePreview';
+import Badge from './presentational/Badge';
+import getTextFromMessage from '../../webchat/helper/message';
+import notificationSound from '../utils/notification-sound';
+import { findReverse } from '../utils/find-reverse';
 
 export interface WebchatUIProps {
     messages: IMessage[];
+    unseenMessages: IMessage[];
     fullscreenMessage?: IMessage;
     onSetFullscreenMessage: (message: IMessage) => void;
     onDismissFullscreenMessage: () => void;
@@ -66,7 +70,8 @@ interface WebchatUIState {
     messagePlugins: MessagePlugin[];
     inputPlugins: InputPlugin[];
     /* Initially false, true from the point of first connection */
-    hadConnection: boolean; 
+    hadConnection: boolean;
+    lastUnseenMessageText: string;
 }
 
 const stylisPlugins = [
@@ -95,15 +100,21 @@ const HistoryWrapper = styled(History)(({ theme }) => ({
     minHeight: 0,
     height: theme.blockSize
 }));
+
 export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElement> & WebchatUIProps, WebchatUIState> {
     state = {
         theme: createWebchatTheme(),
         messagePlugins: [],
         inputPlugins: [],
         hadConnection: false,
+        lastUnseenMessageText: ""
     };
 
     history: React.RefObject<ChatScroller>;
+
+    private unreadTitleIndicatorInterval: ReturnType<typeof setTimeout> | null = null;
+    private originalTitle: string = window.document.title;
+    private titleType: 'original' | 'unread' = 'original';
 
     constructor(props) {
         super(props);
@@ -129,6 +140,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             inputPlugins: [...this.props.inputPlugins || [], textInputPlugin],
             messagePlugins: [...this.props.messagePlugins || [], regularMessagePlugin]
         });
+        
+        if (this.props.config.settings.enableUnreadMessageTitleIndicator) {
+            this.initializeTitleIndicator();
+        }
     }
 
     componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
@@ -142,6 +157,74 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             this.setState({
                 hadConnection: true
             })
+        }
+
+        if (prevProps.unseenMessages !== this.props.unseenMessages) {
+            const { unseenMessages } = this.props;
+
+            // update the "unseen message preview" text
+            if (this.props.config.settings.enableUnreadMessagePreview) {
+                let lastUnseenMessageText = '';
+
+                // find the last readable message and remember its text
+                const lastReadableUnseenMessage = findReverse(
+                        this.props.unseenMessages, 
+                        message => !!getTextFromMessage(message)
+                );
+                if (lastReadableUnseenMessage) {
+                    lastUnseenMessageText = getTextFromMessage(lastReadableUnseenMessage);
+                }
+
+                this.setState({
+                    lastUnseenMessageText
+                });
+            }
+
+            // play a notification for unread messages
+            if (unseenMessages.length > 0 && this.props.config.settings.enableUnreadMessageSound) {
+                notificationSound.play();
+            }
+        }
+
+        // initialize the title indicator if configured
+        if (
+            this.props.config.settings.enableUnreadMessageTitleIndicator 
+            && this.props.config.settings.enableUnreadMessageTitleIndicator !== prevProps.config.settings.enableUnreadMessageTitleIndicator
+        ) {
+            this.initializeTitleIndicator();
+        }
+    }
+
+    componentWillUnmount() {
+        /**
+         * this tears down the "unread messages" title indicator
+         */
+        if (this.unreadTitleIndicatorInterval) {
+            clearInterval(this.unreadTitleIndicatorInterval);
+            this.unreadTitleIndicatorInterval = null;
+        }
+    }
+    
+    /**
+     * This sets up the "unread messages" title indicator interval.
+     * It should only be registered once!
+     */
+    initializeTitleIndicator = () => {
+        if (this.unreadTitleIndicatorInterval)
+            return;
+
+        this.unreadTitleIndicatorInterval = setInterval(this.toggleTitleIndicator, 1000);
+    }
+
+    toggleTitleIndicator = () => {
+        if (this.titleType === 'unread') {
+            document.title = this.originalTitle;
+            this.titleType = 'original';
+        } else {
+            if (this.props.unseenMessages.length > 0) {
+                document.title = `(${this.props.unseenMessages.length}) ${(this.props.unseenMessages.length === 1) ? this.props.config.settings.unreadMessageTitleText : this.props.config.settings.unreadMessageTitleTextPlural}`; 
+                this.titleType = 'unread';
+            }
         }
     }
 
@@ -166,6 +249,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 inputMode={this.props.inputMode}
                 webchatTheme={this.state.theme}
                 onEmitAnalytics={this.props.onEmitAnalytics}
+                theme={this.state.theme}
             />
         );
     }
@@ -173,6 +257,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     render() {
         const { props, state } = this;
         const { messages,
+            unseenMessages,
             onSendMessage,
             config,
             open,
@@ -190,14 +275,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             reconnectionLimit,
             ...restProps
         } = props;
-        const { theme, hadConnection } = state;
+        const { theme, hadConnection, lastUnseenMessageText } = state;
 
         const { disableToggleButton, enableConnectionStatusIndicator } = config.settings;
 
         if (!this.props.config.active)
             return null;
 
-        const showDisconnectOverlay =  enableConnectionStatusIndicator && !connected && hadConnection;
+        const showDisconnectOverlay = enableConnectionStatusIndicator && !connected && hadConnection;
 
         return (
             <>
@@ -220,19 +305,42 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                     </WebchatRoot>
                                 )}
                                 {!disableToggleButton && (
-                                    <FAB
-                                        data-cognigy-webchat-toggle
-                                        onClick={onToggle}
-                                        {...webchatToggleProps}
-                                        type='button'
-                                        className="webchat-toggle-button"
-                                    >
-                                        {open ? (
-                                            <CloseIcon />
-                                        ) : (
-                                                <ChatIcon />
-                                            )}
-                                    </FAB>
+                                    <div>
+                                        {
+                                            // Show the message teaser if there is a last bot message and the webchat is closed
+                                            lastUnseenMessageText && (
+                                                <UnreadMessagePreview
+                                                    className="webchat-unread-message-preview"
+                                                    onClick={onToggle}
+                                                >
+                                                    {lastUnseenMessageText}
+                                                </UnreadMessagePreview>
+                                            )
+                                        }
+
+                                        <FAB
+                                            data-cognigy-webchat-toggle
+                                            onClick={onToggle}
+                                            {...webchatToggleProps}
+                                            type='button'
+                                            className="webchat-toggle-button"
+                                        >
+                                            {open ? (
+                                                <CloseIcon />
+                                            ) : (
+                                                    <ChatIcon />
+                                                )}
+                                            {
+                                                config.settings.enableUnreadMessageBadge ?
+                                                    <Badge
+                                                        content={unseenMessages.length}
+                                                        className='webchat-unread-message-badge'
+                                                    />
+                                                    :
+                                                    null
+                                            }
+                                        </FAB>
+                                    </div>
                                 )}
                             </CacheProvider>
                         </WebchatWrapper>
@@ -256,7 +364,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     connected={config.active}
                     logoUrl={config.settings.headerLogoUrl}
                     title={config.settings.title || 'Cognigy Webchat'}
-                />              
+                />
                 <HistoryWrapper disableBranding={config.settings.disableBranding} ref={this.history as any} className="webchat-chat-history">
                     {this.renderHistory()}
                 </HistoryWrapper>

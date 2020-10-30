@@ -3,17 +3,22 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
     <!-- <script src="./persistent-menu.webchat-plugin.js"></script> -->
     <script src="./webchat.js"></script>
     <script>
-        initWebchat('https://endpoint-trial.cognigy.ai/27ad495c2df515db1d04c1c6cfb3d84415d24affafc5570cc46d1b7b0f0392ea', {
+        initWebchat('https://endpoint-trial.cognigy.ai/325a1e29b99441f4640ba659706763fb77006e00dc0e3720600f523557d7afaa', {
             settings: {
                 // colorScheme: '#FAB'
+                enableUnreadMessageSound: true,
+                enableUnreadMessageBadge: true,
+                enableUnreadMessagePreview: true,
+                enableUnreadMessageTitleIndicator: true,
             }
-        }).then(webchat => {
+        }).then(function(webchat) {
             window.cognigyWebchat = webchat;
             // webchat.open();
         });

@@ -34,6 +34,8 @@ There are several classes that you need to take in consideration if you want to 
 * *webchat-input-persistent-menu-title*
 * *webchat-input-persistent-menu-item*
 * *webchat-toggle-button*
+* *webchat-unread-message-preview*
+* *webchat-unread-message-badge*
 
 If you want to be sure that the custom CSS that you apply will be showed, you will have to add some other selectors to those classes, for the Webchat we will use the attribute selectors:
 ```CSS
@@ -309,8 +311,24 @@ This is the button to open the Webchat, if you want to modify its color you have
     background-image: none;
     background-color: rgb(5, 5, 131);
 }
-
 ```
+
+* *webchat-unread-message-preview*
+This is the message bubble which is diplayed next to the *webchat-toggle-button*, when the user retreived an unread message from Cognigy.
+```CSS
+[data-cognigy-webchat-root] .webchat-unread-message-preview {
+    background-color: rgb(5, 5, 131);
+}
+```
+
+* *webchat-unread-message-badge*
+This is the unread message count which is diplayed next to the *webchat-toggle-button*, when the user retreived an unread message from Cognigy.
+```CSS
+[data-cognigy-webchat-root] .webchat-unread-message-badge {
+    background-color: 'white';
+}
+```
+
 ## Webchat templates messages customization
 
 Our Webchat ships with message templates out of the box (Quick replies, Buttons, Image Galleries, Media, Lists) these elements can be also customized to meet design guidelines even more!
