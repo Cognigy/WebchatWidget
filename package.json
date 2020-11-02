@@ -18,7 +18,10 @@
         "speech-output-legacy": "webpack --config webpack.production-plugin.legacy.js --entry ./src/plugins/speech-output/index.tsx --output dist/speech-output.webchat-plugin.legacy.js",
         "speech-output": "webpack --config webpack.production-plugin.js --entry ./src/plugins/speech-output/index.tsx --output dist/speech-output.webchat-plugin.js",
         "webchat-legacy": "webpack --config webpack.production.legacy.js --output dist/webchat.legacy.js",
-        "webchat": "webpack --config webpack.production.js"
+        "webchat": "webpack --config webpack.production.js",
+        "cypress:open": "cypress open",
+        "cypress:serve": "http-server -a localhost -p 7878 -i e2e.html dist/",
+        "cypress:run": "cypress run"
     },
     "dependencies": {
         "@cognigy/socket-client": "^4.4.0",
@@ -69,6 +72,7 @@
         "babel-loader": "^8.0.6",
         "babel-polyfill": "^6.26.0",
         "css-loader": "^2.1.0",
+        "cypress": "^5.5.0",
         "idempotent-babel-polyfill": "^7.4.4",
         "react-svg-loader": "^3.0.3",
         "style-loader": "^0.23.1",
