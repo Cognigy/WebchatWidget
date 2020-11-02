@@ -57,6 +57,7 @@ export interface WebchatUIProps {
     onToggle: () => void;
 
     onEmitAnalytics: (event: string, payload?: any) => void;
+    onTriggerEngagementMessage: () => void;
 
     webchatRootProps?: React.ComponentProps<typeof WebchatRoot>;
     webchatToggleProps?: React.ComponentProps<typeof FAB>;
@@ -72,6 +73,7 @@ interface WebchatUIState {
     /* Initially false, true from the point of first connection */
     hadConnection: boolean;
     lastUnseenMessageText: string;
+    wasOpen: boolean;
 }
 
 const stylisPlugins = [
@@ -107,14 +109,17 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         messagePlugins: [],
         inputPlugins: [],
         hadConnection: false,
-        lastUnseenMessageText: ""
+        lastUnseenMessageText: "",
+        wasOpen: false
     };
 
     history: React.RefObject<ChatScroller>;
 
-    private unreadTitleIndicatorInterval: ReturnType<typeof setTimeout> | null = null;
+    private unreadTitleIndicatorInterval: ReturnType<typeof setInterval> | null = null;
     private originalTitle: string = window.document.title;
     private titleType: 'original' | 'unread' = 'original';
+
+    private engagementMessageTimeout: ReturnType<typeof setTimeout> | null = null;
 
     constructor(props) {
         super(props);
@@ -143,6 +148,15 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         
         if (this.props.config.settings.enableUnreadMessageTitleIndicator) {
             this.initializeTitleIndicator();
+        }
+
+        // initialize the engagement message if configured
+        this.initializeEngagementMessage();
+
+        if (this.props.open) {
+            this.setState({
+                wasOpen: true
+            });
         }
     }
 
@@ -193,6 +207,15 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         ) {
             this.initializeTitleIndicator();
         }
+
+        // initialize the engagement message if configured
+        this.initializeEngagementMessage();
+
+        if (this.props.open && !this.state.wasOpen) {
+            this.setState({
+                wasOpen: true
+            });
+        }
     }
 
     componentWillUnmount() {
@@ -202,6 +225,42 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         if (this.unreadTitleIndicatorInterval) {
             clearInterval(this.unreadTitleIndicatorInterval);
             this.unreadTitleIndicatorInterval = null;
+        }
+
+        /**
+         * this tears down the timeout for an "engagement message"
+         */
+        if (this.engagementMessageTimeout) {
+            clearTimeout(this.engagementMessageTimeout);
+            this.engagementMessageTimeout = null;
+        }
+    }
+
+    /**
+     * This triggers the engagement message in case the webchat
+     * was not yet open and the history is empty
+     */
+    triggerEngagementMessage = () => {
+        if (this.state.wasOpen || this.props.messages.length > 0)
+            return;
+
+        this.props.onTriggerEngagementMessage();
+    }
+
+    /**
+     * This sets up the "engagement message" timeout.
+     * It should only be registered once
+     */
+    initializeEngagementMessage = () => {
+        if (this.engagementMessageTimeout)
+            return;
+
+        if (
+            this.props.config.settings.engagementMessageText 
+            && typeof this.props.config.settings.engagementMessageDelay === 'number'
+            && this.props.config.settings.engagementMessageDelay >= 0
+        ) {
+            this.engagementMessageTimeout = setTimeout(this.triggerEngagementMessage, this.props.config.settings.engagementMessageDelay);
         }
     }
     
@@ -269,6 +328,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onDismissFullscreenMessage,
             onClose,
             onToggle,
+            onTriggerEngagementMessage,
             webchatRootProps,
             webchatToggleProps,
             connected,

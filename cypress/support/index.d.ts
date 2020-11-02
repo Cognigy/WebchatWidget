@@ -12,7 +12,7 @@ declare namespace Cypress {
       /**
        * Connects to a mocked endpoint and registers the "webchat" asset
        */
-      initMockWebchat(options?: any): Chainable<any>;
+      initMockWebchat(embeddingOptions?: any, endpointResponse?: any): Chainable<any>;
 
       getWebchat(): Chainable<any>;
 

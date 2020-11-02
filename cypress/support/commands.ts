@@ -25,18 +25,20 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('visitBuild', () => {
-    cy.visit('/e2e.html');
+    cy.visit('/');
 });
 
-Cypress.Commands.add('initMockWebchat', (options = {}) => {
-    cy.route2('GET', 'http://endpoint-mock.cognigy.ai/asdfqwer', {
-        "active": true,
-        "URLToken": "fake-url-token",
-        "settings": {}
-    });
+const defaultEndpointResponse = {
+    "active": true,
+    "URLToken": "fake-url-token",
+    "settings": {}
+}
+
+Cypress.Commands.add('initMockWebchat', (embeddingOptions = {}, endpointResponse = defaultEndpointResponse) => {
+    cy.route2('GET', 'http://endpoint-mock.cognigy.ai/asdfqwer', endpointResponse);
 
     cy.window().then(window => {
-        return window.initWebchat('http://endpoint-mock.cognigy.ai/asdfqwer', options);
+        return window.initWebchat('http://endpoint-mock.cognigy.ai/asdfqwer', embeddingOptions);
     }).as('webchat');   
 });
 

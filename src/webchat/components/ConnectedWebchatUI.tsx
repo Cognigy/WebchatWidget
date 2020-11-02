@@ -1,7 +1,7 @@
 import { WebchatUI, WebchatUIProps } from "../../webchat-ui";
 import { connect } from "react-redux";
 import { StoreState } from "../store/store";
-import { sendMessage } from '../store/messages/message-middleware';
+import { sendMessage, triggerEngagementMessage } from '../store/messages/message-middleware';
 import { setInputMode, setFullscreenMessage, setOpen, toggleOpen } from '../store/ui/ui-reducer';
 import { getPluginsForMessage, isFullscreenPlugin } from '../../plugins/helper';
 
@@ -28,7 +28,8 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onSetFullscreenMessage: message => dispatch(setFullscreenMessage(message)),
         onDismissFullscreenMessage: () => dispatch(setFullscreenMessage(undefined)),
         onClose: () => dispatch(setOpen(false)),
-        onToggle: () => dispatch(toggleOpen())
+        onToggle: () => dispatch(toggleOpen()),
+        onTriggerEngagementMessage: () => dispatch(triggerEngagementMessage())
     }),
     ({ fullscreenMessage, ...state }, dispatch, props) => {
         if (!fullscreenMessage) {

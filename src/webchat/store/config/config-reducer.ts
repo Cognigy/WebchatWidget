@@ -30,6 +30,8 @@ const getInitialState = (): ConfigState => ({
         enableUnreadMessagePreview: false,
         enableUnreadMessageSound: false,
         enableUnreadMessageTitleIndicator: false,
+        engagementMessageText: '',
+        engagementMessageDelay: 5000,
         getStartedButtonText: '',
         getStartedPayload: '',
         getStartedText: '',

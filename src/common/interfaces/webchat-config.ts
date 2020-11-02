@@ -27,6 +27,8 @@ export interface IWebchatSettings {
     enableUnreadMessagePreview: boolean;
     enableUnreadMessageSound: boolean;
     enableUnreadMessageTitleIndicator: boolean;
+    engagementMessageDelay: number;
+    engagementMessageText: string;
     getStartedButtonText: string;
     getStartedPayload: string;
     getStartedText: string;

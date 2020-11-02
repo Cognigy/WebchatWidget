@@ -5,7 +5,7 @@ import { addMessage } from "./message-reducer";
 import { Omit } from "react-redux";
 import { setFullscreenMessage } from "../ui/ui-reducer";
 import { SetConfigAction } from "../config/config-reducer";
-import { ReceiveMessageAction } from "./message-handler";
+import { receiveMessage, ReceiveMessageAction } from "./message-handler";
 import { sanitizeHTML } from "../../helper/sanitize";
 import { SocketClient } from "@cognigy/socket-client";
 
@@ -32,6 +32,12 @@ export const sendMessage = (message: Omit<IMessage, 'source'>, options: Partial<
 });
 export type SendMessageAction = ReturnType<typeof sendMessage>;
 
+const TRIGGER_ENGAGEMENT_MESSAGE = 'TRIGGER_ENGAGEMENT_MESSAGE';
+export const triggerEngagementMessage = () => ({
+    type: TRIGGER_ENGAGEMENT_MESSAGE as 'TRIGGER_ENGAGEMENT_MESSAGE'
+});
+type TriggerEngagementMessageAction = ReturnType<typeof triggerEngagementMessage>;
+
 const getAvatarForMessage = (message: IMessage, state: StoreState) => {
     switch (message.source) {
         case 'agent':
@@ -44,7 +50,7 @@ const getAvatarForMessage = (message: IMessage, state: StoreState) => {
 }
 
 // forwards messages to the socket
-export const createMessageMiddleware = (client: SocketClient): Middleware<{}, StoreState> => store => next => (action: SendMessageAction | ReceiveMessageAction | SetConfigAction) => {
+export const createMessageMiddleware = (client: SocketClient): Middleware<{}, StoreState> => store => next => (action: SendMessageAction | ReceiveMessageAction | SetConfigAction | TriggerEngagementMessageAction) => {
     switch (action.type) {
         case 'SEND_MESSAGE': {
             const { message, options } = action;
@@ -109,6 +115,20 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
                     next(addMessage({ text: label, source: 'user' }))
                 }
             }
+            break;
+        }
+
+        case 'TRIGGER_ENGAGEMENT_MESSAGE': {
+            const text = store.getState().config.settings.engagementMessageText;
+            
+            if (text) {
+                store.dispatch(receiveMessage({
+                    source: 'bot',
+                    traceId: `engagement-${Math.random()}`,
+                    text
+                }));
+            }
+
             break;
         }
     }

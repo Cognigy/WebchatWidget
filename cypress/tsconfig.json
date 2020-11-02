@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "jsx": "react",
         "target": "es5",
         "lib": [
             "es5",
@@ -10,6 +11,7 @@
         ]
     },
     "include": [
-        "**/*.ts"
+        "**/*.ts",
+        "../src/**/*.tsx"
     ]
 }

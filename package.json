@@ -20,7 +20,7 @@
         "webchat-legacy": "webpack --config webpack.production.legacy.js --output dist/webchat.legacy.js",
         "webchat": "webpack --config webpack.production.js",
         "cypress:open": "cypress open",
-        "cypress:serve": "http-server -a localhost -p 7878 -i e2e.html dist/",
+        "cypress:serve": "http-server -a localhost -p 8787 dist/",
         "cypress:run": "cypress run"
     },
     "dependencies": {
