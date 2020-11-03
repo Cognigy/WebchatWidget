@@ -119,7 +119,7 @@ describe('Engagement Message', () => {
             .contains('engagement message text', { timeout: 0 }).should('not.exist')
     });
 
-    it.only('should not show the engagement message in the history', () => {
+    it('should not show the engagement message in the history', () => {
         cy
             .visitBuild()
             .initMockWebchat({
@@ -142,7 +142,7 @@ describe('Engagement Message', () => {
             .contains('engagement message text').should('not.exist');
     });
 
-    it.only('should display the engagement message in the history if enableEngagementMessageInHistory is true', () => {
+    it('should display the engagement message in the history if enableEngagementMessageInHistory is true', () => {
 
         cy
             .visitBuild()
