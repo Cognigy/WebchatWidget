@@ -45,7 +45,7 @@ describe('Engagement Message', () => {
                 .should('not.be.visible')
     });
 
-    it('should not display the engagement message if the webchat was opened', () => {
+    it('should not trigger the engagement message if the webchat is open', () => {
         cy
             .visitBuild()
             .initMockWebchat({
@@ -56,6 +56,25 @@ describe('Engagement Message', () => {
                 }
             })
             .openWebchat()
+            .wait(500)
+            .window()
+                .contains('engagement message text', { timeout: 0 })
+                .should('not.exist')
+    });
+
+    it('should not trigger the engagement message if the webchat has been open before', () => {
+        cy
+            .visitBuild()
+            .initMockWebchat({
+                settings: {
+                    enableUnreadMessagePreview: true,
+                    engagementMessageText: 'engagement message text',
+                    engagementMessageDelay: 1
+                }
+            })
+            .get('[data-cognigy-webchat-toggle]')
+                .click()
+                .click()
             .wait(500)
             .window()
                 .contains('engagement message text', { timeout: 0 })

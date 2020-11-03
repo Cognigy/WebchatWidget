@@ -48,6 +48,7 @@ const getAvatarForMessage = (message: IMessage, state: StoreState) => {
         case 'agent':
             return state.ui.agentAvatarOverrideUrl || state.config.settings.agentAvatarUrl || defaultAgentAvatar;
         case 'bot':
+        case 'engagement':
             return state.ui.botAvatarOverrideUrl || state.config.settings.messageLogoUrl || defaultBotAvatar;
         case 'user':
             return state.ui.userAvatarOverrideUrl || state.config.settings.userAvatarUrl || defaultUserAvatar;
@@ -111,7 +112,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
             
             if (text) {
                 store.dispatch(receiveMessage({
-                    source: 'bot',
+                    source: 'engagement',
                     traceId: `engagement-${Math.random()}`,
                     text
                 }));
@@ -129,7 +130,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
                 break;
 
             // TODO
-            const isEmptyExceptEngagementMesage = state.messages.length === 0;
+            const isEmptyExceptEngagementMesage = state.messages.filter(message => message.source !== 'engagement').length === 0;
             if (!isEmptyExceptEngagementMesage)
                 break;
 
