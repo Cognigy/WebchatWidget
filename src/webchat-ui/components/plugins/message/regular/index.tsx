@@ -66,7 +66,7 @@ const RegularMessage = ({
 const regularMessagePlugin: MessagePlugin = {
   match: ({ text, source }, config) => {
     // do not render engagement messages unless configured!
-    if (source === 'engagement' && !config.settings.enableEngagementMessageInHistory) {
+    if (source === 'engagement' && !config.settings.showEngagementMessagesInChat) {
       return false;
     }
     

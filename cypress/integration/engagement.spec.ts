@@ -142,7 +142,7 @@ describe('Engagement Message', () => {
             .contains('engagement message text').should('not.exist');
     });
 
-    it('should display the engagement message in the history if enableEngagementMessageInHistory is true', () => {
+    it('should display the engagement message in the history if showEngagementMessagesInChat is true', () => {
 
         cy
             .visitBuild()
@@ -151,7 +151,7 @@ describe('Engagement Message', () => {
                     enableUnreadMessagePreview: true,
                     engagementMessageText: 'engagement message text',
                     engagementMessageDelay: 1,
-                    enableEngagementMessageInHistory: true
+                    showEngagementMessagesInChat: true
                 }
             })
             .wait(500);

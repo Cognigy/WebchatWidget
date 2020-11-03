@@ -63,7 +63,6 @@ See it in action:
 | disableTextInputSanitization | boolean | false | | | By default, text inputs from the user will be sanitized for HTML with scripting. If you set this to true, users can send any kind of HTML text, including script-tags and onload-attributes etc.
 | dynamicImageAspectRatio | boolean | false | | | If true, images from the "gallery", "attachment" or "top list item" template will not have a forced aspect ratio and will be fully displayed full-width without cropping
 | enableConnectionStatusIndicator | boolean | true | | | Whether to show a warning if the connection is lost during a conversation. The warning will disappear when the connection is re-established.
-| enableEngagementMessageInHistory | boolean | false | | | If this is true, then engagement messages will also be shown in the message history |
 | enablePersistentMenu | boolean | false | x | | Whether to enable the Persistent Menu 
 | enableStrictMessengerSync | boolean | false | | | If set to true, will NOT render the message from the "Messenger" tab in the SAY node unless "Use Facebook Channel" is checked in the "Webchat" tab. 
 | enableSTT | boolean | false | x | x | Whether to load the speech input plugin.
@@ -83,6 +82,7 @@ See it in action:
 | inputPlaceholder | string | "Write a reply" | x | | The placeholder text to display in the input field. 
 | messageLogoUrl | string | COGNIGY.AI Logo | x | | A custom avatar that should be displayed next to bot messages. Defaults to a COGNIGY.AI logo. 
 | persistentMenu | [Persistent Menu](#persistent-menu) | - | x | | The Persistent Menu to render in the Webchat.
+| showEngagementMessagesInChat | boolean | false | | | If this is true, then engagement messages will also be shown in the chat window |
 | startBehavior | 'none' , 'button', 'injection' | 'none' | x | | If 'none', will start the webchat with a text input, 'button' will display a get started button with a preconfigured message, 'injection' will automatically send a message to the bot. |
 | title | string | Cognigy Webchat | x | | The text that will be shown in the title bar of the Webchat |
 | unreadMessageTitleText | string | "New Message" | x | | The website title that is displayed when the user retrieved one new message |

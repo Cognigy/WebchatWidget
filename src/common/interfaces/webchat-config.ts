@@ -17,7 +17,7 @@ export interface IWebchatSettings {
     disableToggleButton: boolean;
     dynamicImageAspectRatio: boolean;
     enableConnectionStatusIndicator: boolean;
-    enableEngagementMessageInHistory: boolean;
+    showEngagementMessagesInChat: boolean;
     enableFileUpload: boolean;
     enablePersistentMenu: boolean;
     enableSTT: boolean;
