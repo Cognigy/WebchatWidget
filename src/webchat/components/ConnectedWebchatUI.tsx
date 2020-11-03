@@ -1,12 +1,12 @@
 import { WebchatUI, WebchatUIProps } from "../../webchat-ui";
 import { connect } from "react-redux";
 import { StoreState } from "../store/store";
-import { sendMessage, triggerEngagementMessage } from '../store/messages/message-middleware';
+import { sendMessage, triggerEngagementMessage, triggerInjectionMessage } from '../store/messages/message-middleware';
 import { setInputMode, setFullscreenMessage, setOpen, toggleOpen } from '../store/ui/ui-reducer';
 import { getPluginsForMessage, isFullscreenPlugin } from '../../plugins/helper';
 
 type FromState = Pick<WebchatUIProps, 'messages' | 'unseenMessages' | 'open' | 'typingIndicator' | 'inputMode' | 'fullscreenMessage' | 'config' | 'connected' | 'reconnectionLimit'>;
-type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' >;
+type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' | 'onTriggerEngagementMessage' | 'onTriggerInjectionMessage' >;
 export type FromProps = Pick<WebchatUIProps, 'messagePlugins' | 'inputPlugins' | 'webchatRootProps' | 'webchatToggleProps'>;
 type Merge = FromState & FromDispatch & FromProps & Pick<WebchatUIProps, 'fullscreenMessage'>;
 
@@ -29,7 +29,8 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onDismissFullscreenMessage: () => dispatch(setFullscreenMessage(undefined)),
         onClose: () => dispatch(setOpen(false)),
         onToggle: () => dispatch(toggleOpen()),
-        onTriggerEngagementMessage: () => dispatch(triggerEngagementMessage())
+        onTriggerEngagementMessage: () => dispatch(triggerEngagementMessage()),
+        onTriggerInjectionMessage: () => dispatch(triggerInjectionMessage())
     }),
     ({ fullscreenMessage, ...state }, dispatch, props) => {
         if (!fullscreenMessage) {

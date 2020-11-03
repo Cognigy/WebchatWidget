@@ -58,6 +58,7 @@ export interface WebchatUIProps {
 
     onEmitAnalytics: (event: string, payload?: any) => void;
     onTriggerEngagementMessage: () => void;
+    onTriggerInjectionMessage: () => void;
 
     webchatRootProps?: React.ComponentProps<typeof WebchatRoot>;
     webchatToggleProps?: React.ComponentProps<typeof FAB>;
@@ -216,6 +217,12 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 wasOpen: true
             });
         }
+
+        // when the webchat is opened for the first time, trigger the injection message
+        // this will do nothing if it's not configured!
+        if (!prevState.wasOpen && this.state.wasOpen) {
+            this.props.onTriggerInjectionMessage();
+        }
     }
 
     componentWillUnmount() {
@@ -329,6 +336,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onClose,
             onToggle,
             onTriggerEngagementMessage,
+            onTriggerInjectionMessage,
             webchatRootProps,
             webchatToggleProps,
             connected,

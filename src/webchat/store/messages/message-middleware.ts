@@ -1,10 +1,9 @@
-import { Middleware, Store } from "redux";
+import { Middleware } from "redux";
 import { StoreState } from "../store";
 import { IMessage, IBotMessage } from "../../../common/interfaces/message";
 import { addMessage } from "./message-reducer";
 import { Omit } from "react-redux";
 import { setFullscreenMessage } from "../ui/ui-reducer";
-import { SetConfigAction } from "../config/config-reducer";
 import { receiveMessage, ReceiveMessageAction } from "./message-handler";
 import { sanitizeHTML } from "../../helper/sanitize";
 import { SocketClient } from "@cognigy/socket-client";
@@ -38,6 +37,12 @@ export const triggerEngagementMessage = () => ({
 });
 type TriggerEngagementMessageAction = ReturnType<typeof triggerEngagementMessage>;
 
+const TRIGGER_INJECTION_MESSAGE = 'TRIGGER_INJECTION_MESSAGE';
+export const triggerInjectionMessage = () => ({
+    type: TRIGGER_INJECTION_MESSAGE as 'TRIGGER_INJECTION_MESSAGE'
+});
+type TriggerInjectionMessageAction = ReturnType<typeof triggerInjectionMessage>;
+
 const getAvatarForMessage = (message: IMessage, state: StoreState) => {
     switch (message.source) {
         case 'agent':
@@ -50,7 +55,7 @@ const getAvatarForMessage = (message: IMessage, state: StoreState) => {
 }
 
 // forwards messages to the socket
-export const createMessageMiddleware = (client: SocketClient): Middleware<{}, StoreState> => store => next => (action: SendMessageAction | ReceiveMessageAction | SetConfigAction | TriggerEngagementMessageAction) => {
+export const createMessageMiddleware = (client: SocketClient): Middleware<{}, StoreState> => store => next => (action: SendMessageAction | ReceiveMessageAction | TriggerEngagementMessageAction | TriggerInjectionMessageAction) => {
     switch (action.type) {
         case 'SEND_MESSAGE': {
             const { message, options } = action;
@@ -101,23 +106,6 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
             break;
         }
 
-        case 'SET_CONFIG': {
-            const config = action.config;
-
-            if (config && store.getState().messages.length === 0) {
-                const isInjectBehavior = config.settings.startBehavior === 'injection';
-
-                if (isInjectBehavior) {
-                    const text = config.settings.getStartedPayload;
-                    const label = config.settings.getStartedText;
-
-                    client.sendMessage(text);
-                    next(addMessage({ text: label, source: 'user' }))
-                }
-            }
-            break;
-        }
-
         case 'TRIGGER_ENGAGEMENT_MESSAGE': {
             const text = store.getState().config.settings.engagementMessageText;
             
@@ -128,6 +116,37 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
                     text
                 }));
             }
+
+            break;
+        }
+
+        case 'TRIGGER_INJECTION_MESSAGE': {
+            const state = store.getState();
+
+            const isInjectBehavior = state.config.settings.startBehavior === 'injection' 
+                && state.config.settings.getStartedPayload;
+            if (!isInjectBehavior)
+                break;
+
+            // TODO
+            const isEmptyExceptEngagementMesage = state.messages.length === 0;
+            if (!isEmptyExceptEngagementMesage)
+                break;
+
+            const text = state.config.settings.getStartedPayload;
+            const label = state.config.settings.getStartedText;
+
+
+            /**
+             * IMPORTANT
+             * We are calling client.sendMessage, not webchat.sendMessage!
+             * This means the client will not auto-connect.
+             * The message will be sent as soon as the client connects
+             * 
+             * We manually add the message to the history
+             */
+            client.sendMessage(text);
+            next(addMessage({ text: label, source: 'user' }));
 
             break;
         }
