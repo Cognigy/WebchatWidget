@@ -1,5 +1,4 @@
 import * as React from "react";
-import { IMessage } from "../../../../../common/interfaces/message";
 import {
   MessagePlugin,
   MessageComponentProps
@@ -65,7 +64,16 @@ const RegularMessage = ({
 };
 
 const regularMessagePlugin: MessagePlugin = {
-  match: ({ text }) => !!text,
+  match: ({ text, source }, config) => {
+    // do not render engagement messages unless configured!
+    if (source === 'engagement' && !config.settings.enableEngagementMessageInHistory) {
+      return false;
+    }
+    
+    const hasText = !!text;
+
+    return hasText;
+  },
   component: RegularMessage
 };
 
