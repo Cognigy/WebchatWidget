@@ -31,7 +31,7 @@ describe('Start Behavior', () => {
             .window().contains('get started').should('not.exist');
     });
 
-    it('should automatically send a "get started message" even if the history contains only "engagement messages"', () => {
+    it('should automatically send a "get started message" even if the history contains an engagement message', () => {
         cy
             .visitBuild()
             .initMockWebchat({
@@ -44,8 +44,9 @@ describe('Start Behavior', () => {
                 }
             })
             .wait(500)
-            .get('[data-cognigy-webchat-toggle]').click()
-            .window().contains('engagement message').should('be.visible')
-            .window().contains('get started').should('be.visible');
+        
+        cy.get('[data-cognigy-webchat-toggle]').click();
+        
+        cy.contains('get started').should('be.visible');
     })
 });
