@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { StateType } from 'typesafe-actions';
 import { createMessageMiddleware } from './messages/message-middleware';
 import { registerMessageHandler } from './messages/message-handler';
@@ -13,6 +13,7 @@ import { Webchat } from '../components/Webchat';
 import { IWebchatSettings } from '../../common/interfaces/webchat-config';
 import { uiMiddleware } from './ui/ui-middleware';
 import { registerUiHandler } from './ui/ui-handler';
+import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 
 
 export type StoreState = StateType<typeof reducer>;
@@ -20,17 +21,17 @@ export type StoreState = StateType<typeof reducer>;
 // creates a store and connects it to a webchat client
 export const createWebchatStore = (webchat: Webchat, url: string, overrideWebchatSettings?: IWebchatSettings) => {
     const { client } = webchat;
-
+    
     const store = createStore(
         reducer,
-        applyMiddleware(
+        composeWithDevTools(applyMiddleware(
             createAnalyticsMiddleware(webchat),
             createConnectionMiddleware(client),
             createMessageMiddleware(client),
             createConfigMiddleware(url, overrideWebchatSettings),
             optionsMiddleware,
-            uiMiddleware
-        )
+            uiMiddleware    
+        ))
     );
 
     registerMessageHandler(store, client);

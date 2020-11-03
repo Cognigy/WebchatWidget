@@ -6,7 +6,7 @@ import { setInputMode, setFullscreenMessage, setOpen, toggleOpen } from '../stor
 import { getPluginsForMessage, isFullscreenPlugin } from '../../plugins/helper';
 
 type FromState = Pick<WebchatUIProps, 'messages' | 'unseenMessages' | 'open' | 'typingIndicator' | 'inputMode' | 'fullscreenMessage' | 'config' | 'connected' | 'reconnectionLimit'>;
-type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' | 'onTriggerEngagementMessage' | 'onTriggerInjectionMessage' >;
+type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' | 'onTriggerEngagementMessage' >;
 export type FromProps = Pick<WebchatUIProps, 'messagePlugins' | 'inputPlugins' | 'webchatRootProps' | 'webchatToggleProps'>;
 type Merge = FromState & FromDispatch & FromProps & Pick<WebchatUIProps, 'fullscreenMessage'>;
 
@@ -29,8 +29,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onDismissFullscreenMessage: () => dispatch(setFullscreenMessage(undefined)),
         onClose: () => dispatch(setOpen(false)),
         onToggle: () => dispatch(toggleOpen()),
-        onTriggerEngagementMessage: () => dispatch(triggerEngagementMessage()),
-        onTriggerInjectionMessage: () => dispatch(triggerInjectionMessage())
+        onTriggerEngagementMessage: () => dispatch(triggerEngagementMessage())
     }),
     ({ fullscreenMessage, ...state }, dispatch, props) => {
         if (!fullscreenMessage) {

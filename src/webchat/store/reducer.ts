@@ -32,6 +32,7 @@ export const reducer = (currentState = rootReducer(undefined, { type: '' }), act
             
             // lossy ui state should not be restored, take the old value!
             newState.connection.connected = currentState.connection.connected;
+            newState.connection.connecting = currentState.connection.connecting;
             newState.ui.isPageVisible = currentState.ui.isPageVisible;
             newState.config = currentState.config;
 
