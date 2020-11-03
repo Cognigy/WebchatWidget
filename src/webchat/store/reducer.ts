@@ -23,7 +23,7 @@ export const resetState = (state?: StoreState) => ({
 });
 export type ResetStateAction = ReturnType<typeof resetState>;
 
-export const reducer = (state = rootReducer(undefined, { type: '' }), action) => {
+export const reducer = (currentState = rootReducer(undefined, { type: '' }), action) => {
     switch (action.type) {
         case 'RESET_STATE': {
 
@@ -31,19 +31,22 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
             const newState = action.state;
             
             // lossy ui state should not be restored, take the old value!
-            newState.connection.connected = state.connection.connected;
-            newState.ui.isPageVisible = state.ui.isPageVisible;
-            newState.config = state.config;
+            newState.connection.connected = currentState.connection.connected;
+            newState.ui.isPageVisible = currentState.ui.isPageVisible;
+            newState.config = currentState.config;
 
             // do not restore unseen messages, would be weird with the open and isPageVisible state!
             newState.unseenMessages = [];
 
             // if the webchat was open already, do not close it again
-            newState.ui.open = state.ui.open || newState.ui.open;
+            newState.ui.open = currentState.ui.open || newState.ui.open;
+
+            // prepend the restored history to the current history
+            newState.messages = [...newState.messages, ...currentState.messages];
 
             return rootReducer(newState, { type: '' });
         };
     };
 
-    return rootReducer(state, action);
+    return rootReducer(currentState, action);
 };
