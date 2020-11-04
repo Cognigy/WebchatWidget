@@ -5,6 +5,7 @@ export const getBackgroundImage = (url: string) => {
     const escapedUrl = url
         // remove line breaks
         .replace(/\n/g, '')
+        .replace(/\r/g, '')
         // escape " and \
         .replace(/\"\\/g, char => `\${char}`);
 
