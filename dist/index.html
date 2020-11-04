@@ -11,8 +11,8 @@
 
         if (!isTesting) {
             initWebchat('https://endpoint-trial.cognigy.ai/325a1e29b99441f4640ba659706763fb77006e00dc0e3720600f523557d7afaa', {
-                userId: "Phil2",
-                sessionId: "Phil2",
+                userId: "user",
+                sessionId: "session",
                 settings: {
                     // colorScheme: '#FAB'
                     enableUnreadMessageSound: true,
@@ -21,8 +21,8 @@
                     enableUnreadMessageTitleIndicator: true,
                     showEngagementMessagesInChat: false,
                     getStartedText: "",
-                    engagementMessageText: "Hello Phil",
-                    engagementMessageDelay: 4000
+                    engagementMessageText: "Hi there!",
+                    engagementMessageDelay: 5000
                 }
             }).then(function(webchat) {
                 window.cognigyWebchat = webchat;
