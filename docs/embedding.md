@@ -73,7 +73,7 @@ See it in action:
 | enableUnreadMessageSound | boolean | false | x | | If true, plays a notification sound for each incoming unread message  
 | enableUnreadMessageTitleIndicator | boolean | false | | If true, will indicate the amount of unread messages in the page title every 1000ms
 | engagementMessageText | string | "" |  |  | If this is set to a non-empty string, there will be an automatic "fake" engagement message being triggered after a delay
-| engagementMessageDelay | number | 5000 | | | The timeout after which the engagement message should be triggered
+| engagementMessageDelay | number | 5000 | | | The timeout after which the engagement message should be triggered (in milliseconds)
 | getStartedButtonText | string | "GET_STARTED" | x | | The text to display on the Get Started Button / when sending the auto message. 
 | getStartedPayload | string | "GET_STARTED" | x | | The payload to send to your Flow when clicking the Get Started Button / when sending the auto message. 
 | getStartedText | string | "Get Started" | x | | The text to display in the Webchat when clicking the Get Started Button / when sending the auto message. 
