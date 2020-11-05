@@ -1,8 +1,11 @@
 {
     "name": "@cognigy/webchat",
     "version": "2.22.1",
-    "description": "> TODO: description",
-    "author": "Robin Schuster <r.schuster@cognigy.com>",
+    "description": "Webchat Widget for Cognigy.AI",
+    "author": "Cognigy GmbH <info@cognigy.com>",
+    "contributors": [
+        "Robin Schuster <r.schuster@cognigy.com>"
+    ],
     "license": "SEE LICENSE IN LICENSE",
     "main": "lib/webchat/index.js",
     "scripts": {
@@ -18,7 +21,12 @@
         "speech-output-legacy": "webpack --config webpack.production-plugin.legacy.js --entry ./src/plugins/speech-output/index.tsx --output dist/speech-output.webchat-plugin.legacy.js",
         "speech-output": "webpack --config webpack.production-plugin.js --entry ./src/plugins/speech-output/index.tsx --output dist/speech-output.webchat-plugin.js",
         "webchat-legacy": "webpack --config webpack.production.legacy.js --output dist/webchat.legacy.js",
-        "webchat": "webpack --config webpack.production.js"
+        "webchat": "webpack --config webpack.production.js",
+        "cypress:open": "cypress open",
+        "cypress:serve": "http-server -a localhost -p 8787 dist/",
+        "cypress:run": "cypress run",
+        "test": "run-p -r cypress:serve cypress:run",
+        "pretest": "npm run webchat"
     },
     "dependencies": {
         "@cognigy/socket-client": "^4.4.0",
@@ -69,8 +77,12 @@
         "babel-loader": "^8.0.6",
         "babel-polyfill": "^6.26.0",
         "css-loader": "^2.1.0",
+        "cypress": "^5.5.0",
+        "http-server": "^0.12.3",
         "idempotent-babel-polyfill": "^7.4.4",
+        "npm-run-all": "^4.1.5",
         "react-svg-loader": "^3.0.3",
+        "redux-devtools-extension": "^2.13.8",
         "style-loader": "^0.23.1",
         "svg-inline-loader": "^0.8.0",
         "svg-react-loader": "^0.4.6",

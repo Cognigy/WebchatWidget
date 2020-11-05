@@ -6,7 +6,7 @@ import { registerMessagePlugin } from '../helper';
 const processedMessageIds = new Set<string>();
 
 // only read out incoming messages with text
-const match: MessageMatcher = ({ text, source }) => source === 'bot' && !!text;
+const match: MessageMatcher = ({ text, source }) => source === 'bot' || source === 'engagement' && !!text;
 
 const SpeechOutput = (props: MessageComponentProps) => {
     if (processedMessageIds.has(props.message.traceId)) {

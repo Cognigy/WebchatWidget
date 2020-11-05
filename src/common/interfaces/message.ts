@@ -19,4 +19,9 @@ export interface IAgentMessage extends IBaseMessage {
     traceId: string;
 }
 
-export type IMessage = IUserMessage | IBotMessage | IAgentMessage;
+export interface IEngagementMessage extends IBaseMessage {
+    source: 'engagement';
+    traceId: string;
+}
+
+export type IMessage = IUserMessage | IBotMessage | IAgentMessage | IEngagementMessage;

@@ -72,6 +72,8 @@ See it in action:
 | enableUnreadMessagePreview | boolean | false | | | If true, the webchat shows a message bubble with the latest retrieved bot message.
 | enableUnreadMessageSound | boolean | false | x | | If true, plays a notification sound for each incoming unread message  
 | enableUnreadMessageTitleIndicator | boolean | false | | If true, will indicate the amount of unread messages in the page title every 1000ms
+| engagementMessageText | string | "" |  |  | If this is set to a non-empty string, there will be an automatic "fake" engagement message being triggered after a delay
+| engagementMessageDelay | number | 5000 | | | The timeout after which the engagement message should be triggered (in milliseconds)
 | getStartedButtonText | string | "GET_STARTED" | x | | The text to display on the Get Started Button / when sending the auto message. 
 | getStartedPayload | string | "GET_STARTED" | x | | The payload to send to your Flow when clicking the Get Started Button / when sending the auto message. 
 | getStartedText | string | "Get Started" | x | | The text to display in the Webchat when clicking the Get Started Button / when sending the auto message. 
@@ -80,6 +82,7 @@ See it in action:
 | inputPlaceholder | string | "Write a reply" | x | | The placeholder text to display in the input field. 
 | messageLogoUrl | string | COGNIGY.AI Logo | x | | A custom avatar that should be displayed next to bot messages. Defaults to a COGNIGY.AI logo. 
 | persistentMenu | [Persistent Menu](#persistent-menu) | - | x | | The Persistent Menu to render in the Webchat.
+| showEngagementMessagesInChat | boolean | false | | | If this is true, then engagement messages will also be shown in the chat window |
 | startBehavior | 'none' , 'button', 'injection' | 'none' | x | | If 'none', will start the webchat with a text input, 'button' will display a get started button with a preconfigured message, 'injection' will automatically send a message to the bot. |
 | title | string | Cognigy Webchat | x | | The text that will be shown in the title bar of the Webchat |
 | unreadMessageTitleText | string | "New Message" | x | | The website title that is displayed when the user retrieved one new message |

@@ -3,3 +3,6 @@ node_modules
 dist/*.js
 dist/*.zip
 dist/*.webmanifest
+
+cypress/screenshots
+cypress/videos

@@ -8,31 +8,72 @@ import MessageBubble from "../../../presentational/MessageBubble";
 const RegularMessage = ({
   message: { text, source }
 }: MessageComponentProps) => {
-  const className = (source: string) => {
+  const className = (() => {
     switch (source) {
       case "bot":
         return "regular-message bot";
+
       case "user":
         return "regular-message user";
+
       case "agent":
         return "regular-message agent";
+
+      case "engagement":
+        return "regular-message engagement";
+
       default:
-        break;
+        return "regular-message";
     }
-  };
+  })();
+
+  const color = (() => {
+    switch (source) {
+      case 'user':
+        return 'default';
+
+      case 'bot':
+      case 'agent':
+      case 'engagement':
+      default:
+        return 'primary';
+    }
+  })();
+
+  const align = (() => {
+    switch (source) {
+      case 'user':
+        return 'right';
+
+      case 'bot':
+      case 'agent':
+      case 'engagement':
+      default:
+        return 'left';
+    }
+  })();
 
   return (
     <MessageBubble
-      color={source === "bot" || source === "agent" ? "primary" : "default"}
-      align={source === "bot" || source === "agent" ? "left" : "right"}
+      color={color}
+      align={align}
       dangerouslySetInnerHTML={{ __html: text || "" }}
-      className={className(source)}
+      className={className}
     />
   );
 };
 
 const regularMessagePlugin: MessagePlugin = {
-  match: ({ text }) => !!text,
+  match: ({ text, source }, config) => {
+    // do not render engagement messages unless configured!
+    if (source === 'engagement' && !config.settings.showEngagementMessagesInChat) {
+      return false;
+    }
+    
+    const hasText = !!text;
+
+    return hasText;
+  },
   component: RegularMessage
 };
 

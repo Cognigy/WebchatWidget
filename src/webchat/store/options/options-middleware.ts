@@ -3,6 +3,7 @@ import { getOptionsKey } from "./options";
 import { StoreState } from "../store";
 import { SetOptionsAction } from "./options-reducer";
 import { resetState } from "../reducer";
+import { triggerInjectionMessage } from "../messages/message-middleware";
 
 type Actions = SetOptionsAction
 
@@ -14,6 +15,7 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
 
     switch (action.type) {
         case 'SET_OPTIONS': {
+            // TODO decouple this into a separate action or middleware handler
             if (browserStorage) {
                 const key = getOptionsKey(action.options);
                 const persistedString = browserStorage.getItem(key);
@@ -22,10 +24,13 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
                     try {
                         const persisted = JSON.parse(persistedString);
 
-                        return next(resetState(persisted));
+                        store.dispatch(resetState(persisted));
                     } catch (e) { }
                 }
+
             }
+            
+            store.dispatch(triggerInjectionMessage());
         }
     }
 

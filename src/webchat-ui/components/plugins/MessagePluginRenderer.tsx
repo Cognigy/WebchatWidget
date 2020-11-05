@@ -45,29 +45,56 @@ export default ({
   const matchedPlugins = getPluginsForMessage(plugins, config)(message);
   const source = message.source;
 
-  let className;
-  let avatar;
-  let align;
+  const className = (() => {
+    switch (source) {
+      case "user":
+        return "webchat-message-row user";
 
-  switch (source) {
-    case "user":
-      className = "webchat-message-row user";
-      avatar = "webchat-avatar user";
-      align = "right";
-      break;
-    case "bot":
-      className = "webchat-message-row bot";
-      avatar = "webchat-avatar bot";
-      align = "left";
-      break;
-    case "agent":
-      className = "webchat-message-row agent";
-      avatar = "webchat-avatar agent";
-      align = "left";
-      break;
-    default:
-      break;
-  }
+      case "bot":
+        return "webchat-message-row bot";
+
+      case "agent":
+        return "webchat-message-row agent";
+
+      case "engagement":
+        return "webchat-message-row engagement";
+      
+      default:
+        return "webchat-message-row";
+    }
+  })();
+
+  const avatarClassName = (() => {
+    switch (source) {
+      case "user":
+        return "webchat-avatar user";
+
+      case "bot":
+        return "webchat-avatar bot";
+
+      case "agent":
+        return "webchat-avatar agent";
+
+      case "engagement":
+        return "webchat-avatar engagement";
+      
+      default:
+        return "webchat-avatar";
+    }
+  })();
+
+  const align = (() => {
+    switch (source) {
+      case "user":
+        return "right";
+
+      case "bot":
+      case "agent":
+      case "engagement":
+      default: 
+        return "left"
+    }
+  })();
 
   return (
     <>
@@ -107,7 +134,7 @@ export default ({
 
           return (
             <MessageRow key={key} align={align} className={className}>
-              <Avatar src={message.avatarUrl as string} className={avatar} />
+              <Avatar src={message.avatarUrl as string} className={avatarClassName} />
               {messageElement}
             </MessageRow>
           );

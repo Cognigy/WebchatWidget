@@ -17,6 +17,7 @@ export interface IWebchatSettings {
     disableToggleButton: boolean;
     dynamicImageAspectRatio: boolean;
     enableConnectionStatusIndicator: boolean;
+    showEngagementMessagesInChat: boolean;
     enableFileUpload: boolean;
     enablePersistentMenu: boolean;
     enableSTT: boolean;
@@ -27,6 +28,8 @@ export interface IWebchatSettings {
     enableUnreadMessagePreview: boolean;
     enableUnreadMessageSound: boolean;
     enableUnreadMessageTitleIndicator: boolean;
+    engagementMessageDelay: number;
+    engagementMessageText: string;
     getStartedButtonText: string;
     getStartedPayload: string;
     getStartedText: string;
