@@ -1,0 +1,90 @@
+[
+	{
+		"text": null,
+		"data": {
+			"_cognigy": {
+				"_default": {
+					"_quickReplies": {
+						"type": "quick_replies",
+						"quickReplies": [
+							{
+								"id": 0.44535334241574,
+								"contentType": "postback",
+								"payload": "foobar003pb01",
+								"title": "foobar003qr01"
+							},
+							{
+								"id": 0.25146047888364853,
+								"contentType": "postback",
+								"payload": "foobar003pb02",
+								"title": "foobar003qr02",
+								"imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Wikipedia-favicon.png"
+							}
+						],
+						"text": "foobar003"
+					}
+				},
+				"_webchat": {
+					"message": {
+						"text": "foobar003",
+						"quick_replies": [
+							{
+								"content_type": "text",
+								"payload": "foobar003pb01",
+								"title": "foobar003qr01"
+							},
+							{
+								"content_type": "text",
+								"image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Wikipedia-favicon.png",
+								"payload": "foobar003pb02",
+								"title": "foobar003qr02"
+							}
+						]
+					}
+				}
+			}
+		}
+	},
+	{
+		"text": null,
+		"data": {
+			"_cognigy": {
+				"_default": {
+					"_quickReplies": {
+						"type": "quick_replies",
+						"quickReplies": [
+							{
+								"id": 0.44535334241574,
+								"contentType": "postback",
+								"payload": "foobar003pb01",
+								"title": "foobar003qr01"
+							},
+							{
+								"id": 0.25146047888364853,
+								"contentType": "postback",
+								"payload": "foobar003pb02",
+								"title": "foobar003qr02",
+								"imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Wikipedia-favicon.png"
+							}
+						],
+						"text": "foobar003"
+					}
+				},
+				"_webchat": {
+					"message": {
+						"text": "foobar003",
+						"quick_replies": [
+							{ "content_type": "text", "title": "foobar003qr01" },
+							{
+								"content_type": "text",
+								"image_url": "http://cognigy.com/favicon.ico",
+								"payload": "",
+								"title": "foobar003qr02"
+							}
+						]
+					}
+				}
+			}
+		}
+	}
+]
