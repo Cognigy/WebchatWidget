@@ -1,0 +1,87 @@
+{
+	"text": null,
+	"data": {
+		"_cognigy": {
+			"_default": {
+				"_buttons": {
+					"type": "buttons",
+					"text": "foobar005",
+					"buttons": [
+						{
+							"id": 0.6868293520794431,
+							"payload": "foobar005b1pb",
+							"type": "postback",
+							"title": "foobar005b1"
+						},
+						{
+							"id": 0.17194659386513078,
+							"payload": "",
+							"type": "web_url",
+							"title": "foobar005b2",
+							"url": "foobar005b1url1"
+						},
+						{
+							"id": 0.6458078881527971,
+							"payload": "",
+							"type": "postback",
+							"title": "foobar005b3"
+						},
+						{
+							"id": 0.4156873092236142,
+							"payload": "000111222",
+							"type": "phone_number",
+							"title": "foobar005b4"
+						},
+						{
+							"id": 0.8354721780646182,
+							"payload": "null",
+							"type": "postback",
+							"title": ""
+						}
+					]
+				}
+			},
+			"_webchat": {
+				"message": {
+					"attachment": {
+						"type": "template",
+						"payload": {
+							"text": "foobar005",
+							"template_type": "button",
+							"buttons": [
+								{
+									"type": "postback",
+									"payload": "foobar005b1pb",
+									"title": "foobar005b1",
+									"url": "",
+									"webview_height_ratio": "full",
+									"messenger_extensions": false
+								},
+								{
+									"type": "web_url",
+									"title": "foobar005b2",
+									"url": "foobar005b1url1",
+									"messenger_extensions": false,
+									"webview_height_ratio": "full"
+								},
+								{
+									"type": "postback",
+									"payload": "",
+									"title": "foobar005b3",
+									"url": "",
+									"webview_height_ratio": "full",
+									"messenger_extensions": false
+								},
+								{
+									"title": "foobar005b4",
+									"type": "phone_number",
+									"payload": "000111222"
+								}
+							]
+						}
+					}
+				}
+			}
+		}
+	}
+}

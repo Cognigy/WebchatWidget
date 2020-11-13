@@ -1,0 +1,23 @@
+{
+	"text": null,
+	"data": {
+		"_cognigy": {
+			"_default": {
+				"_image": {
+					"type": "image",
+					"imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/06/Kitten_in_Rizal_Park%2C_Manila.jpg"
+				}
+			},
+			"_webchat": {
+				"message": {
+					"attachment": {
+						"type": "image",
+						"payload": {
+							"url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Kitten_in_Rizal_Park%2C_Manila.jpg"
+						}
+					}
+				}
+			}
+		}
+	}
+}

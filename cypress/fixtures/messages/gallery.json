@@ -1,0 +1,96 @@
+{
+	"text": null,
+	"data": {
+		"_cognigy": {
+			"_default": {
+				"_gallery": {
+					"type": "carousel",
+					"items": [
+						{
+							"title": "foobar004g1",
+							"subtitle": "",
+							"imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/06/Kitten_in_Rizal_Park%2C_Manila.jpg",
+							"buttons": [
+								{
+									"id": 0.9601740794827666,
+									"payload": "sw",
+									"type": "postback",
+									"title": "test"
+								}
+							],
+							"id": 0.5123901431260184
+						},
+						{
+							"title": "foobar004g2",
+							"subtitle": "foobar004g2sub1\nfoobar004g2sub2",
+							"imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/06/Kitten_in_Rizal_Park%2C_Manila.jpg",
+							"buttons": [],
+							"id": 0.9969017542005371
+						},
+						{
+							"title": "foobar004g3",
+							"subtitle": "",
+							"imageUrl": "",
+							"buttons": [],
+							"id": 0.2782939283042508
+						}
+					]
+				}
+			},
+			"_webchat": {
+				"message": {
+					"attachment": {
+						"type": "template",
+						"payload": {
+							"template_type": "generic",
+							"elements": [
+								{
+									"title": "foobar004g1",
+									"subtitle": "",
+									"image_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Kitten_in_Rizal_Park%2C_Manila.jpg",
+									"buttons": [
+										{
+											"type": "postback",
+											"payload": "sw",
+											"title": "foobar004g1b1"
+										},
+										{
+											"type": "postback",
+											"payload": "sw",
+											"title": "foobar004g1b2"
+										},
+										{
+											"type": "postback",
+											"payload": "sw",
+											"title": "foobar004g1b3"
+										},
+										{
+											"type": "postback",
+											"payload": "sw",
+											"title": "foobar004g1b4"
+										}
+									]
+								},
+								{
+									"title": "foobar004g2",
+									"subtitle": "foobar004g2sub1\nfoobar004g2sub2",
+									"image_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Kitten_in_Rizal_Park%2C_Manila.jpg",
+									"buttons": []
+								},
+								{
+									"title": "foobar004g3",
+									"subtitle": "",
+									"image_url": "",
+									"buttons": []
+								}
+							]
+						}
+					}
+				}
+			}
+		}
+	},
+	"traceId": "endpoint-realtimeClient-98112b29-c8d0-4066-83fc-9aad91c4be0e",
+	"disableSensitiveLogging": false,
+	"source": "bot"
+}

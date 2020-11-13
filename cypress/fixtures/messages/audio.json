@@ -1,0 +1,21 @@
+{
+	"text": null,
+	"data": {
+		"_cognigy": {
+			"_default": {
+				"_audio": {
+					"type": "audio",
+					"audioUrl": "https://www.winhistory.de/more/winstart/mp3/winxp.mp3"
+				}
+			},
+			"_webchat": {
+				"message": {
+					"attachment": {
+						"type": "audio",
+						"payload": { "url": "https://www.winhistory.de/more/winstart/mp3/winxp.mp3" }
+					}
+				}
+			}
+		}
+	}
+}

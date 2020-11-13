@@ -1,0 +1,52 @@
+{
+	"text": "THIS_TEXT_SHOULD_NOT_RENDER",
+	"data": {
+		"_cognigy": {
+			"_webchat": {
+				"message": {
+					"attachment": {
+						"type": "template",
+						"payload": {
+							"template_type": "list",
+							"elements": [
+								{
+									"title": "foobar009l1",
+									"subtitle": "foobar009ls1",
+									"image_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Kitten_in_Rizal_Park%2C_Manila.jpg",
+									"buttons": [
+										{
+											"payload": "foobar009l1b1",
+											"type": "postback",
+											"title": "foobar009l1b1"
+										}
+									]
+								},
+								{
+									"title": "foobar009l2",
+									"subtitle": "",
+									"image_url": "undefined",
+									"buttons": null,
+									"default_action": {
+										"type": "web_url",
+										"url": "https://example.com"
+									}
+								}
+							],
+							"top_element_style": "large",
+							"buttons": [
+								{
+									"title": "foobar009b1",
+									"type": "web_url",
+									"url": "https://example.com",
+									"payload": "",
+									"messenger_extensions": false,
+									"webview_height_ratio": "full"
+								}
+							]
+						}
+					}
+				}
+			}
+		}
+	}
+}

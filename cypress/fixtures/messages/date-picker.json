@@ -1,0 +1,23 @@
+{
+	"text": "",
+	"data": {
+		"_plugin": {
+			"type": "date-picker",
+			"data": {
+				"eventName": "foobar012",
+				"locale": "en",
+				"enableTime": false,
+				"mode": "single",
+				"wantDisable": false,
+				"enable_disable": null,
+				"minDate": "today",
+				"maxDate": "tomorrow",
+				"openPickerButtonText": "foobar012b1",
+				"cancelButtonText": "foobar012b2",
+				"submitButtonText": "foobar012b3",
+				"time_24hr": true,
+				"dateFormat": ""
+			}
+		}
+	}
+}

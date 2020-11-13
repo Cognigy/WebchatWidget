@@ -13,7 +13,7 @@ describe('Start Behavior', () => {
                 }
             })
             .get('[data-cognigy-webchat-toggle]').click()
-            .window().contains('get started').should('be.visible');
+            .contains('get started').should('be.visible');
     });
 
     it('should not send a "get started message" if the history contains messages', () => {
@@ -29,7 +29,7 @@ describe('Start Behavior', () => {
             .receiveMessage('fake bot message')
             .get('[data-cognigy-webchat-toggle]').click()
             .wait(100)
-            .window().contains('get started').should('not.exist');
+            .contains('get started').should('not.exist');
     });
 
     // to fix this test, we have to fake a real connection (message is triggered after the connection)

@@ -1,0 +1,23 @@
+{
+	"text": null,
+	"data": {
+		"_cognigy": {
+			"_default": {
+				"_video": {
+					"type": "video",
+					"videoUrl": "http://s3.amazonaws.com/akamai.netstorage/HD_downloads/Orion_SM.mp4"
+				}
+			},
+			"_webchat": {
+				"message": {
+					"attachment": {
+						"type": "video",
+						"payload": {
+							"url": "http://s3.amazonaws.com/akamai.netstorage/HD_downloads/Orion_SM.mp4"
+						}
+					}
+				}
+			}
+		}
+	}
+}
