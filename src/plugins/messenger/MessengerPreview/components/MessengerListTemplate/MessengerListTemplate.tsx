@@ -22,7 +22,7 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
 
     const MessengerListTemplate = ({ payload, onAction, config, ...divProps }: IMessengerListTemplateProps & React.HTMLProps<HTMLDivElement>) => {
         const { elements, top_element_style, buttons } = payload;
-console.log(top_element_style);
+        
         const regularElements = top_element_style
             ? elements.slice(1)
             : elements
