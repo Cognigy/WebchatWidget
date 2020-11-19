@@ -3,7 +3,7 @@ import { IFBMDefaultAction } from "./Action.interface";
 
 export interface IFBMListTemplatePayload {
     template_type: 'list';
-    top_element_style: 'large' | 'compact';
+    top_element_style: 'large' | 'compact' | boolean;
     elements: IFBMListTemplateElement[];
     buttons: IFBMButton[]
 }

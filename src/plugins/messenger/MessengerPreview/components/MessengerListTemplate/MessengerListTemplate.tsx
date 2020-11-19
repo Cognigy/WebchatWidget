@@ -23,7 +23,8 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
     const MessengerListTemplate = ({ payload, onAction, config, ...divProps }: IMessengerListTemplateProps & React.HTMLProps<HTMLDivElement>) => {
         const { elements, top_element_style, buttons } = payload;
 
-        const showTopElementLarge = top_element_style === "compact" ? false : top_element_style;
+        // We support the "large" string to maintain compatibility with old format
+        const showTopElementLarge = (top_element_style === "large" || top_element_style === true);
 
         const regularElements = showTopElementLarge
             ? elements.slice(1)
