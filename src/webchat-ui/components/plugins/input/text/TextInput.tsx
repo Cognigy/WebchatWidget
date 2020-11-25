@@ -230,9 +230,9 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                             onBlur={() => this.setState({ active: false })}
                             placeholder={props.config.settings.inputPlaceholder}
                             className="webchat-input-message-input"
-
+							aria-label="Write a reply"
                         />
-                        <SubmitButton disabled={this.state.text === ''} className="webchat-input-button-send">
+                        <SubmitButton disabled={this.state.text === ''} className="webchat-input-button-send" aria-label="Send Message">
                             <SendIcon />
                         </SubmitButton>
                     </>

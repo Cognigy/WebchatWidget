@@ -349,7 +349,13 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 <ThemeProvider theme={theme}>
                     {/* <Global styles={cssReset} /> */}
                     <>
-                        <WebchatWrapper data-cognigy-webchat-root {...restProps} className="webchat-root">
+						<WebchatWrapper 
+							data-cognigy-webchat-root 
+							{...restProps}
+							className="webchat-root"
+							role="region"
+                            aria-label="Chat window"
+						>
                             <CacheProvider value={styleCache}>
                                 {open && (
                                     <WebchatRoot
@@ -383,7 +389,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             onClick={onToggle}
                                             {...webchatToggleProps}
                                             type='button'
-                                            className="webchat-toggle-button"
+											className="webchat-toggle-button"
+											aria-label={open ? "Close Chat" : "Chat"}
                                         >
                                             {open ? (
                                                 <CloseIcon />
@@ -425,7 +432,12 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     logoUrl={config.settings.headerLogoUrl}
                     title={config.settings.title || 'Cognigy Webchat'}
                 />
-                <HistoryWrapper disableBranding={config.settings.disableBranding} ref={this.history as any} className="webchat-chat-history">
+				<HistoryWrapper 
+					disableBranding={config.settings.disableBranding} 
+					ref={this.history as any}
+					className="webchat-chat-history"
+					tabIndex={0}
+				>
                     {this.renderHistory()}
                 </HistoryWrapper>
                 {this.renderInput()}
