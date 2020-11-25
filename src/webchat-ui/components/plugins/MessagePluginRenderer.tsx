@@ -7,6 +7,7 @@ import { getPluginsForMessage } from "../../../plugins/helper";
 import MessageRow from "../presentational/MessageRow";
 import Avatar from "../presentational/Avatar";
 import { styled, IWebchatTheme } from "../../style";
+import "../../style.css";
 
 export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
   message: IMessage;
@@ -96,6 +97,25 @@ export default ({
     }
   })();
 
+  const messageSource = (() => {
+    switch (source) {
+      case "user":
+        return "I say";
+
+      case "bot":
+		return "Bot says";
+
+      case "agent":
+		return "Agent says";
+
+      case "engagement":
+		return "Bot says";
+
+      default: 
+        return "Message says"
+    }
+  })();
+
   return (
     <>
       {matchedPlugins.map(
@@ -133,9 +153,12 @@ export default ({
           }
 
           return (
-            <MessageRow key={key} align={align} className={className}>
-              <Avatar src={message.avatarUrl as string} className={avatarClassName} />
-              {messageElement}
+            <MessageRow key={key} align={align} className={className}>				
+              	<Avatar src={message.avatarUrl as string} className={avatarClassName} aria-hidden="true"/>
+				<div>
+					<span className="sr-only">{messageSource}</span>
+             		{messageElement}
+				</div>
             </MessageRow>
           );
         }

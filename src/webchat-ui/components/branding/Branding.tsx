@@ -29,8 +29,8 @@ const URL = `https://www.cognigy.com/?utm_campaign=CognigyWebchatEmbedded&utm_me
 
 const Branding = () => (
     <Link href={URL} target="_blank">
-        <span>Powered by</span>
-        <Logo />
+        <span aria-label="Powered by Cognigy">Powered by</span>
+        <Logo aria-hidden="true"/>
     </Link>
 );
 

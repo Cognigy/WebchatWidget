@@ -437,6 +437,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 					ref={this.history as any}
 					className="webchat-chat-history"
 					tabIndex={0}
+					aria-live="polite"
 				>
                     {this.renderHistory()}
                 </HistoryWrapper>

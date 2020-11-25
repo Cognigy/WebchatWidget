@@ -142,7 +142,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
     handleChangeState = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             text: (e.target as any).value
-        });
+		});
     }
 
     handleSubmit: React.FormEventHandler = e => {
@@ -165,8 +165,8 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
             if (this.inputRef.current)
                 this.inputRef.current.focus();
         })
-    }
-
+	}
+	
     handleMenuButton = () => {
         const mode = this.state.mode === 'menu'
             ? 'text'
@@ -229,8 +229,8 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                             onFocus={() => this.setState({ active: true })}
                             onBlur={() => this.setState({ active: false })}
                             placeholder={props.config.settings.inputPlaceholder}
-                            className="webchat-input-message-input"
-							aria-label="Write a reply"
+							className="webchat-input-message-input"
+							aria-label="Message to send"
                         />
                         <SubmitButton disabled={this.state.text === ''} className="webchat-input-button-send" aria-label="Send Message">
                             <SendIcon />
