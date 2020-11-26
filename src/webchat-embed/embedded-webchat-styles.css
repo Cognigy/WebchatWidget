@@ -26,6 +26,11 @@
     z-index: 1;
 }
 
+[data-cognigy-webchat-root] button[data-cognigy-webchat-toggle]:focus {
+	outline: none;
+	box-shadow: 0 0 4px 3px rgb(0, 0, 0, 0.2);
+}
+
 @media screen and (min-width: 576px) {
     [data-cognigy-webchat-root] {
         position: fixed;
