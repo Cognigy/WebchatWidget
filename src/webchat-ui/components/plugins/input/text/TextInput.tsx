@@ -63,7 +63,11 @@ const MenuButton = styled(Button)(({ theme }) => ({
 
 const SubmitButton = styled(Button)(({ theme }) => ({
     marginRight: theme.unitSize,
-    marginLeft: 0
+    marginLeft: 0,
+
+	"&:focus":{		
+		fill: theme.primaryColor,		
+	}
 }));
 
 const PersistentMenu = styled.div(({ theme }) => ({

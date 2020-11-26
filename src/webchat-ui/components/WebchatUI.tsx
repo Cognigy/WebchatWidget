@@ -342,7 +342,18 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         if (!this.props.config.active)
             return null;
 
-        const showDisconnectOverlay = enableConnectionStatusIndicator && !connected && hadConnection;
+		const showDisconnectOverlay = enableConnectionStatusIndicator && !connected && hadConnection;
+		
+		const openChatAriaLabel = () => {
+			switch (unseenMessages.length) {
+				case 0:
+					return "Chat";
+				case 1:
+					return "One unread message in chat";		
+				default:
+					return `${unseenMessages.length} unread messages in chat`;
+			}
+		}
 
         return (
             <>
@@ -390,7 +401,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             {...webchatToggleProps}
                                             type='button'
 											className="webchat-toggle-button"
-											aria-label={open ? "Close Chat" : "Chat"}
+											aria-label={open ? "Close Chat" : openChatAriaLabel()}
                                         >
                                             {open ? (
                                                 <CloseIcon />
@@ -401,7 +412,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                 config.settings.enableUnreadMessageBadge ?
                                                     <Badge
                                                         content={unseenMessages.length}
-                                                        className='webchat-unread-message-badge'
+														className='webchat-unread-message-badge'
+														aria-label={`${unseenMessages.length} unread messages`}
                                                     />
                                                     :
                                                     null

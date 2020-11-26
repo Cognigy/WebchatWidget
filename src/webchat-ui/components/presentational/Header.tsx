@@ -19,7 +19,10 @@ const HeaderBar = styled(Toolbar)(({ theme }) => ({
 const HeaderIconButton = styled(IconButton)(({ theme }) => ({
     color: theme.primaryContrastColor,
     fill: theme.primaryContrastColor,
-    // stroke: theme.primaryContrastColor
+	// stroke: theme.primaryContrastColor
+	"&:focus":{
+		fill: theme.primaryStrongColor,
+	}
 }));
 
 interface HeaderProps {
@@ -31,7 +34,7 @@ interface HeaderProps {
 
 export default ({ logoUrl, connected, title, onClose, ...props }: HeaderProps) => (
     <HeaderBar color='primary' {...props} className="webchat-header-bar">
-        {logoUrl && <Logo src={logoUrl} className="webchat-header-logo"/>}
+        {logoUrl && <Logo src={logoUrl} className="webchat-header-logo" aria-hidden="true"/>}
         <span style={{ flexGrow: 1 }} className="webchat-header-title">{title}</span>
         <HeaderIconButton 
             data-header-close-button 

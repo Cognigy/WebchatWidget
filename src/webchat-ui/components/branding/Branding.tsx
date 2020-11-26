@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import { styled } from '../../style';
 import CognigyLogo from '../../assets/cognigy_logo.svg';
-import tinycolor from "tinycolor2"
 
 const Link = styled.a(({ theme }) => ({
     alignItems: "flex-end",
@@ -15,6 +14,11 @@ const Link = styled.a(({ theme }) => ({
     paddingBottom: 0,
     textAlign: 'center',
     textDecoration: 'none',
+	
+	"&:focus":{		
+		outline: "none",
+		color: theme.primaryWeakColor,		
+	}
 }));
 
 const Logo = styled(CognigyLogo)(({ theme }) => ({
