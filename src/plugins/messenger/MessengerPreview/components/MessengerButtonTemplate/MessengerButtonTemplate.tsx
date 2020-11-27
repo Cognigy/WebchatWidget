@@ -32,16 +32,18 @@ export const getMessengerButtonTemplate = ({
         return (
             <MessengerButtonHeader {...divProps} className="webchat-buttons-template-root">
                 {text && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{__html: text}} />}
-                {buttons.map((button, index) => (
-                    <React.Fragment key={index}>
-                        <Divider />
-                        <MessengerButton
-                            button={button}
-                            onClick={e => onAction(e, button)}
-                            className="webchat-buttons-template-button"
-                        />
-                    </React.Fragment>
-                ))}
+				<div role={buttons.length > 1 ? "group" : undefined}>
+					{buttons.map((button, index) => (
+						<React.Fragment key={index}>
+							<Divider />
+							<MessengerButton
+								button={button}
+								onClick={e => onAction(e, button)}
+								className="webchat-buttons-template-button"
+							/>
+						</React.Fragment>
+					))}
+				</div>
             </MessengerButtonHeader>
         );
     };
