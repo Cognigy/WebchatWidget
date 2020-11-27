@@ -11,7 +11,8 @@ export interface IFBMListTemplatePayload {
 export interface IFBMListTemplateElement {
     title: string;
     subtitle: string;
-    image_url: string;
+	image_url: string;
+	image_alt_text?: string;
     buttons: IFBMButton[];
     default_action: IFBMDefaultAction;
 }

@@ -13,6 +13,10 @@ export const getMessengerListButton = ({ React, styled }: MessagePluginFactoryPr
 
         '&:hover': {
             backgroundColor: 'hsl(0, 0%, 97%)'
+		},
+		
+		'&:focus': {
+            backgroundColor: 'hsl(0, 0%, 92%)'
         },
 
         '&:active': {

@@ -37,7 +37,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
 
 
     const MessengerListTemplateElement = ({ element, onAction, config }: IMessengerListTemplateElementProps) => {
-        const { title, subtitle, image_url, buttons, default_action } = element;
+        const { title, subtitle, image_url, image_alt_text,  buttons, default_action } = element;
         // TODO default_action
 
         const button = buttons && buttons[0];
@@ -48,6 +48,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
 
         return (
             <Root
+				role="listitem"
                 onClick={default_action && (e => onAction(e, default_action))}
                 className="webchat-list-template-element"
                 style={default_action ? { cursor: "pointer" }:{}}
@@ -64,7 +65,9 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
                     )}
                 </div>
                 {image_url && (
-                    <Image style={imgStyle} />
+                    <Image style={imgStyle} >  
+						<span role="img" aria-label={image_alt_text || "List Image"}> </span> 
+					</Image>
                 )}
             </Root>
         )
