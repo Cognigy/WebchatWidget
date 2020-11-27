@@ -9,6 +9,7 @@ import { MessagePluginFactoryProps } from '../../../../../common/interfaces/mess
 import { getFlexImage } from '../FlexImage';
 import { getBackgroundImage } from '../../lib/css';
 import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
+import "../../../../../assets/style.css";
 
 interface IProps extends IWithFBMActionEventHandler {
     payload: IFBMMediaTemplatePayload;
@@ -53,12 +54,12 @@ export const getMessengerMediaTemplate = ({
 
         if (!element) return null;
 
-        const { media_type, url } = element as IFBMMediaTemplateUrlElement;
+        const { media_type, url, altText } = element as IFBMMediaTemplateUrlElement;
         // TODO add buttons
 
         if (media_type === "image") {
             const image = config.settings.dynamicImageAspectRatio ? (
-                <FlexImage src={url} />
+                <FlexImage src={url} alt={altText || "Attachment"} />
             ) : (
                     <FixedImage style={{ backgroundImage: getBackgroundImage(url) }} />
                 );
@@ -74,6 +75,7 @@ export const getMessengerMediaTemplate = ({
             return (
                 <MessengerFrame {...divProps} className="webchat-media-template-video">
                     <Video>
+                        {altText && <span className="sr-only">{altText}</span>}
                         <VideoPlayer url={url} controls width="100%" height="100%" />
                     </Video>
                 </MessengerFrame>
@@ -83,6 +85,7 @@ export const getMessengerMediaTemplate = ({
         if (media_type === "audio") {
             return (
                 <MessengerFrame {...divProps} className="webchat-media-template-audio">
+                    {altText && <span className="sr-only">{altText}</span>}
                     <ReactPlayer url={url} controls width="100%" height="50px" />
                 </MessengerFrame>
             );

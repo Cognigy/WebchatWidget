@@ -7,7 +7,7 @@ import { getPluginsForMessage } from "../../../plugins/helper";
 import MessageRow from "../presentational/MessageRow";
 import Avatar from "../presentational/Avatar";
 import { styled, IWebchatTheme } from "../../style";
-import "../../style.css";
+import "../../../assets/style.css";
 
 export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
   message: IMessage;

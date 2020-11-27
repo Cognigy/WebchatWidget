@@ -18,6 +18,7 @@ export interface IFBMMediaTemplateAttachedElement {
 
 export interface IFBMMediaTemplateUrlElement {
     media_type: IFBMMediaTemplateElementMediaType;
-    url: string;
+	url: string;
+	altText?: string;
     buttons: IFBMButton[];
 }
