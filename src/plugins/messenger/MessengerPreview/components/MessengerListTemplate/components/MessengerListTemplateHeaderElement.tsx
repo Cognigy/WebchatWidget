@@ -66,6 +66,10 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
 
         '&:hover': {
             backgroundColor: theme.primaryWeakColor
+		},
+		
+		'&:focus': {
+			backgroundColor: theme.primaryStrongColor,
         },
 
         '&:active': {

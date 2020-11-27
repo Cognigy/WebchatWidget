@@ -157,7 +157,7 @@
   padding: 5px;
 }
 
-[data-cognigy-webchat-root] .carousel.carousel-slider .control-arrow:hover {
+[data-cognigy-webchat-root] .carousel.carousel-slider .control-arrow:hover, [data-cognigy-webchat-root] .carousel.carousel-slider .control-arrow:focus {
   background: rgba(0, 0, 0, 0.2);
 }
 

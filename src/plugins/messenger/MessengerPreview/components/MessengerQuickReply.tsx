@@ -19,6 +19,11 @@ export const getMessengerQuickReply = ({ React, styled }: MessagePluginFactoryPr
             borderColor: theme.primaryStrongColor,
             color: theme.primaryStrongColor,
             transform: 'translate(0px, -1px)'
+		},
+		
+		'&:focus': {
+			outline: 'none',
+			boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`,
         },
 
         '&:active': {

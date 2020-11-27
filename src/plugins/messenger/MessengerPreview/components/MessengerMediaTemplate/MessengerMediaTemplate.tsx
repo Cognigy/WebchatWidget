@@ -61,7 +61,9 @@ export const getMessengerMediaTemplate = ({
             const image = config.settings.dynamicImageAspectRatio ? (
                 <FlexImage src={url} alt={altText || "Attachment"} />
             ) : (
-                    <FixedImage style={{ backgroundImage: getBackgroundImage(url) }} />
+                    <FixedImage style={{ backgroundImage: getBackgroundImage(url) }}>   
+                        <span role="img" aria-label={altText || "Attachment Image"}> </span>
+                    </FixedImage>
                 );
 
             return (
@@ -75,7 +77,7 @@ export const getMessengerMediaTemplate = ({
             return (
                 <MessengerFrame {...divProps} className="webchat-media-template-video">
                     <Video>
-                        {altText && <span className="sr-only">{altText}</span>}
+                        <span className="sr-only">{altText || "Attachment Video"}</span>
                         <VideoPlayer url={url} controls width="100%" height="100%" />
                     </Video>
                 </MessengerFrame>
@@ -85,7 +87,7 @@ export const getMessengerMediaTemplate = ({
         if (media_type === "audio") {
             return (
                 <MessengerFrame {...divProps} className="webchat-media-template-audio">
-                    {altText && <span className="sr-only">{altText}</span>}
+                    <span className="sr-only">{altText || "Attachment Audio"}</span>
                     <ReactPlayer url={url} controls width="100%" height="50px" />
                 </MessengerFrame>
             );
