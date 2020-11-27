@@ -104,7 +104,11 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       borderColor: theme.greyColor,
       color: theme.greyColor,
       cursor: 'default'
-    }
+	},
+	'&:focus':{
+		outline: 'none',
+		boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`
+	}
   }));
 
   const Padding = styled.div(({ theme }) => ({
