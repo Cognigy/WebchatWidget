@@ -11,6 +11,7 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
     const key = getOptionsKey(store.getState().options);
     const { active } = store.getState().config; // Actual settings are loaded
     const { disableLocalStorage, disablePersistentHistory, useSessionStorage } = store.getState().config.settings;
+    const { userId } = store.getState().options;
     const browserStorage = useSessionStorage ? window.sessionStorage : window.localStorage;
 
     switch (action.type) {
@@ -34,8 +35,11 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
         }
     }
 
-    if (browserStorage && active && !(disablePersistentHistory || disableLocalStorage)) {
-        browserStorage.setItem(key, JSON.stringify(store.getState()));
+    if (browserStorage && active && userId && !(disablePersistentHistory || disableLocalStorage)) {
+        const { messages } = store.getState();
+        browserStorage.setItem(key, JSON.stringify({
+            messages,
+        }));
     }
 
     return next(action);
