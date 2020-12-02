@@ -347,11 +347,11 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 		const openChatAriaLabel = () => {
 			switch (unseenMessages.length) {
 				case 0:
-					return "Chat";
+					return "Open chat";
 				case 1:
-					return "One unread message in chat";		
+					return "One unread message in chat. Open chat";		
 				default:
-					return `${unseenMessages.length} unread messages in chat`;
+					return `${unseenMessages.length} unread messages in chat. Open chat`;
 			}
 		}
 
@@ -401,7 +401,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             {...webchatToggleProps}
                                             type='button'
 											className="webchat-toggle-button"
-											aria-label={open ? "Close Chat" : openChatAriaLabel()}
+											aria-label={open ? "Close chat" : openChatAriaLabel()}
                                         >
                                             {open ? (
                                                 <CloseIcon />
