@@ -117,7 +117,7 @@ export const getMessengerGenericTemplate = ({
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} />
                             <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} />
                         </GenericContent>
-						<div role={buttons.length > 1 ? "group" : undefined}>
+						<div role={buttons?.length > 1 ? "group" : undefined}>
 							{buttons &&
 								buttons.map((button, index) => (
 									<React.Fragment key={index}>
