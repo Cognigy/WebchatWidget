@@ -34,6 +34,7 @@ import Badge from './presentational/Badge';
 import getTextFromMessage from '../../webchat/helper/message';
 import notificationSound from '../utils/notification-sound';
 import { findReverse } from '../utils/find-reverse';
+import "../../assets/style.css";
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -388,8 +389,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             lastUnseenMessageText && (
                                                 <UnreadMessagePreview
                                                     className="webchat-unread-message-preview"
-                                                    onClick={onToggle}
+													onClick={onToggle}
+													aria-live="polite"
                                                 >
+													<span className="sr-only">New message preview</span>
                                                     {lastUnseenMessageText}
                                                 </UnreadMessagePreview>
                                             )
