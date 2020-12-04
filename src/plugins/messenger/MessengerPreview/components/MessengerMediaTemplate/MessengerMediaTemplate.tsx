@@ -40,7 +40,8 @@ export const getMessengerMediaTemplate = ({
         position: "absolute",
         left: 0,
         top: 0,
-        backgroundColor: "black"
+        backgroundColor: "black",
+        borderRadius: "16px",
     });
 
     const MessengerMediaTemplate = ({
@@ -75,7 +76,7 @@ export const getMessengerMediaTemplate = ({
 
         if (media_type === "video") {
             return (
-                <MessengerFrame {...divProps} className="webchat-media-template-video">
+                <MessengerFrame {...divProps} className="webchat-media-template-video" style={{ overflow: "visible" }}>
                     <Video>
                         <span className="sr-only">{altText || "Attachment Video"}</span>
                         <VideoPlayer url={url} controls width="100%" height="100%" />
@@ -86,7 +87,7 @@ export const getMessengerMediaTemplate = ({
 
         if (media_type === "audio") {
             return (
-                <MessengerFrame {...divProps} className="webchat-media-template-audio">
+                <MessengerFrame {...divProps} className="webchat-media-template-audio" style={{ overflow: "visible" }}>
                     <span className="sr-only">{altText || "Attachment Audio"}</span>
                     <ReactPlayer url={url} controls width="100%" height="50px" />
                 </MessengerFrame>

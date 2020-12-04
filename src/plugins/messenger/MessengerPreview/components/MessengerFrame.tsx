@@ -13,14 +13,14 @@ export const getMessengerFrame = ({ React, styled }: MessagePluginFactoryProps) 
                 borderRadius: theme.unitSize * 2,
 				"&:focus": {
                     outline: 'none',
-                    borderLeft: `2px solid ${theme.primaryColor}`,
+					boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`
                 },
             },
             "& video": {
                 borderRadius: theme.unitSize * 2,
 				"&:focus": {
                     outline: 'none',
-                    borderLeft: `2px solid ${theme.primaryColor}`,
+                    boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`
                 },
 			},
 		},
