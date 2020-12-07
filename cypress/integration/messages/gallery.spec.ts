@@ -74,5 +74,22 @@ describe("Message with Gallery", () => {
                 .click()
                 .get(".regular-message.user").contains("foobar004g1b1")
         })
-    })
+	})
+
+	it("scroll forward button should have correct aria-label", () => {
+        cy.withMessageFixture('gallery', () => {
+            cy
+				.get('[aria-label="next slide / item"]').click()
+				.get(".control-prev").should("be.visible")
+        })
+	})
+
+	it("scroll backward button should have correct aria-label", () => {
+        cy.withMessageFixture('gallery', () => {
+            cy
+				.get('[aria-label="next slide / item"]').click()
+				.get('[aria-label="previous slide / item"]').click()
+				.get(".control-next").should("be.visible")
+        })
+	})
 })
