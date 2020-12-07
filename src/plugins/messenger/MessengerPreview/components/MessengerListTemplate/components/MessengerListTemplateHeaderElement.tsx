@@ -66,6 +66,10 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
 
         '&:hover': {
             backgroundColor: theme.primaryWeakColor
+		},
+		
+		'&:focus': {
+			backgroundColor: theme.primaryStrongColor,
         },
 
         '&:active': {
@@ -74,14 +78,16 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
     }))
 
     const MessengerListTemplateHeaderElement = ({ element, onAction, config }: IMessengerListTemplateHeaderElementProps) => {
-        const { title, subtitle, image_url, default_action, buttons } = element;
+        const { title, subtitle, image_url, image_alt_text, default_action, buttons } = element;
         // TODO buttons, default_action
 
         const button = buttons && buttons[0];
 
         const image = config.settings.dynamicImageAspectRatio
-            ? <FlexImage src={image_url} />
-            : <FixedImage style={{ backgroundImage: image_url ? getBackgroundImage(image_url) : undefined }} />
+            ? <FlexImage src={image_url} alt={image_alt_text || ""} />
+            : <FixedImage style={{ backgroundImage: image_url ? getBackgroundImage(image_url) : undefined }}>
+					<span role="img" aria-label={image_alt_text || "List Image"}> </span>
+			  </FixedImage>
         return (
             <Root
                 onClick={default_action && (e => onAction(e, default_action))}

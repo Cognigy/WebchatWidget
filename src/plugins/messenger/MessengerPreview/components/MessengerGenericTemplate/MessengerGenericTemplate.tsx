@@ -86,19 +86,22 @@ export const getMessengerGenericTemplate = ({
         > {
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
             const { onAction, ...divProps } = this.props;
-            const { image_url, title, subtitle, buttons, default_action } = element;
+            const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
 
             const isCentered = this.props.config.settings.designTemplate === 2;
 
             const image = image_url ? (
                 this.props.config.settings.dynamicImageAspectRatio ? (
                     <FlexImage
-                        style={{ backgroundImage: getBackgroundImage(image_url) }}
+						style={{ backgroundImage: getBackgroundImage(image_url) }}
+						alt={image_alt_text || ""}
                     />
                 ) : (
                         <FixedImage
                             style={{ backgroundImage: getBackgroundImage(image_url) }}
-                        ><div></div></FixedImage>
+                        > 
+							<span role="img" aria-label={image_alt_text || "Attachment Image"}> </span>
+						</FixedImage>
                     )
             ) : null;
 
@@ -114,17 +117,19 @@ export const getMessengerGenericTemplate = ({
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} />
                             <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} />
                         </GenericContent>
-                        {buttons &&
-                            buttons.map((button, index) => (
-                                <React.Fragment key={index}>
-                                    <Divider />
-                                    <MessengerButton
-                                        button={button}
-                                        onClick={e => onAction(e, button)}
-                                        className="webchat-carousel-template-button"
-                                    />
-                                </React.Fragment>
-                            ))}
+						<div role={buttons?.length > 1 ? "group" : undefined}>
+							{buttons &&
+								buttons.map((button, index) => (
+									<React.Fragment key={index}>
+										<Divider />
+										<MessengerButton
+											button={button}
+											onClick={e => onAction(e, button)}
+											className="webchat-carousel-template-button"
+										/>
+									</React.Fragment>
+								))}
+						</div>
                     </Frame>
                 </ElementRoot>
             );

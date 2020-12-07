@@ -104,7 +104,11 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       borderColor: theme.greyColor,
       color: theme.greyColor,
       cursor: 'default'
-    }
+	},
+	'&:focus':{
+		outline: 'none',
+		boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`
+	}
   }));
 
   const Padding = styled.div(({ theme }) => ({
@@ -289,10 +293,10 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
       if (!isFullscreen) {
         if (datepickerWasOpen) {
-          return <OpenDatepickerButton disabled>{dateButtonText}</OpenDatepickerButton>
+          return <OpenDatepickerButton type="button" disabled>{dateButtonText}</OpenDatepickerButton>
         }
 
-        return <OpenDatepickerButton onClick={onSetFullscreen}>{dateButtonText}</OpenDatepickerButton>
+        return <OpenDatepickerButton type="button" onClick={onSetFullscreen}>{dateButtonText}</OpenDatepickerButton>
       }
 
       return (
@@ -309,8 +313,8 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
             />
           </Content>
           <Footer className="webchat-plugin-date-picker-footer">
-            <CancelButton onClick={this.handleAbort} className="cancelButton">{cancelButtonText}</CancelButton>
-            <SubmitButton onClick={this.handleSubmit} className="submitButton">{submitButtonText}</SubmitButton>
+            <CancelButton type="button" onClick={this.handleAbort} className="cancelButton">{cancelButtonText}</CancelButton>
+            <SubmitButton type="button" onClick={this.handleSubmit} className="submitButton">{submitButtonText}</SubmitButton>
           </Footer>
         </DatePickerRoot>
       );

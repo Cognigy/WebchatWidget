@@ -34,6 +34,7 @@ import Badge from './presentational/Badge';
 import getTextFromMessage from '../../webchat/helper/message';
 import notificationSound from '../utils/notification-sound';
 import { findReverse } from '../utils/find-reverse';
+import "../../assets/style.css";
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -342,14 +343,31 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         if (!this.props.config.active)
             return null;
 
-        const showDisconnectOverlay = enableConnectionStatusIndicator && !connected && hadConnection;
+		const showDisconnectOverlay = enableConnectionStatusIndicator && !connected && hadConnection;
+		
+		const openChatAriaLabel = () => {
+			switch (unseenMessages.length) {
+				case 0:
+					return "Open chat";
+				case 1:
+					return "One unread message in chat. Open chat";		
+				default:
+					return `${unseenMessages.length} unread messages in chat. Open chat`;
+			}
+		}
 
         return (
             <>
                 <ThemeProvider theme={theme}>
                     {/* <Global styles={cssReset} /> */}
                     <>
-                        <WebchatWrapper data-cognigy-webchat-root {...restProps} className="webchat-root">
+						<WebchatWrapper 
+							data-cognigy-webchat-root 
+							{...restProps}
+							className="webchat-root"
+							role="region"
+                            aria-label="Chat window"
+						>
                             <CacheProvider value={styleCache}>
                                 {open && (
                                     <WebchatRoot
@@ -371,8 +389,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             lastUnseenMessageText && (
                                                 <UnreadMessagePreview
                                                     className="webchat-unread-message-preview"
-                                                    onClick={onToggle}
+													onClick={onToggle}
+													aria-live="polite"
                                                 >
+													<span className="sr-only">New message preview</span>
                                                     {lastUnseenMessageText}
                                                 </UnreadMessagePreview>
                                             )
@@ -383,7 +403,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             onClick={onToggle}
                                             {...webchatToggleProps}
                                             type='button'
-                                            className="webchat-toggle-button"
+											className="webchat-toggle-button"
+											aria-label={open ? "Close chat" : openChatAriaLabel()}
                                         >
                                             {open ? (
                                                 <CloseIcon />
@@ -394,7 +415,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                 config.settings.enableUnreadMessageBadge ?
                                                     <Badge
                                                         content={unseenMessages.length}
-                                                        className='webchat-unread-message-badge'
+														className='webchat-unread-message-badge'
+														aria-label={`${unseenMessages.length} unread messages`}
                                                     />
                                                     :
                                                     null
@@ -425,7 +447,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     logoUrl={config.settings.headerLogoUrl}
                     title={config.settings.title || 'Cognigy Webchat'}
                 />
-                <HistoryWrapper disableBranding={config.settings.disableBranding} ref={this.history as any} className="webchat-chat-history">
+				<HistoryWrapper 
+					disableBranding={config.settings.disableBranding} 
+					ref={this.history as any}
+					className="webchat-chat-history"
+					tabIndex={0}
+					role="log"
+					aria-live="polite"
+				>
                     {this.renderHistory()}
                 </HistoryWrapper>
                 {this.renderInput()}

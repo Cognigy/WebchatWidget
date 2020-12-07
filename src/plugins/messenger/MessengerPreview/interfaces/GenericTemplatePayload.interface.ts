@@ -8,7 +8,8 @@ export interface IFBMGenericTemplatePayload {
 
 export interface IFBMGenericTemplateElement {
     title: string;
-    image_url: string;
+	image_url: string;
+	image_alt_text?: string;
     subtitle: string;
     default_action: IFBMDefaultAction;
     buttons: IFBMButton[];
