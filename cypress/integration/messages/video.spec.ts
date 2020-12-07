@@ -27,5 +27,14 @@ describe("Message with Video", () => {
             cy
                 .get(".webchat-message-row .webchat-media-template-video");
         })
-    })
+	})
+	
+	it("should have sr-only default alternate text for video", () => {
+        cy.withMessageFixture('video', () => {
+            cy
+				.get(".webchat-message-row .webchat-media-template-video .sr-only")
+				.contains("Attachment Video")
+				.should("not.be.visible");
+        })
+	})
 })

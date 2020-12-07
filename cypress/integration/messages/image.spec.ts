@@ -25,9 +25,9 @@ describe("Message with Image", () => {
 	it("should have role 'img' and an aria-label", () => {
         cy.withMessageFixture('image', () => {
             cy
-				.get("[role=img]").should("exist");
+				.get("[role=img]");
 			cy
-                .get('[aria-label="Attachment Image"]').should("exist");
+                .get('[aria-label="Attachment Image"]');
         })
     })
 })
