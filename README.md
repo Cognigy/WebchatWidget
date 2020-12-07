@@ -2,7 +2,7 @@
 
 This repo contains a Webchat that seemlessly integrates with your website and lets your users chat with your Conversational AI built with COGNIGY.AI.
 
-## Documentation
+## Documentation 
 To get started using the Webchat on your Website, you can use the [Documentation section](./docs/README.md) in this repository.
 For Information on how to set up the Webchat on Cognigy side, please refer to the "[Deploy a Webchat Endpoint](https://docs.cognigy.com/docs/deploy-a-webchat-20-endpoint)" guide in our product documentation.
 
