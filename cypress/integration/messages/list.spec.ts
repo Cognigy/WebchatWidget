@@ -14,8 +14,8 @@ describe("Message with List", () => {
                 .get(".webchat-message-row").contains("foobar009l1")
                 .get(".webchat-message-row").contains("foobar009l2")
         })
-    })
-
+	})
+	
     it("should render lists subtitle", () => {
         cy.withMessageFixture('list', () => {
             cy
@@ -62,6 +62,15 @@ describe("Message with List", () => {
                 .get(".webchat-list-template-header-content")
                 .get(".webchat-list-template-element")
         })
+	})
+	
+	it("should render list and list items with correct roles", () => {
+        cy.withMessageFixture('list', () => {
+            cy
+                .get("[role=list]").should("be.visible")
+                .get("[role=list] [role=listitem]").contains("foobar009l2")
+        })
     })
+
     
 })
