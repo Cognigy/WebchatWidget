@@ -25,7 +25,7 @@ describe("Message with Video", () => {
     it("should have class 'webchat-media-template-video'", () => {
         cy.withMessageFixture('video', () => {
             cy
-                .get(".webchat-message-row > div >  .webchat-media-template-video");
+                .get(".webchat-message-row .webchat-media-template-video");
         })
     })
 })
