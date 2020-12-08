@@ -12,10 +12,11 @@ const BadgeBase = styled.span(({ theme }) => ({
     top: '-10%',
     right: '-5%',
     fontSize: theme.unitSize * 3 / 2,
+    fontWeight: 700,
     width: theme.unitSize * 3,
     height: theme.unitSize * 3,
     borderRadius: '50%',
-    backgroundColor: 'red',
+    backgroundColor: 'rgb(235, 15, 0)',
     color: 'white',
     fontFamily: 'sans-serif'
 }));

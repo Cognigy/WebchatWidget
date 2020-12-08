@@ -36,5 +36,11 @@ describe("Message with Buttons", () => {
                 .get(".webchat-buttons-template-root")
                 .get(".webchat-buttons-template-button")
         })
+	})
+	
+	it("group off buttons should have role 'group'", () => {
+        cy.withMessageFixture('buttons', () => {
+			cy.get("[role=group] .webchat-buttons-template-button").should("have.length", 4);
+        })				
     })
 })

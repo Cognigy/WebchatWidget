@@ -37,7 +37,7 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
         const button = buttons && buttons[0];
 
         return (
-            <MessengerFrame {...divProps} className="webchat-list-template-root">
+            <MessengerFrame {...divProps} className="webchat-list-template-root" role="list">
                 {headerElement && (
                     <MessengerListTemplateHeaderElement
                         element={headerElement}

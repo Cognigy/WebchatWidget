@@ -37,5 +37,15 @@ describe("Message with Quick Replies", () => {
             cy.contains("foobar003qr02").children("img").should("have.length", 1);   
             
         }, reInit);
+	})
+	
+	it("should render image alt text when present", () => {
+        cy.withMessageFixture('quick-replies', () => {
+			cy.contains("foobar003qr02").children("img").should("have.attr", "alt")
+				.then(alttext => {
+					expect(alttext).to.be.eq("alt text");
+				});   
+            
+        }, reInit);
     })
 })

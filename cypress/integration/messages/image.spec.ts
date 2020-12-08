@@ -18,7 +18,16 @@ describe("Message with Image", () => {
     it("should have class 'webchat-media-template-image'", () => {
         cy.withMessageFixture('image', () => {
             cy
-                .get(".webchat-message-row > .webchat-media-template-image");
+                .get(".webchat-message-row .webchat-media-template-image");
+        })
+	})
+	
+	it("should have role 'img' and an aria-label", () => {
+        cy.withMessageFixture('image', () => {
+            cy
+				.get("[role=img]");
+			cy
+                .get('[aria-label="Attachment Image"]');
         })
     })
 })

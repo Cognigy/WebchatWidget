@@ -10,7 +10,8 @@ export interface IFBMUploadAPIMessage {
     attachment: {
         type: IFBMMediaTemplateElementMediaType,
         payload: {
-            url: string,
+			url: string,
+			altText?: string;
             is_reusable: boolean,
         }
     }
@@ -45,7 +46,7 @@ const transformAttachmentUploadApiMessage = (message: IFBMMessage | IFBMUploadAP
     if (attachment.type === 'template')
         return message as IFBMMessage;
 
-    const { type: media_type, payload: { url } } = attachment as unknown as IFBMUploadAPIMessage['attachment'];
+    const { type: media_type, payload: { url, altText } } = attachment as unknown as IFBMUploadAPIMessage['attachment'];
 
     return {
         attachment: {
@@ -54,7 +55,8 @@ const transformAttachmentUploadApiMessage = (message: IFBMMessage | IFBMUploadAP
                 template_type: 'media',
                 elements: [{
                     media_type,
-                    url,
+					url,
+					altText,
                     buttons: []
                 }]
             }

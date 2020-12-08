@@ -9,6 +9,7 @@ import { MessagePluginFactoryProps } from '../../../../../common/interfaces/mess
 import { getFlexImage } from '../FlexImage';
 import { getBackgroundImage } from '../../lib/css';
 import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
+import "../../../../../assets/style.css";
 
 interface IProps extends IWithFBMActionEventHandler {
     payload: IFBMMediaTemplatePayload;
@@ -39,7 +40,8 @@ export const getMessengerMediaTemplate = ({
         position: "absolute",
         left: 0,
         top: 0,
-        backgroundColor: "black"
+        backgroundColor: "black",
+        borderRadius: "16px",
     });
 
     const MessengerMediaTemplate = ({
@@ -53,14 +55,16 @@ export const getMessengerMediaTemplate = ({
 
         if (!element) return null;
 
-        const { media_type, url } = element as IFBMMediaTemplateUrlElement;
+        const { media_type, url, altText } = element as IFBMMediaTemplateUrlElement;
         // TODO add buttons
 
         if (media_type === "image") {
             const image = config.settings.dynamicImageAspectRatio ? (
-                <FlexImage src={url} />
+                <FlexImage src={url} alt={altText || "Attachment"} />
             ) : (
-                    <FixedImage style={{ backgroundImage: getBackgroundImage(url) }} />
+                    <FixedImage style={{ backgroundImage: getBackgroundImage(url) }}>   
+                        <span role="img" aria-label={altText || "Attachment Image"}> </span>
+                    </FixedImage>
                 );
 
             return (
@@ -72,8 +76,9 @@ export const getMessengerMediaTemplate = ({
 
         if (media_type === "video") {
             return (
-                <MessengerFrame {...divProps} className="webchat-media-template-video">
+                <MessengerFrame {...divProps} className="webchat-media-template-video" style={{ overflow: "visible" }}>
                     <Video>
+                        <span className="sr-only">{altText || "Attachment Video"}</span>
                         <VideoPlayer url={url} controls width="100%" height="100%" />
                     </Video>
                 </MessengerFrame>
@@ -82,7 +87,8 @@ export const getMessengerMediaTemplate = ({
 
         if (media_type === "audio") {
             return (
-                <MessengerFrame {...divProps} className="webchat-media-template-audio">
+                <MessengerFrame {...divProps} className="webchat-media-template-audio" style={{ overflow: "visible" }}>
+                    <span className="sr-only">{altText || "Attachment Audio"}</span>
                     <ReactPlayer url={url} controls width="100%" height="50px" />
                 </MessengerFrame>
             );

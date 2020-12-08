@@ -73,9 +73,9 @@ export const getMessengerTextWithQuickReplies = ({
                                 }
 
                                 case "text": {
-                                    const { title, image_url } = quickReply as IFBMTextQuickReply;
+                                    const { title, image_url, image_alt_text } = quickReply as IFBMTextQuickReply;
                                     label = title;
-                                    if (image_url) image = <QuickReplyImage src={image_url} />;
+                                    if (image_url) image = <QuickReplyImage src={image_url} alt={image_alt_text || ""}/>;
                                     break;
                                 }
 
@@ -94,7 +94,8 @@ export const getMessengerTextWithQuickReplies = ({
                                 <MessengerQuickReply
                                     key={index}
                                     onClick={e => onAction(e, quickReply)}
-                                    className="webchat-quick-reply-template-reply"
+									className="webchat-quick-reply-template-reply"
+									role="button"
                                 >
                                     {image}
                                     <span dangerouslySetInnerHTML={{ __html: label }} />
