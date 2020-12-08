@@ -18,7 +18,8 @@
 								"contentType": "postback",
 								"payload": "foobar003pb02",
 								"title": "foobar003qr02",
-								"imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Wikipedia-favicon.png"
+								"imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Wikipedia-favicon.png",
+								"imageAltText": "alt text"
 							}
 						],
 						"text": "foobar003"
@@ -36,6 +37,7 @@
 							{
 								"content_type": "text",
 								"image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Wikipedia-favicon.png",
+								"image_alt_text": "alt text",
 								"payload": "foobar003pb02",
 								"title": "foobar003qr02"
 							}
@@ -64,7 +66,8 @@
 								"contentType": "postback",
 								"payload": "foobar003pb02",
 								"title": "foobar003qr02",
-								"imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Wikipedia-favicon.png"
+								"imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Wikipedia-favicon.png",
+								"imageAltText": "alt text"
 							}
 						],
 						"text": "foobar003"
@@ -78,6 +81,7 @@
 							{
 								"content_type": "text",
 								"image_url": "http://cognigy.com/favicon.ico",
+								"image_alt_text": "alt text",
 								"payload": "",
 								"title": "foobar003qr02"
 							}
