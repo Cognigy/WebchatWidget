@@ -16,12 +16,6 @@ export const createAnalyticsMiddleware = (webchat: Webchat): Middleware<{}, Stor
             break;
         }
 
-        case 'TOGGLE_OPEN': {
-            const open = !store.getState().ui.open;
-            webchat.emitAnalytics(open ? 'webchat/open' : 'webchat/close');
-            break;
-        }
-
         case 'SEND_MESSAGE': {
             webchat.emitAnalytics('webchat/outgoing-message', action.message);
             break;
