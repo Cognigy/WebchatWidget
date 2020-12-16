@@ -37,7 +37,7 @@ There are several classes that you need to take in consideration if you want to 
 * *webchat-unread-message-preview*
 * *webchat-unread-message-badge*
 
-If you want to be sure that the custom CSS that you apply will be showed, you will have to add some other selectors to those classes, for the Webchat we will use the attribute selectors:
+If you want to be sure that the custom CSS that you apply will be shown, you will have to add some other selectors to those classes, for the Webchat we will use the attribute selectors:
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat] [data-cognigy-webchat-toggle]
 ```
@@ -96,7 +96,7 @@ The text that is in the header, you can modify the font as you wish.
 }
 ```
 * *webchat-chat-history*  
-This is the element where all the messages of the chat are are showed, you could change its color for example.
+This is the element where all the messages of the chat are are shown, you could change its color for example.
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-chat-history {
 
