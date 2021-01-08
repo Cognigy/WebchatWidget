@@ -109,7 +109,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
 
         case 'TRIGGER_ENGAGEMENT_MESSAGE': {
             const text = store.getState().config.settings.engagementMessageText;
-            
+
             if (text) {
                 store.dispatch(receiveMessage({
                     source: 'engagement',
@@ -124,7 +124,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
         case 'TRIGGER_INJECTION_MESSAGE': {
             const state = store.getState();
 
-            const isInjectBehavior = state.config.settings.startBehavior === 'injection' 
+            const isInjectBehavior = state.config.settings.startBehavior === 'injection'
                 && state.config.settings.getStartedPayload;
             if (!isInjectBehavior)
                 break;
@@ -147,7 +147,8 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
              * We manually add the message to the history
              */
             client.sendMessage(text);
-            next(addMessage({ text: label, source: 'user' }));
+            const avatarUrl = getAvatarForMessage({ source: "user" }, state);
+            next(addMessage({ text: label, source: 'user', avatarUrl }));
 
             break;
         }
