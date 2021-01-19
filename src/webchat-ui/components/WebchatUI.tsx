@@ -515,7 +515,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         onEmitAnalytics={onEmitAnalytics}
                     />
                 ))}
-                <TypingIndicator active={renderTypingIndicator} />
+                <TypingIndicator active={renderTypingIndicator && !typingIndicatorHidden} />
             </>
         )
     }
