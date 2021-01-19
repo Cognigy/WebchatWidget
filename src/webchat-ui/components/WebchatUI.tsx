@@ -35,6 +35,7 @@ import getTextFromMessage from '../../webchat/helper/message';
 import notificationSound from '../utils/notification-sound';
 import { findReverse } from '../utils/find-reverse';
 import "../../assets/style.css";
+import TypingIndicator from './history/TypingIndicator';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -289,11 +290,17 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     }
 
     sendMessage: MessageSender = (...args) => {
-        if (this.history.current) {
-            this.history.current.scrollToBottom();
-        }
-
         this.props.onSendMessage(...args);
+
+        if (this.history.current) {
+            /**
+             * this timeout is necessary to avoid
+             * an immediate "typing indicator" to not be scrolled correctly
+             */
+            setTimeout(() => {
+                this.history.current.scrollToBottom();
+            }, 150);
+        }
     }
 
     renderInput = () => {
@@ -508,11 +515,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         onEmitAnalytics={onEmitAnalytics}
                     />
                 ))}
-                {renderTypingIndicator && (
-                    <MessageRow align='left' hidden={typingIndicatorHidden}>
-                        <TypingIndicatorBubble />
-                    </MessageRow>
-                )}
+                <TypingIndicator active={renderTypingIndicator} />
             </>
         )
     }

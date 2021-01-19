@@ -1,5 +1,5 @@
 import * as React from 'react';
-import TypingIndicator from './TypingIndicator';
+import TypingIndicatorDots from './TypingIndicatorDots';
 import MessageBubble from './MessageBubble';
 import { styled } from '../../style';
 
@@ -13,6 +13,6 @@ export default () => (
         color='primary'
         className='webchat-typing-indicator'
     >
-        <TypingIndicator />
+        <TypingIndicatorDots />
     </TypingIndicatorBubbleRoot>
 )
