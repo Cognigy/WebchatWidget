@@ -41,12 +41,13 @@ const TypingIndicator: FC<ITypingIndicatorProps> = (props) => {
         }
     }, [active]);
 
-    if (!isVisible)
-        return null;
-
     return (
         <MessageRow align='left'>
-            <TypingIndicatorBubble />
+            {/* placeholder for the avatar styling */}
+            <div />
+            <TypingIndicatorBubble 
+                className={isVisible ? 'active' : ''}
+            />
         </MessageRow>
     );
 }

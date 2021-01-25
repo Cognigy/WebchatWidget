@@ -21,20 +21,22 @@ const bounce = (theme: IWebchatTheme) => keyframes({
 const Container = styled.div(({ theme }) => ({
     paddingTop: theme.unitSize,
     whiteSpace: "nowrap",
-    flexBasis: theme.unitSize * 5,
-    height: 11
+    height: 11,
+    width: theme.unitSize * 4,
+    marginBottom: -theme.unitSize / 4
 }))
 
 const Dot = styled.div(({ theme }) => ({
     animation: `${bounce(theme)} 1.5s infinite ease-out`,
     borderRadius: theme.unitSize / 2,
     display: 'inline-block',
-    height: theme.unitSize,
-    width: theme.unitSize,
+    height: theme.unitSize / 1.5,
+    width: theme.unitSize / 1.5,
     marginRight: theme.unitSize / 2,
     backgroundColor: tinycolor(theme.primaryContrastColor).setAlpha(.24).toString(),
 
     '&:nth-of-type(1)': {
+        marginLeft: theme.unitSize / 2,
         animationDelay: '200ms'
     },
 

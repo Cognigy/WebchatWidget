@@ -497,8 +497,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const { messages, typingIndicator, config, onEmitAnalytics } = this.props;
         const { messagePlugins = [] } = this.state;
 
-        const renderTypingIndicator = typingIndicator !== 'remove';
-        const typingIndicatorHidden = typingIndicator === 'hide';
+        const { enableTypingIndicator } = config.settings;
+        const isTyping = typingIndicator !== 'remove' && typingIndicator !== 'hide';
 
         return (
             <>
@@ -515,7 +515,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         onEmitAnalytics={onEmitAnalytics}
                     />
                 ))}
-                <TypingIndicator active={renderTypingIndicator && !typingIndicatorHidden} />
+                {enableTypingIndicator && (
+                    <TypingIndicator active={isTyping} />
+                )}
             </>
         )
     }
