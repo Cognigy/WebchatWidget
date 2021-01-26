@@ -1,6 +1,6 @@
 {
     "name": "@cognigy/webchat",
-    "version": "2.24.0",
+    "version": "2.25.0",
     "description": "Webchat Widget for Cognigy.AI",
     "author": "Cognigy GmbH <info@cognigy.com>",
     "contributors": [
@@ -29,7 +29,7 @@
         "pretest": "npm run webchat && npm run date-picker"
     },
     "dependencies": {
-        "@cognigy/socket-client": "^4.5.0",
+        "@cognigy/socket-client": "^4.5.1",
         "@emotion/cache": "^10.0.19",
         "@emotion/core": "^10.0.22",
         "@emotion/provider": "^0.11.2",
