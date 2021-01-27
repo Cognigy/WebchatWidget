@@ -290,17 +290,11 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     }
 
     sendMessage: MessageSender = (...args) => {
-        this.props.onSendMessage(...args);
-
         if (this.history.current) {
-            /**
-             * this timeout is necessary to avoid
-             * an immediate "typing indicator" to not be scrolled correctly
-             */
-            setTimeout(() => {
-                this.history.current.scrollToBottom();
-            }, 150);
+            this.history.current.scrollToBottom();
         }
+
+        this.props.onSendMessage(...args);
     }
 
     renderInput = () => {
