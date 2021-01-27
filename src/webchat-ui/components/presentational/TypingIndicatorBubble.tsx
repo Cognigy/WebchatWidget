@@ -1,18 +1,30 @@
 import * as React from 'react';
-import TypingIndicator from './TypingIndicator';
+import TypingIndicatorDots from './TypingIndicatorDots';
 import MessageBubble from './MessageBubble';
 import { styled } from '../../style';
 
 const TypingIndicatorBubbleRoot = styled(MessageBubble)(({ theme }) => ({
-    marginLeft: theme.unitSize * 4.5,
+    marginBottom: -theme.unitSize,
+    padding: theme.unitSize * 1.5,
+
+    transform: `translateX(-${theme.unitSize * 4}px)`,
+    opacity: 0,
+
+    transition: 'opacity .3s ease-out, transform .3s ease-out',
+
+    '&.active': {
+        transform: 'translateX(0)',
+        opacity: 1
+    }
 }));
 
-export default () => (
+export default ({ className, ...restProps }: React.ComponentProps<typeof TypingIndicatorBubbleRoot>) => (
     <TypingIndicatorBubbleRoot
         align='left'
         color='primary'
-        className='webchat-typing-indicator'
+        {...restProps}
+        className={`webchat-typing-indicator ${className || ''}`}
     >
-        <TypingIndicator />
+        <TypingIndicatorDots />
     </TypingIndicatorBubbleRoot>
 )

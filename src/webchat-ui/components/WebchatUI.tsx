@@ -35,6 +35,7 @@ import getTextFromMessage from '../../webchat/helper/message';
 import notificationSound from '../utils/notification-sound';
 import { findReverse } from '../utils/find-reverse';
 import "../../assets/style.css";
+import TypingIndicator from './history/TypingIndicator';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -490,8 +491,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const { messages, typingIndicator, config, onEmitAnalytics } = this.props;
         const { messagePlugins = [] } = this.state;
 
-        const renderTypingIndicator = typingIndicator !== 'remove';
-        const typingIndicatorHidden = typingIndicator === 'hide';
+        const { enableTypingIndicator } = config.settings;
+        const isTyping = typingIndicator !== 'remove' && typingIndicator !== 'hide';
 
         return (
             <>
@@ -508,10 +509,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         onEmitAnalytics={onEmitAnalytics}
                     />
                 ))}
-                {renderTypingIndicator && (
-                    <MessageRow align='left' hidden={typingIndicatorHidden}>
-                        <TypingIndicatorBubble />
-                    </MessageRow>
+                {enableTypingIndicator && (
+                    <TypingIndicator active={isTyping} />
                 )}
             </>
         )
