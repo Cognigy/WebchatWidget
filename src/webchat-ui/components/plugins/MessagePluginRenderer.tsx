@@ -155,10 +155,8 @@ export default ({
           return (
             <MessageRow key={key} align={align} className={className}>				
               	<Avatar src={message.avatarUrl as string} className={avatarClassName} aria-hidden="true"/>
-				<div>
 					<span className="sr-only">{messageSource}</span>
              		{messageElement}
-				</div>
             </MessageRow>
           );
         }
