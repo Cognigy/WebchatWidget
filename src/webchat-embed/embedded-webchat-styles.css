@@ -15,10 +15,6 @@
     z-index: 2;
 }
 
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar { 
-	max-width: 24px;
-}
-
 [data-cognigy-webchat-root] button[data-cognigy-webchat-toggle] {
     position: fixed;
 
