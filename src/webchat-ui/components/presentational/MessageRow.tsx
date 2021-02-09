@@ -54,7 +54,7 @@ export default styled.div<IAlignmentProps & IVisibilityProps>(({ theme, align, h
             ...avatarStyles,
             flexGrow: 0,
             flexShrink: 0,
-            flexBasis: 26
+            flexBasis: 24
         },
         '&>:nth-child(n+2)': {
             // flexGrow: 1,
