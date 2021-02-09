@@ -130,7 +130,8 @@ The icon from the avatar that will be show when a message is written or received
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar {
 
     background-image: url(https://***.png);
-    width: 30px;
+    // use flex-basis instead of "width" here!
+    flex-basis: 30px;
     height: 28px;
 }
 ```
@@ -187,7 +188,8 @@ The icon from the user that will be show when a message is received. You can put
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar.user {
 
     background-image: url(https://***.png);
-    width: 30px;
+    // use flex-basis instead of "width" here!
+    flex-basis: 30px;
     height: 28px;
     
 }
@@ -216,7 +218,8 @@ The icon from the agent when using handover that will be show when a message is 
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar.agent {
 
     background-image: url(https://***.png);
-    width: 30px;
+    // use flex-basis instead of "width" here!
+    flex-basis: 30px;
     height: 28px;
     
 }
