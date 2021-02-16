@@ -21,7 +21,6 @@ export type ConnectAction = ReturnType<typeof connect>;
 export const createConnectionMiddleware = (client: SocketClient): Middleware<{}, StoreState> => store => next => (action: SetOpenAction | ToggleOpenAction | ConnectAction | SendMessageAction) => {
     switch (action.type) {
         case 'CONNECT': {
-
             if (!client.connected && !store.getState().connection.connecting) {
                 store.dispatch(setConnecting(true));
 
@@ -40,14 +39,6 @@ export const createConnectionMiddleware = (client: SocketClient): Middleware<{},
                 if (!client.connected) {
                     store.dispatch(connect())
                 }
-            }
-
-            break;
-        }
-
-        case 'TOGGLE_OPEN': {
-            if (!store.getState().ui.open) {
-                store.dispatch(connect())
             }
 
             break;

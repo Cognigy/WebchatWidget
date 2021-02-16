@@ -28,10 +28,7 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
                         store.dispatch(resetState(persisted));
                     } catch (e) { }
                 }
-
             }
-            
-            store.dispatch(triggerInjectionMessage());
         }
     }
 

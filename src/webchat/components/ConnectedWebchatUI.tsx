@@ -1,7 +1,7 @@
 import { WebchatUI, WebchatUIProps } from "../../webchat-ui";
 import { connect } from "react-redux";
 import { StoreState } from "../store/store";
-import { sendMessage, triggerEngagementMessage, triggerInjectionMessage } from '../store/messages/message-middleware';
+import { sendMessage, triggerEngagementMessage } from '../store/messages/message-middleware';
 import { setInputMode, setFullscreenMessage, setOpen, toggleOpen } from '../store/ui/ui-reducer';
 import { getPluginsForMessage, isFullscreenPlugin } from '../../plugins/helper';
 
