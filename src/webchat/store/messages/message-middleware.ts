@@ -37,13 +37,7 @@ export const triggerEngagementMessage = () => ({
 });
 type TriggerEngagementMessageAction = ReturnType<typeof triggerEngagementMessage>;
 
-const TRIGGER_INJECTION_MESSAGE = 'TRIGGER_INJECTION_MESSAGE';
-export const triggerInjectionMessage = () => ({
-    type: TRIGGER_INJECTION_MESSAGE as 'TRIGGER_INJECTION_MESSAGE'
-});
-type TriggerInjectionMessageAction = ReturnType<typeof triggerInjectionMessage>;
-
-const getAvatarForMessage = (message: IMessage, state: StoreState) => {
+export const getAvatarForMessage = (message: IMessage, state: StoreState) => {
     switch (message.source) {
         case 'agent':
             return state.ui.agentAvatarOverrideUrl || state.config.settings.agentAvatarUrl || defaultAgentAvatar;
@@ -117,38 +111,6 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
                     text
                 }));
             }
-
-            break;
-        }
-
-        case 'TRIGGER_INJECTION_MESSAGE': {
-            const state = store.getState();
-
-            const isInjectBehavior = state.config.settings.startBehavior === 'injection'
-                && state.config.settings.getStartedPayload;
-            if (!isInjectBehavior)
-                break;
-
-            // TODO
-            const isEmptyExceptEngagementMesage = state.messages.filter(message => message.source !== 'engagement').length === 0;
-            if (!isEmptyExceptEngagementMesage)
-                break;
-
-            const text = state.config.settings.getStartedPayload;
-            const label = state.config.settings.getStartedText;
-
-
-            /**
-             * IMPORTANT
-             * We are calling client.sendMessage, not webchat.sendMessage!
-             * This means the client will not auto-connect.
-             * The message will be sent as soon as the client connects
-             * 
-             * We manually add the message to the history
-             */
-            client.sendMessage(text);
-            const avatarUrl = getAvatarForMessage({ source: "user" }, state);
-            next(addMessage({ text: label, source: 'user', avatarUrl }));
 
             break;
         }

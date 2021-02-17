@@ -55,7 +55,7 @@ const getInitialState = (): ConfigState => ({
     }
 });
 
-const SET_CONFIG = 'SET_CONFIG';
+export const SET_CONFIG = 'SET_CONFIG';
 export const setConfig = (config: ConfigState) => ({
     type: SET_CONFIG as 'SET_CONFIG',
     config

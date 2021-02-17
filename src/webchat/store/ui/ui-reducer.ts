@@ -14,7 +14,7 @@ export interface UIState {
     isPageVisible: boolean;
 }
 
-const SET_OPEN = 'SET_OPEN';
+export const SET_OPEN = 'SET_OPEN';
 export const setOpen = (open: boolean) => ({
     type: SET_OPEN as 'SET_OPEN',
     open

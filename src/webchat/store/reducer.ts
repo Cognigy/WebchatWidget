@@ -5,6 +5,7 @@ import { ui } from "./ui/ui-reducer";
 import { config } from "./config/config-reducer";
 import { connection } from "./connection/connection-reducer";
 import { unseenMessages } from './unseen-messages/unseen-message-reducer';
+import { autoInject } from './autoinject/autoinject-reducer';
 import { StoreState } from "./store";
 
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     unseenMessages,
     options,
     config,
+    autoInject,
     ui,
     connection
 });
