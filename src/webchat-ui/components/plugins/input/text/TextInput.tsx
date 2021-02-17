@@ -58,7 +58,20 @@ const Button = styled.button(({ theme }) => ({
 const MenuButton = styled(Button)(({ theme }) => ({
     marginLeft: theme.unitSize,
     marginRight: 0,
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    borderRadius: '50%',
+
+    '&:hover': {
+        fill: theme.primaryColor
+    },
+    '&:focus': {
+        fill: theme.greyContrastColor,
+        backgroundColor: theme.greyWeakColor,
+        outline: 'none  '
+    },
+    '&:active': {
+        fill: theme.primaryStrongColor,
+    }
 }));
 
 const SubmitButton = styled(Button)(({ theme }) => ({
@@ -112,23 +125,14 @@ const PersistentMenuItem = styled.button(({ theme }) => ({
     '&:active': {
         backgroundColor: 'hsla(0, 0%, 0%, .12)'
     },
-
-    // '&:after': {
-    //     display: 'block',
-    //     position: 'absolute',
-    //     left: theme.unitSize * 2,
-    //     top: '50%',
-    //     marginTop: -2,
-    //     marginLeft: -2,
-    //     width: 4,
-    //     height: 4,
-    //     content: '""',
-    //     backgroundColor: 'hsla(0, 0%, 0%, .24)',
-    //     borderRadius: 2
-    // }
+		
+    '&:focus': {
+        outline: 'none',
+        boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`,
+    }
 }));
 
-export interface TextInputState {
+export interface TextInputState {   
     text: string;
     mode: 'text' | 'menu';
     active: boolean;
@@ -242,7 +246,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                     </>
                 )}
                 {mode === 'menu' && (
-                    <PersistentMenu className="webchat-input-persistent-menu">
+                    <PersistentMenu className="webchat-input-persistent-menu" tabIndex="-1">
                         {title && (
                             <PersistentMenuTitle className="webchat-input-persistent-menu-title">
                                 {title}
