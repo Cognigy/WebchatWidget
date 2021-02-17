@@ -1,9 +1,6 @@
-import { SocketClient } from "@cognigy/socket-client";
 import { Middleware } from "redux";
 import { StoreState } from "../store";
 import { autoInjectHandled, TAutoInjectAction, triggerAutoInject } from './autoinject-reducer';
-import { getAvatarForMessage, sendMessage } from '../messages/message-middleware';
-import { addMessage } from "../messages/message-reducer";
 import { Webchat } from "../../components/Webchat";
 
 export const createAutoInjectMiddleware = (webchat: Webchat): Middleware<unknown, StoreState> => api => next => (action: TAutoInjectAction) => {
@@ -11,20 +8,22 @@ export const createAutoInjectMiddleware = (webchat: Webchat): Middleware<unknown
         case 'SET_CONFIG':
         case 'SET_CONNECTED':
         case 'SET_OPEN': {
-            next(action);
+            const nextActionResult = next(action);
             
-            const state = api.getState();
-            const { isAutoInjectHandled: isAutoInjectTriggered, isConfiguredOnce, isConnectedOnce, isOpenedOnce } = state.autoInject;
+            (() => {
+                const state = api.getState();
+                const { isAutoInjectHandled: isAutoInjectTriggered, isConfiguredOnce, isConnectedOnce, isOpenedOnce } = state.autoInject;
+                
+                if (isAutoInjectTriggered)
+                    return;
+                
+                if (!isConfiguredOnce || !isConnectedOnce || !isOpenedOnce)
+                    return;
+                
+                api.dispatch(triggerAutoInject());
+            })();
 
-            if (isAutoInjectTriggered)
-                return;
-
-            if (!isConfiguredOnce || !isConnectedOnce || !isOpenedOnce)
-                return;
-
-            api.dispatch(triggerAutoInject());
-
-            return;
+            return nextActionResult;
         }
 
         case 'TRIGGER_AUTO_INJECT': {
@@ -68,5 +67,5 @@ export const createAutoInjectMiddleware = (webchat: Webchat): Middleware<unknown
         }
     }
 
-    next(action);
+    return next(action);
 }
