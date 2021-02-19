@@ -223,7 +223,9 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                 {enablePersistentMenu && (
                     <MenuButton type='button'
                         onClick={this.handleMenuButton}
-                        className="webchat-input-button-menu" >
+                        className="webchat-input-button-menu" 
+                        aria-label="Toggle persistent menu"
+                    >
                         <MenuIcon />
                     </MenuButton>
                 )}
