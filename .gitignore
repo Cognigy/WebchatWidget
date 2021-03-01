@@ -6,3 +6,4 @@ dist/*.webmanifest
 
 cypress/screenshots
 cypress/videos
+.DS_Store
