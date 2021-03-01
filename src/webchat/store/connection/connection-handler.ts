@@ -1,6 +1,8 @@
 import { Store } from "redux";
 import { setConnected, setReconnectionLimit } from "./connection-reducer";
 import { SocketClient } from "@cognigy/socket-client";
+import { announceNetworkOn } from "./connection-middleware";
+import { onNetworkOn } from "../../helper/connection-watchdog";
 
 export const registerConnectionHandler = (store: Store, client: SocketClient) => {
     const handleConnected = () => {
@@ -10,6 +12,10 @@ export const registerConnectionHandler = (store: Store, client: SocketClient) =>
     const handleDisconnected = () => {
         store.dispatch(setConnected(false));
     }
+
+    onNetworkOn(() => {
+        store.dispatch(announceNetworkOn())
+    });
 
     client.on('socket/connect', handleConnected);
     client.on('socket/reconnect', handleConnected);
