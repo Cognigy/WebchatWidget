@@ -29,7 +29,7 @@ export const createConnectionMiddleware = (client: SocketClient): Middleware<{},
                         // set options
                         store.dispatch(setConnecting(false));
                         store.dispatch(setOptions(client.socketOptions));
-                    })
+                    }).catch()
             }
             break;
         }
