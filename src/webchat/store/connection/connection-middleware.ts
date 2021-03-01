@@ -47,6 +47,12 @@ export const createConnectionMiddleware = (client: SocketClient): Middleware<{},
         case 'SEND_MESSAGE': {
             store.dispatch(connect())
 
+
+        case 'NETWORK_ON': {
+            if (shouldReestablishConnection(store.getState())) {
+                store.dispatch(connect());
+            }
+
             break;
         }
     }
