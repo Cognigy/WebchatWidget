@@ -121,3 +121,21 @@ See it in action:
 | ------- | ------ | ------- | -------------------------------------------------------------------- |
 | title   | string | `""`    | The label of the Persisted Menu Item and visible Text on the Message |
 | payload | string | `""`    | The actual text message that should be sent                          |
+
+#### Unread Messages Preview
+
+If the website title should display, that the virtual agent sent a new message, the following configuration could be used:
+
+```js
+{
+  settings: {
+    unreadMessageTitleText: "New message",
+    unreadMessageTitleTextPlural: "New messages",
+    enableUnreadMessageTitleIndicator: true,
+    enableUnreadMessageSound: true
+  }
+}
+```
+
+See it in action:  
+[![Edit Override Endpoint Settings](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/unread-message-preview-oubyf?fontsize=14&hidenavigation=1&theme=dark)
