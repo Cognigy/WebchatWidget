@@ -366,6 +366,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 							data-cognigy-webchat-root 
 							{...restProps}
 							className="webchat-root"
+							aria-labelledby="webchatHeaderTitle"
+							role="region"
 						>
                             <CacheProvider value={styleCache}>
                                 {open && (
@@ -373,8 +375,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                         data-cognigy-webchat
                                         {...webchatRootProps}
 										className="webchat"
-										aria-labelledby="webchatHeaderTitle"
-										role="region"
+										id="webchatWindow"
                                     >
                                         {!fullscreenMessage
                                             ? this.renderRegularLayout()
