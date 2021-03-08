@@ -35,7 +35,7 @@ interface HeaderProps {
 export default ({ logoUrl, connected, title, onClose, ...props }: HeaderProps) => (
     <HeaderBar color='primary' {...props} className="webchat-header-bar">
         {logoUrl && <Logo src={logoUrl} className="webchat-header-logo" aria-hidden="true"/>}
-        <span style={{ flexGrow: 1 }} className="webchat-header-title">{title}</span>
+        <h1 style={{ flexGrow: 1, fontSize: 16, fontWeight: 700 }} className="webchat-header-title" id="webchatHeaderTitle">{title}</h1>
         <HeaderIconButton 
             data-header-close-button 
             onClick={onClose}

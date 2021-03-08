@@ -366,15 +366,15 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 							data-cognigy-webchat-root 
 							{...restProps}
 							className="webchat-root"
-							role="region"
-                            aria-label="Chat window"
 						>
                             <CacheProvider value={styleCache}>
                                 {open && (
                                     <WebchatRoot
                                         data-cognigy-webchat
                                         {...webchatRootProps}
-                                        className="webchat"
+										className="webchat"
+										aria-labelledby="webchatHeaderTitle"
+										role="region"
                                     >
                                         {!fullscreenMessage
                                             ? this.renderRegularLayout()
@@ -406,6 +406,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             type='button'
 											className="webchat-toggle-button"
 											aria-label={open ? "Close chat" : openChatAriaLabel()}
+											id="webChatToggleButton"
                                         >
                                             {open ? (
                                                 <CloseIcon />
