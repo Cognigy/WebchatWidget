@@ -88,7 +88,10 @@ const PersistentMenu = styled.div(({ theme }) => ({
     flexGrow: 1,
     maxHeight: theme.blockSize * 3,
     overflowY: 'auto',
-    paddingBottom: theme.unitSize
+    paddingBottom: theme.unitSize,
+    "&:focus": {
+        outline: "none",
+    }
 }));
 
 const PersistentMenuTitle = styled.h5(({ theme }) => ({
@@ -146,6 +149,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
     } as TextInputState;
 
     inputRef = React.createRef<HTMLInputElement>();
+    menuRef = React.createRef<HTMLDivElement>();
 
     handleChangeState = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
@@ -200,6 +204,33 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
             mode: 'text'
         });
     }
+    
+    handleKeyDown = event => {
+        const { key, target } = event;
+        let newFocusTarget = null;
+
+        switch (key) {
+            case "ArrowUp":
+                newFocusTarget = target.previousElementSibling || this.menuRef.current?.lastChild;
+                break;
+            case "ArrowDown":
+                newFocusTarget = target.nextElementSibling || this.menuRef.current?.firstChild;
+                break;
+            case "Home":
+                newFocusTarget = this.menuRef.current?.firstChild;
+                break;
+            case "End":
+                newFocusTarget = this.menuRef.current?.lastChild;
+                break;
+            default:
+                break;
+        }
+
+        if (newFocusTarget !== null) {
+            newFocusTarget.focus();
+            event.preventDefault();
+        }
+    };
 
     render() {
         const { props, state } = this;
@@ -225,6 +256,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                         onClick={this.handleMenuButton}
                         className="webchat-input-button-menu" 
                         aria-label="Toggle persistent menu"
+                        aria-expanded={mode==="menu" ? true : false}
                     >
                         <MenuIcon />
                     </MenuButton>
@@ -250,19 +282,23 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                 {mode === 'menu' && (
                     <PersistentMenu className="webchat-input-persistent-menu" tabIndex="-1">
                         {title && (
-                            <PersistentMenuTitle className="webchat-input-persistent-menu-title">
+                            <PersistentMenuTitle className="webchat-input-persistent-menu-title" id="persistentMenuTitle">
                                 {title}
                             </PersistentMenuTitle>
                         )}
-                        {menuItems.map(item => (
-                            <PersistentMenuItem
-                                key={`${item.title}${item.payload}`}
-                                onClick={() => this.handleMenuItem(item)}
-                                className="webchat-input-persistent-menu-item"
-                            >
-                                {item.title}
-                            </PersistentMenuItem>
-                        ))}
+                       <div aria-labelledby="persistentMenuTitle" role="menu" ref={this.menuRef} onKeyDown={e => this.handleKeyDown(e)}>
+                            {menuItems.map((item, index) => (
+                                <PersistentMenuItem
+                                    key={`${item.title}${item.payload}`}
+                                    onClick={() => this.handleMenuItem(item)}
+                                    className="webchat-input-persistent-menu-item"
+                                    role="menuitem"
+                                    tabIndex={index === 0 ? 0 : -1}
+                                >
+                                    {item.title}
+                                </PersistentMenuItem>
+                            ))}
+                        </div>
                     </PersistentMenu>
                 )}
             </InputForm>
