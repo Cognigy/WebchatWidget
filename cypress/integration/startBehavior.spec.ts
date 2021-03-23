@@ -46,6 +46,20 @@ describe('Start Behavior', () => {
             .contains('get started').should('not.exist');
     });
 
+    it('should not send a "get started message" if the getStartedText consists only of whitespace', () => {
+        cy
+            .visitBuild()
+            .initMockWebchat({
+                settings: {
+                    startBehavior: 'injection',
+                    getStartedPayload: 'get started',
+                    getStartedText: ' '
+                }
+            })
+            .get('[data-cognigy-webchat-toggle]').click()
+            .contains('get started').should('not.exist');
+    });
+
     // to fix this test, we have to fake a real connection (message is triggered after the connection)
     xit('should automatically send a "get started message" even if the history contains an engagement message', () => {
         cy

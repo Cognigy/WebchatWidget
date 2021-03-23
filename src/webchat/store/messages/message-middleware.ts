@@ -83,7 +83,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
              * This allows "silently" send a message
              * to bot, e.g. injected start message
              **/ 
-            if (typeof options.label === "string" && options.label.length === 0) {
+            if (typeof options.label === "string" && options.label.trim().length === 0) {
                 break;
             }
             next(addMessage({
