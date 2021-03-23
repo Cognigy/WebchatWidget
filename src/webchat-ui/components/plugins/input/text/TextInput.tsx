@@ -58,7 +58,20 @@ const Button = styled.button(({ theme }) => ({
 const MenuButton = styled(Button)(({ theme }) => ({
     marginLeft: theme.unitSize,
     marginRight: 0,
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    borderRadius: '50%',
+
+    '&:hover': {
+        fill: theme.primaryColor
+    },
+    '&:focus': {
+        fill: theme.greyContrastColor,
+        backgroundColor: theme.greyWeakColor,
+        outline: 'none  '
+    },
+    '&:active': {
+        fill: theme.primaryStrongColor,
+    }
 }));
 
 const SubmitButton = styled(Button)(({ theme }) => ({
@@ -75,7 +88,10 @@ const PersistentMenu = styled.div(({ theme }) => ({
     flexGrow: 1,
     maxHeight: theme.blockSize * 3,
     overflowY: 'auto',
-    paddingBottom: theme.unitSize
+    paddingBottom: theme.unitSize,
+    "&:focus": {
+        outline: "none",
+    }
 }));
 
 const PersistentMenuTitle = styled.h5(({ theme }) => ({
@@ -112,23 +128,14 @@ const PersistentMenuItem = styled.button(({ theme }) => ({
     '&:active': {
         backgroundColor: 'hsla(0, 0%, 0%, .12)'
     },
-
-    // '&:after': {
-    //     display: 'block',
-    //     position: 'absolute',
-    //     left: theme.unitSize * 2,
-    //     top: '50%',
-    //     marginTop: -2,
-    //     marginLeft: -2,
-    //     width: 4,
-    //     height: 4,
-    //     content: '""',
-    //     backgroundColor: 'hsla(0, 0%, 0%, .24)',
-    //     borderRadius: 2
-    // }
+		
+    '&:focus': {
+        outline: 'none',
+        boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`,
+    }
 }));
 
-export interface TextInputState {
+export interface TextInputState {   
     text: string;
     mode: 'text' | 'menu';
     active: boolean;
@@ -142,6 +149,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
     } as TextInputState;
 
     inputRef = React.createRef<HTMLInputElement>();
+    menuRef = React.createRef<HTMLDivElement>();
 
     handleChangeState = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
@@ -196,6 +204,33 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
             mode: 'text'
         });
     }
+    
+    handleKeyDown = event => {
+        const { key, target } = event;
+        let newFocusTarget = null;
+
+        switch (key) {
+            case "ArrowUp":
+                newFocusTarget = target.previousElementSibling || this.menuRef.current?.lastChild;
+                break;
+            case "ArrowDown":
+                newFocusTarget = target.nextElementSibling || this.menuRef.current?.firstChild;
+                break;
+            case "Home":
+                newFocusTarget = this.menuRef.current?.firstChild;
+                break;
+            case "End":
+                newFocusTarget = this.menuRef.current?.lastChild;
+                break;
+            default:
+                break;
+        }
+
+        if (newFocusTarget !== null) {
+            newFocusTarget.focus();
+            event.preventDefault();
+        }
+    };
 
     render() {
         const { props, state } = this;
@@ -219,7 +254,10 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                 {enablePersistentMenu && (
                     <MenuButton type='button'
                         onClick={this.handleMenuButton}
-                        className="webchat-input-button-menu" >
+                        className="webchat-input-button-menu" 
+                        aria-label="Toggle persistent menu"
+                        aria-expanded={mode==="menu" ? true : false}
+                    >
                         <MenuIcon />
                     </MenuButton>
                 )}
@@ -242,21 +280,25 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                     </>
                 )}
                 {mode === 'menu' && (
-                    <PersistentMenu className="webchat-input-persistent-menu">
+                    <PersistentMenu className="webchat-input-persistent-menu" tabIndex="-1">
                         {title && (
-                            <PersistentMenuTitle className="webchat-input-persistent-menu-title">
+                            <PersistentMenuTitle className="webchat-input-persistent-menu-title" id="persistentMenuTitle">
                                 {title}
                             </PersistentMenuTitle>
                         )}
-                        {menuItems.map(item => (
-                            <PersistentMenuItem
-                                key={`${item.title}${item.payload}`}
-                                onClick={() => this.handleMenuItem(item)}
-                                className="webchat-input-persistent-menu-item"
-                            >
-                                {item.title}
-                            </PersistentMenuItem>
-                        ))}
+                       <div aria-labelledby="persistentMenuTitle" role="menu" ref={this.menuRef} onKeyDown={e => this.handleKeyDown(e)}>
+                            {menuItems.map((item, index) => (
+                                <PersistentMenuItem
+                                    key={`${item.title}${item.payload}`}
+                                    onClick={() => this.handleMenuItem(item)}
+                                    className="webchat-input-persistent-menu-item"
+                                    role="menuitem"
+                                    tabIndex={index === 0 ? 0 : -1}
+                                >
+                                    {item.title}
+                                </PersistentMenuItem>
+                            ))}
+                        </div>
                     </PersistentMenu>
                 )}
             </InputForm>
