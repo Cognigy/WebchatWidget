@@ -135,6 +135,14 @@ The icon from the avatar that will be show when a message is written or received
     height: 28px;
 }
 ```
+
+The avatars can be repositioned to appear at the top edge of a message rather than the bottom edge.
+```CSS
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar {
+  align-self: flex-start !important;
+}
+```
+
 * *webchat-message-row + bot*  
 The classes for the bot message in the chat, containing the message and the avatar logo.
 ```CSS

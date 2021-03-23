@@ -78,7 +78,7 @@ See it in action:
 | enableUnreadMessageBadge          | boolean                             | false           |                               |                                                                                     | If true, the webchat shows a badge with the number of unread messages at the toggle button                                                                                                                      |
 | enableUnreadMessagePreview        | boolean                             | false           |                               |                                                                                     | If true, the webchat shows a message bubble with the latest retrieved bot message.                                                                                                                              |
 | enableUnreadMessageSound          | boolean                             | false           | x                             |                                                                                     | If true, plays a notification sound for each incoming unread message                                                                                                                                            |
-| enableUnreadMessageTitleIndicator | boolean                             | false           |                               | If true, will indicate the amount of unread messages in the page title every 1000ms |
+| enableUnreadMessageTitleIndicator | boolean                             | false           |                               |                                      | If true, will indicate the amount of unread messages in the page title every 1000ms |
 | engagementMessageText             | string                              | ""              |                               |                                                                                     | If this is set to a non-empty string, there will be an automatic "fake" engagement message being triggered after a delay                                                                                        |
 | engagementMessageDelay            | number                              | 5000            |                               |                                                                                     | The timeout after which the engagement message should be triggered (in milliseconds)                                                                                                                            |
 | getStartedButtonText              | string                              | "GET_STARTED"   | x                             |                                                                                     | The text to display on the Get Started Button / when sending the auto message.                                                                                                                                  |
@@ -121,3 +121,21 @@ See it in action:
 | ------- | ------ | ------- | -------------------------------------------------------------------- |
 | title   | string | `""`    | The label of the Persisted Menu Item and visible Text on the Message |
 | payload | string | `""`    | The actual text message that should be sent                          |
+
+#### Unread Messages Preview
+
+If the website title should display, that the virtual agent sent a new message, the following configuration could be used:
+
+```js
+{
+  settings: {
+    unreadMessageTitleText: "New message",
+    unreadMessageTitleTextPlural: "New messages",
+    enableUnreadMessageTitleIndicator: true,
+    enableUnreadMessageSound: true
+  }
+}
+```
+
+See it in action:  
+[![Edit Override Endpoint Settings](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/unread-message-preview-oubyf?fontsize=14&hidenavigation=1&theme=dark)
