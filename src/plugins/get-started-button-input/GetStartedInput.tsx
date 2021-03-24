@@ -6,7 +6,11 @@ import { styled } from '../../webchat-ui/style';
 
 const GetStartedButton = styled(Button)(({ theme }) => ({
     marginBottom: theme.unitSize * 2,
-    flexGrow: 1
+    flexGrow: 1,
+    "&:focus": {
+        outline: "none",
+        boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`
+    }
 }));
 
 export default ({ onSendMessage, config }: InputComponentProps) => (
