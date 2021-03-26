@@ -1,12 +1,14 @@
 import { Reducer } from "redux";
 import { SetConfigAction } from '../config/config-reducer';
 import { SetConnectedAction } from '../connection/connection-reducer';
+import { ResetStateAction } from "../reducer";
 import { SetOpenAction } from '../ui/ui-reducer';
 
 const getInitialState = () => ({
     isOpenedOnce: false,
     isConnectedOnce: false,
     isConfiguredOnce: false,
+    isSessionRestoredOnce: false,
     isAutoInjectHandled: false
 });
 
@@ -24,7 +26,7 @@ export const autoInjectHandled = () => ({
 });
 export type TAutoInjectTriggeredAction = ReturnType<typeof autoInjectHandled>;
 
-export type TAutoInjectAction = SetConnectedAction | SetOpenAction | SetConfigAction | TTriggerAutoInjectAction | TAutoInjectTriggeredAction;
+export type TAutoInjectAction = SetConnectedAction | SetOpenAction | SetConfigAction | ResetStateAction | TTriggerAutoInjectAction | TAutoInjectTriggeredAction;
 
 /**
  * This reducer collects and manages information about
@@ -60,6 +62,17 @@ export const autoInject: Reducer<IAutoInjectState, TAutoInjectAction> = (state =
                 return {
                     ...state,
                     isConfiguredOnce: true
+                }
+            }
+
+            break;
+        }
+
+        case 'SET_OPTIONS': {
+            if (!state.isSessionRestoredOnce) {
+                return {
+                    ...state,
+                    isSessionRestoredOnce: true
                 }
             }
 

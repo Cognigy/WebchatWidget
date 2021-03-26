@@ -7,23 +7,25 @@ export const createAutoInjectMiddleware = (webchat: Webchat): Middleware<unknown
     switch (action.type) {
         case 'SET_CONFIG':
         case 'SET_CONNECTED':
-        case 'SET_OPEN': {
+        case 'SET_OPEN':
+        case 'SET_OPTIONS': {
             const nextActionResult = next(action);
             
             (() => {
                 const state = api.getState();
-                const { isAutoInjectHandled: isAutoInjectTriggered, isConfiguredOnce, isConnectedOnce, isOpenedOnce } = state.autoInject;
+                const { isAutoInjectHandled: isAutoInjectTriggered, isConfiguredOnce, isConnectedOnce, isOpenedOnce, isSessionRestoredOnce } = state.autoInject;
                 
                 if (isAutoInjectTriggered)
                     return;
                 
-                if (!isConfiguredOnce || !isConnectedOnce || !isOpenedOnce)
+                if (!isConfiguredOnce || !isConnectedOnce || !isOpenedOnce || !isSessionRestoredOnce)
                     return;
                 
                 api.dispatch(triggerAutoInject());
             })();
 
             return nextActionResult;
+
         }
 
         case 'TRIGGER_AUTO_INJECT': {
@@ -39,7 +41,6 @@ export const createAutoInjectMiddleware = (webchat: Webchat): Middleware<unknown
                 break;
             }
 
-
             // Don't send a message if an "engagement message" is in the message history
             const isEmptyExceptEngagementMesage = state.messages
                 .filter(message => message.source !== 'engagement')
@@ -53,16 +54,7 @@ export const createAutoInjectMiddleware = (webchat: Webchat): Middleware<unknown
             const text = state.config.settings.getStartedPayload;
             const label = state.config.settings.getStartedText;
 
-            /**
-             * IMPORTANT
-             * We are calling client.sendMessage, not webchat.sendMessage!
-             * This means the client will not auto-connect.
-             * The message will be sent as soon as the client connects
-             * 
-             * We manually add the message to the history
-             */
-
-             webchat.sendMessage(text, {}, { label });
+            webchat.sendMessage(text, {}, { label });
             break;
         }
     }
