@@ -1,6 +1,6 @@
 {
     "name": "@cognigy/webchat",
-    "version": "2.25.3",
+    "version": "2.25.4",
     "description": "Webchat Widget for Cognigy.AI",
     "author": "Cognigy GmbH <info@cognigy.com>",
     "contributors": [
