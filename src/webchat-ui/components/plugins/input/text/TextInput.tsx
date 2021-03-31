@@ -257,6 +257,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                         className="webchat-input-button-menu" 
                         aria-label="Toggle persistent menu"
                         aria-expanded={mode==="menu" ? true : false}
+                        id="webchatInputButtonMenu"
                     >
                         <MenuIcon />
                     </MenuButton>
@@ -273,6 +274,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                             placeholder={props.config.settings.inputPlaceholder}
 							className="webchat-input-message-input"
 							aria-label="Message to send"
+                            id="webchatTextMessageInput"
                         />
                         <SubmitButton disabled={this.state.text === ''} className="webchat-input-button-send" aria-label="Send Message">
                             <SendIcon />

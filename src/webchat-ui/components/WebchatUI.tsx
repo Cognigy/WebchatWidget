@@ -314,6 +314,47 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             />
         );
     }
+    
+    handleKeydown = (event) => {
+        const closeButtonInHeader = document.getElementById("webchatHeaderCloseButton");
+        const chatToggleButton = document.getElementById("webChatToggleButton");
+        const webchatHistoryPanel = document.getElementById("webchatChatHistory");
+        const textMessageInput = document.getElementById("webchatTextMessageInput");
+        const getStartedButton = document.getElementById("webchatGetStartedButton");
+        const webchatInputButtonMenu = document.getElementById("webchatInputButtonMenu");
+
+        if(event.target === closeButtonInHeader) {
+            if(event.shiftKey && event.key == "Tab") {
+                event.preventDefault();
+                if(textMessageInput) {
+                    textMessageInput.focus();
+                } else if (getStartedButton) {
+                    getStartedButton.focus();
+                } else if (webchatInputButtonMenu) {
+                    webchatInputButtonMenu.focus();
+                } else {
+                    chatToggleButton?.focus()
+                }
+            }
+        }
+        if(event.target === chatToggleButton) {
+            if(event.shiftKey && event.key == "Tab") {
+                event.preventDefault();
+                if(textMessageInput) {
+                    textMessageInput.focus();
+                } else if (getStartedButton) {
+                    getStartedButton.focus();
+                } else if (webchatInputButtonMenu) {
+                    webchatInputButtonMenu.focus();
+                } else {
+                    webchatHistoryPanel?.focus()
+                }
+            } else if(event.key == "Tab") {
+                event.preventDefault();
+                webchatHistoryPanel?.focus();
+            }
+        }
+    }
 
     render() {
         const { props, state } = this;
@@ -368,6 +409,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 							className="webchat-root"
 							aria-labelledby="webchatHeaderTitle"
 							role="region"
+							onKeyDown={this.handleKeydown}
 						>
                             <CacheProvider value={styleCache}>
                                 {open && (
@@ -457,6 +499,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 					tabIndex={0}
 					role="log"
 					aria-live="polite"
+					id="webchatChatHistory"
 				>
                     {this.renderHistory()}
                 </HistoryWrapper>

@@ -41,6 +41,7 @@ export default ({ logoUrl, connected, title, onClose, ...props }: HeaderProps) =
             onClick={onClose}
 			className="webchat-header-close-button"
 			aria-label="Close Chat"
+            id="webchatHeaderCloseButton"
         >
             <CloseIcon />
         </HeaderIconButton>

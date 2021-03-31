@@ -18,6 +18,7 @@ export default ({ onSendMessage, config }: InputComponentProps) => (
         <GetStartedButton
             onClick={() => onSendMessage(config.settings.getStartedPayload, null, { label: config.settings.getStartedText })}
             color='primary'
+            id="webchatGetStartedButton"
         >
             {config.settings.getStartedButtonText || config.settings.getStartedText}
         </GetStartedButton>
