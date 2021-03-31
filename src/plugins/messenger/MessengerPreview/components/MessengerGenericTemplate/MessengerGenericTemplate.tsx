@@ -88,7 +88,7 @@ export const getMessengerGenericTemplate = ({
 
         handleScrollToView = (index) => {
             const focusedButton = document.activeElement;
-            focusedButton?.scrollIntoView({ behavior: "smooth", inline: "center"});
+            focusedButton?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest"});
         }
 
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
