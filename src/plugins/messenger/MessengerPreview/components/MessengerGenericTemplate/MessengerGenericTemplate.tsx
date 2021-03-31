@@ -115,8 +115,10 @@ export const getMessengerGenericTemplate = ({
             const carousalRootId = `webchat-carousel-template-root-${uuid.v4()}`;
             const carouselTitle = `webchat-carousel-template-title-${uuid.v4()}`;
             const carouselSubtitle = `webchat-carousel-template-subtitle-${uuid.v4()}`;
+            // add aria-describedby only if subtitle is present
+            const carousalAriaDescribedBy = document.getElementById(carouselSubtitle) ? carouselSubtitle : undefined;
             const a11yProps = buttons?.length > 1 ? 
-                { role: "group", "aria-labelledby" : carouselTitle, "aria-describedby": carouselSubtitle} 
+                { role: "group", "aria-labelledby" : carouselTitle, "aria-describedby": carousalAriaDescribedBy} 
                 : {};
 
             return (
