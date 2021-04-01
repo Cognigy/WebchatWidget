@@ -16,6 +16,7 @@ import "./carousel.css";
 import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
 import { getFlexImage } from "../FlexImage";
 import { getBackgroundImage } from "../../lib/css";
+import uuid from "uuid";
 
 export interface IMessengerGenericTemplateProps
     extends IWithFBMActionEventHandler {
@@ -89,6 +90,8 @@ export const getMessengerGenericTemplate = ({
             const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
 
             const isCentered = this.props.config.settings.designTemplate === 2;
+            const ariaLabelForMessengerTitle = default_action ? title + " .Opens in new tab" : title;
+            const messengerSubtitleId = `webchatCarousalTemplateSubtitle-${uuid.v4()}`;
 
             const image = image_url ? (
                 this.props.config.settings.dynamicImageAspectRatio ? (
@@ -113,9 +116,13 @@ export const getMessengerGenericTemplate = ({
                             onClick={e => default_action && onAction(e, default_action)}
                             className="webchat-carousel-template-content"
                             style={default_action ? { cursor: "pointer" }:{}}
+                            role={default_action ? "link" : undefined}
+                            aria-label={ariaLabelForMessengerTitle}
+                            aria-describedby={subtitle ? messengerSubtitleId : undefined}
+                            tabIndex={default_action ? 0 : -1}
                         >
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} />
-                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} />
+                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={messengerSubtitleId} />
                         </GenericContent>
 						<div role={buttons?.length > 1 ? "group" : undefined}>
 							{buttons &&
