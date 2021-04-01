@@ -380,7 +380,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         } = props;
         const { theme, hadConnection, lastUnseenMessageText } = state;
 
-        const { disableToggleButton, enableConnectionStatusIndicator } = config.settings;
+        const { disableToggleButton, enableConnectionStatusIndicator, enableFocusTrap } = config.settings;
 
         if (!this.props.config.active)
             return null;
@@ -409,7 +409,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 							className="webchat-root"
 							aria-labelledby="webchatHeaderTitle"
 							role="region"
-							onKeyDown={this.handleKeydown}
+							onKeyDown={enableFocusTrap && open ? this.handleKeydown : () => {}}
 						>
                             <CacheProvider value={styleCache}>
                                 {open && (
