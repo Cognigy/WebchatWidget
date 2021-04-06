@@ -83,7 +83,8 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
         // TODO buttons, default_action
 
         const button = buttons && buttons[0];
-        const ariaLabelForMessengerTitle = default_action ? title + ". Opens in new tab" : title;
+        const messengerTitle = title ? title + ". " : "";
+        const ariaLabelForMessengerTitle = default_action?.url ? messengerTitle + "Opens in new tab" : title;
         const messengerSubtitleId = `webchatListTemplateHeaderSubtitle-${uuid.v4()}`;
 
         const handleKeyDown = (event, default_action) => {

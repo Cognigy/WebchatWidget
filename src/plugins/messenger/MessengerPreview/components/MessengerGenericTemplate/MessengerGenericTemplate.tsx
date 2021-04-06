@@ -90,7 +90,8 @@ export const getMessengerGenericTemplate = ({
             const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
 
             const isCentered = this.props.config.settings.designTemplate === 2;
-            const ariaLabelForMessengerTitle = default_action ? title + ". Opens in new tab" : title;
+            const messengerTitle = title ? title + ". " : "";
+            const ariaLabelForMessengerTitle = default_action?.url ? messengerTitle + "Opens in new tab" : title;
             const messengerSubtitleId = `webchatCarousalTemplateSubtitle-${uuid.v4()}`;
 
             const image = image_url ? (

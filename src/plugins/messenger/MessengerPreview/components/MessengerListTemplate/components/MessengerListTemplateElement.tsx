@@ -50,8 +50,9 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         const imgStyle: React.CSSProperties = {
             backgroundImage: getBackgroundImage(image_url)
         }
-        const messengerSubtitleId = `webchatListTemplateSubtitle-${uuid.v4()}`
-        const messengerAriaLabel  = default_action ? title + ". Opens in new tab" : title;
+        const messengerSubtitleId = `webchatListTemplateSubtitle-${uuid.v4()}`;
+        const messengerTitle = title ? title + ". " : "";
+        const messengerAriaLabel  = default_action?.url ? messengerTitle + "Opens in new tab" : title;
 
         const handleKeyDown = (event, default_action) => {
             if(event.key === "Enter" && default_action) {
