@@ -121,11 +121,11 @@ export const getMessengerGenericTemplate = ({
                         <GenericContent
                             onClick={e => default_action && onAction(e, default_action)}
                             className="webchat-carousel-template-content"
-                            style={default_action ? { cursor: "pointer" }:{}}
-                            role={default_action ? "link" : undefined}
+                            style={default_action?.url ? { cursor: "pointer" }:{}}
+                            role={default_action?.url ? "link" : undefined}
                             aria-label={ariaLabelForMessengerTitle}
                             aria-describedby={subtitle ? messengerSubtitleId : undefined}
-                            tabIndex={default_action ? 0 : -1}
+                            tabIndex={default_action?.url ? 0 : -1}
                             onKeyDown = {e => handleKeyDown(e, default_action)}
                         >
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} />

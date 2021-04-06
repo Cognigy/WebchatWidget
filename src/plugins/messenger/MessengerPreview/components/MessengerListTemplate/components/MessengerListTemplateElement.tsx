@@ -62,13 +62,13 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         return (
             <div role="listitem">
                 <Root
-                    role={default_action ? "link" : undefined} 
+                    role={default_action?.url ? "link" : undefined} 
                     onClick={default_action && (e => onAction(e, default_action))}
                     className="webchat-list-template-element"
-                    style={default_action ? { cursor: "pointer" }:{}}
+                    style={default_action?.url ? { cursor: "pointer" }:{}}
                     aria-label={messengerAriaLabel} 
                     aria-describedby={subtitle ? messengerSubtitleId : undefined}
-                    tabIndex={default_action ? 0 : -1}
+                    tabIndex={default_action?.url ? 0 : -1}
                     onKeyDown = {e => handleKeyDown(e, default_action)}
                 >
                     <div>
