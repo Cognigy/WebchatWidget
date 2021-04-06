@@ -90,7 +90,7 @@ export const getMessengerGenericTemplate = ({
             const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
 
             const isCentered = this.props.config.settings.designTemplate === 2;
-            const ariaLabelForMessengerTitle = default_action ? title + " .Opens in new tab" : title;
+            const ariaLabelForMessengerTitle = default_action ? title + ". Opens in new tab" : title;
             const messengerSubtitleId = `webchatCarousalTemplateSubtitle-${uuid.v4()}`;
 
             const image = image_url ? (
@@ -108,6 +108,12 @@ export const getMessengerGenericTemplate = ({
                     )
             ) : null;
 
+            const handleKeyDown = (event, default_action) => {
+                if(default_action && event.key === "Enter") {
+                    onAction(event, default_action);
+                }
+            }
+
             return (
                 <ElementRoot key={index} className="webchat-carousel-template-root">
                     <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`}>
@@ -120,6 +126,7 @@ export const getMessengerGenericTemplate = ({
                             aria-label={ariaLabelForMessengerTitle}
                             aria-describedby={subtitle ? messengerSubtitleId : undefined}
                             tabIndex={default_action ? 0 : -1}
+                            onKeyDown = {e => handleKeyDown(e, default_action)}
                         >
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} />
                             <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={messengerSubtitleId} />

@@ -51,7 +51,13 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
             backgroundImage: getBackgroundImage(image_url)
         }
         const messengerSubtitleId = `webchatListTemplateSubtitle-${uuid.v4()}`
-        const messengerAriaLabel  = default_action ? title + " .Opens in new tab" : title;
+        const messengerAriaLabel  = default_action ? title + ". Opens in new tab" : title;
+
+        const handleKeyDown = (event, default_action) => {
+            if(event.key === "Enter" && default_action) {
+                onAction(event, default_action);
+            }
+        }
 
         return (
             <div role="listitem">
@@ -63,6 +69,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
                     aria-label={messengerAriaLabel} 
                     aria-describedby={subtitle ? messengerSubtitleId : undefined}
                     tabIndex={default_action ? 0 : -1}
+                    onKeyDown = {e => handleKeyDown(e, default_action)}
                 >
                     <div>
                         <MessengerTitle className="webchat-list-template-element-title" dangerouslySetInnerHTML={{__html: title}} />
