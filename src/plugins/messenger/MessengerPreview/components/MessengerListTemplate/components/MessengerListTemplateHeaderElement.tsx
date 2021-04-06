@@ -23,6 +23,9 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
 
     const Root = styled.div(() => ({
         position: 'relative',
+        "&:focus":{
+            opacity: 0.85,
+        }
     }));
 
     const DarkLayer = styled.div({
