@@ -314,44 +314,63 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             />
         );
     }
-    
-    handleKeydown = (event) => {
-        const closeButtonInHeader = document.getElementById("webchatHeaderCloseButton");
-        const chatToggleButton = document.getElementById("webChatToggleButton");
+
+    handleReverseTabNavigation = () => {
         const webchatHistoryPanel = document.getElementById("webchatChatHistory");
         const textMessageInput = document.getElementById("webchatTextMessageInput");
         const getStartedButton = document.getElementById("webchatGetStartedButton");
         const webchatInputButtonMenu = document.getElementById("webchatInputButtonMenu");
+        if(textMessageInput) {
+            textMessageInput.focus();
+        } else if (getStartedButton) {
+            getStartedButton.focus();
+        } else if (webchatInputButtonMenu) {
+            webchatInputButtonMenu.focus();
+        } else {
+            webchatHistoryPanel?.focus()
+        }
+    }
+    
+    handleKeydown = (event) => {
+        const { enableFocusTrap } = this.props.config.settings;
+        const { open } = this.props;
 
-        if(event.target === closeButtonInHeader) {
-            if(event.shiftKey && event.key == "Tab") {
-                event.preventDefault();
-                if(textMessageInput) {
-                    textMessageInput.focus();
-                } else if (getStartedButton) {
-                    getStartedButton.focus();
-                } else if (webchatInputButtonMenu) {
-                    webchatInputButtonMenu.focus();
-                } else {
-                    chatToggleButton?.focus()
+        if(enableFocusTrap && open) {
+            const closeButtonInHeader = document.getElementById("webchatHeaderCloseButton");
+            const chatToggleButton = document.getElementById("webchatToggleButton");
+            
+            /**
+             * If the current focused element is the close button in chat header, the focus moves
+             * to some element outside chat window on 'Shift + Tab' navigation.
+             * 
+             * In order to trap focus, move focus back to the first element (from the bottom) within chat window 
+             * on Shift + Tab navigation.
+             * 
+             */
+            if(event.target === closeButtonInHeader) {
+                if(event.shiftKey && event.key == "Tab") {
+                    event.preventDefault();
+                    this.handleReverseTabNavigation();                    
                 }
             }
-        }
-        if(event.target === chatToggleButton) {
-            if(event.shiftKey && event.key == "Tab") {
-                event.preventDefault();
-                if(textMessageInput) {
-                    textMessageInput.focus();
-                } else if (getStartedButton) {
-                    getStartedButton.focus();
-                } else if (webchatInputButtonMenu) {
-                    webchatInputButtonMenu.focus();
-                } else {
-                    webchatHistoryPanel?.focus()
+            /**
+             * If the current focused element is the chat toggle button, the focus moves to some element 
+             * outside chat window on 'Tab' navigation.
+             * 
+             * In order to trap focus, move the focus back to the chat history panel on Tab navigation.
+             * 
+             * On Shift + Tab navigation, the focus should move to the first element (from the bottom) within chat window.
+             * 
+             */
+            if(event.target === chatToggleButton) {
+                if(event.key == "Tab") {
+                    event.preventDefault();
+                    const webchatHistoryPanel = document.getElementById("webchatChatHistory");
+                    webchatHistoryPanel?.focus();
+                } else if(event.shiftKey && event.key == "Tab") {
+                    event.preventDefault();
+                    this.handleReverseTabNavigation();
                 }
-            } else if(event.key == "Tab") {
-                event.preventDefault();
-                webchatHistoryPanel?.focus();
             }
         }
     }
@@ -380,7 +399,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         } = props;
         const { theme, hadConnection, lastUnseenMessageText } = state;
 
-        const { disableToggleButton, enableConnectionStatusIndicator, enableFocusTrap } = config.settings;
+        const { disableToggleButton, enableConnectionStatusIndicator } = config.settings;
 
         if (!this.props.config.active)
             return null;
@@ -409,7 +428,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 							className="webchat-root"
 							aria-labelledby="webchatHeaderTitle"
 							role="region"
-							onKeyDown={enableFocusTrap && open ? this.handleKeydown : () => {}}
+							onKeyDown={this.handleKeydown}
 						>
                             <CacheProvider value={styleCache}>
                                 {open && (
@@ -449,7 +468,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             type='button'
 											className="webchat-toggle-button"
 											aria-label={open ? "Close chat" : openChatAriaLabel()}
-											id="webChatToggleButton"
+											id="webchatToggleButton"
                                         >
                                             {open ? (
                                                 <CloseIcon />
