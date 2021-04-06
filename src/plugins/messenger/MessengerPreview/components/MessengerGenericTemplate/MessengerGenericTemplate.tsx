@@ -16,6 +16,7 @@ import "./carousel.css";
 import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
 import { getFlexImage } from "../FlexImage";
 import { getBackgroundImage } from "../../lib/css";
+import uuid from "uuid";
 
 export interface IMessengerGenericTemplateProps
     extends IWithFBMActionEventHandler {
@@ -89,6 +90,11 @@ export const getMessengerGenericTemplate = ({
             const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
 
             const isCentered = this.props.config.settings.designTemplate === 2;
+            const messengerTitleId = `webchatCarouselTemplateTitle-${uuid.v4()}`;
+            const messengerSubtitleId = `webchatCarouselTemplateSubtitle-${uuid.v4()}`;
+            const buttonGroupAriaLabelledby = title ? messengerTitleId : undefined;
+            const buttonGroupAriaDescribedby = subtitle ? messengerSubtitleId : undefined;
+            const a11yProps = {role: "group", "aria-labelledby": buttonGroupAriaLabelledby, "aria-describedby": buttonGroupAriaDescribedby};
 
             const image = image_url ? (
                 this.props.config.settings.dynamicImageAspectRatio ? (
@@ -114,10 +120,10 @@ export const getMessengerGenericTemplate = ({
                             className="webchat-carousel-template-content"
                             style={default_action ? { cursor: "pointer" }:{}}
                         >
-                            <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} />
-                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} />
+                            <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} id={messengerTitleId} />
+                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={messengerSubtitleId} />
                         </GenericContent>
-						<div role={buttons?.length > 1 ? "group" : undefined}>
+						<div {...a11yProps}>
 							{buttons &&
 								buttons.map((button, index) => (
 									<React.Fragment key={index}>
