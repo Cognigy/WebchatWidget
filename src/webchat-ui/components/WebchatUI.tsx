@@ -202,6 +202,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             }
         }
 
+        if (prevProps.config.settings.enableUnreadMessagePreview && !this.props.config.settings.enableUnreadMessagePreview) {
+            this.setState({ lastUnseenMessageText: ""})
+        }
+
         // initialize the title indicator if configured
         if (
             this.props.config.settings.enableUnreadMessageTitleIndicator 
