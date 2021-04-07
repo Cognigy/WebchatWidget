@@ -175,7 +175,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             })
         }
 
-        if (prevProps.unseenMessages !== this.props.unseenMessages) {
+        if (prevProps.unseenMessages !== this.props.unseenMessages 
+            || !prevProps.config.settings.enableUnreadMessagePreview && this.props.config.settings.enableUnreadMessagePreview ) {
             const { unseenMessages } = this.props;
 
             // update the "unseen message preview" text
