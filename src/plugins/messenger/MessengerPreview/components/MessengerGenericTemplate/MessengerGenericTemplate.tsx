@@ -113,7 +113,7 @@ export const getMessengerGenericTemplate = ({
 
             return (
                 <ElementRoot key={index} className="webchat-carousel-template-root">
-                    <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`}>
+                    <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`} {...a11yProps}>
                         {image}
                         <GenericContent
                             onClick={e => default_action && onAction(e, default_action)}
@@ -123,7 +123,7 @@ export const getMessengerGenericTemplate = ({
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} id={messengerTitleId} />
                             <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={messengerSubtitleId} />
                         </GenericContent>
-						<div {...a11yProps}>
+						<div>
 							{buttons &&
 								buttons.map((button, index) => (
 									<React.Fragment key={index}>
