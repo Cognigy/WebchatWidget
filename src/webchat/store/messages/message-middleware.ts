@@ -71,21 +71,11 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
 
             const displayMessage = { ...message, text };
 
-            if (options.label)
+            if (typeof options.label === 'string')
                 displayMessage.text = options.label;
 
             next(setFullscreenMessage(undefined));
 
-            /**
-             * Do not add the message to the history 
-             * if the label is set but empty.
-             * 
-             * This allows "silently" send a message
-             * to bot, e.g. injected start message
-             **/ 
-            if (typeof options.label === "string" && options.label.trim().length === 0) {
-                break;
-            }
             next(addMessage({
                 ...displayMessage,
                 avatarUrl: getAvatarForMessage(displayMessage, store.getState())
