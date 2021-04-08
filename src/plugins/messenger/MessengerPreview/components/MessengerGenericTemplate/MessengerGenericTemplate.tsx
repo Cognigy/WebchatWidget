@@ -16,6 +16,7 @@ import "./carousel.css";
 import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
 import { getFlexImage } from "../FlexImage";
 import { getBackgroundImage } from "../../lib/css";
+import uuid from 'uuid';
 
 export interface IMessengerGenericTemplateProps
     extends IWithFBMActionEventHandler {
@@ -84,6 +85,12 @@ export const getMessengerGenericTemplate = ({
         IMessengerGenericTemplateProps & React.HTMLProps<HTMLDivElement>,
         IMessengerGenericTemplateState
         > {
+
+        handleScrollToView = (index) => {
+            const focusedButton = document.activeElement;
+            focusedButton?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest"});
+        }
+
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
             const { onAction, ...divProps } = this.props;
             const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
@@ -105,8 +112,17 @@ export const getMessengerGenericTemplate = ({
                     )
             ) : null;
 
+            const carouselRootId = `webchat-carousel-template-root-${uuid.v4()}`;
+            const carouselTitle = `webchat-carousel-template-title-${uuid.v4()}`;
+            const carouselSubtitle = `webchat-carousel-template-subtitle-${uuid.v4()}`;
+            // add aria-describedby only if subtitle is present
+            const carouselAriaDescribedBy = document.getElementById(carouselSubtitle) ? carouselSubtitle : undefined;
+            const a11yProps = buttons?.length > 1 ? 
+                { role: "group", "aria-labelledby" : carouselTitle, "aria-describedby": carouselAriaDescribedBy} 
+                : {};
+
             return (
-                <ElementRoot key={index} className="webchat-carousel-template-root">
+                <ElementRoot key={index} className="webchat-carousel-template-root" id={carouselRootId}>
                     <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`}>
                         {image}
                         <GenericContent
@@ -114,18 +130,19 @@ export const getMessengerGenericTemplate = ({
                             className="webchat-carousel-template-content"
                             style={default_action ? { cursor: "pointer" }:{}}
                         >
-                            <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} />
-                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} />
+                            <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} id={carouselTitle} />
+                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={carouselSubtitle} />
                         </GenericContent>
-						<div role={buttons?.length > 1 ? "group" : undefined}>
+						<div {...a11yProps}>
 							{buttons &&
-								buttons.map((button, index) => (
-									<React.Fragment key={index}>
+								buttons.map((button, i) => (
+									<React.Fragment key={i}>
 										<Divider />
 										<MessengerButton
 											button={button}
 											onClick={e => onAction(e, button)}
 											className="webchat-carousel-template-button"
+											onFocus={this.handleScrollToView}
 										/>
 									</React.Fragment>
 								))}
