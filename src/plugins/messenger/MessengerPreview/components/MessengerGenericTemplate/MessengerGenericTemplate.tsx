@@ -112,17 +112,17 @@ export const getMessengerGenericTemplate = ({
                     )
             ) : null;
 
-            const carousalRootId = `webchat-carousel-template-root-${uuid.v4()}`;
+            const carouselRootId = `webchat-carousel-template-root-${uuid.v4()}`;
             const carouselTitle = `webchat-carousel-template-title-${uuid.v4()}`;
             const carouselSubtitle = `webchat-carousel-template-subtitle-${uuid.v4()}`;
             // add aria-describedby only if subtitle is present
-            const carousalAriaDescribedBy = document.getElementById(carouselSubtitle) ? carouselSubtitle : undefined;
+            const carouselAriaDescribedBy = document.getElementById(carouselSubtitle) ? carouselSubtitle : undefined;
             const a11yProps = buttons?.length > 1 ? 
-                { role: "group", "aria-labelledby" : carouselTitle, "aria-describedby": carousalAriaDescribedBy} 
+                { role: "group", "aria-labelledby" : carouselTitle, "aria-describedby": carouselAriaDescribedBy} 
                 : {};
 
             return (
-                <ElementRoot key={index} className="webchat-carousel-template-root" id={carousalRootId}>
+                <ElementRoot key={index} className="webchat-carousel-template-root" id={carouselRootId}>
                     <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`}>
                         {image}
                         <GenericContent
