@@ -8,6 +8,7 @@ import { getMessengerTitle } from '../../MessengerTitle';
 import { getMessengerListButton } from '../../MessengerListButton';
 import { getBackgroundImage } from '../../../lib/css';
 import { IWebchatConfig } from '../../../../../../common/interfaces/webchat-config';
+import uuid from "uuid";
 
 interface IMessengerListTemplateElementProps extends IWithFBMActionEventHandler {
     element: IFBMListTemplateElement;
@@ -25,6 +26,10 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         gridTemplateColumns: '1fr auto',
         gridColumnGap: theme.unitSize,
         backgroundColor: 'white',
+        "&:focus": {
+            outline: 'none',
+            backgroundColor: 'hsl(0, 0%, 92%)'
+        }
     }));
 
     const Image = styled.div(({ theme }) => ({
@@ -45,31 +50,46 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         const imgStyle: React.CSSProperties = {
             backgroundImage: getBackgroundImage(image_url)
         }
+        const messengerSubtitleId = `webchatListTemplateSubtitle-${uuid.v4()}`;
+        const messengerTitle = title ? title + ". " : "";
+        const messengerAriaLabel  = default_action?.url ? messengerTitle + "Opens in new tab" : title;
+
+        const handleKeyDown = (event, default_action) => {
+            if(event.key === "Enter" && default_action) {
+                onAction(event, default_action);
+            }
+        }
 
         return (
-            <Root
-				role="listitem"
-                onClick={default_action && (e => onAction(e, default_action))}
-                className="webchat-list-template-element"
-                style={default_action ? { cursor: "pointer" }:{}}
-            >
-                <div>
-                    <MessengerTitle className="webchat-list-template-element-title" dangerouslySetInnerHTML={{__html: title}} />
-                    <MessengerSubtitle className="webchat-list-template-element-subtitle" dangerouslySetInnerHTML={{__html: subtitle}} config={config} />
-                    {button && (
-                        <ListButton
-                            onClick={e => {e.stopPropagation(); onAction(e, button)}}
-                            className="webchat-list-template-element-button"
-                            dangerouslySetInnerHTML={{__html: getButtonLabel(button)}}
-                        />
+            <div role="listitem">
+                <Root
+                    role={default_action?.url ? "link" : undefined} 
+                    onClick={default_action && (e => onAction(e, default_action))}
+                    className="webchat-list-template-element"
+                    style={default_action?.url ? { cursor: "pointer" }:{}}
+                    aria-label={messengerAriaLabel} 
+                    aria-describedby={subtitle ? messengerSubtitleId : undefined}
+                    tabIndex={default_action?.url ? 0 : -1}
+                    onKeyDown = {e => handleKeyDown(e, default_action)}
+                >
+                    <div>
+                        <MessengerTitle className="webchat-list-template-element-title" dangerouslySetInnerHTML={{__html: title}} />
+                        <MessengerSubtitle className="webchat-list-template-element-subtitle" dangerouslySetInnerHTML={{__html: subtitle}} config={config} id={messengerSubtitleId} />
+                        {button && (
+                            <ListButton
+                                onClick={e => {e.stopPropagation(); onAction(e, button)}}
+                                className="webchat-list-template-element-button"
+                                dangerouslySetInnerHTML={{__html: getButtonLabel(button)}}
+                            />
+                        )}
+                    </div>
+                    {image_url && (
+                        <Image style={imgStyle}>
+                            <span role="img" aria-label={image_alt_text || "List Image"}> </span>
+                        </Image>
                     )}
-                </div>
-                {image_url && (
-                    <Image style={imgStyle} >  
-						<span role="img" aria-label={image_alt_text || "List Image"}> </span> 
-					</Image>
-                )}
-            </Root>
+                </Root>
+            </div>
         )
     };
 

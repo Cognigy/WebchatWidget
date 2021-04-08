@@ -8,6 +8,7 @@ import { getMessengerListButton } from '../../MessengerListButton';
 import { getButtonLabel } from '../../MessengerButton/lib/messengerButtonHelpers';
 import { getBackgroundImage } from '../../../lib/css';
 import { IWebchatConfig } from '../../../../../../common/interfaces/webchat-config';
+import uuid from "uuid";
 
 interface IMessengerListTemplateHeaderElementProps extends IWithFBMActionEventHandler {
     element: IFBMListTemplateElement;
@@ -22,6 +23,9 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
 
     const Root = styled.div(() => ({
         position: 'relative',
+        "&:focus":{
+            opacity: 0.85,
+        }
     }));
 
     const DarkLayer = styled.div({
@@ -82,6 +86,15 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
         // TODO buttons, default_action
 
         const button = buttons && buttons[0];
+        const messengerTitle = title ? title + ". " : "";
+        const ariaLabelForMessengerTitle = default_action?.url ? messengerTitle + "Opens in new tab" : title;
+        const messengerSubtitleId = `webchatListTemplateHeaderSubtitle-${uuid.v4()}`;
+
+        const handleKeyDown = (event, default_action) => {
+            if(default_action && event.key === "Enter") {
+                onAction(event, default_action);
+            }
+        }
 
         const image = config.settings.dynamicImageAspectRatio
             ? <FlexImage src={image_url} alt={image_alt_text || ""} />
@@ -89,27 +102,34 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
 					<span role="img" aria-label={image_alt_text || "List Image"}> </span>
 			  </FixedImage>
         return (
-            <Root
-                onClick={default_action && (e => onAction(e, default_action))}
-                className="webchat-list-template-header"
-            >
-                {image}
-                <DarkLayer />
-                <Content className="webchat-list-template-header-content"
-                    style={default_action ? { cursor: "pointer" }:{}}
+            <div role="listitem">
+                <Root
+                    onClick={default_action && (e => onAction(e, default_action))}
+                    className="webchat-list-template-header"
+                    role={default_action?.url ? "link" : undefined}
+                    aria-label={ariaLabelForMessengerTitle}
+                    aria-describedby={subtitle ? messengerSubtitleId : undefined}
+                    tabIndex={default_action?.url ? 0 : -1}
+                    onKeyDown = {e => handleKeyDown(e, default_action)}
                 >
-                    <Title className="webchat-list-template-header-title" dangerouslySetInnerHTML={{__html: title}} />
-                    <Subtitle className="webchat-list-template-header-subtitle" dangerouslySetInnerHTML={{__html: subtitle}} config={config} />
-                    {button && (
-                        <ListHeaderButton
-                            onClick={e => {e.stopPropagation(); onAction(e, button)}}
-                            className="webchat-list-template-header-button"
-                            dangerouslySetInnerHTML={{__html: getButtonLabel(button)}}
-                        >
-                        </ListHeaderButton>
-                    )}
-                </Content>
-            </Root>
+                    {image}
+                    <DarkLayer />
+                    <Content className="webchat-list-template-header-content"
+                        style={default_action?.url ? { cursor: "pointer" }:{}}
+                    >
+                        <Title className="webchat-list-template-header-title" dangerouslySetInnerHTML={{__html: title}} />
+                        <Subtitle className="webchat-list-template-header-subtitle" dangerouslySetInnerHTML={{__html: subtitle}} config={config} id={messengerSubtitleId}/>
+                        {button && (
+                            <ListHeaderButton
+                                onClick={e => {e.stopPropagation(); onAction(e, button)}}
+                                className="webchat-list-template-header-button"
+                                dangerouslySetInnerHTML={{__html: getButtonLabel(button)}}
+                            >
+                            </ListHeaderButton>
+                        )}
+                    </Content>
+                </Root>
+            </div>
         )
     };
 

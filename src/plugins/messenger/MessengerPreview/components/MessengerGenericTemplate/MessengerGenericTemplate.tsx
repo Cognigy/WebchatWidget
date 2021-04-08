@@ -96,6 +96,11 @@ export const getMessengerGenericTemplate = ({
             const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
 
             const isCentered = this.props.config.settings.designTemplate === 2;
+            const carouselTitle = title ? title + ". " : "";
+            const ariaLabelForMessengerTitle = default_action?.url ? carouselTitle + "Opens in new tab" : title;
+			const carouselRootId = `webchat-carousel-template-root-${uuid.v4()}`;
+            const carouselTitleId = `webchat-carousel-template-title-${uuid.v4()}`;
+            const carouselSubtitleId = `webchat-carousel-template-subtitle-${uuid.v4()}`;
 
             const image = image_url ? (
                 this.props.config.settings.dynamicImageAspectRatio ? (
@@ -112,14 +117,11 @@ export const getMessengerGenericTemplate = ({
                     )
             ) : null;
 
-            const carouselRootId = `webchat-carousel-template-root-${uuid.v4()}`;
-            const carouselTitle = `webchat-carousel-template-title-${uuid.v4()}`;
-            const carouselSubtitle = `webchat-carousel-template-subtitle-${uuid.v4()}`;
-            // add aria-describedby only if subtitle is present
-            const carouselAriaDescribedBy = document.getElementById(carouselSubtitle) ? carouselSubtitle : undefined;
-            const a11yProps = buttons?.length > 1 ? 
-                { role: "group", "aria-labelledby" : carouselTitle, "aria-describedby": carouselAriaDescribedBy} 
-                : {};
+            const handleKeyDown = (event, default_action) => {
+                if(default_action && event.key === "Enter") {
+                    onAction(event, default_action);
+                }
+            }
 
             return (
                 <ElementRoot key={index} className="webchat-carousel-template-root" id={carouselRootId}>
@@ -128,12 +130,17 @@ export const getMessengerGenericTemplate = ({
                         <GenericContent
                             onClick={e => default_action && onAction(e, default_action)}
                             className="webchat-carousel-template-content"
-                            style={default_action ? { cursor: "pointer" }:{}}
+                            style={default_action?.url ? { cursor: "pointer" }:{}}
+                            role={default_action?.url ? "link" : undefined}
+                            aria-label={ariaLabelForMessengerTitle}
+                            aria-describedby={subtitle ? carouselSubtitleId : undefined}
+                            tabIndex={default_action?.url ? 0 : -1}
+                            onKeyDown = {e => handleKeyDown(e, default_action)}
                         >
-                            <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} id={carouselTitle} />
-                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={carouselSubtitle} />
+                            <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} id={carouselTitleId} />
+                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={carouselSubtitleId} />
                         </GenericContent>
-						<div {...a11yProps}>
+						<div>
 							{buttons &&
 								buttons.map((button, i) => (
 									<React.Fragment key={i}>
