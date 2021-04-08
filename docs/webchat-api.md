@@ -68,6 +68,17 @@ webchat.sendMessage("hello world!", {}, {
 See it in action:  
 [![Edit Sending Messages via the Webchat API](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/using-the-webchat-api-hnd6r?fontsize=14&hidenavigation=1&theme=dark)
 
+## Update Settings
+It is possible to update the webchat's settings at runtime using the `updateSettings` function.
+It will receive an object as a parameter which will update all provided settings while leaving the remaining settings untouched.
+Please note that only a subset of settings are safe to update at runtime. For further information, have a look at the [Endpoint Settings](./embedding.md#endpoint-settings).
+```javascript
+// this will disabled the unread message preview at runtime
+webchat.updateSettings({
+  enableUnreadMessagePreview: false
+});
+```
+
 
 ## Analytics API
 Read more on how to register to Webchat events on our seperate, in-depth [Analytics API](./analytics-api.md) Guide.
