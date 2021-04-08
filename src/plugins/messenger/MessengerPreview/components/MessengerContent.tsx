@@ -3,7 +3,11 @@ import { MessagePluginFactoryProps } from '../../../../common/interfaces/message
 export const getMessengerContent = ({ React, styled }: MessagePluginFactoryProps) => {
     const MessengerContent = styled.div({
         padding: 10,
-        wordWrap: 'break-word'
+        wordWrap: 'break-word',
+        "&:focus": {
+            outline: 'none',
+            backgroundColor: 'hsl(0, 0%, 92%)'
+        }
     });
 
     return MessengerContent;
