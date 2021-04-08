@@ -7,6 +7,7 @@ import { getMessengerQuickReply } from '../MessengerQuickReply';
 import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
 import { getMessengerBubble } from '../MessengerBubble';
+import uuid from "uuid";
 
 interface Props extends IWithFBMActionEventHandler {
     message: IFBMRegularMessage;
@@ -49,6 +50,11 @@ export const getMessengerTextWithQuickReplies = ({
         const { text, quick_replies } = message;
 
         const hasQuickReplies = quick_replies && quick_replies.length > 0;
+        const hasMoreThanOneQuickReply = quick_replies && quick_replies.length > 1;
+        const webchatQuickReplyTemplateHeaderId = `webchatQuickReplyTemplateHeader-${uuid.v4()}`;
+        const buttonGroupAriaLabelledby = text ? webchatQuickReplyTemplateHeaderId : undefined;
+        const a11yProps = hasMoreThanOneQuickReply ? 
+            {role: "group", "aria-labelledby": buttonGroupAriaLabelledby } : {};
 
         // TODO add click behaviour
 
@@ -57,10 +63,11 @@ export const getMessengerTextWithQuickReplies = ({
                 <BorderBubble
                     className="webchat-quick-reply-template-header-message"
                     dangerouslySetInnerHTML={{ __html: text }}
+                    id={webchatQuickReplyTemplateHeaderId}
                 ></BorderBubble>
 
                 {hasQuickReplies && (
-                    <QuickReplies className="webchat-quick-reply-template-replies-container">
+                    <QuickReplies className="webchat-quick-reply-template-replies-container" {...a11yProps}>
                         {(quick_replies as IFBMQuickReply[]).map((quickReply, index) => {
                             const { content_type } = quickReply;
                             let label: string = "";
@@ -95,7 +102,6 @@ export const getMessengerTextWithQuickReplies = ({
                                     key={index}
                                     onClick={e => onAction(e, quickReply)}
 									className="webchat-quick-reply-template-reply"
-									role="button"
                                 >
                                     {image}
                                     <span dangerouslySetInnerHTML={{ __html: label }} />

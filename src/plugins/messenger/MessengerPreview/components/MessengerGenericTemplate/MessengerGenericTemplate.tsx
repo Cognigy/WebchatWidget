@@ -16,7 +16,7 @@ import "./carousel.css";
 import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
 import { getFlexImage } from "../FlexImage";
 import { getBackgroundImage } from "../../lib/css";
-import uuid from 'uuid';
+import uuid from "uuid";
 
 export interface IMessengerGenericTemplateProps
     extends IWithFBMActionEventHandler {
@@ -96,11 +96,15 @@ export const getMessengerGenericTemplate = ({
             const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
 
             const isCentered = this.props.config.settings.designTemplate === 2;
+            const carouselRootId = `webchatCarouselTemplateRoot-${uuid.v4()}`;
+            const carouselTitleId = `webchatCarouselTemplateTitle-${uuid.v4()}`;
+            const carouselSubtitleId = `webchatCarouselTemplateSubtitle-${uuid.v4()}`;
+            const carouselAriaLabelledby = title ? carouselTitleId : undefined;
+            const carouselAriaDescribedby = subtitle ? carouselSubtitleId : undefined;
+            const a11yProps = {role: "group", "aria-labelledby": carouselAriaLabelledby, "aria-describedby": carouselAriaDescribedby};
             const carouselTitle = title ? title + ". " : "";
-            const ariaLabelForMessengerTitle = default_action?.url ? carouselTitle + "Opens in new tab" : title;
-			const carouselRootId = `webchat-carousel-template-root-${uuid.v4()}`;
-            const carouselTitleId = `webchat-carousel-template-title-${uuid.v4()}`;
-            const carouselSubtitleId = `webchat-carousel-template-subtitle-${uuid.v4()}`;
+            const ariaLabelForCarouselTitle = default_action?.url ? carouselTitle + "Opens in new tab" : title;
+			
 
             const image = image_url ? (
                 this.props.config.settings.dynamicImageAspectRatio ? (
@@ -125,15 +129,15 @@ export const getMessengerGenericTemplate = ({
 
             return (
                 <ElementRoot key={index} className="webchat-carousel-template-root" id={carouselRootId}>
-                    <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`}>
+                    <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`} {...a11yProps}>
                         {image}
                         <GenericContent
                             onClick={e => default_action && onAction(e, default_action)}
                             className="webchat-carousel-template-content"
                             style={default_action?.url ? { cursor: "pointer" }:{}}
                             role={default_action?.url ? "link" : undefined}
-                            aria-label={ariaLabelForMessengerTitle}
-                            aria-describedby={subtitle ? carouselSubtitleId : undefined}
+                            aria-label={ariaLabelForCarouselTitle}
+                            aria-describedby={carouselAriaDescribedby}
                             tabIndex={default_action?.url ? 0 : -1}
                             onKeyDown = {e => handleKeyDown(e, default_action)}
                         >

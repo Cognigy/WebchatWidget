@@ -463,6 +463,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 					role="log"
 					aria-live="polite"
 				>
+                    <h2 className="sr-only" id="webchatChatHistoryHeading">Chat History</h2>
                     {this.renderHistory()}
                 </HistoryWrapper>
                 {this.renderInput()}
