@@ -16,7 +16,7 @@ import "./carousel.css";
 import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
 import { getFlexImage } from "../FlexImage";
 import { getBackgroundImage } from "../../lib/css";
-import uuid from "uuid";
+import uuid from 'uuid';
 
 export interface IMessengerGenericTemplateProps
     extends IWithFBMActionEventHandler {
@@ -85,14 +85,22 @@ export const getMessengerGenericTemplate = ({
         IMessengerGenericTemplateProps & React.HTMLProps<HTMLDivElement>,
         IMessengerGenericTemplateState
         > {
+
+        handleScrollToView = (index) => {
+            const focusedButton = document.activeElement;
+            focusedButton?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest"});
+        }
+
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
             const { onAction, ...divProps } = this.props;
             const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
 
             const isCentered = this.props.config.settings.designTemplate === 2;
-            const messengerTitle = title ? title + ". " : "";
-            const ariaLabelForMessengerTitle = default_action?.url ? messengerTitle + "Opens in new tab" : title;
-            const messengerSubtitleId = `webchatCarousalTemplateSubtitle-${uuid.v4()}`;
+            const carouselTitle = title ? title + ". " : "";
+            const ariaLabelForMessengerTitle = default_action?.url ? carouselTitle + "Opens in new tab" : title;
+			const carouselRootId = `webchat-carousel-template-root-${uuid.v4()}`;
+            const carouselTitleId = `webchat-carousel-template-title-${uuid.v4()}`;
+            const carouselSubtitleId = `webchat-carousel-template-subtitle-${uuid.v4()}`;
 
             const image = image_url ? (
                 this.props.config.settings.dynamicImageAspectRatio ? (
@@ -116,7 +124,7 @@ export const getMessengerGenericTemplate = ({
             }
 
             return (
-                <ElementRoot key={index} className="webchat-carousel-template-root">
+                <ElementRoot key={index} className="webchat-carousel-template-root" id={carouselRootId}>
                     <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`}>
                         {image}
                         <GenericContent
@@ -125,22 +133,23 @@ export const getMessengerGenericTemplate = ({
                             style={default_action?.url ? { cursor: "pointer" }:{}}
                             role={default_action?.url ? "link" : undefined}
                             aria-label={ariaLabelForMessengerTitle}
-                            aria-describedby={subtitle ? messengerSubtitleId : undefined}
+                            aria-describedby={subtitle ? carouselSubtitleId : undefined}
                             tabIndex={default_action?.url ? 0 : -1}
                             onKeyDown = {e => handleKeyDown(e, default_action)}
                         >
-                            <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} />
-                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={messengerSubtitleId} />
+                            <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} id={carouselTitleId} />
+                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={carouselSubtitleId} />
                         </GenericContent>
-						<div role={buttons?.length > 1 ? "group" : undefined}>
+						<div>
 							{buttons &&
-								buttons.map((button, index) => (
-									<React.Fragment key={index}>
+								buttons.map((button, i) => (
+									<React.Fragment key={i}>
 										<Divider />
 										<MessengerButton
 											button={button}
 											onClick={e => onAction(e, button)}
 											className="webchat-carousel-template-button"
+											onFocus={this.handleScrollToView}
 										/>
 									</React.Fragment>
 								))}
