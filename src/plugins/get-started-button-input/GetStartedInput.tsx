@@ -16,10 +16,10 @@ const GetStartedButton = styled(Button)(({ theme }) => ({
 export default ({ onSendMessage, config }: InputComponentProps) => (
     <Toolbar>
         <GetStartedButton
-            onClick={() => onSendMessage(config.settings.getStartedPayload, null, { label: config.settings.getStartedText })}
+            onClick={() => onSendMessage(config.settings.getStartedPayload, null, { label: config.settings.getStartedText ?? '' })}
             color='primary'
         >
-            {config.settings.getStartedButtonText || config.settings.getStartedText}
+            {config.settings.getStartedButtonText}
         </GetStartedButton>
     </Toolbar>
 )
