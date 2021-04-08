@@ -1,5 +1,5 @@
 import { Reducer } from "redux";
-import { IWebchatConfig } from "../../../common/interfaces/webchat-config";
+import { IWebchatConfig, IWebchatSettings } from "../../../common/interfaces/webchat-config";
 
 export type ConfigState = IWebchatConfig;
 
@@ -62,7 +62,14 @@ export const setConfig = (config: ConfigState) => ({
 });
 export type SetConfigAction = ReturnType<typeof setConfig>;
 
-export const config: Reducer<ConfigState, SetConfigAction> = (state = getInitialState(), action) => {
+export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
+export const updateSettings = (payload: Partial<IWebchatSettings>) => ({
+    type: UPDATE_SETTINGS as 'UPDATE_SETTINGS',
+    payload
+});
+export type UpdateSettingsAction = ReturnType<typeof updateSettings>;
+
+export const config: Reducer<ConfigState, SetConfigAction | UpdateSettingsAction> = (state = getInitialState(), action) => {
 
     switch (action.type) {
         case 'SET_CONFIG': {
@@ -72,6 +79,15 @@ export const config: Reducer<ConfigState, SetConfigAction> = (state = getInitial
                 settings: {
                     ...state.settings,
                     ...action.config.settings
+                }
+            }
+        }
+        case 'UPDATE_SETTINGS': {
+            return {
+                ...state,
+                settings: {
+                    ...state.settings,
+                    ...action.payload
                 }
             }
         }

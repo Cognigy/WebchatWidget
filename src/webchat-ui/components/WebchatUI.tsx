@@ -175,7 +175,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             })
         }
 
-        if (prevProps.unseenMessages !== this.props.unseenMessages) {
+        if (prevProps.unseenMessages !== this.props.unseenMessages 
+            || !prevProps.config.settings.enableUnreadMessagePreview && this.props.config.settings.enableUnreadMessagePreview ) {
             const { unseenMessages } = this.props;
 
             // update the "unseen message preview" text
@@ -200,6 +201,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             if (unseenMessages.length > 0 && this.props.config.settings.enableUnreadMessageSound) {
                 notificationSound.play();
             }
+        }
+
+        if (prevProps.config.settings.enableUnreadMessagePreview && !this.props.config.settings.enableUnreadMessagePreview) {
+            this.setState({ lastUnseenMessageText: ""})
         }
 
         // initialize the title indicator if configured
