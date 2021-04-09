@@ -18,10 +18,13 @@ const HeaderBar = styled(Toolbar)(({ theme }) => ({
 
 const HeaderIconButton = styled(IconButton)(({ theme }) => ({
     color: theme.primaryContrastColor,
-    fill: theme.primaryContrastColor,
+	fill: theme.primaryContrastColor,
+	borderRadius: "50%",
 	// stroke: theme.primaryContrastColor
-	"&:focus":{
-		fill: theme.primaryStrongColor,
+	"&:focus, &:hover":{
+		backgroundColor: theme.primaryStrongColor,
+		fill: theme.primaryContrastColor,
+		opacity: 0.85,
 	}
 }));
 
