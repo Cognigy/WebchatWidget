@@ -116,6 +116,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     };
 
     history: React.RefObject<ChatScroller>;
+    chatToggleButtonRef: React.RefObject<HTMLButtonElement>;
+    closeButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
 
     private unreadTitleIndicatorInterval: ReturnType<typeof setInterval> | null = null;
     private originalTitle: string = window.document.title;
@@ -127,6 +129,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         super(props);
 
         this.history = React.createRef();
+        this.chatToggleButtonRef = React.createRef();
+        this.closeButtonInHeaderRef = React.createRef();
     }
 
     static getDerivedStateFromProps(props: WebchatUIProps, state: WebchatUIState): WebchatUIState | null {
@@ -341,9 +345,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const { open } = this.props;
 
         if(enableFocusTrap && open) {
-            const closeButtonInHeader = document.getElementById("webchatHeaderCloseButton");
-            const chatToggleButton = document.getElementById("webchatToggleButton");
-            
             /**
              * If the current focused element is the close button in chat header, the focus moves
              * to some element outside chat window on 'Shift + Tab' navigation.
@@ -352,8 +353,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
              * on Shift + Tab navigation.
              * 
              */
-            if(event.target === closeButtonInHeader) {
-                if(event.shiftKey && event.key == "Tab") {
+            if(event.target === this.closeButtonInHeaderRef?.current) {
+                if(event.shiftKey && event.key === "Tab") {
                     event.preventDefault();
                     this.handleReverseTabNavigation();                    
                 }
@@ -367,14 +368,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
              * On Shift + Tab navigation, the focus should move to the first element (from the bottom) within chat window.
              * 
              */
-            if(event.target === chatToggleButton) {
-                if(event.key == "Tab") {
+            if(event.target === this.chatToggleButtonRef?.current) {
+                if(event.shiftKey && event.key === "Tab") {                    
+                    event.preventDefault();
+                    this.handleReverseTabNavigation();
+                } else if(event.key === "Tab") {
                     event.preventDefault();
                     const webchatHistoryPanel = document.getElementById("webchatChatHistory");
                     webchatHistoryPanel?.focus();
-                } else if(event.shiftKey && event.key == "Tab") {
-                    event.preventDefault();
-                    this.handleReverseTabNavigation();
                 }
             }
         }
@@ -473,7 +474,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             type='button'
 											className="webchat-toggle-button"
 											aria-label={open ? "Close chat" : openChatAriaLabel()}
-											id="webchatToggleButton"
+                                            ref={this.chatToggleButtonRef}
                                         >
                                             {open ? (
                                                 <CloseIcon />
@@ -515,6 +516,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     connected={config.active}
                     logoUrl={config.settings.headerLogoUrl}
                     title={config.settings.title || 'Cognigy Webchat'}
+                    closeButtonRef = {this.closeButtonInHeaderRef}
                 />
 				<HistoryWrapper 
 					disableBranding={config.settings.disableBranding} 
