@@ -22,6 +22,7 @@ const getInitialState = (): ConfigState => ({
         enableConnectionStatusIndicator: true,
         showEngagementMessagesInChat: false,
         enableFileUpload: false,
+        enableFocusTrap: false,
         enablePersistentMenu: false,
         enableSTT: false,
         enableStrictMessengerSync: false,
