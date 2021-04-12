@@ -79,7 +79,7 @@ export const getMessengerMediaTemplate = ({
                 <MessengerFrame {...divProps} className="webchat-media-template-video" style={{ overflow: "visible" }}>
                     <Video>
                         <span className="sr-only">{altText || "Attachment Video"}</span>
-                        <VideoPlayer url={url} controls width="100%" height="100%" />
+                        <VideoPlayer url={url} controls width="100%" height="100%" onReady={player => player.getInternalPlayer()?.focus()} />
                     </Video>
                 </MessengerFrame>
             );
@@ -89,7 +89,7 @@ export const getMessengerMediaTemplate = ({
             return (
                 <MessengerFrame {...divProps} className="webchat-media-template-audio" style={{ overflow: "visible" }}>
                     <span className="sr-only">{altText || "Attachment Audio"}</span>
-                    <ReactPlayer url={url} controls width="100%" height="50px" />
+                    <ReactPlayer url={url} controls width="100%" height="50px" onReady={player => player.getInternalPlayer()?.focus()} />
                 </MessengerFrame>
             );
         }

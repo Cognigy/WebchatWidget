@@ -7,6 +7,8 @@ import { getMessengerListTemplateElement } from './components/MessengerListTempl
 import { getMessengerFrame } from '../MessengerFrame';
 import { getMessengerListTemplateHeaderElement } from './components/MessengerListTemplateHeaderElement';
 import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
+import { useEffect } from 'react';
+import uuid from 'uuid';
 
 export interface IMessengerListTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMListTemplatePayload;
@@ -35,9 +37,18 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
             : null;
 
         const button = buttons && buttons[0];
+        const listTemplateId = `webchatListTemplateRoot-${uuid.v4()}`;
+
+        useEffect(() => {
+            const listTemplateRoot = document.getElementById(listTemplateId);
+            // get the first focusable element within the list and add focus
+            const focusable = listTemplateRoot?.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+            const firstFocusable = focusable && focusable[0] as HTMLElement;
+            setTimeout(() => {firstFocusable?.focus();}, 200);
+        }, []);
 
         return (
-            <MessengerFrame {...divProps} className="webchat-list-template-root" role="list">
+            <MessengerFrame {...divProps} className="webchat-list-template-root" role="list" id={listTemplateId}>
                 {headerElement && (
                     <MessengerListTemplateHeaderElement
                         element={headerElement}

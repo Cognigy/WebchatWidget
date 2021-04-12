@@ -8,6 +8,7 @@ import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
 import { getMessengerBubble } from '../MessengerBubble';
 import uuid from "uuid";
+import { useEffect } from 'react';
 
 interface Props extends IWithFBMActionEventHandler {
     message: IFBMRegularMessage;
@@ -51,12 +52,18 @@ export const getMessengerTextWithQuickReplies = ({
 
         const hasQuickReplies = quick_replies && quick_replies.length > 0;
         const hasMoreThanOneQuickReply = quick_replies && quick_replies.length > 1;
+        const webchatQuickReplyTemplateButtonId = `webchatQuickReplyTemplateButton-${uuid.v4()}`;
         const webchatQuickReplyTemplateHeaderId = `webchatQuickReplyTemplateHeader-${uuid.v4()}`;
         const buttonGroupAriaLabelledby = text ? webchatQuickReplyTemplateHeaderId : undefined;
         const a11yProps = hasMoreThanOneQuickReply ? 
             {role: "group", "aria-labelledby": buttonGroupAriaLabelledby } : {};
 
         // TODO add click behaviour
+
+        useEffect(() => {
+            const quickReplyButton = document.getElementById(`${webchatQuickReplyTemplateButtonId}-0`);
+            setTimeout(() => {quickReplyButton?.focus()}, 200);
+        }, []);
 
         return (
             <div {...divProps} className="webchat-quick-reply-template-root">
@@ -101,7 +108,8 @@ export const getMessengerTextWithQuickReplies = ({
                                 <MessengerQuickReply
                                     key={index}
                                     onClick={e => onAction(e, quickReply)}
-									className="webchat-quick-reply-template-reply"
+                                    className="webchat-quick-reply-template-reply"
+                                    id={`${webchatQuickReplyTemplateButtonId}-${index}`}
                                 >
                                     {image}
                                     <span dangerouslySetInnerHTML={{ __html: label }} />
