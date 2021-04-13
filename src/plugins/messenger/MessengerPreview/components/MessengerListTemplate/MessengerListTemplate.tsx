@@ -40,11 +40,11 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
         const listTemplateId = `webchatListTemplateRoot-${uuid.v4()}`;
 
         useEffect(() => {
-            const textInput = document.getElementById("webchatInputMessageInputInTextMode");
+            const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
 
             if(!config?.settings.enableAutoFocus) return;
 
-            if(document.activeElement === textInput) return;
+            if(!chatHistory?.contains(document.activeElement)) return;
 
             const listTemplateRoot = document.getElementById(listTemplateId);
             // get the first focusable element within the list and add focus

@@ -56,11 +56,11 @@ export const getMessengerMediaTemplate = ({
         if (!element) return null;
 
         const handleFocus = (player) => {
-            const textInput = document.getElementById("webchatInputMessageInputInTextMode");
+            const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
 
             if(!config?.settings.enableAutoFocus) return;
 
-            if(document.activeElement === textInput) return;
+            if(!chatHistory?.contains(document.activeElement)) return;
 
             setTimeout(() => {
                 player.getInternalPlayer()?.focus()

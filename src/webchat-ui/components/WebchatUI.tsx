@@ -325,7 +325,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     }
 
     handleReverseTabNavigation = () => {
-        const webchatHistoryPanel = document.getElementById("webchatChatHistory");
+        const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
         const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
         const getStartedButton = document.getElementById("webchatGetStartedButton");
         const webchatInputButtonMenu = document.getElementById("webchatInputButtonMenu");
@@ -374,7 +374,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     this.handleReverseTabNavigation();
                 } else if(event.key === "Tab") {
                     event.preventDefault();
-                    const webchatHistoryPanel = document.getElementById("webchatChatHistory");
+                    const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
                     webchatHistoryPanel?.focus();
                 }
             }
@@ -525,7 +525,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 					tabIndex={0}
 					role="log"
 					aria-live="polite"
-					id="webchatChatHistory"
+					id="webchatChatHistoryWrapperLiveLogPanel"
 				>
                     <h2 className="sr-only" id="webchatChatHistoryHeading">Chat History</h2>
                     {this.renderHistory()}

@@ -40,11 +40,11 @@ export const getMessengerButtonTemplate = ({
 
         useEffect(() => {
             const firstButton = document.getElementById(`${webchatButtonTemplateButtonId}-0`);
-            const textInput = document.getElementById("webchatInputMessageInputInTextMode");
+            const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
 
             if(!config?.settings.enableAutoFocus) return;
 
-            if(document.activeElement === textInput) return;
+            if(!chatHistory?.contains(document.activeElement)) return;
 
             setTimeout(() => {
                 firstButton?.focus();

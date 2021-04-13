@@ -64,12 +64,12 @@ export const getMessengerTextWithQuickReplies = ({
         // TODO add click behaviour
 
         useEffect(() => {
-            const textInput = document.getElementById("webchatInputMessageInputInTextMode");
+            const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
             const quickReplyButton = document.getElementById(`${webchatQuickReplyTemplateButtonId}-0`);
 
             if(!config?.settings.enableAutoFocus) return;
 
-            if(document.activeElement === textInput) return;
+            if(!chatHistory?.contains(document.activeElement)) return;
 
             setTimeout(() => {quickReplyButton?.focus()}, 200);
         }, [config]);
