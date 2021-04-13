@@ -25,7 +25,8 @@ export interface IMessengerGenericTemplateProps
 }
 
 export interface IMessengerGenericTemplateState {
-    index: number;
+    index?: number;
+    selectedItem: number;
 }
 
 export const getMessengerGenericTemplate = ({
@@ -86,9 +87,20 @@ export const getMessengerGenericTemplate = ({
         IMessengerGenericTemplateState
         > {
 
+        constructor(props) {
+            super(props);
+
+            this.state = {
+                selectedItem: 0,
+            }
+        }
+
         handleScrollToView = (index) => {
-            const focusedButton = document.activeElement;
-            focusedButton?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest"});
+            this.setState({selectedItem: index})
+        }
+
+        handleChange = (index) => {
+            this.setState({selectedItem: index});
         }
 
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
@@ -153,7 +165,7 @@ export const getMessengerGenericTemplate = ({
 											button={button}
 											onClick={e => onAction(e, button)}
 											className="webchat-carousel-template-button"
-											onFocus={this.handleScrollToView}
+											onFocus={() => this.handleScrollToView(index)}
 										/>
 									</React.Fragment>
 								))}
@@ -165,6 +177,7 @@ export const getMessengerGenericTemplate = ({
 
         render() {
             const elements = this.props.payload.elements;
+            const { selectedItem } = this.state;
 
             if (elements.length === 0) return null;
 
@@ -176,6 +189,9 @@ export const getMessengerGenericTemplate = ({
                     showIndicators={false}
                     showStatus={false}
                     centerMode={true}
+                    selectedItem={selectedItem}
+                    onChange={this.handleChange}
+                    useKeyboardArrows={true}
                 >
                     {elements.map(this.renderElement)}
                 </CarouselRoot>
