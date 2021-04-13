@@ -95,12 +95,22 @@ export const getMessengerGenericTemplate = ({
             }
         }
 
+        // Change the selectedItem state, in order to scroll the card with a focused element into view
         handleScrollToView = (index) => {
             this.setState({selectedItem: index})
         }
 
-        handleChange = (index) => {
+        handleCardChange = (index) => {
             this.setState({selectedItem: index});
+        }
+
+        // Move cards in carousel using arrow keys
+        handleArrowKeyDown = (event) => {
+            if(event.key === "ArrowRight") {
+                this.setState({selectedItem: this.state.selectedItem + 1})
+            } else if(event.key === "ArrowLeft") {
+                this.setState({selectedItem: this.state.selectedItem - 1})
+            }
         }
 
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
@@ -184,17 +194,18 @@ export const getMessengerGenericTemplate = ({
             if (elements.length === 1) return this.renderElement(elements[0]);
 
             return (
-                <CarouselRoot
-                    showThumbs={false}
-                    showIndicators={false}
-                    showStatus={false}
-                    centerMode={true}
-                    selectedItem={selectedItem}
-                    onChange={this.handleChange}
-                    useKeyboardArrows={true}
-                >
-                    {elements.map(this.renderElement)}
-                </CarouselRoot>
+                <div onKeyDown={this.handleArrowKeyDown}>
+                    <CarouselRoot
+                        showThumbs={false}
+                        showIndicators={false}
+                        showStatus={true}
+                        centerMode={true}
+                        selectedItem={selectedItem}
+                        onChange={this.handleCardChange}
+                    >
+                        {elements.map(this.renderElement)}
+                    </CarouselRoot>
+                </div>
             );
         }
     };
