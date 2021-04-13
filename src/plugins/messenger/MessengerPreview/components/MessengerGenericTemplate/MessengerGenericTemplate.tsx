@@ -207,7 +207,7 @@ export const getMessengerGenericTemplate = ({
                     <CarouselRoot
                         showThumbs={false}
                         showIndicators={false}
-                        showStatus={true}
+                        showStatus={false}
                         centerMode={true}
                         selectedItem={selectedItem}
                         onChange={this.handleCardChange}
