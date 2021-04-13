@@ -23,6 +23,7 @@ const getInitialState = (): ConfigState => ({
         showEngagementMessagesInChat: false,
         enableAutoFocus: false,
         enableFileUpload: false,
+        enableFocusTrap: false,
         enablePersistentMenu: false,
         enableSTT: false,
         enableStrictMessengerSync: false,

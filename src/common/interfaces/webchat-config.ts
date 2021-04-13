@@ -20,6 +20,7 @@ export interface IWebchatSettings {
     showEngagementMessagesInChat: boolean;
     enableAutoFocus: boolean;
     enableFileUpload: boolean;
+    enableFocusTrap: boolean;
     enablePersistentMenu: boolean;
     enableSTT: boolean;
     enableStrictMessengerSync: boolean;
