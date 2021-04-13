@@ -104,7 +104,11 @@ export const getMessengerGenericTemplate = ({
             this.setState({selectedItem: index});
         }
 
-        // Move cards in carousel using arrow keys
+        /**
+         * Move cards in carousel using arrow keys. 'useKeyboardArrows' prop of react-responsive-carousel
+         * moves the carousel irrespective of it has a focused item or not. Therefore, it has to be handled this way.
+         * 
+         */
         handleArrowKeyDown = (event) => {
             if(event.key === "ArrowRight") {
                 this.setState({selectedItem: this.state.selectedItem + 1})
@@ -117,16 +121,21 @@ export const getMessengerGenericTemplate = ({
             const { onAction, ...divProps } = this.props;
             const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
 
+            const carouselListLength = this.props.payload.elements.length;
             const isCentered = this.props.config.settings.designTemplate === 2;
             const carouselRootId = `webchatCarouselTemplateRoot-${uuid.v4()}`;
             const carouselTitleId = `webchatCarouselTemplateTitle-${uuid.v4()}`;
             const carouselSubtitleId = `webchatCarouselTemplateSubtitle-${uuid.v4()}`;
+
+            const listItemCount = index !== undefined ? `${index + 1} of ${carouselListLength}` : undefined;
+            const carouselAriaLabel = title ? `${listItemCount}: ${title}` : listItemCount;
             const carouselAriaLabelledby = title ? carouselTitleId : undefined;
             const carouselAriaDescribedby = subtitle ? carouselSubtitleId : undefined;
-            const a11yProps = {role: "group", "aria-labelledby": carouselAriaLabelledby, "aria-describedby": carouselAriaDescribedby};
+            const carouselRooTA11yProps = {role: "group", "aria-labelledby": listItemCount ? undefined : carouselAriaLabelledby,
+                "aria-label": listItemCount ? carouselAriaLabel : undefined, "aria-describedby": carouselAriaDescribedby};
             const carouselTitle = title ? title + ". " : "";
-            const ariaLabelForCarouselTitle = default_action?.url ? carouselTitle + "Opens in new tab" : title;
-			
+            const carouselHeaderA11yProps = default_action?.url ? {"aria-label": carouselTitle + "Opens in new tab"} :
+                {"aria-labelledby": carouselAriaLabelledby}		
 
             const image = image_url ? (
                 this.props.config.settings.dynamicImageAspectRatio ? (
@@ -151,17 +160,17 @@ export const getMessengerGenericTemplate = ({
 
             return (
                 <ElementRoot key={index} className="webchat-carousel-template-root" id={carouselRootId}>
-                    <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`} {...a11yProps}>
+                    <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`} {...carouselRooTA11yProps}>
                         {image}
                         <GenericContent
                             onClick={e => default_action && onAction(e, default_action)}
                             className="webchat-carousel-template-content"
                             style={default_action?.url ? { cursor: "pointer" }:{}}
                             role={default_action?.url ? "link" : undefined}
-                            aria-label={ariaLabelForCarouselTitle}
                             aria-describedby={carouselAriaDescribedby}
                             tabIndex={default_action?.url ? 0 : -1}
                             onKeyDown = {e => handleKeyDown(e, default_action)}
+                            {...carouselHeaderA11yProps}
                         >
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} id={carouselTitleId} />
                             <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={carouselSubtitleId} />
