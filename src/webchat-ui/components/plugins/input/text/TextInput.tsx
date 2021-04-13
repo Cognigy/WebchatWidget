@@ -273,6 +273,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                             placeholder={props.config.settings.inputPlaceholder}
 							className="webchat-input-message-input"
 							aria-label="Message to send"
+							id="webchatInputMessageInputInTextMode"
                         />
                         <SubmitButton disabled={this.state.text === ''} className="webchat-input-button-send" aria-label="Send Message">
                             <SendIcon />

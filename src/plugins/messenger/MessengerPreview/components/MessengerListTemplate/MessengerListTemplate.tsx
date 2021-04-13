@@ -40,12 +40,18 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
         const listTemplateId = `webchatListTemplateRoot-${uuid.v4()}`;
 
         useEffect(() => {
+            const textInput = document.getElementById("webchatInputMessageInputInTextMode");
+
+            if(!config?.settings.enableAutoFocus) return;
+
+            if(document.activeElement === textInput) return;
+
             const listTemplateRoot = document.getElementById(listTemplateId);
             // get the first focusable element within the list and add focus
             const focusable = listTemplateRoot?.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
             const firstFocusable = focusable && focusable[0] as HTMLElement;
-            setTimeout(() => {firstFocusable?.focus();}, 200);
-        }, []);
+            setTimeout(() => { firstFocusable?.focus(); }, 200);
+        }, [config]);
 
         return (
             <MessengerFrame {...divProps} className="webchat-list-template-root" role="list" id={listTemplateId}>

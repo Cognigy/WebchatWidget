@@ -21,6 +21,7 @@ const getInitialState = (): ConfigState => ({
         dynamicImageAspectRatio: false,
         enableConnectionStatusIndicator: true,
         showEngagementMessagesInChat: false,
+        enableAutoFocus: false,
         enableFileUpload: false,
         enablePersistentMenu: false,
         enableSTT: false,

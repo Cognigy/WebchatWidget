@@ -18,6 +18,7 @@ export interface IWebchatSettings {
     dynamicImageAspectRatio: boolean;
     enableConnectionStatusIndicator: boolean;
     showEngagementMessagesInChat: boolean;
+    enableAutoFocus: boolean;
     enableFileUpload: boolean;
     enablePersistentMenu: boolean;
     enableSTT: boolean;

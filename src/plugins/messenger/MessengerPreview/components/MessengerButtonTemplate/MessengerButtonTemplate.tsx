@@ -6,9 +6,11 @@ import { getMessengerButton } from '../MessengerButton/MessengerButton';
 import { getMessengerButtonHeader } from '../MessengerButtonHeader';
 import uuid from "uuid";
 import { useEffect } from 'react';
+import {IWebchatConfig} from '../../../../../common/interfaces/webchat-config';
 
 interface IMessengerButtonTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMButtonTemplatePayload;
+    config: IWebchatConfig;
 }
 
 export const getMessengerButtonTemplate = ({
@@ -27,6 +29,7 @@ export const getMessengerButtonTemplate = ({
     const MessengerButtonTemplate = ({
         payload,
         onAction,
+        config,
         ...divProps
     }: IMessengerButtonTemplateProps & React.HTMLProps<HTMLDivElement>) => {
         const { text, buttons } = payload;
@@ -37,10 +40,16 @@ export const getMessengerButtonTemplate = ({
 
         useEffect(() => {
             const firstButton = document.getElementById(`${webchatButtonTemplateButtonId}-0`);
+            const textInput = document.getElementById("webchatInputMessageInputInTextMode");
+
+            if(!config?.settings.enableAutoFocus) return;
+
+            if(document.activeElement === textInput) return;
+
             setTimeout(() => {
                 firstButton?.focus();
             }, 200);
-        }, []);
+        }, [config]);
 
         return (
             <MessengerButtonHeader {...divProps} className="webchat-buttons-template-root">

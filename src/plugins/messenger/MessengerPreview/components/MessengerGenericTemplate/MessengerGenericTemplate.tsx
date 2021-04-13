@@ -90,8 +90,14 @@ export const getMessengerGenericTemplate = ({
         private carouselButtonId = `webchatCarouselTemplateButton-${uuid.v4()}`;
 
         componentDidMount() {
+            const textInput = document.getElementById("webchatInputMessageInputInTextMode");
             const firstCardContent = document.getElementById(`${this.carouselContentId}-0`);
             const firstButton = document.getElementById(`${this.carouselButtonId}-00`);
+
+            if(!this.props.config.settings.enableAutoFocus) return;
+
+            if(document.activeElement === textInput) return;
+
             if(firstCardContent?.getAttribute("role") === "link") {
                 setTimeout(() => {
                     firstCardContent?.focus();

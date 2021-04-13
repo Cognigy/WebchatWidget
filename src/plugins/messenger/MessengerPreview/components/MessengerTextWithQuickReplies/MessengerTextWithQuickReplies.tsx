@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { IFBMRegularMessage } from '../../interfaces/Message.interface';
 import {
     IFBMTextQuickReply,
@@ -6,12 +7,13 @@ import {
 import { getMessengerQuickReply } from '../MessengerQuickReply';
 import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
+import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
 import { getMessengerBubble } from '../MessengerBubble';
 import uuid from "uuid";
-import { useEffect } from 'react';
 
 interface Props extends IWithFBMActionEventHandler {
     message: IFBMRegularMessage;
+    config: IWebchatConfig;
 }
 
 export const getMessengerTextWithQuickReplies = ({
@@ -46,6 +48,7 @@ export const getMessengerTextWithQuickReplies = ({
     const MessengerTextWithQuickReplies = ({
         message,
         onAction,
+        config,
         ...divProps
     }: Props & React.HTMLProps<HTMLDivElement>) => {
         const { text, quick_replies } = message;
@@ -61,9 +64,15 @@ export const getMessengerTextWithQuickReplies = ({
         // TODO add click behaviour
 
         useEffect(() => {
+            const textInput = document.getElementById("webchatInputMessageInputInTextMode");
             const quickReplyButton = document.getElementById(`${webchatQuickReplyTemplateButtonId}-0`);
+
+            if(!config?.settings.enableAutoFocus) return;
+
+            if(document.activeElement === textInput) return;
+
             setTimeout(() => {quickReplyButton?.focus()}, 200);
-        }, []);
+        }, [config]);
 
         return (
             <div {...divProps} className="webchat-quick-reply-template-root">
