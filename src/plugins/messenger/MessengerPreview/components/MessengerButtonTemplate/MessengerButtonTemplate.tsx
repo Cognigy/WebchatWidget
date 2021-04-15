@@ -5,9 +5,12 @@ import { MessagePluginFactoryProps } from '../../../../../common/interfaces/mess
 import { getMessengerButton } from '../MessengerButton/MessengerButton';
 import { getMessengerButtonHeader } from '../MessengerButtonHeader';
 import uuid from "uuid";
+import { useEffect } from 'react';
+import {IWebchatConfig} from '../../../../../common/interfaces/webchat-config';
 
 interface IMessengerButtonTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMButtonTemplatePayload;
+    config: IWebchatConfig;
 }
 
 export const getMessengerButtonTemplate = ({
@@ -26,12 +29,27 @@ export const getMessengerButtonTemplate = ({
     const MessengerButtonTemplate = ({
         payload,
         onAction,
+        config,
         ...divProps
     }: IMessengerButtonTemplateProps & React.HTMLProps<HTMLDivElement>) => {
         const { text, buttons } = payload;
+        const webchatButtonTemplateButtonId = `webchatButtonTemplateButton-${uuid.v4()}`;
         const webchatButtonTemplateTextId = `webchatButtonTemplateHeader-${uuid.v4()}`;
         const buttonGroupAriaLabelledby = text ? webchatButtonTemplateTextId : undefined;
         const a11yProps = buttons?.length > 1 ? {role: "group", "aria-labelledby": buttonGroupAriaLabelledby} : {};
+
+        useEffect(() => {
+            const firstButton = document.getElementById(`${webchatButtonTemplateButtonId}-0`);
+            const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
+
+            if(!config?.settings.enableAutoFocus) return;
+
+            if(!chatHistory?.contains(document.activeElement)) return;
+
+            setTimeout(() => {
+                firstButton?.focus();
+            }, 200);
+        }, []);
 
         return (
             <MessengerButtonHeader {...divProps} className="webchat-buttons-template-root">
@@ -44,6 +62,7 @@ export const getMessengerButtonTemplate = ({
 								button={button}
 								onClick={e => onAction(e, button)}
 								className="webchat-buttons-template-button"
+								id={`${webchatButtonTemplateButtonId}-${index}`}
 							/>
 						</React.Fragment>
 					))}

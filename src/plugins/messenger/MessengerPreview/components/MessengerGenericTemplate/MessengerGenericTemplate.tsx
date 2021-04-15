@@ -94,7 +94,10 @@ export const getMessengerGenericTemplate = ({
         IMessengerGenericTemplateProps & React.HTMLProps<HTMLDivElement>,
         IMessengerGenericTemplateState
         > {
-        carouselRootId: string = `webchatCarouselTemplateRoot-${uuid.v4()}`;
+		carouselRootId: string = `webchatCarouselTemplateRoot-${uuid.v4()}`;
+		carouselContentId = `webchatCarouselContentButton-${uuid.v4()}`;
+		carouselButtonId = `webchatCarouselTemplateButton-${uuid.v4()}`;
+		
         constructor(props) {
             super(props);
 
@@ -103,6 +106,26 @@ export const getMessengerGenericTemplate = ({
             }
         }
 
+        componentDidMount() {
+            const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
+            const firstCardContent = document.getElementById(`${this.carouselContentId}-0`);
+            const firstButton = document.getElementById(`${this.carouselButtonId}-00`);
+
+            if(!this.props.config.settings.enableAutoFocus) return;
+
+            if(!chatHistory?.contains(document.activeElement)) return;
+
+            if(firstCardContent?.getAttribute("role") === "link") {
+                setTimeout(() => {
+                    firstCardContent?.focus();
+                }, 200);
+            } else if(firstButton) {
+                setTimeout(() => {
+                    firstButton?.focus();
+                }, 200);
+            }             
+		}
+		
         // Change the selectedItem state, in order to scroll the card with a focused element into view
         handleScrollToView = (index) => {
             this.setState({selectedItem: index})
@@ -149,10 +172,11 @@ export const getMessengerGenericTemplate = ({
             const carouselAriaDescribedby = subtitle ? carouselSubtitleId : undefined;
             const carouselRootA11yProps = {role: "group", "aria-labelledby": listItemCount ? undefined : carouselAriaLabelledby,
                 "aria-label": listItemCount ? carouselAriaLabel : undefined, "aria-describedby": carouselAriaDescribedby};
-            const carouselTitle = title ? title + ". " : "";
+			const carouselTitle = title ? title + ". " : "";
             const carouselHeaderA11yProps = default_action?.url ? {"aria-label": carouselTitle + "Opens in new tab"} :
                 {"aria-labelledby": carouselAriaLabelledby}		
 
+			
             const image = image_url ? (
                 this.props.config.settings.dynamicImageAspectRatio ? (
                     <FlexImage
@@ -190,7 +214,8 @@ export const getMessengerGenericTemplate = ({
                             aria-describedby={carouselAriaDescribedby}
                             tabIndex={default_action?.url ? 0 : -1}
                             onKeyDown = {e => handleKeyDown(e, default_action)}
-                            {...carouselHeaderA11yProps}
+							id={`${this.carouselContentId}-${index}`}
+							{...carouselHeaderA11yProps}
                         >
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} id={carouselTitleId} />
                             <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={carouselSubtitleId} />
@@ -205,6 +230,7 @@ export const getMessengerGenericTemplate = ({
 											onClick={e => onAction(e, button)}
 											className="webchat-carousel-template-button"
 											onFocus={() => this.handleScrollToView(index)}
+											id={`${this.carouselButtonId}-${index}${i}`}
 										/>
 									</React.Fragment>
 								))}
@@ -220,7 +246,7 @@ export const getMessengerGenericTemplate = ({
 
             if (elements.length === 0) return null;
 
-            if (elements.length === 1) return this.renderElement(elements[0]);
+            if (elements.length === 1) return this.renderElement(elements[0], 0);
 
             return (
                 <div onKeyDown={this.handleArrowKeyDown}>
@@ -229,7 +255,8 @@ export const getMessengerGenericTemplate = ({
                         showIndicators={false}
                         showStatus={false}
                         centerMode={true}
-                        selectedItem={selectedItem}
+						selectedItem={selectedItem}
+						labels={{leftArrow: "Previous Item", rightArrow: "Next Item"}}
                         onChange={this.handleCardChange}
                     >
                         {elements.map(this.renderElement)}

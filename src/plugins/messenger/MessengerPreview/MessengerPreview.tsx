@@ -56,6 +56,7 @@ export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps
                                     {...divProps}
                                     payload={payload as IFBMButtonTemplatePayload}
                                     onAction={onAction}
+                                    config={config}
                                 />
                             )
                         }
@@ -104,6 +105,7 @@ export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps
                 {...divProps}
                 message={message as IFBMRegularMessage}
                 onAction={onAction}
+                config={config}
             />
         )
     }
