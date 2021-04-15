@@ -72,7 +72,7 @@ export const getMessengerTextWithQuickReplies = ({
             if(!chatHistory?.contains(document.activeElement)) return;
 
             setTimeout(() => {quickReplyButton?.focus()}, 200);
-        }, [config]);
+        }, []);
 
         return (
             <div {...divProps} className="webchat-quick-reply-template-root">

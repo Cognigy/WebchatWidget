@@ -51,7 +51,7 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
             const focusable = listTemplateRoot?.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
             const firstFocusable = focusable && focusable[0] as HTMLElement;
             setTimeout(() => { firstFocusable?.focus(); }, 200);
-        }, [config]);
+        }, []);
 
         return (
             <MessengerFrame {...divProps} className="webchat-list-template-root" role="list" id={listTemplateId}>

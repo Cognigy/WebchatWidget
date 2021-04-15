@@ -49,7 +49,7 @@ export const getMessengerButtonTemplate = ({
             setTimeout(() => {
                 firstButton?.focus();
             }, 200);
-        }, [config]);
+        }, []);
 
         return (
             <MessengerButtonHeader {...divProps} className="webchat-buttons-template-root">
