@@ -16,6 +16,7 @@ import "./carousel.css";
 import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
 import { getFlexImage } from "../FlexImage";
 import { getBackgroundImage } from "../../lib/css";
+import classnames from "classnames";
 import uuid from "uuid";
 
 export interface IMessengerGenericTemplateProps
@@ -79,7 +80,13 @@ export const getMessengerGenericTemplate = ({
     });
 
     const GenericContent = styled(MessengerContent)({
-        flexGrow: 1
+        flexGrow: 1,
+        "&.link": {
+            cursor: "pointer",
+            "&:focus": {
+                backgroundColor: 'hsl(0, 0%, 92%)'
+            }
+        }
     });
 
     const MessengerGenericTemplate = class MessengerGenericTemplate extends React.Component<
@@ -131,7 +138,7 @@ export const getMessengerGenericTemplate = ({
             const carouselAriaLabel = title ? `${listItemCount}: ${title}` : listItemCount;
             const carouselAriaLabelledby = title ? carouselTitleId : undefined;
             const carouselAriaDescribedby = subtitle ? carouselSubtitleId : undefined;
-            const carouselRooTA11yProps = {role: "group", "aria-labelledby": listItemCount ? undefined : carouselAriaLabelledby,
+            const carouselRootA11yProps = {role: "group", "aria-labelledby": listItemCount ? undefined : carouselAriaLabelledby,
                 "aria-label": listItemCount ? carouselAriaLabel : undefined, "aria-describedby": carouselAriaDescribedby};
             const carouselTitle = title ? title + ". " : "";
             const carouselHeaderA11yProps = default_action?.url ? {"aria-label": carouselTitle + "Opens in new tab"} :
@@ -160,12 +167,11 @@ export const getMessengerGenericTemplate = ({
 
             return (
                 <ElementRoot key={index} className="webchat-carousel-template-root" id={carouselRootId}>
-                    <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`} {...carouselRooTA11yProps}>
+                    <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`} {...carouselRootA11yProps}>
                         {image}
                         <GenericContent
                             onClick={e => default_action && onAction(e, default_action)}
-                            className="webchat-carousel-template-content"
-                            style={default_action?.url ? { cursor: "pointer" }:{}}
+                            className={classnames("webchat-carousel-template-content", default_action?.url ? "link" : "" )}
                             role={default_action?.url ? "link" : undefined}
                             aria-describedby={carouselAriaDescribedby}
                             tabIndex={default_action?.url ? 0 : -1}
