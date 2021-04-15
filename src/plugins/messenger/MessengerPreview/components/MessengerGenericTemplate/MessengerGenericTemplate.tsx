@@ -86,6 +86,29 @@ export const getMessengerGenericTemplate = ({
         IMessengerGenericTemplateState
         > {
 
+        private carouselContentId = `webchatCarouselContentButton-${uuid.v4()}`;
+        private carouselButtonId = `webchatCarouselTemplateButton-${uuid.v4()}`;
+
+        componentDidMount() {
+            const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
+            const firstCardContent = document.getElementById(`${this.carouselContentId}-0`);
+            const firstButton = document.getElementById(`${this.carouselButtonId}-00`);
+
+            if(!this.props.config.settings.enableAutoFocus) return;
+
+            if(!chatHistory?.contains(document.activeElement)) return;
+
+            if(firstCardContent?.getAttribute("role") === "link") {
+                setTimeout(() => {
+                    firstCardContent?.focus();
+                }, 200);
+            } else if(firstButton) {
+                setTimeout(() => {
+                    firstButton?.focus();
+                }, 200);
+            }             
+        }
+
         handleScrollToView = (index) => {
             const focusedButton = document.activeElement;
             focusedButton?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest"});
@@ -105,7 +128,6 @@ export const getMessengerGenericTemplate = ({
             const carouselTitle = title ? title + ". " : "";
             const ariaLabelForCarouselTitle = default_action?.url ? carouselTitle + "Opens in new tab" : title;
 			
-
             const image = image_url ? (
                 this.props.config.settings.dynamicImageAspectRatio ? (
                     <FlexImage
@@ -140,6 +162,7 @@ export const getMessengerGenericTemplate = ({
                             aria-describedby={carouselAriaDescribedby}
                             tabIndex={default_action?.url ? 0 : -1}
                             onKeyDown = {e => handleKeyDown(e, default_action)}
+                            id={`${this.carouselContentId}-${index}`}
                         >
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} id={carouselTitleId} />
                             <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={carouselSubtitleId} />
@@ -154,6 +177,7 @@ export const getMessengerGenericTemplate = ({
 											onClick={e => onAction(e, button)}
 											className="webchat-carousel-template-button"
 											onFocus={this.handleScrollToView}
+											id={`${this.carouselButtonId}-${index}${i}`}
 										/>
 									</React.Fragment>
 								))}
@@ -168,7 +192,7 @@ export const getMessengerGenericTemplate = ({
 
             if (elements.length === 0) return null;
 
-            if (elements.length === 1) return this.renderElement(elements[0]);
+            if (elements.length === 1) return this.renderElement(elements[0], 0);
 
             return (
                 <CarouselRoot
@@ -176,6 +200,7 @@ export const getMessengerGenericTemplate = ({
                     showIndicators={false}
                     showStatus={false}
                     centerMode={true}
+                    labels={{leftArrow: "Previous Item", rightArrow: "Next Item"}}
                 >
                     {elements.map(this.renderElement)}
                 </CarouselRoot>

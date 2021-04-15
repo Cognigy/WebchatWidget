@@ -272,9 +272,9 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                             onFocus={() => this.setState({ active: true })}
                             onBlur={() => this.setState({ active: false })}
                             placeholder={props.config.settings.inputPlaceholder}
-							className="webchat-input-message-input"
-							aria-label="Message to send"
-                            id="webchatTextMessageInput"
+                            className="webchat-input-message-input"
+                            aria-label="Message to send"
+                            id="webchatInputMessageInputInTextMode"
                         />
                         <SubmitButton disabled={this.state.text === ''} className="webchat-input-button-send" aria-label="Send Message">
                             <SendIcon />
@@ -282,7 +282,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                     </>
                 )}
                 {mode === 'menu' && (
-                    <PersistentMenu className="webchat-input-persistent-menu" tabIndex="-1">
+                    <PersistentMenu className="webchat-input-persistent-menu" tabIndex={-1}>
                         {title && (
                             <PersistentMenuTitle className="webchat-input-persistent-menu-title" id="persistentMenuTitle">
                                 {title}

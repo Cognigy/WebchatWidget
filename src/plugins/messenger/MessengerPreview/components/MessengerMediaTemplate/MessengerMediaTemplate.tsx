@@ -55,6 +55,18 @@ export const getMessengerMediaTemplate = ({
 
         if (!element) return null;
 
+        const handleFocus = (player) => {
+            const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
+
+            if(!config?.settings.enableAutoFocus) return;
+
+            if(!chatHistory?.contains(document.activeElement)) return;
+
+            setTimeout(() => {
+                player.getInternalPlayer()?.focus()
+            }, 100);
+        }
+
         const { media_type, url, altText } = element as IFBMMediaTemplateUrlElement;
         // TODO add buttons
 
@@ -79,7 +91,7 @@ export const getMessengerMediaTemplate = ({
                 <MessengerFrame {...divProps} className="webchat-media-template-video" style={{ overflow: "visible" }}>
                     <Video>
                         <span className="sr-only">{altText || "Attachment Video"}</span>
-                        <VideoPlayer url={url} controls width="100%" height="100%" />
+                        <VideoPlayer url={url} controls width="100%" height="100%" onReady={handleFocus} />
                     </Video>
                 </MessengerFrame>
             );
@@ -89,7 +101,7 @@ export const getMessengerMediaTemplate = ({
             return (
                 <MessengerFrame {...divProps} className="webchat-media-template-audio" style={{ overflow: "visible" }}>
                     <span className="sr-only">{altText || "Attachment Audio"}</span>
-                    <ReactPlayer url={url} controls width="100%" height="50px" />
+                    <ReactPlayer url={url} controls width="100%" height="50px" onReady={handleFocus} />
                 </MessengerFrame>
             );
         }
