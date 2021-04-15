@@ -16,7 +16,6 @@ import "./carousel.css";
 import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
 import { getFlexImage } from "../FlexImage";
 import { getBackgroundImage } from "../../lib/css";
-import classnames from "classnames";
 import uuid from "uuid";
 
 export interface IMessengerGenericTemplateProps
@@ -65,7 +64,9 @@ export const getMessengerGenericTemplate = ({
         backgroundColor: "white",
         display: "flex",
         flexDirection: "column",
-
+        "&:focus": {
+            outline: "none",
+        },
         "&.wide": {
             width: 320
         }
@@ -93,7 +94,7 @@ export const getMessengerGenericTemplate = ({
         IMessengerGenericTemplateProps & React.HTMLProps<HTMLDivElement>,
         IMessengerGenericTemplateState
         > {
-
+        carouselRootId: string = `webchatCarouselTemplateRoot-${uuid.v4()}`;
         constructor(props) {
             super(props);
 
@@ -118,10 +119,19 @@ export const getMessengerGenericTemplate = ({
          */
         handleArrowKeyDown = (event) => {
             if(event.key === "ArrowRight") {
-                this.setState({selectedItem: this.state.selectedItem + 1})
+                this.setState({selectedItem: this.state.selectedItem + 1}, () => {
+                    this.focusCardInView();
+                });
             } else if(event.key === "ArrowLeft") {
-                this.setState({selectedItem: this.state.selectedItem - 1})
+                this.setState({selectedItem: this.state.selectedItem - 1}, () => {
+                    this.focusCardInView();
+                })
             }
+        }
+
+        focusCardInView = () => {
+            const nextCardToFocus = document.getElementById(`${this.carouselRootId}-${this.state.selectedItem}`);
+            nextCardToFocus?.focus();
         }
 
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
@@ -130,7 +140,6 @@ export const getMessengerGenericTemplate = ({
 
             const carouselListLength = this.props.payload.elements.length;
             const isCentered = this.props.config.settings.designTemplate === 2;
-            const carouselRootId = `webchatCarouselTemplateRoot-${uuid.v4()}`;
             const carouselTitleId = `webchatCarouselTemplateTitle-${uuid.v4()}`;
             const carouselSubtitleId = `webchatCarouselTemplateSubtitle-${uuid.v4()}`;
 
@@ -166,12 +175,17 @@ export const getMessengerGenericTemplate = ({
             }
 
             return (
-                <ElementRoot key={index} className="webchat-carousel-template-root" id={carouselRootId}>
-                    <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`} {...carouselRootA11yProps}>
+                <ElementRoot key={index} className="webchat-carousel-template-root">
+                    <Frame
+                        className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`}
+                        id={`${this.carouselRootId}-${index}`}
+                        tabIndex={-1}
+                        {...carouselRootA11yProps}
+                    >
                         {image}
                         <GenericContent
                             onClick={e => default_action && onAction(e, default_action)}
-                            className={classnames("webchat-carousel-template-content", default_action?.url ? "link" : "" )}
+                            className={`webchat-carousel-template-content ${default_action?.url ? "link" : ""}`}
                             role={default_action?.url ? "link" : undefined}
                             aria-describedby={carouselAriaDescribedby}
                             tabIndex={default_action?.url ? 0 : -1}
