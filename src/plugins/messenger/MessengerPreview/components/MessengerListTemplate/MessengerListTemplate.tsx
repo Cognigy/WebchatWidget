@@ -8,7 +8,7 @@ import { getMessengerFrame } from '../MessengerFrame';
 import { getMessengerListTemplateHeaderElement } from './components/MessengerListTemplateHeaderElement';
 import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
 import { useEffect } from 'react';
-import uuid from 'uuid';
+import { useRandomId } from '../../../../../common/utils/randomId';
 
 export interface IMessengerListTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMListTemplatePayload;
@@ -37,7 +37,7 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
             : null;
 
         const button = buttons && buttons[0];
-        const listTemplateId = `webchatListTemplateRoot-${uuid.v4()}`;
+        const listTemplateId = useRandomId("webchatListTemplateRoot");
 
         useEffect(() => {
             const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");

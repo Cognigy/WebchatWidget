@@ -8,7 +8,7 @@ import { getMessengerTitle } from '../../MessengerTitle';
 import { getMessengerListButton } from '../../MessengerListButton';
 import { getBackgroundImage } from '../../../lib/css';
 import { IWebchatConfig } from '../../../../../../common/interfaces/webchat-config';
-import uuid from "uuid";
+import { useRandomId } from '../../../../../../common/utils/randomId';
 
 interface IMessengerListTemplateElementProps extends IWithFBMActionEventHandler {
     element: IFBMListTemplateElement;
@@ -50,7 +50,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         const imgStyle: React.CSSProperties = {
             backgroundImage: getBackgroundImage(image_url)
         }
-        const messengerSubtitleId = `webchatListTemplateSubtitle-${uuid.v4()}`;
+        const messengerSubtitleId = useRandomId("webchatListTemplateSubtitle");
         const messengerTitle = title ? title + ". " : "";
         const messengerAriaLabel  = default_action?.url ? messengerTitle + "Opens in new tab" : title;
 
