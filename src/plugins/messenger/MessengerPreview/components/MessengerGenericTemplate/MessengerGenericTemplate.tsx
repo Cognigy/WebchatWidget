@@ -172,7 +172,7 @@ export const getMessengerGenericTemplate = ({
             const carouselAriaDescribedby = subtitle ? carouselSubtitleId : undefined;
             const carouselRootA11yProps = {role: "group", "aria-labelledby": listItemCount ? undefined : carouselAriaLabelledby,
                 "aria-label": listItemCount ? carouselAriaLabel : undefined, "aria-describedby": carouselAriaDescribedby};
-			const carouselTitle = title ? title + ". " : "";
+            const carouselTitle = title ? title + ". " : "";
             const carouselHeaderA11yProps = default_action?.url ? {"aria-label": carouselTitle + "Opens in new tab"} :
                 {"aria-labelledby": carouselAriaLabelledby}		
 
@@ -214,8 +214,8 @@ export const getMessengerGenericTemplate = ({
                             aria-describedby={carouselAriaDescribedby}
                             tabIndex={default_action?.url ? 0 : -1}
                             onKeyDown = {e => handleKeyDown(e, default_action)}
-							id={`${this.carouselContentId}-${index}`}
-							{...carouselHeaderA11yProps}
+                            id={`${this.carouselContentId}-${index}`}
+                            {...carouselHeaderA11yProps}
                         >
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} id={carouselTitleId} />
                             <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={carouselSubtitleId} />
