@@ -17,7 +17,6 @@ import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-c
 import { getFlexImage } from "../FlexImage";
 import { getBackgroundImage } from "../../lib/css";
 import uuid from "uuid";
-import { useState } from 'react';
 
 export interface IMessengerGenericTemplateProps
     extends IWithFBMActionEventHandler {
@@ -161,12 +160,11 @@ export const getMessengerGenericTemplate = ({
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
             const { onAction, ...divProps } = this.props;
             const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
-            const [randomId] = useState(() => uuid.v4())
 
             const carouselListLength = this.props.payload.elements.length;
             const isCentered = this.props.config.settings.designTemplate === 2;
-            const carouselTitleId = `webchatCarouselTemplateTitle-${randomId}`;
-            const carouselSubtitleId = `webchatCarouselTemplateSubtitle-${randomId}`;
+            const carouselTitleId = `webchatCarouselTemplateTitle-${uuid.v4()}`;
+            const carouselSubtitleId = `webchatCarouselTemplateSubtitle-${uuid.v4()}`;
 
             const listItemCount = index !== undefined ? `${index + 1} of ${carouselListLength}` : undefined;
             const carouselAriaLabel = title ? `${listItemCount}: ${title}` : listItemCount;
@@ -231,7 +229,7 @@ export const getMessengerGenericTemplate = ({
 											button={button}
 											onClick={e => onAction(e, button)}
 											className="webchat-carousel-template-button"
-											onFocus={() => this.handleScrollToView(index)}
+											// onFocus={() => this.handleScrollToView(index)}
 											id={`${this.carouselButtonId}-${index}${i}`}
 										/>
 									</React.Fragment>
@@ -251,19 +249,17 @@ export const getMessengerGenericTemplate = ({
             if (elements.length === 1) return this.renderElement(elements[0], 0);
 
             return (
-                <div onKeyDown={this.handleArrowKeyDown}>
-                    <CarouselRoot
-                        showThumbs={false}
-                        showIndicators={false}
-                        showStatus={false}
-                        centerMode={true}
-						selectedItem={selectedItem}
-						labels={{leftArrow: "Previous Item", rightArrow: "Next Item"}}
-                        onChange={this.handleCardChange}
-                    >
-                        {elements.map(this.renderElement)}
-                    </CarouselRoot>
-                </div>
+                <CarouselRoot
+                    showThumbs={false}
+                    showIndicators={false}
+                    showStatus={false}
+                    centerMode={true}
+                    labels={{leftArrow: "Previous Item", rightArrow: "Next Item"}}
+                    // selectedItem={selectedItem}
+                    // onChange={this.handleCardChange}
+                >
+                    {elements.map(this.renderElement)}
+                </CarouselRoot>
             );
         }
     };
