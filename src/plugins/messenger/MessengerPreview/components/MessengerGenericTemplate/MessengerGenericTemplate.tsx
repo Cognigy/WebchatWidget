@@ -17,6 +17,7 @@ import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-c
 import { getFlexImage } from "../FlexImage";
 import { getBackgroundImage } from "../../lib/css";
 import uuid from "uuid";
+import { useState } from 'react';
 
 export interface IMessengerGenericTemplateProps
     extends IWithFBMActionEventHandler {
@@ -94,9 +95,9 @@ export const getMessengerGenericTemplate = ({
         IMessengerGenericTemplateProps & React.HTMLProps<HTMLDivElement>,
         IMessengerGenericTemplateState
         > {
-		carouselRootId: string = `webchatCarouselTemplateRoot-${uuid.v4()}`;
-		carouselContentId = `webchatCarouselContentButton-${uuid.v4()}`;
-		carouselButtonId = `webchatCarouselTemplateButton-${uuid.v4()}`;
+        carouselRootId: string = `webchatCarouselTemplateRoot-${uuid.v4()}`;
+        carouselContentId: string = `webchatCarouselContentButton-${uuid.v4()}`;
+        carouselButtonId: string = `webchatCarouselTemplateButton-${uuid.v4()}`;
 		
         constructor(props) {
             super(props);
@@ -160,11 +161,12 @@ export const getMessengerGenericTemplate = ({
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
             const { onAction, ...divProps } = this.props;
             const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
+            const [randomId] = useState(() => uuid.v4())
 
             const carouselListLength = this.props.payload.elements.length;
             const isCentered = this.props.config.settings.designTemplate === 2;
-            const carouselTitleId = `webchatCarouselTemplateTitle-${uuid.v4()}`;
-            const carouselSubtitleId = `webchatCarouselTemplateSubtitle-${uuid.v4()}`;
+            const carouselTitleId = `webchatCarouselTemplateTitle-${randomId}`;
+            const carouselSubtitleId = `webchatCarouselTemplateSubtitle-${randomId}`;
 
             const listItemCount = index !== undefined ? `${index + 1} of ${carouselListLength}` : undefined;
             const carouselAriaLabel = title ? `${listItemCount}: ${title}` : listItemCount;
