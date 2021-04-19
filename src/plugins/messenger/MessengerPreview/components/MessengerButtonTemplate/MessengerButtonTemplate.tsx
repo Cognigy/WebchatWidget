@@ -4,9 +4,9 @@ import { getDivider } from '../Divider';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
 import { getMessengerButton } from '../MessengerButton/MessengerButton';
 import { getMessengerButtonHeader } from '../MessengerButtonHeader';
-import uuid from "uuid";
 import { useEffect } from 'react';
 import {IWebchatConfig} from '../../../../../common/interfaces/webchat-config';
+import { useRandomId } from '../../../../../common/utils/randomId';
 
 interface IMessengerButtonTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMButtonTemplatePayload;
@@ -33,8 +33,8 @@ export const getMessengerButtonTemplate = ({
         ...divProps
     }: IMessengerButtonTemplateProps & React.HTMLProps<HTMLDivElement>) => {
         const { text, buttons } = payload;
-        const webchatButtonTemplateButtonId = `webchatButtonTemplateButton-${uuid.v4()}`;
-        const webchatButtonTemplateTextId = `webchatButtonTemplateHeader-${uuid.v4()}`;
+        const webchatButtonTemplateButtonId = useRandomId("webchatButtonTemplateButton");
+        const webchatButtonTemplateTextId = useRandomId("webchatButtonTemplateHeader");
         const buttonGroupAriaLabelledby = text ? webchatButtonTemplateTextId : undefined;
         const a11yProps = buttons?.length > 1 ? {role: "group", "aria-labelledby": buttonGroupAriaLabelledby} : {};
 
