@@ -6,7 +6,6 @@ export const getMessengerContent = ({ React, styled }: MessagePluginFactoryProps
         wordWrap: 'break-word',
         "&:focus": {
             outline: 'none',
-            backgroundColor: 'hsl(0, 0%, 92%)'
         }
     });
 

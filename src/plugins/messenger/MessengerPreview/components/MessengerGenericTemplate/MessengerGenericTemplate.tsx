@@ -25,7 +25,8 @@ export interface IMessengerGenericTemplateProps
 }
 
 export interface IMessengerGenericTemplateState {
-    index: number;
+    index?: number;
+    selectedItem: number;
 }
 
 export const getMessengerGenericTemplate = ({
@@ -63,7 +64,9 @@ export const getMessengerGenericTemplate = ({
         backgroundColor: "white",
         display: "flex",
         flexDirection: "column",
-
+        "&:focus": {
+            outline: "none",
+        },
         "&.wide": {
             width: 320
         }
@@ -78,16 +81,30 @@ export const getMessengerGenericTemplate = ({
     });
 
     const GenericContent = styled(MessengerContent)({
-        flexGrow: 1
+        flexGrow: 1,
+        "&.link": {
+            cursor: "pointer",
+            "&:focus": {
+                backgroundColor: 'hsl(0, 0%, 92%)'
+            }
+        }
     });
 
     const MessengerGenericTemplate = class MessengerGenericTemplate extends React.Component<
         IMessengerGenericTemplateProps & React.HTMLProps<HTMLDivElement>,
         IMessengerGenericTemplateState
         > {
+        carouselRootId: string = `webchatCarouselTemplateRoot-${uuid.v4()}`;
+        carouselContentId: string = `webchatCarouselContentButton-${uuid.v4()}`;
+        carouselButtonId: string = `webchatCarouselTemplateButton-${uuid.v4()}`;
+		
+        constructor(props) {
+            super(props);
 
-        private carouselContentId = `webchatCarouselContentButton-${uuid.v4()}`;
-        private carouselButtonId = `webchatCarouselTemplateButton-${uuid.v4()}`;
+            this.state = {
+                selectedItem: 0,
+            }
+        }
 
         componentDidMount() {
             const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
@@ -107,26 +124,58 @@ export const getMessengerGenericTemplate = ({
                     firstButton?.focus();
                 }, 200);
             }             
+		}
+		
+        // Change the selectedItem state, in order to scroll the card with a focused element into view
+        handleScrollToView = (index) => {
+            this.setState({selectedItem: index})
         }
 
-        handleScrollToView = (index) => {
-            const focusedButton = document.activeElement;
-            focusedButton?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest"});
+        handleCardChange = (index) => {
+            this.setState({selectedItem: index});
+        }
+
+        /**
+         * Move cards in carousel using arrow keys. 'useKeyboardArrows' prop of react-responsive-carousel
+         * moves the carousel irrespective of it has a focused item or not. Therefore, it has to be handled this way.
+         * 
+         */
+        handleArrowKeyDown = (event) => {
+            if(event.key === "ArrowRight") {
+                this.setState({selectedItem: this.state.selectedItem + 1}, () => {
+                    this.focusCardInView();
+                });
+            } else if(event.key === "ArrowLeft") {
+                this.setState({selectedItem: this.state.selectedItem - 1}, () => {
+                    this.focusCardInView();
+                })
+            }
+        }
+
+        focusCardInView = () => {
+            const nextCardToFocus = document.getElementById(`${this.carouselRootId}-${this.state.selectedItem}`);
+            nextCardToFocus?.focus();
         }
 
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
             const { onAction, ...divProps } = this.props;
             const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
 
+            const carouselListLength = this.props.payload.elements.length;
             const isCentered = this.props.config.settings.designTemplate === 2;
-            const carouselRootId = `webchatCarouselTemplateRoot-${uuid.v4()}`;
             const carouselTitleId = `webchatCarouselTemplateTitle-${uuid.v4()}`;
             const carouselSubtitleId = `webchatCarouselTemplateSubtitle-${uuid.v4()}`;
+
+            const listItemCount = index !== undefined ? `${index + 1} of ${carouselListLength}` : undefined;
+            const carouselAriaLabel = title ? `${listItemCount}: ${title}` : listItemCount;
             const carouselAriaLabelledby = title ? carouselTitleId : undefined;
             const carouselAriaDescribedby = subtitle ? carouselSubtitleId : undefined;
-            const a11yProps = {role: "group", "aria-labelledby": carouselAriaLabelledby, "aria-describedby": carouselAriaDescribedby};
+            const carouselRootA11yProps = {role: "group", "aria-labelledby": listItemCount ? undefined : carouselAriaLabelledby,
+                "aria-label": listItemCount ? carouselAriaLabel : undefined, "aria-describedby": carouselAriaDescribedby};
             const carouselTitle = title ? title + ". " : "";
-            const ariaLabelForCarouselTitle = default_action?.url ? carouselTitle + "Opens in new tab" : title;
+            const carouselHeaderA11yProps = default_action?.url ? {"aria-label": carouselTitle + "Opens in new tab"} :
+                {"aria-labelledby": carouselAriaLabelledby}		
+
 			
             const image = image_url ? (
                 this.props.config.settings.dynamicImageAspectRatio ? (
@@ -150,19 +199,23 @@ export const getMessengerGenericTemplate = ({
             }
 
             return (
-                <ElementRoot key={index} className="webchat-carousel-template-root" id={carouselRootId}>
-                    <Frame className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`} {...a11yProps}>
+                <ElementRoot key={index} className="webchat-carousel-template-root">
+                    <Frame
+                        className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`}
+                        id={`${this.carouselRootId}-${index}`}
+                        tabIndex={-1}
+                        {...carouselRootA11yProps}
+                    >
                         {image}
                         <GenericContent
                             onClick={e => default_action && onAction(e, default_action)}
-                            className="webchat-carousel-template-content"
-                            style={default_action?.url ? { cursor: "pointer" }:{}}
+                            className={`webchat-carousel-template-content ${default_action?.url ? "link" : ""}`}
                             role={default_action?.url ? "link" : undefined}
-                            aria-label={ariaLabelForCarouselTitle}
                             aria-describedby={carouselAriaDescribedby}
                             tabIndex={default_action?.url ? 0 : -1}
                             onKeyDown = {e => handleKeyDown(e, default_action)}
                             id={`${this.carouselContentId}-${index}`}
+                            {...carouselHeaderA11yProps}
                         >
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} id={carouselTitleId} />
                             <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={carouselSubtitleId} />
@@ -176,7 +229,7 @@ export const getMessengerGenericTemplate = ({
 											button={button}
 											onClick={e => onAction(e, button)}
 											className="webchat-carousel-template-button"
-											onFocus={this.handleScrollToView}
+											// onFocus={() => this.handleScrollToView(index)}
 											id={`${this.carouselButtonId}-${index}${i}`}
 										/>
 									</React.Fragment>
@@ -189,6 +242,7 @@ export const getMessengerGenericTemplate = ({
 
         render() {
             const elements = this.props.payload.elements;
+            const { selectedItem } = this.state;
 
             if (elements.length === 0) return null;
 
@@ -201,6 +255,8 @@ export const getMessengerGenericTemplate = ({
                     showStatus={false}
                     centerMode={true}
                     labels={{leftArrow: "Previous Item", rightArrow: "Next Item"}}
+                    // selectedItem={selectedItem}
+                    // onChange={this.handleCardChange}
                 >
                     {elements.map(this.renderElement)}
                 </CarouselRoot>

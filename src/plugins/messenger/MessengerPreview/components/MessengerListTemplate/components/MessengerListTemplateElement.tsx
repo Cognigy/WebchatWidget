@@ -26,9 +26,11 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         gridTemplateColumns: '1fr auto',
         gridColumnGap: theme.unitSize,
         backgroundColor: 'white',
-        "&:focus": {
-            outline: 'none',
-            backgroundColor: 'hsl(0, 0%, 92%)'
+        "&.link": {
+            cursor: "pointer",
+            "&:focus": {
+                backgroundColor: 'hsl(0, 0%, 92%)'
+            }
         }
     }));
 
@@ -65,8 +67,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
                 <Root
                     role={default_action?.url ? "link" : undefined} 
                     onClick={default_action && (e => onAction(e, default_action))}
-                    className="webchat-list-template-element"
-                    style={default_action?.url ? { cursor: "pointer" }:{}}
+                    className={`webchat-list-template-element ${default_action?.url ? "link" : ""}`}
                     aria-label={messengerAriaLabel} 
                     aria-describedby={subtitle ? messengerSubtitleId : undefined}
                     tabIndex={default_action?.url ? 0 : -1}
