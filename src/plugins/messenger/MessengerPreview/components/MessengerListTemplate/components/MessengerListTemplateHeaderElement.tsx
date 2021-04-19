@@ -111,12 +111,11 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
                     aria-describedby={subtitle ? messengerSubtitleId : undefined}
                     tabIndex={default_action?.url ? 0 : -1}
                     onKeyDown = {e => handleKeyDown(e, default_action)}
+                    style={default_action?.url ? { cursor: "pointer" }:{}}
                 >
                     {image}
                     <DarkLayer />
-                    <Content className="webchat-list-template-header-content"
-                        style={default_action?.url ? { cursor: "pointer" }:{}}
-                    >
+                    <Content className="webchat-list-template-header-content">
                         <Title className="webchat-list-template-header-title" dangerouslySetInnerHTML={{__html: title}} />
                         <Subtitle className="webchat-list-template-header-subtitle" dangerouslySetInnerHTML={{__html: subtitle}} config={config} id={messengerSubtitleId}/>
                         {button && (
