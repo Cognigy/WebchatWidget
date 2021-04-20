@@ -153,7 +153,9 @@ export const getMessengerGenericTemplate = ({
         }
 
         focusCardInView = () => {
+            console.log(this.state.selectedItem);
             const nextCardToFocus = document.getElementById(`${this.carouselRootId}-${this.state.selectedItem}`);
+            console.log(nextCardToFocus);
             nextCardToFocus?.focus();
         }
 
