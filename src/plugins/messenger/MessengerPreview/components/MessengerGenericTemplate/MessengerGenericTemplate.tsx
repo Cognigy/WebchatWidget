@@ -128,7 +128,7 @@ export const getMessengerGenericTemplate = ({
 		
         // Change the selectedItem state, in order to scroll the card with a focused element into view
         handleScrollToView = (index) => {
-            this.setState({selectedItem: index})
+            this.setState({selectedItem: index});
         }
 
         handleCardChange = (index) => {
@@ -141,11 +141,13 @@ export const getMessengerGenericTemplate = ({
          * 
          */
         handleArrowKeyDown = (event) => {
-            if(event.key === "ArrowRight") {
+            const { selectedItem } = this.state;
+            const lastPosition = this.props.payload.elements.length - 1;
+            if((event.key === "ArrowRight" || event.keyCode === "39") && selectedItem < lastPosition) {
                 this.setState({selectedItem: this.state.selectedItem + 1}, () => {
                     this.focusCardInView();
                 });
-            } else if(event.key === "ArrowLeft") {
+            } else if((event.key === "ArrowLeft"  || event.keyCode === "39") && selectedItem > 0) {
                 this.setState({selectedItem: this.state.selectedItem - 1}, () => {
                     this.focusCardInView();
                 })
@@ -153,9 +155,7 @@ export const getMessengerGenericTemplate = ({
         }
 
         focusCardInView = () => {
-            console.log(this.state.selectedItem);
             const nextCardToFocus = document.getElementById(`${this.carouselRootId}-${this.state.selectedItem}`);
-            console.log(nextCardToFocus);
             nextCardToFocus?.focus();
         }
 
@@ -231,7 +231,7 @@ export const getMessengerGenericTemplate = ({
 											button={button}
 											onClick={e => onAction(e, button)}
 											className="webchat-carousel-template-button"
-											// onFocus={() => this.handleScrollToView(index)}
+											onFocus={() => this.handleScrollToView(index)}
 											id={`${this.carouselButtonId}-${index}${i}`}
 										/>
 									</React.Fragment>
@@ -257,6 +257,7 @@ export const getMessengerGenericTemplate = ({
                         showIndicators={false}
                         showStatus={false}
                         centerMode={true}
+                        swipeable={true}
                         labels={{leftArrow: "Previous Item", rightArrow: "Next Item"}}
                         selectedItem={selectedItem}
                         onChange={this.handleCardChange}
