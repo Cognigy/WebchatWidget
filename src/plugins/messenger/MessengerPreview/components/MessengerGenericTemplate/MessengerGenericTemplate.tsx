@@ -249,17 +249,19 @@ export const getMessengerGenericTemplate = ({
             if (elements.length === 1) return this.renderElement(elements[0], 0);
 
             return (
-                <CarouselRoot
-                    showThumbs={false}
-                    showIndicators={false}
-                    showStatus={false}
-                    centerMode={true}
-                    labels={{leftArrow: "Previous Item", rightArrow: "Next Item"}}
-                    // selectedItem={selectedItem}
-                    // onChange={this.handleCardChange}
-                >
-                    {elements.map(this.renderElement)}
-                </CarouselRoot>
+                <div onKeyDown={this.handleArrowKeyDown}>
+                    <CarouselRoot
+                        showThumbs={false}
+                        showIndicators={false}
+                        showStatus={false}
+                        centerMode={true}
+                        labels={{leftArrow: "Previous Item", rightArrow: "Next Item"}}
+                        selectedItem={selectedItem}
+                        onChange={this.handleCardChange}
+                    >
+                        {elements.map(this.renderElement)}
+                    </CarouselRoot>
+                </div>
             );
         }
     };
