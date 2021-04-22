@@ -8,7 +8,7 @@ import { getMessengerListButton } from '../../MessengerListButton';
 import { getButtonLabel } from '../../MessengerButton/lib/messengerButtonHelpers';
 import { getBackgroundImage } from '../../../lib/css';
 import { IWebchatConfig } from '../../../../../../common/interfaces/webchat-config';
-import uuid from "uuid";
+import { useRandomId } from '../../../../../../common/utils/randomId';
 
 interface IMessengerListTemplateHeaderElementProps extends IWithFBMActionEventHandler {
     element: IFBMListTemplateElement;
@@ -88,7 +88,7 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
         const button = buttons && buttons[0];
         const messengerTitle = title ? title + ". " : "";
         const ariaLabelForMessengerTitle = default_action?.url ? messengerTitle + "Opens in new tab" : title;
-        const messengerSubtitleId = `webchatListTemplateHeaderSubtitle-${uuid.v4()}`;
+        const messengerSubtitleId = useRandomId("webchatListTemplateHeaderSubtitle"); 
 
         const handleKeyDown = (event, default_action) => {
             if(default_action && event.key === "Enter") {
@@ -111,12 +111,11 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
                     aria-describedby={subtitle ? messengerSubtitleId : undefined}
                     tabIndex={default_action?.url ? 0 : -1}
                     onKeyDown = {e => handleKeyDown(e, default_action)}
+                    style={default_action?.url ? { cursor: "pointer" }:{}}
                 >
                     {image}
                     <DarkLayer />
-                    <Content className="webchat-list-template-header-content"
-                        style={default_action?.url ? { cursor: "pointer" }:{}}
-                    >
+                    <Content className="webchat-list-template-header-content">
                         <Title className="webchat-list-template-header-title" dangerouslySetInnerHTML={{__html: title}} />
                         <Subtitle className="webchat-list-template-header-subtitle" dangerouslySetInnerHTML={{__html: subtitle}} config={config} id={messengerSubtitleId}/>
                         {button && (

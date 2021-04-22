@@ -8,7 +8,7 @@ import { getMessengerTitle } from '../../MessengerTitle';
 import { getMessengerListButton } from '../../MessengerListButton';
 import { getBackgroundImage } from '../../../lib/css';
 import { IWebchatConfig } from '../../../../../../common/interfaces/webchat-config';
-import uuid from "uuid";
+import { useRandomId } from '../../../../../../common/utils/randomId';
 
 interface IMessengerListTemplateElementProps extends IWithFBMActionEventHandler {
     element: IFBMListTemplateElement;
@@ -25,9 +25,11 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         display: 'flex',
         justifyContent: 'space-between',
         backgroundColor: 'white',
-        "&:focus": {
-            outline: 'none',
-            backgroundColor: 'hsl(0, 0%, 92%)'
+        "&.link": {
+            cursor: "pointer",
+            "&:focus": {
+                backgroundColor: 'hsl(0, 0%, 92%)'
+            }
         }
     }));
 
@@ -50,7 +52,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
             backgroundImage: getBackgroundImage(image_url),
             width: '25%'
         }
-        const messengerSubtitleId = `webchatListTemplateSubtitle-${uuid.v4()}`;
+        const messengerSubtitleId = useRandomId("webchatListTemplateSubtitle");
         const messengerTitle = title ? title + ". " : "";
         const messengerAriaLabel = default_action?.url ? messengerTitle + "Opens in new tab" : title;
 
@@ -65,9 +67,9 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
                 <Root
                     role={default_action?.url ? "link" : undefined}
                     onClick={default_action && (e => onAction(e, default_action))}
-                    className="webchat-list-template-element"
                     style={default_action?.url ? { cursor: "pointer" } : {}}
-                    aria-label={messengerAriaLabel}
+                    className={`webchat-list-template-element ${default_action?.url ? "link" : ""}`}
+                    aria-label={messengerAriaLabel} 
                     aria-describedby={subtitle ? messengerSubtitleId : undefined}
                     tabIndex={default_action?.url ? 0 : -1}
                     onKeyDown={e => handleKeyDown(e, default_action)}

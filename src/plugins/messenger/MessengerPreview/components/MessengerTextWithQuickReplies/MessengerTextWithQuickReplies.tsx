@@ -9,7 +9,7 @@ import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
 import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
 import { getMessengerBubble } from '../MessengerBubble';
-import uuid from "uuid";
+import { useRandomId } from '../../../../../common/utils/randomId';
 
 interface Props extends IWithFBMActionEventHandler {
     message: IFBMRegularMessage;
@@ -55,8 +55,8 @@ export const getMessengerTextWithQuickReplies = ({
 
         const hasQuickReplies = quick_replies && quick_replies.length > 0;
         const hasMoreThanOneQuickReply = quick_replies && quick_replies.length > 1;
-        const webchatQuickReplyTemplateButtonId = `webchatQuickReplyTemplateButton-${uuid.v4()}`;
-        const webchatQuickReplyTemplateHeaderId = `webchatQuickReplyTemplateHeader-${uuid.v4()}`;
+        const webchatQuickReplyTemplateButtonId = useRandomId("webchatQuickReplyTemplateButton");
+        const webchatQuickReplyTemplateHeaderId = useRandomId("webchatQuickReplyTemplateHeader");
         const buttonGroupAriaLabelledby = text ? webchatQuickReplyTemplateHeaderId : undefined;
         const a11yProps = hasMoreThanOneQuickReply ? 
             {role: "group", "aria-labelledby": buttonGroupAriaLabelledby } : {};
@@ -72,7 +72,7 @@ export const getMessengerTextWithQuickReplies = ({
             if(!chatHistory?.contains(document.activeElement)) return;
 
             setTimeout(() => {quickReplyButton?.focus()}, 200);
-        }, [config]);
+        }, []);
 
         return (
             <div {...divProps} className="webchat-quick-reply-template-root">
