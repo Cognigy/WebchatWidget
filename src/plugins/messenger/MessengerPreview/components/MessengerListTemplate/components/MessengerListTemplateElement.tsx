@@ -73,7 +73,7 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
                     tabIndex={default_action?.url ? 0 : -1}
                     onKeyDown={e => handleKeyDown(e, default_action)}
                 >
-                    <div style={{maxWidth:image_url ? '75%': ""}}>
+                    <div style={{maxWidth:image_url ? '74%': ""}}>
                         <MessengerTitle className="webchat-list-template-element-title" dangerouslySetInnerHTML={{ __html: title }} />
                         <MessengerSubtitle className="webchat-list-template-element-subtitle" dangerouslySetInnerHTML={{ __html: subtitle }} config={config} id={messengerSubtitleId} />
                         {button && (
