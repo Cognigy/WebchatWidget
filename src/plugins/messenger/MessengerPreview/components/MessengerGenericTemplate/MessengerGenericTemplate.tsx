@@ -123,15 +123,11 @@ export const getMessengerGenericTemplate = ({
                 setTimeout(() => {
                     firstButton?.focus();
                 }, 200);
-            }             
-		}
+            }
+        }
 		
         // Change the selectedItem state, in order to scroll the card with a focused element into view
         handleScrollToView = (index) => {
-            this.setState({selectedItem: index});
-        }
-
-        handleCardChange = (index) => {
             this.setState({selectedItem: index});
         }
 
@@ -208,6 +204,7 @@ export const getMessengerGenericTemplate = ({
                         className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`}
                         id={`${this.carouselRootId}-${index}`}
                         tabIndex={-1}
+                        onFocus={() => this.handleScrollToView(index)}
                         {...carouselRootA11yProps}
                     >
                         {image}
@@ -233,7 +230,6 @@ export const getMessengerGenericTemplate = ({
 											button={button}
 											onClick={e => onAction(e, button)}
 											className="webchat-carousel-template-button"
-											onFocus={() => this.handleScrollToView(index)}
 											id={`${this.carouselButtonId}-${index}${i}`}
 										/>
 									</React.Fragment>
@@ -262,7 +258,6 @@ export const getMessengerGenericTemplate = ({
                         swipeable={true}
                         labels={{leftArrow: "Previous Item", rightArrow: "Next Item"}}
                         selectedItem={selectedItem}
-                        onChange={this.handleCardChange}
                     >
                         {elements.map(this.renderElement)}
                     </CarouselRoot>
