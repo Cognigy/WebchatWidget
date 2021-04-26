@@ -155,8 +155,10 @@ export const getMessengerGenericTemplate = ({
         }
 
         focusCardInView = () => {
-            const nextCardToFocus = document.getElementById(`${this.carouselRootId}-${this.state.selectedItem}`);
-            nextCardToFocus?.focus();
+            setTimeout(() => {
+                const nextCardToFocus = document.getElementById(`${this.carouselRootId}-${this.state.selectedItem}`);
+                nextCardToFocus?.focus();
+            }, 300);
         }
 
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
