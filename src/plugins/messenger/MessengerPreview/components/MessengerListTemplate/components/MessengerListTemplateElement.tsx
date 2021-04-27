@@ -22,9 +22,8 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
     const ListButton = getMessengerListButton({ React, styled });
 
     const Root = styled(MessengerContent)(({ theme }) => ({
-        display: 'grid',
-        gridTemplateColumns: '1fr auto',
-        gridColumnGap: theme.unitSize,
+        display: 'flex',
+        justifyContent: 'space-between',
         backgroundColor: 'white',
         "&.link": {
             cursor: "pointer",
@@ -44,20 +43,21 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
 
 
     const MessengerListTemplateElement = ({ element, onAction, config }: IMessengerListTemplateElementProps) => {
-        const { title, subtitle, image_url, image_alt_text,  buttons, default_action } = element;
+        const { title, subtitle, image_url, image_alt_text, buttons, default_action } = element;
         // TODO default_action
 
         const button = buttons && buttons[0];
 
         const imgStyle: React.CSSProperties = {
-            backgroundImage: getBackgroundImage(image_url)
+            backgroundImage: getBackgroundImage(image_url),
+            width: '25%'
         }
         const messengerSubtitleId = useRandomId("webchatListTemplateSubtitle");
         const messengerTitle = title ? title + ". " : "";
-        const messengerAriaLabel  = default_action?.url ? messengerTitle + "Opens in new tab" : title;
+        const messengerAriaLabel = default_action?.url ? messengerTitle + "Opens in new tab" : title;
 
         const handleKeyDown = (event, default_action) => {
-            if(event.key === "Enter" && default_action) {
+            if (event.key === "Enter" && default_action) {
                 onAction(event, default_action);
             }
         }
@@ -65,22 +65,22 @@ export const getMessengerListTemplateElement = ({ React, styled }: MessagePlugin
         return (
             <div role="listitem">
                 <Root
-                    role={default_action?.url ? "link" : undefined} 
+                    role={default_action?.url ? "link" : undefined}
                     onClick={default_action && (e => onAction(e, default_action))}
                     className={`webchat-list-template-element ${default_action?.url ? "link" : ""}`}
                     aria-label={messengerAriaLabel} 
                     aria-describedby={subtitle ? messengerSubtitleId : undefined}
                     tabIndex={default_action?.url ? 0 : -1}
-                    onKeyDown = {e => handleKeyDown(e, default_action)}
+                    onKeyDown={e => handleKeyDown(e, default_action)}
                 >
-                    <div>
-                        <MessengerTitle className="webchat-list-template-element-title" dangerouslySetInnerHTML={{__html: title}} />
-                        <MessengerSubtitle className="webchat-list-template-element-subtitle" dangerouslySetInnerHTML={{__html: subtitle}} config={config} id={messengerSubtitleId} />
+                    <div style={{maxWidth:image_url ? '74%': ""}}>
+                        <MessengerTitle className="webchat-list-template-element-title" dangerouslySetInnerHTML={{ __html: title }} />
+                        <MessengerSubtitle className="webchat-list-template-element-subtitle" dangerouslySetInnerHTML={{ __html: subtitle }} config={config} id={messengerSubtitleId} />
                         {button && (
                             <ListButton
-                                onClick={e => {e.stopPropagation(); onAction(e, button)}}
+                                onClick={e => { e.stopPropagation(); onAction(e, button) }}
                                 className="webchat-list-template-element-button"
-                                dangerouslySetInnerHTML={{__html: getButtonLabel(button)}}
+                                dangerouslySetInnerHTML={{ __html: getButtonLabel(button) }}
                             />
                         )}
                     </div>
