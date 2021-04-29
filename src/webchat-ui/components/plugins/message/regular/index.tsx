@@ -3,10 +3,12 @@ import {
   MessagePlugin,
   MessageComponentProps
 } from "../../../../../common/interfaces/message-plugin";
+import { MarkdownMessageBubble } from "../../../presentational/MarkdownMessageBubble";
 import MessageBubble from "../../../presentational/MessageBubble";
 
 const RegularMessage = ({
-  message: { text, source }
+  message: { text, source },
+  config: { settings: { enableMarkdownStyling }}
 }: MessageComponentProps) => {
   const className = (() => {
     switch (source) {
@@ -53,8 +55,10 @@ const RegularMessage = ({
     }
   })();
 
+  const MessageBubbleComponent = enableMarkdownStyling ? MarkdownMessageBubble : MessageBubble;
+
   return (
-    <MessageBubble
+    <MessageBubbleComponent
       color={color}
       align={align}
       dangerouslySetInnerHTML={{ __html: text || "" }}
