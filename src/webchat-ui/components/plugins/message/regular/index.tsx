@@ -8,7 +8,7 @@ import MessageBubble from "../../../presentational/MessageBubble";
 
 const RegularMessage = ({
   message: { text, source },
-  config: { settings: { enableMarkdownStyling }}
+  config: { settings: { enableGenericHTMLStyling }}
 }: MessageComponentProps) => {
   const className = (() => {
     switch (source) {
@@ -55,7 +55,7 @@ const RegularMessage = ({
     }
   })();
 
-  const MessageBubbleComponent = enableMarkdownStyling ? MarkdownMessageBubble : MessageBubble;
+  const MessageBubbleComponent = enableGenericHTMLStyling ? MarkdownMessageBubble : MessageBubble;
 
   return (
     <MessageBubbleComponent
