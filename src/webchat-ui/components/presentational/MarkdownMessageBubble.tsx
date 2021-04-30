@@ -11,18 +11,38 @@ import tinycolor from "tinycolor2";
  * https://github.com/markdowncss/modest
  */
 export const MarkdownMessageBubble = styled(MessageBubble)((props) => {
-  const dividerColor = tinycolor(props.theme.primaryContrastColor).setAlpha(
-    0.25
-  );
+  const dividerColor = tinycolor(
+    props.color === "primary"
+      ? props.theme.primaryContrastColor
+      : props.theme.greyContrastColor
+  ).setAlpha(0.25);
+
+  const textColor =
+    props.color === "primary"
+      ? props.theme.primaryContrastColor
+      : props.theme.greyContrastColor;
+
+  const interactionColor =
+    props.color === "primary"
+      ? props.theme.primaryWeakColor
+      : props.theme.greyWeakColor;
+
+  const codeBackgroundColor =
+    props.color === "primary"
+      ? props.theme.primaryWeakColor
+      : props.theme.greyWeakColor;
+
+  const monospaceFontFamily =
+    'ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace';
 
   return `
     white-space: initial;
-    color: ${props.theme.primaryContrastColor};
+    color: ${textColor};
   
     th, 
     td {
         padding: ${props.theme.unitSize / 2}px;
-        color: ${props.theme.primaryContrastColor};
+        color: ${textColor};
     }
   
     &>*:first-child {
@@ -32,30 +52,21 @@ export const MarkdownMessageBubble = styled(MessageBubble)((props) => {
     &>*:last-child {
       margin-bottom: 0;
     }
-  
-    pre,
-    code {
-      font-family: Menlo, Monaco, "Courier New", monospace;
-    }
     
     pre {
-      padding: .5em;
+      padding: 1em;
       line-height: 1.25;
       overflow-x: auto;
     }
     
     a,
     a:visited {
-      color: ${props.theme.primaryContrastColor};
+      color: ${textColor};
     }
     
     a:hover,
     a:focus,
     a:active {
-      color: ${props.theme.primaryWeakColor};
-    }
-    
-    .modest-no-decoration {
       text-decoration: none;
     }
     
@@ -122,11 +133,32 @@ export const MarkdownMessageBubble = styled(MessageBubble)((props) => {
     
     pre,
     code {
-      background-color: ${props.theme.primaryStrongColor};
+      background-color: ${codeBackgroundColor};
+      font-family: ${monospaceFontFamily};
+      font-size: small;
     }
   
     hr {
       border-color: ${dividerColor};
+    }
+
+    dl {
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+
+    dt {
+      margin-top: 1em;
+      font-weight: bold;
+      margin-bottom: .3em;
+    }
+    dt:first-of-type {
+      margin-top: 0;
+    }
+
+    dd {
+      padding-left: 0;
+      margin-left: .5em;
     }
   `;
 });
