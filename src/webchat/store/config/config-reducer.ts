@@ -24,6 +24,7 @@ const getInitialState = (): ConfigState => ({
         enableAutoFocus: false,
         enableFileUpload: false,
         enableFocusTrap: false,
+        enableGenericHTMLStyling: false,
         enablePersistentMenu: false,
         enableSTT: false,
         enableStrictMessengerSync: false,
