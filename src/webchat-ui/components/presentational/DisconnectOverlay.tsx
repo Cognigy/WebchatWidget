@@ -52,7 +52,7 @@ export default ({ isPermanent, onClose, onConnect }) => {
             <Dialog>
                 {isPermanent ? (
                     <><DialogHeader>Connection lost</DialogHeader>
-                    {navigator.onLine ? <Button onClick={onConnect}>Press to reconnect</Button> : <div>No network connection</div>}</>
+                    {navigator.onLine ? <Button onClick={onConnect} color="primary">Reconnect</Button> : <div>No network connection</div>}</>
                 ) : (
                         <span>Connection lost. Trying to reconnect...</span>
                     )}
