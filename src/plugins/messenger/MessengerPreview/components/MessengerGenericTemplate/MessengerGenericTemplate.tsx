@@ -96,8 +96,10 @@ export const getMessengerGenericTemplate = ({
         > {
         carouselRootId: string = `webchatCarouselTemplateRoot-${uuid.v4()}`;
         carouselContentId: string = `webchatCarouselContentButton-${uuid.v4()}`;
-        carouselButtonId: string = `webchatCarouselTemplateButton-${uuid.v4()}`;
-		
+        carouselButtonId: string = `webchatCarouselTemplateButton-${uuid.v4()}`;        
+        isLegacyEdgeBrowser: boolean = window.navigator.userAgent.indexOf('Edge/') > 0; //to detect Edge 15 to 18
+        isIE11Browser: boolean = window.navigator.userAgent.indexOf('Trident/') > 0; //to detect ie11
+
         constructor(props) {
             super(props);
 
@@ -125,10 +127,12 @@ export const getMessengerGenericTemplate = ({
                 }, 200);
             }
         }
-		
+
         // Change the selectedItem state, in order to scroll the card with a focused element into view
         handleScrollToView = (index) => {
-            this.setState({selectedItem: index});
+        	if(!this.isIE11Browser && !this.isLegacyEdgeBrowser) {
+                this.setState({selectedItem: index});
+            }
         }
 
         /**
@@ -137,24 +141,24 @@ export const getMessengerGenericTemplate = ({
          * 
          */
         handleArrowKeyDown = (event) => {
-            const { selectedItem } = this.state;
-            const lastPosition = this.props.payload.elements.length - 1;
-            if((event.key === "ArrowRight" || event.keyCode === "39") && selectedItem < lastPosition) {
-                this.setState({selectedItem: this.state.selectedItem + 1}, () => {
-                    this.focusCardInView();
-                });
-            } else if((event.key === "ArrowLeft"  || event.keyCode === "39") && selectedItem > 0) {
-                this.setState({selectedItem: this.state.selectedItem - 1}, () => {
-                    this.focusCardInView();
-                })
+            if(!this.isIE11Browser && !this.isLegacyEdgeBrowser) {
+                const { selectedItem } = this.state;
+                const lastPosition = this.props.payload.elements.length - 1;
+                if((event.key === "ArrowRight" || event.keyCode === "39") && selectedItem < lastPosition) {
+                    this.setState({selectedItem: this.state.selectedItem + 1}, () => {
+                        this.focusCardInView();
+                    });
+                } else if((event.key === "ArrowLeft"  || event.keyCode === "39") && selectedItem > 0) {
+                    this.setState({selectedItem: this.state.selectedItem - 1}, () => {
+                        this.focusCardInView();
+                    })
+                }
             }
         }
 
         focusCardInView = () => {
-            setTimeout(() => {
-                const nextCardToFocus = document.getElementById(`${this.carouselRootId}-${this.state.selectedItem}`);
-                nextCardToFocus?.focus();
-            }, 300);
+            const nextCardToFocus = document.getElementById(`${this.carouselRootId}-${this.state.selectedItem}`);
+            nextCardToFocus?.focus();
         }
 
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
