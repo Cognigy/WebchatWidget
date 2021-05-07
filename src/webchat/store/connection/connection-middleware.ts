@@ -35,7 +35,9 @@ export const createConnectionMiddleware = (client: SocketClient): Middleware<{},
                         // set options
                         store.dispatch(setConnecting(false));
                         store.dispatch(setOptions(client.socketOptions));
-                    }).catch()
+                    }).catch(error => {
+                        store.dispatch(setConnecting(false));
+                    })
             }
             break;
         }
