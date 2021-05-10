@@ -260,7 +260,6 @@ export const getMessengerGenericTemplate = ({
                         showStatus={false}
                         centerMode={true}
                         centerSlidePercentage={80}
-                        swipeable={true}
                         labels={{leftArrow: "Previous Item", rightArrow: "Next Item"}}
                         selectedItem={selectedItem}
                     >
