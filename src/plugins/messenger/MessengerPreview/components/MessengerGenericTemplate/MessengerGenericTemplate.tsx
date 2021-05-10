@@ -151,11 +151,11 @@ export const getMessengerGenericTemplate = ({
                 const { selectedItem } = this.state;
                 const lastPosition = this.props.payload.elements.length - 1;
                 if((event.key === "ArrowRight" || event.keyCode === "39") && selectedItem < lastPosition) {
-                    this.setState({selectedItem: this.state.selectedItem + 1}, () => {
+                    this.setState({selectedItem: selectedItem + 1}, () => {
                         this.focusCardInView();
                     });
                 } else if((event.key === "ArrowLeft"  || event.keyCode === "39") && selectedItem > 0) {
-                    this.setState({selectedItem: this.state.selectedItem - 1}, () => {
+                    this.setState({selectedItem: selectedItem - 1}, () => {
                         this.focusCardInView();
                     })
                 }
