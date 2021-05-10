@@ -96,7 +96,13 @@ export const getMessengerGenericTemplate = ({
         > {
         carouselRootId: string = `webchatCarouselTemplateRoot-${uuid.v4()}`;
         carouselContentId: string = `webchatCarouselContentButton-${uuid.v4()}`;
-        carouselButtonId: string = `webchatCarouselTemplateButton-${uuid.v4()}`;        
+        carouselButtonId: string = `webchatCarouselTemplateButton-${uuid.v4()}`;
+
+        /**
+         * Controlling the selectedItem state causes unexpected scroll behavior in IE11 and Edge 15 to 18. 
+         * Therefore, detect these legacy browsers and prevent updating selectedItem state.
+         * Without proper selectedItem state, we will not be able to fix the accessibility issues in these browsers.
+         * */
         isLegacyEdgeBrowser: boolean = window.navigator.userAgent.indexOf('Edge/') > 0; //to detect Edge 15 to 18
         isIE11Browser: boolean = window.navigator.userAgent.indexOf('Trident/') > 0; //to detect ie11
 
@@ -125,8 +131,8 @@ export const getMessengerGenericTemplate = ({
                 setTimeout(() => {
                     firstButton?.focus();
                 }, 200);
-            }
-        }
+            }             
+		}
 
         // Change the selectedItem state, in order to scroll the card with a focused element into view
         handleScrollToView = (index) => {
