@@ -589,10 +589,11 @@ This is the global button of the list template,you could change, for example, it
 ```CSS
 [data-cognigy-webchat-root] .webchat-list-template-global-button {
     background-color: #cfb00071;
-  }
-  [data-cognigy-webchat-root] .webchat-list-template-global-button:hover {
+}
+
+[data-cognigy-webchat-root] .webchat-list-template-global-button:hover {
     background-color: #39801071;
-  }
+}
 ```
 ### Date Picker
 
