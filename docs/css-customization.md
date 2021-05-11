@@ -584,7 +584,7 @@ This is the button inside every list element, adding some hovering effects or an
   background-color: #cfb00071;   
 }
 ```
-* *webchat-list-template-global-button*
+* *webchat-list-template-global-button*   
 This is the global button of the list template,you could change, for example, its background color and also add custom hover effects.
 ```CSS
 [data-cognigy-webchat-root] .webchat-list-template-global-button {
