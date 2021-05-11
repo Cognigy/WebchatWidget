@@ -19,6 +19,7 @@ export interface IWebchatSettings {
   enableConnectionStatusIndicator: boolean;
   showEngagementMessagesInChat: boolean;
   enableAutoFocus: boolean;
+  enableInjectionWithoutEmptyHistory: boolean;
   enableFileUpload: boolean;
   enableGenericHTMLStyling: boolean;
   enableFocusTrap: boolean;
