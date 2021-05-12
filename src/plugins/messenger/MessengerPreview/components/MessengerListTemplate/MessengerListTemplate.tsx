@@ -42,9 +42,9 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
         useEffect(() => {
             const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
 
-            if(!config?.settings.enableAutoFocus) return;
+            if (!config?.settings.enableAutoFocus) return;
 
-            if(!chatHistory?.contains(document.activeElement)) return;
+            if (!chatHistory?.contains(document.activeElement)) return;
 
             const listTemplateRoot = document.getElementById(listTemplateId);
             // get the first focusable element within the list and add focus
@@ -80,6 +80,7 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
                     <>
                         <Divider />
                         <MessengerButton
+                            className="webchat-list-template-global-button"
                             button={button}
                             onClick={e => onAction(e, button)}
                         />
