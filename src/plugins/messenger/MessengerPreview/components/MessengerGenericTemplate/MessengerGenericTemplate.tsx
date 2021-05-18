@@ -97,7 +97,15 @@ export const getMessengerGenericTemplate = ({
         carouselRootId: string = `webchatCarouselTemplateRoot-${uuid.v4()}`;
         carouselContentId: string = `webchatCarouselContentButton-${uuid.v4()}`;
         carouselButtonId: string = `webchatCarouselTemplateButton-${uuid.v4()}`;
-		
+
+        /**
+         * Controlling the selectedItem state causes unexpected scroll behavior in IE11 and Edge 15 to 18. 
+         * Therefore, detect these legacy browsers and prevent updating selectedItem state.
+         * Without proper selectedItem state, we will not be able to fix the accessibility issues in these browsers.
+         * */
+        isLegacyEdgeBrowser: boolean = window.navigator.userAgent.indexOf('Edge/') > 0; //to detect Edge 15 to 18
+        isIE11Browser: boolean = window.navigator.userAgent.indexOf('Trident/') > 0; //to detect ie11
+
         constructor(props) {
             super(props);
 
@@ -125,14 +133,12 @@ export const getMessengerGenericTemplate = ({
                 }, 200);
             }             
 		}
-		
+
         // Change the selectedItem state, in order to scroll the card with a focused element into view
         handleScrollToView = (index) => {
-            this.setState({selectedItem: index})
-        }
-
-        handleCardChange = (index) => {
-            this.setState({selectedItem: index});
+        	if(!this.isIE11Browser && !this.isLegacyEdgeBrowser) {
+                this.setState({selectedItem: index});
+            }
         }
 
         /**
@@ -141,14 +147,18 @@ export const getMessengerGenericTemplate = ({
          * 
          */
         handleArrowKeyDown = (event) => {
-            if(event.key === "ArrowRight") {
-                this.setState({selectedItem: this.state.selectedItem + 1}, () => {
-                    this.focusCardInView();
-                });
-            } else if(event.key === "ArrowLeft") {
-                this.setState({selectedItem: this.state.selectedItem - 1}, () => {
-                    this.focusCardInView();
-                })
+            if(!this.isIE11Browser && !this.isLegacyEdgeBrowser) {
+                const { selectedItem } = this.state;
+                const lastPosition = this.props.payload.elements.length - 1;
+                if((event.key === "ArrowRight" || event.keyCode === "39") && selectedItem < lastPosition) {
+                    this.setState({selectedItem: selectedItem + 1}, () => {
+                        this.focusCardInView();
+                    });
+                } else if((event.key === "ArrowLeft"  || event.keyCode === "39") && selectedItem > 0) {
+                    this.setState({selectedItem: selectedItem - 1}, () => {
+                        this.focusCardInView();
+                    })
+                }
             }
         }
 
@@ -204,6 +214,7 @@ export const getMessengerGenericTemplate = ({
                         className={`webchat-carousel-template-frame ${isCentered ? "wide" : ""}`}
                         id={`${this.carouselRootId}-${index}`}
                         tabIndex={-1}
+                        onFocus={() => this.handleScrollToView(index)}
                         {...carouselRootA11yProps}
                     >
                         {image}
@@ -229,7 +240,6 @@ export const getMessengerGenericTemplate = ({
 											button={button}
 											onClick={e => onAction(e, button)}
 											className="webchat-carousel-template-button"
-											// onFocus={() => this.handleScrollToView(index)}
 											id={`${this.carouselButtonId}-${index}${i}`}
 										/>
 									</React.Fragment>
@@ -249,17 +259,19 @@ export const getMessengerGenericTemplate = ({
             if (elements.length === 1) return this.renderElement(elements[0], 0);
 
             return (
-                <CarouselRoot
-                    showThumbs={false}
-                    showIndicators={false}
-                    showStatus={false}
-                    centerMode={true}
-                    labels={{leftArrow: "Previous Item", rightArrow: "Next Item"}}
-                    // selectedItem={selectedItem}
-                    // onChange={this.handleCardChange}
-                >
-                    {elements.map(this.renderElement)}
-                </CarouselRoot>
+                <div onKeyDown={this.handleArrowKeyDown}>
+                    <CarouselRoot
+                        showThumbs={false}
+                        showIndicators={false}
+                        showStatus={false}
+                        centerMode={true}
+                        centerSlidePercentage={80}
+                        labels={{leftArrow: "Previous Item", rightArrow: "Next Item"}}
+                        selectedItem={selectedItem}
+                    >
+                        {elements.map(this.renderElement)}
+                    </CarouselRoot>
+                </div>
             );
         }
     };
