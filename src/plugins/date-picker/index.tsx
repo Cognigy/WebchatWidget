@@ -29,6 +29,7 @@ const getFlatpickrLocaleId = (locale: string) => {
     case 'gb':
     case 'au':
     case 'ca':
+    case 'en-GB':
       return 'en';
   }
 
@@ -36,9 +37,9 @@ const getFlatpickrLocaleId = (locale: string) => {
 }
 
 /**
- * Transforms regional locales to flatpicks internal locale key
+ * Transforms regional locales to moments internal locale key
  */
-const getMomemtLocaleId = (locale: string) => {
+const getMomentLocaleId = (locale: string) => {
   switch (locale) {
     case 'au':
       return 'en-au';
@@ -154,12 +155,16 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
     handleSubmit = () => {
       const { message } = this.props
-
+      
       // close plugin if user didn't choose a date
       if (this.state.msg.length > 0) {
         if (message.source === 'bot')
           processedMessages.add(message.traceId);
-
+        if(message.data._plugin.data.locale === 'en-GB')
+        {
+          const gbMessage = this.state.msg.substring(3,6).concat(this.state.msg.substring(0,3),this.state.msg.substring(6))
+          this.setState({msg:gbMessage})
+        }
         setTimeout(() => {
           this.props.onSendMessage(this.state.msg), {
             _plugin: "date-picker",
@@ -216,7 +221,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         || undefined;
 
       const localeId = data.locale || 'us';
-      const momentLocaleId = getMomemtLocaleId(localeId);
+      const momentLocaleId = getMomentLocaleId(localeId);
       const flatpickrLocaleId = getFlatpickrLocaleId(localeId);
       let locale = l10n[flatpickrLocaleId];
       const enableTime = !!data.enableTime;
