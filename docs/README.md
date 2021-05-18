@@ -1,5 +1,5 @@
 # Documentation
-This Page contains an index of guides on how to integrate and make use of the Cognigy Webchat
+This page contains an index of guides on how to integrate and make use of the Cognigy Webchat
 
 ## [Embedding](./embedding.md)
 Learn how to embed the Cognigy Webchat into your Website
