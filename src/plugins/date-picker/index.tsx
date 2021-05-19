@@ -160,6 +160,13 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       if (this.state.msg.length > 0) {
         if (message.source === 'bot')
           processedMessages.add(message.traceId);
+
+        /*
+          Flatpickr doesn't support a locale called en-GB so we added it to ensure that users with this locale can use it as well
+          As the unmodified message looks like this: "31/12/2021" we need to exchange month and day converting it to "12/31/2021"
+          This way Flatpickr can work with these values the way they would be sent from the "en" locale
+        */
+
         if(message.data._plugin.data.locale === 'en-GB')
         {
           const gbMessage = this.state.msg.substring(3,6).concat(this.state.msg.substring(0,3),this.state.msg.substring(6))
