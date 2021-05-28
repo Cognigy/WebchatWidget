@@ -3,6 +3,13 @@ export interface IPersistentMenuItem {
   payload: string;
 }
 
+export interface ITranslation {
+  enableTranslation: boolean;
+  translator?: "microsoft" | "google" | "deepl" | string;
+  apiKey?: string;
+  enableAutomaticLanguageDetection?: boolean;
+}
+
 export interface IWebchatSettings {
   agentAvatarUrl: string;
   backgroundImageUrl: string;
@@ -54,6 +61,7 @@ export interface IWebchatSettings {
   unreadMessageTitleTextPlural: string;
   userAvatarUrl: string;
   useSessionStorage: boolean;
+  translation: ITranslation;
 }
 
 export interface IWebchatConfig {

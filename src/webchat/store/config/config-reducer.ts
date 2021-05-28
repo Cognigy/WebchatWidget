@@ -59,6 +59,12 @@ const getInitialState = (): ConfigState => ({
     unreadMessageTitleTextPlural: "New Messages",
     userAvatarUrl: "",
     useSessionStorage: false,
+    translation: {
+      enableTranslation: false,
+      translator: "deepl",
+      apiKey: "",
+      enableAutomaticLanguageDetection: true
+    }
   },
 });
 
