@@ -37,7 +37,8 @@ export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps)
         const buttonType = button.type;
         const isWebURL = buttonType === "web_url";
         const buttonTitle = button.title ? button.title + ". " : "";
-        const ariaLabel = isWebURL ? buttonTitle + "Opens in new tab" : undefined;
+        const isWebURLButtonTargetBlank = button.target !== "_self";
+        const ariaLabel = isWebURL && isWebURLButtonTargetBlank ? buttonTitle + "Opens in new tab" : undefined;
 
         return (
             <Button 
