@@ -9,6 +9,7 @@ export interface IFBMURLButton {
     type: 'web_url';
     url: string;
     title: string;
+    target?: '_self' | '_blank';
 }
 
 export interface IFBMPostbackButton {

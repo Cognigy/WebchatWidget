@@ -80,7 +80,7 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
                     // @ts-ignore
                     if (action.type === 'web_url' && action.url) {
                         // @ts-ignore
-                        window.open(action.url, '_blank');
+                        window.open(action.url, action.target === "_self" ? "_self" : "_blank");
                     }
                 }}
                 config={config}
@@ -114,7 +114,7 @@ const fullscreenMessengerGenericPlugin: MessagePluginFactory = ({ React, styled 
                     // @ts-ignore
                     if (action.type === 'web_url') {
                         // @ts-ignore
-                        window.open(action.url, '_blank');
+                        window.open(action.url, action.target === "_self" ? "_self" : "_blank");
                     }
                 }}
                 config={config}
