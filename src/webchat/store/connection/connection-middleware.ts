@@ -4,7 +4,7 @@ import { SetOpenAction, SetPageVisibleAction, ToggleOpenAction } from "../ui/ui-
 import { SendMessageAction } from "../messages/message-middleware";
 import { setOptions } from "../options/options-reducer";
 import { SocketClient } from "@cognigy/socket-client";
-import { setConnecting } from "./connection-reducer";
+import { setConnecting, setReconnectionLimit } from "./connection-reducer";
 import { shouldReestablishConnection } from "../../helper/connection-watchdog";
 
 export interface ISendMessageOptions {
@@ -29,11 +29,12 @@ export const createConnectionMiddleware = (client: SocketClient): Middleware<{},
         case 'CONNECT': {
             if (!client.connected && !store.getState().connection.connecting) {
                 store.dispatch(setConnecting(true));
-
+                
                 client.connect()
-                    .then(() => {
-                        // set options
-                        store.dispatch(setConnecting(false));
+                .then(() => {
+                    // set options
+                    store.dispatch(setConnecting(false));
+                    store.dispatch(setReconnectionLimit(false))
                         store.dispatch(setOptions(client.socketOptions));
                     }).catch(error => {
                         store.dispatch(setConnecting(false));
