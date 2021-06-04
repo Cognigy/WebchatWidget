@@ -1,16 +1,19 @@
 import * as React from 'react';
-import { styled, IColorProps } from '../../style';
 import MessageBubble from "./MessageBubble";
 
-const Thumbs = () => {
+const Thumbs = (props: any) => {
+
+  const { text } = props;
 
   const [clickedUp, setClickedUp] = React.useState(false);
   const [clickedDown, setClickedDown] = React.useState(false);
+
   const handleClickThumbsUp = () => {
     try {
       // @ts-ignore
-      window.cognigyWebchat.sendMessage("", {
-        thumb: "up"
+      window.cognigyWebchat.sendMessage('', {
+        thumb: "up",
+        text
       });
 
       setClickedUp(true);
@@ -20,8 +23,9 @@ const Thumbs = () => {
   const handleClickThumbsDown = () => {
     try {
       // @ts-ignore
-      window.cognigyWebcaht.sendMessage("", {
-        thumb: "down"
+      window.cognigyWebchat.sendMessage('', {
+        thumb: "down",
+        text
       });
       setClickedDown(true);
     } catch (error) { }
@@ -30,38 +34,45 @@ const Thumbs = () => {
   return (
     <div
       style={{
-
+        display: "flex",
+        justifyContent: "flex-end",
+        marginBottom: "-7px",
+        marginRight: "10px"
       }}
     >
-      <div
+      <button
         onClick={handleClickThumbsUp}
         style={{
           cursor: "pointer"
         }}
-        hidden={clickedDown}
-      >👍</div>
-      <div
+        // hidden={clickedUp || clickedDown}
+        disabled={clickedUp || clickedDown}
+      >👍</button>
+      <button
         onClick={handleClickThumbsDown}
         style={{
           cursor: "pointer"
         }}
-        hidden={clickedUp}
-      >👎</div>
+        disabled={clickedUp || clickedDown}
+        // hidden={clickedUp || clickedDown}
+      >👎</button>
     </div>
   );
 };
 
 export default function MessageBubbleThumbs(props) {
-
-  console.log(props)
-  return (
-    <div
-      style={{
-
-      }}
-    >
-      <Thumbs />
-      <MessageBubble dangerouslySetInnerHTML={props.dangerouslySetInnerHTML}/>
-    </div>
-  );
+  if (props?.className?.includes('bot')) {
+    // This is a bot message. Add thumbs buttons
+    return (
+      <div
+        style={{
+        }}
+      >
+        <Thumbs text={props.dangerouslySetInnerHTML.__html} />
+        <MessageBubble dangerouslySetInnerHTML={props.dangerouslySetInnerHTML} />
+      </div>
+    );
+  }
+  // Otherwise, this is a message from the user. No need to add thumbs buttons
+  return <MessageBubble dangerouslySetInnerHTML={props.dangerouslySetInnerHTML} />
 };
