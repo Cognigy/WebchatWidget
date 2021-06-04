@@ -5,10 +5,11 @@ import {
 } from "../../../../../common/interfaces/message-plugin";
 import { MarkdownMessageBubble } from "../../../presentational/MarkdownMessageBubble";
 import MessageBubble from "../../../presentational/MessageBubble";
+import MessageBubbleThumbs from "../../../presentational/MessageBubbleThumbs";
 
 const RegularMessage = ({
   message: { text, source },
-  config: { settings: { enableGenericHTMLStyling }}
+  config: { settings: { enableGenericHTMLStyling, displayThumbs } }
 }: MessageComponentProps) => {
   const className = (() => {
     switch (source) {
@@ -55,7 +56,7 @@ const RegularMessage = ({
     }
   })();
 
-  const MessageBubbleComponent = enableGenericHTMLStyling ? MarkdownMessageBubble : MessageBubble;
+  const MessageBubbleComponent = enableGenericHTMLStyling ? MarkdownMessageBubble : displayThumbs ? MessageBubbleThumbs : MessageBubble;
 
   return (
     <MessageBubbleComponent
@@ -73,7 +74,7 @@ const regularMessagePlugin: MessagePlugin = {
     if (source === 'engagement' && !config.settings.showEngagementMessagesInChat) {
       return false;
     }
-    
+
     const hasText = !!text;
 
     return hasText;

@@ -54,6 +54,7 @@ export interface IWebchatSettings {
   unreadMessageTitleTextPlural: string;
   userAvatarUrl: string;
   useSessionStorage: boolean;
+  displayThumbs: boolean;
 }
 
 export interface IWebchatConfig {

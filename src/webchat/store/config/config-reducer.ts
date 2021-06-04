@@ -59,6 +59,7 @@ const getInitialState = (): ConfigState => ({
     unreadMessageTitleTextPlural: "New Messages",
     userAvatarUrl: "",
     useSessionStorage: false,
+    displayThumbs: false
   },
 });
 
