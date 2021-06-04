@@ -71,10 +71,11 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
 
             const displayMessage = { ...message, text };
 
-            if (options.label)
+            if (typeof options.label === 'string')
                 displayMessage.text = options.label;
 
             next(setFullscreenMessage(undefined));
+
             next(addMessage({
                 ...displayMessage,
                 avatarUrl: getAvatarForMessage(displayMessage, store.getState())

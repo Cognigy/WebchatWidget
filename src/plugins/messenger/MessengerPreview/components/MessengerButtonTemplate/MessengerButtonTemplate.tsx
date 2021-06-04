@@ -4,9 +4,13 @@ import { getDivider } from '../Divider';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
 import { getMessengerButton } from '../MessengerButton/MessengerButton';
 import { getMessengerButtonHeader } from '../MessengerButtonHeader';
+import { useEffect } from 'react';
+import {IWebchatConfig} from '../../../../../common/interfaces/webchat-config';
+import { useRandomId } from '../../../../../common/utils/randomId';
 
 interface IMessengerButtonTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMButtonTemplatePayload;
+    config: IWebchatConfig;
 }
 
 export const getMessengerButtonTemplate = ({
@@ -25,14 +29,32 @@ export const getMessengerButtonTemplate = ({
     const MessengerButtonTemplate = ({
         payload,
         onAction,
+        config,
         ...divProps
     }: IMessengerButtonTemplateProps & React.HTMLProps<HTMLDivElement>) => {
         const { text, buttons } = payload;
+        const webchatButtonTemplateButtonId = useRandomId("webchatButtonTemplateButton");
+        const webchatButtonTemplateTextId = useRandomId("webchatButtonTemplateHeader");
+        const buttonGroupAriaLabelledby = text ? webchatButtonTemplateTextId : undefined;
+        const a11yProps = buttons?.length > 1 ? {role: "group", "aria-labelledby": buttonGroupAriaLabelledby} : {};
+
+        useEffect(() => {
+            const firstButton = document.getElementById(`${webchatButtonTemplateButtonId}-0`);
+            const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
+
+            if(!config?.settings.enableAutoFocus) return;
+
+            if(!chatHistory?.contains(document.activeElement)) return;
+
+            setTimeout(() => {
+                firstButton?.focus();
+            }, 200);
+        }, []);
 
         return (
             <MessengerButtonHeader {...divProps} className="webchat-buttons-template-root">
-                {text && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{__html: text}} />}
-				<div role={buttons?.length > 1 ? "group" : undefined}>
+                {text && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{__html: text}} id={webchatButtonTemplateTextId} />}
+                <div {...a11yProps}>
 					{buttons.map((button, index) => (
 						<React.Fragment key={index}>
 							<Divider />
@@ -40,6 +62,7 @@ export const getMessengerButtonTemplate = ({
 								button={button}
 								onClick={e => onAction(e, button)}
 								className="webchat-buttons-template-button"
+								id={`${webchatButtonTemplateButtonId}-${index}`}
 							/>
 						</React.Fragment>
 					))}

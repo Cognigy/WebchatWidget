@@ -79,7 +79,7 @@ describe("Message with Gallery", () => {
 	it("scroll forward button should have correct aria-label", () => {
         cy.withMessageFixture('gallery', () => {
             cy
-				.get('[aria-label="next slide / item"]').click()
+				.get('[aria-label="Next Item"]').click()
 				.get(".control-prev").should("be.visible")
         })
 	})
@@ -87,8 +87,8 @@ describe("Message with Gallery", () => {
 	it("scroll backward button should have correct aria-label", () => {
         cy.withMessageFixture('gallery', () => {
             cy
-				.get('[aria-label="next slide / item"]').click()
-				.get('[aria-label="previous slide / item"]').click()
+				.get('[aria-label="Next Item"]').click()
+				.get('[aria-label="Previous Item"]').click()
 				.get(".control-next").should("be.visible")
         })
 	})

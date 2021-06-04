@@ -117,6 +117,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     };
 
     history: React.RefObject<ChatScroller>;
+    chatToggleButtonRef: React.RefObject<HTMLButtonElement>;
+    closeButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
 
     private unreadTitleIndicatorInterval: ReturnType<typeof setInterval> | null = null;
     private originalTitle: string = window.document.title;
@@ -128,6 +130,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         super(props);
 
         this.history = React.createRef();
+        this.chatToggleButtonRef = React.createRef();
+        this.closeButtonInHeaderRef = React.createRef();
     }
 
     static getDerivedStateFromProps(props: WebchatUIProps, state: WebchatUIState): WebchatUIState | null {
@@ -176,7 +180,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             })
         }
 
-        if (prevProps.unseenMessages !== this.props.unseenMessages) {
+        if (prevProps.unseenMessages !== this.props.unseenMessages 
+            || !prevProps.config.settings.enableUnreadMessagePreview && this.props.config.settings.enableUnreadMessagePreview ) {
             const { unseenMessages } = this.props;
 
             // update the "unseen message preview" text
@@ -201,6 +206,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             if (unseenMessages.length > 0 && this.props.config.settings.enableUnreadMessageSound) {
                 notificationSound.play();
             }
+        }
+
+        if (prevProps.config.settings.enableUnreadMessagePreview && !this.props.config.settings.enableUnreadMessagePreview) {
+            this.setState({ lastUnseenMessageText: ""})
         }
 
         // initialize the title indicator if configured
@@ -316,6 +325,63 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         );
     }
 
+    handleReverseTabNavigation = () => {
+        const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
+        const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
+        const getStartedButton = document.getElementById("webchatGetStartedButton");
+        const webchatInputButtonMenu = document.getElementById("webchatInputButtonMenu");
+        if(textMessageInput) {
+            textMessageInput.focus();
+        } else if (getStartedButton) {
+            getStartedButton.focus();
+        } else if (webchatInputButtonMenu) {
+            webchatInputButtonMenu.focus();
+        } else {
+            webchatHistoryPanel?.focus()
+        }
+    }
+    
+    handleKeydown = (event) => {
+        const { enableFocusTrap } = this.props.config.settings;
+        const { open } = this.props;
+
+        if(enableFocusTrap && open) {
+            /**
+             * If the current focused element is the close button in chat header, the focus moves
+             * to some element outside chat window on 'Shift + Tab' navigation.
+             * 
+             * In order to trap focus, move focus back to the first element (from the bottom) within chat window 
+             * on Shift + Tab navigation.
+             * 
+             */
+            if(event.target === this.closeButtonInHeaderRef?.current) {
+                if(event.shiftKey && event.key === "Tab") {
+                    event.preventDefault();
+                    this.handleReverseTabNavigation();                    
+                }
+            }
+            /**
+             * If the current focused element is the chat toggle button, the focus moves to some element 
+             * outside chat window on 'Tab' navigation.
+             * 
+             * In order to trap focus, move the focus back to the chat history panel on Tab navigation.
+             * 
+             * On Shift + Tab navigation, the focus should move to the first element (from the bottom) within chat window.
+             * 
+             */
+            if(event.target === this.chatToggleButtonRef?.current) {
+                if(event.shiftKey && event.key === "Tab") {                    
+                    event.preventDefault();
+                    this.handleReverseTabNavigation();
+                } else if(event.key === "Tab") {
+                    event.preventDefault();
+                    const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
+                    webchatHistoryPanel?.focus();
+                }
+            }
+        }
+    }
+
     render() {
         const { props, state } = this;
         const { messages,
@@ -368,15 +434,17 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 							data-cognigy-webchat-root 
 							{...restProps}
 							className="webchat-root"
+							aria-labelledby="webchatHeaderTitle"
 							role="region"
-                            aria-label="Chat window"
+							onKeyDown={this.handleKeydown}
 						>
                             <CacheProvider value={styleCache}>
                                 {open && (
                                     <WebchatRoot
                                         data-cognigy-webchat
                                         {...webchatRootProps}
-                                        className="webchat"
+										className="webchat"
+										id="webchatWindow"
                                     >
                                         {!fullscreenMessage
                                             ? this.renderRegularLayout()
@@ -408,6 +476,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             type='button'
 											className="webchat-toggle-button"
 											aria-label={open ? "Close chat" : openChatAriaLabel()}
+                                            ref={this.chatToggleButtonRef}
                                         >
                                             {open ? (
                                                 <CloseIcon />
@@ -449,6 +518,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     connected={config.active}
                     logoUrl={config.settings.headerLogoUrl}
                     title={config.settings.title || 'Cognigy Webchat'}
+                    closeButtonRef = {this.closeButtonInHeaderRef}
                 />
 				<HistoryWrapper 
 					disableBranding={config.settings.disableBranding} 
@@ -457,7 +527,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 					tabIndex={0}
 					role="log"
 					aria-live="polite"
+					id="webchatChatHistoryWrapperLiveLogPanel"
 				>
+                    <h2 className="sr-only" id="webchatChatHistoryHeading">Chat History</h2>
                     {this.renderHistory()}
                 </HistoryWrapper>
                 {this.renderInput()}

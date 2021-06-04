@@ -14,6 +14,7 @@ import { SocketClient } from '@cognigy/socket-client';
 import { getEndpointBaseUrl, getEndpointUrlToken } from '../helper/endpoint';
 import { IWebchatSettings } from '../../common/interfaces/webchat-config';
 import { Options } from '@cognigy/socket-client/lib/interfaces/options';
+import { updateSettings } from '../store/config/config-reducer';
 
 export interface WebchatProps extends FromProps {
     url: string;
@@ -94,6 +95,10 @@ export class Webchat extends React.PureComponent<WebchatProps> {
 
     onMessage = (handler: (message) => void) => {
         this.client.on('output', handler);
+    }
+
+    updateSettings = (settings: IWebchatSettings) => {
+        this.store.dispatch(updateSettings(settings));
     }
 
     render() {

@@ -135,6 +135,14 @@ The icon from the avatar that will be show when a message is written or received
     height: 28px;
 }
 ```
+
+The avatars can be repositioned to appear at the top edge of a message rather than the bottom edge.
+```CSS
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-avatar {
+  align-self: flex-start !important;
+}
+```
+
 * *webchat-message-row + bot*  
 The classes for the bot message in the chat, containing the message and the avatar logo.
 ```CSS
@@ -574,6 +582,17 @@ This is the button inside every list element, adding some hovering effects or an
 
 [data-cognigy-webchat-root] .webchat-list-template-element-button:hover {
   background-color: #cfb00071;   
+}
+```
+* *webchat-list-template-global-button*   
+This is the global button of the list template,you could change, for example, its background color and also add custom hover effects.
+```CSS
+[data-cognigy-webchat-root] .webchat-list-template-global-button {
+    background-color: #cfb00071;
+}
+
+[data-cognigy-webchat-root] .webchat-list-template-global-button:hover {
+    background-color: #39801071;
 }
 ```
 ### Date Picker

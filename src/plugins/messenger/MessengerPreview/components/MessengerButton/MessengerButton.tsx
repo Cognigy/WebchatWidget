@@ -33,9 +33,22 @@ export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps)
         }
     }));
 
-    const MessengerButton = ({ button, ...props }: IMessengerButtonProps & React.ComponentProps<typeof Button>) => (
-        <Button {...props} dangerouslySetInnerHTML={{__html: getButtonLabel(button)}} />
-    )
+    const MessengerButton = ({ button, ...props }: IMessengerButtonProps & React.ComponentProps<typeof Button>) => {		
+        const buttonType = button.type;
+        const isWebURL = buttonType === "web_url";
+        const buttonTitle = button.title ? button.title + ". " : "";
+        const isWebURLButtonTargetBlank = button.target !== "_self";
+        const ariaLabel = isWebURL && isWebURLButtonTargetBlank ? buttonTitle + "Opens in new tab" : undefined;
+
+        return (
+            <Button 
+                {...props} 
+                dangerouslySetInnerHTML={{__html: getButtonLabel(button)}} 
+                role={isWebURL ? "link" : undefined} 
+                aria-label={ariaLabel}
+            />
+        )
+    }
 
     return MessengerButton;
 }

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { IFBMRegularMessage } from '../../interfaces/Message.interface';
 import {
     IFBMTextQuickReply,
@@ -6,10 +7,13 @@ import {
 import { getMessengerQuickReply } from '../MessengerQuickReply';
 import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
+import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
 import { getMessengerBubble } from '../MessengerBubble';
+import { useRandomId } from '../../../../../common/utils/randomId';
 
 interface Props extends IWithFBMActionEventHandler {
     message: IFBMRegularMessage;
+    config: IWebchatConfig;
 }
 
 export const getMessengerTextWithQuickReplies = ({
@@ -44,23 +48,42 @@ export const getMessengerTextWithQuickReplies = ({
     const MessengerTextWithQuickReplies = ({
         message,
         onAction,
+        config,
         ...divProps
     }: Props & React.HTMLProps<HTMLDivElement>) => {
         const { text, quick_replies } = message;
 
         const hasQuickReplies = quick_replies && quick_replies.length > 0;
+        const hasMoreThanOneQuickReply = quick_replies && quick_replies.length > 1;
+        const webchatQuickReplyTemplateButtonId = useRandomId("webchatQuickReplyTemplateButton");
+        const webchatQuickReplyTemplateHeaderId = useRandomId("webchatQuickReplyTemplateHeader");
+        const buttonGroupAriaLabelledby = text ? webchatQuickReplyTemplateHeaderId : undefined;
+        const a11yProps = hasMoreThanOneQuickReply ? 
+            {role: "group", "aria-labelledby": buttonGroupAriaLabelledby } : {};
 
         // TODO add click behaviour
+
+        useEffect(() => {
+            const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
+            const quickReplyButton = document.getElementById(`${webchatQuickReplyTemplateButtonId}-0`);
+
+            if(!config?.settings.enableAutoFocus) return;
+
+            if(!chatHistory?.contains(document.activeElement)) return;
+
+            setTimeout(() => {quickReplyButton?.focus()}, 200);
+        }, []);
 
         return (
             <div {...divProps} className="webchat-quick-reply-template-root">
                 <BorderBubble
                     className="webchat-quick-reply-template-header-message"
                     dangerouslySetInnerHTML={{ __html: text }}
+                    id={webchatQuickReplyTemplateHeaderId}
                 ></BorderBubble>
 
                 {hasQuickReplies && (
-                    <QuickReplies className="webchat-quick-reply-template-replies-container">
+                    <QuickReplies className="webchat-quick-reply-template-replies-container" {...a11yProps}>
                         {(quick_replies as IFBMQuickReply[]).map((quickReply, index) => {
                             const { content_type } = quickReply;
                             let label: string = "";
@@ -94,8 +117,8 @@ export const getMessengerTextWithQuickReplies = ({
                                 <MessengerQuickReply
                                     key={index}
                                     onClick={e => onAction(e, quickReply)}
-									className="webchat-quick-reply-template-reply"
-									role="button"
+                                    className="webchat-quick-reply-template-reply"
+                                    id={`${webchatQuickReplyTemplateButtonId}-${index}`}
                                 >
                                     {image}
                                     <span dangerouslySetInnerHTML={{ __html: label }} />
