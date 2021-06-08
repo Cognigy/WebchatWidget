@@ -2,18 +2,23 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thumbs Up/Down Testing</title>
+  <title>Thumbs Up/Down</title>
 </head>
 
 <body>
+  <a href="https://trial.cognigy.ai/agent/601ab465bd651fd97d394287/601ab49db6bebf7c7cb4ac1c/flow/60be0bb2af2ce26b7b7aa545/chart" target="_blank">Flow</a>
+  <a href="https://trial.cognigy.ai/agent/601ab465bd651fd97d394287/601ab49db6bebf7c7cb4ac1c/endpoint/60be2cebb927a0604ae6e541" target="_blank">Endpoint</a>
+
   <script src="./webchat.js"></script>
   <script src="./date-picker.webchat-plugin.js"></script>
   <script>
-    const configUrl = 'https://endpoint-trial.cognigy.ai/c30863a71aea2d4876662af10751981ff16af4640331305b62ad3e6a0834b198'
+    const configUrl = 'https://endpoint-trial.cognigy.ai/c30863a71aea2d4876662af10751981ff16af4640331305b62ad3e6a0834b198';
     const settings = {
       displayThumbs: true,
-      title: window.title
-    }
+      enableGenericHTMLStyling: false,
+      title: document.title,
+    };
+
     initWebchat(configUrl, {
       // userId: "user",
       // sessionId: "session",

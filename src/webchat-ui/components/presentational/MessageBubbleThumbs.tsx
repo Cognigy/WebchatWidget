@@ -40,29 +40,27 @@ const Thumbs = (props: any) => {
         marginRight: "10px"
       }}
     >
-      <button
+      <div
         onClick={handleClickThumbsUp}
         style={{
           cursor: "pointer"
         }}
-        // hidden={clickedUp || clickedDown}
-        disabled={clickedUp || clickedDown}
-      >👍</button>
-      <button
+        hidden={clickedUp || clickedDown}
+      >👍</div>
+      <div
         onClick={handleClickThumbsDown}
         style={{
           cursor: "pointer"
         }}
-        disabled={clickedUp || clickedDown}
-        // hidden={clickedUp || clickedDown}
-      >👎</button>
+        hidden={clickedUp || clickedDown}
+      >👎</div>
     </div>
   );
 };
 
 export default function MessageBubbleThumbs(props) {
-  if (props?.className?.includes('bot')) {
-    // This is a bot message. Add thumbs buttons
+  if (props?.className?.includes('bot') && !props.dangerouslySetInnerHTML?.__html.toLowerCase().startsWith('feedback')) {
+    // This is a bot message. And it doesn't start with "feedback". Add thumbs buttons
     return (
       <div
         style={{
