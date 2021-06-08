@@ -1,38 +1,28 @@
 <html lang="en">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>webchat development</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thumbs Up/Down Testing</title>
 </head>
 
 <body>
-    <script src="./webchat.js"></script>
-    <script src="./date-picker.webchat-plugin.js"></script>
-    <script>
-        var isTesting = window.location.search.indexOf('test') > -1;
-
-        if (!isTesting) {
-            initWebchat('https://endpoint-trial.cognigy.ai/a34fa7416b8697ee07c3702dfca0f88c961d8c101f3a46f7533c1bdfc47ba9ec', {
-                // userId: "user",
-                // sessionId: "session",
-                settings: {
-                    displayThumbs: true
-                    // colorScheme: '#FAB'
-                    // enableUnreadMessageSound: true,
-                    // enableUnreadMessageBadge: true,
-                    // enableUnreadMessagePreview: true,
-                    // enableUnreadMessageTitleIndicator: true,
-                    // showEngagementMessagesInChat: true,
-                    // getStartedText: "",
-                    // engagementMessageText: "Hi there!",
-                    // engagementMessageDelay: 5000
-                }
-            }).then(function(webchat) {
-                window.cognigyWebchat = webchat;
-                webchat.open();
-            });
-        }
-    </script>
+  <script src="./webchat.js"></script>
+  <script src="./date-picker.webchat-plugin.js"></script>
+  <script>
+    const configUrl = 'https://endpoint-trial.cognigy.ai/c30863a71aea2d4876662af10751981ff16af4640331305b62ad3e6a0834b198'
+    const settings = {
+      displayThumbs: true,
+      title: window.title
+    }
+    initWebchat(configUrl, {
+      // userId: "user",
+      // sessionId: "session",
+      settings: settings
+    }).then(function (webchat) {
+      window.cognigyWebchat = webchat;
+      webchat.open();
+    });
+  </script>
 </body>
 
 </html>
