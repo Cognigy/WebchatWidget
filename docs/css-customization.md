@@ -327,7 +327,7 @@ This is the button to open the Webchat, if you want to modify its color you have
 * *webchat-unread-message-preview*
 This is the message bubble which is diplayed next to the *webchat-toggle-button*, when the user retreived an unread message from Cognigy.
 ```CSS
-[data-cognigy-webchat-root] .webchat-unread-message-preview {
+.webchat-unread-message-preview {
     background-color: rgb(5, 5, 131);
 }
 ```
