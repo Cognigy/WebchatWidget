@@ -36,7 +36,7 @@ export const MarkdownMessageBubble = styled(MessageBubble)((props) => {
     'ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace';
 
   return `
-    white-space: initial;
+    white-space: pre-wrap;
     color: ${textColor};
   
     th, 
