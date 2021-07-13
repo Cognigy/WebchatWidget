@@ -2,6 +2,7 @@ import * as React from 'react';
 import { styled } from '../../style';
 import IconButton from './IconButton';
 import CloseIcon from '../../assets/baseline-close-24px.svg';
+import Button from './Button';
 
 const Wrapper = styled.div(({ theme }) => ({
     display: 'flex',
@@ -29,7 +30,12 @@ const Dialog = styled.div(({ theme }) => ({
     color: theme.greyContrastColor,
 
     boxShadow: theme.shadow,
+    textAlign: "center",
 }));
+
+const DialogHeader = styled.div(({theme}) => ({
+    marginBottom: theme.unitSize * 2
+}))
 
 const HeaderIconButton = styled(IconButton)(({ theme }) => ({
     position: 'absolute',
@@ -40,12 +46,13 @@ const HeaderIconButton = styled(IconButton)(({ theme }) => ({
     fill: theme.primaryContrastColor,
 }));
 
-export default ({ isPermanent, onClose }) => {
+export default ({ isPermanent, onClose, onConnect }) => {
     return (
         <Wrapper>
             <Dialog>
                 {isPermanent ? (
-                    <span>Connection lost. Try to reload the page</span>
+                    <><DialogHeader>Connection lost</DialogHeader>
+                    {navigator.onLine ? <Button onClick={onConnect} color="primary">Reconnect</Button> : <div>No network connection</div>}</>
                 ) : (
                         <span>Connection lost. Trying to reconnect...</span>
                     )}

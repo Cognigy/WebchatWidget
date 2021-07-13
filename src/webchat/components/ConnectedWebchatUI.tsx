@@ -4,6 +4,7 @@ import { StoreState } from "../store/store";
 import { sendMessage, triggerEngagementMessage } from '../store/messages/message-middleware';
 import { setInputMode, setFullscreenMessage, setOpen, toggleOpen } from '../store/ui/ui-reducer';
 import { getPluginsForMessage, isFullscreenPlugin } from '../../plugins/helper';
+import { connect as doConnect } from "../store/connection/connection-middleware";
 
 type FromState = Pick<WebchatUIProps, 'messages' | 'unseenMessages' | 'open' | 'typingIndicator' | 'inputMode' | 'fullscreenMessage' | 'config' | 'connected' | 'reconnectionLimit'>;
 type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' | 'onTriggerEngagementMessage' >;
@@ -29,7 +30,8 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onDismissFullscreenMessage: () => dispatch(setFullscreenMessage(undefined)),
         onClose: () => dispatch(setOpen(false)),
         onToggle: () => dispatch(toggleOpen()),
-        onTriggerEngagementMessage: () => dispatch(triggerEngagementMessage())
+        onTriggerEngagementMessage: () => dispatch(triggerEngagementMessage()),
+        onConnect: () => dispatch(doConnect())
     }),
     ({ fullscreenMessage, ...state }, dispatch, props) => {
         if (!fullscreenMessage) {

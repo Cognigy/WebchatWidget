@@ -56,6 +56,7 @@ export interface WebchatUIProps {
     inputMode: string;
     onSetInputMode: (inputMode: string) => void;
     onClose: () => void;
+    onConnect: () => void;
     onToggle: () => void;
 
     onEmitAnalytics: (event: string, payload?: any) => void;
@@ -386,6 +387,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const { messages,
             unseenMessages,
             onSendMessage,
+            onConnect,
             config,
             open,
             fullscreenMessage,
@@ -448,7 +450,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             ? this.renderRegularLayout()
                                             : this.renderFullscreenMessageLayout()
                                         }
-                                        {showDisconnectOverlay && <DisconnectOverlay isPermanent={!!reconnectionLimit} onClose={this.props.onClose} />}
+                                        {showDisconnectOverlay && <DisconnectOverlay onConnect={onConnect} isPermanent={!!reconnectionLimit} onClose={onClose} />}
                                     </WebchatRoot>
                                 )}
                                 {!disableToggleButton && (
