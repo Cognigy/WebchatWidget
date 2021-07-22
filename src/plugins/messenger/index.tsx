@@ -112,6 +112,10 @@ const fullscreenMessengerGenericPlugin: MessagePluginFactory = ({ React, styled 
                         // @ts-ignore
                         const { payload, title } = action;
 
+                        // Switch focus to input field if the flag is enabled
+                        const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
+                        if(textMessageInput && config.settings.focusInputAfterPostback) textMessageInput.focus();
+
                         onSendMessage(payload, null, { label: title });
                     }
 
