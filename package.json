@@ -29,7 +29,7 @@
         "pretest": "npm run webchat && npm run date-picker"
     },
     "dependencies": {
-        "@cognigy/socket-client": "^4.5.1",
+        "@cognigy/socket-client": "^4.5.2",
         "@emotion/cache": "^10.0.19",
         "@emotion/core": "^10.0.22",
         "@emotion/provider": "^0.11.2",
