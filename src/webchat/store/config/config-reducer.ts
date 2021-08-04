@@ -30,7 +30,7 @@ const getInitialState = (): ConfigState => ({
     enableFocusTrap: false,
     enableGenericHTMLStyling: false,
     enablePersistentMenu: false,
-    enableRating: "",
+    enableRating: "onRequest",
     enableSTT: false,
     enableStrictMessengerSync: false,
     enableTTS: false,

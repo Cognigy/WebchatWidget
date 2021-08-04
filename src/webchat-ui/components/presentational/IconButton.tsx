@@ -21,6 +21,11 @@ export default styled.button<IColorProps>(({ theme }) => {
 
         '&:not(.disabled)': {
             cursor: 'pointer',
+
+			'&.active, &:hover': {
+				color: highlight,
+				fill: highlight
+			}
         },
 
         transition: createTransition('background-color', 'color', 'fill'),
@@ -28,11 +33,6 @@ export default styled.button<IColorProps>(({ theme }) => {
         'svg': {
             width: 22,
             height: 22
-        },
-
-        '&.active, &:hover': {
-            color: highlight,
-            fill: highlight
-        }
+		},
     }
 });

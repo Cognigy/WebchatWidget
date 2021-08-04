@@ -4,8 +4,7 @@ import Logo from './Logo';
 import { styled } from '../../style';
 import IconButton from './IconButton';
 import CloseIcon from '../../assets/baseline-close-24px.svg';
-import ThumbIcon from '../../assets/thumb-up-24dp.svg';
-import ThumbDownIcon from './ThumbDownIcon';
+import ThumbsUpDownIcon from '../../assets/thumbs-up-down-24dp.svg';
 
 const HeaderBar = styled(Toolbar)(({ theme }) => ({
     boxShadow: '0 5px 18px 0 rgba(0, 0, 0, 0.08), 0 5px 32px 0 rgba(0, 0, 0, 0.08), 0 8px 58px 0 rgba(0, 0, 0, 0.08)',
@@ -33,30 +32,23 @@ const HeaderIconButton = styled(IconButton)(({ theme }) => ({
 interface HeaderProps {
     title: string;
     connected: boolean;
-    enableRating: boolean;
+    showRatingButton: boolean;
+    onRatingButtonClick: () => void;
     logoUrl?: string;
     onClose: () => void;
     closeButtonRef?: React.RefObject<HTMLButtonElement>;
 }
 
-export default ({ logoUrl, connected, title, enableRating, onClose, closeButtonRef, ...props }: HeaderProps) => (
+export default ({ logoUrl, connected, title, showRatingButton, onRatingButtonClick, onClose, closeButtonRef, ...props }: HeaderProps) => (
     <HeaderBar color='primary' {...props} className="webchat-header-bar">
         {logoUrl && <Logo src={logoUrl} className="webchat-header-logo" aria-hidden="true" />}
         <span style={{ flexGrow: 1 }} className="webchat-header-title" role="heading" aria-level={1} id="webchatHeaderTitle">{title}</span>
         {
-            enableRating &&
+            showRatingButton &&
             <HeaderIconButton
-                onClick={() => { }}
+                onClick={onRatingButtonClick}
             >
-                <ThumbIcon />
-            </HeaderIconButton>
-        }
-        {
-            enableRating &&
-            <HeaderIconButton
-                onClick={() => { }}
-            >
-                <ThumbDownIcon />
+                <ThumbsUpDownIcon />
             </HeaderIconButton>
         }
         <HeaderIconButton

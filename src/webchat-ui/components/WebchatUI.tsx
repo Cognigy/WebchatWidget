@@ -68,6 +68,15 @@ export interface WebchatUIProps {
 
     connected: boolean;
     reconnectionLimit: boolean;
+
+    ratingGiven: boolean;
+    showRatingDialog: boolean;
+    ratingValue: number | null;
+    ratingText: string;
+    onShowRatingDialog: (show: boolean) => void;
+    onSetRatingGiven: () => void;
+    onSetRatingText: (text: string) => void;
+    onSetRatingValue: (value: null | number) => void;
 }
 
 interface WebchatUIState {
@@ -78,7 +87,6 @@ interface WebchatUIState {
     hadConnection: boolean;
     lastUnseenMessageText: string;
     wasOpen: boolean;
-    showRatingDialog: boolean;
 }
 
 const stylisPlugins = [
@@ -116,7 +124,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         hadConnection: false,
         lastUnseenMessageText: "",
         wasOpen: false,
-        showRatingDialog: true,
     };
 
     history: React.RefObject<ChatScroller>;
@@ -385,6 +392,50 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         }
     }
 
+    handleSetRatingText = (event) => {
+        this.props.onSetRatingText(event.target.value);
+    };
+    handleSetPositiveRating = () => {
+        if (this.props.ratingValue === 10) {
+            this.props.onSetRatingValue(null);
+        } else {
+            this.props.onSetRatingValue(10);
+        }
+    };
+    handleSetNegativeRating = () => {
+        if (this.props.ratingValue === 0) {
+            this.props.onSetRatingValue(null);
+        } else {
+            this.props.onSetRatingValue(0);
+        }
+    };
+
+    handleSendRating = () => {
+        if (this.history.current) {
+            this.history.current.scrollToBottom();
+        }
+
+        this.props.onSendMessage(
+            undefined,
+            {
+                _cognigy: {
+                    controlCommands: [
+                        {
+                            type: "setRating",
+                            parameters: {
+                                rating: this.props.ratingValue,
+                                comment: this.props.ratingText
+                            }
+                        }
+                    ]
+                }
+            },
+            undefined,
+        );
+
+        this.props.onShowRatingDialog(false);
+    };
+
     render() {
         const { props, state } = this;
         const { messages,
@@ -406,6 +457,13 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             webchatToggleProps,
             connected,
             reconnectionLimit,
+            ratingGiven,
+            showRatingDialog,
+            ratingValue,
+            ratingText,
+            onShowRatingDialog,
+            onSetRatingGiven,
+            onSetRatingValue,
             ...restProps
         } = props;
         const { theme, hadConnection, lastUnseenMessageText } = state;
@@ -416,6 +474,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             return null;
 
         const showDisconnectOverlay = enableConnectionStatusIndicator && !connected && hadConnection;
+
+        const isSendRatingDisabled = ratingValue !== 0 && ratingValue !== 10;
 
         const openChatAriaLabel = () => {
             switch (unseenMessages.length) {
@@ -452,6 +512,19 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                         {!fullscreenMessage
                                             ? this.renderRegularLayout()
                                             : this.renderFullscreenMessageLayout()
+                                        }
+                                        {
+                                            showRatingDialog &&
+                                            <RatingDialog
+                                                onCloseRatingDialog={() => onShowRatingDialog(false)}
+                                                ratingValue={ratingValue}
+                                                ratingText={ratingText}
+                                                onSetRatingText={this.handleSetRatingText}
+                                                onSetPositiveRating={this.handleSetPositiveRating}
+                                                onSetNegativeRating={this.handleSetNegativeRating}
+                                                onSendRating={this.handleSendRating}
+                                                disableSendButton={isSendRatingDisabled}
+                                            />
                                         }
                                         {showDisconnectOverlay && <DisconnectOverlay onConnect={onConnect} isPermanent={!!reconnectionLimit} onClose={onClose} />}
                                     </WebchatRoot>
@@ -511,8 +584,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const {
             config,
             messages,
-            typingIndicator
+            typingIndicator,
+            ratingGiven,
+            onShowRatingDialog,
         } = this.props;
+
+        const { enableRating } = config.settings;
+
+        const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && ratingGiven === false));
 
         return (
             <>
@@ -522,12 +601,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     logoUrl={config.settings.headerLogoUrl}
                     title={config.settings.title || 'Cognigy Webchat'}
                     closeButtonRef={this.closeButtonInHeaderRef}
-                    enableRating={config.settings.enableRating}
+                    showRatingButton={showRatingButton}
+                    onRatingButtonClick={() => onShowRatingDialog(true)}
                 />
-                {
-                    this.state.showRatingDialog &&
-                    <RatingDialog />
-                }
                 <HistoryWrapper
                     disableBranding={config.settings.disableBranding}
                     ref={this.history as any}

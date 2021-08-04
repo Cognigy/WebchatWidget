@@ -24,7 +24,7 @@ export interface IWebchatSettings {
   enableGenericHTMLStyling: boolean;
   enableFocusTrap: boolean;
   enablePersistentMenu: boolean;
-  enableRating: string;
+  enableRating: "always" | "once" | "onRequest";
   enableSTT: boolean;
   enableStrictMessengerSync: boolean;
   enableTTS: boolean;

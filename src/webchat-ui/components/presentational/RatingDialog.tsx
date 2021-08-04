@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React, { ChangeEventHandler } from 'react';
 import { styled } from "../../style";
 import Input from './Input';
 import Toolbar from './Toolbar';
 import IconButton from './IconButton';
 import SendIcon from '../plugins/input/text/baseline-send-24px.svg';
 import CloseIcon from "../../assets/baseline-close-24px.svg";
+import ThumbIcon from '../../assets/thumb-up-24dp.svg';
+import ThumbDownIcon from './ThumbDownIcon';
 
 const Wrapper = styled.div({
     height: "100%",
@@ -32,13 +34,41 @@ const RatingDialogHeader = styled.div({
     justifyContent: "flex-end",
 });
 
-const RatingDialogMain = styled.div({
-    height: 250,
+const RatingDialogMain = styled.div(({ theme }) => ({
+    height: 150,
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "center",
-});
+    padding: theme.unitSize,
+}));
+
+const RatingButtonContainer = styled.div(({ theme }) => ({
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexGrow: 1,
+
+    "&>:first-child": {
+        marginRight: theme.unitSize * 2,
+    },
+}));
+
+const RatingIconButton = styled(IconButton)(({ theme, selected }) => ({
+    backgroundColor: selected ? theme.primaryColor : theme.greyWeakColor,
+    borderRadius: "50%",
+
+    "&:focus, &:hover": {
+        backgroundColor: selected ? theme.primaryWeakColor : theme.greyColor,
+        opacity: 0.85,
+    },
+
+    'svg': {
+        width: 33,
+        height: 33,
+    },
+}));
 
 const RatingToolbar = styled(Toolbar)(({ theme }) => ({
 }));
@@ -47,21 +77,69 @@ const RatingInput = styled(Input)(({ theme }) => ({
     borderColor: theme.primaryWeakColor,
 }));
 
-export default ({ currentRating, ...props }) => (
+interface IRatingDialogProps {
+    onCloseRatingDialog: () => void;
+    ratingValue: number | null;
+    ratingText: string;
+    onSetRatingText: ChangeEventHandler<HTMLInputElement>;
+    onSetPositiveRating: () => void;
+    onSetNegativeRating: () => void;
+    onSendRating: () => void;
+    disableSendButton: boolean;
+}
+
+export default ({
+    onCloseRatingDialog,
+    ratingValue,
+    ratingText,
+    onSetRatingText,
+    onSetPositiveRating,
+    onSetNegativeRating,
+    onSendRating,
+    disableSendButton,
+    ...props
+}: IRatingDialogProps) => (
     <Wrapper>
         <RatingDialogRoot>
             <RatingDialogHeader>
-                <IconButton>
+                <IconButton onClick={onCloseRatingDialog}>
                     <CloseIcon />
                 </IconButton>
             </RatingDialogHeader>
             <RatingDialogMain>
-                <div>Thank you for your feedback!</div>
-                <div>Feel free to leave a comment.</div>
+                <div>Please rate your chat experience!</div>
+                <RatingButtonContainer>
+                    <div>
+                        <RatingIconButton onClick={onSetPositiveRating} selected={ratingValue === 10}>
+                            <ThumbIcon />
+                        </RatingIconButton>
+                    </div>
+                    <div>
+                        <RatingIconButton onClick={onSetNegativeRating} selected={ratingValue === 0}>
+                            <ThumbDownIcon />
+                        </RatingIconButton>
+                    </div>
+                </RatingButtonContainer>
+                <div>
+                    <div>Feel free to also leave a comment</div>
+                </div>
             </RatingDialogMain>
             <RatingToolbar>
-                <RatingInput />
-                <IconButton>
+                <RatingInput
+                    type="text"
+                    value={ratingText}
+                    onChange={onSetRatingText}
+                    onKeyPress={e => {
+                        if (e.key === 'Enter') {
+                            onSendRating();
+                        }
+                    }}
+                />
+                <IconButton
+                    className={disableSendButton ? "disabled" : "active"}
+                    disabled={disableSendButton}
+                    onClick={onSendRating}
+                >
                     <SendIcon />
                 </IconButton>
             </RatingToolbar>

@@ -5,14 +5,22 @@ import { sendMessage, triggerEngagementMessage } from '../store/messages/message
 import { setInputMode, setFullscreenMessage, setOpen, toggleOpen } from '../store/ui/ui-reducer';
 import { getPluginsForMessage, isFullscreenPlugin } from '../../plugins/helper';
 import { connect as doConnect } from "../store/connection/connection-middleware";
+import { setRatingGiven, setRatingText, setRatingValue, showRatingDialog } from "../store/rating/rating-reducer";
 
 type FromState = Pick<WebchatUIProps, 'messages' | 'unseenMessages' | 'open' | 'typingIndicator' | 'inputMode' | 'fullscreenMessage' | 'config' | 'connected' | 'reconnectionLimit'>;
-type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' | 'onTriggerEngagementMessage' >;
+type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' | 'onTriggerEngagementMessage'>;
 export type FromProps = Pick<WebchatUIProps, 'messagePlugins' | 'inputPlugins' | 'webchatRootProps' | 'webchatToggleProps'>;
 type Merge = FromState & FromDispatch & FromProps & Pick<WebchatUIProps, 'fullscreenMessage'>;
 
 export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Merge, StoreState>(
-    ({ messages, unseenMessages, connection: { connected, reconnectionLimit }, ui: { open, typing, inputMode, fullscreenMessage }, config, }) => ({
+    ({
+        messages,
+        unseenMessages,
+        connection: { connected, reconnectionLimit },
+        ui: { open, typing, inputMode, fullscreenMessage },
+        config,
+        rating: { showRatingDialog, ratingGiven, ratingValue, ratingText },
+    }) => ({
         messages,
         unseenMessages,
         open,
@@ -22,6 +30,10 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         config,
         connected,
         reconnectionLimit,
+        showRatingDialog,
+        ratingGiven,
+        ratingValue,
+        ratingText,
     }),
     dispatch => ({
         onSendMessage: (text, data, options) => dispatch(sendMessage({ text, data }, options)),
@@ -31,7 +43,11 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onClose: () => dispatch(setOpen(false)),
         onToggle: () => dispatch(toggleOpen()),
         onTriggerEngagementMessage: () => dispatch(triggerEngagementMessage()),
-        onConnect: () => dispatch(doConnect())
+        onConnect: () => dispatch(doConnect()),
+        onShowRatingDialog: (show: boolean) => dispatch(showRatingDialog(show)),
+        onSetRatingGiven: () => dispatch(setRatingGiven()),
+        onSetRatingText: (text: string) => dispatch(setRatingText(text)),
+        onSetRatingValue: (value: null | number) => dispatch(setRatingValue(value)),
     }),
     ({ fullscreenMessage, ...state }, dispatch, props) => {
         if (!fullscreenMessage) {
