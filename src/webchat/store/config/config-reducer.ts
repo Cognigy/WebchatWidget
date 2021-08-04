@@ -54,6 +54,8 @@ const getInitialState = (): ConfigState => ({
       title: "",
       menuItems: [],
     },
+	  ratingTitleText: "Please rate your chat experience!",
+	  ratingCommentText: "Feel free to leave a comment.",
     startBehavior: "none",
     STTLanguage: "",
     title: "",

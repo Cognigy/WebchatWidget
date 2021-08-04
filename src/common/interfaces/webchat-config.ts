@@ -49,6 +49,8 @@ export interface IWebchatSettings {
     title: string;
     menuItems: IPersistentMenuItem[];
   };
+  ratingTitleText: string;
+  ratingCommentText: string;
   startBehavior: "none" | "button" | "injection";
   STTLanguage: string;
   title: string;

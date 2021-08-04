@@ -433,6 +433,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             undefined,
         );
 
+        this.props.onSetRatingGiven();
         this.props.onShowRatingDialog(false);
     };
 
@@ -462,13 +463,12 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             ratingValue,
             ratingText,
             onShowRatingDialog,
-            onSetRatingGiven,
             onSetRatingValue,
             ...restProps
         } = props;
         const { theme, hadConnection, lastUnseenMessageText } = state;
 
-        const { disableToggleButton, enableConnectionStatusIndicator } = config.settings;
+        const { disableToggleButton, enableConnectionStatusIndicator, ratingTitleText, ratingCommentText } = config.settings;
 
         if (!this.props.config.active)
             return null;
@@ -524,6 +524,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                 onSetNegativeRating={this.handleSetNegativeRating}
                                                 onSendRating={this.handleSendRating}
                                                 disableSendButton={isSendRatingDisabled}
+                                                ratingTitleText={ratingTitleText}
+                                                ratingCommentText={ratingCommentText}
                                             />
                                         }
                                         {showDisconnectOverlay && <DisconnectOverlay onConnect={onConnect} isPermanent={!!reconnectionLimit} onClose={onClose} />}

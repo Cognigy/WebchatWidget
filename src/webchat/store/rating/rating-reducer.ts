@@ -50,6 +50,14 @@ type RatingAction = ShowRatingDialogAction
 export const rating: Reducer<RatingState, RatingAction> = (state = getInitialState(), action) => {
 	switch (action.type) {
 		case SHOW_RATING_DIALOG: {
+			if (action.show === false) {
+				return {
+					...state,
+					showRatingDialog: action.show,
+					ratingValue: null,
+					ratingText: "",
+				}
+			}
 			return {
 				...state,
 				showRatingDialog: action.show

@@ -86,6 +86,8 @@ interface IRatingDialogProps {
     onSetNegativeRating: () => void;
     onSendRating: () => void;
     disableSendButton: boolean;
+    ratingTitleText: string;
+    ratingCommentText: string;
 }
 
 export default ({
@@ -97,6 +99,8 @@ export default ({
     onSetNegativeRating,
     onSendRating,
     disableSendButton,
+    ratingTitleText,
+    ratingCommentText,
     ...props
 }: IRatingDialogProps) => (
     <Wrapper>
@@ -107,7 +111,7 @@ export default ({
                 </IconButton>
             </RatingDialogHeader>
             <RatingDialogMain>
-                <div>Please rate your chat experience!</div>
+                <div>{ratingTitleText}</div>
                 <RatingButtonContainer>
                     <div>
                         <RatingIconButton onClick={onSetPositiveRating} selected={ratingValue === 10}>
@@ -121,7 +125,7 @@ export default ({
                     </div>
                 </RatingButtonContainer>
                 <div>
-                    <div>Feel free to also leave a comment</div>
+                    <div>{ratingCommentText}</div>
                 </div>
             </RatingDialogMain>
             <RatingToolbar>
