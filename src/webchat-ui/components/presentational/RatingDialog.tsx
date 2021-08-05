@@ -1,12 +1,13 @@
 import React, { ChangeEventHandler } from 'react';
 import { styled } from "../../style";
-import Input from './Input';
 import Toolbar from './Toolbar';
 import IconButton from './IconButton';
 import SendIcon from '../plugins/input/text/baseline-send-24px.svg';
 import CloseIcon from "../../assets/baseline-close-24px.svg";
 import ThumbIcon from '../../assets/thumb-up-24dp.svg';
 import ThumbDownIcon from './ThumbDownIcon';
+import tinycolor from 'tinycolor2';
+import Textarea from './Textarea';
 
 const Wrapper = styled.div({
     height: "100%",
@@ -40,7 +41,9 @@ const RatingDialogMain = styled.div(({ theme }) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: theme.unitSize,
+    paddingLeft: theme.unitSize * 2,
+    paddingRight: theme.unitSize * 2,
+    paddingBottom: theme.unitSize,
 }));
 
 const RatingButtonContainer = styled.div(({ theme }) => ({
@@ -71,9 +74,10 @@ const RatingIconButton = styled(IconButton)(({ theme, selected }) => ({
 }));
 
 const RatingToolbar = styled(Toolbar)(({ theme }) => ({
+    paddingBottom: theme.unitSize,
 }));
 
-const RatingInput = styled(Input)(({ theme }) => ({
+const RatingInput = styled(Textarea)(({ theme }) => ({
     borderColor: theme.primaryWeakColor,
 }));
 
@@ -133,11 +137,9 @@ export default ({
                     type="text"
                     value={ratingText}
                     onChange={onSetRatingText}
-                    onKeyPress={e => {
-                        if (e.key === 'Enter') {
-                            onSendRating();
-                        }
-                    }}
+                    autoFocus
+                    maxlength={500}
+                    rows={3}
                 />
                 <IconButton
                     className={disableSendButton ? "disabled" : "active"}
