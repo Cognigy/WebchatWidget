@@ -35,6 +35,9 @@ const RatingHistoryEntry = styled.div(({ theme }) => ({
 export default ({ message, config }: MessageComponentProps) => {
 	const rating = message?.data?._cognigy?.controlCommands?.[0]?.parameters;
 
+	const ratingText = config.settings.ratingMessageHistoryRatingText;
+	const commentText = config.settings.ratingMessageHistoryCommentText;
+
 	if (!rating) return null;
 
 	const getRatingIcon = (rating: number) => {
@@ -47,13 +50,14 @@ export default ({ message, config }: MessageComponentProps) => {
 	return (
 		<RatingHistoryEntry>
 			<TextIconWrapper>
-				<span>You gave the following rating:</span> {getRatingIcon(rating.rating)}
+				<span>{ratingText}</span>
+				{getRatingIcon(rating.rating)}
 			</TextIconWrapper>
 
 			{
 				rating.comment &&
 				<div>
-					Your comment: {rating.comment}
+					{commentText} {rating.comment}
 				</div>
 			}
 		</RatingHistoryEntry>

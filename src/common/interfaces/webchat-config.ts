@@ -51,6 +51,8 @@ export interface IWebchatSettings {
   };
   ratingTitleText: string;
   ratingCommentText: string;
+  ratingMessageHistoryRatingText: string;
+  ratingMessageHistoryCommentText: string;
   startBehavior: "none" | "button" | "injection";
   STTLanguage: string;
   title: string;
