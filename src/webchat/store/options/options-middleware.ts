@@ -25,6 +25,7 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
                     try {
                         const persisted = JSON.parse(persistedString);
 
+						console.log({ persisted })
                         store.dispatch(resetState(persisted));
                     } catch (e) { }
                 }
@@ -33,9 +34,10 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
     }
 
     if (browserStorage && active && userId && !(disablePersistentHistory || disableLocalStorage)) {
-        const { messages } = store.getState();
+		const { messages, rating } = store.getState();
         browserStorage.setItem(key, JSON.stringify({
             messages,
+			rating,
         }));
     }
 

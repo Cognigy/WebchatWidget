@@ -36,7 +36,11 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
                 messages: [
                     ...action.state.messages,
                     ...state.messages,
-                ]
+				],
+				rating: {
+					...state.rating,
+					ratingGiven: action.state.rating.ratingGiven,
+				}
             }, { type: '' })
         };
     };

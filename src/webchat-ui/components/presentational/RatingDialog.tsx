@@ -6,7 +6,6 @@ import SendIcon from '../plugins/input/text/baseline-send-24px.svg';
 import CloseIcon from "../../assets/baseline-close-24px.svg";
 import ThumbIcon from '../../assets/thumb-up-24dp.svg';
 import ThumbDownIcon from './ThumbDownIcon';
-import tinycolor from 'tinycolor2';
 import Textarea from './Textarea';
 
 const Wrapper = styled.div({
@@ -30,32 +29,37 @@ const RatingDialogRoot = styled.div(({ theme }) => ({
     fontFamily: theme.fontFamily,
 }));
 
-const RatingDialogHeader = styled.div({
+const RatingDialogHeader = styled.div(({ theme }) => ({
     display: "flex",
-    justifyContent: "flex-end",
-});
-
-const RatingDialogMain = styled.div(({ theme }) => ({
-    height: 150,
-    display: "flex",
-    flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
     paddingLeft: theme.unitSize * 2,
-    paddingRight: theme.unitSize * 2,
+    paddingTop: theme.unitSize,
     paddingBottom: theme.unitSize,
+    background: theme.primaryGradient,
+    color: theme.primaryContrastColor,
+    borderRadius: "8px 8px 0 0",
+
+    'svg': {
+        fill: theme.primaryContrastColor,
+    },
+}));
+
+const RatingDialogMain = styled.div(({ theme }) => ({
+    height: 180,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    paddingLeft: theme.unitSize * 2,
+    paddingRight: theme.unitSize * 2,
 }));
 
 const RatingButtonContainer = styled.div(({ theme }) => ({
     width: "100%",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
     flexGrow: 1,
-
-    "&>:first-child": {
-        marginRight: theme.unitSize * 2,
-    },
 }));
 
 const RatingIconButton = styled(IconButton)(({ theme, selected }) => ({
@@ -110,12 +114,12 @@ export default ({
     <Wrapper>
         <RatingDialogRoot>
             <RatingDialogHeader>
+                <span>{ratingTitleText}</span>
                 <IconButton onClick={onCloseRatingDialog}>
                     <CloseIcon />
                 </IconButton>
             </RatingDialogHeader>
             <RatingDialogMain>
-                <div>{ratingTitleText}</div>
                 <RatingButtonContainer>
                     <div>
                         <RatingIconButton onClick={onSetPositiveRating} selected={ratingValue === 10}>
