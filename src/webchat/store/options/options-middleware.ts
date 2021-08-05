@@ -25,7 +25,6 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
                     try {
                         const persisted = JSON.parse(persistedString);
 
-						console.log({ persisted })
                         store.dispatch(resetState(persisted));
                     } catch (e) { }
                 }
