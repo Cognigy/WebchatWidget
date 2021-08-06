@@ -36,6 +36,7 @@ import notificationSound from '../utils/notification-sound';
 import { findReverse } from '../utils/find-reverse';
 import "../../assets/style.css";
 import TypingIndicator from './history/TypingIndicator';
+import RatingDialog from './presentational/RatingDialog';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -67,6 +68,11 @@ export interface WebchatUIProps {
 
     connected: boolean;
     reconnectionLimit: boolean;
+
+	hasGivenRating: boolean;
+	showRatingDialog: boolean;
+    onShowRatingDialog: (show: boolean) => void;
+	onSetHasGivenRating: () => void;
 }
 
 interface WebchatUIState {
@@ -113,7 +119,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         inputPlugins: [],
         hadConnection: false,
         lastUnseenMessageText: "",
-        wasOpen: false
+        wasOpen: false,
     };
 
     history: React.RefObject<ChatScroller>;
@@ -152,7 +158,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             inputPlugins: [...this.props.inputPlugins || [], textInputPlugin],
             messagePlugins: [...this.props.messagePlugins || [], regularMessagePlugin]
         });
-        
+
         if (this.props.config.settings.enableUnreadMessageTitleIndicator) {
             this.initializeTitleIndicator();
         }
@@ -180,8 +186,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             })
         }
 
-        if (prevProps.unseenMessages !== this.props.unseenMessages 
-            || !prevProps.config.settings.enableUnreadMessagePreview && this.props.config.settings.enableUnreadMessagePreview ) {
+        if (prevProps.unseenMessages !== this.props.unseenMessages
+            || !prevProps.config.settings.enableUnreadMessagePreview && this.props.config.settings.enableUnreadMessagePreview) {
             const { unseenMessages } = this.props;
 
             // update the "unseen message preview" text
@@ -190,8 +196,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
                 // find the last readable message and remember its text
                 const lastReadableUnseenMessage = findReverse(
-                        this.props.unseenMessages, 
-                        message => !!getTextFromMessage(message)
+                    this.props.unseenMessages,
+                    message => !!getTextFromMessage(message)
                 );
                 if (lastReadableUnseenMessage) {
                     lastUnseenMessageText = getTextFromMessage(lastReadableUnseenMessage);
@@ -209,12 +215,12 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         }
 
         if (prevProps.config.settings.enableUnreadMessagePreview && !this.props.config.settings.enableUnreadMessagePreview) {
-            this.setState({ lastUnseenMessageText: ""})
+            this.setState({ lastUnseenMessageText: "" })
         }
 
         // initialize the title indicator if configured
         if (
-            this.props.config.settings.enableUnreadMessageTitleIndicator 
+            this.props.config.settings.enableUnreadMessageTitleIndicator
             && this.props.config.settings.enableUnreadMessageTitleIndicator !== prevProps.config.settings.enableUnreadMessageTitleIndicator
         ) {
             this.initializeTitleIndicator();
@@ -268,14 +274,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             return;
 
         if (
-            this.props.config.settings.engagementMessageText 
+            this.props.config.settings.engagementMessageText
             && typeof this.props.config.settings.engagementMessageDelay === 'number'
             && this.props.config.settings.engagementMessageDelay >= 0
         ) {
             this.engagementMessageTimeout = setTimeout(this.triggerEngagementMessage, this.props.config.settings.engagementMessageDelay);
         }
     }
-    
+
     /**
      * This sets up the "unread messages" title indicator interval.
      * It should only be registered once!
@@ -293,7 +299,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             this.titleType = 'original';
         } else {
             if (this.props.unseenMessages.length > 0) {
-                document.title = `(${this.props.unseenMessages.length}) ${(this.props.unseenMessages.length === 1) ? this.props.config.settings.unreadMessageTitleText : this.props.config.settings.unreadMessageTitleTextPlural}`; 
+                document.title = `(${this.props.unseenMessages.length}) ${(this.props.unseenMessages.length === 1) ? this.props.config.settings.unreadMessageTitleText : this.props.config.settings.unreadMessageTitleTextPlural}`;
                 this.titleType = 'unread';
             }
         }
@@ -330,7 +336,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
         const getStartedButton = document.getElementById("webchatGetStartedButton");
         const webchatInputButtonMenu = document.getElementById("webchatInputButtonMenu");
-        if(textMessageInput) {
+        if (textMessageInput) {
             textMessageInput.focus();
         } else if (getStartedButton) {
             getStartedButton.focus();
@@ -340,12 +346,12 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             webchatHistoryPanel?.focus()
         }
     }
-    
+
     handleKeydown = (event) => {
         const { enableFocusTrap } = this.props.config.settings;
         const { open } = this.props;
 
-        if(enableFocusTrap && open) {
+        if (enableFocusTrap && open) {
             /**
              * If the current focused element is the close button in chat header, the focus moves
              * to some element outside chat window on 'Shift + Tab' navigation.
@@ -354,10 +360,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
              * on Shift + Tab navigation.
              * 
              */
-            if(event.target === this.closeButtonInHeaderRef?.current) {
-                if(event.shiftKey && event.key === "Tab") {
+            if (event.target === this.closeButtonInHeaderRef?.current) {
+                if (event.shiftKey && event.key === "Tab") {
                     event.preventDefault();
-                    this.handleReverseTabNavigation();                    
+                    this.handleReverseTabNavigation();
                 }
             }
             /**
@@ -369,11 +375,11 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
              * On Shift + Tab navigation, the focus should move to the first element (from the bottom) within chat window.
              * 
              */
-            if(event.target === this.chatToggleButtonRef?.current) {
-                if(event.shiftKey && event.key === "Tab") {                    
+            if (event.target === this.chatToggleButtonRef?.current) {
+                if (event.shiftKey && event.key === "Tab") {
                     event.preventDefault();
                     this.handleReverseTabNavigation();
-                } else if(event.key === "Tab") {
+                } else if (event.key === "Tab") {
                     event.preventDefault();
                     const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
                     webchatHistoryPanel?.focus();
@@ -381,6 +387,33 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             }
         }
     }
+
+	handleSendRating = ({ rating, comment }) => {
+        if (this.history.current) {
+            this.history.current.scrollToBottom();
+        }
+
+        this.props.onSendMessage(
+            undefined,
+            {
+                _cognigy: {
+                    controlCommands: [
+                        {
+                            type: "setRating",
+                            parameters: {
+								rating,
+								comment,
+                            }
+                        }
+                    ]
+                }
+            },
+            undefined,
+        );
+
+		this.props.onSetHasGivenRating();
+        this.props.onShowRatingDialog(false);
+    };
 
     render() {
         const { props, state } = this;
@@ -403,52 +436,65 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             webchatToggleProps,
             connected,
             reconnectionLimit,
+			hasGivenRating,
+			showRatingDialog,
+			onShowRatingDialog,
+			onSetHasGivenRating,
             ...restProps
         } = props;
         const { theme, hadConnection, lastUnseenMessageText } = state;
 
-        const { disableToggleButton, enableConnectionStatusIndicator } = config.settings;
+        const { disableToggleButton, enableConnectionStatusIndicator, ratingTitleText, ratingCommentText } = config.settings;
 
         if (!this.props.config.active)
             return null;
 
-		const showDisconnectOverlay = enableConnectionStatusIndicator && !connected && hadConnection;
-		
-		const openChatAriaLabel = () => {
-			switch (unseenMessages.length) {
-				case 0:
-					return "Open chat";
-				case 1:
-					return "One unread message in chat. Open chat";		
-				default:
-					return `${unseenMessages.length} unread messages in chat. Open chat`;
-			}
-		}
+        const showDisconnectOverlay = enableConnectionStatusIndicator && !connected && hadConnection;
+
+        const openChatAriaLabel = () => {
+            switch (unseenMessages.length) {
+                case 0:
+                    return "Open chat";
+                case 1:
+                    return "One unread message in chat. Open chat";
+                default:
+                    return `${unseenMessages.length} unread messages in chat. Open chat`;
+            }
+        }
 
         return (
             <>
                 <ThemeProvider theme={theme}>
                     {/* <Global styles={cssReset} /> */}
                     <>
-						<WebchatWrapper 
-							data-cognigy-webchat-root 
-							{...restProps}
-							className="webchat-root"
-							aria-labelledby="webchatHeaderTitle"
-							role="region"
-							onKeyDown={this.handleKeydown}
-						>
+                        <WebchatWrapper
+                            data-cognigy-webchat-root
+                            {...restProps}
+                            className="webchat-root"
+                            aria-labelledby="webchatHeaderTitle"
+                            role="region"
+                            onKeyDown={this.handleKeydown}
+                        >
                             <CacheProvider value={styleCache}>
                                 {open && (
                                     <WebchatRoot
                                         data-cognigy-webchat
                                         {...webchatRootProps}
-										className="webchat"
-										id="webchatWindow"
+                                        className="webchat"
+                                        id="webchatWindow"
                                     >
                                         {!fullscreenMessage
                                             ? this.renderRegularLayout()
                                             : this.renderFullscreenMessageLayout()
+                                        }
+                                        {
+                                            showRatingDialog &&
+                                            <RatingDialog
+												onCloseRatingDialog={() => onShowRatingDialog(false)}
+												onSendRating={this.handleSendRating}
+                                                ratingTitleText={ratingTitleText}
+                                                ratingCommentText={ratingCommentText}
+                                            />
                                         }
                                         {showDisconnectOverlay && <DisconnectOverlay onConnect={onConnect} isPermanent={!!reconnectionLimit} onClose={onClose} />}
                                     </WebchatRoot>
@@ -460,10 +506,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             lastUnseenMessageText && (
                                                 <UnreadMessagePreview
                                                     className="webchat-unread-message-preview"
-													onClick={onToggle}
-													aria-live="polite"
+                                                    onClick={onToggle}
+                                                    aria-live="polite"
                                                 >
-													<span className="sr-only">New message preview</span>
+                                                    <span className="sr-only">New message preview</span>
                                                     {lastUnseenMessageText}
                                                 </UnreadMessagePreview>
                                             )
@@ -474,21 +520,21 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             onClick={onToggle}
                                             {...webchatToggleProps}
                                             type='button'
-											className="webchat-toggle-button"
-											aria-label={open ? "Close chat" : openChatAriaLabel()}
+                                            className="webchat-toggle-button"
+                                            aria-label={open ? "Close chat" : openChatAriaLabel()}
                                             ref={this.chatToggleButtonRef}
                                         >
                                             {open ? (
                                                 <CloseIcon />
                                             ) : (
-                                                    <ChatIcon />
-                                                )}
+                                                <ChatIcon />
+                                            )}
                                             {
                                                 config.settings.enableUnreadMessageBadge ?
                                                     <Badge
                                                         content={unseenMessages.length}
-														className='webchat-unread-message-badge'
-														aria-label={`${unseenMessages.length} unread messages`}
+                                                        className='webchat-unread-message-badge'
+                                                        aria-label={`${unseenMessages.length} unread messages`}
                                                     />
                                                     :
                                                     null
@@ -508,8 +554,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const {
             config,
             messages,
-            typingIndicator
+            typingIndicator,
+			hasGivenRating,
+            onShowRatingDialog,
         } = this.props;
+
+        const { enableRating } = config.settings;
+
+		const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
 
         return (
             <>
@@ -518,17 +570,19 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     connected={config.active}
                     logoUrl={config.settings.headerLogoUrl}
                     title={config.settings.title || 'Cognigy Webchat'}
-                    closeButtonRef = {this.closeButtonInHeaderRef}
+                    closeButtonRef={this.closeButtonInHeaderRef}
+                    showRatingButton={showRatingButton}
+                    onRatingButtonClick={() => onShowRatingDialog(true)}
                 />
-				<HistoryWrapper 
-					disableBranding={config.settings.disableBranding} 
-					ref={this.history as any}
-					className="webchat-chat-history"
-					tabIndex={0}
-					role="log"
-					aria-live="polite"
-					id="webchatChatHistoryWrapperLiveLogPanel"
-				>
+                <HistoryWrapper
+                    disableBranding={config.settings.disableBranding}
+                    ref={this.history as any}
+                    className="webchat-chat-history"
+                    tabIndex={0}
+                    role="log"
+                    aria-live="polite"
+                    id="webchatChatHistoryWrapperLiveLogPanel"
+                >
                     <h2 className="sr-only" id="webchatChatHistoryHeading">Chat History</h2>
                     {this.renderHistory()}
                 </HistoryWrapper>

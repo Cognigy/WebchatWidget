@@ -6,6 +6,7 @@ import { config } from "./config/config-reducer";
 import { connection } from "./connection/connection-reducer";
 import { unseenMessages } from './unseen-messages/unseen-message-reducer';
 import { autoInject } from './autoinject/autoinject-reducer';
+import { rating } from "./rating/rating-reducer";
 import { StoreState } from "./store";
 
 const rootReducer = combineReducers({
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     options,
     config,
     autoInject,
+    rating,
     ui,
     connection
 });
@@ -34,7 +36,11 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
                 messages: [
                     ...action.state.messages,
                     ...state.messages,
-                ]
+                ],
+                rating: {
+                    ...state.rating,
+                    hasGivenRating: action.state.rating.hasGivenRating,
+                }
             }, { type: '' })
         };
     };

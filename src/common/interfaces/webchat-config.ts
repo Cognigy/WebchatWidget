@@ -24,6 +24,7 @@ export interface IWebchatSettings {
   enableGenericHTMLStyling: boolean;
   enableFocusTrap: boolean;
   enablePersistentMenu: boolean;
+  enableRating: "always" | "once" | "onRequest";
   enableSTT: boolean;
   enableStrictMessengerSync: boolean;
   enableTTS: boolean;
@@ -48,6 +49,10 @@ export interface IWebchatSettings {
     title: string;
     menuItems: IPersistentMenuItem[];
   };
+  ratingTitleText: string;
+  ratingCommentText: string;
+  ratingMessageHistoryRatingText: string;
+  ratingMessageHistoryCommentText: string;
   startBehavior: "none" | "button" | "injection";
   STTLanguage: string;
   title: string;

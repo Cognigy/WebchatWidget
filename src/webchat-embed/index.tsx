@@ -8,6 +8,7 @@ import './embedded-webchat-styles.css';
 import '../plugins/get-started-button-input';
 import '../plugins/date-picker';
 import '../plugins/messenger';
+import '../plugins/rating';
 import { Webchat } from '../webchat/components/Webchat';
 
 

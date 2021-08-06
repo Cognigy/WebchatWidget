@@ -33,9 +33,10 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
     }
 
     if (browserStorage && active && userId && !(disablePersistentHistory || disableLocalStorage)) {
-        const { messages } = store.getState();
+        const { messages, rating } = store.getState();
         browserStorage.setItem(key, JSON.stringify({
             messages,
+            rating,
         }));
     }
 
