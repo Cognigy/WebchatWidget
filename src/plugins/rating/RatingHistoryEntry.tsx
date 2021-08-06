@@ -6,19 +6,19 @@ import ThumbIcon from '../../webchat-ui/assets/thumb-up-24dp.svg';
 
 const StyledThumbIcon = styled(ThumbIcon)(({ theme }) => ({
 	fill: tinycolor(theme.greyContrastColor).setAlpha(.4).toHslString(),
+	verticalAlign: "bottom",
 }));
 
 const StyledThumbDownIcon = styled(StyledThumbIcon)({
 	transform: "rotate(180deg)",
+	verticalAlign: "top",
 });
 
-const TextIconWrapper = styled.div(({ theme }) => ({
-	display: "flex",
-	alignItems: "center",
+const TextIconWrapper = styled.div(({ theme, addedSpacing }) => ({
+	marginBottom: addedSpacing && 6,
 
 	"&>*:last-child": {
 		marginLeft: theme.unitSize,
-		marginBottom: theme.unitSize / 2,
 	}
 }));
 
@@ -26,7 +26,6 @@ const RatingCommentText = styled.div(({ theme }) => ({
 	paddingLeft: theme.unitSize * 2,
 	paddingRight: theme.unitSize * 2,
 }));
-
 
 const RatingHistoryEntry = styled.div(({ theme }) => ({
 	display: "flex",
@@ -55,7 +54,7 @@ export default ({ message, config }: MessageComponentProps) => {
 
 	return (
 		<RatingHistoryEntry>
-			<TextIconWrapper>
+			<TextIconWrapper addedSpacing={rating.rating === 10}>
 				<span>{ratingText}</span>
 				{getRatingIcon(rating.rating)}
 			</TextIconWrapper>
