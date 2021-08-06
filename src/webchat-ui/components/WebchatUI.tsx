@@ -439,6 +439,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 			hasGivenRating,
 			showRatingDialog,
 			onShowRatingDialog,
+			onSetHasGivenRating,
             ...restProps
         } = props;
         const { theme, hadConnection, lastUnseenMessageText } = state;
