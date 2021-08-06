@@ -1,7 +1,7 @@
 import { Reducer } from "redux";
 
 export interface RatingState {
-	ratingGiven: boolean;
+	hasGivenRating: boolean;
 	showRatingDialog: boolean;
 }
 
@@ -12,19 +12,19 @@ export const showRatingDialog = (show: boolean) => ({
 });
 type ShowRatingDialogAction = ReturnType<typeof showRatingDialog>;
 
-const SET_RATING_GIVEN = "SET_RATING_GIVEN";
-export const setRatingGiven = () => ({
-	type: SET_RATING_GIVEN as "SET_RATING_GIVEN",
+const SET_HAS_GIVEN_RATING = "SET_HAS_GIVEN_RATING";
+export const setHasGivenRating = () => ({
+	type: SET_HAS_GIVEN_RATING as "SET_HAS_GIVEN_RATING",
 });
-type SetRatingGiven = ReturnType<typeof setRatingGiven>;
+type SetHasGivenRating = ReturnType<typeof setHasGivenRating>;
 
 const getInitialState = (): RatingState => ({
-	ratingGiven: false,
+	hasGivenRating: false,
 	showRatingDialog: false,
 });
 
 type RatingAction = ShowRatingDialogAction
-	| SetRatingGiven;
+	| SetHasGivenRating;
 
 
 export const rating: Reducer<RatingState, RatingAction> = (state = getInitialState(), action) => {
@@ -36,10 +36,10 @@ export const rating: Reducer<RatingState, RatingAction> = (state = getInitialSta
 			}
 		}
 
-		case SET_RATING_GIVEN: {
+		case SET_HAS_GIVEN_RATING: {
 			return {
 				...state,
-				ratingGiven: true,
+				hasGivenRating: true,
 			}
 		}
 	}

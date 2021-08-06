@@ -69,10 +69,10 @@ export interface WebchatUIProps {
     connected: boolean;
     reconnectionLimit: boolean;
 
-    ratingGiven: boolean;
+	hasGivenRating: boolean;
 	showRatingDialog: boolean;
     onShowRatingDialog: (show: boolean) => void;
-	onSetRatingGiven: () => void;
+	onSetHasGivenRating: () => void;
 }
 
 interface WebchatUIState {
@@ -411,7 +411,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             undefined,
         );
 
-        this.props.onSetRatingGiven();
+		this.props.onSetHasGivenRating();
         this.props.onShowRatingDialog(false);
     };
 
@@ -436,7 +436,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             webchatToggleProps,
             connected,
             reconnectionLimit,
-            ratingGiven,
+			hasGivenRating,
 			showRatingDialog,
 			onShowRatingDialog,
             ...restProps
@@ -554,13 +554,13 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             config,
             messages,
             typingIndicator,
-            ratingGiven,
+			hasGivenRating,
             onShowRatingDialog,
         } = this.props;
 
         const { enableRating } = config.settings;
 
-        const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && ratingGiven === false));
+		const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
 
         return (
             <>

@@ -5,7 +5,7 @@ import { sendMessage, triggerEngagementMessage } from '../store/messages/message
 import { setInputMode, setFullscreenMessage, setOpen, toggleOpen } from '../store/ui/ui-reducer';
 import { getPluginsForMessage, isFullscreenPlugin } from '../../plugins/helper';
 import { connect as doConnect } from "../store/connection/connection-middleware";
-import { setRatingGiven, setRatingText, setRatingValue, showRatingDialog } from "../store/rating/rating-reducer";
+import { setHasGivenRating, showRatingDialog } from "../store/rating/rating-reducer";
 
 type FromState = Pick<WebchatUIProps, 'messages' | 'unseenMessages' | 'open' | 'typingIndicator' | 'inputMode' | 'fullscreenMessage' | 'config' | 'connected' | 'reconnectionLimit'>;
 type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' | 'onTriggerEngagementMessage'>;
@@ -19,7 +19,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         connection: { connected, reconnectionLimit },
         ui: { open, typing, inputMode, fullscreenMessage },
         config,
-        rating: { showRatingDialog, ratingGiven },
+        rating: { showRatingDialog, hasGivenRating },
     }) => ({
         messages,
         unseenMessages,
@@ -31,7 +31,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         connected,
         reconnectionLimit,
         showRatingDialog,
-        ratingGiven,
+        hasGivenRating,
     }),
     dispatch => ({
         onSendMessage: (text, data, options) => dispatch(sendMessage({ text, data }, options)),
@@ -43,7 +43,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onTriggerEngagementMessage: () => dispatch(triggerEngagementMessage()),
         onConnect: () => dispatch(doConnect()),
         onShowRatingDialog: (show: boolean) => dispatch(showRatingDialog(show)),
-        onSetRatingGiven: () => dispatch(setRatingGiven()),
+        onSetHasGivenRating: () => dispatch(setHasGivenRating()),
     }),
     ({ fullscreenMessage, ...state }, dispatch, props) => {
         if (!fullscreenMessage) {

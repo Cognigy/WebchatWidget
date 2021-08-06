@@ -39,7 +39,7 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
                 ],
                 rating: {
                     ...state.rating,
-                    ratingGiven: action.state.rating.ratingGiven,
+                    hasGivenRating: action.state.rating.hasGivenRating,
                 }
             }, { type: '' })
         };
