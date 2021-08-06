@@ -12,6 +12,8 @@ const Wrapper = styled.div({
     height: "100%",
     width: "100%",
     position: "absolute",
+    left: 0,
+    top: 0,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
