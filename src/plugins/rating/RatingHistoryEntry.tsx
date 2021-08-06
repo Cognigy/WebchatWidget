@@ -22,6 +22,12 @@ const TextIconWrapper = styled.div(({ theme }) => ({
 	}
 }));
 
+const RatingCommentText = styled.div(({ theme }) => ({
+	paddingLeft: theme.unitSize * 2,
+	paddingRight: theme.unitSize * 2,
+}));
+
+
 const RatingHistoryEntry = styled.div(({ theme }) => ({
 	display: "flex",
 	flexDirection: "column",
@@ -56,9 +62,9 @@ export default ({ message, config }: MessageComponentProps) => {
 
 			{
 				rating.comment &&
-				<div>
+				<RatingCommentText>
 					{commentText} {rating.comment}
-				</div>
+				</RatingCommentText>
 			}
 		</RatingHistoryEntry>
 	)
