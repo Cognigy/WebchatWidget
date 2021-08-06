@@ -87,72 +87,112 @@ const RatingInput = styled(Textarea)(({ theme }) => ({
 
 interface IRatingDialogProps {
     onCloseRatingDialog: () => void;
-    ratingValue: number | null;
-    ratingText: string;
-    onSetRatingText: ChangeEventHandler<HTMLInputElement>;
-    onSetPositiveRating: () => void;
-    onSetNegativeRating: () => void;
-    onSendRating: () => void;
-    disableSendButton: boolean;
+    onSendRating: ({ rating: number, comment: string }) => void;
     ratingTitleText: string;
     ratingCommentText: string;
 }
 
-export default ({
-    onCloseRatingDialog,
-    ratingValue,
-    ratingText,
-    onSetRatingText,
-    onSetPositiveRating,
-    onSetNegativeRating,
-    onSendRating,
-    disableSendButton,
-    ratingTitleText,
-    ratingCommentText,
-    ...props
-}: IRatingDialogProps) => (
-    <Wrapper>
-        <RatingDialogRoot>
-            <RatingDialogHeader>
-                <span>{ratingTitleText}</span>
-                <IconButton onClick={onCloseRatingDialog}>
-                    <CloseIcon />
-                </IconButton>
-            </RatingDialogHeader>
-            <RatingDialogMain>
-                <RatingButtonContainer>
-                    <div>
-                        <RatingIconButton onClick={onSetPositiveRating} selected={ratingValue === 10}>
-                            <ThumbIcon />
-                        </RatingIconButton>
-                    </div>
-                    <div>
-                        <RatingIconButton onClick={onSetNegativeRating} selected={ratingValue === 0}>
-                            <ThumbDownIcon />
-                        </RatingIconButton>
-                    </div>
-                </RatingButtonContainer>
-                <div>
-                    <div>{ratingCommentText}</div>
-                </div>
-            </RatingDialogMain>
-            <RatingToolbar>
-                <RatingInput
-                    type="text"
-                    value={ratingText}
-                    onChange={onSetRatingText}
-                    autoFocus
-                    maxlength={500}
-                    rows={3}
-                />
-                <IconButton
-                    className={disableSendButton ? "disabled" : "active"}
-                    disabled={disableSendButton}
-                    onClick={onSendRating}
-                >
-                    <SendIcon />
-                </IconButton>
-            </RatingToolbar>
-        </RatingDialogRoot>
-    </Wrapper>
-);
+interface IRatingDialogState {
+    ratingValue: number | null;
+    ratingText: string;
+}
+
+class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IRatingDialogProps, IRatingDialogState> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ratingValue: null,
+            ratingText: "",
+        };
+    }
+
+    handleSetRatingText = (event) => {
+        this.setState({
+            ratingText: event.target.value
+        });
+    };
+
+    handleSetRatingValue = (value) => {
+        let nextValue = value;
+
+        if (this.state.ratingValue === value) {
+            nextValue = null;
+        };
+
+        this.setState({
+            ratingValue: nextValue,
+        });
+    };
+
+    handleSendRatingClick = () => {
+        this.props.onSendRating({
+            rating: this.state.ratingValue,
+            comment: this.state.ratingText,
+        });
+    };
+
+    render() {
+        const { props, state } = this;
+        const {
+            onCloseRatingDialog,
+            ratingTitleText,
+            ratingCommentText,
+            ...restProps
+        } = props;
+        const {
+            ratingValue,
+            ratingText,
+        } = state;
+
+        const disableSendButton = ratingValue !== 0 && ratingValue !== 10;
+
+        return (
+            <Wrapper>
+                <RatingDialogRoot>
+                    <RatingDialogHeader>
+                        <span>{ratingTitleText}</span>
+                        <IconButton onClick={onCloseRatingDialog}>
+                            <CloseIcon />
+                        </IconButton>
+                    </RatingDialogHeader>
+                    <RatingDialogMain>
+                        <RatingButtonContainer>
+                            <div>
+                                <RatingIconButton onClick={() => this.handleSetRatingValue(10)} selected={ratingValue === 10}>
+                                    <ThumbIcon />
+                                </RatingIconButton>
+                            </div>
+                            <div>
+                                <RatingIconButton onClick={() => this.handleSetRatingValue(0)} selected={ratingValue === 0}>
+                                    <ThumbDownIcon />
+                                </RatingIconButton>
+                            </div>
+                        </RatingButtonContainer>
+                        <div>
+                            <div>{ratingCommentText}</div>
+                        </div>
+                    </RatingDialogMain>
+                    <RatingToolbar>
+                        <RatingInput
+                            type="text"
+                            value={ratingText}
+                            onChange={this.handleSetRatingText}
+                            autoFocus
+                            maxlength={500}
+                            rows={3}
+                        />
+                        <IconButton
+                            className={disableSendButton ? "disabled" : "active"}
+                            disabled={disableSendButton}
+                            onClick={this.handleSendRatingClick}
+                        >
+                            <SendIcon />
+                        </IconButton>
+                    </RatingToolbar>
+                </RatingDialogRoot>
+            </Wrapper>
+        );
+    }
+};
+
+export default RatingDialog;

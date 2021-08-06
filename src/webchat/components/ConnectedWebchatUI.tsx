@@ -19,7 +19,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         connection: { connected, reconnectionLimit },
         ui: { open, typing, inputMode, fullscreenMessage },
         config,
-        rating: { showRatingDialog, ratingGiven, ratingValue, ratingText },
+        rating: { showRatingDialog, ratingGiven },
     }) => ({
         messages,
         unseenMessages,
@@ -32,8 +32,6 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         reconnectionLimit,
         showRatingDialog,
         ratingGiven,
-        ratingValue,
-        ratingText,
     }),
     dispatch => ({
         onSendMessage: (text, data, options) => dispatch(sendMessage({ text, data }, options)),
@@ -46,8 +44,6 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onConnect: () => dispatch(doConnect()),
         onShowRatingDialog: (show: boolean) => dispatch(showRatingDialog(show)),
         onSetRatingGiven: () => dispatch(setRatingGiven()),
-        onSetRatingText: (text: string) => dispatch(setRatingText(text)),
-        onSetRatingValue: (value: null | number) => dispatch(setRatingValue(value)),
     }),
     ({ fullscreenMessage, ...state }, dispatch, props) => {
         if (!fullscreenMessage) {

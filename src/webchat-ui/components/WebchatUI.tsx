@@ -70,13 +70,9 @@ export interface WebchatUIProps {
     reconnectionLimit: boolean;
 
     ratingGiven: boolean;
-    showRatingDialog: boolean;
-    ratingValue: number | null;
-    ratingText: string;
+	showRatingDialog: boolean;
     onShowRatingDialog: (show: boolean) => void;
-    onSetRatingGiven: () => void;
-    onSetRatingText: (text: string) => void;
-    onSetRatingValue: (value: null | number) => void;
+	onSetRatingGiven: () => void;
 }
 
 interface WebchatUIState {
@@ -392,25 +388,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         }
     }
 
-    handleSetRatingText = (event) => {
-        this.props.onSetRatingText(event.target.value);
-    };
-    handleSetPositiveRating = () => {
-        if (this.props.ratingValue === 10) {
-            this.props.onSetRatingValue(null);
-        } else {
-            this.props.onSetRatingValue(10);
-        }
-    };
-    handleSetNegativeRating = () => {
-        if (this.props.ratingValue === 0) {
-            this.props.onSetRatingValue(null);
-        } else {
-            this.props.onSetRatingValue(0);
-        }
-    };
-
-    handleSendRating = () => {
+	handleSendRating = ({ rating, comment }) => {
         if (this.history.current) {
             this.history.current.scrollToBottom();
         }
@@ -423,8 +401,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         {
                             type: "setRating",
                             parameters: {
-                                rating: this.props.ratingValue,
-                                comment: this.props.ratingText
+								rating,
+								comment,
                             }
                         }
                     ]
@@ -459,11 +437,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             connected,
             reconnectionLimit,
             ratingGiven,
-            showRatingDialog,
-            ratingValue,
-            ratingText,
-            onShowRatingDialog,
-            onSetRatingValue,
+			showRatingDialog,
+			onShowRatingDialog,
             ...restProps
         } = props;
         const { theme, hadConnection, lastUnseenMessageText } = state;
@@ -474,8 +449,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             return null;
 
         const showDisconnectOverlay = enableConnectionStatusIndicator && !connected && hadConnection;
-
-        const isSendRatingDisabled = ratingValue !== 0 && ratingValue !== 10;
 
         const openChatAriaLabel = () => {
             switch (unseenMessages.length) {
@@ -516,14 +489,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                         {
                                             showRatingDialog &&
                                             <RatingDialog
-                                                onCloseRatingDialog={() => onShowRatingDialog(false)}
-                                                ratingValue={ratingValue}
-                                                ratingText={ratingText}
-                                                onSetRatingText={this.handleSetRatingText}
-                                                onSetPositiveRating={this.handleSetPositiveRating}
-                                                onSetNegativeRating={this.handleSetNegativeRating}
-                                                onSendRating={this.handleSendRating}
-                                                disableSendButton={isSendRatingDisabled}
+												onCloseRatingDialog={() => onShowRatingDialog(false)}
+												onSendRating={this.handleSendRating}
                                                 ratingTitleText={ratingTitleText}
                                                 ratingCommentText={ratingCommentText}
                                             />
