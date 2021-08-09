@@ -3,6 +3,7 @@ import { MessageComponentProps } from '../../common/interfaces/message-plugin';
 import tinycolor from 'tinycolor2';
 import { styled } from '../../webchat-ui/style';
 import ThumbIcon from '../../webchat-ui/assets/thumb-up-24dp.svg';
+import { getRating } from '.';
 
 const StyledThumbIcon = styled(ThumbIcon)(({ theme }) => ({
 	fill: tinycolor(theme.greyContrastColor).setAlpha(.4).toHslString(),
@@ -16,10 +17,6 @@ const StyledThumbDownIcon = styled(StyledThumbIcon)({
 
 const TextIconWrapper = styled.div(({ theme, addedSpacing }) => ({
 	marginBottom: addedSpacing && 6,
-
-	"&>*:last-child": {
-		marginLeft: theme.unitSize,
-	}
 }));
 
 const RatingCommentText = styled.div(({ theme }) => ({
@@ -38,7 +35,7 @@ const RatingHistoryEntry = styled.div(({ theme }) => ({
 }));
 
 export default ({ message, config }: MessageComponentProps) => {
-	const rating = message?.data?._cognigy?.controlCommands?.[0]?.parameters;
+	const rating = getRating(message);
 
 	const ratingText = config.settings.ratingMessageHistoryRatingText;
 	const commentText = config.settings.ratingMessageHistoryCommentText;
@@ -46,8 +43,8 @@ export default ({ message, config }: MessageComponentProps) => {
 	if (!rating) return null;
 
 	const getRatingIcon = (rating: number) => {
-		if (rating === 10) return <StyledThumbIcon />;
-		if (rating === 0) return <StyledThumbDownIcon />;
+		if (rating === 10) return <StyledThumbIcon style={{ marginLeft: 6 }} />;
+		if (rating === 0) return <StyledThumbDownIcon style={{ marginLeft: 6 }} />;
 
 		return rating;
 	};
