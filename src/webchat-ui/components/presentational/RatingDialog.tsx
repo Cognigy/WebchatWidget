@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from 'react';
+import React from 'react';
 import { styled } from "../../style";
 import Toolbar from './Toolbar';
 import IconButton from './IconButton';
@@ -7,6 +7,7 @@ import CloseIcon from "../../assets/baseline-close-24px.svg";
 import ThumbIcon from '../../assets/thumb-up-24dp.svg';
 import ThumbDownIcon from './ThumbDownIcon';
 import Textarea from './Textarea';
+import uuid from "uuid"
 
 const Wrapper = styled.div({
     height: "100%",
@@ -45,6 +46,17 @@ const RatingDialogHeader = styled.div(({ theme }) => ({
     'svg': {
         fill: theme.primaryContrastColor,
     },
+}));
+
+const HeaderIconButton = styled(IconButton)(({ theme }) => ({
+    borderRadius: "50%",
+    padding: 4,
+    marginRight: 8,
+    "&:focus, &:hover": {
+        backgroundColor: theme.primaryStrongColor,
+        fill: theme.primaryContrastColor,
+        opacity: 0.85,
+    }
 }));
 
 const RatingDialogMain = styled.div(({ theme }) => ({
@@ -147,15 +159,16 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
         } = state;
 
         const disableSendButton = ratingValue !== 0 && ratingValue !== 10;
+        const webchatRatingDialogTitleId = `webchatRatingDialogTitle-${uuid.v4()}`
 
         return (
             <Wrapper>
-                <RatingDialogRoot>
+                <RatingDialogRoot role="dialog" aria-modal="true" aria-labelledby={webchatRatingDialogTitleId}>
                     <RatingDialogHeader>
-                        <span>{ratingTitleText}</span>
-                        <IconButton onClick={onCloseRatingDialog}>
+                        <span id={webchatRatingDialogTitleId} role="heading" aria-level={2}>{ratingTitleText}</span>
+                        <HeaderIconButton onClick={onCloseRatingDialog} aria-label="Close Rating dialog">
                             <CloseIcon />
-                        </IconButton>
+                        </HeaderIconButton>
                     </RatingDialogHeader>
                     <RatingDialogMain>
                         <RatingButtonContainer>
