@@ -125,6 +125,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     history: React.RefObject<ChatScroller>;
     chatToggleButtonRef: React.RefObject<HTMLButtonElement>;
     closeButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
+    ratingButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
 
     private unreadTitleIndicatorInterval: ReturnType<typeof setInterval> | null = null;
     private originalTitle: string = window.document.title;
@@ -138,6 +139,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         this.history = React.createRef();
         this.chatToggleButtonRef = React.createRef();
         this.closeButtonInHeaderRef = React.createRef();
+        this.ratingButtonInHeaderRef = React.createRef();
     }
 
     static getDerivedStateFromProps(props: WebchatUIProps, state: WebchatUIState): WebchatUIState | null {
@@ -348,19 +350,22 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     }
 
     handleKeydown = (event) => {
-        const { enableFocusTrap } = this.props.config.settings;
+        const { enableFocusTrap, enableRating } = this.props.config.settings;
         const { open } = this.props;
 
         if (enableFocusTrap && open) {
             /**
-             * If the current focused element is the close button in chat header, the focus moves
+             * If the current focused element is the close button(if rating not enabled) or 
+             * rating thumbs up/down button (if rating enabled) in chat header, the focus moves
              * to some element outside chat window on 'Shift + Tab' navigation.
              * 
              * In order to trap focus, move focus back to the first element (from the bottom) within chat window 
              * on Shift + Tab navigation.
              * 
              */
-            if (event.target === this.closeButtonInHeaderRef?.current) {
+            const isCloseButtonAsTarget = event.target === this.closeButtonInHeaderRef?.current;
+            const isRatingButtonAsTarget = event.target === this.ratingButtonInHeaderRef?.current;
+            if ((!enableRating && isCloseButtonAsTarget) || (enableRating && isRatingButtonAsTarget)) {
                 if (event.shiftKey && event.key === "Tab") {
                     event.preventDefault();
                     this.handleReverseTabNavigation();
@@ -370,7 +375,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
              * If the current focused element is the chat toggle button, the focus moves to some element 
              * outside chat window on 'Tab' navigation.
              * 
-             * In order to trap focus, move the focus back to the chat history panel on Tab navigation.
+             * In order to trap focus, move the focus back to the chat history panel(if rating not enabled) or
+             * thumbs up/down rating button (if rating enabled) on Tab navigation.
              * 
              * On Shift + Tab navigation, the focus should move to the first element (from the bottom) within chat window.
              * 
@@ -380,15 +386,22 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     event.preventDefault();
                     this.handleReverseTabNavigation();
                 } else if (event.key === "Tab") {
-                    event.preventDefault();
-                    const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
-                    webchatHistoryPanel?.focus();
+                    const hasRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && this.props.hasGivenRating === false));
+                    if(hasRatingButton) {
+                        event.preventDefault();
+                        const webchatHeaderRatingButton = document.getElementById("webchatHeaderOpenRatingDialogButton");
+                        webchatHeaderRatingButton?.focus();
+                    } else {
+                        event.preventDefault();
+                        const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
+                        webchatHistoryPanel?.focus();
+                    }
                 }
             }
         }
     }
 
-	handleSendRating = ({ rating, comment }) => {
+    handleSendRating = ({ rating, comment }) => {
         if (this.history.current) {
             this.history.current.scrollToBottom();
         }
@@ -401,8 +414,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         {
                             type: "setRating",
                             parameters: {
-								rating,
-								comment,
+                                rating,
+                                comment,
                             }
                         }
                     ]
@@ -411,7 +424,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             undefined,
         );
 
-		this.props.onSetHasGivenRating();
+        this.props.onSetHasGivenRating();
         this.props.onShowRatingDialog(false);
     };
 
@@ -436,10 +449,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             webchatToggleProps,
             connected,
             reconnectionLimit,
-			hasGivenRating,
-			showRatingDialog,
-			onShowRatingDialog,
-			onSetHasGivenRating,
+            hasGivenRating,
+            showRatingDialog,
+            onShowRatingDialog,
+            onSetHasGivenRating,
             ...restProps
         } = props;
         const { theme, hadConnection, lastUnseenMessageText } = state;
@@ -490,8 +503,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                         {
                                             showRatingDialog &&
                                             <RatingDialog
-												onCloseRatingDialog={() => onShowRatingDialog(false)}
-												onSendRating={this.handleSendRating}
+                                                onCloseRatingDialog={() => onShowRatingDialog(false)}
+                                                onSendRating={this.handleSendRating}
                                                 ratingTitleText={ratingTitleText}
                                                 ratingCommentText={ratingCommentText}
                                             />
@@ -555,7 +568,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             config,
             messages,
             typingIndicator,
-			hasGivenRating,
+            hasGivenRating,
             onShowRatingDialog,
         } = this.props;
 
@@ -569,7 +582,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     onClose={this.props.onClose}
                     connected={config.active}
                     logoUrl={config.settings.headerLogoUrl}
-                    title={config.settings.title || 'Cognigy Webchat'}
+            		title={config.settings.title || 'Cognigy Webchat'}
+            		ratingButtonRef={this.ratingButtonInHeaderRef}
                     closeButtonRef={this.closeButtonInHeaderRef}
                     showRatingButton={showRatingButton}
                     onRatingButtonClick={() => onShowRatingDialog(true)}
