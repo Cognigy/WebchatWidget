@@ -173,12 +173,12 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
                     <RatingDialogMain>
                         <RatingButtonContainer>
                             <div>
-                                <RatingIconButton onClick={() => this.handleSetRatingValue(10)} selected={ratingValue === 10}>
+                                <RatingIconButton onClick={() => this.handleSetRatingValue(10)} selected={ratingValue === 10} aria-label="Thumbs Up">
                                     <ThumbIcon />
                                 </RatingIconButton>
                             </div>
                             <div>
-                                <RatingIconButton onClick={() => this.handleSetRatingValue(0)} selected={ratingValue === 0}>
+                                <RatingIconButton onClick={() => this.handleSetRatingValue(0)} selected={ratingValue === 0} aria-label="Thumbs Down">
                                     <ThumbDownIcon />
                                 </RatingIconButton>
                             </div>
