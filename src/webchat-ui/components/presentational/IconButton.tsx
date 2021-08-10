@@ -22,9 +22,9 @@ export default styled.button<IColorProps>(({ theme }) => {
         '&:not(.disabled)': {
             cursor: 'pointer',
 
-			'&.active, &:hover': {
-				color: highlight,
-				fill: highlight
+            '&.active, &:hover': {
+                color: highlight,
+                fill: highlight
             },
         },
 
@@ -33,6 +33,6 @@ export default styled.button<IColorProps>(({ theme }) => {
         'svg': {
             width: 22,
             height: 22
-		},
+        },
     }
 });

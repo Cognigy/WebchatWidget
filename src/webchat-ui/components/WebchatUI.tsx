@@ -69,10 +69,10 @@ export interface WebchatUIProps {
     connected: boolean;
     reconnectionLimit: boolean;
 
-	hasGivenRating: boolean;
-	showRatingDialog: boolean;
+    hasGivenRating: boolean;
+    showRatingDialog: boolean;
     onShowRatingDialog: (show: boolean) => void;
-	onSetHasGivenRating: () => void;
+    onSetHasGivenRating: () => void;
 }
 
 interface WebchatUIState {
@@ -574,7 +574,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
         const { enableRating } = config.settings;
 
-		const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
+        const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
 
         return (
             <>
@@ -582,8 +582,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     onClose={this.props.onClose}
                     connected={config.active}
                     logoUrl={config.settings.headerLogoUrl}
-            		title={config.settings.title || 'Cognigy Webchat'}
-            		ratingButtonRef={this.ratingButtonInHeaderRef}
+                    title={config.settings.title || 'Cognigy Webchat'}
+                    ratingButtonRef={this.ratingButtonInHeaderRef}
                     closeButtonRef={this.closeButtonInHeaderRef}
                     showRatingButton={showRatingButton}
                     onRatingButtonClick={() => onShowRatingDialog(true)}

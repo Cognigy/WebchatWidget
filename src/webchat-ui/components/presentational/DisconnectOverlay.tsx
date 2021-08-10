@@ -66,8 +66,8 @@ export default ({ isPermanent, onClose, onConnect }) => {
             <HeaderIconButton
                 data-header-close-button
                 onClick={onClose}
-				className="webchat-header-close-button"
-				aria-label="Close Warning"
+                className="webchat-header-close-button"
+                aria-label="Close Warning"
             >
                 <CloseIcon />
             </HeaderIconButton>
