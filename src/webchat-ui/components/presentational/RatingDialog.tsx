@@ -127,12 +127,20 @@ interface IRatingDialogState {
 }
 
 class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IRatingDialogProps, IRatingDialogState> {
+    commentTextAreaRef: React.RefObject<HTMLTextAreaElement>;
+    sendRatingButtonRef: React.RefObject<HTMLButtonElement>;
+    closeButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
+    
     constructor(props) {
         super(props);
         this.state = {
             ratingValue: null,
             ratingText: "",
         };
+
+        this.commentTextAreaRef = React.createRef();
+        this.sendRatingButtonRef = React.createRef();
+        this.closeButtonInHeaderRef = React.createRef();
     }
 
     handleSetRatingText = (event) => {
@@ -160,6 +168,43 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
         });
     };
 
+    handleKeydown = (event) => {
+        const isSendButtonDisabled = this.state.ratingValue !== 0 && this.state.ratingValue !== 10;
+        /**
+         * If the current focused element is the dialog close button, the focus moves to some element 
+         * outside rating dialog on 'Shift + Tab' navigation.
+         * 
+         * In order to trap focus within the rating dialog, move the focus back to the first focusable element from the bottom.
+         * (i.e., either to send button, if enabled, or to comment text field)
+         * 
+         */
+        if (event.target === this.closeButtonInHeaderRef?.current) {
+            if (event.shiftKey && event.key === "Tab") {
+                event.preventDefault();
+                if (!isSendButtonDisabled) {
+                    this.sendRatingButtonRef.current?.focus();
+                } else {
+                    this.commentTextAreaRef.current?.focus();
+                } 
+            }
+        }
+        /**
+         * If the current focused element is the comment input or the send rating button, the focus moves to some element 
+         * outside rating dialog on 'Tab' navigation.
+         * 
+         * In order to trap focus within the rating dialog, move the focus back to the 'close dialog' button on Tab navigation.
+         * 
+         */
+        if (event.target === this.sendRatingButtonRef?.current || 
+            (isSendButtonDisabled && event.target === this.commentTextAreaRef?.current)) {
+            if (event.shiftKey && event.key === "Tab") {}
+            else if(event.key === "Tab") {
+                event.preventDefault();
+                this.closeButtonInHeaderRef?.current?.focus();
+            }
+        }
+    }
+
     render() {
         const { props, state } = this;
         const {
@@ -180,10 +225,10 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
 
         return (
             <Wrapper>
-                <RatingDialogRoot role="dialog" aria-modal="true" aria-labelledby={webchatRatingDialogTitleId}>
+                <RatingDialogRoot role="dialog" aria-modal="true" aria-labelledby={webchatRatingDialogTitleId} onKeyDown={this.handleKeydown}>
                     <RatingDialogHeader>
                         <span id={webchatRatingDialogTitleId} role="heading" aria-level={2}>{ratingTitleText}</span>
-                        <HeaderIconButton onClick={onCloseRatingDialog} aria-label="Close Rating dialog">
+                        <HeaderIconButton onClick={onCloseRatingDialog} aria-label="Close Rating dialog" ref={this.closeButtonInHeaderRef}>
                             <CloseIcon />
                         </HeaderIconButton>
                     </RatingDialogHeader>
@@ -213,11 +258,13 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
                             maxlength={500}
                             rows={3}
                             aria-labelledby={webchatRatingCommentLabelId}
+                            ref={this.commentTextAreaRef}
                         />
                         <SendIconButton
                             className={disableSendButton ? "disabled" : "active"}
                             disabled={disableSendButton}
                             onClick={this.handleSendRatingClick}
+                            ref={this.sendRatingButtonRef}
                         >
                             <SendIcon />
                         </SendIconButton>
