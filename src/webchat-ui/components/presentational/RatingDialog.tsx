@@ -168,8 +168,20 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
         });
     };
 
+    handleCloseRatingClick = () => {
+        this.props.onCloseRatingDialog();
+        const thumdsUpDownButton = document.getElementById("webchatHeaderOpenRatingDialogButton");
+        if(thumdsUpDownButton) thumdsUpDownButton.focus();
+    }
+
     handleKeydown = (event) => {
         const isSendButtonDisabled = this.state.ratingValue !== 0 && this.state.ratingValue !== 10;
+
+        // Close the dialog when Escape key is pressed
+        if(event.key === "Escape" || event.key === "Esc") {
+            this.handleCloseRatingClick();
+        }
+
         /**
          * If the current focused element is the dialog close button, the focus moves to some element 
          * outside rating dialog on 'Shift + Tab' navigation.
@@ -220,15 +232,14 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
 
         const disableSendButton = ratingValue !== 0 && ratingValue !== 10;
         const webchatRatingDialogTitleId = `webchatRatingDialogTitle-${uuid.v4()}`;
-        const webchatRatingCommentLabelId = `webchatRatingCommentLabelId-${uuid.v4()}`
-
+        const webchatRatingCommentLabelId = `webchatRatingCommentLabelId-${uuid.v4()}`;
 
         return (
             <Wrapper>
                 <RatingDialogRoot role="dialog" aria-modal="true" aria-labelledby={webchatRatingDialogTitleId} onKeyDown={this.handleKeydown}>
                     <RatingDialogHeader>
                         <span id={webchatRatingDialogTitleId} role="heading" aria-level={2}>{ratingTitleText}</span>
-                        <HeaderIconButton onClick={onCloseRatingDialog} aria-label="Close Rating dialog" ref={this.closeButtonInHeaderRef}>
+                        <HeaderIconButton onClick={this.handleCloseRatingClick} aria-label="Close Rating dialog" ref={this.closeButtonInHeaderRef}>
                             <CloseIcon />
                         </HeaderIconButton>
                     </RatingDialogHeader>

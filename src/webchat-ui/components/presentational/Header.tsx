@@ -48,6 +48,7 @@ export default ({ logoUrl, connected, title, showRatingButton, onRatingButtonCli
             <HeaderIconButton
                 onClick={onRatingButtonClick}
                 aria-label="Rate your chat"
+                id="webchatHeaderOpenRatingDialogButton"
             >
                 <ThumbsUpDownIcon />
             </HeaderIconButton>
