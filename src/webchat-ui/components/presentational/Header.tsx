@@ -24,7 +24,7 @@ const HeaderIconButton = styled(IconButton)(({ theme }) => ({
     // stroke: theme.primaryContrastColor
     "&:focus, &:hover": {
         backgroundColor: theme.primaryStrongColor,
-        fill: theme.primaryContrastColor,
+        fill: `${theme.primaryContrastColor} !important`,
         opacity: 0.85,
     }
 }));

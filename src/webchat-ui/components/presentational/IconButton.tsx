@@ -26,10 +26,6 @@ export default styled.button<IColorProps>(({ theme }) => {
 				color: highlight,
 				fill: highlight
             },
-            '&:focus': {
-                color: theme.primaryStrongColor,
-                fill: theme.primaryStrongColor,
-            },
         },
 
         transition: createTransition('background-color', 'color', 'fill'),

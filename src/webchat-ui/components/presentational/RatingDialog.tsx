@@ -80,9 +80,13 @@ const RatingIconButton = styled(IconButton)(({ theme, selected }) => ({
     backgroundColor: selected ? theme.primaryColor : theme.greyWeakColor,
     borderRadius: "50%",
 
-    "&:focus, &:hover": {
+    "&:hover": {
         backgroundColor: selected ? theme.primaryWeakColor : theme.greyColor,
         opacity: 0.85,
+    },
+
+    "&:focus": {
+        boxShadow: `0 0 3px 3px ${theme.primaryWeakColor}`,
     },
 
     'svg': {
@@ -96,7 +100,18 @@ const RatingToolbar = styled(Toolbar)(({ theme }) => ({
 }));
 
 const RatingInput = styled(Textarea)(({ theme }) => ({
-    borderColor: theme.primaryWeakColor,
+    border: `1px solid ${theme.greyColor}`,
+
+    "&:focus": {
+        boxShadow: `0 0 0 2px ${theme.primaryWeakColor}`,
+    },
+}));
+
+const SendIconButton = styled(IconButton)(({ theme }) => ({
+    '&:focus': {
+        color: `${theme.primaryStrongColor} !important`,
+        fill: `${theme.primaryStrongColor} !important`,
+    },
 }));
 
 interface IRatingDialogProps {
@@ -159,7 +174,9 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
         } = state;
 
         const disableSendButton = ratingValue !== 0 && ratingValue !== 10;
-        const webchatRatingDialogTitleId = `webchatRatingDialogTitle-${uuid.v4()}`
+        const webchatRatingDialogTitleId = `webchatRatingDialogTitle-${uuid.v4()}`;
+        const webchatRatingCommentLabelId = `webchatRatingCommentLabelId-${uuid.v4()}`
+
 
         return (
             <Wrapper>
@@ -184,7 +201,7 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
                             </div>
                         </RatingButtonContainer>
                         <div>
-                            <div>{ratingCommentText}</div>
+                            <div id={webchatRatingCommentLabelId}>{ratingCommentText}</div>
                         </div>
                     </RatingDialogMain>
                     <RatingToolbar>
@@ -195,14 +212,15 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
                             autoFocus
                             maxlength={500}
                             rows={3}
+                            aria-labelledby={webchatRatingCommentLabelId}
                         />
-                        <IconButton
+                        <SendIconButton
                             className={disableSendButton ? "disabled" : "active"}
                             disabled={disableSendButton}
                             onClick={this.handleSendRatingClick}
                         >
                             <SendIcon />
-                        </IconButton>
+                        </SendIconButton>
                     </RatingToolbar>
                 </RatingDialogRoot>
             </Wrapper>

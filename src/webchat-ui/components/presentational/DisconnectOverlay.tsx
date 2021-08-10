@@ -44,6 +44,12 @@ const HeaderIconButton = styled(IconButton)(({ theme }) => ({
 
     color: theme.primaryContrastColor,
     fill: theme.primaryContrastColor,
+    borderRadius: "50%",
+    "&:focus, &:hover": {
+        backgroundColor: theme.primaryStrongColor,
+        fill: `${theme.primaryContrastColor} !important`,
+        opacity: 0.85,
+    }
 }));
 
 export default ({ isPermanent, onClose, onConnect }) => {
@@ -60,7 +66,8 @@ export default ({ isPermanent, onClose, onConnect }) => {
             <HeaderIconButton
                 data-header-close-button
                 onClick={onClose}
-                className="webchat-header-close-button"
+				className="webchat-header-close-button"
+				aria-label="Close Warning"
             >
                 <CloseIcon />
             </HeaderIconButton>
