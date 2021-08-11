@@ -7,6 +7,7 @@ import { getMessengerButtonHeader } from '../MessengerButtonHeader';
 import { useEffect } from 'react';
 import {IWebchatConfig} from '../../../../../common/interfaces/webchat-config';
 import { useRandomId } from '../../../../../common/utils/randomId';
+import { sanitizeHTML } from '../../../../../webchat/helper/sanitize';
 
 interface IMessengerButtonTemplateProps extends IWithFBMActionEventHandler {
     payload: IFBMButtonTemplatePayload;
@@ -51,9 +52,11 @@ export const getMessengerButtonTemplate = ({
             }, 200);
         }, []);
 
+        const __html = config.settings.disableMessageTextSanitization ? text : sanitizeHTML(text);
+
         return (
             <MessengerButtonHeader {...divProps} className="webchat-buttons-template-root">
-                {text && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{__html: text}} id={webchatButtonTemplateTextId} />}
+                {text && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{ __html }} id={webchatButtonTemplateTextId} />}
                 <div {...a11yProps}>
 					{buttons.map((button, index) => (
 						<React.Fragment key={index}>
