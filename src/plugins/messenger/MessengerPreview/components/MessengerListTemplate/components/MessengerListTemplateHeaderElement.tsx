@@ -9,6 +9,7 @@ import { getButtonLabel } from '../../MessengerButton/lib/messengerButtonHelpers
 import { getBackgroundImage } from '../../../lib/css';
 import { IWebchatConfig } from '../../../../../../common/interfaces/webchat-config';
 import { useRandomId } from '../../../../../../common/utils/randomId';
+import { sanitizeHTML } from '../../../../../../webchat/helper/sanitize';
 
 interface IMessengerListTemplateHeaderElementProps extends IWithFBMActionEventHandler {
     element: IFBMListTemplateElement;
@@ -101,6 +102,13 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
             : <FixedImage style={{ backgroundImage: image_url ? getBackgroundImage(image_url) : undefined }}>
 					<span role="img" aria-label={image_alt_text || "List Image"}> </span>
 			  </FixedImage>
+
+        const isSanitizeEnabled = !config.settings.disableMessageTextSanitization;
+
+        const titleHtml = isSanitizeEnabled ? sanitizeHTML(title) : title;
+        const subtitleHtml = isSanitizeEnabled ? sanitizeHTML(subtitle) : subtitle;
+        const buttonHtml = !!button && (isSanitizeEnabled ? sanitizeHTML(getButtonLabel(button)) : getButtonLabel(button));
+
         return (
             <div role="listitem">
                 <Root
@@ -116,13 +124,13 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
                     {image}
                     <DarkLayer />
                     <Content className="webchat-list-template-header-content">
-                        <Title className="webchat-list-template-header-title" dangerouslySetInnerHTML={{__html: title}} />
-                        <Subtitle className="webchat-list-template-header-subtitle" dangerouslySetInnerHTML={{__html: subtitle}} config={config} id={messengerSubtitleId}/>
+                        <Title className="webchat-list-template-header-title" dangerouslySetInnerHTML={{ __html: titleHtml }} />
+                        <Subtitle className="webchat-list-template-header-subtitle" dangerouslySetInnerHTML={{ __html: subtitleHtml }} config={config} id={messengerSubtitleId}/>
                         {button && (
                             <ListHeaderButton
                                 onClick={e => {e.stopPropagation(); onAction(e, button)}}
                                 className="webchat-list-template-header-button"
-                                dangerouslySetInnerHTML={{__html: getButtonLabel(button)}}
+                                dangerouslySetInnerHTML={{ __html: buttonHtml }}
                             >
                             </ListHeaderButton>
                         )}
