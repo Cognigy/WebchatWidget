@@ -3,12 +3,13 @@ import {
   MessagePlugin,
   MessageComponentProps
 } from "../../../../../common/interfaces/message-plugin";
+import { sanitizeHTML } from "../../../../../webchat/helper/sanitize";
 import { MarkdownMessageBubble } from "../../../presentational/MarkdownMessageBubble";
 import MessageBubble from "../../../presentational/MessageBubble";
 
 const RegularMessage = ({
   message: { text, source },
-  config: { settings: { enableGenericHTMLStyling }}
+  config: { settings: { enableGenericHTMLStyling, disableMessageTextSanitization }}
 }: MessageComponentProps) => {
   const className = (() => {
     switch (source) {
@@ -57,11 +58,15 @@ const RegularMessage = ({
 
   const MessageBubbleComponent = enableGenericHTMLStyling ? MarkdownMessageBubble : MessageBubble;
 
+  const actualText = text || "";
+
+  const __html = disableMessageTextSanitization ? actualText : sanitizeHTML(actualText);
+
   return (
     <MessageBubbleComponent
       color={color}
       align={align}
-      dangerouslySetInnerHTML={{ __html: text || "" }}
+      dangerouslySetInnerHTML={{ __html }}
       className={className}
     />
   );
