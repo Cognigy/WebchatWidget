@@ -17,6 +17,7 @@ import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-c
 import { getFlexImage } from "../FlexImage";
 import { getBackgroundImage } from "../../lib/css";
 import uuid from "uuid";
+import { sanitizeHTML } from '../../../../../webchat/helper/sanitize';
 
 export interface IMessengerGenericTemplateProps
     extends IWithFBMActionEventHandler {
@@ -208,6 +209,9 @@ export const getMessengerGenericTemplate = ({
                 }
             }
 
+            const titleHtml = this.props.config.settings.disableMessageTextSanitization ? title : sanitizeHTML(title);
+            const subtitleHtml = this.props.config.settings.disableMessageTextSanitization ? title : sanitizeHTML(title);
+
             return (
                 <ElementRoot key={index} className="webchat-carousel-template-root">
                     <Frame
@@ -228,8 +232,8 @@ export const getMessengerGenericTemplate = ({
                             id={`${this.carouselContentId}-${index}`}
                             {...carouselHeaderA11yProps}
                         >
-                            <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: title}} id={carouselTitleId} />
-                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{__html: subtitle}} config={this.props.config} id={carouselSubtitleId} />
+                            <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{ __html: titleHtml }} id={carouselTitleId} />
+                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{ __html: subtitleHtml }} config={this.props.config} id={carouselSubtitleId} />
                         </GenericContent>
 						<div>
 							{buttons &&
