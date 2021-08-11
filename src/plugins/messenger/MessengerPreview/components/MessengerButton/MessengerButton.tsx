@@ -2,9 +2,12 @@
 import { IFBMButton } from '../../interfaces/Button.interface';
 import { getButtonLabel } from './lib/messengerButtonHelpers';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
+import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
+import { sanitizeHTML } from '../../../../../webchat/helper/sanitize';
 
 interface IMessengerButtonProps {
     button: IFBMButton;
+    config: IWebchatConfig;
 }
 
 export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps) => {
@@ -39,11 +42,14 @@ export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps)
         const buttonTitle = button.title ? button.title + ". " : "";
         const isWebURLButtonTargetBlank = button.target !== "_self";
         const ariaLabel = isWebURL && isWebURLButtonTargetBlank ? buttonTitle + "Opens in new tab" : undefined;
+    
+        const buttonLabel = getButtonLabel(button);
+        const __html = props.config.settings.disableMessageTextSanitization ? buttonLabel : sanitizeHTML(buttonLabel)
 
         return (
             <Button 
                 {...props} 
-                dangerouslySetInnerHTML={{__html: getButtonLabel(button)}} 
+                dangerouslySetInnerHTML={{__html}} 
                 role={isWebURL ? "link" : undefined} 
                 aria-label={ariaLabel}
             />

@@ -62,6 +62,7 @@ export const getMessengerButtonTemplate = ({
 								button={button}
 								onClick={e => onAction(e, button)}
 								className="webchat-buttons-template-button"
+                                config={config}
 								id={`${webchatButtonTemplateButtonId}-${index}`}
 							/>
 						</React.Fragment>

@@ -83,6 +83,7 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
                             className="webchat-list-template-global-button"
                             button={button}
                             onClick={e => onAction(e, button)}
+                            config={config}
                         />
                     </>
                 )}
