@@ -6,6 +6,8 @@ import { transformMessage } from "./MessengerPreview/lib/transform";
 import { IFBMGenericTemplatePayload } from "./MessengerPreview/interfaces/GenericTemplatePayload.interface";
 import { IMessage } from "../../common/interfaces/message";
 import { IWebchatConfig } from "../../common/interfaces/webchat-config";
+import { sanitizeUrl } from "@braintree/sanitize-url";
+import { IFBMURLButton } from "./MessengerPreview/interfaces/Button.interface";
 
 const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
     const cognigyData = message.data?._cognigy;
@@ -83,8 +85,22 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
 
                     // @ts-ignore
                     if (action.type === 'web_url' && action.url) {
+                        const url = (() => {
+                            const { url: buttonUrl } = action as IFBMURLButton;
+                            if (config.settings.disableUrlButtonSanitization)
+                                return buttonUrl;
+
+                            return sanitizeUrl(buttonUrl)
+                        })();
+
+                        // prevent no-ops from sending you to a blank page
+                        if (url === 'about:blank') 
+                            return;
+
+                        const target = (action as IFBMURLButton).target === "_self" ? "_self" : "_blank";
+
                         // @ts-ignore
-                        window.open(action.url, action.target === "_self" ? "_self" : "_blank");
+                        window.open(url, target);
                     }
                 }}
                 config={config}

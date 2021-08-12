@@ -29,6 +29,7 @@
         "pretest": "npm run webchat && npm run date-picker"
     },
     "dependencies": {
+        "@braintree/sanitize-url": "^5.0.2",
         "@cognigy/socket-client": "^4.5.2",
         "@emotion/cache": "^10.0.19",
         "@emotion/core": "^10.0.22",
