@@ -276,6 +276,7 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
                             disabled={disableSendButton}
                             onClick={this.handleSendRatingClick}
                             ref={this.sendRatingButtonRef}
+                            aria-label="Send Rating and Comment"
                         >
                             <SendIcon />
                         </SendIconButton>

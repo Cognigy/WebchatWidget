@@ -43,8 +43,8 @@ export default ({ message, config }: MessageComponentProps) => {
 	if (!rating) return null;
 
 	const getRatingIcon = (rating: number) => {
-		if (rating === 10) return <StyledThumbIcon style={{ marginLeft: 6 }} />;
-		if (rating === 0) return <StyledThumbDownIcon style={{ marginLeft: 6 }} />;
+		if (rating === 10) return <StyledThumbIcon style={{ marginLeft: 6 }} aria-label="Thumbs Up." />;
+		if (rating === 0) return <StyledThumbDownIcon style={{ marginLeft: 6 }} aria-label="Thumbs Down." />;
 
 		return rating;
 	};
