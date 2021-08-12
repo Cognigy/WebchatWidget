@@ -75,7 +75,7 @@ export const getMessengerTextWithQuickReplies = ({
             setTimeout(() => {quickReplyButton?.focus()}, 200);
         }, []);
 
-        const __html = config.settings.disableMessageTextSanitization ? text : sanitizeHTML(text);
+        const __html = config.settings.disableHtmlContentSanitization ? text : sanitizeHTML(text);
 
         return (
             <div {...divProps} className="webchat-quick-reply-template-root">
@@ -116,7 +116,7 @@ export const getMessengerTextWithQuickReplies = ({
                                 }
                             }
 
-                            const __html = config.settings.disableMessageTextSanitization ? label : sanitizeHTML(label);
+                            const __html = config.settings.disableHtmlContentSanitization ? label : sanitizeHTML(label);
 
                             return (
                                 <MessengerQuickReply

@@ -9,7 +9,7 @@ import MessageBubble from "../../../presentational/MessageBubble";
 
 const RegularMessage = ({
   message: { text, source },
-  config: { settings: { enableGenericHTMLStyling, disableMessageTextSanitization }}
+  config: { settings: { enableGenericHTMLStyling, disableHtmlContentSanitization: disableMessageTextSanitization }}
 }: MessageComponentProps) => {
   const className = (() => {
     switch (source) {

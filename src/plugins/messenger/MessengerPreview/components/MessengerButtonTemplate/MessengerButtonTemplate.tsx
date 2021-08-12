@@ -52,7 +52,7 @@ export const getMessengerButtonTemplate = ({
             }, 200);
         }, []);
 
-        const __html = config.settings.disableMessageTextSanitization ? text : sanitizeHTML(text);
+        const __html = config.settings.disableHtmlContentSanitization ? text : sanitizeHTML(text);
 
         return (
             <MessengerButtonHeader {...divProps} className="webchat-buttons-template-root">

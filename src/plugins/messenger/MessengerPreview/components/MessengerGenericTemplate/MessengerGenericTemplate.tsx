@@ -209,8 +209,8 @@ export const getMessengerGenericTemplate = ({
                 }
             }
 
-            const titleHtml = this.props.config.settings.disableMessageTextSanitization ? title : sanitizeHTML(title);
-            const subtitleHtml = this.props.config.settings.disableMessageTextSanitization ? title : sanitizeHTML(title);
+            const titleHtml = this.props.config.settings.disableHtmlContentSanitization ? title : sanitizeHTML(title);
+            const subtitleHtml = this.props.config.settings.disableHtmlContentSanitization ? title : sanitizeHTML(title);
 
             return (
                 <ElementRoot key={index} className="webchat-carousel-template-root">

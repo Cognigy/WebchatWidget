@@ -103,7 +103,7 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
 					<span role="img" aria-label={image_alt_text || "List Image"}> </span>
 			  </FixedImage>
 
-        const isSanitizeEnabled = !config.settings.disableMessageTextSanitization;
+        const isSanitizeEnabled = !config.settings.disableHtmlContentSanitization;
 
         const titleHtml = isSanitizeEnabled ? sanitizeHTML(title) : title;
         const subtitleHtml = isSanitizeEnabled ? sanitizeHTML(subtitle) : subtitle;

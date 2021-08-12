@@ -20,7 +20,7 @@ const getInitialState = (): ConfigState => ({
     disableLocalStorage: false,
     disablePersistentHistory: false,
     disableUrlButtonSanitization: false,
-    disableMessageTextSanitization: false,
+    disableHtmlContentSanitization: false,
     disableTextInputSanitization: false,
     disableToggleButton: false,
     dynamicImageAspectRatio: false,

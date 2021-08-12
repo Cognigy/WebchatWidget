@@ -44,7 +44,7 @@ export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps)
         const ariaLabel = isWebURL && isWebURLButtonTargetBlank ? buttonTitle + "Opens in new tab" : undefined;
     
         const buttonLabel = getButtonLabel(button);
-        const __html = props.config.settings.disableMessageTextSanitization ? buttonLabel : sanitizeHTML(buttonLabel)
+        const __html = props.config.settings.disableHtmlContentSanitization ? buttonLabel : sanitizeHTML(buttonLabel)
 
         return (
             <Button 

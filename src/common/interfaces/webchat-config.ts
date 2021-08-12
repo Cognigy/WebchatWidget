@@ -14,7 +14,7 @@ export interface IWebchatSettings {
   disableLocalStorage: boolean;
   disablePersistentHistory: boolean;
   disableUrlButtonSanitization: boolean;
-  disableMessageTextSanitization: boolean;
+  disableHtmlContentSanitization: boolean;
   disableTextInputSanitization: boolean;
   disableToggleButton: boolean;
   dynamicImageAspectRatio: boolean;
