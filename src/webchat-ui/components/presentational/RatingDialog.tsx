@@ -161,17 +161,22 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
         });
     };
 
+    restoreFocus = () => {
+        const thumdsUpDownButton = document.getElementById("webchatHeaderOpenRatingDialogButton");
+        if(thumdsUpDownButton) thumdsUpDownButton.focus();
+    }
+
     handleSendRatingClick = () => {
         this.props.onSendRating({
             rating: this.state.ratingValue,
             comment: this.state.ratingText,
         });
+        this.restoreFocus();
     };
 
     handleCloseRatingClick = () => {
         this.props.onCloseRatingDialog();
-        const thumdsUpDownButton = document.getElementById("webchatHeaderOpenRatingDialogButton");
-        if(thumdsUpDownButton) thumdsUpDownButton.focus();
+        this.restoreFocus();
     }
 
     handleKeydown = (event) => {
