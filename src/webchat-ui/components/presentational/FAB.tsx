@@ -17,8 +17,8 @@ const FAB = styled(IconButton)(({ theme }) => ({
     marginTop: theme.unitSize * 2,
 
     '&.active, &:hover': {
-        color: theme.primaryContrastColor,
-        fill: theme.primaryContrastColor
+        backgroundImage: theme.primaryStrongGradient,
+        fill: `${theme.primaryContrastColor} !important`,
     }
 }));
 

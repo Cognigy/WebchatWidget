@@ -49,10 +49,18 @@ export default ({ message, config }: MessageComponentProps) => {
 		return rating;
 	};
 
+	const getRatingLabel = (rating: number) => {
+		if (rating === 10) return "Thumbs Up.";
+		if (rating === 0) return "Thumbs Down.";
+
+		return rating;
+	};
+
 	return (
 		<RatingHistoryEntry>
 			<TextIconWrapper addedSpacing={rating.rating === 10}>
 				<span>{ratingText}</span>
+				<span className="sr-only">{getRatingLabel(rating.rating)}</span>
 				{getRatingIcon(rating.rating)}
 			</TextIconWrapper>
 
