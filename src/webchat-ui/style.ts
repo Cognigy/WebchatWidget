@@ -8,6 +8,7 @@ export interface IWebchatTheme {
     primaryWeakColor: string;
     primaryContrastColor: string;
     primaryGradient: string;
+    primaryStrongGradient: string;
 
     greyColor: string;
     greyStrongColor: string;
@@ -78,6 +79,8 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
     if (!theme.primaryGradient)
         theme.primaryGradient = getGradient(theme.primaryColor);
 
+    if (!theme.primaryStrongGradient)
+        theme.primaryStrongGradient = getGradient(theme.primaryStrongColor);
     
     if (!theme.shadow)
         theme.shadow = '0 5px 18px 0 rgba(151, 124, 156, 0.2), 0 5px 32px 0 rgba(203, 195, 212, 0.2), 0 8px 58px 0 rgba(216, 212, 221, 0.1)';

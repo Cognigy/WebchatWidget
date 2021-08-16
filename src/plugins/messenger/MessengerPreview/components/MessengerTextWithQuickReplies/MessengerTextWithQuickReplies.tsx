@@ -10,6 +10,7 @@ import { MessagePluginFactoryProps } from '../../../../../common/interfaces/mess
 import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
 import { getMessengerBubble } from '../MessengerBubble';
 import { useRandomId } from '../../../../../common/utils/randomId';
+import { sanitizeHTML } from '../../../../../webchat/helper/sanitize';
 
 interface Props extends IWithFBMActionEventHandler {
     message: IFBMRegularMessage;
@@ -74,11 +75,13 @@ export const getMessengerTextWithQuickReplies = ({
             setTimeout(() => {quickReplyButton?.focus()}, 200);
         }, []);
 
+        const __html = config.settings.disableHtmlContentSanitization ? text : sanitizeHTML(text);
+
         return (
             <div {...divProps} className="webchat-quick-reply-template-root">
                 <BorderBubble
                     className="webchat-quick-reply-template-header-message"
-                    dangerouslySetInnerHTML={{ __html: text }}
+                    dangerouslySetInnerHTML={{ __html }}
                     id={webchatQuickReplyTemplateHeaderId}
                 ></BorderBubble>
 
@@ -113,6 +116,8 @@ export const getMessengerTextWithQuickReplies = ({
                                 }
                             }
 
+                            const __html = config.settings.disableHtmlContentSanitization ? label : sanitizeHTML(label);
+
                             return (
                                 <MessengerQuickReply
                                     key={index}
@@ -121,7 +126,7 @@ export const getMessengerTextWithQuickReplies = ({
                                     id={`${webchatQuickReplyTemplateButtonId}-${index}`}
                                 >
                                     {image}
-                                    <span dangerouslySetInnerHTML={{ __html: label }} />
+                                    <span dangerouslySetInnerHTML={{ __html }} />
                                 </MessengerQuickReply>
                             );
                         })}
