@@ -93,6 +93,17 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
             const isMessageEmpty = !(message.text || message.data?._cognigy?._webchat);
             const isUnseen = !isWebchatActive && !isMessageEmpty;
 
+            if(store.getState().config.settings.useQuickReplyTitleAsPostback) {
+                const hasQuickReplies = !!message.data?._cognigy?._default?._quickReplies
+                if(hasQuickReplies)
+                {
+                    let quickRepliesDefault = message.data._cognigy._default._quickReplies.quickReplies.map((quickReply) => {return {...quickReply,payload:quickReply.title}})
+                    let quickRepliesWebchat = message.data._cognigy._webchat.message.quick_replies.map((quickReply) => {return {...quickReply,payload:quickReply.title}})
+                    message.data._cognigy._default._quickReplies.quickReplies = quickRepliesDefault
+                    message.data._cognigy._webchat.message.quick_replies = quickRepliesWebchat
+                }
+            }
+            
             next(addMessage({
                 source: 'bot',
                 ...message,
