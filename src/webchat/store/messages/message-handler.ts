@@ -26,27 +26,27 @@ export const registerMessageHandler = (store: Store, client: SocketClient) => {
             if (botAvatarOverrideUrl !== undefined) {
                 store.dispatch(setBotAvatarOverrideUrl(botAvatarOverrideUrl));
             }
-            
+
             if (userAvatarOverrideUrl !== undefined) {
                 store.dispatch(setUserAvatarOverrideUrl(userAvatarOverrideUrl))
             }
         }
 
-		// handle custom plugin actions
-		if (output.data && output.data._plugin) {
-			const { type, data } = output.data._plugin;
+        // handle custom plugin actions
+        if (output.data && output.data._plugin) {
+            const { type, data } = output.data._plugin;
 
-			if (type === "request-rating") {
-				if (data && data.ratingCommentText) {
-					store.dispatch(setCustomRatingCommentText(data.ratingCommentText));
-				};
-				if (data && data.ratingTitleText) {
-					store.dispatch(setCustomRatingTitle(data.ratingTitleText));
-				};
+            if (type === "request-rating") {
+                if (data && data.ratingCommentText) {
+                    store.dispatch(setCustomRatingCommentText(data.ratingCommentText));
+                };
+                if (data && data.ratingTitleText) {
+                    store.dispatch(setCustomRatingTitle(data.ratingTitleText));
+                };
 
-				store.dispatch(showRatingDialog(true));
-			};
-		}
+                store.dispatch(showRatingDialog(true));
+            };
+        }
 
         store.dispatch(setTyping("remove"));
         store.dispatch(receiveMessage(output));

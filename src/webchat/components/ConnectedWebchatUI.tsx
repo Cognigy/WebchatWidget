@@ -19,7 +19,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         connection: { connected, reconnectionLimit },
         ui: { open, typing, inputMode, fullscreenMessage },
         config,
-		rating: { showRatingDialog, hasGivenRating, customRatingTitle, customRatingCommentText },
+        rating: { showRatingDialog, hasGivenRating, customRatingTitle, customRatingCommentText },
     }) => ({
         messages,
         unseenMessages,
@@ -32,8 +32,8 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         reconnectionLimit,
         showRatingDialog,
         hasGivenRating,
-		customRatingTitle,
-		customRatingCommentText,
+        customRatingTitle,
+        customRatingCommentText,
     }),
     dispatch => ({
         onSendMessage: (text, data, options) => dispatch(sendMessage({ text, data }, options)),
