@@ -102,6 +102,7 @@ export const getMessengerTextWithQuickReplies = ({
                                     const { title, image_url, image_alt_text } = quickReply as IFBMTextQuickReply;
                                     label = title;
                                     if (image_url) image = <QuickReplyImage src={image_url} alt={image_alt_text || ""}/>;
+                                    if (config.settings.useQuickReplyTitleAsPostback) (quickReply as IFBMTextQuickReply).payload = title;
                                     break;
                                 }
 
