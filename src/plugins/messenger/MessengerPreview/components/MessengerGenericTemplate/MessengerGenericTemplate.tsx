@@ -177,7 +177,9 @@ export const getMessengerGenericTemplate = ({
             const carouselTitleId = `webchatCarouselTemplateTitle-${uuid.v4()}`;
             const carouselSubtitleId = `webchatCarouselTemplateSubtitle-${uuid.v4()}`;
 
-            const listItemCount = index !== undefined ? `${index + 1} of ${carouselListLength}` : undefined;
+            const buttonsCountLabel = buttons.length === 1 ? "1 button or link." : `${buttons.length} buttons or links.`;
+            const buttonsInListItemAriaLabel = buttons.length > 0 ? `with ${buttonsCountLabel}` : undefined;
+            const listItemCount = index !== undefined ? `${carouselListLength === 1 ? "slide" : ""} ${index + 1} of ${carouselListLength} ${buttonsInListItemAriaLabel || ""}` : undefined;
             const carouselAriaLabel = title ? `${listItemCount}: ${title}` : listItemCount;
             const carouselAriaLabelledby = title ? carouselTitleId : undefined;
             const carouselAriaDescribedby = subtitle ? carouselSubtitleId : undefined;
