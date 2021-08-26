@@ -179,6 +179,7 @@ export const getMessengerGenericTemplate = ({
 
             const buttonsCountLabel = buttons.length === 1 ? "1 button or link." : `${buttons.length} buttons or links.`;
             const buttonsInListItemAriaLabel = buttons.length > 0 ? `with ${buttonsCountLabel}` : undefined;
+            // When gallery items count is one, refer the gallery card as 'slide' instead of 'list item', in aria-label
             const listItemCount = index !== undefined ? `${carouselListLength === 1 ? "slide" : ""} ${index + 1} of ${carouselListLength} ${buttonsInListItemAriaLabel || ""}` : undefined;
             const carouselAriaLabel = title ? `${listItemCount}: ${title}` : listItemCount;
             const carouselAriaLabelledby = title ? carouselTitleId : undefined;
