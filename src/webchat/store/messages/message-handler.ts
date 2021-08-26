@@ -2,6 +2,7 @@ import { Store } from "redux";
 import { IMessage } from "../../../common/interfaces/message";
 import { ISendMessageOptions } from "./message-middleware";
 import { setBotAvatarOverrideUrl, setUserAvatarOverrideUrl, setAgentAvatarOverrideUrl, setTyping } from "../ui/ui-reducer";
+import { setCustomRatingCommentText, setCustomRatingTitle, showRatingDialog } from "../rating/rating-reducer";
 import { SocketClient } from "@cognigy/socket-client";
 
 const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
@@ -25,10 +26,26 @@ export const registerMessageHandler = (store: Store, client: SocketClient) => {
             if (botAvatarOverrideUrl !== undefined) {
                 store.dispatch(setBotAvatarOverrideUrl(botAvatarOverrideUrl));
             }
-            
+
             if (userAvatarOverrideUrl !== undefined) {
                 store.dispatch(setUserAvatarOverrideUrl(userAvatarOverrideUrl))
             }
+        }
+
+        // handle custom plugin actions
+        if (output.data && output.data._plugin) {
+            const { type, data } = output.data._plugin;
+
+            if (type === "request-rating") {
+                if (data && data.ratingCommentText) {
+                    store.dispatch(setCustomRatingCommentText(data.ratingCommentText));
+                };
+                if (data && data.ratingTitleText) {
+                    store.dispatch(setCustomRatingTitle(data.ratingTitleText));
+                };
+
+                store.dispatch(showRatingDialog(true));
+            };
         }
 
         store.dispatch(setTyping("remove"));
