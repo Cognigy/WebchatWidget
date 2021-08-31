@@ -43,22 +43,22 @@ export default ({ message, config }: MessageComponentProps) => {
 	if (!rating) return null;
 
 	const getRatingIcon = (rating: number) => {
-		if (rating === 10) return <StyledThumbIcon style={{ marginLeft: 6 }} />;
-		if (rating === 0) return <StyledThumbDownIcon style={{ marginLeft: 6 }} />;
+		if (rating === 1) return <StyledThumbIcon style={{ marginLeft: 6 }} />;
+		if (rating === -1) return <StyledThumbDownIcon style={{ marginLeft: 6 }} />;
 
 		return rating;
 	};
 
 	const getRatingLabel = (rating: number) => {
-		if (rating === 10) return "Thumbs Up.";
-		if (rating === 0) return "Thumbs Down.";
+		if (rating === 1) return "Thumbs Up.";
+		if (rating === -1) return "Thumbs Down.";
 
 		return rating;
 	};
 
 	return (
 		<RatingHistoryEntry>
-			<TextIconWrapper addedSpacing={rating.rating === 10}>
+			<TextIconWrapper addedSpacing={rating.rating === 1}>
 				<span>{ratingText}</span>
 				<span className="sr-only">{getRatingLabel(rating.rating)}</span>
 				{getRatingIcon(rating.rating)}

@@ -180,7 +180,7 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
     }
 
     handleKeydown = (event) => {
-        const isSendButtonDisabled = this.state.ratingValue !== 0 && this.state.ratingValue !== 10;
+        const isSendButtonDisabled = this.state.ratingValue !== -1 && this.state.ratingValue !== 1;
 
         // Close the dialog when Escape key is pressed
         if(event.key === "Escape" || event.key === "Esc") {
@@ -235,7 +235,7 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
             ratingText,
         } = state;
 
-        const disableSendButton = ratingValue !== 0 && ratingValue !== 10;
+        const disableSendButton = ratingValue !== -1 && ratingValue !== 1;
         const webchatRatingDialogTitleId = `webchatRatingDialogTitle-${uuid.v4()}`;
         const webchatRatingCommentLabelId = `webchatRatingCommentLabelId-${uuid.v4()}`;
 
@@ -251,12 +251,12 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
                     <RatingDialogMain>
                         <RatingButtonContainer>
                             <div>
-                                <RatingIconButton onClick={() => this.handleSetRatingValue(10)} selected={ratingValue === 10} aria-label="Thumbs Up">
+                                <RatingIconButton onClick={() => this.handleSetRatingValue(1)} selected={ratingValue === 1} aria-label="Thumbs Up">
                                     <ThumbIcon />
                                 </RatingIconButton>
                             </div>
                             <div>
-                                <RatingIconButton onClick={() => this.handleSetRatingValue(0)} selected={ratingValue === 0} aria-label="Thumbs Down">
+                                <RatingIconButton onClick={() => this.handleSetRatingValue(-1)} selected={ratingValue === -1} aria-label="Thumbs Down">
                                     <ThumbDownIcon />
                                 </RatingIconButton>
                             </div>
