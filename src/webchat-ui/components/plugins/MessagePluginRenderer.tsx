@@ -19,6 +19,7 @@ export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
   plugins: MessagePlugin[];
   isFullscreen?: boolean;
   webchatTheme: IWebchatTheme;
+  hideAvatar?: boolean;
 }
 
 const FullWidthMessageRow = styled.div(({ theme }) => ({
@@ -39,6 +40,7 @@ export default ({
   onDismissFullscreen,
   webchatTheme,
   onEmitAnalytics,
+  hideAvatar,
   ...props
 }: MessageProps): JSX.Element => {
   const attributes = Object.keys(props).length > 0 ? props : undefined;
@@ -154,7 +156,9 @@ export default ({
 
           return (
             <MessageRow key={key} align={align} className={className}>		
-                <Avatar src={message.avatarUrl as string} className={avatarClassName} aria-label={messageSource}/>
+                <Avatar src={message.avatarUrl as string} className={avatarClassName} aria-label={messageSource} style={{
+                  display: hideAvatar ? 'none' : undefined
+                }}/>
                 {messageElement}
             </MessageRow>
           );

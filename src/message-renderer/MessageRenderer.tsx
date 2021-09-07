@@ -47,6 +47,7 @@ const MessageRenderer: FC<IMessageRendererProps> = (props) => {
           onSendMessage={onSendMessage}
           plugins={plugins}
           webchatTheme={theme}
+          hideAvatar
         />
       </div>
     </ThemeProvider>
