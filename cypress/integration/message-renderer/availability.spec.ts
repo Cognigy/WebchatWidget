@@ -14,7 +14,10 @@ describe("Generic Message Renderer", () => {
 
       window.document.body.appendChild(root);
 
-      window.MessageRenderer.renderMessage({ text: "hello world" }, root);
+      window.MessageRenderer.renderMessage(
+        { text: "hello world", asdf: "qwer" },
+        root
+      );
     });
 
     cy.contains("hello world");
