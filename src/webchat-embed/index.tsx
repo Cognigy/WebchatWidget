@@ -10,6 +10,7 @@ import '../plugins/date-picker';
 import '../plugins/messenger';
 import '../plugins/rating';
 import { Webchat } from '../webchat/components/Webchat';
+import { getRegisteredMessagePlugins, prepareMessagePlugins } from '../plugins/helper';
 
 
 type SocketOptions = React.ComponentProps<typeof Webchat>['options'];
@@ -21,15 +22,7 @@ type InitWebchatOptions = SocketOptions & {
 
 const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOptions, callback?: (webchat: Webchat) => void) => {
     // @ts-ignore
-    const messagePlugins = (window.cognigyWebchatMessagePlugins || [])
-        .map(plugin => typeof plugin === 'function'
-            ? plugin({ React, styled })
-            : plugin
-        )
-        .map(plugin => typeof plugin.match === 'string'
-            ? { ...plugin, match: ({ data }) => data && data._plugin && data._plugin.type === plugin.match }
-            : plugin
-        );
+    const messagePlugins = prepareMessagePlugins(getRegisteredMessagePlugins())
 
     // @ts-ignore
     const inputPlugins = (window.cognigyWebchatInputPlugins || [])

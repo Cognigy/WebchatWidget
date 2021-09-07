@@ -6,7 +6,7 @@ import {
 
 export type ConfigState = IWebchatConfig;
 
-const getInitialState = (): ConfigState => ({
+export const getInitialState = (): ConfigState => ({
   URLToken: "",
   active: false,
   settings: {

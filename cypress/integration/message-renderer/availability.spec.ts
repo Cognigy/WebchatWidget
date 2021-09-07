@@ -15,7 +15,7 @@ describe("Generic Message Renderer", () => {
       window.document.body.appendChild(root);
 
       window.MessageRenderer.renderMessage(
-        { text: "hello world", asdf: "qwer" },
+        { text: "hello world", data: {} },
         root
       );
     });

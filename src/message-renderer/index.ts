@@ -1,1 +1,1 @@
-export * from "./MessageRenderer";
+export * from "./message-renderer";

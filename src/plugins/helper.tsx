@@ -1,4 +1,4 @@
-import { MessagePlugin, MessageComponent, MessagePluginOptions, MessageMatcher, MessagePluginFactory } from "../common/interfaces/message-plugin";
+import { MessagePlugin, MessageComponent, MessagePluginOptions, MessageMatcher, MessagePluginFactory, MessagePluginFactoryProps } from "../common/interfaces/message-plugin";
 import { InputPlugin, InputPluginFactory } from "../common/interfaces/input-plugin";
 import { IMessage } from "../common/interfaces/message";
 import { IWebchatConfig } from "../common/interfaces/webchat-config";
@@ -28,6 +28,23 @@ export const registerMessagePlugin = (plugin: MessagePlugin | MessagePluginFacto
         console.log('added cognigy message plugin');
     }
 }
+
+export const getRegisteredMessagePlugins = (): (MessagePlugin | MessagePluginFactory)[] => 
+    // @ts-ignore
+    window.cognigyWebchatMessagePlugins || [];
+
+export const prepareMessagePlugins = (messagePlugins = getRegisteredMessagePlugins(), {
+    React,
+    styled
+}): MessagePlugin[] => messagePlugins
+    .map(plugin => typeof plugin === 'function'
+        ? plugin({ React, styled })
+        : plugin
+    )
+    .map(plugin => typeof plugin.match === 'string'
+        ? { ...plugin, match: ({ data }) => data && data._plugin && data._plugin.type === plugin.match }
+        : plugin
+    );
 
 
 
