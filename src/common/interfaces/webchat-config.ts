@@ -60,7 +60,6 @@ export interface IWebchatSettings {
   title: string;
   unreadMessageTitleText: string;
   unreadMessageTitleTextPlural: string;
-  useQuickReplyTitleAsPostback: boolean;
   userAvatarUrl: string;
   useSessionStorage: boolean;
 }
