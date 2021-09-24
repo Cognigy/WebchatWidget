@@ -25,37 +25,41 @@ async function runTestWithCaps() {
 		.withCapabilities(capabilities)
 		.build();
 
-	await driver.manage().setTimeouts({ implicit: 5000 });
-
-	await driver.get("http://localhost:8787");
-
-	const webchatToggle = await driver.findElement(webdriver.By.className("webchat-toggle-button"));
-
-	await webchatToggle.click();
-
-	const chatHistory = await driver.findElement(webdriver.By.className("webchat-chat-history"));
-
-	const chatMessageSum = await chatHistory.findElements(webdriver.By.className("webchat-message-row")).length;
-
-	const chatInput = await driver.findElement(webdriver.By.id("webchatInputMessageInputInTextMode"));
-
-	await chatInput.sendKeys("Browser Test", webdriver.Key.ENTER); // this submits on desktop browsers
-
-	await driver.sleep(8000);
-
 	try {
-		const nextChatMessageSum = await chatHistory.findElements(webdriver.By.className("webchat-message-row")).length;
+			await driver.manage().setTimeouts({ implicit: 5000 });
 
-		if (chatMessageSum + 2 !== nextChatMessageSum) throw new Error("send & receive Message failed.")
+			await driver.get("http://localhost:8787");
 
-		await driver.executeScript(
-			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "Received response!"}}'
-		);
-	} catch (e) {
-		await driver.executeScript(
-			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "No response received."}}'
-		);
-	}
-	await driver.quit();
+			const webchatToggle = await driver.findElement(webdriver.By.className("webchat-toggle-button"));
+
+			await webchatToggle.click();
+
+			const chatHistory = await driver.findElement(webdriver.By.className("webchat-chat-history"));
+
+			const chatMessageSum = await chatHistory.findElements(webdriver.By.className("webchat-message-row")).length;
+
+			const chatInput = await driver.findElement(webdriver.By.id("webchatInputMessageInputInTextMode"));
+
+			await chatInput.sendKeys("Browser Test", webdriver.Key.ENTER); // this submits on desktop browsers
+
+			await driver.sleep(8000);
+
+			try {
+				const nextChatMessageSum = await chatHistory.findElements(webdriver.By.className("webchat-message-row")).length;
+
+				if (chatMessageSum + 2 !== nextChatMessageSum) throw new Error("send & receive Message failed.")
+
+				await driver.executeScript(
+					'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "Received response!"}}'
+				);
+			} catch (e) {
+				await driver.executeScript(
+					'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "No response received."}}'
+				);
+			}
+		} catch (e) {
+			console.error(e);
+			await driver.quit();
+		}
 }
 runTestWithCaps();
