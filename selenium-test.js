@@ -15,18 +15,6 @@ const capabilities = {
 	'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY
 }
 
-// const driver = new webdriver.Builder()
-// 	.usingServer('http://hub-cloud.browserstack.com/wd/hub')
-// 	.withCapabilities(capabilities)
-// 	.build();
-
-// driver.get('http://localhost:8787').then(function () {
-// 	driver.getTitle().then(function (title) {
-// 		console.log(title);
-// 		driver.quit();
-// 	});
-// });
-
 // HTTP Server should be running on 8787 port of GitHub runner
 async function runTestWithCaps() {
 	let driver = new webdriver.Builder()
@@ -34,25 +22,35 @@ async function runTestWithCaps() {
 		.withCapabilities(capabilities)
 		.build();
 
+	await driver.manage().setTimeouts({ implicit: 5000 });
+
 	await driver.get("http://localhost:8787");
 
-	// const inputField = await driver.findElement(webdriver.By.name("q"));
+	const webchatToggle = await driver.findElement(By.className("webchat-toggle-button"));
 
-	// await inputField.sendKeys("BrowserStack", webdriver.Key.ENTER); // this submits on desktop browsers
-	// try {
-	// 	await driver.wait(webdriver.until.titleMatches(/BrowserStack/i), 5000);
-	// } catch (e) {
-	// 	await inputField.submit(); // this helps in mobile browsers
-	// }
+	await webchatToggle.click();
+
+	const chatHistory = await driver.findElement(By.className("webchat-chat-history"));
+
+	const chatMessageSum = await chatHistory.findElements(By.className("webchat-message-row")).length;
+
+	const chatInput = await driver.findElement(By.id("webchatInputMessageInputInTextMode"));
+
+	await chatInput.sendKeys("Browser Test", Key.ENTER); // this submits on desktop browsers
+
+	await driver.sleep(8000);
+
 	try {
-		// await driver.wait(webdriver.until.titleMatches(/BrowserStack/i), 5000);
-		console.log(await driver.getTitle());
+		const nextChatMessageSum = await chatHistory.findElements(By.className("webchat-message-row")).length;
+
+		if (chatMessageSum + 2 !== nextChatMessageSum) throw new Error("send & receive Message failed.")
+
 		await driver.executeScript(
-			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "Title found!"}}'
+			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "Received response!"}}'
 		);
 	} catch (e) {
 		await driver.executeScript(
-			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "Page could not load in time"}}'
+			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "No response received."}}'
 		);
 	}
 	await driver.quit();
