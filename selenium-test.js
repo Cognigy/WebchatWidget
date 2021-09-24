@@ -26,22 +26,22 @@ async function runTestWithCaps() {
 
 	await driver.get("http://localhost:8787");
 
-	const webchatToggle = await driver.findElement(By.className("webchat-toggle-button"));
+	const webchatToggle = await driver.findElement(webdriver.By.className("webchat-toggle-button"));
 
 	await webchatToggle.click();
 
-	const chatHistory = await driver.findElement(By.className("webchat-chat-history"));
+	const chatHistory = await driver.findElement(webdriver.By.className("webchat-chat-history"));
 
-	const chatMessageSum = await chatHistory.findElements(By.className("webchat-message-row")).length;
+	const chatMessageSum = await chatHistory.findElements(webdriver.By.className("webchat-message-row")).length;
 
-	const chatInput = await driver.findElement(By.id("webchatInputMessageInputInTextMode"));
+	const chatInput = await driver.findElement(webdriver.By.id("webchatInputMessageInputInTextMode"));
 
-	await chatInput.sendKeys("Browser Test", Key.ENTER); // this submits on desktop browsers
+	await chatInput.sendKeys("Browser Test", webdriver.Key.ENTER); // this submits on desktop browsers
 
 	await driver.sleep(8000);
 
 	try {
-		const nextChatMessageSum = await chatHistory.findElements(By.className("webchat-message-row")).length;
+		const nextChatMessageSum = await chatHistory.findElements(webdriver.By.className("webchat-message-row")).length;
 
 		if (chatMessageSum + 2 !== nextChatMessageSum) throw new Error("send & receive Message failed.")
 
