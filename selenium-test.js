@@ -8,8 +8,8 @@ async function runTestWithCaps(capabilities) {
 		.build();
 
 	try {
-		await driver.manage().setTimeouts({ implicit: 10000 });
-		await driver.get("http://localhost:8787");
+		await driver.manage().setTimeouts({ implicit: 20000 });
+		await driver.get("http://127.0.0.1:8888");
 
 		const webchatToggle = await driver.findElement(webdriver.By.className("webchat-toggle-button"));
 		await driver.wait(webdriver.until.elementIsVisible(webchatToggle));
@@ -75,6 +75,23 @@ const capabilitiesIE11 = {
 	'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY
 }
 
+// Safari OS X
+// const capabilitiesSafari = {
+// 	'browserName': 'Safari',
+// 	'browser_version': '14.1',
+// 	'os': 'OS X',
+// 	'os_version': 'Big Sur',
+// 	'resolution': '1920x1080',
+// 	'browserstack.local': 'true',
+// 	"browserstack.idleTimeout": 20,
+// 	'build': process.env.BROWSERSTACK_BUILD_NAME,
+// 	'name': "Safari OS X test",
+// 	'project': process.env.BROWSERSTACK_PROJECT_NAME,
+// 	'browserstack.localIdentifier': process.env.BROWSERSTACK_LOCAL_IDENTIFIER,
+// 	'browserstack.user': process.env.BROWSERSTACK_USERNAME,
+// 	'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY
+// }
+
 // Firefox win 10
 const capabilitiesFirefox = {
 	'os': 'windows',
@@ -94,4 +111,5 @@ const capabilitiesFirefox = {
 
 runTestWithCaps(capabilitiesChrome);
 runTestWithCaps(capabilitiesIE11);
+// runTestWithCaps(capabilitiesSafari);
 runTestWithCaps(capabilitiesFirefox);
