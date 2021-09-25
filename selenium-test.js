@@ -36,9 +36,6 @@ async function runTestWithCaps() {
 		const getStartedButton = await driver.findElement(webdriver.By.id("webchatGetStartedButton"));
 		await getStartedButton.click();
 
-		// const chatHistory = await driver.findElement(webdriver.By.className("webchat-chat-history"));
-		// const chatMessageSum = await chatHistory.findElements(webdriver.By.className("webchat-message-row")).length;
-
 		const chatInput = await driver.findElement(webdriver.By.id("webchatInputMessageInputInTextMode"));
 		await chatInput.sendKeys("Browser Test", webdriver.Key.ENTER); // this submits on desktop browsers
 
