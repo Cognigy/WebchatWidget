@@ -1,7 +1,7 @@
 const webdriver = require('selenium-webdriver');
 
 // HTTP Server should be running on 8787 port of GitHub runner
-async function runTestWithCaps() {
+async function runTestWithCaps(capabilities) {
 	let driver = new webdriver.Builder()
 		.usingServer('http://hub-cloud.browserstack.com/wd/hub')
 		.withCapabilities(capabilities)
