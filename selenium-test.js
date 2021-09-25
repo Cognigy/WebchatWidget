@@ -8,22 +8,21 @@ async function runTestWithCaps(capabilities) {
 		.build();
 
 	try {
-		await driver.manage().setTimeouts({ implicit: 8000 });
-
+		await driver.manage().setTimeouts({ implicit: 10000 });
 		await driver.get("http://localhost:8787");
 
 		const webchatToggle = await driver.findElement(webdriver.By.className("webchat-toggle-button"));
-
 		await driver.wait(webdriver.until.elementIsVisible(webchatToggle));
 		await webchatToggle.click();
 
-		const getStartedButton = await driver.wait(webdriver.until.elementLocated(webdriver.By.id("webchatGetStartedButton")));
+		const getStartedButton = await driver.findElement(webdriver.By.id("webchatGetStartedButton"));
+		await driver.wait(webdriver.until.elementIsVisible(getStartedButton));
 		await getStartedButton.click();
 
 		const chatInput = await driver.findElement(webdriver.By.id("webchatInputMessageInputInTextMode"));
-		await chatInput.sendKeys("Browser Test", webdriver.Key.ENTER); // this submits on desktop browsers
+		await chatInput.sendKeys("Browser Test", webdriver.Key.ENTER);
 
-		const sentMessage = await driver.wait(webdriver.until.elementLocated(webdriver.By.className("webchat-message-row user")), 8000);
+		const sentMessage = await driver.wait(webdriver.until.elementLocated(webdriver.By.className("webchat-message-row user")), 10000);
 		await driver.wait(webdriver.until.elementTextIs(sentMessage, "Browser Test"), 3000);
 
 		await driver.executeScript(
