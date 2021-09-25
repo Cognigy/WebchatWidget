@@ -27,7 +27,7 @@ async function runTestWithCaps() {
 		.build();
 
 	try {
-		await driver.manage().setTimeouts({ implicit: 5000 });
+		// await driver.manage().setTimeouts({ implicit: 5000 });
 
 		await driver.get("http://localhost:8787");
 
@@ -39,14 +39,14 @@ async function runTestWithCaps() {
 		const getStartedButton = await driver.findElement(webdriver.By.id("webchatGetStartedButton"));
 		await getStartedButton.click();
 
-		await driver.sleep(5000);
+		await driver.sleep(3000);
 
 		const chatInput = await driver.findElement(webdriver.By.id("webchatInputMessageInputInTextMode"));
 		await chatInput.sendKeys("Browser Test", webdriver.Key.ENTER); // this submits on desktop browsers
 
-		await driver.sleep(8000);
+		await driver.sleep(3000);
 
-		const nextChatMessages = await driver.findElements(webdriver.By.className("webchat-message-row"));
+		const nextChatMessages = await driver.wait(webdriver.until.elementsLocated(webdriver.By.className("webchat-message-row")), 5000);
 		const sentMessageIndex = nextChatMessages.findIndex(elem => elem.innerText === "Browser Test");
 
 		if (sentMessageIndex === -1) throw new Error("Send Message failed")
