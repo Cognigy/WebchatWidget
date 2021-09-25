@@ -13,7 +13,7 @@ async function runTestWithCaps(capabilities) {
 		// if (capabilities.browserName === "Safari") {
 		// 	await driver.get("http://127.0.0.1:8787");
 		// } else {
-		await driver.get("http://webchat:8787");
+		await driver.get("http://127.0.0.1:8080");
 		// }
 
 		const webchatToggle = await driver.findElement(webdriver.By.className("webchat-toggle-button"));
