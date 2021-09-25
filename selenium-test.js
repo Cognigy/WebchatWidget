@@ -36,17 +36,24 @@ async function runTestWithCaps() {
 		const getStartedButton = await driver.findElement(webdriver.By.id("webchatGetStartedButton"));
 		await getStartedButton.click();
 
-		const chatHistory = await driver.findElement(webdriver.By.className("webchat-chat-history"));
-		const chatMessageSum = await chatHistory.findElements(webdriver.By.className("webchat-message-row")).length;
+		// const chatHistory = await driver.findElement(webdriver.By.className("webchat-chat-history"));
+		// const chatMessageSum = await chatHistory.findElements(webdriver.By.className("webchat-message-row")).length;
 
 		const chatInput = await driver.findElement(webdriver.By.id("webchatInputMessageInputInTextMode"));
 		await chatInput.sendKeys("Browser Test", webdriver.Key.ENTER); // this submits on desktop browsers
 
 		await driver.sleep(8000);
 
-		const nextChatMessageSum = await chatHistory.findElements(webdriver.By.className("webchat-message-row")).length;
+		const nextChatMessages = await driver.findElements(webdriver.By.className("webchat-message-row"));
+		const sentMessageIndex = nextChatMessages.findIndex(elem => elem.innerText === "Browser Test");
 
-		if (chatMessageSum + 2 !== nextChatMessageSum) throw new Error("send & receive Message failed.")
+		// We check if we found the sent message
+		if (sentMessageIndex === -1) throw new Error("Send Message failed")
+
+		// We check if the sent message is last or if we have a response
+		if (sentMessageIndex === nextChatMesages.length - 1) throw new Error("Receive Message failed")
+
+		// if (chatMessageSum + 2 !== nextChatMessages.length) throw new Error("send & receive Message failed.")
 
 		await driver.executeScript(
 			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "Received response!"}}'
