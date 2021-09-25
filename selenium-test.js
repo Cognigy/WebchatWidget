@@ -8,7 +8,7 @@ async function runTestWithCaps(capabilities) {
 		.build();
 
 	try {
-		await driver.manage().setTimeouts({ implicit: 20000 });
+		await driver.manage().setTimeouts({ implicit: 30000 });
 		await driver.get("http://127.0.0.1:8888");
 
 		const webchatToggle = await driver.findElement(webdriver.By.className("webchat-toggle-button"));
