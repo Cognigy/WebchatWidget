@@ -10,11 +10,7 @@ async function runTestWithCaps(capabilities) {
 	try {
 		await driver.manage().setTimeouts({ implicit: 8000 });
 
-		// if (capabilities.browserName === "Safari") {
-		// 	await driver.get("http://127.0.0.1:8080");
-		// } else {
-			await driver.get("http://localhost:8080");
-		// }
+		await driver.get("http://localhost:8787");
 
 		const webchatToggle = await driver.findElement(webdriver.By.className("webchat-toggle-button"));
 
@@ -39,10 +35,9 @@ async function runTestWithCaps(capabilities) {
 		await driver.executeScript(
 			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "Message send failed."}}'
 		);
-
-	} finally {
-		await driver.quit();
 	}
+
+	await driver.quit();
 }
 
 // Input capabilities 
@@ -81,23 +76,6 @@ const capabilitiesIE11 = {
 	'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY
 }
 
-// Safari OS X
-const capabilitiesSafari = {
-	'browserName': 'Safari',
-	'browser_version': '14.1',
-	'os': 'OS X',
-	'os_version': 'Big Sur',
-	'resolution': '1920x1080',
-	'browserstack.local': 'true',
-	"browserstack.idleTimeout": 20,
-	'build': process.env.BROWSERSTACK_BUILD_NAME,
-	'name': "Safari OS X test",
-	'project': process.env.BROWSERSTACK_PROJECT_NAME,
-	'browserstack.localIdentifier': process.env.BROWSERSTACK_LOCAL_IDENTIFIER,
-	'browserstack.user': process.env.BROWSERSTACK_USERNAME,
-	'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY
-}
-
 // Firefox win 10
 const capabilitiesFirefox = {
 	'os': 'windows',
@@ -117,5 +95,4 @@ const capabilitiesFirefox = {
 
 runTestWithCaps(capabilitiesChrome);
 runTestWithCaps(capabilitiesIE11);
-// runTestWithCaps(capabilitiesSafari);
 runTestWithCaps(capabilitiesFirefox);

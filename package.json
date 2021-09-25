@@ -24,7 +24,7 @@
     "speech-output": "webpack --config webpack.production-plugin.js --entry ./src/plugins/speech-output/index.tsx --output dist/speech-output.webchat-plugin.js",
     "webchat-legacy": "webpack --config webpack.production.legacy.js --output dist/webchat.legacy.js",
     "webchat": "webpack --config webpack.production.js",
-	"http-server": "http-server -a localhost -p 8080 dist/",
+	"http-server": "http-server -a localhost -p 8787 dist/",
     "cypress:open": "cypress open",
     "cypress:serve": "npm run http-server",
     "cypress:run": "cypress run",
