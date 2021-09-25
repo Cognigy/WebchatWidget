@@ -11,6 +11,7 @@ const capabilities = {
 	'browserName': 'Chrome',
 	'browser_version': 'latest',
 	'browserstack.local': 'true',
+	"browserstack.idleTimeout": 20,
 	'build': process.env.BROWSERSTACK_BUILD_NAME,
 	'project': process.env.BROWSERSTACK_PROJECT_NAME,
 	'browserstack.localIdentifier': process.env.BROWSERSTACK_LOCAL_IDENTIFIER,
@@ -31,10 +32,14 @@ async function runTestWithCaps() {
 		await driver.get("http://localhost:8787");
 
 		const webchatToggle = await driver.findElement(webdriver.By.className("webchat-toggle-button"));
+
+		await driver.wait(webdriver.until.elementIsVisible(webchatToggle));
 		await webchatToggle.click();
 
 		const getStartedButton = await driver.findElement(webdriver.By.id("webchatGetStartedButton"));
 		await getStartedButton.click();
+
+		await driver.sleep(5000);
 
 		const chatInput = await driver.findElement(webdriver.By.id("webchatInputMessageInputInTextMode"));
 		await chatInput.sendKeys("Browser Test", webdriver.Key.ENTER); // this submits on desktop browsers
@@ -47,7 +52,6 @@ async function runTestWithCaps() {
 		if (sentMessageIndex === -1) throw new Error("Send Message failed")
 
 		if (sentMessageIndex === nextChatMesages.length - 1) throw new Error("Receive Message failed")
-
 
 		await driver.executeScript(
 			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "Received response!"}}'
