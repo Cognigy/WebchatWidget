@@ -32,7 +32,7 @@
     "pretest": "npm run webchat && npm run date-picker",
     "selenium-test": "node selenium-test.js",
     "browserstack-test": "run-p -r http-server selenium-test",
-    "prebrowserstack-test": "npm run webchat && npm run date-picker"
+	"prebrowserstack-test": "npm run webchat-legacy && npm run date-picker-legacy"
   },
   "dependencies": {
     "@braintree/sanitize-url": "^5.0.2",

@@ -33,7 +33,7 @@ async function runTestWithCaps(capabilities) {
 	} catch (e) {
 		console.log(e);
 		await driver.executeScript(
-			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "No response received."}}'
+			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "Message send failed."}}'
 		);
 
 	} finally {
@@ -80,7 +80,7 @@ const capabilitiesIE11 = {
 // Safari OS X
 const capabilitiesSafari = {
 	'browserName': 'Safari',
-	'browser_version': 'latest',
+	'browser_version': '14.1',
 	'os': 'OS X',
 	'os_version': 'Big Sur',
 	'resolution': '1920x1080',
@@ -104,7 +104,7 @@ const capabilitiesFirefox = {
 	'browserstack.local': 'true',
 	"browserstack.idleTimeout": 20,
 	'build': process.env.BROWSERSTACK_BUILD_NAME,
-	'name': "Chrome Win10 test",
+	'name': "Firefox Win10 test",
 	'project': process.env.BROWSERSTACK_PROJECT_NAME,
 	'browserstack.localIdentifier': process.env.BROWSERSTACK_LOCAL_IDENTIFIER,
 	'browserstack.user': process.env.BROWSERSTACK_USERNAME,
