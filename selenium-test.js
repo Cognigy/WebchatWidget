@@ -10,11 +10,11 @@ async function runTestWithCaps(capabilities) {
 	try {
 		await driver.manage().setTimeouts({ implicit: 8000 });
 
-		// if (capabilities.browserName === "Safari") {
-		// 	await driver.get("http://127.0.0.1:8787");
-		// } else {
-		await driver.get("http://127.0.0.1:8080");
-		// }
+		if (capabilities.browserName === "Safari") {
+			await driver.get("http://127.0.0.1:8080");
+		} else {
+			await driver.get("http://localhost:8080");
+		}
 
 		const webchatToggle = await driver.findElement(webdriver.By.className("webchat-toggle-button"));
 
