@@ -76,21 +76,21 @@ const capabilitiesIE11 = {
 }
 
 // Safari OS X
-// const capabilitiesSafari = {
-// 	'browserName': 'Safari',
-// 	'browser_version': '14.1',
-// 	'os': 'OS X',
-// 	'os_version': 'Big Sur',
-// 	'resolution': '1920x1080',
-// 	'browserstack.local': 'true',
-// 	"browserstack.idleTimeout": 20,
-// 	'build': process.env.BROWSERSTACK_BUILD_NAME,
-// 	'name': "Safari OS X test",
-// 	'project': process.env.BROWSERSTACK_PROJECT_NAME,
-// 	'browserstack.localIdentifier': process.env.BROWSERSTACK_LOCAL_IDENTIFIER,
-// 	'browserstack.user': process.env.BROWSERSTACK_USERNAME,
-// 	'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY
-// }
+const capabilitiesSafari = {
+	'browserName': 'Safari',
+	'browser_version': '14.1',
+	'os': 'OS X',
+	'os_version': 'Big Sur',
+	'resolution': '1920x1080',
+	'browserstack.local': 'true',
+	"browserstack.idleTimeout": 20,
+	'build': process.env.BROWSERSTACK_BUILD_NAME,
+	'name': "Safari OS X test",
+	'project': process.env.BROWSERSTACK_PROJECT_NAME,
+	'browserstack.localIdentifier': process.env.BROWSERSTACK_LOCAL_IDENTIFIER,
+	'browserstack.user': process.env.BROWSERSTACK_USERNAME,
+	'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY
+}
 
 // Firefox win 10
 const capabilitiesFirefox = {
@@ -111,5 +111,5 @@ const capabilitiesFirefox = {
 
 runTestWithCaps(capabilitiesChrome);
 runTestWithCaps(capabilitiesIE11);
-// runTestWithCaps(capabilitiesSafari);
+runTestWithCaps(capabilitiesSafari);
 runTestWithCaps(capabilitiesFirefox);
