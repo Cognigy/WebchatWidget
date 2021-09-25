@@ -27,7 +27,7 @@ async function runTestWithCaps() {
 		.build();
 
 	try {
-		// await driver.manage().setTimeouts({ implicit: 5000 });
+		await driver.manage().setTimeouts({ implicit: 8000 });
 
 		await driver.get("http://localhost:8787");
 
@@ -36,7 +36,7 @@ async function runTestWithCaps() {
 		await driver.wait(webdriver.until.elementIsVisible(webchatToggle));
 		await webchatToggle.click();
 
-		const getStartedButton = await driver.findElement(webdriver.By.id("webchatGetStartedButton"));
+		const getStartedButton = await driver.wait(webdriver.until.elementLocated(webdriver.By.id("webchatGetStartedButton")));
 		await getStartedButton.click();
 
 		await driver.sleep(3000);
