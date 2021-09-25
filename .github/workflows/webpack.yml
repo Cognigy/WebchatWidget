@@ -11,6 +11,9 @@ jobs:
         node-version: [16.8]
     
     steps:
+    - name: Setup custom host for safari support
+      run: echo "127.0.0.1 webchat" | sudo tee -a /etc/hosts
+    
     # Set up browserstack env variables
     - name: 'BrowserStack Env Setup'
       uses: 'browserstack/github-actions/setup-env@v1.0.1'
