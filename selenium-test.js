@@ -46,19 +46,15 @@ async function runTestWithCaps() {
 
 		await driver.sleep(3000);
 
-		const nextChatMessages = await driver.wait(webdriver.until.elementsLocated(webdriver.By.className("webchat-message-row")), 5000);
-		const sentMessageIndex = nextChatMessages.findIndex(elem => elem.innerText === "Browser Test");
-
-		if (sentMessageIndex === -1) throw new Error("Send Message failed")
-
-		if (sentMessageIndex === nextChatMesages.length - 1) throw new Error("Receive Message failed")
+		const sentMessage = await driver.wait(webdriver.until.elementLocated(webdriver.By.className("webchat-message-row user")), 5000);
+		await driver.wait(webdriver.until.elementTextIs(sentMessage, "Browser Test"), 3000);
 
 		await driver.executeScript(
 			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "Received response!"}}'
 		);
 
 	} catch (e) {
-		console.error(e);
+		console.log(e);
 		await driver.executeScript(
 			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "No response received."}}'
 		);
