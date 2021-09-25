@@ -108,7 +108,7 @@ const capabilitiesFirefox = {
 	'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY
 }
 
-runTestWithCaps(capabilitiesChrome);
+// runTestWithCaps(capabilitiesChrome);
 runTestWithCaps(capabilitiesIE11);
-runTestWithCaps(capabilitiesSafari);
-runTestWithCaps(capabilitiesFirefox);
+// runTestWithCaps(capabilitiesSafari);
+// runTestWithCaps(capabilitiesFirefox);
