@@ -63,7 +63,6 @@ const capabilitiesIE11 = {
 	'os_version': '10',
 	'browserName': 'IE',
 	'browser_version': '11.0',
-	// 'resolution': '1280x800',
 	'resolution': '1920x1080',
 	'browserstack.local': 'true',
 	"browserstack.idleTimeout": 20,
@@ -96,7 +95,7 @@ const capabilitiesSafari = {
 const capabilitiesFirefox = {
 	'os': 'windows',
 	'os_version': '10',
-	'resolution': '1920x1080',
+	'resolution': '1280x800',
 	'browserName': 'firefox',
 	'browser_version': 'latest',
 	'browserstack.local': 'true',
