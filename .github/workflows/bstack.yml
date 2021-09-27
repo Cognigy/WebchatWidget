@@ -18,7 +18,8 @@ jobs:
         username:  ${{ secrets.BROWSERSTACK_USERNAME }}
         access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
         build-name: BUILD_INFO
-        project-name: REPO_NAME
+       # project-name: REPO_NAME
+        project-name: david_test_123
     
     # Set up local tunnel to browserstack
     - name: 'BrowserStackLocal Setup'
