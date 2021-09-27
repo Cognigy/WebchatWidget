@@ -1,4 +1,5 @@
 const webdriver = require('selenium-webdriver');
+const core = require('@actions/core');
 
 // HTTP Server should be running on 8888 port of GitHub runner
 async function runTestWithCaps(capabilities) {
@@ -33,6 +34,7 @@ async function runTestWithCaps(capabilities) {
 
 	} catch (e) {
 		console.log(e);
+		core.setFailed(`Action failed with error ${e}`);
 		await driver.executeScript(
 			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "Message send failed."}}'
 		);
