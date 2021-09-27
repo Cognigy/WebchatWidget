@@ -23,10 +23,10 @@ async function runTestWithCaps(capabilities) {
 		await driver.sleep(5000);
 
 		const chatInput = await driver.findElement(webdriver.By.id("webchatInputMessageInputInTextMode"));
-		await chatInput.sendKeys("Browser Test", webdriver.Key.ENTER);
+		await chatInput.sendKeys("browser test", webdriver.Key.ENTER);
 
 		const sentMessage = await driver.wait(webdriver.until.elementLocated(webdriver.By.className("webchat-message-row user")), 15000);
-		await driver.wait(webdriver.until.elementTextIs(sentMessage, "Browser Test"), 15000);
+		await driver.wait(webdriver.until.elementTextIs(sentMessage, "browser test"), 15000);
 
 		await driver.executeScript(
 			'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "Message sent!"}}'
