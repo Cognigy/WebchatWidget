@@ -67,6 +67,12 @@ export const getInitialState = (): ConfigState => ({
     unreadMessageTitleTextPlural: "New Messages",
     userAvatarUrl: "",
     useSessionStorage: false,
+    sourceDirectionMapping: {
+      agent: 'incoming',
+      bot: 'incoming',
+      engagement: 'incoming',
+      user: 'outgoing',
+    }
   },
 });
 
@@ -96,6 +102,10 @@ export const config: Reducer<
         settings: {
           ...state.settings,
           ...action.config.settings,
+          sourceDirectionMapping: {
+            ...state.settings.sourceDirectionMapping,
+            ...action.config.settings?.sourceDirectionMapping,
+          }
         },
       };
     }
