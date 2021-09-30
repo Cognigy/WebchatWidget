@@ -29,7 +29,7 @@
     "cypress:serve": "npm run http-server",
     "cypress:run": "cypress run",
     "test": "run-p -r cypress:serve cypress:run",
-	"pretest": "npm run webchat-legacy && npm run date-picker-legacy",
+    "pretest": "npm run webchat-legacy && npm run date-picker-legacy",
     "selenium-test": "node selenium-test.js",
     "browserstack-test": "run-p -r http-server selenium-test",
     "prebrowserstack-test": "npm run pretest"
@@ -84,7 +84,6 @@
     "@types/whatwg-fetch": "0.0.33",
     "babel-loader": "^8.0.6",
     "babel-polyfill": "^6.26.0",
-    "browserstack-local": "^1.4.8",
     "css-loader": "^2.1.0",
     "cypress": "^5.5.0",
     "http-server": "^0.12.3",
