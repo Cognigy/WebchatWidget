@@ -1,0 +1,49 @@
+name: BrowserStack compatibility test
+
+on: [pull_request, workflow_dispatch]
+
+jobs:
+  browser-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.8]
+    
+    steps:
+    # Set up browserstack env variables
+    - name: 'BrowserStack Env Setup'
+      uses: 'browserstack/github-actions/setup-env@v1.0.1'
+      with:
+        username:  ${{ secrets.BROWSERSTACK_USERNAME }}
+        access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        build-name: BUILD_INFO
+        project-name: REPO_NAME
+        
+    # Set up local tunnel to browserstack
+    - name: 'BrowserStackLocal Setup'
+      uses: 'browserstack/github-actions/setup-local@v1.0.1'
+      with:
+        local-testing: start
+        local-identifier: random
+        local-logging-level: 'all-logs'
+        
+    - name: 'Checkout Repository'
+      uses: actions/checkout@v2
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: 'Install dependencies'
+      run: npm ci
+      
+    - name: 'Run test on BrowserStack'
+      run: npm run browserstack-test
+
+      # Stops BrowserStack Tunnel
+    - name: 'BrowserStackLocal Stop'
+      uses: 'browserstack/github-actions/setup-local@v1.0.1'
+      with:
+        local-testing: stop

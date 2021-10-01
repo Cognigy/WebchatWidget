@@ -24,11 +24,15 @@
     "speech-output": "webpack --config webpack.production-plugin.js --entry ./src/plugins/speech-output/index.tsx --output dist/speech-output.webchat-plugin.js",
     "webchat-legacy": "webpack --config webpack.production.legacy.js --output dist/webchat.legacy.js",
     "webchat": "webpack --config webpack.production.js",
+    "http-server": "http-server -a localhost -p 8888 dist/",
     "cypress:open": "cypress open",
-    "cypress:serve": "http-server -a localhost -p 8787 dist/",
+    "cypress:serve": "npm run http-server",
     "cypress:run": "cypress run",
     "test": "run-p -r cypress:serve cypress:run",
-    "pretest": "npm run webchat && npm run date-picker"
+    "pretest": "npm run webchat-legacy && npm run date-picker-legacy",
+    "selenium-test": "node selenium-test.js",
+    "browserstack-test": "run-p -r http-server selenium-test",
+    "prebrowserstack-test": "npm run pretest"
   },
   "dependencies": {
     "@braintree/sanitize-url": "^5.0.2",
@@ -57,6 +61,7 @@
     "uifx": "^2.0.7"
   },
   "devDependencies": {
+    "@actions/core": "^1.5.0",
     "@babel/cli": "^7.7.0",
     "@babel/core": "^7.7.2",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
@@ -86,6 +91,7 @@
     "npm-run-all": "^4.1.5",
     "react-svg-loader": "^3.0.3",
     "redux-devtools-extension": "^2.13.8",
+    "selenium-webdriver": "^4.0.0-rc-1",
     "style-loader": "^0.23.1",
     "svg-inline-loader": "^0.8.0",
     "svg-react-loader": "^0.4.6",
