@@ -91,7 +91,6 @@ export const getMessengerTextWithQuickReplies = ({
                             const { content_type } = quickReply;
                             let label: string = "";
                             let image: React.ReactNode;
-                            let quickReplyTitleAsPayload: IFBMTextQuickReply
 
                             switch (content_type) {
                                 case "location": {
@@ -103,7 +102,6 @@ export const getMessengerTextWithQuickReplies = ({
                                     const { title, image_url, image_alt_text } = quickReply as IFBMTextQuickReply;
                                     label = title;
                                     if (image_url) image = <QuickReplyImage src={image_url} alt={image_alt_text || ""}/>;
-                                    if (config.settings.useQuickReplyTitleAsPostback) quickReplyTitleAsPayload = {...quickReply as IFBMTextQuickReply, payload: title};
                                     break;
                                 }
 
@@ -123,7 +121,7 @@ export const getMessengerTextWithQuickReplies = ({
                             return (
                                 <MessengerQuickReply
                                     key={index}
-                                    onClick={e => onAction(e, quickReplyTitleAsPayload || quickReply)}
+                                    onClick={e => onAction(e, quickReply)}
                                     className="webchat-quick-reply-template-reply"
                                     id={`${webchatQuickReplyTemplateButtonId}-${index}`}
                                 >
