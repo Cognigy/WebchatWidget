@@ -3,7 +3,7 @@
 describe("Message with List", () => {
     beforeEach(() => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat()
             .openWebchat()
     })

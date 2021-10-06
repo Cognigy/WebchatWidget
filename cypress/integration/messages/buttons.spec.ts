@@ -3,7 +3,7 @@
 describe("Message with Buttons", () => {
     beforeEach(() => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat()
             .openWebchat()
     })

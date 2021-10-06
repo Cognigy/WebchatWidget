@@ -3,7 +3,7 @@
 describe("Message with Image", () => {
     beforeEach(() => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat()
             .openWebchat()
     })

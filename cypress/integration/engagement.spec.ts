@@ -3,7 +3,7 @@
 describe('Engagement Message', () => {
     it('should display an engagement message if engagementMessageText is configured', () => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     enableUnreadMessagePreview: true,
@@ -17,7 +17,7 @@ describe('Engagement Message', () => {
 
     it('should show an engagement message with a custom delay if engagementMessageDelay is configured', () => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     enableUnreadMessagePreview: true,
@@ -32,7 +32,7 @@ describe('Engagement Message', () => {
 
     it('should not show an engagement message if engagementMessageText is not configured', () => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     enableUnreadMessagePreview: true,
@@ -47,7 +47,7 @@ describe('Engagement Message', () => {
 
     it('should not trigger the engagement message if the webchat is open', () => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     enableUnreadMessagePreview: true,
@@ -64,7 +64,7 @@ describe('Engagement Message', () => {
 
     it('should not trigger the engagement message if the webchat has been open before', () => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     enableUnreadMessagePreview: true,
@@ -83,7 +83,7 @@ describe('Engagement Message', () => {
 
     it('should not display an engagement message if the endpoint is disabled', () => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     enableUnreadMessagePreview: true,
@@ -104,7 +104,7 @@ describe('Engagement Message', () => {
 
     it('should not display an engagement message if the history is not empty', () => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     enableUnreadMessagePreview: true,
@@ -121,7 +121,7 @@ describe('Engagement Message', () => {
 
     it('should not show the engagement message in the history', () => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     enableUnreadMessagePreview: true,
@@ -145,7 +145,7 @@ describe('Engagement Message', () => {
     it('should display the engagement message in the history if showEngagementMessagesInChat is true', () => {
 
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     enableUnreadMessagePreview: true,

@@ -24,8 +24,12 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('visitBuild', () => {
-    cy.visit('/');
+Cypress.Commands.add('visitWebchat', () => {
+    cy.visit('/webchat.test.html');
+});
+
+Cypress.Commands.add('visitMessageRenderer', () => {
+    cy.visit('/message-renderer.test.html');
 });
 
 const defaultEndpointResponse = {
@@ -38,6 +42,7 @@ Cypress.Commands.add('initMockWebchat', (embeddingOptions = {}, endpointResponse
     cy.route2('GET', 'http://endpoint-mock.cognigy.ai/asdfqwer', endpointResponse);
 
     cy.window().then(window => {
+        // @ts-ignore
         return window.initWebchat('http://endpoint-mock.cognigy.ai/asdfqwer', embeddingOptions);
     }).as('webchat');
 });

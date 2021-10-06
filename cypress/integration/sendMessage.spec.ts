@@ -2,7 +2,7 @@ describe('Send Message', () => {
 
     it('send message button should have correct aria-label', () => {
         cy
-			.visitBuild()
+			.visitWebchat()
 			.initMockWebchat()
 			.openWebchat()
 			.get('[aria-label="Send Message"]').should('be.visible');
@@ -10,7 +10,7 @@ describe('Send Message', () => {
 
 	it('should be possible to type and send message', () => {
         cy
-			.visitBuild()
+			.visitWebchat()
 			.initMockWebchat()
 			.openWebchat()
 			.get('[aria-label="Message to send"]').type('Hi')

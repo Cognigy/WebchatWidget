@@ -5,9 +5,14 @@
 declare namespace Cypress {
     interface Chainable {
       /**
-       * Visits a page with a webchat from the dist folder
+       * Visits a page that loaded webchat.js
        */
-      visitBuild(): Chainable<Element>;
+      visitWebchat(): Chainable<Element>;
+
+      /**
+       * Visits a page that loaded message-renderer.js
+       */
+      visitMessageRenderer(): Chainable<Element>;
 
       /**
        * Connects to a mocked endpoint and registers the "webchat" asset

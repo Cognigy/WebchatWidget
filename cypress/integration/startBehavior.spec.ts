@@ -4,7 +4,7 @@ describe('Start Behavior', () => {
     // to fix this test, we have to fake a real connection (message is triggered after the connection)
     xit('should automatically send a preconfigured "get started" message', () => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     startBehavior: 'injection',
@@ -18,7 +18,7 @@ describe('Start Behavior', () => {
 
     xit('should not send a "get started message" if the history contains messages', () => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     startBehavior: 'injection',
@@ -34,7 +34,7 @@ describe('Start Behavior', () => {
 
     xit('should not send a "get started message" if the getStartedText is empty', () => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     startBehavior: 'injection',
@@ -48,7 +48,7 @@ describe('Start Behavior', () => {
 
     xit('should not send a "get started message" if the getStartedText consists only of whitespace', () => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     startBehavior: 'injection',
@@ -63,7 +63,7 @@ describe('Start Behavior', () => {
     // to fix this test, we have to fake a real connection (message is triggered after the connection)
     xit('should automatically send a "get started message" even if the history contains an engagement message', () => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat({
                 settings: {
                     startBehavior: 'injection',
