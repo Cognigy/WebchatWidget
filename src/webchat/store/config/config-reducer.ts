@@ -17,6 +17,7 @@ const getInitialState = (): ConfigState => ({
     disableBranding: false,
     disableHtmlContentSanitization: false,
     disableHtmlInput: false,
+    disableInputAutocomplete: false,
     disableInputAutofocus: false,
     disableLocalStorage: false,
     disablePersistentHistory: false,
