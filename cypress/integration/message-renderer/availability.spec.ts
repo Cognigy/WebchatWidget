@@ -1,9 +1,10 @@
 describe("Generic Message Renderer", () => {
   beforeEach(() => {
-    cy.visitBuild();
+    cy.visitMessageRenderer();
   });
   it("is globally registered to window", () => {
     cy.window().then((window) => {
+      // @ts-ignore
       expect(window?.MessageRenderer?.renderMessage).to.be.a("function");
     });
   });
@@ -23,6 +24,7 @@ describe("Generic Message Renderer", () => {
 
     cy.window().then((window) => {
       cy.get("@root").then((root) => {
+        // @ts-ignore
         window.MessageRenderer.renderMessage(
           { text: "hello world", data: {} },
           root.get()[0]

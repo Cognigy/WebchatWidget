@@ -22,7 +22,10 @@ type InitWebchatOptions = SocketOptions & {
 
 const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOptions, callback?: (webchat: Webchat) => void) => {
     // @ts-ignore
-    const messagePlugins = prepareMessagePlugins(getRegisteredMessagePlugins())
+    const messagePlugins = prepareMessagePlugins(getRegisteredMessagePlugins(), {
+        React,
+        styled
+    });
 
     // @ts-ignore
     const inputPlugins = (window.cognigyWebchatInputPlugins || [])

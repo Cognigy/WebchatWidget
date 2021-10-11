@@ -3,6 +3,8 @@ export interface IPersistentMenuItem {
   payload: string;
 }
 
+export type TSourceDirection = 'incoming' | 'outgoing';
+
 export interface IWebchatSettings {
   agentAvatarUrl: string;
   backgroundImageUrl: string;
@@ -60,9 +62,14 @@ export interface IWebchatSettings {
   title: string;
   unreadMessageTitleText: string;
   unreadMessageTitleTextPlural: string;
-  useQuickReplyTitleAsPostback: boolean;
   userAvatarUrl: string;
   useSessionStorage: boolean;
+  sourceDirectionMapping: {
+    agent: TSourceDirection;
+    bot: TSourceDirection;
+    engagement: TSourceDirection;
+    user: TSourceDirection;
+  }
 }
 
 export interface IWebchatConfig {

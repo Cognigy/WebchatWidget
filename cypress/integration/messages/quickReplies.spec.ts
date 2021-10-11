@@ -3,12 +3,12 @@
 describe("Message with Quick Replies", () => {
 
     beforeEach(() => cy
-        .visitBuild()
+        .visitWebchat()
         .initMockWebchat()
         .openWebchat())
 
     function reInit() {
-        cy.visitBuild().initMockWebchat().openWebchat();
+        cy.visitWebchat().initMockWebchat().openWebchat();
     }
 
     it("should render message with quick replies", () => {

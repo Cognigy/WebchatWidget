@@ -3,7 +3,7 @@
 describe("Message with Video", () => {
     beforeEach(() => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat()
             .openWebchat()
     })
