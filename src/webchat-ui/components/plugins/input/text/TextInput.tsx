@@ -44,16 +44,13 @@ const Input = styled.input(({ theme }) => ({
     display: 'block',
     flexGrow: 1,
     alignSelf: 'stretch',
+    height: 48,
 
     border: 'none',
     boxSizing: 'border-box',
     paddingLeft: theme.unitSize * 2,
     paddingRight: theme.unitSize * 2,
-    marginTop: theme.unitSize,
-    marginBottom: theme.unitSize,
-    lineHeight: '1.5em',
     outline: 'none',
-    resize: 'none',
     backgroundColor: 'transparent'
 }));
 
