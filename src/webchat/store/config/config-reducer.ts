@@ -19,6 +19,7 @@ const getInitialState = (): ConfigState => ({
     disableHtmlInput: false,
     disableInputAutocomplete: false,
     disableInputAutofocus: false,
+    disableInputAutogrow: false,
     disableLocalStorage: false,
     disablePersistentHistory: false,
     disableTextInputSanitization: false,
@@ -50,6 +51,7 @@ const getInitialState = (): ConfigState => ({
     headerLogoUrl: "",
     ignoreLineBreaks: false,
     inputPlaceholder: "",
+    inputAutogrowMaxRows: 5,
     messageDelay: 1000,
     messageLogoUrl: "",
     persistentMenu: {

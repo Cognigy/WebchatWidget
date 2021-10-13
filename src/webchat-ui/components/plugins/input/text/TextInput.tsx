@@ -22,7 +22,25 @@ const InputForm = styled.form(({ theme }) => ({
     },
 }));
 
-const Input = styled(TextareaAutosize)(({ theme }) => ({
+const TextArea = styled(TextareaAutosize)(({ theme }) => ({
+    display: 'block',
+    flexGrow: 1,
+    alignSelf: 'stretch',
+
+    border: 'none',
+    boxSizing: 'border-box',
+    paddingLeft: theme.unitSize * 2,
+    paddingRight: theme.unitSize * 2,
+    marginTop: theme.unitSize,
+    marginBottom: theme.unitSize,
+    lineHeight: '1.5em',
+    outline: 'none',
+    resize: 'none',
+    backgroundColor: 'transparent'
+}));
+
+
+const Input = styled.input(({ theme }) => ({
     display: 'block',
     flexGrow: 1,
     alignSelf: 'stretch',
@@ -152,10 +170,10 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         active: false
     } as TextInputState;
 
-    inputRef = React.createRef<HTMLTextAreaElement>();
+    inputRef = React.createRef<HTMLTextAreaElement | HTMLInputElement>();
     menuRef = React.createRef<HTMLDivElement>();
 
-    handleChangeState = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    handleChangeState = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         this.setState({
             text: (e.target as any).value
 		});
@@ -258,7 +276,9 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         const {
             disableInputAutocomplete,
             disableInputAutofocus,
+            disableInputAutogrow,
             enablePersistentMenu,
+            inputAutogrowMaxRows,
             persistentMenu,
         } = props.config.settings;
         const {
@@ -285,23 +305,41 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                 )}
                 {mode === 'text' && (
                     <>
-                        <Input
-                            ref={this.inputRef}
-                            autoFocus={!disableInputAutofocus}
-                            value={text}
-                            onChange={this.handleChangeState}
-                            onFocus={() => this.setState({ active: true })}
-                            onBlur={() => this.setState({ active: false })}
-                            onKeyDown={this.handleInputKeyDown}
-                            placeholder={props.config.settings.inputPlaceholder}
-                            className="webchat-input-message-input"
-                            aria-label="Message to send"
-                            minRows={1}
-                            maxRows={5}
-                            autoComplete={disableInputAutocomplete ? 'off' : undefined}
-                            spellCheck={false}
-                            id="webchatInputMessageInputInTextMode"
-                        />
+                        {!disableInputAutogrow ? (
+                            <TextArea
+                                ref={this.inputRef}
+                                autoFocus={!disableInputAutofocus}
+                                value={text}
+                                onChange={this.handleChangeState}
+                                onFocus={() => this.setState({ active: true })}
+                                onBlur={() => this.setState({ active: false })}
+                                onKeyDown={this.handleInputKeyDown}
+                                placeholder={props.config.settings.inputPlaceholder}
+                                className="webchat-input-message-input"
+                                aria-label="Message to send"
+                                minRows={1}
+                                maxRows={inputAutogrowMaxRows}
+                                autoComplete={disableInputAutocomplete ? 'off' : undefined}
+                                spellCheck={false}
+                                id="webchatInputMessageInputInTextMode"
+                            />
+                        ): (
+                            <Input
+                                ref={this.inputRef}
+                                autoFocus={!disableInputAutofocus}
+                                value={text}
+                                onChange={this.handleChangeState}
+                                onFocus={() => this.setState({ active: true })}
+                                onBlur={() => this.setState({ active: false })}
+                                placeholder={props.config.settings.inputPlaceholder}
+                                className="webchat-input-message-input"
+                                aria-label="Message to send"
+                                autoComplete={disableInputAutocomplete ? 'off' : undefined}
+                                spellCheck={false}
+                                id="webchatInputMessageInputInTextMode"
+                            />
+                        )}
+                        
                         <SubmitButton disabled={this.state.text === ''} className="webchat-input-button-send" aria-label="Send Message">
                             <SendIcon />
                         </SubmitButton>
