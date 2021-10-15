@@ -101,3 +101,19 @@ Cypress.Commands.add('withMessageFixture', (filename: string, callbackFunc: () =
         }
     });
 }); 
+
+Cypress.Commands.add('renderMessage', (text: string, data: any, source: string, config: any) => {
+    cy.window().then(window => {
+        const root = window.document.createElement("div");
+        window.document.body.appendChild(root);
+
+        // @ts-ignore
+        window.MessageRenderer.renderMessage(
+          { text, data, source },
+          root,
+          config
+        );
+    });
+
+    return cy.window();
+});

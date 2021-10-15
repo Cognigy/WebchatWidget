@@ -21,10 +21,15 @@ declare namespace Cypress {
 
       getWebchat(): Chainable<any>;
 
-      receiveMessage(text?: string, data?: Object, source?: 'bot' | 'agent'): Chainable<ReturnType<cy["window"]>>;
+      receiveMessage(text?: string, data?: Object, source?: 'bot' | 'agent' | 'user'): Chainable<ReturnType<cy["window"]>>;
 
       withMessageFixture(withMessageFixture: string, callback: () => void, cleanUpFunc?: () => void): Chainable<any>;
     
       openWebchat(): Chainable<any>;
+
+      /**
+       * renders a message using the message renderer
+       */
+      renderMessage(text?: string, data?: Object, source?: 'bot' | 'agent' | 'user', config?: any): Chainable<ReturnType<cy["window"]>>;
     }
   }

@@ -2,6 +2,7 @@ import { ThemeProvider } from "emotion-theming";
 import * as React from "react";
 import { FC, useMemo, useCallback } from "react";
 import { IMessage } from "../common/interfaces/message";
+import { IWebchatConfig } from "../common/interfaces/webchat-config";
 import {
   getRegisteredMessagePlugins,
   prepareMessagePlugins,
@@ -13,12 +14,24 @@ import { getInitialState } from "../webchat/store/config/config-reducer";
 
 interface IMessageRendererProps {
   message: IMessage;
+  config?: IWebchatConfig;
 }
 
 const MessageRenderer: FC<IMessageRendererProps> = (props) => {
-  const { message } = props;
+  const { message, config } = props;
 
-  const config = useMemo(() => getInitialState(), []);
+  const actualConfig = useMemo(() => {
+    const defaultConfig = getInitialState();
+
+    return {
+      ...defaultConfig,
+      ...config,
+      settings: {
+        ...defaultConfig.settings,
+        ...config?.settings
+      }
+    }
+  }, [config]);
 
   const onEmitAnalytics = useCallback(console.log.bind(console), []);
   const onSendMessage = useCallback(
@@ -41,7 +54,7 @@ const MessageRenderer: FC<IMessageRendererProps> = (props) => {
     <ThemeProvider theme={theme}>
       <div data-cognigy-webchat-root>
         <MessagePluginRenderer
-          config={config}
+          config={actualConfig}
           message={message}
           onEmitAnalytics={onEmitAnalytics}
           onSendMessage={onSendMessage}
