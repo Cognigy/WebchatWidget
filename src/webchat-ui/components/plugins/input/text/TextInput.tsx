@@ -1,10 +1,10 @@
 import * as React from 'react';
-import Toolbar from '../../../presentational/Toolbar';
 import { styled } from '../../../../style';
 import { InputComponentProps } from '../../../../../common/interfaces/input-plugin';
 import SendIcon from './baseline-send-24px.svg';
 import MenuIcon from './baseline-menu-24px.svg';
 import { IPersistentMenuItem } from '../../../../../common/interfaces/webchat-config';
+import TextareaAutosize from 'react-textarea-autosize';
 
 
 const InputForm = styled.form(({ theme }) => ({
@@ -21,6 +21,24 @@ const InputForm = styled.form(({ theme }) => ({
         borderBottomColor: theme.primaryColor
     },
 }));
+
+const TextArea = styled(TextareaAutosize)(({ theme }) => ({
+    display: 'block',
+    flexGrow: 1,
+    alignSelf: 'stretch',
+
+    border: 'none',
+    boxSizing: 'border-box',
+    paddingLeft: theme.unitSize * 2,
+    paddingRight: theme.unitSize * 2,
+    marginTop: theme.unitSize,
+    marginBottom: theme.unitSize,
+    lineHeight: '1.5em',
+    outline: 'none',
+    resize: 'none',
+    backgroundColor: 'transparent'
+}));
+
 
 const Input = styled.input(({ theme }) => ({
     display: 'block',
@@ -48,6 +66,7 @@ const Button = styled.button(({ theme }) => ({
     fill: 'hsla(0, 0%, 0%, .54)',
     cursor: 'pointer',
     outline: 'none',
+    alignSelf: 'flex-end',
 
     '&[disabled]': {
         fill: 'hsla(0, 0%, 0%, .2)',
@@ -148,10 +167,10 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         active: false
     } as TextInputState;
 
-    inputRef = React.createRef<HTMLInputElement>();
+    inputRef = React.createRef<HTMLTextAreaElement | HTMLInputElement>();
     menuRef = React.createRef<HTMLDivElement>();
 
-    handleChangeState = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChangeState = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         this.setState({
             text: (e.target as any).value
 		});
@@ -205,7 +224,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         });
     }
     
-    handleKeyDown = event => {
+    handleMenuKeyDown = event => {
         const { key, target } = event;
         let newFocusTarget = null;
 
@@ -232,13 +251,31 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         }
     };
 
+    /**
+     * overrides the default textarea "return" key behavior.
+     * 
+     * Return should "submit"
+     * Shift+Return should insert a "newline" (default)
+     */
+    handleInputKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            // submit
+            this.handleSubmit(event);
+        }
+    }
+
     render() {
         const { props, state } = this;
         const { text, active, mode } = state;
         const {
             disableInputAutocomplete,
             disableInputAutofocus,
+            disableInputAutogrow,
             enablePersistentMenu,
+            inputAutogrowMaxRows,
             persistentMenu,
         } = props.config.settings;
         const {
@@ -265,19 +302,41 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                 )}
                 {mode === 'text' && (
                     <>
-                        <Input
-                            ref={this.inputRef}
-                            autoFocus={!disableInputAutofocus}
-                            value={text}
-                            onChange={this.handleChangeState}
-                            onFocus={() => this.setState({ active: true })}
-                            onBlur={() => this.setState({ active: false })}
-                            placeholder={props.config.settings.inputPlaceholder}
-                            className="webchat-input-message-input"
-                            aria-label="Message to send"
-                            autoComplete={disableInputAutocomplete ? 'off' : undefined}
-                            id="webchatInputMessageInputInTextMode"
-                        />
+                        {!disableInputAutogrow ? (
+                            <TextArea
+                                ref={this.inputRef}
+                                autoFocus={!disableInputAutofocus}
+                                value={text}
+                                onChange={this.handleChangeState}
+                                onFocus={() => this.setState({ active: true })}
+                                onBlur={() => this.setState({ active: false })}
+                                onKeyDown={this.handleInputKeyDown}
+                                placeholder={props.config.settings.inputPlaceholder}
+                                className="webchat-input-message-input"
+                                aria-label="Message to send"
+                                minRows={1}
+                                maxRows={inputAutogrowMaxRows}
+                                autoComplete={disableInputAutocomplete ? 'off' : undefined}
+                                spellCheck={false}
+                                id="webchatInputMessageInputInTextMode"
+                            />
+                        ): (
+                            <Input
+                                ref={this.inputRef}
+                                autoFocus={!disableInputAutofocus}
+                                value={text}
+                                onChange={this.handleChangeState}
+                                onFocus={() => this.setState({ active: true })}
+                                onBlur={() => this.setState({ active: false })}
+                                placeholder={props.config.settings.inputPlaceholder}
+                                className="webchat-input-message-input"
+                                aria-label="Message to send"
+                                autoComplete={disableInputAutocomplete ? 'off' : undefined}
+                                spellCheck={false}
+                                id="webchatInputMessageInputInTextMode"
+                            />
+                        )}
+                        
                         <SubmitButton disabled={this.state.text === ''} className="webchat-input-button-send" aria-label="Send Message">
                             <SendIcon />
                         </SubmitButton>
@@ -290,7 +349,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                                 {title}
                             </PersistentMenuTitle>
                         )}
-                       <div aria-labelledby="persistentMenuTitle" role="menu" ref={this.menuRef} onKeyDown={e => this.handleKeyDown(e)}>
+                       <div aria-labelledby="persistentMenuTitle" role="menu" ref={this.menuRef} onKeyDown={e => this.handleMenuKeyDown(e)}>
                             {menuItems.map((item, index) => (
                                 <PersistentMenuItem
                                     key={`${item.title}${item.payload}`}
