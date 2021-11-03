@@ -72,6 +72,12 @@ export const getInitialState = (): ConfigState => ({
       bot: 'incoming',
       engagement: 'incoming',
       user: 'outgoing',
+    },
+    sourceColorMapping: {
+      agent: 'primary',
+      bot: 'primary',
+      engagement: 'primary',
+      user: 'neutral',
     }
   },
 });

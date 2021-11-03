@@ -9,6 +9,7 @@ import { styled, IWebchatTheme } from "../../style";
 import "../../../assets/style.css";
 import {
   IWebchatConfig,
+  TSourceColor,
   TSourceDirection,
 } from "../../../common/interfaces/webchat-config";
 
@@ -92,9 +93,19 @@ export default ({
   const direction = ((): TSourceDirection => {
     const configDirection = config.settings.sourceDirectionMapping[source];
 
-    if (configDirection) return configDirection;
+    if (configDirection) 
+      return configDirection;
 
     return "incoming";
+  })();
+
+  const color = ((): TSourceColor => {
+    const configColor = config.settings.sourceColorMapping[source];
+
+    if (configColor)
+      return configColor;
+
+    return 'neutral';
   })();
 
   const align = direction === "incoming" ? "left" : "right";
@@ -130,6 +141,8 @@ export default ({
               key={index}
               config={config}
               message={message}
+              direction={direction}
+              color={color}
               onSendMessage={onSendMessage}
               onSetFullscreen={onSetFullscreen}
               onDismissFullscreen={onDismissFullscreen}

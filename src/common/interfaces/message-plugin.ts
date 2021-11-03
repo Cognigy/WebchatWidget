@@ -9,6 +9,8 @@ export interface MessageComponentProps {
     config: IWebchatConfig;
     isFullscreen?: boolean;
     message: IMessage;
+    direction: 'incoming' | 'outgoing';
+    color: 'primary' | 'neutral';
     onDismissFullscreen?: () => void;
     onEmitAnalytics: (name: string, data?: any) => void;
     onSendMessage: MessageSender;
