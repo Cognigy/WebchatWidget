@@ -72,6 +72,14 @@ Cypress.Commands.add('receiveMessage', (text?: string, data?: Object, source: 'b
     });
 });
 
+Cypress.Commands.add('receiveMessageFixture', (filename: string) => {
+    cy.fixture(`messages/${filename}.json`).then(message => {
+        const { text = null, data = {}, source = 'bot' } = message;
+
+        return cy.receiveMessage(text, data, source);
+    });
+});
+
 /**
  * Loads message(s) from '/fixtures/messages/' folder into the chat history 
  * and calls the provided callback function afterwards. If the file contains 
