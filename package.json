@@ -12,7 +12,6 @@
     "build": "npm run bundle",
     "bundle": "npm run webchat && npm run webchat-legacy && npm run date-picker && npm run date-picker-legacy && npm run rating && npm run rating-legacy &&  npm run speech-input && npm run speech-input-legacy && npm run speech-output && npm run speech-output-legacy && npm run messenger && npm run messenger-legacy && npm run message-renderer",
     "dev": "webpack-dev-server --config webpack.dev.js --content-base dist/ --host 0.0.0.0 --disable-host-check",
-    "dev-message-renderer": "webpack-dev-server --config webpack.message-renderer.js --content-base dist/ --host 0.0.0.0 --disable-host-check",
     "message-renderer": "webpack --config webpack.message-renderer.production.js",
     "date-picker-legacy": "webpack --config webpack.production-plugin.legacy.js --entry ./src/plugins/date-picker/index.tsx --output dist/date-picker.webchat-plugin.legacy.js",
     "date-picker": "webpack --config webpack.production-plugin.js --entry ./src/plugins/date-picker/index.tsx --output dist/date-picker.webchat-plugin.js",
