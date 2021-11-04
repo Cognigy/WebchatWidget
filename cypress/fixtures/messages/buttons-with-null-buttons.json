@@ -1,0 +1,19 @@
+{
+	"text": null,
+	"data": {
+		"_cognigy": {
+			"_webchat": {
+				"message": {
+					"attachment": {
+						"type": "template",
+						"payload": {
+							"text": "foobar005",
+							"template_type": "button",
+							"buttons": null
+						}
+					}
+				}
+			}
+		}
+	}
+}

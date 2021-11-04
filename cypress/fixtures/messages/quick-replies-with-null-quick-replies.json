@@ -1,0 +1,13 @@
+{
+  "text": null,
+  "data": {
+    "_cognigy": {
+      "_webchat": {
+        "message": {
+          "text": "foobar003",
+          "quick_replies": null
+        }
+      }
+    }
+  }
+}
