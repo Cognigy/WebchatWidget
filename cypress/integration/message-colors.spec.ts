@@ -61,7 +61,7 @@ describe('Message Color Variants', () => {
                 .should('have.css', 'border-color', 'rgb(63, 81, 181)');
         });
 
-        it.only('renders a "quick reply"', () => {
+        it('renders a "quick reply"', () => {
             cy.fixture('messages/quick-replies.json').then(quickReplyMessages => {
                 const { text, data, source } = quickReplyMessages[0];
 
@@ -97,29 +97,56 @@ describe('Message Color Variants', () => {
             cy.get('.webchat-buttons-template-root').should('have.css', 'color', 'rgba(255, 255, 255, 0.95)');
         });
 
-        xit('renders a "quick reply"', () => {
-            cy.withMessageFixture('', () => {})
+        it('renders a "quick reply"', () => {
+            cy.fixture('messages/quick-replies.json').then(quickReplyMessages => {
+                const { text, data, source } = quickReplyMessages[0];
+
+                cy.receiveMessage(text, data, source);
+
+                cy.get('.webchat-quick-reply-template-header-message')
+                    .should('have.css', 'background', 'rgba(0, 0, 0, 0) linear-gradient(185deg, rgb(73, 91, 191), rgb(63, 81, 181)) repeat scroll 0% 0% / auto padding-box border-box');
+            });
         });
-        xit('renders a "text with buttons"', () => {
-            cy.withMessageFixture('', () => {})
+
+        it('renders a "text with buttons"', () => {
+            cy.receiveMessageFixture('buttons');
+
+            cy.get('.webchat-buttons-template-root').should('have.css', 'background', 'rgba(0, 0, 0, 0) linear-gradient(185deg, rgb(73, 91, 191), rgb(63, 81, 181)) repeat scroll 0% 0% / auto padding-box border-box');
+            cy.get('.webchat-buttons-template-root').should('have.css', 'color', 'rgba(255, 255, 255, 0.95)');
         });
-        xit('renders a "gallery"', () => {
-            cy.withMessageFixture('', () => {})
+
+        it('renders a "gallery"', () => {
+            cy.receiveMessageFixture('gallery');
+
+            cy.get('.webchat-carousel-template-content').should('have.css', 'color', 'rgba(0, 0, 0, 0.8)');
+            cy.get('.webchat-carousel-template-button')
+                .should('have.css', 'color', 'rgb(63, 81, 181)')
+                .should('have.css', 'background-color', 'rgb(255, 255, 255)');
         });
-        xit('renders a "list"', () => {
-            cy.withMessageFixture('', () => {})
+
+        it('renders a "list"', () => {
+            cy.receiveMessageFixture('list');
+
+            cy.get('.webchat-list-template-header-button')
+                .should('have.css', 'background-color', 'rgb(63, 81, 181)')
+                .should('have.css', 'color', 'rgba(255, 255, 255, 0.95)');
         });
-        xit('renders an "audio message"', () => {
-            cy.withMessageFixture('', () => {})
-        });
-        xit('renders a "video message"', () => {
-            cy.withMessageFixture('', () => {})
-        });
-        xit('renders an "image message"', () => {
-            cy.withMessageFixture('', () => {})
-        });
-        xit('renders a "date picker"', () => {
+
+        // is always neutral
+        it('renders an "audio message"');
+        
+        // doesn't have themed content
+        it('renders a "video message"');
+
+        // doen't have themed content
+        it('renders an "image message"');
+        
+        it('renders a "date picker"', () => {
             cy.receiveMessageFixture('date-picker');
+
+            cy.get('.webchat-message-row > button')
+                .should('have.css', 'border-color', 'rgb(63, 81, 181)')
+                .should('have.css', 'border-color', 'rgb(63, 81, 181)');
         });
     });
 })
