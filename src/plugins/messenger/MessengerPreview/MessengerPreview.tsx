@@ -14,8 +14,9 @@ import { MessagePluginFactoryProps } from '../../../common/interfaces/message-pl
 import { getMessengerTextWithQuickReplies } from './components/MessengerTextWithQuickReplies/MessengerTextWithQuickReplies';
 import { IWebchatConfig } from '../../../common/interfaces/webchat-config';
 import { IWithMessageColor } from './interfaces/MessageColor.interface';
+import { IWithMessageDirection } from './interfaces/MessageDirection.interface';
 
-export interface IMessengerPreviewProps extends Omit<React.HTMLProps<HTMLDivElement>, 'color'>, IWithMessageColor {
+export interface IMessengerPreviewProps extends Omit<React.HTMLProps<HTMLDivElement>, 'color'>, IWithMessageColor, IWithMessageDirection {
     /** input.data._cognigy._facebook */
     message: IFBMMessage;
     onAction?: FBMActionEventHandler;
@@ -31,7 +32,7 @@ export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps
     const MessengerTextWithQuickReplies = getMessengerTextWithQuickReplies({ React, styled });
 
     const MessengerPreview = (props: IMessengerPreviewProps) => {
-        const { message, onAction: handleAction, config, messageColor, ...divProps } = props;
+        const { message, onAction: handleAction, config, messageColor, messageDirection, ...divProps } = props;
 
         const { attachment } = message as IFBMAttachmentMessage;
 
@@ -110,6 +111,7 @@ export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps
                 onAction={onAction}
                 config={config}
                 messageColor={messageColor}
+                messageDirection={messageDirection}
             />
         )
     }
