@@ -81,6 +81,7 @@ export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps
                                     payload={payload as IFBMListTemplatePayload}
                                     onAction={onAction}
                                     config={config}
+                                    messageColor={messageColor}
                                 />
                             );
                         }

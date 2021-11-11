@@ -16,10 +16,6 @@ describe('Message Color Variants', () => {
             cy.openWebchat();
         });
 
-        // it('renders a "quick reply"', () => {
-        //     cy.receiveMessageFixture('quick-replies');
-        // });
-
         it('renders a "text with buttons"', () => {
             cy.receiveMessageFixture('buttons');
 
@@ -27,24 +23,33 @@ describe('Message Color Variants', () => {
             cy.get('.webchat-buttons-template-root').should('have.css', 'color', 'rgba(0, 0, 0, 0.95)');
         });
 
-        // it('renders a "gallery"', () => {
-        //     cy.receiveMessageFixture('gallery');
-        // });
-        // it('renders a "list"', () => {
-        //     cy.receiveMessageFixture('list');
-        // });
-        // it('renders an "audio message"', () => {
-        //     cy.receiveMessageFixture('audio');
-        // });
-        // it('renders a "video message"', () => {
-        //     cy.receiveMessageFixture('video');
-        // });
-        // it('renders an "image message"', () => {
-        //     cy.receiveMessageFixture('image');
-        // });
-        // it('renders a "date picker"', () => {
-        //     cy.receiveMessageFixture('date-picker');
-        // });
+        it('renders a "gallery"', () => {
+            cy.receiveMessageFixture('gallery');
+
+            cy.get('.webchat-carousel-template-content').should('have.css', 'color', 'rgba(0, 0, 0, 0.8)');
+            cy.get('.webchat-carousel-template-button')
+                .should('have.css', 'color', 'rgb(63, 81, 181)')
+                .should('have.css', 'background-color', 'rgb(255, 255, 255)');
+        });
+        it.only('renders a "list"', () => {
+            cy.receiveMessageFixture('list');
+
+            cy.get('.webchat-list-template-header-button')
+                .should('have.css', 'background-color', 'rgb(230, 230, 230)')
+                .should('have.css', 'color', 'rgba(0, 0, 0, 0.95)');
+        });
+        xit('renders an "audio message"', () => {
+            cy.receiveMessageFixture('audio');
+        });
+        xit('renders a "video message"', () => {
+            cy.receiveMessageFixture('video');
+        });
+        xit('renders an "image message"', () => {
+            cy.receiveMessageFixture('image');
+        });
+        xit('renders a "date picker"', () => {
+            cy.receiveMessageFixture('date-picker');
+        });
     });
 
     describe('primary', () => {
@@ -71,29 +76,29 @@ describe('Message Color Variants', () => {
             cy.get('.webchat-buttons-template-root').should('have.css', 'color', 'rgba(255, 255, 255, 0.95)');
         });
 
-        // it('renders a "quick reply"', () => {
-        //     cy.withMessageFixture('', () => {})
-        // });
-        // it('renders a "text with buttons"', () => {
-        //     cy.withMessageFixture('', () => {})
-        // });
-        // it('renders a "gallery"', () => {
-        //     cy.withMessageFixture('', () => {})
-        // });
-        // it('renders a "list"', () => {
-        //     cy.withMessageFixture('', () => {})
-        // });
-        // it('renders an "audio message"', () => {
-        //     cy.withMessageFixture('', () => {})
-        // });
-        // it('renders a "video message"', () => {
-        //     cy.withMessageFixture('', () => {})
-        // });
-        // it('renders an "image message"', () => {
-        //     cy.withMessageFixture('', () => {})
-        // });
-        // it('renders a "date picker"', () => {
-        //     cy.receiveMessageFixture('date-picker');
-        // });
+        xit('renders a "quick reply"', () => {
+            cy.withMessageFixture('', () => {})
+        });
+        xit('renders a "text with buttons"', () => {
+            cy.withMessageFixture('', () => {})
+        });
+        xit('renders a "gallery"', () => {
+            cy.withMessageFixture('', () => {})
+        });
+        xit('renders a "list"', () => {
+            cy.withMessageFixture('', () => {})
+        });
+        xit('renders an "audio message"', () => {
+            cy.withMessageFixture('', () => {})
+        });
+        xit('renders a "video message"', () => {
+            cy.withMessageFixture('', () => {})
+        });
+        xit('renders an "image message"', () => {
+            cy.withMessageFixture('', () => {})
+        });
+        xit('renders a "date picker"', () => {
+            cy.receiveMessageFixture('date-picker');
+        });
     });
 })
