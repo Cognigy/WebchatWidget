@@ -109,6 +109,7 @@ export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps
                 message={message as IFBMRegularMessage}
                 onAction={onAction}
                 config={config}
+                messageColor={messageColor}
             />
         )
     }

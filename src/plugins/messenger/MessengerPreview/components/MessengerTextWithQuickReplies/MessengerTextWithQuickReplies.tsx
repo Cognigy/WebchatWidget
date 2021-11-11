@@ -11,8 +11,9 @@ import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config'
 import { getMessengerBubble } from '../MessengerBubble';
 import { useRandomId } from '../../../../../common/utils/randomId';
 import { sanitizeHTML } from '../../../../../webchat/helper/sanitize';
+import { IWithMessageColor } from '../../interfaces/MessageColor.interface';
 
-interface Props extends IWithFBMActionEventHandler {
+interface Props extends IWithFBMActionEventHandler, IWithMessageColor {
     message: IFBMRegularMessage;
     config: IWebchatConfig;
 }
@@ -50,6 +51,7 @@ export const getMessengerTextWithQuickReplies = ({
         message,
         onAction,
         config,
+        messageColor,
         ...divProps
     }: Props & React.HTMLProps<HTMLDivElement>) => {
         const { text, quick_replies } = message;
@@ -83,6 +85,7 @@ export const getMessengerTextWithQuickReplies = ({
                     className="webchat-quick-reply-template-header-message"
                     dangerouslySetInnerHTML={{ __html }}
                     id={webchatQuickReplyTemplateHeaderId}
+                    messageColor={messageColor}
                 ></BorderBubble>
 
                 {hasQuickReplies && (
