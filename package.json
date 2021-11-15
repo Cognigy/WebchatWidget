@@ -1,6 +1,6 @@
 {
   "name": "@cognigy/webchat",
-  "version": "2.36.0",
+  "version": "2.38.1",
   "description": "Webchat Widget for Cognigy.AI",
   "author": "Cognigy GmbH <info@cognigy.com>",
   "contributors": [
@@ -51,6 +51,7 @@
     "react-player": "^1.14.2",
     "react-redux": "^6.0.0",
     "react-responsive-carousel": "^3.1.51",
+    "react-textarea-autosize": "^8.3.3",
     "redux": "^4.0.4",
     "styled-jss": "^2.2.3",
     "stylis-rtl": "^1.0.1",

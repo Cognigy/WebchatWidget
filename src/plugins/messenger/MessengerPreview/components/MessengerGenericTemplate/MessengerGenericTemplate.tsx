@@ -170,7 +170,8 @@ export const getMessengerGenericTemplate = ({
 
         renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
             const { onAction, ...divProps } = this.props;
-            const { image_url, image_alt_text, title, subtitle, buttons, default_action } = element;
+            const { image_url, image_alt_text, title, subtitle, default_action } = element;
+            const buttons = element.buttons || [];
 
             const carouselListLength = this.props.payload.elements.length;
             const isCentered = this.props.config.settings.designTemplate === 2;

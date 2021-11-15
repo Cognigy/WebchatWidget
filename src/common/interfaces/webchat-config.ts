@@ -14,7 +14,9 @@ export interface IWebchatSettings {
   disableBranding: boolean;
   disableHtmlContentSanitization: boolean;
   disableHtmlInput: boolean;
+  disableInputAutocomplete: boolean;
   disableInputAutofocus: boolean;
+  disableInputAutogrow: boolean;
   disableLocalStorage: boolean;
   disablePersistentHistory: boolean;
   disableTextInputSanitization: boolean;
@@ -46,6 +48,7 @@ export interface IWebchatSettings {
   headerLogoUrl: string;
   ignoreLineBreaks: boolean;
   inputPlaceholder: string;
+  inputAutogrowMaxRows: number;
   messageDelay: number;
   /** TODO: this is the botAvatarUrl (rename for major) */
   messageLogoUrl: string;

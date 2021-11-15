@@ -1,0 +1,28 @@
+{
+  "source": "bot",
+  "text": "dshu",
+  "data": {
+    "_cognigy": {
+      "_webchat": {
+        "message": {
+          "attachment": {
+            "type": "template",
+            "payload": {
+              "template_type": "generic",
+              "elements": [
+                {
+                  "title": "dffdg",
+                  "subtitle": "dg",
+                  "image_url": "",
+                  "default_action": { "type": "web_url" },
+                  "buttons": null
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "id": "some-id"
+}

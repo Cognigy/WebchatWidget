@@ -35,7 +35,9 @@ export const getMessengerButtonTemplate = ({
         color,
         ...divProps
     }: IMessengerButtonTemplateProps & React.HTMLProps<HTMLDivElement>) => {
-        const { text, buttons } = payload;
+        const { text } = payload;
+        const buttons = payload.buttons || [];
+
         const webchatButtonTemplateButtonId = useRandomId("webchatButtonTemplateButton");
         const webchatButtonTemplateTextId = useRandomId("webchatButtonTemplateHeader");
         const buttonGroupAriaLabelledby = text ? webchatButtonTemplateTextId : undefined;
