@@ -29,7 +29,7 @@
     "cypress:serve": "http-server -a localhost -p 8787 dist/",
     "cypress:run": "cypress run",
     "test": "run-p -r cypress:serve cypress:run",
-    "pretest": "npm run webchat && npm run date-picker"
+    "pretest": "npm run webchat && npm run date-picker && npm run message-renderer"
   },
   "dependencies": {
     "@braintree/sanitize-url": "^5.0.2",
