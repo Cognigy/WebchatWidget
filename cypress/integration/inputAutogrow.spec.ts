@@ -1,12 +1,12 @@
 describe('Input Autogrow', () => {
     it('should be active by default', () => {
-        cy.visitBuild().initMockWebchat().openWebchat();
+        cy.visitWebchat().initMockWebchat().openWebchat();
 
         cy.get('textarea.webchat-input-message-input').should('be.visible');
     });
 
     it('should submit when hitting "return"', () => {
-        cy.visitBuild().initMockWebchat().openWebchat();
+        cy.visitWebchat().initMockWebchat().openWebchat();
 
         cy.get('#webchatInputMessageInputInTextMode').as('input');
         cy.get('@input').type('hello world{enter}');
@@ -15,7 +15,7 @@ describe('Input Autogrow', () => {
     });
 
     it('should grow when typing long texts', () => {
-        cy.visitBuild().initMockWebchat().openWebchat();
+        cy.visitWebchat().initMockWebchat().openWebchat();
 
         cy.get('#webchatInputMessageInputInTextMode').as('input');
         cy.get('@input').invoke('height').as('initialHeight');
@@ -26,7 +26,7 @@ describe('Input Autogrow', () => {
     });
 
     it('should insert a newline when sending "shift+return"', () => {
-        cy.visitBuild().initMockWebchat().openWebchat();
+        cy.visitWebchat().initMockWebchat().openWebchat();
 
         cy.get('#webchatInputMessageInputInTextMode').as('input');
         cy.get('@input').invoke('height').as('initialHeight');
@@ -37,7 +37,7 @@ describe('Input Autogrow', () => {
     });
 
     it('should grow up to "inputAutogrowMaxLines" lines before scrolling', () => {
-        cy.visitBuild().initMockWebchat({
+        cy.visitWebchat().initMockWebchat({
             settings: {
                 inputAutogrowMaxRows: 3
             }
@@ -63,7 +63,7 @@ describe('Input Autogrow', () => {
     });
 
     it('should use an "input" element if "disableInputAutogrow" flag is set', () => {
-        cy.visitBuild().initMockWebchat({
+        cy.visitWebchat().initMockWebchat({
             settings: {
                 disableInputAutogrow: true
             }

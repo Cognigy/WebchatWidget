@@ -1,6 +1,6 @@
 describe('Message Templates with null Buttons', () => {
   beforeEach(() => {
-    cy.visitBuild();
+    cy.visitWebchat();
     cy.initMockWebchat();
     cy.openWebchat();
   });

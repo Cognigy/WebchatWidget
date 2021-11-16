@@ -8,8 +8,9 @@ import { useEffect } from 'react';
 import {IWebchatConfig} from '../../../../../common/interfaces/webchat-config';
 import { useRandomId } from '../../../../../common/utils/randomId';
 import { sanitizeHTML } from '../../../../../webchat/helper/sanitize';
+import { IWithMessageColor } from '../../interfaces/MessageColor.interface';
 
-interface IMessengerButtonTemplateProps extends IWithFBMActionEventHandler {
+interface IMessengerButtonTemplateProps extends IWithFBMActionEventHandler, IWithMessageColor {
     payload: IFBMButtonTemplatePayload;
     config: IWebchatConfig;
 }
@@ -31,6 +32,7 @@ export const getMessengerButtonTemplate = ({
         payload,
         onAction,
         config,
+        color,
         ...divProps
     }: IMessengerButtonTemplateProps & React.HTMLProps<HTMLDivElement>) => {
         const { text } = payload;
@@ -57,7 +59,7 @@ export const getMessengerButtonTemplate = ({
         const __html = config.settings.disableHtmlContentSanitization ? text : sanitizeHTML(text);
 
         return (
-            <MessengerButtonHeader {...divProps} className="webchat-buttons-template-root">
+            <MessengerButtonHeader {...divProps} color={color} className="webchat-buttons-template-root">
                 {text && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{ __html }} id={webchatButtonTemplateTextId} />}
                 <div {...a11yProps}>
 					{buttons.map((button, index) => (

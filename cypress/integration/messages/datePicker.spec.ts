@@ -5,7 +5,7 @@ import * as moment from "moment"
 describe("Date Picker", () => {
     beforeEach(() => {
         cy
-            .visitBuild()
+            .visitWebchat()
             .initMockWebchat()
             .openWebchat()
     })

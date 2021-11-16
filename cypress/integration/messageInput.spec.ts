@@ -2,7 +2,7 @@ describe('Webchat Message Input', () => {
 
     it('message input filed should have correct aria-label', () => {
         cy
-			.visitBuild()
+			.visitWebchat()
 			.initMockWebchat()
 			.openWebchat()
 			.get('[aria-label="Message to send"]').should('be.visible');
@@ -10,7 +10,7 @@ describe('Webchat Message Input', () => {
 
 	it('message input filed should receive focus on open', () => {
         cy
-			.visitBuild()
+			.visitWebchat()
 			.initMockWebchat()
 			.openWebchat()
 			.get('[aria-label="Message to send"]').should('be.focused');
@@ -18,7 +18,7 @@ describe('Webchat Message Input', () => {
 
 	it('should be able to type in message input filed should', () => {
         cy
-			.visitBuild()
+			.visitWebchat()
 			.initMockWebchat()
 			.openWebchat()
 			.get('[aria-label="Message to send"]').type('Hi')

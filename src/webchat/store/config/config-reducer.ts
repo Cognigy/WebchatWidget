@@ -6,7 +6,7 @@ import {
 
 export type ConfigState = IWebchatConfig;
 
-const getInitialState = (): ConfigState => ({
+export const getInitialState = (): ConfigState => ({
   URLToken: "",
   active: false,
   settings: {
@@ -70,6 +70,18 @@ const getInitialState = (): ConfigState => ({
     unreadMessageTitleTextPlural: "New Messages",
     userAvatarUrl: "",
     useSessionStorage: false,
+    sourceDirectionMapping: {
+      agent: 'incoming',
+      bot: 'incoming',
+      engagement: 'incoming',
+      user: 'outgoing',
+    },
+    sourceColorMapping: {
+      agent: 'primary',
+      bot: 'primary',
+      engagement: 'primary',
+      user: 'neutral',
+    }
   },
 });
 
@@ -99,6 +111,10 @@ export const config: Reducer<
         settings: {
           ...state.settings,
           ...action.config.settings,
+          sourceDirectionMapping: {
+            ...state.settings.sourceDirectionMapping,
+            ...action.config.settings?.sourceDirectionMapping,
+          }
         },
       };
     }

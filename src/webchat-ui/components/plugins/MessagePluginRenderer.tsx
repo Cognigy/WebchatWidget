@@ -2,12 +2,16 @@ import * as React from "react";
 import { IMessage } from "../../../common/interfaces/message";
 import { MessagePlugin } from "../../../common/interfaces/message-plugin";
 import { MessageSender } from "../../interfaces";
-import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
 import { getPluginsForMessage } from "../../../plugins/helper";
 import MessageRow from "../presentational/MessageRow";
 import Avatar from "../presentational/Avatar";
 import { styled, IWebchatTheme } from "../../style";
 import "../../../assets/style.css";
+import {
+  IWebchatConfig,
+  TSourceColor,
+  TSourceDirection,
+} from "../../../common/interfaces/webchat-config";
 
 export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
   message: IMessage;
@@ -19,6 +23,7 @@ export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
   plugins: MessagePlugin[];
   isFullscreen?: boolean;
   webchatTheme: IWebchatTheme;
+  hideAvatar?: boolean;
 }
 
 const FullWidthMessageRow = styled.div(({ theme }) => ({
@@ -39,6 +44,7 @@ export default ({
   onDismissFullscreen,
   webchatTheme,
   onEmitAnalytics,
+  hideAvatar,
   ...props
 }: MessageProps): JSX.Element => {
   const attributes = Object.keys(props).length > 0 ? props : undefined;
@@ -59,7 +65,7 @@ export default ({
 
       case "engagement":
         return "webchat-message-row engagement";
-      
+
       default:
         return "webchat-message-row";
     }
@@ -78,24 +84,31 @@ export default ({
 
       case "engagement":
         return "webchat-avatar engagement";
-      
+
       default:
         return "webchat-avatar";
     }
   })();
 
-  const align = (() => {
-    switch (source) {
-      case "user":
-        return "right";
+  const direction = ((): TSourceDirection => {
+    const configDirection = config.settings.sourceDirectionMapping[source];
 
-      case "bot":
-      case "agent":
-      case "engagement":
-      default: 
-        return "left"
-    }
+    if (configDirection) 
+      return configDirection;
+
+    return "incoming";
   })();
+
+  const color = ((): TSourceColor => {
+    const configColor = config.settings.sourceColorMapping[source];
+
+    if (configColor)
+      return configColor;
+
+    return 'neutral';
+  })();
+
+  const align = direction === "incoming" ? "left" : "right";
 
   const messageSource = (() => {
     switch (source) {
@@ -111,8 +124,8 @@ export default ({
       case "engagement":
         return "Bot says: ";
 
-      default: 
-        return "Message says: "
+      default:
+        return "Message says: ";
     }
   })();
 
@@ -128,6 +141,8 @@ export default ({
               key={index}
               config={config}
               message={message}
+              direction={direction}
+              color={color}
               onSendMessage={onSendMessage}
               onSetFullscreen={onSetFullscreen}
               onDismissFullscreen={onDismissFullscreen}
@@ -153,9 +168,16 @@ export default ({
           }
 
           return (
-            <MessageRow key={key} align={align} className={className}>		
-                <Avatar src={message.avatarUrl as string} className={avatarClassName} aria-label={messageSource}/>
-                {messageElement}
+            <MessageRow key={key} align={align} className={className}>
+              <Avatar
+                src={message.avatarUrl as string}
+                className={avatarClassName}
+                aria-label={messageSource}
+                style={{
+                  display: hideAvatar ? "none" : undefined,
+                }}
+              />
+              {messageElement}
             </MessageRow>
           );
         }

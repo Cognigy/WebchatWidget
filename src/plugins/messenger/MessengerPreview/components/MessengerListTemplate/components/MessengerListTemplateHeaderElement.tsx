@@ -10,8 +10,9 @@ import { getBackgroundImage } from '../../../lib/css';
 import { IWebchatConfig } from '../../../../../../common/interfaces/webchat-config';
 import { useRandomId } from '../../../../../../common/utils/randomId';
 import { sanitizeHTML } from '../../../../../../webchat/helper/sanitize';
+import { IWithMessageColor } from '../../../interfaces/MessageColor.interface';
 
-interface IMessengerListTemplateHeaderElementProps extends IWithFBMActionEventHandler {
+interface IMessengerListTemplateHeaderElementProps extends IWithFBMActionEventHandler, IWithMessageColor {
     element: IFBMListTemplateElement;
     config: IWebchatConfig;
 }
@@ -62,27 +63,27 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
         backgroundPosition: 'center center'
     }));
 
-    const ListHeaderButton = styled(ListButton)(({ theme }) => ({
-        backgroundColor: theme.primaryColor,
-        color: theme.primaryContrastColor,
+    const ListHeaderButton = styled(ListButton)<IWithMessageColor>(({ theme, messageColor }) => ({
+        backgroundColor: messageColor === 'neutral' ? theme.greyColor : theme.primaryColor,
+        color: messageColor === 'neutral' ? theme.greyContrastColor :  theme.primaryContrastColor,
         border: `none`,
         cursor: 'pointer',
         outline: 'none',
 
         '&:hover': {
-            backgroundColor: theme.primaryWeakColor
+            backgroundColor: messageColor === 'neutral' ? theme.greyWeakColor : theme.primaryWeakColor
 		},
 		
 		'&:focus': {
-			backgroundColor: theme.primaryStrongColor,
+			backgroundColor: messageColor === 'neutral' ? theme.greyStrongColor : theme.primaryStrongColor,
         },
 
         '&:active': {
-            backgroundColor: theme.primaryStrongColor
+            backgroundColor: messageColor === 'neutral' ? theme.greyStrongColor :  theme.primaryStrongColor
         }
     }))
 
-    const MessengerListTemplateHeaderElement = ({ element, onAction, config }: IMessengerListTemplateHeaderElementProps) => {
+    const MessengerListTemplateHeaderElement = ({ element, onAction, config, messageColor }: IMessengerListTemplateHeaderElementProps) => {
         const { title, subtitle, image_url, image_alt_text, default_action, buttons } = element;
         // TODO buttons, default_action
 
@@ -131,6 +132,7 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
                                 onClick={e => {e.stopPropagation(); onAction(e, button)}}
                                 className="webchat-list-template-header-button"
                                 dangerouslySetInnerHTML={{ __html: buttonHtml }}
+                                messageColor={messageColor}
                             >
                             </ListHeaderButton>
                         )}

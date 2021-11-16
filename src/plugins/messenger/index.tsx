@@ -65,7 +65,7 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
     return ({
         name: 'messenger',
         match: isMessengerPayload,
-        component: ({ message, onSendMessage, config, onEmitAnalytics }: MessageComponentProps) => (
+        component: ({ message, onSendMessage, config, onEmitAnalytics, color, direction }: MessageComponentProps) => (
             <MessengerPreview
                 message={transformMessage(getMessengerPayload(message, config).message)}
                 onAction={(e, action) => {
@@ -104,6 +104,8 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
                     }
                 }}
                 config={config}
+                messageColor={color}
+                messageDirection={direction}
             />
         )
     })
@@ -117,7 +119,7 @@ const fullscreenMessengerGenericPlugin: MessagePluginFactory = ({ React, styled 
     return ({
         name: 'messenger',
         match: isFullscreenMessengerGenericPayload,
-        component: ({ message, onSendMessage, config, onEmitAnalytics }: MessageComponentProps) => (
+        component: ({ message, onSendMessage, config, onEmitAnalytics, color, direction }: MessageComponentProps) => (
             <MessengerPreview
                 message={transformMessage(getMessengerPayload(message, config).message)}
                 onAction={(e, action) => {
@@ -142,6 +144,8 @@ const fullscreenMessengerGenericPlugin: MessagePluginFactory = ({ React, styled 
                     }
                 }}
                 config={config}
+                messageColor={color}
+                messageDirection={direction}
             />
         ),
         options: {

@@ -2,7 +2,7 @@ describe('Webchat Button', () => {
 
     it('should have correct aria-label for open webchat button', () => {
         cy
-			.visitBuild()
+			.visitWebchat()
 			.initMockWebchat()
             .get('[aria-label="Open chat"]').click()
 			.get('[aria-label="Open chat"]').should('not.exist');
@@ -10,7 +10,7 @@ describe('Webchat Button', () => {
 
 	it('should have correct aria-label for open webchat button with one unread message', () => {
         cy
-			.visitBuild()
+			.visitWebchat()
 			.initMockWebchat({
                 settings: {
                     enableUnreadMessagePreview: true,
@@ -25,7 +25,7 @@ describe('Webchat Button', () => {
 	
 	it('should have correct aria-label for open webchat button with one unread message', () => {
         cy
-			.visitBuild()
+			.visitWebchat()
 			.initMockWebchat({
                 settings: {
                     enableUnreadMessagePreview: true,
@@ -40,7 +40,7 @@ describe('Webchat Button', () => {
 	
 	it('should have correct aria-label for close webchat button', () => {
         cy
-			.visitBuild()
+			.visitWebchat()
 			.initMockWebchat()
             .get('[aria-label="Open chat"]').click()
 			.get('[aria-label="Close chat"]').should('be.visible')
@@ -50,7 +50,7 @@ describe('Webchat Button', () => {
 	
 	it('should have correct aria-label for close button in chat window', () => {
         cy
-			.visitBuild()
+			.visitWebchat()
 			.initMockWebchat()
             .get('[aria-label="Open chat"]').click()
 			.get('[aria-label="Close Chat"]').click()

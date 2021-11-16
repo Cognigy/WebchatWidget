@@ -3,6 +3,9 @@ export interface IPersistentMenuItem {
   payload: string;
 }
 
+export type TSourceDirection = 'incoming' | 'outgoing';
+export type TSourceColor = 'primary' | 'neutral';
+
 export interface IWebchatSettings {
   agentAvatarUrl: string;
   backgroundImageUrl: string;
@@ -65,6 +68,18 @@ export interface IWebchatSettings {
   unreadMessageTitleTextPlural: string;
   userAvatarUrl: string;
   useSessionStorage: boolean;
+  sourceDirectionMapping: {
+    agent: TSourceDirection;
+    bot: TSourceDirection;
+    engagement: TSourceDirection;
+    user: TSourceDirection;
+  }
+  sourceColorMapping: {
+    agent: TSourceColor;
+    bot: TSourceColor;
+    engagement: TSourceColor;
+    user: TSourceColor;
+  }
 }
 
 export interface IWebchatConfig {

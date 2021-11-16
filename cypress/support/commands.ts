@@ -24,8 +24,12 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('visitBuild', () => {
-    cy.visit('/');
+Cypress.Commands.add('visitWebchat', () => {
+    cy.visit('/webchat.test.html');
+});
+
+Cypress.Commands.add('visitMessageRenderer', () => {
+    cy.visit('/message-renderer.test.html');
 });
 
 const defaultEndpointResponse = {
@@ -38,6 +42,7 @@ Cypress.Commands.add('initMockWebchat', (embeddingOptions = {}, endpointResponse
     cy.route2('GET', 'http://endpoint-mock.cognigy.ai/asdfqwer', endpointResponse);
 
     cy.window().then(window => {
+        // @ts-ignore
         return window.initWebchat('http://endpoint-mock.cognigy.ai/asdfqwer', embeddingOptions);
     }).as('webchat');
 });
@@ -64,6 +69,14 @@ Cypress.Commands.add('receiveMessage', (text?: string, data?: Object, source: 'b
             }
         });
         return cy.window()
+    });
+});
+
+Cypress.Commands.add('receiveMessageFixture', (filename: string) => {
+    cy.fixture(`messages/${filename}.json`).then(message => {
+        const { text = null, data = {}, source = 'bot' } = message;
+
+        return cy.receiveMessage(text, data, source);
     });
 });
 
@@ -96,3 +109,19 @@ Cypress.Commands.add('withMessageFixture', (filename: string, callbackFunc: () =
         }
     });
 }); 
+
+Cypress.Commands.add('renderMessage', (text: string, data: any, source: string, config: any) => {
+    cy.window().then(window => {
+        const root = window.document.createElement("div");
+        window.document.body.appendChild(root);
+
+        // @ts-ignore
+        window.MessageRenderer.renderMessage(
+          { text, data, source },
+          root,
+          config
+        );
+    });
+
+    return cy.window();
+});

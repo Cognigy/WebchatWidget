@@ -9,8 +9,9 @@ import { getMessengerListTemplateHeaderElement } from './components/MessengerLis
 import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
 import { useEffect } from 'react';
 import { useRandomId } from '../../../../../common/utils/randomId';
+import { IWithMessageColor } from '../../interfaces/MessageColor.interface';
 
-export interface IMessengerListTemplateProps extends IWithFBMActionEventHandler {
+export interface IMessengerListTemplateProps extends IWithFBMActionEventHandler, IWithMessageColor {
     payload: IFBMListTemplatePayload;
     config: IWebchatConfig;
 }
@@ -22,7 +23,7 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
     const MessengerButton = getMessengerButton({ React, styled });
     const Divider = getDivider({ React, styled });
 
-    const MessengerListTemplate = ({ payload, onAction, config, ...divProps }: IMessengerListTemplateProps & React.HTMLProps<HTMLDivElement>) => {
+    const MessengerListTemplate = ({ payload, onAction, config, messageColor, ...divProps }: IMessengerListTemplateProps & React.HTMLProps<HTMLDivElement>) => {
         const { elements, top_element_style, buttons } = payload;
 
         // We support the "large" string to maintain compatibility with old format
@@ -60,6 +61,7 @@ export const getMessengerListTemplate = ({ React, styled }: MessagePluginFactory
                         element={headerElement}
                         onAction={onAction}
                         config={config}
+                        messageColor={messageColor}
                     />
                 )}
                 {regularElements.map((element, index) => (
