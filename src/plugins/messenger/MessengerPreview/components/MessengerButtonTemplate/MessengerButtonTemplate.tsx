@@ -58,8 +58,6 @@ export const getMessengerButtonTemplate = ({
 
         const __html = config.settings.disableHtmlContentSanitization ? text : sanitizeHTML(text);
 
-        console.log({ color });
-
         return (
             <MessengerButtonHeader {...divProps} color={color} className="webchat-buttons-template-root">
                 {text && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{ __html }} id={webchatButtonTemplateTextId} />}
