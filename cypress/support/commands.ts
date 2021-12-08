@@ -47,6 +47,13 @@ Cypress.Commands.add('initMockWebchat', (embeddingOptions = {}, endpointResponse
     }).as('webchat');
 });
 
+Cypress.Commands.add('initWebchat', (embeddingOptions, endpointUrl = 'https://endpoint-trial.cognigy.ai/5e51fcdc2c10fe4c5267c8a798a7134086f60b62998062af620ed73b096e25bd') => {
+    cy.window().then(window => {
+        // @ts-ignore
+        return window.initWebchat(endpointUrl, embeddingOptions);
+    }).as('webchat');
+});
+
 Cypress.Commands.add('getWebchat', () => {
     cy.get('@webchat');
 });
@@ -71,6 +78,22 @@ Cypress.Commands.add('receiveMessage', (text?: string, data?: Object, source: 'b
         return cy.window()
     });
 });
+
+Cypress.Commands.add('sendMessage', (text?: string, data?: Object, source: 'bot' | 'agent' | 'user' = 'user', options = {}) => {
+    cy.get('@webchat').then(webchat => {
+        (webchat as any).store.dispatch({
+            type: 'SEND_MESSAGE',
+            message: {
+                text,
+                data,
+                source
+            },
+            options
+        });
+
+        return cy.window();
+    });
+})
 
 Cypress.Commands.add('receiveMessageFixture', (filename: string) => {
     cy.fixture(`messages/${filename}.json`).then(message => {
