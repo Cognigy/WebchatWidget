@@ -40,7 +40,6 @@ describe('Persistent History', () => {
     });
 
     it('restores a persisted history from SessionStorage when using useSessionStorage', () => {
-
         cy.visitWebchat();
 
         const options = {

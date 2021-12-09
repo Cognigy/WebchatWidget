@@ -56,7 +56,6 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
     let settings: Partial<WebchatSettings> = {};
     if (options && options.settings) {
         settings = options.settings;
-        options.settings = undefined;
     }
 
     const webchatRoot = document.createElement('div');
