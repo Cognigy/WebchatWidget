@@ -8,9 +8,7 @@ describe('Persistent History', () => {
 
     it('restores a persistent history from LocalStorage', () => {
         const localOptions = {
-            userId: `user-${Math.floor(Math.random() * Date.now())}`,
             sessionId: `session-${Math.floor(Math.random() * Date.now())}`,
-            channel: `channel-${Math.floor(Math.random() * Date.now())}`
         };
 
         cy.visitWebchat();
@@ -43,9 +41,7 @@ describe('Persistent History', () => {
         cy.visitWebchat();
 
         const options = {
-            userId: `user-${Math.floor(Math.random() * Date.now())}`,
             sessionId: `session-${Math.floor(Math.random() * Date.now())}`,
-            channel: `channel-${Math.floor(Math.random() * Date.now())}`,
             settings: {
                 useSessionStorage: true
             }
