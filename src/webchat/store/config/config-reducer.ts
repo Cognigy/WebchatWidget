@@ -114,6 +114,10 @@ export const config: Reducer<
           sourceDirectionMapping: {
             ...state.settings.sourceDirectionMapping,
             ...action.config.settings?.sourceDirectionMapping,
+          },
+          sourceColorMapping: {
+            ...state.settings.sourceColorMapping,
+            ...action.config.settings?.sourceColorMapping
           }
         },
       };
@@ -124,6 +128,14 @@ export const config: Reducer<
         settings: {
           ...state.settings,
           ...action.payload,
+          sourceDirectionMapping: {
+            ...state.settings.sourceDirectionMapping,
+            ...action.payload?.sourceDirectionMapping,
+          },
+          sourceColorMapping: {
+            ...state.settings.sourceColorMapping,
+            ...action.payload?.sourceColorMapping
+          }
         },
       };
     }
