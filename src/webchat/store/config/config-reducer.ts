@@ -85,6 +85,13 @@ export const getInitialState = (): ConfigState => ({
   },
 });
 
+export const APPLY_WEBCHAT_SETTINGS_OVERRIDES = "APPLY_WEBCHAT_SETTINGS_OVERRIDES";
+export const applyWebchatSettingsOverrides = (payload: Partial<IWebchatSettings>) => ({
+  type: APPLY_WEBCHAT_SETTINGS_OVERRIDES as "APPLY_WEBCHAT_SETTINGS_OVERRIDES",
+  payload,
+});
+export type ApplyWebchatSettingsOverridesAction = ReturnType<typeof applyWebchatSettingsOverrides>;
+
 export const SET_CONFIG = "SET_CONFIG";
 export const setConfig = (config: ConfigState) => ({
   type: SET_CONFIG as "SET_CONFIG",
@@ -101,7 +108,7 @@ export type UpdateSettingsAction = ReturnType<typeof updateSettings>;
 
 export const config: Reducer<
   ConfigState,
-  SetConfigAction | UpdateSettingsAction
+  SetConfigAction | UpdateSettingsAction | ApplyWebchatSettingsOverridesAction
 > = (state = getInitialState(), action) => {
   switch (action.type) {
     case "SET_CONFIG": {
@@ -114,16 +121,30 @@ export const config: Reducer<
           sourceDirectionMapping: {
             ...state.settings.sourceDirectionMapping,
             ...action.config.settings?.sourceDirectionMapping,
+          },
+          sourceColorMapping: {
+            ...state.settings.sourceColorMapping,
+            ...action.config.settings?.sourceColorMapping
           }
         },
       };
     }
+
+    case "APPLY_WEBCHAT_SETTINGS_OVERRIDES":
     case "UPDATE_SETTINGS": {
       return {
         ...state,
         settings: {
           ...state.settings,
           ...action.payload,
+          sourceDirectionMapping: {
+            ...state.settings.sourceDirectionMapping,
+            ...action.payload?.sourceDirectionMapping,
+          },
+          sourceColorMapping: {
+            ...state.settings.sourceColorMapping,
+            ...action.payload?.sourceColorMapping
+          }
         },
       };
     }

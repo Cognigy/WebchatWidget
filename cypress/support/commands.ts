@@ -26,10 +26,14 @@
 
 Cypress.Commands.add('visitWebchat', () => {
     cy.visit('/webchat.test.html');
+
+    return cy.then(() => {});
 });
 
 Cypress.Commands.add('visitMessageRenderer', () => {
     cy.visit('/message-renderer.test.html');
+
+    return cy.then(() => {});
 });
 
 const defaultEndpointResponse = {
@@ -39,20 +43,27 @@ const defaultEndpointResponse = {
 }
 
 Cypress.Commands.add('initMockWebchat', (embeddingOptions = {}, endpointResponse = defaultEndpointResponse) => {
-    cy.route2('GET', 'http://endpoint-mock.cognigy.ai/asdfqwer', endpointResponse);
+    cy.intercept('GET', 'http://endpoint-mock.cognigy.ai/asdfqwer', endpointResponse);
 
-    cy.window().then(window => {
+    return cy.window().then(window => {
         // @ts-ignore
         return window.initWebchat('http://endpoint-mock.cognigy.ai/asdfqwer', embeddingOptions);
     }).as('webchat');
 });
 
+Cypress.Commands.add('initWebchat', (embeddingOptions, endpointUrl = 'https://endpoint-trial.cognigy.ai/5e51fcdc2c10fe4c5267c8a798a7134086f60b62998062af620ed73b096e25bd') => {
+    return cy.window().then(window => {
+        // @ts-ignore
+        return window.initWebchat(endpointUrl, embeddingOptions);
+    }).as('webchat');
+});
+
 Cypress.Commands.add('getWebchat', () => {
-    cy.get('@webchat');
+    return cy.get('@webchat');
 });
 
 Cypress.Commands.add('openWebchat', () => {
-    cy.getWebchat().then(webchat => {
+    return cy.getWebchat().then(webchat => {
         webchat.open()
     });
 });
@@ -68,9 +79,26 @@ Cypress.Commands.add('receiveMessage', (text?: string, data?: Object, source: 'b
                 source
             }
         });
-        return cy.window()
     });
+
+    return cy.then(() => {});
 });
+
+Cypress.Commands.add('sendMessage', (text?: string, data?: Object, source: 'bot' | 'agent' | 'user' = 'user', options = {}) => {
+    cy.get('@webchat').then(webchat => {
+        (webchat as any).store.dispatch({
+            type: 'SEND_MESSAGE',
+            message: {
+                text,
+                data,
+                source
+            },
+            options
+        });
+    });
+
+    return cy.then(() => {});
+})
 
 Cypress.Commands.add('receiveMessageFixture', (filename: string) => {
     cy.fixture(`messages/${filename}.json`).then(message => {
@@ -78,6 +106,8 @@ Cypress.Commands.add('receiveMessageFixture', (filename: string) => {
 
         return cy.receiveMessage(text, data, source);
     });
+
+    return cy.then(() => {});
 });
 
 /**
@@ -108,6 +138,8 @@ Cypress.Commands.add('withMessageFixture', (filename: string, callbackFunc: () =
             cy.receiveMessage(json?.text ?? null, json?.data ?? {}, 'bot').then(callbackFunc);
         }
     });
+
+    return cy.then(() => {});
 }); 
 
 Cypress.Commands.add('renderMessage', (text: string, data: any, source: string, config: any) => {
@@ -123,5 +155,5 @@ Cypress.Commands.add('renderMessage', (text: string, data: any, source: string, 
         );
     });
 
-    return cy.window();
+    return cy.then(() => {});
 });

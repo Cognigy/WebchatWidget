@@ -3,6 +3,7 @@ describe('Source Color Mapping', () => {
         cy.visitWebchat().initMockWebchat().openWebchat();
         cy.window().then(window => {
             cy.getWebchat().then(webchat => {
+                // @ts-ignore
                 window.webchat = webchat;
             });
         })

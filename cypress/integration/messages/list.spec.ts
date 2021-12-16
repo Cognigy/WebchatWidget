@@ -32,9 +32,10 @@ describe("Message with List", () => {
 
     it("should render top element of the list small", () => {
         cy.fixture("messages/list.json").then(list => {
-            list.data._cognigy._webchat.message.attachment.payload.top_element_style = "compaact";
+            list.data._cognigy._webchat.message.attachment.payload.top_element_style = "compact";
             cy.receiveMessage(null, list.data);
-            cy.get(".webchat-list-template-header > div").should("not.have.css", "background-image")
+            cy.get('.webchat-list-template-root').should('be.visible');
+            cy.get(".webchat-list-template-header").should("not.exist");
         })
     })
 

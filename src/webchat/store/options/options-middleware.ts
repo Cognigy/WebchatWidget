@@ -3,7 +3,6 @@ import { getOptionsKey } from "./options";
 import { StoreState } from "../store";
 import { SetOptionsAction } from "./options-reducer";
 import { resetState } from "../reducer";
-import { triggerInjectionMessage } from "../messages/message-middleware";
 
 type Actions = SetOptionsAction
 

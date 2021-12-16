@@ -1,6 +1,6 @@
 import { Middleware } from "redux";
 import { StoreState } from "../store";
-import { setConfig, ConfigState } from "./config-reducer";
+import { setConfig, ConfigState, applyWebchatSettingsOverrides } from "./config-reducer";
 import { fetchWebchatConfig } from "../../helper/endpoint";
 import { IWebchatSettings } from "../../../common/interfaces/webchat-config";
 
@@ -20,6 +20,13 @@ export const createConfigMiddleware = (url: string, overrideWebchatSettings?: IW
     switch (action.type) {
         case 'LOAD_CONFIG': {
             // we might want to check whether we need to fetch the config
+
+            // this needs to be applied in order to make sure we're restoring from/to the correct store
+            // according to the embedding settings to avoid a race condition where the "default value" (local storage)
+            // is used in case the config was not fetched yet
+            if (overrideWebchatSettings) {
+                store.dispatch(applyWebchatSettingsOverrides(overrideWebchatSettings));
+            }
 
             (async () => {
                 const endpointConfig = await fetchWebchatConfig(url);
