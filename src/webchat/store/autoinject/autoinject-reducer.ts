@@ -1,6 +1,7 @@
 import { Reducer } from "redux";
 import { SetConfigAction } from '../config/config-reducer';
 import { SetConnectedAction } from '../connection/connection-reducer';
+import { SetOptionsAction } from "../options/options-reducer";
 import { ResetStateAction } from "../reducer";
 import { SetOpenAction } from '../ui/ui-reducer';
 
@@ -26,7 +27,7 @@ export const autoInjectHandled = () => ({
 });
 export type TAutoInjectTriggeredAction = ReturnType<typeof autoInjectHandled>;
 
-export type TAutoInjectAction = SetConnectedAction | SetOpenAction | SetConfigAction | ResetStateAction | TTriggerAutoInjectAction | TAutoInjectTriggeredAction;
+export type TAutoInjectAction = SetConnectedAction | SetOpenAction | SetOptionsAction | SetConfigAction | TTriggerAutoInjectAction | TAutoInjectTriggeredAction;
 
 /**
  * This reducer collects and manages information about
