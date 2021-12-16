@@ -16,7 +16,7 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
     switch (action.type) {
         case 'SET_OPTIONS': {
             // TODO decouple this into a separate action or middleware handler
-            if (browserStorage) {
+            if (browserStorage && !disableLocalStorage) {
                 const key = getOptionsKey(action.options);
                 const persistedString = browserStorage.getItem(key);
 

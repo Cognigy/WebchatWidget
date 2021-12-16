@@ -40,7 +40,11 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
 
     // if no specific userId is provided, try to load one from localStorage/sessionStorage, otherwise generate one and persist it in localStorage/sessionStorage
     if ((!options || !options.userId) && browserStorage) {
-        let userId = browserStorage.getItem('userId');
+        let userId;
+        
+        if (!disableLocalStorage) {
+            userId = browserStorage.getItem('userId');
+        }
 
         if (!userId) {
             userId = uuid.v4();
