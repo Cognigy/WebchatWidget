@@ -1,10 +1,17 @@
 describe('Persistent History', () => {
-    before(() => {
+    beforeEach(() => {
         cy.window().then(window => {
             window.localStorage.clear();
             window.sessionStorage.clear();
         });
-    });
+
+        // enforce a race condition
+        cy.intercept('https://endpoint-trial.cognigy.ai/5e51fcdc2c10fe4c5267c8a798a7134086f60b62998062af620ed73b096e25bd', req => {
+            req.continue(res => {
+                res.setDelay(1000);
+            });
+        });
+    })
 
     it('restores a persistent history from LocalStorage', () => {
         const localOptions = {

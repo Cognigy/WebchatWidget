@@ -39,6 +39,7 @@ describe("Message with Gallery", () => {
                 .get(".control-next")
         })
     })
+    
     it("should scroll on clicking scroll forward button ", () => {
         cy.withMessageFixture('gallery', () => {
             cy
@@ -51,7 +52,7 @@ describe("Message with Gallery", () => {
                 .contains("foobar004g3").should("not.be.visible")
                 .get(".control-next")
                 .click()
-                .contains("foobar004g2").should("be.not.visible")
+                .contains("foobar004g2").should("not.exist")
             cy
                 .contains("foobar004g3").should("be.visible")
 

@@ -42,7 +42,7 @@ describe('Engagement Message', () => {
             .wait(500)
             .window()
             .contains('engagement message text', { timeout: 500 })
-            .should('not.be.visible')
+            .should('not.exist');
     });
 
     it('should not trigger the engagement message if the webchat is open', () => {
