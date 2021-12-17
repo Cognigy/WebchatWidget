@@ -11,6 +11,7 @@ import '../plugins/messenger';
 import '../plugins/rating';
 import { Webchat } from '../webchat/components/Webchat';
 import { getRegisteredMessagePlugins, prepareMessagePlugins } from '../plugins/helper';
+import { getStorage } from '../webchat/helper/storage';
 
 
 type SocketOptions = React.ComponentProps<typeof Webchat>['options'];
@@ -34,9 +35,9 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
             : plugin
         );
 
-    const disableLocalStorage = options && options.settings && options.settings.disableLocalStorage;
-    const useSessionStorage = options && options.settings && options.settings.useSessionStorage;
-    const browserStorage = useSessionStorage ? sessionStorage : localStorage;
+    const disableLocalStorage = options?.settings?.disableLocalStorage ?? false;
+    const useSessionStorage = options?.settings?.useSessionStorage ?? false;
+    const browserStorage = getStorage({ disableLocalStorage, useSessionStorage });
 
     // if no specific userId is provided, try to load one from localStorage/sessionStorage, otherwise generate one and persist it in localStorage/sessionStorage
     if ((!options || !options.userId) && browserStorage) {
