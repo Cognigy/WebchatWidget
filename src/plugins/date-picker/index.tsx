@@ -7,10 +7,9 @@ import './flatpickr.css';
 
 // languages
 import l10n from './langHelper';
-import moment from 'moment';
 
-import { MessageComponentProps, MessagePlugin, MessagePluginFactory } from "../../common/interfaces/message-plugin";
-import { createMessagePlugin, registerMessagePlugin } from "../helper";
+import { MessageComponentProps, MessagePluginFactory } from "../../common/interfaces/message-plugin";
+import { registerMessagePlugin } from "../helper";
 import { IMessage } from "../../common/interfaces/message";
 
 const datePickerDaySelector = ".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay";
@@ -29,24 +28,6 @@ const getFlatpickrLocaleId = (locale: string) => {
     case 'gb':
     case 'au':
     case 'ca':
-      return 'en';
-  }
-
-  return locale;
-}
-
-/**
- * Transforms regional locales to flatpicks internal locale key
- */
-const getMomemtLocaleId = (locale: string) => {
-  switch (locale) {
-    case 'au':
-      return 'en-au';
-    case 'ca':
-      return 'en-ca';
-    case 'gb':
-      return 'en-gb';
-    case 'us':
       return 'en';
   }
 
@@ -179,7 +160,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     }
 
     static isWeekendDate(date: string) {
-      const isoWeekday = moment(date).isoWeekday();
+      const isoWeekday = (new Date(date).getDay()+6)%7 +1;
 
       switch (isoWeekday) {
         // 6 is saturday
@@ -195,13 +176,14 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     static transformNamedDate(namedDate: string) {
       switch (namedDate) {
         case "today":
-          return moment().format('YYYY-MM-DD');
+          // fr-CA is one of the few locales with a day format of YYYY-MM-DD
+          return new Intl.DateTimeFormat('fr-CA').format(new Date(namedDate));
 
         case "tomorrow":
-          return moment().add(1, 'days').format('YYYY-MM-DD');
+          return new Intl.DateTimeFormat('fr-CA').format(new Date().setDate(new Date(namedDate).getDate() +1));
 
         case "yesterday":
-          return moment().add(-1, 'days').format('YYYY-MM-DD');
+          return new Intl.DateTimeFormat('fr-CA').format(new Date().setDate(new Date(namedDate).getDate() -1));
       }
 
       return namedDate
@@ -216,7 +198,6 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         || undefined;
 
       const localeId = data.locale || 'us';
-      const momentLocaleId = getMomemtLocaleId(localeId);
       const flatpickrLocaleId = getFlatpickrLocaleId(localeId);
       let locale = l10n[flatpickrLocaleId];
       const enableTime = !!data.enableTime;
@@ -246,10 +227,10 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         mode: data.mode || 'single',
         static: true,
         time_24hr: data.time_24hr || false,
-        parseDate: dateString => moment(dateString).toDate(),
-        // if no custom formatting is defined, apply default formatting
+        parseDate: dateString => new Date(dateString),
+        // if no custom formatting is defined, apply default formatting. es-PA is MM/dd/yyyy
         formatDate: !data.dateFormat
-          ? date => moment(date).locale(momentLocaleId).format(enableTime ? 'L LT' : 'L')
+          ? date => new Intl.DateTimeFormat('es-PA',enableTime?{hour:'numeric',minute:'2-digit',year:'numeric',month:'2-digit',day:'2-digit'}:{}).format(date)
           : undefined
       };
 

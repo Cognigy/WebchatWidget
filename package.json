@@ -44,7 +44,6 @@
     "flatpickr": "^4.6.3",
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.21",
-    "moment": "^2.24.0",
     "path-parse": "^1.0.7",
     "react": "^16.12.0",
     "react-animate-height": "^2.0.17",
@@ -83,7 +82,7 @@
     "@types/whatwg-fetch": "0.0.33",
     "babel-loader": "^8.0.6",
     "babel-polyfill": "^6.26.0",
-    "css-loader": "^2.1.1",
+    "css-loader": "^6.5.1",
     "cypress": "^9.1.1",
     "http-server": "^0.13.0",
     "idempotent-babel-polyfill": "^7.4.4",
@@ -98,9 +97,9 @@
     "typescript": "^3.7.2",
     "url-loader": "^4.1.1",
     "url-polyfill": "^1.1.7",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.9.0",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0",
     "whatwg-fetch": "^3.0.0"
   }
 }
