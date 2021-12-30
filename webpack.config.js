@@ -1,4 +1,8 @@
-var path = require("path");
+const path = require("path");
+const toPath = (filePath) => path.join(process.cwd(), filePath);
+const TerserPlugin = require("terser-webpack-plugin");
+const zlib = require("zlib");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
 	mode: "development",
@@ -9,9 +13,13 @@ module.exports = {
 	},
 	resolve: {
 		extensions: [".ts", ".tsx", ".js", ".json"],
+		alias: {
+			"@emotion/core": toPath("node_modules/@emotion/react"),
+			"emotion-theming": toPath("node_modules/@emotion/react"),
+		},
 	},
 	node: {},
-	// devtool: 'source-map',
+	devtool: "source-map",
 	module: {
 		rules: [
 			{
@@ -45,8 +53,37 @@ module.exports = {
 			},
 		],
 	},
-	plugins: [],
+	plugins: [
+		new CompressionPlugin({
+			filename: "[path][base].gz",
+			algorithm: "gzip",
+			test: /\.(js|css|html|svg|ts|tsx)$/,
+			threshold: 10240,
+			minRatio: 0.8,
+		}),
+		new CompressionPlugin({
+			filename: "[path][base].br",
+			algorithm: "brotliCompress",
+			test: /\.(js|css|html|svg|ts|tsx)$/,
+			compressionOptions: {
+				params: {
+					[zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+				},
+			},
+			threshold: 10240,
+			minRatio: 0.8,
+		}),
+	],
 	devServer: {
 		port: 8787,
+	},
+	optimization: {
+		minimize: true,
+		minimizer: [
+			new TerserPlugin({
+				extractComments: false,
+			}),
+		],
+		usedExports: true,
 	},
 };

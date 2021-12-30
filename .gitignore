@@ -1,6 +1,8 @@
 node_modules
 /lib/
 dist/*.js
+dist/*.br
+dist/*.gz
 dist/*.zip
 dist/*.webmanifest
 dist/index.html
