@@ -1,26 +1,22 @@
-import * as React from "react";
-import "./style.css";
-
-// Flatpickr Datepicker
+/* Node modules */
+import React, { FC, useState } from "react";
 import Flatpickr from "react-flatpickr";
-import "./flatpickr.css";
 
-// languages
+/* Custom modules */
 import l10n from "./langHelper";
-
+import { registerMessagePlugin } from "../helper";
+import { IMessage } from "../../common/interfaces/message";
 import {
 	MessageComponentProps,
 	MessagePluginFactory,
 } from "../../common/interfaces/message-plugin";
-import { registerMessagePlugin } from "../helper";
-import { IMessage } from "../../common/interfaces/message";
+
+/* CSS */
+import "./style.css";
+import "./flatpickr.css";
 
 const datePickerDaySelector =
 	".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay";
-
-interface IState {
-	msg: string;
-}
 
 /**
  * Transforms regional locales to flatpicks internal locale key
@@ -126,40 +122,41 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
 	const processedMessages: Set<string> = new Set();
 
-	class DatePicker extends React.Component<MessageComponentProps, IState> {
-		constructor(props) {
-			super(props);
-			this.state = {
-				msg: "",
-			};
-		}
+	const DatePicker: FC<MessageComponentProps> = (props) => {
+		const {
+			onSendMessage,
+			message,
+			config,
+			attributes,
+			isFullscreen,
+			onSetFullscreen,
+			onDismissFullscreen,
+		} = props;
 
-		handleSubmit = () => {
-			const { message } = this.props;
+		const [msg, setMsg] = useState("");
 
+		const handleSubmit = () => {
 			// close plugin if user didn't choose a date
-			if (this.state.msg.length > 0) {
+			if (msg.length > 0) {
 				if (message.source === "bot") processedMessages.add(message.traceId);
 
 				setTimeout(() => {
-					this.props.onSendMessage(this.state.msg),
+					onSendMessage(msg),
 						{
 							_plugin: "date-picker",
-							date: this.state.msg,
+							date: msg,
 						};
 				}, 300);
 			} else {
-				this.props.onDismissFullscreen();
+				onDismissFullscreen && onDismissFullscreen();
 			}
 		};
 
-		handleAbort = () => {
-			const { message } = this.props;
-
-			this.props.onDismissFullscreen();
+		const handleAbort = () => {
+			onDismissFullscreen && onDismissFullscreen();
 		};
 
-		static isWeekendDate(date: string) {
+		const isWeekendDate = (date: string) => {
 			const isoWeekday = ((new Date(date).getDay() + 6) % 7) + 1;
 
 			switch (isoWeekday) {
@@ -171,9 +168,9 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 			}
 
 			return false;
-		}
+		};
 
-		static transformNamedDate(namedDate: string) {
+		const transformNamedDate = (namedDate: string) => {
 			switch (namedDate) {
 				case "today":
 					// fr-CA is one of the few locales with a day format of YYYY-MM-DD
@@ -191,16 +188,16 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 			}
 
 			return namedDate;
-		}
+		};
 
-		static getOptionsFromMessage(message: IMessage) {
+		const getOptionsFromMessage = (message: IMessage) => {
 			const { data } = message.data._plugin;
-
+			console.log("data:", data);
 			const dateFormat = data.dateFormat || "YYYY-MM-DD";
 			const defaultDate =
-				DatePicker.transformNamedDate(data.defaultDate) ||
-				DatePicker.transformNamedDate(data.minDate) ||
-				undefined;
+				transformNamedDate(data.defaultDate) ||
+				transformNamedDate(data.minDate) ||
+				"";
 
 			const localeId = data.locale || "us";
 			const flatpickrLocaleId = getFlatpickrLocaleId(localeId);
@@ -229,8 +226,8 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 				event: data.eventName,
 				inline: true,
 				locale,
-				maxDate: DatePicker.transformNamedDate(data.maxDate) || "",
-				minDate: DatePicker.transformNamedDate(data.minDate) || "",
+				maxDate: transformNamedDate(data.maxDate) || "",
+				minDate: transformNamedDate(data.minDate) || "",
 				mode: data.mode || "single",
 				static: true,
 				time_24hr: data.time_24hr || false,
@@ -256,12 +253,12 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 			const mask: string[] = [...(data.enable_disable || [])]
 				// add special rule for weekends
 				.map((dateString) => {
-					if (dateString === "weekends") return DatePicker.isWeekendDate;
+					if (dateString === "weekends") return isWeekendDate;
 
 					return dateString;
 				})
 				// resolve relative date names like today, tomorrow or yesterday
-				.map(DatePicker.transformNamedDate);
+				.map(transformNamedDate);
 
 			if (!!data.wantDisable) {
 				// add date mask as blacklist
@@ -272,81 +269,72 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 			}
 
 			return options;
+		};
+
+		const dateButtonText =
+			message.data._plugin.data.openPickerButtonText || "pick date";
+		const cancelButtonText =
+			message.data._plugin.data.cancelButtonText || "cancel";
+		const submitButtonText =
+			message.data._plugin.data.submitButtonText || "submit";
+
+		const options = getOptionsFromMessage(message);
+
+		let datepickerWasOpen = false;
+		if (message.source === "bot") {
+			datepickerWasOpen = processedMessages.has(message.traceId);
 		}
-
-		render() {
-			const {
-				onSendMessage,
-				message,
-				config,
-				attributes,
-				isFullscreen,
-				onSetFullscreen,
-			} = this.props;
-
-			let dateButtonText =
-				message.data._plugin.data.openPickerButtonText || "pick date";
-			let cancelButtonText =
-				message.data._plugin.data.cancelButtonText || "cancel";
-			let submitButtonText =
-				message.data._plugin.data.submitButtonText || "submit";
-
-			const options = DatePicker.getOptionsFromMessage(message);
-
-			let datepickerWasOpen = false;
-			if (message.source === "bot") {
-				datepickerWasOpen = processedMessages.has(message.traceId);
-			}
-
-			if (!isFullscreen) {
-				if (datepickerWasOpen) {
-					return (
-						<OpenDatepickerButton type="button" disabled>
-							{dateButtonText}
-						</OpenDatepickerButton>
-					);
-				}
-
+		console.log("options:", options);
+		if (!isFullscreen) {
+			if (datepickerWasOpen) {
 				return (
-					<OpenDatepickerButton type="button" onClick={onSetFullscreen}>
+					<OpenDatepickerButton type="button" disabled>
 						{dateButtonText}
 					</OpenDatepickerButton>
 				);
 			}
 
 			return (
-				<DatePickerRoot {...attributes} className="webchat-plugin-date-picker">
-					<Header className="info webchat-plugin-date-picker-header">
-						<h2>{options.event}</h2>
-					</Header>
-					<Content className="webchat-plugin-date-picker-content">
-						<Flatpickr
-							onChange={(dates, msg) => {
-								this.setState({ msg });
-							}}
-							options={options}
-						/>
-					</Content>
-					<Footer className="webchat-plugin-date-picker-footer">
-						<CancelButton
-							type="button"
-							onClick={this.handleAbort}
-							className="cancelButton"
-						>
-							{cancelButtonText}
-						</CancelButton>
-						<SubmitButton
-							type="button"
-							onClick={this.handleSubmit}
-							className="submitButton"
-						>
-							{submitButtonText}
-						</SubmitButton>
-					</Footer>
-				</DatePickerRoot>
+				<OpenDatepickerButton type="button" onClick={onSetFullscreen}>
+					{dateButtonText}
+				</OpenDatepickerButton>
 			);
 		}
-	}
+
+		return (
+			<DatePickerRoot {...attributes} className="webchat-plugin-date-picker">
+				<Header className="info webchat-plugin-date-picker-header">
+					<h2>{options.event}</h2>
+				</Header>
+				<Content className="webchat-plugin-date-picker-content">
+					<Flatpickr
+						onChange={(dates, msg) => {
+							console.log("msg:", msg, "dates:", dates);
+							setMsg(msg);
+						}}
+						options={options}
+					/>
+				</Content>
+				<Footer className="webchat-plugin-date-picker-footer">
+					<CancelButton
+						type="button"
+						onClick={handleAbort}
+						className="cancelButton"
+					>
+						{cancelButtonText}
+					</CancelButton>
+					<SubmitButton
+						type="button"
+						onClick={handleSubmit}
+						className="submitButton"
+					>
+						{submitButtonText}
+					</SubmitButton>
+				</Footer>
+				<p>{JSON.stringify(options)}</p>
+			</DatePickerRoot>
+		);
+	};
 
 	const plugin = {
 		match: "date-picker",
