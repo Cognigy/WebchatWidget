@@ -1,7 +1,5 @@
 /// <reference path="../../support/index.d.ts" />
 
-import * as moment from "moment"
-
 describe("Date Picker", () => {
     beforeEach(() => {
         cy
@@ -44,8 +42,8 @@ describe("Date Picker", () => {
             cy
                 .contains("foobar012b3").click();
 
-						// Our default locale for english is "en-US"
-						const formattedDate = moment().format("MM/DD/YYYY");
+            // The Intl locale es-PA needs to be used for date format MM/DD/YYYY
+            const formattedDate = new Intl.DateTimeFormat('es-PA').format(new Date());
             cy.get(".regular-message.user").contains(formattedDate);
         })
     })
