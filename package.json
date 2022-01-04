@@ -31,7 +31,7 @@
     "test:cypress": "run-p -r cypress:serve cypress:run",
     "test:es5-legacy": "es-check es5 ./dist/*.legacy.js",
     "test": "npm run test:es5-legacy && npm run test:cypress",
-    "pretest": "npm run webchat && npm run date-picker && npm run message-renderer"
+    "pretest": "npm run bundle"
   },
   "dependencies": {
     "@braintree/sanitize-url": "^5.0.2",
