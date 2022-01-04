@@ -191,7 +191,9 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         this.setState({
             text: ''
         }, () => {
-            this.props.onSendMessage(text, null);
+            this.props.onSendMessage(text, null, {
+                collate: true
+            });
 
             if (this.inputRef.current)
                 this.inputRef.current.focus();
