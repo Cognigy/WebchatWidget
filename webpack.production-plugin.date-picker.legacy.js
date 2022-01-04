@@ -8,4 +8,8 @@ config.resolve.alias = {
 	react: path.resolve(__dirname, "alias/react"),
 };
 
+config.entry = "./src/plugins/date-picker/index.tsx";
+
+config.target = ['web', 'es5'];
+
 module.exports = config;
