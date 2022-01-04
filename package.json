@@ -28,8 +28,10 @@
     "cypress:open": "cypress open",
     "cypress:serve": "http-server -a localhost -p 8787 dist/",
     "cypress:run": "cypress run",
-    "test": "run-p -r cypress:serve cypress:run",
-    "pretest": "npm run webchat && npm run date-picker && npm run message-renderer"
+    "test:cypress": "run-p -r cypress:serve cypress:run",
+    "test:es5-legacy": "es-check es5 ./dist/*.legacy.js",
+    "test": "npm run test:es5-legacy && npm run test:cypress",
+    "pretest": "npm run bundle"
   },
   "dependencies": {
     "@braintree/sanitize-url": "^5.0.2",
@@ -85,6 +87,7 @@
     "babel-polyfill": "^6.26.0",
     "css-loader": "^2.1.1",
     "cypress": "^9.1.1",
+    "es-check": "^6.1.1",
     "http-server": "^0.13.0",
     "idempotent-babel-polyfill": "^7.4.4",
     "npm-run-all": "^4.1.5",
