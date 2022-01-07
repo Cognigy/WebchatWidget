@@ -11,6 +11,7 @@ config.devServer = {
     static: {
         directory: path.join(__dirname, 'dist'),
     },
+    port: 8787
 };
 
 config.output = {
