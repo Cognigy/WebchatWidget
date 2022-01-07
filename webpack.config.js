@@ -1,4 +1,7 @@
-var path = require('path');
+const path = require('path');
+const TerserPlugin = require("terser-webpack-plugin");
+const zlib = require("zlib");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
     mode: 'development',
@@ -10,9 +13,7 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json']
     },
-    node: {
-        Buffer: false
-    },
+    node: {},
     // devtool: 'source-map',
     module: {
         rules: [
@@ -50,8 +51,37 @@ module.exports = {
             }
         ],
     },
-    plugins: [],
+    plugins: [
+        new CompressionPlugin({
+			filename: "[path][base].gz",
+			algorithm: "gzip",
+			test: /\.(js|css|html|svg|ts|tsx)$/,
+			threshold: 10240,
+			minRatio: 0.8,
+		}),
+		new CompressionPlugin({
+			filename: "[path][base].br",
+			algorithm: "brotliCompress",
+			test: /\.(js|css|html|svg|ts|tsx)$/,
+			compressionOptions: {
+				params: {
+					[zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+				},
+			},
+			threshold: 10240,
+			minRatio: 0.8,
+		}),
+    ],
     devServer: {
         port: 8787
-    }
+    },
+	optimization: {
+		minimize: true,
+		minimizer: [
+			new TerserPlugin({
+				extractComments: false,
+			}),
+		],
+		usedExports: true,
+	},
 };
