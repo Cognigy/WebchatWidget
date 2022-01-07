@@ -1,5 +1,6 @@
 import { Reducer } from "redux";
 import { IMessage } from "../../../common/interfaces/message";
+import { SendMessageAction } from "../messages/message-middleware";
 
 export interface InputCollationState {
     messages: IMessage[];
@@ -22,7 +23,7 @@ export const submitCollatedMessages = () => ({
 });
 export type SubmitCollatedMessagesAction = ReturnType<typeof submitCollatedMessages>;
 
-type InputCollationAction = AddCollatedMessageAction | SubmitCollatedMessagesAction;
+type InputCollationAction = AddCollatedMessageAction | SubmitCollatedMessagesAction | SendMessageAction;
 
 export const inputCollation: Reducer<InputCollationState, InputCollationAction> = (state = getInitialState(), action) => {
     switch (action.type) {
@@ -33,7 +34,8 @@ export const inputCollation: Reducer<InputCollationState, InputCollationAction> 
             }
         }
 
-        case "SUBMIT_COLLATED_MESSAGES": {
+        case "SUBMIT_COLLATED_MESSAGES":
+        case "SEND_MESSAGE": {
             return {
                 ...state,
                 messages: []

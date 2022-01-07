@@ -55,7 +55,7 @@ export const createInputCollationMiddleware = (): Middleware<{}, StoreState> => 
                     if (!isCollateMessage) {
                         clearCollationTimeout();
                         next(sendMessage(getCollatedMessage()));
-                        break;
+                        return next(action);
                     }
 
                     clearCollationTimeout();
