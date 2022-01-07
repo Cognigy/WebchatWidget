@@ -10,6 +10,18 @@ To integrate the Webchat into a Website, you need to
 See it in action:  
 [![Edit Basic Implementation](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/basic-cognigy-webchat-embedding-ict1u?fontsize=14&hidenavigation=1&theme=dark)
 
+## Using File Compression
+
+The Webchat Widget offers compressed file versions that can be used to reduce the amount of data that is delivered to the user and reduce site loading time.
+
+To use file compression you need to
+
+1. build the files using `npm run build`
+2. copy the `.js.gz` files for Gzip compression and `.js.br` for Brotli compression to the same folder you store your `.js` files in
+3. enable compression on your webserver
+
+compression can be enabled for most common web servers but the implementation depends on your used software, middleware and implementation.
+
 ## Using a Compatiblity Build
 
 For older browsers, we ship a seperate build of the Webchat called `webchat.legacy.js`, which comes with extra compatibility at the cost of increased size.
