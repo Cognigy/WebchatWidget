@@ -1,4 +1,4 @@
-import { ThemeProvider } from "emotion-theming";
+import { ThemeProvider } from "@emotion/react";
 import * as React from "react";
 import { FC, useMemo, useCallback } from "react";
 import { IMessage } from "../common/interfaces/message";

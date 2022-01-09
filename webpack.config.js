@@ -1,4 +1,5 @@
 const path = require('path');
+const toPath = (filePath) => path.join(process.cwd(), filePath);
 const TerserPlugin = require("terser-webpack-plugin");
 const zlib = require("zlib");
 const CompressionPlugin = require("compression-webpack-plugin");
@@ -11,7 +12,11 @@ module.exports = {
         filename: 'webchat.js'
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.json']
+        extensions: ['.ts', '.tsx', '.js', '.json'],
+        alias: {
+			"@emotion/core": toPath("node_modules/@emotion/react"),
+			"emotion-theming": toPath("node_modules/@emotion/react"),
+		},
     },
     node: {},
     // devtool: 'source-map',
