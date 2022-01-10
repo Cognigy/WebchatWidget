@@ -1,32 +1,59 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useCallback, useMemo, useState } from 'react';
 
 import { FC, useEffect, useRef } from "react";
-import { AdaptiveCard as MSAdaptiveCard, HostConfig } from 'adaptivecards';
+import { Action, AdaptiveCard as MSAdaptiveCard, CardElement, HostConfig, OpenUrlAction, ShowCardAction, SubmitAction } from 'adaptivecards';
 
 interface IAdaptiveCardProps {
-    payload: any;
-    hostConfig?: any;
+    hostConfig?: Partial<HostConfig>;
+    onExecuteAction?: (actionJson: any) => void;
+    payload?: boolean;
 }
 
+/**
+ * Inspired by Microsoft's (not publically released) adaptivecards-react package
+ * https://github.com/microsoft/AdaptiveCards/blob/5b66a52e0e0cee5074a42dcbe688d608e0327ae4/source/nodejs/adaptivecards-react/src/adaptive-card.tsx
+ */
 const AdaptiveCard: FC<IAdaptiveCardProps> = (props) => {
-    const { payload } = props;
+    const { payload, hostConfig, onExecuteAction } = props;
 
-    const [adaptiveCardInstance] = useState(() => new MSAdaptiveCard());
-    const wrapperRef = useRef<HTMLDivElement | null>();
+    const targetRef = useRef<HTMLDivElement>(null);
+    const cardRef = useRef<MSAdaptiveCard>(
+        new MSAdaptiveCard()
+    );
+    const executeAction = useCallback(
+        (a: Action) => {
+            onExecuteAction?.(a.toJSON());
+        },
+        [onExecuteAction]
+    );
 
     useEffect(() => {
-        adaptiveCardInstance.parse(payload);
+        cardRef.current.onExecuteAction = executeAction;
+    }, [executeAction]);
 
-        if (wrapperRef.current) {
-            const cardDOM = adaptiveCardInstance.render();
+    useEffect(() => {
+        cardRef.current.hostConfig = new HostConfig(hostConfig);
+    }, [hostConfig]);
 
-            if (cardDOM) {
-                wrapperRef.current.replaceChildren(cardDOM);
-            }
+    useEffect(() => {
+        if (!targetRef.current) {
+            return;
         }
-    }, [payload]);
+        const card = cardRef.current;
 
-    return <div ref={ref => wrapperRef.current = ref} />;
+        try {
+            card.parse(payload);
+            const result = card.render() as HTMLElement;
+            targetRef.current.innerHTML = '';
+            targetRef.current.appendChild(result);
+        } catch (cardRenderError) {
+            console.error('Unable to render Card', cardRenderError);
+        }
+    }, [hostConfig, payload]);
+
+    return (
+        <div ref={targetRef} />
+    );
 }
 
 export default memo(AdaptiveCard);

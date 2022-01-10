@@ -1,32 +1,41 @@
-import * as React from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import AdaptiveCard from './components/Adaptivecard'
 import { registerMessagePlugin } from '../helper';
 
 import { updateAdaptiveCardCSSCheaply } from './styles';
+import { Action, SubmitAction } from 'adaptivecards';
 
 const AdaptiveCards = (props) => {
     const { theme, onSendMessage, message } = props;
 
-    React.useEffect(() => {
+    useEffect(() => {
         updateAdaptiveCardCSSCheaply(theme);
     }, []);
 
     const cardPayload = message.data._plugin.payload;
 
-    const card = React.useMemo(() => {
-        // const onActionSubmit = (params) => {
-        //     onSendMessage("", { "adaptivecards": params && params.data });
-        // }
+    const onExecuteAction = useCallback((action) => {
+        switch (action.type) {
+            case "Action.Submit": {
+                onSendMessage("", {
+                    adaptivecards: action.data
+                });
 
-        // const hostConfig = {
-        //     "fontFamily": theme.fontFamily
-        // }
+                return;
+            }
+        }
+    }, [onSendMessage]);
+
+    const card = useMemo(() => {
+        const hostConfig = {
+            "fontFamily": theme.fontFamily
+        }
 
         return (
             <AdaptiveCard
                 payload={cardPayload}
-                // onActionSubmit={onActionSubmit}
-                // hostConfig={hostConfig}
+                onExecuteAction={onExecuteAction}
+                hostConfig={hostConfig}
             />
         );
     }, [cardPayload]);

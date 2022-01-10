@@ -24,6 +24,8 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+import 'cypress-wait-until';
+
 Cypress.Commands.add('visitWebchat', () => {
     cy.visit('/webchat.test.html');
 
@@ -47,7 +49,12 @@ Cypress.Commands.add('initMockWebchat', (embeddingOptions = {}, endpointResponse
 
     return cy.window().then(window => {
         // @ts-ignore
-        return window.initWebchat('http://endpoint-mock.cognigy.ai/asdfqwer', embeddingOptions);
+        return window.initWebchat('http://endpoint-mock.cognigy.ai/asdfqwer', embeddingOptions).then(webchat => {
+           // @ts-ignore
+            window.webchat = webchat;
+
+            return webchat;
+        });
     }).as('webchat');
 });
 
