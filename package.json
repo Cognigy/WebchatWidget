@@ -1,40 +1,40 @@
 {
-	"name": "@cognigy/webchat",
-	"version": "2.38.3",
-	"description": "Webchat Widget for Cognigy.AI",
-	"author": "Cognigy GmbH <info@cognigy.com>",
-	"contributors": [
-		"Robin Schuster <r.schuster@cognigy.com>"
-	],
-	"license": "SEE LICENSE IN LICENSE",
-	"main": "lib/webchat/index.js",
-	"scripts": {
-		"build": "npm run bundle",
-		"bundle": "npm run webchat && npm run webchat-legacy && npm run date-picker && npm run date-picker-legacy && npm run rating && npm run rating-legacy &&  npm run speech-input && npm run speech-input-legacy && npm run speech-output && npm run speech-output-legacy && npm run messenger && npm run messenger-legacy && npm run message-renderer",
-		"dev": "webpack-dev-server --config webpack.dev.js --host 0.0.0.0",
-		"message-renderer": "webpack --config webpack.message-renderer.production.js",
-		"date-picker-legacy": "webpack --config webpack.production-plugin.date-picker.legacy.js",
-		"date-picker": "webpack --config webpack.production-plugin.date-picker.js",
-		"messenger": "webpack --config webpack.production-plugin.messenger.js",
-		"messenger-legacy": "webpack --config webpack.production-plugin.messenger.legacy.js",
-		"rating-legacy": "webpack --config webpack.production-plugin.rating.legacy.js",
-		"rating": "webpack --config webpack.production-plugin.rating.js",
-		"speech-input-legacy": "webpack --config webpack.production-plugin.speech-input.legacy.js",
-		"speech-input": "webpack --config webpack.production-plugin.speech-input.js",
-		"speech-output-legacy": "webpack --config webpack.production-plugin.speech-output.legacy.js",
-		"speech-output": "webpack --config webpack.production-plugin.speech-output.js",
-		"webchat-legacy": "webpack --config webpack.production.legacy.js",
-		"webchat": "webpack --config webpack.production.js",
-		"cypress:open": "cypress open",
-		"cypress:serve": "http-server -a localhost -p 8787 dist/",
-		"cypress:run": "cypress run",
-		"test:cypress": "run-p -r cypress:serve cypress:run",
-		"test:es5-legacy": "es-check es5 ./dist/*.legacy.js",
-		"test": "npm run test:es5-legacy && npm run test:cypress",
-		"pretest": "npm run bundle"
-	},
-	"dependencies": {
-		"@braintree/sanitize-url": "^5.0.2",
+  "name": "@cognigy/webchat",
+  "version": "2.39.0",
+  "description": "Webchat Widget for Cognigy.AI",
+  "author": "Cognigy GmbH <info@cognigy.com>",
+  "contributors": [
+    "Robin Schuster <r.schuster@cognigy.com>"
+  ],
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "lib/webchat/index.js",
+  "scripts": {
+    "build": "npm run bundle",
+    "bundle": "npm run webchat && npm run webchat-legacy && npm run date-picker && npm run date-picker-legacy && npm run rating && npm run rating-legacy &&  npm run speech-input && npm run speech-input-legacy && npm run speech-output && npm run speech-output-legacy && npm run messenger && npm run messenger-legacy && npm run message-renderer",
+    "dev": "webpack-dev-server --config webpack.dev.js --host 0.0.0.0",
+    "message-renderer": "webpack --config webpack.message-renderer.production.js",
+    "date-picker-legacy": "webpack --config webpack.production-plugin.date-picker.legacy.js",
+    "date-picker": "webpack --config webpack.production-plugin.date-picker.js",
+    "messenger": "webpack --config webpack.production-plugin.messenger.js",
+    "messenger-legacy": "webpack --config webpack.production-plugin.messenger.legacy.js",
+    "rating-legacy": "webpack --config webpack.production-plugin.rating.legacy.js",
+    "rating": "webpack --config webpack.production-plugin.rating.js",
+    "speech-input-legacy": "webpack --config webpack.production-plugin.speech-input.legacy.js",
+    "speech-input": "webpack --config webpack.production-plugin.speech-input.js",
+    "speech-output-legacy": "webpack --config webpack.production-plugin.speech-output.legacy.js",
+    "speech-output": "webpack --config webpack.production-plugin.speech-output.js",
+    "webchat-legacy": "webpack --config webpack.production.legacy.js",
+    "webchat": "webpack --config webpack.production.js",
+    "cypress:open": "cypress open",
+    "cypress:serve": "http-server -a localhost -p 8787 dist/",
+    "cypress:run": "cypress run",
+    "test:cypress": "run-p -r cypress:serve cypress:run",
+    "test:es5-legacy": "es-check es5 ./dist/*.legacy.js",
+    "test": "npm run test:es5-legacy && npm run test:cypress",
+    "pretest": "npm run bundle"
+  },
+  "dependencies": {
+    "@braintree/sanitize-url": "^5.0.2",
 		"@cognigy/socket-client": "^4.5.4",
 		"@emotion/cache": "^10.0.29",
 		"@emotion/react": "^11.7.1",
@@ -57,9 +57,9 @@
 		"stylis-rtl": "^1.0.1",
 		"tinycolor2": "^1.4.2",
 		"uifx": "^2.0.7"
-	},
-	"devDependencies": {
-		"@babel/cli": "^7.16.7",
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.7",
 		"@babel/core": "^7.16.7",
 		"@babel/plugin-proposal-class-properties": "^7.16.7",
 		"@babel/plugin-proposal-nullish-coalescing-operator": "^7.16.7",
@@ -104,5 +104,5 @@
 		"webpack-dev-server": "^4.7.2",
 		"whatwg-fetch": "^3.6.2",
 		"zlib": "^1.0.5"
-	}
+  }
 }
