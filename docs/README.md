@@ -18,3 +18,6 @@ Get notified and react to events that happen in the Webchat
 
 ## [Custom Avatars](./custom-avatars.md)
 Change the avatar of the bot or user during the conversation
+
+## [AdaptiveCards (preview)](./adaptivecards.md)
+Create customized and interactive card messages

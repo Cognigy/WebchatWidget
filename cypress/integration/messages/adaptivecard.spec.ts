@@ -1,6 +1,6 @@
 /// <reference path="../../support/index.d.ts" />
 
-describe("Message with Audio", () => {
+describe("Message with AdaptiveCard", () => {
     beforeEach(() => {
         cy
             .visitWebchat()
