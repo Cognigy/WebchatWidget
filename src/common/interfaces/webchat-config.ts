@@ -29,6 +29,7 @@ export interface IWebchatSettings {
   enableFocusTrap: boolean;
   enableGenericHTMLStyling: boolean;
   enableInjectionWithoutEmptyHistory: boolean;
+  enableInputCollation: boolean;
   enablePersistentMenu: boolean;
   enableRating: "always" | "once" | "onRequest";
   enableStrictMessengerSync: boolean;
@@ -47,8 +48,9 @@ export interface IWebchatSettings {
   getStartedText: string;
   headerLogoUrl: string;
   ignoreLineBreaks: boolean;
-  inputPlaceholder: string;
   inputAutogrowMaxRows: number;
+  inputCollationTimeout: number;
+  inputPlaceholder: string;
   messageDelay: number;
   /** TODO: this is the botAvatarUrl (rename for major) */
   messageLogoUrl: string;

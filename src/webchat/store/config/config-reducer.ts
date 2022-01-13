@@ -32,6 +32,7 @@ export const getInitialState = (): ConfigState => ({
     enableFocusTrap: false,
     enableGenericHTMLStyling: false,
     enableInjectionWithoutEmptyHistory: false,
+    enableInputCollation: false,
     enablePersistentMenu: false,
     enableRating: "onRequest",
     enableStrictMessengerSync: false,
@@ -50,8 +51,9 @@ export const getInitialState = (): ConfigState => ({
     getStartedText: "",
     headerLogoUrl: "",
     ignoreLineBreaks: false,
-    inputPlaceholder: "",
     inputAutogrowMaxRows: 5,
+    inputCollationTimeout: 1000,
+    inputPlaceholder: "",
     messageDelay: 1000,
     messageLogoUrl: "",
     persistentMenu: {

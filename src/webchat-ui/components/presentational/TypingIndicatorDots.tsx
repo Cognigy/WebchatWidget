@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { keyframes } from '@emotion/core';
+import { keyframes } from '@emotion/react';
 import { styled, IWebchatTheme } from '../../style';
 import tinycolor from 'tinycolor2';
 

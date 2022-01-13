@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { IMessage } from '../../common/interfaces/message';
 import Header from './presentational/Header';
-import { ThemeProvider } from 'emotion-theming';
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider, ThemeProvider } from '@emotion/react';
 import { IWebchatTheme, createWebchatTheme, styled } from '../style';
 import WebchatRoot from './presentational/WebchatRoot';
 import { History } from './history/History';

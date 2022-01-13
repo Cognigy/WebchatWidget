@@ -15,6 +15,7 @@ import { uiMiddleware } from './ui/ui-middleware';
 import { registerUiHandler } from './ui/ui-handler';
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import { createAutoInjectMiddleware } from './autoinject/autoinject-middleware';
+import { createInputCollationMiddleware } from './input-collation/input-collation-middleware';
 
 
 export type StoreState = StateType<typeof reducer>;
@@ -28,6 +29,7 @@ export const createWebchatStore = (webchat: Webchat, url: string, overrideWebcha
         composeWithDevTools(applyMiddleware(
             createAnalyticsMiddleware(webchat),
             createConnectionMiddleware(client),
+            createInputCollationMiddleware(),
             createMessageMiddleware(client),
             createConfigMiddleware(url, overrideWebchatSettings),
             createAutoInjectMiddleware(webchat),
