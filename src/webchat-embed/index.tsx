@@ -9,6 +9,7 @@ import '../plugins/get-started-button-input';
 import '../plugins/date-picker';
 import '../plugins/messenger';
 import '../plugins/rating';
+import '../plugins/adaptivecards';
 import { Webchat } from '../webchat/components/Webchat';
 import { getRegisteredMessagePlugins, prepareMessagePlugins } from '../plugins/helper';
 import { getStorage } from '../webchat/helper/storage';
