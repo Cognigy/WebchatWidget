@@ -1,7 +1,7 @@
 /// <reference path="../../support/index.d.ts" />
 
-import * as moment from "moment"
-import { formatDate, transformNamedDate } from "../../../src/plugins/date-picker/utils"
+import * as moment from "moment";
+import { formatDate, transformNamedDate } from "../../../src/plugins/date-picker/utils";
 
 describe("Date Picker", () => {
     beforeEach(() => {
