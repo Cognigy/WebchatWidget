@@ -47,6 +47,7 @@ export const getInitialState = (): ConfigState => ({
     engagementMessageText: "",
     focusInputAfterPostback: false,
     getStartedButtonText: "",
+    getStartedData: {},
     getStartedPayload: "",
     getStartedText: "",
     headerLogoUrl: "",
