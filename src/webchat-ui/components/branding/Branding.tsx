@@ -16,7 +16,12 @@ const Link = styled.a(({ theme }) => ({
 	
 	"&:focus":{		
 		outline: "none",
-		color: theme.primaryWeakColor,		
+		color: theme.primaryWeakColor,
+		"#cognigyBrandingLogo": {
+			"& path, & polygon": {
+				fill: theme.primaryWeakColor,
+			}			
+		}		
 	}
 }));
 
@@ -33,7 +38,7 @@ const URL = `https://www.cognigy.com/?utm_campaign=CognigyWebchatEmbedded&utm_me
 const Branding = () => (
     <Link href={URL} target="_blank" aria-label="Powered by Cognigy. Opens in new tab">
         Powered by
-        <Logo aria-hidden="true"/>
+        <Logo aria-hidden="true" id="cognigyBrandingLogo" />
     </Link>
 );
 
