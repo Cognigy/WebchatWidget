@@ -68,15 +68,13 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         const { children, disableBranding, ...props } = this.props;
 
         return (
-            <>
-                <div
-                    {...props}
-                    ref={this.rootRef}
-                >
-                    {children}
-                </div>
+            <div
+                {...props}
+                ref={this.rootRef}
+            >
+                {children}
                 {!disableBranding && <Branding />}
-            </>
+            </div>
         )
     }
 }

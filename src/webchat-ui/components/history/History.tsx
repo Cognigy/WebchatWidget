@@ -10,7 +10,6 @@ export const History = styled(ChatScroller)(({ theme }) => ({
         paddingBottom: theme.unitSize * 2,
     },
     "&:focus": {
-        outline: "none",
-        boxShadow: `inset 0 0 0 1px ${theme.primaryWeakColor}`,
+        outlineColor: theme.primaryWeakColor,
     }
 }));    

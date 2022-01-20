@@ -11,6 +11,7 @@ const Link = styled.a(({ theme }) => ({
     lineHeight: 1,
     marginTop: 'auto',
     padding: theme.unitSize * 2,
+    paddingBottom: 0,
     textAlign: 'center',
     textDecoration: 'none',
 	
