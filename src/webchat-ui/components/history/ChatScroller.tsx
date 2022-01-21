@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {styled} from '../../style';
 import Branding from '../branding/Branding'
 
 const CLIENT_HEIGHT_OFFSET = 16 + 70; // banner + typing indicator
@@ -13,8 +14,17 @@ interface IState {
     height: number;
 }
 
+const ChatLog = styled.div(({ theme }) => ({
+    paddingTop: theme.unitSize * 2,
+    paddingBottom: theme.unitSize,
+    "&:focus": {
+        outline: "none",
+    }
+}));
+
 export class ChatScroller extends React.Component<InnerProps, IState> {
     rootRef: React.RefObject<HTMLDivElement>;
+    wrapperRef: React.RefObject<HTMLDivElement>;
 
     constructor(props: InnerProps) {
         super(props);
@@ -24,6 +34,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         }
 
         this.rootRef = React.createRef();
+        this.wrapperRef = React.createRef();
     }
 
     scrollToBottom = () => {
@@ -64,15 +75,35 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         this.scrollToBottom();
     }
 
+    // Add outline to the parent element when Chat log receives focus
+    handleFocus = () => {
+        if(this.rootRef.current === document.activeElement) {
+            const chatLogWrapper = this.wrapperRef.current;
+            chatLogWrapper?.setAttribute("style", "outline: 1px auto black;");
+        }        
+    }
+
+    // Remove outline from the parent element when Chat log loses focus 
+    handleBlur = () => {
+        const chatLogWrapper = this.wrapperRef.current;
+        chatLogWrapper?.removeAttribute("style");
+    }
+
     render() {
-        const { children, disableBranding, ...props } = this.props;
+        const { children, disableBranding, className,  ...props } = this.props;
 
         return (
-            <div
-                {...props}
-                ref={this.rootRef}
-            >
-                {children}
+            <div className={className} ref={this.wrapperRef}>
+                {/* Focusable Chat log region*/}
+                <ChatLog
+                    {...props}
+                    ref={this.rootRef}
+                    onFocus={this.handleFocus}
+                    onBlur={this.handleBlur}
+                >
+                    {children}
+                </ChatLog>
+                {/* Branding Logo Link */}
                 {!disableBranding && <Branding />}
             </div>
         )

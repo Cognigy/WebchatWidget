@@ -10,7 +10,7 @@ const GetStartedButton = styled(Button)(({ theme }) => ({
     "&:focus": {
         outline: "none",
         boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`,
-        backgroundColor: theme.primaryWeakColor,
+        backgroundColor: theme.primaryStrongColor,
     }
 }));
 
