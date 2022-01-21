@@ -14,7 +14,7 @@ export default styled.div<IAlignmentProps & IVisibilityProps>(({ theme, align, h
     let paddingRight = theme.unitSize * 2;
     let flexDirection;
     let avatarStyles: any = {};
-    let visibility: "hidden" | "visible" = hide ? "hidden" : "visible";
+    const visibility: "hidden" | "visible" = hide ? "hidden" : "visible";
     
     switch (align) {
         case 'right': {

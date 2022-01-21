@@ -69,7 +69,7 @@ export const registerInputPlugin = (plugin: InputPlugin | InputPluginFactory) =>
 }
 
 export const getPluginsForMessage = (plugins: MessagePlugin[], config: IWebchatConfig) => (message: IMessage): MessagePlugin[] => {
-    let matchedPlugins: MessagePlugin[] = [];
+    const matchedPlugins: MessagePlugin[] = [];
     
     for (const plugin of plugins) {
         const isMatch = (plugin.match as MessageMatcher)(message, config);

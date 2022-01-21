@@ -39,13 +39,13 @@ export const registerMessageHandler = (store: Store, client: SocketClient) => {
             if (type === "request-rating") {
                 if (data && data.ratingCommentText) {
                     store.dispatch(setCustomRatingCommentText(data.ratingCommentText));
-                };
+                }
                 if (data && data.ratingTitleText) {
                     store.dispatch(setCustomRatingTitle(data.ratingTitleText));
-                };
+                }
 
                 store.dispatch(showRatingDialog(true));
-            };
+            }
         }
 
         store.dispatch(setTyping("remove"));

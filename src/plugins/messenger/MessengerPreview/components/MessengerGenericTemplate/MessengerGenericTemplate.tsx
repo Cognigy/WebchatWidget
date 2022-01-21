@@ -95,9 +95,9 @@ export const getMessengerGenericTemplate = ({
         IMessengerGenericTemplateProps & React.HTMLProps<HTMLDivElement>,
         IMessengerGenericTemplateState
         > {
-        carouselRootId: string = `webchatCarouselTemplateRoot-${uuid.v4()}`;
-        carouselContentId: string = `webchatCarouselContentButton-${uuid.v4()}`;
-        carouselButtonId: string = `webchatCarouselTemplateButton-${uuid.v4()}`;
+        carouselRootId = `webchatCarouselTemplateRoot-${uuid.v4()}`;
+        carouselContentId = `webchatCarouselContentButton-${uuid.v4()}`;
+        carouselButtonId = `webchatCarouselTemplateButton-${uuid.v4()}`;
 
         /**
          * Controlling the selectedItem state causes unexpected scroll behavior in IE11 and Edge 15 to 18. 

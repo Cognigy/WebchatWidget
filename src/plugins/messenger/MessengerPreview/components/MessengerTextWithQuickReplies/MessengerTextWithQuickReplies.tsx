@@ -95,7 +95,7 @@ export const getMessengerTextWithQuickReplies = ({
                     <QuickReplies className="webchat-quick-reply-template-replies-container" {...a11yProps}>
                         {(quick_replies as IFBMQuickReply[]).map((quickReply, index) => {
                             const { content_type } = quickReply;
-                            let label: string = "";
+                            let label = "";
                             let image: React.ReactNode;
 
                             switch (content_type) {

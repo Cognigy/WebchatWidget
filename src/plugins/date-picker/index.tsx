@@ -264,7 +264,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         // resolve relative date names like today, tomorrow or yesterday
         .map(DatePicker.transformNamedDate);
 
-      if (!!data.wantDisable) {
+      if (data.wantDisable) {
         // add date mask as blacklist
         options.disable = mask;
       } else if (mask.length > 0) {
@@ -280,9 +280,9 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       const { onSendMessage, message, config, attributes, isFullscreen, onSetFullscreen } = this.props;
 
 
-      let dateButtonText = message.data._plugin.data.openPickerButtonText || 'pick date';
-      let cancelButtonText = message.data._plugin.data.cancelButtonText || 'cancel';
-      let submitButtonText = message.data._plugin.data.submitButtonText || 'submit';
+      const dateButtonText = message.data._plugin.data.openPickerButtonText || 'pick date';
+      const cancelButtonText = message.data._plugin.data.cancelButtonText || 'cancel';
+      const submitButtonText = message.data._plugin.data.submitButtonText || 'submit';
 
       const options = DatePicker.getOptionsFromMessage(message);
 

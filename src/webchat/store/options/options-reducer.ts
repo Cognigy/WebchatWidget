@@ -20,9 +20,9 @@ export const options: Reducer<OptionsState, SetOptionsAction> = (state = getInit
     switch (action.type) {
         case 'SET_OPTIONS': {
             return action.options;
-        };
+        }
 
         default:
             return state;
-    };
+    }
 };

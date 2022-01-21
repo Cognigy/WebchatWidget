@@ -1,7 +1,7 @@
 import { IFBMButton, IFBMPostbackButton } from "../../../interfaces/Button.interface";
 
 export const getButtonLabel = (button: IFBMButton): string => {
-    let { title } = button as IFBMPostbackButton;
+    const { title } = button as IFBMPostbackButton;
 
     if (!title) {
         switch (button.type) {

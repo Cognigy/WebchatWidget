@@ -154,7 +154,7 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
 
         if (this.state.ratingValue === value) {
             nextValue = null;
-        };
+        }
 
         this.setState({
             ratingValue: nextValue,
@@ -290,6 +290,6 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
             </Wrapper>
         );
     }
-};
+}
 
 export default RatingDialog;

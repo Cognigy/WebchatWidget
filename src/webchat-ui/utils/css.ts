@@ -48,8 +48,8 @@ const meyerResetJss = {
 const prefixJssObject = (jssObject, selector = '') => {
     const ret = {}
 
-    for (let key in jssObject) {
-        let value = jssObject[key];
+    for (const key in jssObject) {
+        const value = jssObject[key];
 
         const newKey = key
             .split(',')

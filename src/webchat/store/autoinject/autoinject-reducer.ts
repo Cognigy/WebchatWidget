@@ -13,7 +13,7 @@ const getInitialState = () => ({
     isAutoInjectHandled: false
 });
 
-export interface IAutoInjectState extends ReturnType<typeof getInitialState> { }
+export type IAutoInjectState = ReturnType<typeof getInitialState>
 
 const TRIGGER_AUTO_INJECT = 'TRIGGER_AUTO_INJECT';
 export const triggerAutoInject = () => ({

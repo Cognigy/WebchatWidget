@@ -44,8 +44,8 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
                     hasGivenRating: action.state.rating.hasGivenRating,
                 }
             }, { type: '' })
-        };
-    };
+        }
+    }
 
     return rootReducer(state, action);
 };
