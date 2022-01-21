@@ -23,14 +23,11 @@ describe("Message with AdaptiveCard", () => {
             cy.get("#SteakOther textarea").type("Tender, please!");
             cy.contains("OK").click();
 
-            cy.waitUntil(() => cy.getWebchat().then(webchat =>
-                webchat.store.getState().messages.some(message =>
-                    JSON.stringify(message.data) === JSON.stringify({
-                        "adaptivecards": {
-                            "FoodChoice": "Steak"
-                        }
-                    })
-            )));
+            cy.getMessageFromHistory({ data: {
+                "adaptivecards": {
+                    "FoodChoice": "Steak"
+                }
+            }})
         });
     });
 });
