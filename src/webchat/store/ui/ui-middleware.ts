@@ -3,7 +3,7 @@ import { StoreState } from "../store";
 import { clearUnseenMessages } from "../unseen-messages/unseen-message-reducer";
 import { setOpen, ToggleOpenAction, SetOpenAction, SetPageVisibleAction } from "./ui-reducer";
 
-export const uiMiddleware: Middleware<{}, StoreState> = store => next => (action: ToggleOpenAction | SetOpenAction | SetPageVisibleAction) => {
+export const uiMiddleware: Middleware<unknown, StoreState> = store => next => (action: ToggleOpenAction | SetOpenAction | SetPageVisibleAction) => {
     switch (action.type) {
         case 'TOGGLE_OPEN': {
             const open = store.getState().ui.open;

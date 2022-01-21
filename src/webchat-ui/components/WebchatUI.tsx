@@ -11,7 +11,6 @@ import { MessagePlugin } from '../../common/interfaces/message-plugin';
 import FullScreenMessage from './history/FullScreenMessage';
 import Input from './plugins/InputPluginRenderer';
 import textInputPlugin from './plugins/input/text';
-import MessageRow from './presentational/MessageRow';
 import MessagePluginRenderer from './plugins/MessagePluginRenderer';
 import regularMessagePlugin from './plugins/message/regular';
 import { InputPlugin } from '../../common/interfaces/input-plugin';
@@ -113,6 +112,9 @@ const HistoryWrapper = styled(History)(({ theme }) => ({
     height: theme.blockSize
 }));
 
+const noOp = () => {
+    // does nothing!
+};
 export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElement> & WebchatUIProps, WebchatUIState> {
     state = {
         theme: createWebchatTheme(),
@@ -623,7 +625,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 onSendMessage={this.sendMessage}
                 config={config}
                 plugins={messagePlugins}
-                onSetFullscreen={() => { }}
+                onSetFullscreen={noOp}
                 onDismissFullscreen={onDismissFullscreenMessage}
                 message={fullscreenMessage as IMessage}
                 webchatTheme={this.state.theme}
@@ -647,7 +649,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         message={message}
                         onSendMessage={this.sendMessage}
                         onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}
-                        onDismissFullscreen={() => { }}
+                        onDismissFullscreen={noOp}
                         config={config}
                         plugins={messagePlugins}
                         webchatTheme={this.state.theme}

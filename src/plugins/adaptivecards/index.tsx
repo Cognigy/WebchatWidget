@@ -3,9 +3,9 @@ import AdaptiveCard from './components/Adaptivecard'
 import { registerMessagePlugin } from '../helper';
 
 import { updateAdaptiveCardCSSCheaply } from './styles';
-import { Action, SubmitAction } from 'adaptivecards';
+import { MessageComponentProps } from '../../common/interfaces/message-plugin';
 
-const AdaptiveCards = (props) => {
+const AdaptiveCards = (props: MessageComponentProps) => {
     const { theme, onSendMessage, message } = props;
 
     useEffect(() => {

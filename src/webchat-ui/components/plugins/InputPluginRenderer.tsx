@@ -30,7 +30,7 @@ const InputRoot = styled.div(({ theme }) => ({
     backgroundColor: 'white'
 }))
 
-export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInputMode, webchatTheme, onEmitAnalytics, ...props }: InputProps): JSX.Element => {
+const InputPluginRenderer: React.FC<InputProps> = ({ messages, config, onSendMessage, plugins, inputMode, onSetInputMode, webchatTheme, onEmitAnalytics, ...props }: InputProps): JSX.Element => {
     const results: any[] = [];
 
     const attributes = Object.keys(props).length > 0
@@ -93,3 +93,5 @@ export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInpu
         </InputRoot>
     )
 }
+
+export default InputPluginRenderer;

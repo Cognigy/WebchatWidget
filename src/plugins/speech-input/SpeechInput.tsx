@@ -9,12 +9,16 @@ interface ISpeechInputState {
 const getSpeechRecognition = (): SpeechRecognition | null => {
     try {
         return new SpeechRecognition();
-    } catch (e) { }
+    } catch (e) { 
+        console.error("Could not initialize speech recognition");
+    }
 
     try {
         // @ts-ignore
         return new webkitSpeechRecognition() as SpeechRecognition;
-    } catch (e) { }
+    } catch (e) {
+        console.error("Could not initialize webkit speech recognition");
+    }
 
     return null;
 }

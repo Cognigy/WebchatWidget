@@ -24,7 +24,7 @@ type announceNetworkOnAction = ReturnType<typeof announceNetworkOn>;
 
 
 // forwards messages to the socket
-export const createConnectionMiddleware = (client: SocketClient): Middleware<{}, StoreState> => store => next => (action: SetOpenAction | ToggleOpenAction | ConnectAction | SendMessageAction | SetPageVisibleAction | announceNetworkOnAction) => {
+export const createConnectionMiddleware = (client: SocketClient): Middleware<unknown, StoreState> => store => next => (action: SetOpenAction | ToggleOpenAction | ConnectAction | SendMessageAction | SetPageVisibleAction | announceNetworkOnAction) => {
     switch (action.type) {
         case 'CONNECT': {
             if (!client.connected && !store.getState().connection.connecting) {

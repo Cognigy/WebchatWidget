@@ -34,7 +34,7 @@ const FullWidthMessageRow = styled.div(({ theme }) => ({
   paddingBottom: theme.unitSize,
 }));
 
-export default ({
+const MessagePluginRenderer: React.FC<MessageProps> = ({
   message,
   config,
   onSendMessage,
@@ -46,7 +46,7 @@ export default ({
   onEmitAnalytics,
   hideAvatar,
   ...props
-}: MessageProps): JSX.Element => {
+}): JSX.Element => {
   const attributes = Object.keys(props).length > 0 ? props : undefined;
 
   const matchedPlugins = getPluginsForMessage(plugins, config)(message);
@@ -185,3 +185,5 @@ export default ({
     </>
   );
 };
+
+export default MessagePluginRenderer;

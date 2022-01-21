@@ -14,7 +14,7 @@ type InputCollationMiddlewareAction = SendMessageAction | SubmitCollatedMessages
  * IMPORTANT: this has to be loaded before the "message middleware" because it
  * intercepts actions
  */
-export const createInputCollationMiddleware = (): Middleware<{}, StoreState> => {
+export const createInputCollationMiddleware = (): Middleware<unknown, StoreState> => {
     let collationTimeout: NodeJS.Timeout | null = null;
 
     return store => {

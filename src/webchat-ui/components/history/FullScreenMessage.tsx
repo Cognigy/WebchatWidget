@@ -3,14 +3,16 @@ import { styled } from '../../style';
 
 import Message, { MessageProps } from '../plugins/MessagePluginRenderer';
 
-const FullscreenMessage = styled(Message)({
+const FullScreenMessageRoot = styled(Message)({
     flexGrow: 1,
     minHeight: 0
 });
 
-export default (props: MessageProps) => (
-    <FullscreenMessage
+const FullScreenMessage: React.FC<MessageProps> = (props) => (
+    <FullScreenMessageRoot
         {...props}
         isFullscreen={true}
     />
-)
+);
+
+export default FullScreenMessage;

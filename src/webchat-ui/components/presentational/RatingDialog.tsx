@@ -214,8 +214,7 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
          */
         if (event.target === this.sendRatingButtonRef?.current || 
             (isSendButtonDisabled && event.target === this.commentTextAreaRef?.current)) {
-            if (event.shiftKey && event.key === "Tab") {}
-            else if(event.key === "Tab") {
+            if (!(event.shiftKey && event.key === "Tab") && event.key === "Tab") {
                 event.preventDefault();
                 this.closeButtonInHeaderRef?.current?.focus();
             }

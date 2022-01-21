@@ -53,11 +53,12 @@ export const getAvatarForMessage = (message: IMessage, state: StoreState) => {
 }
 
 // forwards messages to the socket
-export const createMessageMiddleware = (client: SocketClient): Middleware<{}, StoreState> => store => next => (action: SendMessageAction | ReceiveMessageAction | TriggerEngagementMessageAction) => {
+export const createMessageMiddleware = (client: SocketClient): Middleware<unknown, StoreState> => store => next => (action: SendMessageAction | ReceiveMessageAction | TriggerEngagementMessageAction) => {
     switch (action.type) {
         case 'SEND_MESSAGE': {
             const { message, options } = action;
-            let { text, data } = message;
+            let { text } = message;
+            const { data } = message;
 
             if (!store.getState().config.settings.disableTextInputSanitization) {
                 text = sanitizeHTML(text || '');

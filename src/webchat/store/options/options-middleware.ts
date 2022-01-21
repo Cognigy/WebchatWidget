@@ -7,7 +7,7 @@ import { getStorage } from "../../helper/storage";
 
 type Actions = SetOptionsAction
 
-export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (action: Actions) => {
+export const optionsMiddleware: Middleware<unknown, StoreState> = store => next => (action: Actions) => {
     const key = getOptionsKey(store.getState().options);
     const { active } = store.getState().config; // Actual settings are loaded
     const { disableLocalStorage, disablePersistentHistory, useSessionStorage } = store.getState().config.settings;
@@ -26,7 +26,9 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
                         const persisted = JSON.parse(persistedString);
 
                         store.dispatch(resetState(persisted));
-                    } catch (e) { }
+                    } catch (e) { 
+                        console.warn("Unable to restore persisted session")
+                    }
                 }
             }
         }

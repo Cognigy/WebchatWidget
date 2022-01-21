@@ -17,6 +17,8 @@ export const registerTypingHandler = (store: Store, client: SocketClient) => {
             if (typingStatus) {
                 store.dispatch(setTyping(typingStatus));
             }
-        } catch (e) { }
+        } catch (e) {
+            console.warn("Unable to update typing status");
+        }
     });
 }

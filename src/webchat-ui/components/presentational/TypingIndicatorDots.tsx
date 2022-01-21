@@ -49,10 +49,12 @@ const Dot = styled.div(({ theme }) => ({
     },
 }));
 
-export default () => (
+const TypingIndicator = () => (
     <Container>
         <Dot />
         <Dot />
         <Dot />
     </Container>
-)
+);
+
+export default TypingIndicator;

@@ -52,7 +52,13 @@ const HeaderIconButton = styled(IconButton)(({ theme }) => ({
     }
 }));
 
-export default ({ isPermanent, onClose, onConnect }) => {
+interface IDisconnectOverlayProps {
+    isPermanent: boolean;
+    onClose: () => void;
+    onConnect: () => void;
+}
+
+const DisconnectOverlay: React.FC<IDisconnectOverlayProps> = ({ isPermanent, onClose, onConnect }) => {
     return (
         <Wrapper>
             <Dialog>
@@ -74,3 +80,5 @@ export default ({ isPermanent, onClose, onConnect }) => {
         </Wrapper>
     );
 };
+
+export default DisconnectOverlay;

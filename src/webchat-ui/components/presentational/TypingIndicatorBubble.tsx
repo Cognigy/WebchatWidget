@@ -18,7 +18,7 @@ const TypingIndicatorBubbleRoot = styled(MessageBubble)(({ theme }) => ({
     }
 }));
 
-export default ({ className, ...restProps }: React.ComponentProps<typeof TypingIndicatorBubbleRoot>) => (
+const TypingIndicatorBubble: React.FC<React.ComponentProps<typeof TypingIndicatorBubbleRoot> & { className: string }> = ({ className, ...restProps }) => (
     <TypingIndicatorBubbleRoot
         align='left'
         color='primary'
@@ -27,4 +27,6 @@ export default ({ className, ...restProps }: React.ComponentProps<typeof TypingI
     >
         <TypingIndicatorDots />
     </TypingIndicatorBubbleRoot>
-)
+);
+
+export default TypingIndicatorBubble;

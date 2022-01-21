@@ -7,7 +7,7 @@ export const getBackgroundImage = (url: string) => {
         .replace(/\n/g, '')
         .replace(/\r/g, '')
         // escape " and \
-        .replace(/\"\\/g, char => `\${char}`);
+        .replace(/"\\/g, char => `\\${char}`);
 
     return `url("${escapedUrl}")`
 };

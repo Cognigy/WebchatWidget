@@ -16,7 +16,7 @@ export const loadConfig = () => ({
 export type LoadConfigAction = ReturnType<typeof loadConfig>;
 
 // forwards messages to the socket
-export const createConfigMiddleware = (url: string, overrideWebchatSettings?: IWebchatSettings): Middleware<{}, StoreState> => store => next => (action: LoadConfigAction) => {
+export const createConfigMiddleware = (url: string, overrideWebchatSettings?: IWebchatSettings): Middleware<unknown, StoreState> => store => next => (action: LoadConfigAction) => {
     switch (action.type) {
         case 'LOAD_CONFIG': {
             // we might want to check whether we need to fetch the config

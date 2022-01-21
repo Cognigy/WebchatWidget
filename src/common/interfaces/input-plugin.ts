@@ -24,10 +24,6 @@ interface MatcherArgs {
 
 export type InputRule = (args: MatcherArgs) => boolean;
 
-export interface InputPluginOptions {
-    // fullscreen: boolean;
-    // passthrough: boolean;
-}
 
 type Component<P>  = ((props: P) => JSX.Element | null)
     | React.ComponentClass<P>;
@@ -41,7 +37,7 @@ interface InputPluginBase {
     name?: string;
     type: InputPluginType;
     component: InputComponent;
-    options?: Partial<InputPluginOptions>;
+    options?: Record<string, unknown>;
 }
 
 export interface RuleInputPlugin extends InputPluginBase {

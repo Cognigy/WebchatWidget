@@ -44,7 +44,7 @@ export const HOOKS: HookKey[] = [
   "onPreCalendarPosition",
 ];
 
-export type Plugin<E = {}> = (fp: Instance & E) => Options;
+export type Plugin<E = Record<string, unknown>> = (fp: Instance & E) => Options;
 
 export interface BaseOptions {
   /*
