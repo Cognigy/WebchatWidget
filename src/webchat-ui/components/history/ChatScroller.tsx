@@ -14,9 +14,7 @@ interface IState {
     height: number;
 }
 
-const ChatLog = styled.div(({ theme }) => ({
-    paddingTop: theme.unitSize * 2,
-    paddingBottom: theme.unitSize,
+const ChatLog = styled.div(() => ({
     "&:focus": {
         outline: "none",
     }
