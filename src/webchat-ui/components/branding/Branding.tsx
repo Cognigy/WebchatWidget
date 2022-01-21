@@ -37,7 +37,7 @@ const Logo = styled(CognigyLogo)(({ theme }) => ({
 const URL = `https://www.cognigy.com/?utm_campaign=CognigyWebchatEmbedded&utm_medium=webchat&utm_term=webchat&utm_content=webchat&utm_source=${window.location.hostname}`;
 
 const Branding = () => (
-    <Link href={URL} target="_blank" aria-label="Powered by Cognigy. Opens in new tab">
+    <Link href={URL} target="_blank" aria-label="Powered by Cognigy. Opens in new tab" id="cognigyBrandingLink">
         Powered by
         <Logo aria-hidden="true" id="cognigyBrandingLogo" />
     </Link>
