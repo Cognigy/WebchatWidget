@@ -1,5 +1,5 @@
-type TMessageDirection = 'incoming' | 'outgoing';
+type TMessageDirection = "incoming" | "outgoing";
 
 export interface IWithMessageDirection {
-    messageDirection: TMessageDirection;
+  messageDirection: TMessageDirection;
 }

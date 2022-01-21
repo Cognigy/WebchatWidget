@@ -10,7 +10,8 @@
 	COLOURS
 ********************************************/
 
-[data-cognigy-webchat-root] .carousel .control-arrow, .carousel.carousel-slider .control-arrow {
+[data-cognigy-webchat-root] .carousel .control-arrow,
+.carousel.carousel-slider .control-arrow {
   -webkit-transition: all 0.25s ease-in;
   -moz-transition: all 0.25s ease-in;
   -ms-transition: all 0.25s ease-in;
@@ -32,12 +33,13 @@
   filter: alpha(opacity=100);
 }
 
-[data-cognigy-webchat-root] .carousel .control-arrow:before, .carousel.carousel-slider .control-arrow:before {
+[data-cognigy-webchat-root] .carousel .control-arrow:before,
+.carousel.carousel-slider .control-arrow:before {
   margin: 0 5px;
   display: inline-block;
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
-  content: '';
+  content: "";
 }
 
 [data-cognigy-webchat-root] .carousel .control-disabled.control-arrow {
@@ -134,7 +136,8 @@
   outline: none;
 }
 
-[data-cognigy-webchat-root] .carousel .thumb.selected, .carousel .thumb:hover {
+[data-cognigy-webchat-root] .carousel .thumb.selected,
+.carousel .thumb:hover {
   border: 3px solid #333;
 }
 
@@ -157,7 +160,8 @@
   padding: 5px;
 }
 
-[data-cognigy-webchat-root] .carousel.carousel-slider .control-arrow:hover, [data-cognigy-webchat-root] .carousel.carousel-slider .control-arrow:focus {
+[data-cognigy-webchat-root] .carousel.carousel-slider .control-arrow:hover,
+[data-cognigy-webchat-root] .carousel.carousel-slider .control-arrow:focus {
   background: rgba(0, 0, 0, 0.2);
 }
 
@@ -182,7 +186,11 @@
   display: flex;
 }
 
-[data-cognigy-webchat-root] .carousel .slider-wrapper.axis-horizontal .slider .slide {
+[data-cognigy-webchat-root]
+  .carousel
+  .slider-wrapper.axis-horizontal
+  .slider
+  .slide {
   flex-direction: column;
   flex-flow: column;
 }
@@ -296,7 +304,8 @@
   margin: 0 8px;
 }
 
-[data-cognigy-webchat-root] .carousel .control-dots .dot.selected, .carousel .control-dots .dot:hover {
+[data-cognigy-webchat-root] .carousel .control-dots .dot.selected,
+.carousel .control-dots .dot:hover {
   opacity: 1;
   filter: alpha(opacity=100);
 }

@@ -3,8 +3,8 @@ export interface IPersistentMenuItem {
   payload: string;
 }
 
-export type TSourceDirection = 'incoming' | 'outgoing';
-export type TSourceColor = 'primary' | 'neutral';
+export type TSourceDirection = "incoming" | "outgoing";
+export type TSourceColor = "primary" | "neutral";
 
 export interface IWebchatSettings {
   agentAvatarUrl: string;
@@ -76,13 +76,13 @@ export interface IWebchatSettings {
     bot: TSourceDirection;
     engagement: TSourceDirection;
     user: TSourceDirection;
-  }
+  };
   sourceColorMapping: {
     agent: TSourceColor;
     bot: TSourceColor;
     engagement: TSourceColor;
     user: TSourceColor;
-  }
+  };
 }
 
 export interface IWebchatConfig {

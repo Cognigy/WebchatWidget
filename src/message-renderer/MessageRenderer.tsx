@@ -28,9 +28,9 @@ const MessageRenderer: FC<IMessageRendererProps> = (props) => {
       ...config,
       settings: {
         ...defaultConfig.settings,
-        ...config?.settings
-      }
-    }
+        ...config?.settings,
+      },
+    };
   }, [config]);
 
   const onEmitAnalytics = useCallback(console.log.bind(console), []);
@@ -48,9 +48,13 @@ const MessageRenderer: FC<IMessageRendererProps> = (props) => {
     return plugins;
   }, []);
 
-  const theme = useMemo(() => createWebchatTheme({
-    primaryColor: actualConfig.settings.colorScheme
-  }), [actualConfig.settings.colorScheme]);
+  const theme = useMemo(
+    () =>
+      createWebchatTheme({
+        primaryColor: actualConfig.settings.colorScheme,
+      }),
+    [actualConfig.settings.colorScheme]
+  );
 
   return (
     <ThemeProvider theme={theme}>

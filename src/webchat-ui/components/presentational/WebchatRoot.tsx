@@ -2,20 +2,20 @@ import { styled } from "../../style";
 import ResetCSS from "./ResetCSS";
 
 export default styled(ResetCSS)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
+  display: "flex",
+  flexDirection: "column",
 
-    backgroundColor: '#fafafa',
+  backgroundColor: "#fafafa",
 
-    overflow: 'hidden',
+  overflow: "hidden",
 
-    fontSize: 16,
+  fontSize: 16,
 
-    fontFamily: theme.fontFamily,
+  fontFamily: theme.fontFamily,
 
-    '&>.content': {
-        flexGrow: 1,
-        minHeight: 0,
-        overflowY: 'auto'
-    }
+  "&>.content": {
+    flexGrow: 1,
+    minHeight: 0,
+    overflowY: "auto",
+  },
 }));

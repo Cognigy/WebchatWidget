@@ -93,8 +93,7 @@ export default ({
   const direction = ((): TSourceDirection => {
     const configDirection = config.settings.sourceDirectionMapping[source];
 
-    if (configDirection) 
-      return configDirection;
+    if (configDirection) return configDirection;
 
     return "incoming";
   })();
@@ -102,10 +101,9 @@ export default ({
   const color = ((): TSourceColor => {
     const configColor = config.settings.sourceColorMapping[source];
 
-    if (configColor)
-      return configColor;
+    if (configColor) return configColor;
 
-    return 'neutral';
+    return "neutral";
   })();
 
   const align = direction === "incoming" ? "left" : "right";

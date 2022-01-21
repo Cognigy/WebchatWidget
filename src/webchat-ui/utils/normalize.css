@@ -39,11 +39,14 @@
   text-decoration: underline dotted;
 }
 
-[data-cognigy-webchat-root] b, [data-cognigy-webchat-root] strong {
+[data-cognigy-webchat-root] b,
+[data-cognigy-webchat-root] strong {
   font-weight: bolder;
 }
 
-[data-cognigy-webchat-root] code, [data-cognigy-webchat-root] kbd, [data-cognigy-webchat-root] samp {
+[data-cognigy-webchat-root] code,
+[data-cognigy-webchat-root] kbd,
+[data-cognigy-webchat-root] samp {
   font-family: monospace, monospace;
   font-size: 1em;
 }
@@ -52,7 +55,8 @@
   font-size: 80%;
 }
 
-[data-cognigy-webchat-root] sub, [data-cognigy-webchat-root] sup {
+[data-cognigy-webchat-root] sub,
+[data-cognigy-webchat-root] sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
@@ -71,31 +75,46 @@
   border-style: none;
 }
 
-[data-cognigy-webchat-root] button, [data-cognigy-webchat-root] input, [data-cognigy-webchat-root] optgroup, [data-cognigy-webchat-root] select, [data-cognigy-webchat-root] textarea {
+[data-cognigy-webchat-root] button,
+[data-cognigy-webchat-root] input,
+[data-cognigy-webchat-root] optgroup,
+[data-cognigy-webchat-root] select,
+[data-cognigy-webchat-root] textarea {
   font-family: inherit;
   font-size: 100%;
   line-height: 1.15;
   margin: 0;
 }
 
-[data-cognigy-webchat-root] button, [data-cognigy-webchat-root] input {
+[data-cognigy-webchat-root] button,
+[data-cognigy-webchat-root] input {
   overflow: visible;
 }
 
-[data-cognigy-webchat-root] button, [data-cognigy-webchat-root] select {
+[data-cognigy-webchat-root] button,
+[data-cognigy-webchat-root] select {
   text-transform: none;
 }
 
-[data-cognigy-webchat-root] button, [data-cognigy-webchat-root] [type="button"], [data-cognigy-webchat-root] [type="reset"], [data-cognigy-webchat-root] [type="submit"] {
+[data-cognigy-webchat-root] button,
+[data-cognigy-webchat-root] [type="button"],
+[data-cognigy-webchat-root] [type="reset"],
+[data-cognigy-webchat-root] [type="submit"] {
   -webkit-appearance: button;
 }
 
-[data-cognigy-webchat-root] button::-moz-focus-inner, [data-cognigy-webchat-root] [type="button"]::-moz-focus-inner, [data-cognigy-webchat-root] [type="reset"]::-moz-focus-inner, [data-cognigy-webchat-root] [type="submit"]::-moz-focus-inner {
+[data-cognigy-webchat-root] button::-moz-focus-inner,
+[data-cognigy-webchat-root] [type="button"]::-moz-focus-inner,
+[data-cognigy-webchat-root] [type="reset"]::-moz-focus-inner,
+[data-cognigy-webchat-root] [type="submit"]::-moz-focus-inner {
   border-style: none;
   padding: 0;
 }
 
-[data-cognigy-webchat-root] button:-moz-focusring, [data-cognigy-webchat-root] [type="button"]:-moz-focusring, [data-cognigy-webchat-root] [type="reset"]:-moz-focusring, [data-cognigy-webchat-root] [type="submit"]:-moz-focusring {
+[data-cognigy-webchat-root] button:-moz-focusring,
+[data-cognigy-webchat-root] [type="button"]:-moz-focusring,
+[data-cognigy-webchat-root] [type="reset"]:-moz-focusring,
+[data-cognigy-webchat-root] [type="submit"]:-moz-focusring {
   outline: 1px dotted ButtonText;
 }
 
@@ -120,12 +139,14 @@
   overflow: auto;
 }
 
-[data-cognigy-webchat-root] [type="checkbox"], [data-cognigy-webchat-root] [type="radio"] {
+[data-cognigy-webchat-root] [type="checkbox"],
+[data-cognigy-webchat-root] [type="radio"] {
   box-sizing: border-box;
   padding: 0;
 }
 
-[data-cognigy-webchat-root] [type="number"]::-webkit-inner-spin-button, [data-cognigy-webchat-root] [type="number"]::-webkit-outer-spin-button {
+[data-cognigy-webchat-root] [type="number"]::-webkit-inner-spin-button,
+[data-cognigy-webchat-root] [type="number"]::-webkit-outer-spin-button {
   height: auto;
 }
 

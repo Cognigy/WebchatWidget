@@ -74,26 +74,31 @@ export const getInitialState = (): ConfigState => ({
     userAvatarUrl: "",
     useSessionStorage: false,
     sourceDirectionMapping: {
-      agent: 'incoming',
-      bot: 'incoming',
-      engagement: 'incoming',
-      user: 'outgoing',
+      agent: "incoming",
+      bot: "incoming",
+      engagement: "incoming",
+      user: "outgoing",
     },
     sourceColorMapping: {
-      agent: 'primary',
-      bot: 'primary',
-      engagement: 'primary',
-      user: 'neutral',
-    }
+      agent: "primary",
+      bot: "primary",
+      engagement: "primary",
+      user: "neutral",
+    },
   },
 });
 
-export const APPLY_WEBCHAT_SETTINGS_OVERRIDES = "APPLY_WEBCHAT_SETTINGS_OVERRIDES";
-export const applyWebchatSettingsOverrides = (payload: Partial<IWebchatSettings>) => ({
+export const APPLY_WEBCHAT_SETTINGS_OVERRIDES =
+  "APPLY_WEBCHAT_SETTINGS_OVERRIDES";
+export const applyWebchatSettingsOverrides = (
+  payload: Partial<IWebchatSettings>
+) => ({
   type: APPLY_WEBCHAT_SETTINGS_OVERRIDES as "APPLY_WEBCHAT_SETTINGS_OVERRIDES",
   payload,
 });
-export type ApplyWebchatSettingsOverridesAction = ReturnType<typeof applyWebchatSettingsOverrides>;
+export type ApplyWebchatSettingsOverridesAction = ReturnType<
+  typeof applyWebchatSettingsOverrides
+>;
 
 export const SET_CONFIG = "SET_CONFIG";
 export const setConfig = (config: ConfigState) => ({
@@ -127,8 +132,8 @@ export const config: Reducer<
           },
           sourceColorMapping: {
             ...state.settings.sourceColorMapping,
-            ...action.config.settings?.sourceColorMapping
-          }
+            ...action.config.settings?.sourceColorMapping,
+          },
         },
       };
     }
@@ -146,8 +151,8 @@ export const config: Reducer<
           },
           sourceColorMapping: {
             ...state.settings.sourceColorMapping,
-            ...action.payload?.sourceColorMapping
-          }
+            ...action.payload?.sourceColorMapping,
+          },
         },
       };
     }

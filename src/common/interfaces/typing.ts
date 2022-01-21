@@ -1,1 +1,1 @@
-export type TTyping = 'show' | 'hide' | 'remove';
+export type TTyping = "show" | "hide" | "remove";

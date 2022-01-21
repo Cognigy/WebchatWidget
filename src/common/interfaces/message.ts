@@ -1,27 +1,31 @@
 export interface IBaseMessage {
-    text?: string;
-    data?: any;
-    source: string;
-    avatarUrl?: string;
+  text?: string;
+  data?: any;
+  source: string;
+  avatarUrl?: string;
 }
 
 export interface IUserMessage extends IBaseMessage {
-    source: 'user';
+  source: "user";
 }
 
 export interface IBotMessage extends IBaseMessage {
-    source: 'bot';
-    traceId: string;
+  source: "bot";
+  traceId: string;
 }
 
 export interface IAgentMessage extends IBaseMessage {
-    source: 'agent';
-    traceId: string;
+  source: "agent";
+  traceId: string;
 }
 
 export interface IEngagementMessage extends IBaseMessage {
-    source: 'engagement';
-    traceId: string;
+  source: "engagement";
+  traceId: string;
 }
 
-export type IMessage = IUserMessage | IBotMessage | IAgentMessage | IEngagementMessage;
+export type IMessage =
+  | IUserMessage
+  | IBotMessage
+  | IAgentMessage
+  | IEngagementMessage;

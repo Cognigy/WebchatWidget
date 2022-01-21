@@ -37,8 +37,8 @@ const RegularMessage = ({
     }
   })();
 
-  const bubbleColor = color === 'primary' ? 'primary' : 'default';
-  const align = direction === 'outgoing' ? 'right' : 'left';
+  const bubbleColor = color === "primary" ? "primary" : "default";
+  const align = direction === "outgoing" ? "right" : "left";
 
   const MessageBubbleComponent = enableGenericHTMLStyling
     ? MarkdownMessageBubble

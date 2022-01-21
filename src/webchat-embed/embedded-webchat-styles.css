@@ -1,64 +1,67 @@
 [data-cognigy-webchat-root] {
-    position: relative;
-    z-index: 9999;
+  position: relative;
+  z-index: 9999;
 }
 
 [data-cognigy-webchat-root] [data-cognigy-webchat] {
-    position: fixed;
+  position: fixed;
 
-    left: 0;
-    top: 0;
-    
-    width: 100%;
-    height: 100%;
+  left: 0;
+  top: 0;
 
-    z-index: 2;
+  width: 100%;
+  height: 100%;
+
+  z-index: 2;
 }
 
 [data-cognigy-webchat-root] button[data-cognigy-webchat-toggle] {
-    position: fixed;
+  position: fixed;
 
-    right: 32px;
-    bottom: 32px;
+  right: 32px;
+  bottom: 32px;
 
-    box-shadow: 0 5px 18px 0 rgba(151, 124, 156, 0.2), 0 5px 32px 0 rgba(203, 195, 212, 0.2), 0 8px 58px 0 rgba(216, 212, 221, 0.1);
-    z-index: 1;
+  box-shadow: 0 5px 18px 0 rgba(151, 124, 156, 0.2),
+    0 5px 32px 0 rgba(203, 195, 212, 0.2), 0 8px 58px 0 rgba(216, 212, 221, 0.1);
+  z-index: 1;
 }
 
 [data-cognigy-webchat-root] button[data-cognigy-webchat-toggle]:focus {
-	outline: none;
-	box-shadow: 0 0 4px 3px rgb(0, 0, 0, 0.2);
+  outline: none;
+  box-shadow: 0 0 4px 3px rgb(0, 0, 0, 0.2);
 }
 
 @media screen and (min-width: 576px) {
-    [data-cognigy-webchat-root] {
-        position: fixed;
+  [data-cognigy-webchat-root] {
+    position: fixed;
 
-        left: auto;
-        top: auto;
+    left: auto;
+    top: auto;
 
-        overflow: visible;
-        width: auto;
-        height: auto;
-    }
+    overflow: visible;
+    width: auto;
+    height: auto;
+  }
 
-    [data-cognigy-webchat-root] [data-cognigy-webchat] {
-        left: auto;
-        top: auto;
+  [data-cognigy-webchat-root] [data-cognigy-webchat] {
+    left: auto;
+    top: auto;
 
-        bottom: 104px;
-        right: 32px;
+    bottom: 104px;
+    right: 32px;
 
-        width: 380px;
-        height: 580px;
+    width: 380px;
+    height: 580px;
 
-        border-radius: 16px;
-        box-shadow: 0 5px 18px 0 rgba(151, 124, 156, 0.2), 0 5px 32px 0 rgba(203, 195, 212, 0.2), 0 8px 58px 0 rgba(216, 212, 221, 0.1);
-    }
+    border-radius: 16px;
+    box-shadow: 0 5px 18px 0 rgba(151, 124, 156, 0.2),
+      0 5px 32px 0 rgba(203, 195, 212, 0.2),
+      0 8px 58px 0 rgba(216, 212, 221, 0.1);
+  }
 }
 
 @media screen and (min-width: 576px) and (max-height: 684px) {
-    [data-cognigy-webchat-root] [data-cognigy-webchat] {
-        height: calc(100% - 104px);
-    }
+  [data-cognigy-webchat-root] [data-cognigy-webchat] {
+    height: calc(100% - 104px);
+  }
 }

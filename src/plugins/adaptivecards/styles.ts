@@ -1,17 +1,16 @@
-import memoize from 'memoize-one';
+import memoize from "memoize-one";
 
 // create a container element for adaptive card styles
-const styleEl = document.createElement('style');
-styleEl.type = 'text/css';
-styleEl.id = 'accss';
+const styleEl = document.createElement("style");
+styleEl.type = "text/css";
+styleEl.id = "accss";
 
 // add container element to the body
-const head = document.head || document.getElementsByTagName('head')[0];
+const head = document.head || document.getElementsByTagName("head")[0];
 head.appendChild(styleEl);
 
-
 // calculate css based on a theme
-export const getAdaptiveCardCSS = theme => `
+export const getAdaptiveCardCSS = (theme) => `
 .ac-pushbutton,
 .ac-pushbutton.subdued {
   background-color: transparent;
@@ -58,9 +57,9 @@ export const getAdaptiveCardCSS = theme => `
 `;
 
 // updates the container style element with styles form the render function
-const updateAdaptiveCardCSS = theme => {
+const updateAdaptiveCardCSS = (theme) => {
   styleEl.innerHTML = getAdaptiveCardCSS(theme);
-}
+};
 
 // updates only if necessary
 export const updateAdaptiveCardCSSCheaply = memoize(updateAdaptiveCardCSS);

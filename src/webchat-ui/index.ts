@@ -1,1 +1,1 @@
-export * from './components/WebchatUI';
+export * from "./components/WebchatUI";

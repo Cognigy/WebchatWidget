@@ -1,5 +1,5 @@
-type TColor = 'primary' | 'neutral';
+type TColor = "primary" | "neutral";
 
 export interface IWithMessageColor {
-    messageColor: TColor;
+  messageColor: TColor;
 }
