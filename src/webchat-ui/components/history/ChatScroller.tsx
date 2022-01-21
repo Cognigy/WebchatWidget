@@ -89,14 +89,17 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
     }
 
     render() {
-        const { children, disableBranding, className,  ...props } = this.props;
+        const { children, disableBranding, ...restProps } = this.props;
 
         return (
-            <div className={className} ref={this.wrapperRef}>
+            <div {...restProps} ref={this.wrapperRef}>
                 {/* Focusable Chat log region*/}
                 <ChatLog
-                    {...props}
                     ref={this.rootRef}
+                    id="webchatChatHistoryWrapperLiveLogPanel"
+                    tabIndex={0}
+                    role="log"
+                    aria-live="polite"
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}
                 >
