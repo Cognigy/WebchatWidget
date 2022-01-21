@@ -61,7 +61,12 @@ Cypress.Commands.add('initMockWebchat', (embeddingOptions = {}, endpointResponse
 Cypress.Commands.add('initWebchat', (embeddingOptions, endpointUrl = 'https://endpoint-trial.cognigy.ai/5e51fcdc2c10fe4c5267c8a798a7134086f60b62998062af620ed73b096e25bd') => {
     return cy.window().then(window => {
         // @ts-ignore
-        return window.initWebchat(endpointUrl, embeddingOptions);
+        return window.initWebchat(endpointUrl, embeddingOptions).then((webchat) => {
+           // @ts-ignore
+           window.webchat = webchat;
+
+           return webchat;
+        })
     }).as('webchat');
 });
 
@@ -163,4 +168,39 @@ Cypress.Commands.add('renderMessage', (text: string, data: any, source: string, 
     });
 
     return cy.then(() => {});
+});
+
+Cypress.Commands.add('getHistory', () => {
+    return cy.getWebchat().then(webchat => {
+        // @ts-ignore
+        return webchat.store.getState().messages
+    });
+});
+
+Cypress.Commands.add('getMessageFromHistory', (messageOrMatcher) => {
+    return cy.waitUntil(() => {
+        return cy.getHistory().then(history => {
+            if (typeof messageOrMatcher === 'function') {
+                return !!history.find(messageOrMatcher);
+            } else {
+                const { text, source } = messageOrMatcher; 
+                const matchData = messageOrMatcher.data ? JSON.stringify(messageOrMatcher.data) : undefined;
+                
+                return !!history.find(message => {
+                    if (matchData && JSON.stringify(message.data) !== matchData)
+                    return false;
+                    
+                    if (text && message.text !== text)
+                    return false;
+                    
+                    if (source && message.source !== source)
+                    return false;
+                    
+                    return true;
+                });
+            }
+        });
+    }, {
+        errorMsg: "Message could not be found!"
+    });
 });

@@ -59,9 +59,10 @@ export const createAutoInjectMiddleware = (webchat: Webchat): Middleware<unknown
 
             // We are going to send the auto-inject message, now!
             const text = state.config.settings.getStartedPayload;
+            const data = state.config.settings.getStartedData;
             const label = state.config.settings.getStartedText;
 
-            webchat.sendMessage(text, {}, { label });
+            webchat.sendMessage(text, data, { label });
             break;
         }
     }

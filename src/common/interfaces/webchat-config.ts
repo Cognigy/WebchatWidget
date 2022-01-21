@@ -44,6 +44,7 @@ export interface IWebchatSettings {
   engagementMessageText: string;
   focusInputAfterPostback: boolean;
   getStartedButtonText: string;
+  getStartedData: object;
   getStartedPayload: string;
   getStartedText: string;
   headerLogoUrl: string;
