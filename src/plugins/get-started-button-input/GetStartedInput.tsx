@@ -17,7 +17,7 @@ const GetStartedButton = styled(Button)(({ theme }) => ({
 export default ({ onSendMessage, config }: InputComponentProps) => (
     <Toolbar>
         <GetStartedButton
-            onClick={() => onSendMessage(config.settings.getStartedPayload, null, { label: config.settings.getStartedText ?? '' })}
+            onClick={() => onSendMessage(config.settings.getStartedPayload, config.settings.getStartedData, { label: config.settings.getStartedText ?? '' })}
             color='primary'
             id="webchatGetStartedButton"
         >

@@ -1,55 +1,55 @@
-import { injectGlobal } from "emotion";
-
 describe('Start Behavior', () => {
-    // to fix this test, we have to fake a real connection (message is triggered after the connection)
-    xit('should automatically send a preconfigured "get started" message', () => {
+    it('should automatically send a preconfigured "get started" message', () => {
         cy
             .visitWebchat()
-            .initMockWebchat({
+            .initWebchat({
                 settings: {
                     startBehavior: 'injection',
                     getStartedPayload: 'get started',
                     getStartedText: 'get started'
                 }
             })
-            .get('[data-cognigy-webchat-toggle]').click()
-            .contains('get started').should('be.visible');
+
+            cy.get('[data-cognigy-webchat-toggle]').click()
+            cy.contains('get started').should('be.visible');
     });
 
-    xit('should not send a "get started message" if the history contains messages', () => {
+    it('should not send a "get started message" if the history contains messages', () => {
         cy
             .visitWebchat()
-            .initMockWebchat({
+            .initWebchat({
                 settings: {
                     startBehavior: 'injection',
                     getStartedPayload: 'get started',
                     getStartedText: 'get started'
                 }
             })
-            .receiveMessage('fake bot message')
-            .get('[data-cognigy-webchat-toggle]').click()
-            .wait(100)
-            .contains('get started').should('not.exist');
+
+        cy.receiveMessage('fake bot message')
+        cy.get('[data-cognigy-webchat-toggle]').click()
+        cy.wait(100)
+        cy.contains('get started').should('not.exist');
     });
 
-    xit('should not send a "get started message" if the getStartedText is empty', () => {
+    it('should not send a "get started message" if the getStartedText is empty', () => {
         cy
             .visitWebchat()
-            .initMockWebchat({
+            .initWebchat({
                 settings: {
                     startBehavior: 'injection',
                     getStartedPayload: 'get started',
                     getStartedText: ''
                 }
-            })
-            .get('[data-cognigy-webchat-toggle]').click()
-            .contains('get started').should('not.exist');
+            });
+
+        cy.get('[data-cognigy-webchat-toggle]').click()
+        cy.contains('get started').should('not.exist');
     });
 
-    xit('should not send a "get started message" if the getStartedText consists only of whitespace', () => {
+    it('should not send a "get started message" if the getStartedText consists only of whitespace', () => {
         cy
             .visitWebchat()
-            .initMockWebchat({
+            .initWebchat({
                 settings: {
                     startBehavior: 'injection',
                     getStartedPayload: 'get started',
@@ -60,11 +60,10 @@ describe('Start Behavior', () => {
             .contains('get started').should('not.exist');
     });
 
-    // to fix this test, we have to fake a real connection (message is triggered after the connection)
-    xit('should automatically send a "get started message" even if the history contains an engagement message', () => {
+    it('should automatically send a "get started message" even if the history contains an engagement message', () => {
         cy
             .visitWebchat()
-            .initMockWebchat({
+            .initWebchat({
                 settings: {
                     startBehavior: 'injection',
                     getStartedPayload: 'get started',
@@ -72,11 +71,29 @@ describe('Start Behavior', () => {
                     engagementMessageText: 'engagement message',
                     engagementMessageDelay: 1
                 }
-            })
-            .wait(500)
+            });
+        
+        cy.wait(500)
         
         cy.get('[data-cognigy-webchat-toggle]').click();
-        
         cy.contains('get started').should('be.visible');
+    })
+
+    it('should send a "get started message" with data', () => {
+        cy
+            .visitWebchat()
+            .initWebchat({
+                settings: {
+                    startBehavior: "injection",
+                    getStartedText: "text",
+                    getStartedPayload: "payload",
+                    getStartedData: {
+                        some: "data"
+                    }
+                }
+            });
+
+        cy.openWebchat();
+        cy.getMessageFromHistory({ text: "text", data: { some: "data" } });
     })
 });
