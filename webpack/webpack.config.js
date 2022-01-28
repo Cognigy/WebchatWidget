@@ -6,7 +6,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 /**
  * Our "base config"
  */
-module.exports = {
+module.exports = () => ({
     entry: {},
     output: { 
         path: path.resolve(__dirname, "../dist"),
@@ -62,4 +62,4 @@ module.exports = {
         ],
         usedExports: true,
     },
-}
+});

@@ -34,7 +34,8 @@
     "test:es5-legacy": "es-check es5 ./dist/*.legacy.js",
     "test": "npm run test:es5-legacy && npm run test:cypress",
     "pretest": "npm run bundle",
-    "cleanup": "rimraf dist/*.js dist/*.br dist/*.gz"
+    "cleanup": "rimraf dist/*.js dist/*.br dist/*.gz",
+    "build:new": "webpack --config webpack.test.js"
   },
   "dependencies": {
     "@braintree/sanitize-url": "^5.0.2",

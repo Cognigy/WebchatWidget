@@ -1,0 +1,1 @@
+module.exports = (config, modifiers) => modifiers.reduce((config, modifier) => modifier(config), config)

@@ -1,21 +1,25 @@
 
+const addEntries = require("./webpack/addEntries");
+const applyMiddleware = require("./webpack/applyMiddleware");
+const buildPlugins = require("./webpack/buildPlugins");
 const baseConfig = require("./webpack/webpack.config");
-const withAlias = require("./webpack/withAlias");
 const withBanner = require("./webpack/withBanner");
 const withCompression = require("./webpack/withCompression");
 const withLegacy = require("./webpack/withLegacy");
 
 const fragments = [
-    // {
-    //     modifiers: "core",
-    //     name: "webchat",
-    //     entry: "./src/webchat-embed/index.tsx"
-    // },
-    // {
-    //     type: "core",
-    //     name: "message-renderer",
-    //     entry: "./src/message-renderer/embed.ts"
-    // },
+    {
+        id: "webchat",
+        type: "core",
+        name: "webchat",
+        entry: "./src/webchat-embed/index.tsx"
+    },
+    {
+        id: "message-renderer",
+        type: "core",
+        name: "message-renderer",
+        entry: "./src/message-renderer/embed.ts"
+    },
     {
         id: "adaptivecards-plugin",
         type: "plugin",
@@ -54,33 +58,22 @@ const fragments = [
     },
 ]
 
-const apply = (config, modifiers) => modifiers.reduce((config, modifier) => modifier(config), config);
+;
 
 
 module.exports = (env, argv) => {
-    const pluginFragments = fragments.filter(fragment => fragment.type === "plugin");
-
-    const pluginConfig = apply({...baseConfig}, [
-        ...pluginFragments.map(fragment => config => ({
-            ...config,
-            entry: {
-                ...config.entry,
-                [fragment.name]: {
-                    import: fragment.entry,
-                }
-            }
-        })),
-        config => ({
-            ...config,
-            output: {
-                ...config.output,
-                filename: `${config.output.filename.slice(0, -3)}.webchat-plugin.js`
-            }
-        }),
-        withAlias
+    const plugins = applyMiddleware({}, [
+        baseConfig,
+        buildPlugins,
+        addEntries(fragments.filter(fragment => fragment.type === "plugin"))
     ]);
 
-    const configs = [pluginConfig];
+    const core = applyMiddleware({}, [
+        baseConfig,
+        addEntries(fragments.filter(fragment => fragment.type === "core"))
+    ]);
+
+    const configs = [core, plugins];
 
     if (env.LEGACY) {
         const legacyConfigs = configs.map(withLegacy);
