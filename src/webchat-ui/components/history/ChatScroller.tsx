@@ -6,13 +6,19 @@ const CLIENT_HEIGHT_OFFSET = 16 + 70; // banner + typing indicator
 
 export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
     disableBranding: boolean;
+    showFocusOutline: boolean; 
  }
 
 type InnerProps = OuterProps;
 
 interface IState {
     height: number;
+    isChatLogFocused: boolean;
 }
+
+const ChatLogWrapper = styled.div<OuterProps>(({theme}) => ({
+    outline: props => props.showFocusOutline ? `1px auto ${theme.primaryWeakColor}` : "none",
+}))
 
 const ChatLog = styled.div(({theme}) => ({
     paddingTop: theme.unitSize * 2,
@@ -23,17 +29,16 @@ const ChatLog = styled.div(({theme}) => ({
 
 export class ChatScroller extends React.Component<InnerProps, IState> {
     rootRef: React.RefObject<HTMLDivElement>;
-    wrapperRef: React.RefObject<HTMLDivElement>;
 
     constructor(props: InnerProps) {
         super(props);
 
         this.state = {
-            height: 0
+            height: 0,
+            isChatLogFocused: false
         }
 
         this.rootRef = React.createRef();
-        this.wrapperRef = React.createRef();
     }
 
     scrollToBottom = () => {
@@ -77,22 +82,20 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
     // Add outline to the parent element when Chat log receives focus
     handleFocus = () => {
         if(this.rootRef.current === document.activeElement) {
-            const chatLogWrapper = this.wrapperRef.current;
-            chatLogWrapper?.setAttribute("style", "outline: 1px auto black;");
+            this.setState({isChatLogFocused: true});
         }        
     }
 
     // Remove outline from the parent element when Chat log loses focus 
     handleBlur = () => {
-        const chatLogWrapper = this.wrapperRef.current;
-        chatLogWrapper?.removeAttribute("style");
+        this.setState({isChatLogFocused: false})
     }
 
     render() {
-        const { children, disableBranding, ...restProps } = this.props;
+        const { children, disableBranding, showFocusOutline, ...restProps } = this.props;
 
         return (
-            <div {...restProps} ref={this.wrapperRef}>
+            <ChatLogWrapper showFocusOutline={this.state.isChatLogFocused} {...restProps}>
                 {/* Focusable Chat log region*/}
                 <ChatLog
                     ref={this.rootRef}
@@ -107,7 +110,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
                 </ChatLog>
                 {/* Branding Logo Link */}
                 {!disableBranding && <Branding />}
-            </div>
+            </ChatLogWrapper>
         )
     }
 }
