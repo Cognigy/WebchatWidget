@@ -1,19 +1,21 @@
-const path = require('path');
-const TerserPlugin = require("terser-webpack-plugin");
-const zlib = require("zlib");
-const CompressionPlugin = require("compression-webpack-plugin");
+const path = require("path");
 
+const TerserPlugin = require("terser-webpack-plugin");
+
+
+/**
+ * Our "base config"
+ */
 module.exports = {
-    entry: ['./src/webchat-embed/index.tsx'],
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'webchat.js'
+    entry: {},
+    output: { 
+        path: path.resolve(__dirname, "../dist"),
+        filename: "[name].js"
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json'],
+        alias: {}
     },
-    node: {},
-    // devtool: 'source-map',
     module: {
         rules: [
             {
@@ -48,39 +50,16 @@ module.exports = {
                     loader: 'svg-react-loader'
                 },
             }
+        ]
+    },
+    plugins: [],
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                extractComments: false,
+            }),
         ],
+        usedExports: true,
     },
-    plugins: [
-        new CompressionPlugin({
-			filename: "[path][base].gz",
-			algorithm: "gzip",
-			test: /\.(js|css|html|svg|ts|tsx)$/,
-			threshold: 10240,
-			minRatio: 0.8,
-		}),
-		new CompressionPlugin({
-			filename: "[path][base].br",
-			algorithm: "brotliCompress",
-			test: /\.(js|css|html|svg|ts|tsx)$/,
-			compressionOptions: {
-				params: {
-					[zlib.constants.BROTLI_PARAM_QUALITY]: 11,
-				},
-			},
-			threshold: 10240,
-			minRatio: 0.8,
-		}),
-    ],
-    devServer: {
-        port: 8787
-    },
-	optimization: {
-		minimize: true,
-		minimizer: [
-			new TerserPlugin({
-				extractComments: false,
-			}),
-		],
-		usedExports: true,
-	},
-};
+}
