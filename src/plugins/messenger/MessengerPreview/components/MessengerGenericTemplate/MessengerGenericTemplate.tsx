@@ -195,7 +195,7 @@ export const getMessengerGenericTemplate = ({
             const image = image_url ? (
                 this.props.config.settings.dynamicImageAspectRatio ? (
                     <FlexImage
-						style={{ backgroundImage: getBackgroundImage(image_url) }}
+						src={image_url}
 						alt={image_alt_text || ""}
                     />
                 ) : (
