@@ -70,6 +70,15 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
                     .textContent || '';
             }
 
+            // data is either a non-empty object or null
+            data = (data && typeof data === 'object' && Object.keys(data).length > 0)
+                ? data
+                : null;
+
+            // don't send empty messages!
+            if (!text && !data)
+                break;
+
             client.sendMessage(text || '', data);
 
             const displayMessage = { ...message, text };

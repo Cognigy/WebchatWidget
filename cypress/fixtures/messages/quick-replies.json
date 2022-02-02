@@ -77,7 +77,7 @@
 					"message": {
 						"text": "foobar003",
 						"quick_replies": [
-							{ "content_type": "text", "title": "foobar003qr01" },
+							{ "content_type": "text", "title": "foobar003qr01", "payload": "some-payload" },
 							{
 								"content_type": "text",
 								"image_url": "http://cognigy.com/favicon.ico",
