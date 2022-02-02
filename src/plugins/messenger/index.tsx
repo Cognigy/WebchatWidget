@@ -28,7 +28,11 @@ const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
     return _webchat || _facebook;
 }
 
-const isMessengerPayload = (message: IMessage, config: IWebchatConfig) => !!getMessengerPayload(message, config);
+const isMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
+    const payload = getMessengerPayload(message, config);
+
+    return payload && Object.keys(payload).length > 0;
+}
 
 // return true if a message is a messenger generic template with more than one element
 // one element should be rendered like default

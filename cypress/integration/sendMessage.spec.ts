@@ -17,4 +17,21 @@ describe('Send Message', () => {
 			.get('[aria-label="Send Message"]').click()
 			.get('.webchat-chat-history').contains('Hi');
 	});
+
+	it('should not send messages without text and data', () => {
+		cy
+			.visitWebchat()
+			.initMockWebchat()
+			.openWebchat();
+
+		cy.wait(1000);
+
+		cy.sendMessage();
+		cy.sendMessage("");
+		cy.sendMessage("", {});
+
+		cy.getHistory().then(history => {
+			expect(history.length).to.equal(0);
+		});
+	});
 });
