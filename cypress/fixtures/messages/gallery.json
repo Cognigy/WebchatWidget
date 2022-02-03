@@ -9,7 +9,7 @@
 						{
 							"title": "foobar004g1",
 							"subtitle": "",
-							"imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/06/Kitten_in_Rizal_Park%2C_Manila.jpg",
+							"imageUrl": "https://placekitten.com/300/300",
 							"buttons": [
 								{
 									"id": 0.9601740794827666,
@@ -23,7 +23,7 @@
 						{
 							"title": "foobar004g2",
 							"subtitle": "foobar004g2sub1\nfoobar004g2sub2",
-							"imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/06/Kitten_in_Rizal_Park%2C_Manila.jpg",
+							"imageUrl": "https://placekitten.com/300/300",
 							"buttons": [],
 							"id": 0.9969017542005371
 						},
@@ -47,7 +47,7 @@
 								{
 									"title": "foobar004g1",
 									"subtitle": "",
-									"image_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Kitten_in_Rizal_Park%2C_Manila.jpg",
+									"image_url": "https://placekitten.com/300/300",
 									"buttons": [
 										{
 											"type": "postback",
@@ -74,7 +74,7 @@
 								{
 									"title": "foobar004g2",
 									"subtitle": "foobar004g2sub1\nfoobar004g2sub2",
-									"image_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Kitten_in_Rizal_Park%2C_Manila.jpg",
+									"image_url": "https://placekitten.com/300/300",
 									"buttons": []
 								},
 								{

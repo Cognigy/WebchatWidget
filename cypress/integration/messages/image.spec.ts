@@ -29,5 +29,29 @@ describe("Message with Image", () => {
 			cy
                 .get('[aria-label="Attachment Image"]');
         })
-    })
+    });
+
+    it("should render the image in a fixed aspect ratio", () => {
+        cy.withMessageFixture('image', () => {
+            cy.get(".webchat-media-template-image > div").then(element => {
+                expect(element.innerHeight()).to.equal(element.innerWidth() * 3 / 4);
+            });
+        })
+    });
+
+    it("should render the image in a dynamic aspect ratio", () => {
+        cy.visitWebchat();
+        cy.initMockWebchat({
+            settings: {
+                dynamicImageAspectRatio: true
+            }
+        });
+        cy.openWebchat();
+
+        cy.withMessageFixture('image', () => {
+            cy.get(".webchat-media-template-image > img").then(element => {
+                expect(element.innerHeight()).to.equal(element.innerWidth());
+            });
+        })
+    });
 })

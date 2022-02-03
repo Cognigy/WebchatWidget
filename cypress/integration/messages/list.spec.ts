@@ -72,6 +72,30 @@ describe("Message with List", () => {
                 .get("[role=list] [role=listitem]").contains("foobar009l2")
         })
     })
+    
+    it("should render the list header image in a fixed aspect ratio", () => {
+        cy.withMessageFixture('list', () => {
+            cy.get(".webchat-list-template-header > :first-child").parent().then(element => {
+                expect(element.innerHeight()).to.equal(element.innerWidth() / 2);
+            });
+        })
+    });
+
+    it("should render the list header image in a dynamic aspect ratio", () => {
+        cy.visitWebchat();
+        cy.initMockWebchat({
+            settings: {
+                dynamicImageAspectRatio: true
+            }
+        });
+        cy.openWebchat();
+
+        cy.withMessageFixture('list', () => {
+            cy.get(".webchat-list-template-header img").then(element => {
+                expect(element.innerHeight()).to.equal(element.innerWidth());
+            });
+        })
+    });
 
     
 })
