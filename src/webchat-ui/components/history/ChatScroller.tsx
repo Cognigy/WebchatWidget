@@ -16,8 +16,8 @@ interface IState {
     isChatLogFocused: boolean;
 }
 
-const ChatLogWrapper = styled.div<OuterProps>(({theme}) => ({
-    outline: props => props.showFocusOutline ? `1px auto ${theme.primaryWeakColor}` : "none",
+const ChatLogWrapper = styled.div<OuterProps>(({theme}) => props => ({
+    outline: props.showFocusOutline ? `1px auto ${theme.primaryWeakColor}` : "none",
 }))
 
 const ChatLog = styled.div(({theme}) => ({
