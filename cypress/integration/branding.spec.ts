@@ -47,4 +47,14 @@ describe("Branding", () => {
         cy.contains("Message 1!").scrollIntoView();
         cy.get('[aria-label^="Powered by Cognigy"]').should("not.be.visible");
     });
+
+    it('banner is accessible', () => {
+        cy.visitWebchat().initMockWebchat().openWebchat();
+        cy.get('#cognigyBrandingLink').should("have.attr", "aria-label", "Powered by Cognigy. Opens in new tab")
+    })
+
+    it('banner is hidden from screen reader', () => {
+        cy.visitWebchat().initMockWebchat().openWebchat();
+        cy.get('#cognigyBrandingLogo').should("have.attr", "aria-hidden", "true")
+    })
 });
