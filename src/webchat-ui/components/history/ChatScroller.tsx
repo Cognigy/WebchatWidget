@@ -29,6 +29,7 @@ const ChatLog = styled.div(({theme}) => ({
 
 export class ChatScroller extends React.Component<InnerProps, IState> {
     rootRef: React.RefObject<HTMLDivElement>;
+    innerRef: React.RefObject<HTMLDivElement>
 
     constructor(props: InnerProps) {
         super(props);
@@ -39,6 +40,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         }
 
         this.rootRef = React.createRef();
+        this.innerRef = React.createRef();
     }
 
     scrollToBottom = () => {
@@ -81,7 +83,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
 
     // Add outline to the parent element when Chat log receives focus
     handleFocus = () => {
-        if(this.rootRef.current === document.activeElement) {
+        if(this.innerRef.current === document.activeElement) {
             this.setState({isChatLogFocused: true});
         }        
     }
@@ -95,10 +97,10 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         const { children, disableBranding, showFocusOutline, ...restProps } = this.props;
 
         return (
-            <ChatLogWrapper showFocusOutline={this.state.isChatLogFocused} {...restProps}>
+            <ChatLogWrapper ref={this.rootRef} showFocusOutline={this.state.isChatLogFocused} {...restProps}>
                 {/* Focusable Chat log region*/}
                 <ChatLog
-                    ref={this.rootRef}
+                    ref={this.innerRef}
                     id="webchatChatHistoryWrapperLiveLogPanel"
                     tabIndex={0}
                     role="log"
