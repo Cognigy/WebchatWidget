@@ -91,6 +91,7 @@ describe("Message with List", () => {
         cy.openWebchat();
 
         cy.withMessageFixture('list', () => {
+            cy.wait(1000);
             cy.get(".webchat-list-template-header img").then(element => {
                 expect(element.innerHeight()).to.equal(element.innerWidth());
             });

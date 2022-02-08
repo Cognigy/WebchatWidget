@@ -112,6 +112,7 @@ describe("Message with Gallery", () => {
         cy.openWebchat();
 
         cy.withMessageFixture('gallery', () => {
+            cy.wait(1000);
             cy.get(".webchat-carousel-template-frame img").then(element => {
                 expect(element.innerHeight()).to.equal(element.innerWidth());
             });
