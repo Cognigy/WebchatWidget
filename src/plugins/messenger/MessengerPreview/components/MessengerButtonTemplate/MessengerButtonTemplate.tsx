@@ -63,7 +63,7 @@ export const getMessengerButtonTemplate = ({
             <MessengerButtonHeader {...divProps} color={color} className="webchat-buttons-template-root">
                 {text && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{ __html }} id={webchatButtonTemplateTextId} />}
 
-                {/* sr-only text with total number of buttons or urls in the group*/}
+                {/* sr-only text with total number of buttons or links in the group*/}
                 {hasMoreThanOnebutton && 
                     <span className="sr-only" id={`srOnly-${webchatButtonTemplateTextId}`}>
                         With {buttons?.length} buttons or links in
