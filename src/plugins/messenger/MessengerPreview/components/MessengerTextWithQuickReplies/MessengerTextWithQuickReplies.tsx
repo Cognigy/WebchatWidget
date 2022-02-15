@@ -91,10 +91,10 @@ export const getMessengerTextWithQuickReplies = ({
                     messageDirection={messageDirection}
                 ></BorderBubble>
 
-                {/* sr-only text for quick reply groups */}
+                {/* sr-only text with total number of quick replies in the group*/}
                 {hasMoreThanOneQuickReply && 
                     <span className="sr-only" id={`srOnly-${webchatQuickReplyTemplateHeaderId}`}>
-                        With {quick_replies?.length} items.
+                        With {quick_replies?.length} buttons in
                     </span>
                 }
 
