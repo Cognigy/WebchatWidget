@@ -62,7 +62,7 @@ export const getMessengerTextWithQuickReplies = ({
         const hasMoreThanOneQuickReply = quick_replies && quick_replies.length > 1;
         const webchatQuickReplyTemplateButtonId = useRandomId("webchatQuickReplyTemplateButton");
         const webchatQuickReplyTemplateHeaderId = useRandomId("webchatQuickReplyTemplateHeader");
-        const buttonGroupAriaLabelledby = text ? webchatQuickReplyTemplateHeaderId : undefined;
+        const buttonGroupAriaLabelledby = text ? `${webchatQuickReplyTemplateHeaderId} srOnly-${webchatQuickReplyTemplateHeaderId}` : undefined;
         const a11yProps = hasMoreThanOneQuickReply ? 
             {role: "group", "aria-labelledby": buttonGroupAriaLabelledby } : {};
 
@@ -90,6 +90,13 @@ export const getMessengerTextWithQuickReplies = ({
                     messageColor={messageColor}
                     messageDirection={messageDirection}
                 ></BorderBubble>
+
+                {/* sr-only text for quick reply groups */}
+                {hasMoreThanOneQuickReply && 
+                    <span className="sr-only" id={`srOnly-${webchatQuickReplyTemplateHeaderId}`}>
+                        With {quick_replies?.length} items.
+                    </span>
+                }
 
                 {hasQuickReplies && (
                     <QuickReplies className="webchat-quick-reply-template-replies-container" {...a11yProps}>
