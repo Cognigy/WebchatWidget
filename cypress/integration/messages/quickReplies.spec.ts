@@ -48,4 +48,37 @@ describe("Message with Quick Replies", () => {
             
         }, reInit);
     })
+
+    it("should render message with quick replies stored behind a pointer", () => {
+        cy.withMessageFixture('intent-default-reply-with-quick-replies', () => {
+            cy
+                .contains("Regarding Insurance I have the following topics.");
+            cy
+                .contains("Insurance overview")
+                cy
+                .contains("Hospitalization claim")
+                cy
+                .contains("Travel insurance claim")
+                cy
+                .contains("Specialist Claim")
+                cy
+                .contains("List of panel doctor/specialist clinic")
+                cy
+                .contains("A&E Claim")
+                cy
+                .contains("Supreme (insurance) card")
+                cy
+                .contains("Non-panel clinic")
+        }, reInit)
+    })
+
+    it("should click the quick reply stored behind a pointer and post as user message", () => {
+        cy.withMessageFixture('intent-default-reply-with-quick-replies', () => {
+            cy
+                .contains("Insurance overview").click()
+            cy
+                .get(".regular-message.user")
+                .contains("Insurance overview");
+        }, reInit);
+    })
 })

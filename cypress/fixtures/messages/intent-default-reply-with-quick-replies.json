@@ -1,0 +1,112 @@
+{
+	"text": null,
+	"data": {
+		"_cognigy": {
+			"_webchat": {
+				"_pointer": "quick-replies",
+				"quick-replies": {
+					"message": {
+						"text": "Regarding Insurance I have the following topics.",
+						"quick_replies": [
+							{
+								"content_type": "text",
+								"title": "Insurance overview",
+								"payload": "Insurance overview"
+							},
+							{
+								"content_type": "text",
+								"title": "Hospitalization claim",
+								"payload": "Hospitalization claim"
+							},
+							{
+								"content_type": "text",
+								"title": "Travel insurance claim ",
+								"payload": "Travel insurance claim "
+							},
+							{
+								"content_type": "text",
+								"title": "Specialist Claim",
+								"payload": "Specialist Claim"
+							},
+							{
+								"content_type": "text",
+								"title": "List of panel doctor/specialist clinic",
+								"payload": "List of panel doctor/specialist clinic"
+							},
+							{
+								"content_type": "text",
+								"title": "A&E Claim",
+								"payload": "A&E Claim"
+							},
+							{
+								"content_type": "text",
+								"title": "Supreme (insurance) card",
+								"payload": "Supreme (insurance) card"
+							},
+							{
+								"content_type": "text",
+								"title": "Non-panel clinic",
+								"payload": "Non-panel clinic"
+							}
+						]
+					}
+				}
+			}
+		},
+		"_data": {
+			"_cognigy": {
+				"_webchat": {
+					"message": {
+						"text": "Regarding Insurance I have the following topics.",
+						"quick_replies": [
+							{
+								"content_type": "text",
+								"title": "Insurance overview",
+								"payload": "Insurance overview"
+							},
+							{
+								"content_type": "text",
+								"title": "Hospitalization claim",
+								"payload": "Hospitalization claim"
+							},
+							{
+								"content_type": "text",
+								"title": "Travel insurance claim ",
+								"payload": "Travel insurance claim "
+							},
+							{
+								"content_type": "text",
+								"title": "Specialist Claim",
+								"payload": "Specialist Claim"
+							},
+							{
+								"content_type": "text",
+								"title": "List of panel doctor/specialist clinic",
+								"payload": "List of panel doctor/specialist clinic"
+							},
+							{
+								"content_type": "text",
+								"title": "A&E Claim",
+								"payload": "A&E Claim"
+							},
+							{
+								"content_type": "text",
+								"title": "Supreme (insurance) card",
+								"payload": "Supreme (insurance) card"
+							},
+							{
+								"content_type": "text",
+								"title": "Non-panel clinic",
+								"payload": "Non-panel clinic"
+							}
+						]
+					}
+				}
+			}
+		}
+	},
+	"traceId": "endpoint-realtimeClient-51c02efc-32b7-40ca-b413-6eacd50c28fb",
+	"disableSensitiveLogging": false,
+	"source": "bot",
+	"avatarUrl": ""
+}

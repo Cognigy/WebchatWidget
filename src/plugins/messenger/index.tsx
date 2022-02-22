@@ -8,6 +8,7 @@ import { IMessage } from "../../common/interfaces/message";
 import { IWebchatConfig } from "../../common/interfaces/webchat-config";
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { IFBMURLButton } from "./MessengerPreview/interfaces/Button.interface";
+import { transformPointers } from "./helpers";
 
 const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
     const cognigyData = message.data?._cognigy;
@@ -22,10 +23,10 @@ const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
             return _facebook;
         }
 
-        return _webchat;
+        return transformPointers(_webchat);
     }
 
-    return _webchat || _facebook;
+    return transformPointers(_webchat) || _facebook;
 }
 
 const isMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
