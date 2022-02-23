@@ -36,11 +36,21 @@ describe("Message with Buttons", () => {
                 .get(".webchat-buttons-template-root")
                 .get(".webchat-buttons-template-button")
         })
-	})
-	
-	it("group off buttons should have role 'group'", () => {
+    })
+
+    it("group off buttons should have role 'group'", () => {
         cy.withMessageFixture('buttons', () => {
-			cy.get("[role=group] .webchat-buttons-template-button").should("have.length", 4);
-        })				
+            cy.get("[role=group] .webchat-buttons-template-button").should("have.length", 4);
+        })
+    })
+
+    it("button group should have 'aria-labelledby' attribute", () => {
+        cy.withMessageFixture('buttons', () => {
+            cy.get("[role=group]")
+                .invoke("attr", "aria-labelledby")
+                .should("contain", "webchatButtonTemplateHeader")
+                .should("contain", "srOnly-webchatButtonTemplateHeader");
+            
+        });
     })
 })
