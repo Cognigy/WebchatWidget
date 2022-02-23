@@ -152,6 +152,14 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       };
     }
 
+    componentDidMount() {
+      const webchatWindow = document.getElementById("webchatWindow");
+      const element = webchatWindow?.getElementsByClassName("flatpickr-monthDropdown-months");
+      // Get Month Select dropdown in DatePicker and autoFocus it on mount
+      const monthDropdown = element?.[0] as HTMLElement;
+      monthDropdown?.focus();
+    }
+
     handleSubmit = () => {
       const { message } = this.props
 
@@ -176,6 +184,13 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       const { message } = this.props;
 
       this.props.onDismissFullscreen();
+    }
+
+    onKeyDown = (event) => {
+      if(event.key === "Esc" || event.key === "Escape") {
+        this.handleAbort();
+        //TODO: Auto focus date picker on close
+      }
     }
 
     static isWeekendDate(date: string) {
@@ -300,7 +315,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       }
 
       return (
-        <DatePickerRoot {...attributes} className="webchat-plugin-date-picker">
+        <DatePickerRoot {...attributes} className="webchat-plugin-date-picker" onKeyDown={this.onKeyDown}>
           <Header className="info webchat-plugin-date-picker-header">
             <h2>{options.event}</h2>
           </Header>

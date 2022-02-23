@@ -11,13 +11,11 @@ import { MessagePlugin } from '../../common/interfaces/message-plugin';
 import FullScreenMessage from './history/FullScreenMessage';
 import Input from './plugins/InputPluginRenderer';
 import textInputPlugin from './plugins/input/text';
-import MessageRow from './presentational/MessageRow';
 import MessagePluginRenderer from './plugins/MessagePluginRenderer';
 import regularMessagePlugin from './plugins/message/regular';
 import { InputPlugin } from '../../common/interfaces/input-plugin';
 import stylisRTL from 'stylis-rtl';
 
-import TypingIndicatorBubble from './presentational/TypingIndicatorBubble';
 import '../utils/normalize.css';
 import { MessageSender } from '../interfaces';
 import { ChatScroller } from './history/ChatScroller';
