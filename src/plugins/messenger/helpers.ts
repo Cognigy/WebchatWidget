@@ -6,7 +6,11 @@ type TPointedObject =
         _pointer?: string;
     };
 
-export const transformPointers = (obj: TPointedObject) => {
+export const transformPointers = (obj: TPointedObject, useDefaultReplyCompatibilityMode: boolean) => {
+    if (!useDefaultReplyCompatibilityMode) {
+        return obj;
+    }
+
     if (Array.isArray(obj) || typeof obj !== "object" || obj === null) return obj;
 
     // eslint-disable-next-line no-prototype-builtins

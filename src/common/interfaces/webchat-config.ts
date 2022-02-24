@@ -69,6 +69,7 @@ export interface IWebchatSettings {
   title: string;
   unreadMessageTitleText: string;
   unreadMessageTitleTextPlural: string;
+  useDefaultReplyCompatibilityMode: boolean;
   userAvatarUrl: string;
   useSessionStorage: boolean;
   sourceDirectionMapping: {

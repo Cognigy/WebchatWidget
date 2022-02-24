@@ -11,6 +11,8 @@ import { IFBMURLButton } from "./MessengerPreview/interfaces/Button.interface";
 import { transformPointers } from "./helpers";
 
 const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
+    const { useDefaultReplyCompatibilityMode } = config.settings;
+    
     const cognigyData = message.data?._cognigy;
 
     if (!cognigyData)
@@ -23,10 +25,10 @@ const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
             return _facebook;
         }
 
-        return transformPointers(_webchat);
+        return transformPointers(_webchat,useDefaultReplyCompatibilityMode);
     }
 
-    return transformPointers(_webchat) || _facebook;
+    return transformPointers(_webchat,useDefaultReplyCompatibilityMode) || _facebook;
 }
 
 const isMessengerPayload = (message: IMessage, config: IWebchatConfig) => {

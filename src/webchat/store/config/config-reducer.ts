@@ -71,6 +71,7 @@ export const getInitialState = (): ConfigState => ({
     title: "",
     unreadMessageTitleText: "New Message",
     unreadMessageTitleTextPlural: "New Messages",
+    useDefaultReplyCompatibilityMode: false,
     userAvatarUrl: "",
     useSessionStorage: false,
     sourceDirectionMapping: {

@@ -4,7 +4,7 @@ describe("Message with Quick Replies", () => {
 
     beforeEach(() => cy
         .visitWebchat()
-        .initMockWebchat()
+        .initMockWebchat({ useDefaultReplyCompatibilityMode: true })
         .openWebchat())
 
     function reInit() {
@@ -34,18 +34,26 @@ describe("Message with Quick Replies", () => {
 
     it("should render image inside quick replies button", () => {
         cy.withMessageFixture('quick-replies', () => {
-            cy.contains("foobar003qr02").children("img").should("have.length", 1);   
-            
+            cy.contains("foobar003qr02").children("img").should("have.length", 1);
+
         }, reInit);
-	})
-	
-	it("should render image alt text when present", () => {
+    })
+
+    it("should render image alt text when present", () => {
         cy.withMessageFixture('quick-replies', () => {
-			cy.contains("foobar003qr02").children("img").should("have.attr", "alt")
-				.then(alttext => {
-					expect(alttext).to.be.eq("alt text");
-				});   
-            
+            cy.contains("foobar003qr02").children("img").should("have.attr", "alt")
+                .then(alttext => {
+                    expect(alttext).to.be.eq("alt text");
+                });
+
+        }, reInit);
+    })
+
+    it("should have role 'group' when more than one quick reply button", () => {
+        cy.withMessageFixture('quick-replies', () => {
+            cy.get(".webchat-quick-reply-template-replies-container")
+                .should("have.attr", "role", "group");
+
         }, reInit);
     })
 
@@ -55,19 +63,19 @@ describe("Message with Quick Replies", () => {
                 .contains("Regarding Insurance I have the following topics.");
             cy
                 .contains("Insurance overview")
-                cy
+            cy
                 .contains("Hospitalization claim")
-                cy
+            cy
                 .contains("Travel insurance claim")
-                cy
+            cy
                 .contains("Specialist Claim")
-                cy
+            cy
                 .contains("List of panel doctor/specialist clinic")
-                cy
+            cy
                 .contains("A&E Claim")
-                cy
+            cy
                 .contains("Supreme (insurance) card")
-                cy
+            cy
                 .contains("Non-panel clinic")
         }, reInit)
     })
@@ -81,4 +89,15 @@ describe("Message with Quick Replies", () => {
                 .contains("Insurance overview");
         }, reInit);
     })
+
+    it("quick reply button group should have 'aria-labelledby' attribute", () => {
+        cy.withMessageFixture('quick-replies', () => {
+            cy.get(".webchat-quick-reply-template-replies-container")
+                .invoke("attr", "aria-labelledby")
+                .should("contain", "webchatQuickReplyTemplateHeader")
+                .should("contain", "srOnly-webchatQuickReplyTemplateHeader");
+
+        }, reInit);
+    })
+
 })
