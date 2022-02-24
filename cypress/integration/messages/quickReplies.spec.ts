@@ -4,7 +4,7 @@ describe("Message with Quick Replies", () => {
 
     beforeEach(() => cy
         .visitWebchat()
-        .initMockWebchat({ useDefaultReplyCompatibilityMode: true })
+        .initMockWebchat({ settings: { useDefaultReplyCompatibilityMode: true } })
         .openWebchat())
 
     function reInit() {
