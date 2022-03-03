@@ -15,6 +15,7 @@ export const getInitialState = (): ConfigState => ({
     colorScheme: "",
     designTemplate: 1,
     disableBranding: false,
+    disableDefaultReplyCompatiblityMode: false,
     disableHtmlContentSanitization: false,
     disableHtmlInput: false,
     disableInputAutocomplete: false,
