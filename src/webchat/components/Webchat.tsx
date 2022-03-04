@@ -15,6 +15,7 @@ import { getEndpointBaseUrl, getEndpointUrlToken } from '../helper/endpoint';
 import { IWebchatSettings } from '../../common/interfaces/webchat-config';
 import { Options } from '@cognigy/socket-client/lib/interfaces/options';
 import { updateSettings } from '../store/config/config-reducer';
+import { createOutputHandler } from '../store/messages/message-handler';
 
 export interface WebchatProps extends FromProps {
     url: string;
@@ -27,6 +28,7 @@ export class Webchat extends React.PureComponent<WebchatProps> {
     public store: Store<StoreState>;
     public client: SocketClient;
     public analytics: EventEmitter = new EventEmitter();
+    public _handleOutput: (output: unknown) => void;
 
 
     // component lifecycle methods
@@ -47,6 +49,8 @@ export class Webchat extends React.PureComponent<WebchatProps> {
 
         const store = createWebchatStore(this, url, settings);
         this.store = store;
+
+        this._handleOutput = createOutputHandler(this.store);
     }
 
     componentDidMount() {
