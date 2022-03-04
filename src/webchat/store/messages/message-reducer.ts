@@ -11,10 +11,19 @@ export const addMessage = (message: IMessage, unseen?: boolean) => ({
 });
 export type AddMessageAction = ReturnType<typeof addMessage>;
 
-export const messages: Reducer<MessageState, AddMessageAction> = (state = [], action) => {
+const CLEAR_MESSAGES = 'CLEAR_MESSAGES';
+export const clearMessages = () => ({
+    type: CLEAR_MESSAGES as 'CLEAR_MESSAGES'
+});
+export type ClearMessagesAction = ReturnType<typeof clearMessages>;
+
+export const messages: Reducer<MessageState, AddMessageAction | ClearMessagesAction> = (state = [], action) => {
     switch (action.type) {
         case 'ADD_MESSAGE': {
             return [...state, action.message];
+        }
+        case 'CLEAR_MESSAGES': {
+            return [];
         }
     }
 

@@ -15,6 +15,7 @@ import { getEndpointBaseUrl, getEndpointUrlToken } from '../helper/endpoint';
 import { IWebchatSettings } from '../../common/interfaces/webchat-config';
 import { Options } from '@cognigy/socket-client/lib/interfaces/options';
 import { updateSettings } from '../store/config/config-reducer';
+import { clearMessages } from '../store/messages/message-reducer';
 
 export interface WebchatProps extends FromProps {
     url: string;
@@ -99,6 +100,10 @@ export class Webchat extends React.PureComponent<WebchatProps> {
 
     updateSettings = (settings: IWebchatSettings) => {
         this.store.dispatch(updateSettings(settings));
+    }
+
+    clearMessages = () => {
+        this.store.dispatch(clearMessages());
     }
 
     render() {
