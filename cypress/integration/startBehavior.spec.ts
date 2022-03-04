@@ -96,4 +96,50 @@ describe('Start Behavior', () => {
         cy.openWebchat();
         cy.getMessageFromHistory({ text: "text", data: { some: "data" } });
     })
+
+    it('should not automatically send a "get started message" without text and data', () => {
+        cy
+            .visitWebchat()
+            .initWebchat({
+                settings: {
+                    startBehavior: "injection",
+                    getStartedText: "some text",
+                    getStartedPayload: "",
+                    getStartedData: {}
+                }
+            });
+
+        cy.openWebchat();
+        cy.wait(3000);
+        cy.getHistory().then(history => {
+            expect(history.find(message => {
+                if (message.text)
+                    return false;
+
+                if (message.data) {
+                    if (typeof message.data === 'object' && Object.keys(message.data).length > 0) {
+                        return false
+                    }
+                }
+
+                return true;
+            }), "history doesn't have an empty message").to.be.undefined;
+        });
+    })
+
+    it('should not display a get-started-button without text and data', () => {
+        cy
+            .visitWebchat()
+            .initWebchat({
+                settings: {
+                    startBehavior: "button",
+                    getStartedText: "some text",
+                    getStartedPayload: "",
+                    getStartedData: {}
+                }
+            });
+
+        cy.openWebchat();
+        cy.get('[data-cognigy-webchat-toggle]').should('not.exist');
+    })
 });

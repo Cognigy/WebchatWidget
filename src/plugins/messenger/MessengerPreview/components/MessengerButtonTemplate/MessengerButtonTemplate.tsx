@@ -37,11 +37,12 @@ export const getMessengerButtonTemplate = ({
     }: IMessengerButtonTemplateProps & React.HTMLProps<HTMLDivElement>) => {
         const { text } = payload;
         const buttons = payload.buttons || [];
+        const hasMoreThanOnebutton = buttons && buttons.length > 1;
 
         const webchatButtonTemplateButtonId = useRandomId("webchatButtonTemplateButton");
         const webchatButtonTemplateTextId = useRandomId("webchatButtonTemplateHeader");
-        const buttonGroupAriaLabelledby = text ? webchatButtonTemplateTextId : undefined;
-        const a11yProps = buttons?.length > 1 ? {role: "group", "aria-labelledby": buttonGroupAriaLabelledby} : {};
+        const buttonGroupAriaLabelledby = text ? `${webchatButtonTemplateTextId} srOnly-${webchatButtonTemplateTextId}` : undefined;
+        const a11yProps = hasMoreThanOnebutton ? {role: "group", "aria-labelledby": buttonGroupAriaLabelledby} : {};
 
         useEffect(() => {
             const firstButton = document.getElementById(`${webchatButtonTemplateButtonId}-0`);
@@ -61,6 +62,14 @@ export const getMessengerButtonTemplate = ({
         return (
             <MessengerButtonHeader {...divProps} color={color} className="webchat-buttons-template-root">
                 {text && <Text className="webchat-buttons-template-header" dangerouslySetInnerHTML={{ __html }} id={webchatButtonTemplateTextId} />}
+
+                {/* sr-only text with total number of buttons or links in the group*/}
+                {hasMoreThanOnebutton && 
+                    <span className="sr-only" id={`srOnly-${webchatButtonTemplateTextId}`}>
+                        With {buttons?.length} buttons or links in
+                    </span>
+                }
+
                 <div {...a11yProps}>
 					{buttons.map((button, index) => (
 						<React.Fragment key={index}>

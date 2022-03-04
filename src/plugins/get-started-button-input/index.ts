@@ -6,7 +6,15 @@ const rule: InputRule = ({ config: { settings: { startBehavior, getStartedButton
     (messages.length === 0 || messages.length === 1 && messages[0].source === 'engagement')
     && startBehavior === 'button'
     && !!getStartedPayload
-    && (!!getStartedButtonText || !!getStartedText || !!getStartedData)
+    && (
+        !!getStartedButtonText 
+        || !!getStartedText 
+        || (
+            !!getStartedData 
+            && typeof getStartedData === 'object' 
+            && Object.keys(getStartedData).length > 0
+        )
+    )
 
 const getStartedInputPlugin: InputPlugin = {
     type: 'rule',

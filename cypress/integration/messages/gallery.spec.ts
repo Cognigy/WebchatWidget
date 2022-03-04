@@ -92,5 +92,30 @@ describe("Message with Gallery", () => {
 				.get('[aria-label="Previous Item"]').click()
 				.get(".control-next").should("be.visible")
         })
-	})
+	})    
+    
+    it("should render the gallery image in a fixed aspect ratio", () => {
+        cy.withMessageFixture('gallery', () => {
+            cy.get(".webchat-carousel-template-frame [role=img]").parent().then(element => {
+                expect(element.innerHeight()).to.equal(element.innerWidth() / 2);
+            });
+        })
+    });
+
+    it("should render the gallery image in a dynamic aspect ratio", () => {
+        cy.visitWebchat();
+        cy.initMockWebchat({
+            settings: {
+                dynamicImageAspectRatio: true
+            }
+        });
+        cy.openWebchat();
+
+        cy.withMessageFixture('gallery', () => {
+            cy.wait(1000);
+            cy.get(".webchat-carousel-template-frame img").then(element => {
+                expect(element.innerHeight()).to.equal(element.innerWidth());
+            });
+        })
+    });
 })

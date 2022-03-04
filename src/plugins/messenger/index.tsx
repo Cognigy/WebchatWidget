@@ -10,7 +10,13 @@ import { sanitizeUrl } from "@braintree/sanitize-url";
 import { IFBMURLButton } from "./MessengerPreview/interfaces/Button.interface";
 
 const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
-    const cognigyData = message.data?._cognigy;
+    const cognigyData = (() => {
+        if (!config.settings.disableDefaultReplyCompatiblityMode && message.data?._data?._cognigy) {
+            return message.data?._data?._cognigy;
+        }
+
+        return message.data?._cognigy;
+    })();
 
     if (!cognigyData)
         return null;
@@ -28,7 +34,11 @@ const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
     return _webchat || _facebook;
 }
 
-const isMessengerPayload = (message: IMessage, config: IWebchatConfig) => !!getMessengerPayload(message, config);
+const isMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
+    const payload = getMessengerPayload(message, config);
+
+    return payload && Object.keys(payload).length > 0;
+}
 
 // return true if a message is a messenger generic template with more than one element
 // one element should be rendered like default
