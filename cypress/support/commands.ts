@@ -82,14 +82,11 @@ Cypress.Commands.add('openWebchat', () => {
 
 Cypress.Commands.add('receiveMessage', (text?: string, data?: Object, source: 'bot' | 'agent' = 'bot') => {
     cy.get('@webchat').then(webchat => {
-        (webchat as any).store.dispatch({
-            type: 'RECEIVE_MESSAGE',
-            message: {
-                id: `fakemessage-${Math.random()}-${Date.now()}`,
-                text,
-                data,
-                source
-            }
+        (webchat as any)._handleOutput({
+            id: `fakemessage-${Math.random()}-${Date.now()}`,
+            text,
+            data,
+            source
         });
     });
 
