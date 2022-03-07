@@ -595,10 +595,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     disableBranding={config.settings.disableBranding}
                     ref={this.history as any}
                     className="webchat-chat-history"
-                    tabIndex={0}
-                    role="log"
-                    aria-live="polite"
-                    id="webchatChatHistoryWrapperLiveLogPanel"
                 >
                     <h2 className="sr-only" id="webchatChatHistoryHeading">Chat History</h2>
                     {this.renderHistory()}

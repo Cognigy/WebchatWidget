@@ -9,7 +9,8 @@ const GetStartedButton = styled(Button)(({ theme }) => ({
     flexGrow: 1,
     "&:focus": {
         outline: "none",
-        boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`
+        boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`,
+        backgroundColor: theme.primaryStrongColor,
     }
 }));
 

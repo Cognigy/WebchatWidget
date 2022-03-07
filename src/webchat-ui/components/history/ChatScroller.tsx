@@ -1,29 +1,46 @@
 import * as React from 'react'
+import {styled} from '../../style';
 import Branding from '../branding/Branding'
 
 const CLIENT_HEIGHT_OFFSET = 16 + 70; // banner + typing indicator
 
 export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
     disableBranding: boolean;
+    showFocusOutline: boolean; 
  }
 
 type InnerProps = OuterProps;
 
 interface IState {
     height: number;
+    isChatLogFocused: boolean;
 }
+
+const ChatLogWrapper = styled.div<OuterProps>(({theme}) => props => ({
+    outline: props.showFocusOutline ? `1px auto ${theme.primaryWeakColor}` : "none",
+}))
+
+const ChatLog = styled.div(({theme}) => ({
+    paddingTop: theme.unitSize * 2,
+    "&:focus": {
+        outline: "none",
+    }
+}));
 
 export class ChatScroller extends React.Component<InnerProps, IState> {
     rootRef: React.RefObject<HTMLDivElement>;
+    innerRef: React.RefObject<HTMLDivElement>
 
     constructor(props: InnerProps) {
         super(props);
 
         this.state = {
-            height: 0
+            height: 0,
+            isChatLogFocused: false
         }
 
         this.rootRef = React.createRef();
+        this.innerRef = React.createRef();
     }
 
     scrollToBottom = () => {
@@ -64,17 +81,38 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         this.scrollToBottom();
     }
 
+    // Add outline to the parent element when Chat log receives focus
+    handleFocus = () => {
+        if(this.innerRef.current === document.activeElement) {
+            this.setState({isChatLogFocused: true});
+        }        
+    }
+
+    // Remove outline from the parent element when Chat log loses focus 
+    handleBlur = () => {
+        this.setState({isChatLogFocused: false})
+    }
+
     render() {
-        const { children, disableBranding, ...props } = this.props;
+        const { children, disableBranding, showFocusOutline, ...restProps } = this.props;
 
         return (
-            <div
-                {...props}
-                ref={this.rootRef}
-            >
-                {children}
+            <ChatLogWrapper ref={this.rootRef} showFocusOutline={this.state.isChatLogFocused} {...restProps}>
+                {/* Focusable Chat log region*/}
+                <ChatLog
+                    ref={this.innerRef}
+                    id="webchatChatHistoryWrapperLiveLogPanel"
+                    tabIndex={0}
+                    role="log"
+                    aria-live="polite"
+                    onFocus={this.handleFocus}
+                    onBlur={this.handleBlur}
+                >
+                    {children}
+                </ChatLog>
+                {/* Branding Logo Link */}
                 {!disableBranding && <Branding />}
-            </div>
+            </ChatLogWrapper>
         )
     }
 }

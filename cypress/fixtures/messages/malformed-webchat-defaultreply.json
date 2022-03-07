@@ -1,0 +1,39 @@
+{
+  "text": null,
+  "data": {
+    "_cognigy": {
+      "_webchat": {
+        "_pointer": "quick-replies",
+        "quick-replies": {
+          "message": {
+            "text": "some quick reply message",
+            "quick_replies": [
+              {
+                "content_type": "text",
+                "title": "a title",
+                "payload": "a payload"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "_data": {
+      "_cognigy": {
+        "_webchat": {
+          "message": {
+            "text": "some quick reply message",
+            "quick_replies": [
+              {
+                "content_type": "text",
+                "title": "a title",
+                "payload": "a payload"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "source": "bot"
+}

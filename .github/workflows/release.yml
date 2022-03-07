@@ -1,0 +1,38 @@
+name: Automatic Draft Release
+
+on: 
+  push: 
+    tags:
+      - 'v*'
+
+jobs: 
+  create-draft-release: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Build
+        run: npm ci && npm run build
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          files: |
+            dist/*.js
+            dist/*.gz
+            dist/*.br
+          body: |
+            ### Potentially breaking changes
+
+            ### New Features
+
+            ### Bug Fixes
+
+            ### Improvements
