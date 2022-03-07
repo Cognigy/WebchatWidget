@@ -1,5 +1,3 @@
-/// <reference path="../../support/index.d.ts" />
-
 describe("Message with AdaptiveCard", () => {
     beforeEach(() => {
         cy
@@ -24,10 +22,12 @@ describe("Message with AdaptiveCard", () => {
             cy.contains("OK").click();
 
             cy.getMessageFromHistory({ data: {
-                "adaptivecards": {
-                    "FoodChoice": "Steak"
+                adaptivecards: {
+                    FoodChoice: "Steak",
+                    SteakTemp: "medium-rare",
+                    SteakOther: "Tender, please!"
                 }
-            }})
+            }});
         });
     });
 });

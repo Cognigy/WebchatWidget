@@ -3,7 +3,6 @@ import AdaptiveCard from './components/Adaptivecard'
 import { registerMessagePlugin } from '../helper';
 
 import { updateAdaptiveCardCSSCheaply } from './styles';
-import { Action, SubmitAction } from 'adaptivecards';
 
 const AdaptiveCards = (props) => {
     const { theme, onSendMessage, message } = props;
@@ -15,10 +14,10 @@ const AdaptiveCards = (props) => {
     const cardPayload = message.data._plugin.payload;
 
     const onExecuteAction = useCallback((action) => {
-        switch (action.type) {
+        switch (action._propertyBag?.type) {
             case "Action.Submit": {
                 onSendMessage("", {
-                    adaptivecards: action.data
+                    adaptivecards: action._processedData
                 });
 
                 return;

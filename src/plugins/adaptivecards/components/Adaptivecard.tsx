@@ -1,7 +1,7 @@
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import React, { memo, useCallback} from 'react';
 
 import { FC, useEffect, useRef } from "react";
-import { Action, AdaptiveCard as MSAdaptiveCard, CardElement, HostConfig, OpenUrlAction, ShowCardAction, SubmitAction } from 'adaptivecards';
+import { Action, AdaptiveCard as MSAdaptiveCard, HostConfig } from 'adaptivecards';
 
 interface IAdaptiveCardProps {
     hostConfig?: Partial<HostConfig>;
@@ -22,7 +22,7 @@ const AdaptiveCard: FC<IAdaptiveCardProps> = (props) => {
     );
     const executeAction = useCallback(
         (a: Action) => {
-            onExecuteAction?.(a.toJSON());
+            onExecuteAction?.(a);
         },
         [onExecuteAction]
     );
