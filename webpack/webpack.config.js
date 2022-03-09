@@ -4,7 +4,8 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 
 /**
- * Our "base config"
+ * Returns our "base config"
+ * as a "getter function"
  */
 module.exports = () => ({
     mode: "production",

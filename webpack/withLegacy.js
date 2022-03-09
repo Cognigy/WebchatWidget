@@ -24,7 +24,13 @@ const getLegacyRules = (rules) => rules.map(rule => {
 });
 
 /**
- * Changes target output to "legacy" variant for older browsers
+ * Updates a build configuration to target legacy browsers
+ * - emits a .legacy.js file
+ * - adds polyfills
+ * - adds babel-preset-env
+ * - emits es5
+ * 
+ * used in production builds
  */
 module.exports = (config) => ({
     ...config,

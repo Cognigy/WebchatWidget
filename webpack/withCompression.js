@@ -2,7 +2,11 @@ const zlib = require("zlib");
 const CompressionPlugin = require("compression-webpack-plugin");
 
 /**
- * Adds .br and .gz variants of files in production
+ * Updates a config to emit compressed file outputs
+ * - emits brotli outputs (.br)
+ * - emits gzip outputs (.gz)
+ * 
+ * used in production builds
  */
 module.exports = (config) => ({
     ...config,

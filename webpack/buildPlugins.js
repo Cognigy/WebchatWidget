@@ -1,5 +1,10 @@
 const path = require("path");
 
+/**
+ * Modifies a "config" object to build a "plugin" file
+ * - updates the filename
+ * - adds the "react alias" to reuse react from the webchat
+ */
 module.exports = (config) => ({
     ...config,
     output: {
