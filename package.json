@@ -46,7 +46,7 @@
     "@emotion/styled": "^11.6.0",
     "adaptivecards": "^2.10.0",
     "dompurify": "^2.0.7",
-    "flatpickr": "4.6.3",
+    "flatpickr": "4.6.10",
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.21",
     "memoize-one": "^6.0.0",
