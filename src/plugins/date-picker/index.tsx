@@ -77,6 +77,10 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
     padding: `${theme.unitSize}px ${theme.unitSize * 2}px`,
     borderRadius: theme.unitSize * 2,
+    "&:focus": {
+        outline: "none",
+        boxShadow: `0 0 4px 3px ${theme.primaryWeakColor}` 
+    }
   }));
 
   const PrimaryButton = styled(Button)(({ theme }) => ({
