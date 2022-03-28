@@ -164,6 +164,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       monthDropdown?.focus();
       // Include the calender item to tab order
       monthDropdown?.setAttribute("tabIndex", "0");
+      monthDropdown?.setAttribute("aria-labelledby", "webchatDatePickerHeaderLabel");
     }
 
     handleSubmit = () => {
@@ -305,6 +306,8 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       let cancelButtonText = message.data._plugin.data.cancelButtonText || 'cancel';
       let submitButtonText = message.data._plugin.data.submitButtonText || 'submit';
 
+      const a11yProps = {role:"dialog", "aria-modal":"true", "aria-labelledby":"webchatDatePickerHeaderLabel", "aria-describedby": "webchatDatePickerContentDescription"};
+
       const options = DatePicker.getOptionsFromMessage(message);
 
       let datepickerWasOpen = false;
@@ -321,9 +324,15 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       }
 
       return (
-        <DatePickerRoot {...attributes} className="webchat-plugin-date-picker" onKeyDown={this.onKeyDown}>
+        <DatePickerRoot {...attributes} className="webchat-plugin-date-picker" onKeyDown={this.onKeyDown} {...a11yProps}>
           <Header className="info webchat-plugin-date-picker-header">
-            <h2>{options.event}</h2>
+            <h2 id="webchatDatePickerHeaderLabel">{options.event}</h2>
+            <span className="sr-only" id="webchatDatePickerContentDescription">
+                Please use Left/ Right arrows to move focus to previous/ next day.
+                Please use Up/ Down arrows to move focus to the same day of previous/ next week.
+                Please use Control + Left/ Right arrows to change the grid of dates to previous/ next month.
+                Please use Control + Up/ Down arrows to change the grid of dates to previous/ next year.
+            </span>
           </Header>
           <Content className="webchat-plugin-date-picker-content">
             <Flatpickr
