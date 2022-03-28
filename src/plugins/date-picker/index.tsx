@@ -149,22 +149,25 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
   const processedMessages: Set<string> = new Set();
 
   class DatePicker extends React.Component<MessageComponentProps, IState> {
+    submitButtonRef: React.RefObject<HTMLButtonElement>;
+
     constructor(props) {
       super(props);
       this.state = {
         msg: "",
       };
+      this.submitButtonRef = React.createRef();
     }
 
     componentDidMount() {
       const webchatWindow = document.getElementById("webchatWindow");
       const element = webchatWindow?.getElementsByClassName("flatpickr-calendar");
       // Auto-focus the calender item on mount
-      const monthDropdown = element?.[0] as HTMLElement;
-      monthDropdown?.focus();
+      const calender = element?.[0] as HTMLElement;
+      calender?.focus();
       // Include the calender item to tab order
-      monthDropdown?.setAttribute("tabIndex", "0");
-      monthDropdown?.setAttribute("aria-labelledby", "webchatDatePickerHeaderLabel");
+      calender?.setAttribute("tabIndex", "0");
+      calender?.setAttribute("aria-labelledby", "webchatDatePickerHeaderLabel");
     }
 
     handleSubmit = () => {
@@ -194,9 +197,26 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     }
 
     onKeyDown = (event) => {
+      const webchatWindow = document.getElementById("webchatWindow");
+      const element = webchatWindow?.getElementsByClassName("flatpickr-calendar");
+      const calender = element?.[0] as HTMLElement;
+      const datePickerSubmitButton = this.submitButtonRef?.current;
+
+      // Close Date picker on pressing Escape
       if(event.key === "Esc" || event.key === "Escape") {
         this.handleAbort();
-        //TODO: Auto focus date picker on close
+      }
+      
+      // Focus should be trapped within date-picker
+      // Handle Tab Navigation
+      if (!event.shiftKey && event.key === "Tab" && event.target === datePickerSubmitButton) {
+        event.preventDefault();
+        calender?.focus(); // Move focus to calender from submit button
+      }
+      // Handle Reverse Tab Navigation
+      if (event.shiftKey && event.key === "Tab" && event.target === calender) {
+        event.preventDefault();
+        datePickerSubmitButton?.focus(); // Move focus to Submit button from calender
       }
     }
 
@@ -343,8 +363,12 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
             />
           </Content>
           <Footer className="webchat-plugin-date-picker-footer">
-            <CancelButton type="button" onClick={this.handleAbort} className="cancelButton">{cancelButtonText}</CancelButton>
-            <SubmitButton type="button" onClick={this.handleSubmit} className="submitButton">{submitButtonText}</SubmitButton>
+            <CancelButton type="button" onClick={this.handleAbort} className="cancelButton">
+              {cancelButtonText}
+            </CancelButton>
+            <SubmitButton type="button" onClick={this.handleSubmit} className="submitButton" ref={this.submitButtonRef}>
+              {submitButtonText}
+            </SubmitButton>
           </Footer>
         </DatePickerRoot>
       );
