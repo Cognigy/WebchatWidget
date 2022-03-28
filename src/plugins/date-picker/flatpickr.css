@@ -42,7 +42,7 @@
  [data-cognigy-webchat-root] .flatpickr-calendar.inline {
      display: block;
      position: relative;
-     width: 100%;
+     padding: 8px 16px;
  }
 
  [data-cognigy-webchat-root] .flatpickr-calendar.static {
@@ -136,7 +136,8 @@
  }
 
  [data-cognigy-webchat-root] .flatpickr-calendar:focus {
-     outline: 0;
+    outline: 0;
+    box-shadow: inset 0px 0px 0 1px #959ea9;
  }
 
  [data-cognigy-webchat-root] .flatpickr-wrapper {

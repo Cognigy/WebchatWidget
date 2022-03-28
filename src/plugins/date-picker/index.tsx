@@ -129,7 +129,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     zIndex: 2
   }));
 
-  const Content = styled(Padding)(({ theme }) => ({
+  const Content = styled.div(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
   }))
@@ -154,10 +154,12 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
     componentDidMount() {
       const webchatWindow = document.getElementById("webchatWindow");
-      const element = webchatWindow?.getElementsByClassName("flatpickr-monthDropdown-months");
-      // Get Month Select dropdown in DatePicker and autoFocus it on mount
+      const element = webchatWindow?.getElementsByClassName("flatpickr-calendar");
+      // Auto-focus the calender item on mount
       const monthDropdown = element?.[0] as HTMLElement;
       monthDropdown?.focus();
+      // Include the calender item to tab order
+      monthDropdown?.setAttribute("tabIndex", "0");
     }
 
     handleSubmit = () => {
