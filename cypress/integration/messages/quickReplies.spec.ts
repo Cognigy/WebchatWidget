@@ -37,15 +37,34 @@ describe("Message with Quick Replies", () => {
             cy.contains("foobar003qr02").children("img").should("have.length", 1);   
             
         }, reInit);
-	})
-	
-	it("should render image alt text when present", () => {
+    })
+
+    it("should render image alt text when present", () => {
         cy.withMessageFixture('quick-replies', () => {
-			cy.contains("foobar003qr02").children("img").should("have.attr", "alt")
-				.then(alttext => {
-					expect(alttext).to.be.eq("alt text");
-				});   
+            cy.contains("foobar003qr02").children("img").should("have.attr", "alt")
+                .then(alttext => {
+                    expect(alttext).to.be.eq("alt text");
+                });   
             
         }, reInit);
     })
+
+    it("should have role 'group' when more than one quick reply button", () => {
+        cy.withMessageFixture('quick-replies', () => {
+            cy.get(".webchat-quick-reply-template-replies-container")
+                .should("have.attr", "role", "group");
+            
+        }, reInit);
+    })
+
+    it("quick reply button group should have 'aria-labelledby' attribute", () => {
+        cy.withMessageFixture('quick-replies', () => {
+            cy.get(".webchat-quick-reply-template-replies-container")
+                .invoke("attr", "aria-labelledby")
+                .should("contain", "webchatQuickReplyTemplateHeader")
+                .should("contain", "srOnly-webchatQuickReplyTemplateHeader");
+            
+        }, reInit);
+    })
+
 })
