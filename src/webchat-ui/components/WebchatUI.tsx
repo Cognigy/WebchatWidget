@@ -350,7 +350,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
     handleKeydown = (event) => {
         const { enableFocusTrap, enableRating } = this.props.config.settings;
-        const { open } = this.props;
+        const { open, hasGivenRating } = this.props;
+
+        const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
 
         if (enableFocusTrap && open) {
             /**
@@ -362,9 +364,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
              * on Shift + Tab navigation.
              * 
              */
-            const isCloseButtonAsTarget = event.target === this.closeButtonInHeaderRef?.current;
+        	const isCloseButtonAsTarget = event.target === this.closeButtonInHeaderRef?.current;
             const isRatingButtonAsTarget = event.target === this.ratingButtonInHeaderRef?.current;
-            if ((!enableRating && isCloseButtonAsTarget) || (enableRating && isRatingButtonAsTarget)) {
+            
+            if ((!showRatingButton && isCloseButtonAsTarget) || (showRatingButton && isRatingButtonAsTarget)) {
                 if (event.shiftKey && event.key === "Tab") {
                     event.preventDefault();
                     this.handleReverseTabNavigation();
