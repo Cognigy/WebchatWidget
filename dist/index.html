@@ -8,9 +8,9 @@
 <body>
     <script src="./webchat.js"></script>
     <script>
-        initWebchat('https://endpoint-dev-v4.cognigy.ai/599d6418ab91a6f455920996c53347e2a13d660ea1652707ab77bb0ff469a41b', {
+        initWebchat('https://endpoint-trial.cognigy.ai/325a1e29b99441f4640ba659706763fb77006e00dc0e3720600f523557d7afaa', {
             userId: "user",
-            // sessionId: "session",
+            sessionId: "session",
             settings: {
                 // colorScheme: '#FAB'
                 enableUnreadMessageSound: true,
@@ -20,14 +20,11 @@
                 showEngagementMessagesInChat: true,
                 getStartedText: "",
                 engagementMessageText: "Hi there!",
-				engagementMessageDelay: 5000,
-				enableFocusTrap: true,
-				enableRating: "once"
+                engagementMessageDelay: 5000
             }
         }).then(function(webchat) {
             window.cognigyWebchat = webchat;
-			webchat.open();
-			webchat.sendMessage("hi")
+            // webchat.open();
         });
     </script>
 </body>
