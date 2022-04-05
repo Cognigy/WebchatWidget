@@ -12,6 +12,7 @@ import moment from 'moment';
 import { MessageComponentProps, MessagePlugin, MessagePluginFactory } from "../../common/interfaces/message-plugin";
 import { createMessagePlugin, registerMessagePlugin } from "../helper";
 import { IMessage } from "../../common/interfaces/message";
+import uuid from "uuid"
 
 const datePickerDaySelector = ".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay";
 
@@ -77,6 +78,10 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
     padding: `${theme.unitSize}px ${theme.unitSize * 2}px`,
     borderRadius: theme.unitSize * 2,
+    "&:focus": {
+        outline: "none",
+        boxShadow: `0 0 4px 3px ${theme.primaryWeakColor}` 
+    }
   }));
 
   const PrimaryButton = styled(Button)(({ theme }) => ({
@@ -129,7 +134,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     zIndex: 2
   }));
 
-  const Content = styled(Padding)(({ theme }) => ({
+  const Content = styled.div(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
   }))
@@ -145,11 +150,25 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
   const processedMessages: Set<string> = new Set();
 
   class DatePicker extends React.Component<MessageComponentProps, IState> {
+    submitButtonRef: React.RefObject<HTMLButtonElement>;
+
     constructor(props) {
       super(props);
       this.state = {
         msg: "",
       };
+      this.submitButtonRef = React.createRef();
+    }
+
+    componentDidMount() {
+      const webchatWindow = document.getElementById("webchatWindow");
+      const element = webchatWindow?.getElementsByClassName("flatpickr-calendar");
+      // Auto-focus the calender item on mount
+      const calender = element?.[0] as HTMLElement;
+      calender?.focus();
+      // Include the calender item to tab order
+      calender?.setAttribute("tabIndex", "0");
+      calender?.setAttribute("aria-labelledby", "webchatDatePickerHeaderLabel");
     }
 
     handleSubmit = () => {
@@ -176,6 +195,30 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       const { message } = this.props;
 
       this.props.onDismissFullscreen();
+    }
+
+    onKeyDown = (event) => {
+      const webchatWindow = document.getElementById("webchatWindow");
+      const element = webchatWindow?.getElementsByClassName("flatpickr-calendar");
+      const calender = element?.[0] as HTMLElement;
+      const datePickerSubmitButton = this.submitButtonRef?.current;
+
+      // Close Date picker on pressing Escape
+      if(event.key === "Esc" || event.key === "Escape") {
+        this.handleAbort();
+      }
+      
+      // Focus should be trapped within date-picker
+      // Handle Tab Navigation
+      if (!event.shiftKey && event.key === "Tab" && event.target === datePickerSubmitButton) {
+        event.preventDefault();
+        calender?.focus(); // Move focus to calender from submit button
+      }
+      // Handle Reverse Tab Navigation
+      if (event.shiftKey && event.key === "Tab" && event.target === calender) {
+        event.preventDefault();
+        datePickerSubmitButton?.focus(); // Move focus to Submit button from calender
+      }
     }
 
     static isWeekendDate(date: string) {
@@ -284,6 +327,11 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       let cancelButtonText = message.data._plugin.data.cancelButtonText || 'cancel';
       let submitButtonText = message.data._plugin.data.submitButtonText || 'submit';
 
+      const datePickerHeading = `webchatDatePickerHeading-${uuid.v4()}`;
+      const datePickerDescription = `webchatDatePickerContentDescription-${uuid.v4()}`;
+
+      const a11yProps = {role:"dialog", "aria-modal":"true", "aria-labelledby": datePickerHeading, "aria-describedby": datePickerDescription};
+
       const options = DatePicker.getOptionsFromMessage(message);
 
       let datepickerWasOpen = false;
@@ -300,9 +348,15 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       }
 
       return (
-        <DatePickerRoot {...attributes} className="webchat-plugin-date-picker">
+        <DatePickerRoot {...attributes} className="webchat-plugin-date-picker" onKeyDown={this.onKeyDown} {...a11yProps}>
           <Header className="info webchat-plugin-date-picker-header">
-            <h2>{options.event}</h2>
+            <h2 id={datePickerHeading}>{options.event}</h2>
+            <span className="sr-only" id={datePickerDescription}>
+                Please use Left/ Right arrows to move focus to previous/ next day.
+                Please use Up/ Down arrows to move focus to the same day of previous/ next week.
+                Please use Control + Left/ Right arrows to change the grid of dates to previous/ next month.
+                Please use Control + Up/ Down arrows to change the grid of dates to previous/ next year.
+            </span>
           </Header>
           <Content className="webchat-plugin-date-picker-content">
             <Flatpickr
@@ -313,8 +367,12 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
             />
           </Content>
           <Footer className="webchat-plugin-date-picker-footer">
-            <CancelButton type="button" onClick={this.handleAbort} className="cancelButton">{cancelButtonText}</CancelButton>
-            <SubmitButton type="button" onClick={this.handleSubmit} className="submitButton">{submitButtonText}</SubmitButton>
+            <CancelButton type="button" onClick={this.handleAbort} className="cancelButton">
+              {cancelButtonText}
+            </CancelButton>
+            <SubmitButton type="button" onClick={this.handleSubmit} className="submitButton" ref={this.submitButtonRef}>
+              {submitButtonText}
+            </SubmitButton>
           </Footer>
         </DatePickerRoot>
       );

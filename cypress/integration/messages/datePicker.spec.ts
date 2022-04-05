@@ -44,10 +44,44 @@ describe("Date Picker", () => {
             cy
                 .contains("foobar012b3").click();
 
-						// Our default locale for english is "en-US"
-						const formattedDate = moment().format("MM/DD/YYYY");
+            // Our default locale for english is "en-US"
+            const formattedDate = moment().format("MM/DD/YYYY");
             cy.get(".regular-message.user").contains(formattedDate);
         })
     })
 
+    it("plugin should have aria attributes necessary for a dialog", () => {
+        cy.withMessageFixture('date-picker', () => {
+            cy
+                .contains("foobar012b1").click()
+            cy
+                .get(".webchat-plugin-date-picker")
+                .should("have.attr", "role", "dialog")
+                .should("have.attr", "aria-modal", "true")
+                .should("have.attr", "aria-labelledby");
+            cy
+                .get(".webchat-plugin-date-picker")
+                .should("have.attr", "aria-describedby");
+        })
+    })
+
+    it("calender container element should have tabIndex 0", () => {
+        cy.withMessageFixture('date-picker', () => {
+            cy
+                .contains("foobar012b1").click()
+            cy
+                .get(".flatpickr-calendar ")
+                .should("have.attr", "tabIndex", "0");
+        })
+    })
+
+    it("calender container element should be auto-focused", () => {
+        cy.withMessageFixture('date-picker', () => {
+            cy
+                .contains("foobar012b1").click()
+            cy
+                .get(".flatpickr-calendar ")
+                .should("be.focused");
+        })
+    })
 })
