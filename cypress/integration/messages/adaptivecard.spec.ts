@@ -41,5 +41,19 @@ describe("Message with AdaptiveCard", () => {
                 expect(anchor.attr('href')).to.equal("https://example.org");
             });
         });
-    })
+    });   
+    
+    it("navigates when clicking an Action.OpenUrl button", () => {
+        cy.withMessageFixture('adaptivecard-actions', () => {
+            cy.window().then(window => {
+                cy.stub(window, 'open').as("winOpen");
+            });
+            
+            cy.contains("Open Example Page").click();
+
+            cy.get("@winOpen").then(open => {
+                expect(open).to.be.calledOnceWith("https://example.org", "_blank");
+            })
+        });
+    });
 });
