@@ -30,4 +30,16 @@ describe("Message with AdaptiveCard", () => {
             }});
         });
     });
+
+    it("renders a hyperlink when rendering markdown markup", () => {
+        cy.withMessageFixture('adaptivecard-markdown', () => {
+            cy.contains("Here's some text with markdown syntax and a hyperlink embedded right into it.").should("be.visible");
+
+            cy.contains("strong", "markdown").should('be.visible');
+
+            cy.contains("a", "hyperlink").then((anchor) => {
+                expect(anchor.attr('href')).to.equal("https://example.org");
+            });
+        });
+    })
 });
