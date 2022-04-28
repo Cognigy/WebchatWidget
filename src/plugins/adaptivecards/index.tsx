@@ -40,7 +40,7 @@ const AdaptiveCards = (props) => {
     }, [cardPayload]);
 
     return (
-        <div className='adaptivecard-wrapper'>
+        <div className='adaptivecard-wrapper internal'>
             {card}
         </div>
     )

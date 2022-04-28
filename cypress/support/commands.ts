@@ -201,3 +201,12 @@ Cypress.Commands.add('getMessageFromHistory', (messageOrMatcher) => {
         errorMsg: "Message could not be found!"
     });
 });
+
+Cypress.Commands.add("loadJavaScriptFixture", (fixture: string) => {
+    cy.fixture(fixture, null).then(arraybuffer => {
+        const jsString = Buffer.from(arraybuffer).toString('utf-8');
+        cy.window().then(window => {
+            window.eval(jsString);
+        });
+    });
+});
