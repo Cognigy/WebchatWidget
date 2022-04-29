@@ -36,7 +36,7 @@ describe("Message with AdaptiveCard", () => {
         });
     });
 
-    it.only("prefers the sideoaded adaptivecards plugin over the internal one", () => {
+    it("prefers the sideoaded adaptivecards plugin over the internal one", () => {
         cy.visitWebchat();
         cy.loadJavaScriptFixture("adaptivecards.webchat-plugin.js");
         cy.initMockWebchat();
@@ -48,7 +48,7 @@ describe("Message with AdaptiveCard", () => {
         cy.get(".adaptivecard-wrapper.internal").should("not.exist");
     });
 
-    it.only("uses the internal adaptivecards plugin if no other is sideloaded", () => {
+    it("uses the internal adaptivecards plugin if no other is sideloaded", () => {
         cy.visitWebchat();
         cy.initMockWebchat();
         cy.openWebchat();
