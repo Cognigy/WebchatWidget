@@ -22,6 +22,13 @@ const AdaptiveCards = (props) => {
 
                 return;
             }
+
+            case "Action.OpenUrl": {
+                const url = action._propertyBag?.url;
+                window.open(url, "_blank");
+
+                return;
+            }
         }
     }, [onSendMessage]);
 
