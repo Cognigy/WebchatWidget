@@ -2,11 +2,33 @@ import React, { memo, useCallback} from 'react';
 
 import { FC, useEffect, useRef } from "react";
 import { Action, AdaptiveCard as MSAdaptiveCard, HostConfig } from 'adaptivecards';
+import { Remarkable } from 'remarkable';
+import { sanitizeHTML } from '../../../webchat/helper/sanitize';
 
 interface IAdaptiveCardProps {
     hostConfig?: Partial<HostConfig>;
     onExecuteAction?: (actionJson: any) => void;
     payload?: boolean;
+}
+
+// it's designed to be used as a signleton instance, following their documentation
+const md = new Remarkable();
+
+/**
+ * Manually add Support for rending Markdown, as described here:
+ * https://www.npmjs.com/package/adaptivecards#user-content-option-2-any-other-3rd-party-library
+ * 
+ * We went for "remarkable" over the suggested "markdown-it", because
+ * - it has a smaller footprint
+ * - it supports all standard features
+ * - we already do have our own "sanitizing" approach which we can reuse here
+ */
+MSAdaptiveCard.onProcessMarkdown = (text, result) => {
+    const html = md.render(text);
+    const saneHtml = sanitizeHTML(html);
+
+    result.outputHtml = saneHtml;
+    result.didProcess = true;
 }
 
 /**
