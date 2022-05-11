@@ -348,11 +348,23 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         }
     }
 
+    handleTabNavigation = (event, hasRatingButton) => {
+        if(hasRatingButton) {
+            event.preventDefault();
+            const webchatHeaderRatingButton = document.getElementById("webchatHeaderOpenRatingDialogButton");
+            webchatHeaderRatingButton?.focus();
+        } else {
+            event.preventDefault();
+            const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
+            webchatHistoryPanel?.focus();
+        }
+    }
+
     handleKeydown = (event) => {
         const { enableFocusTrap, enableRating } = this.props.config.settings;
         const { open, hasGivenRating } = this.props;
 
-        const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
+        const hasRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
 
         if (enableFocusTrap && open) {
             /**
@@ -370,9 +382,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             const isHistoryPanelAsTarget = event.target === document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
    
             if (
-                (!closeButton && !showRatingButton && isHistoryPanelAsTarget) ||
-                (closeButton && !showRatingButton && isCloseButtonAsTarget) ||
-                (showRatingButton && isRatingButtonAsTarget)
+                (!closeButton && !hasRatingButton && isHistoryPanelAsTarget) ||
+                (closeButton && !hasRatingButton && isCloseButtonAsTarget) ||
+                (hasRatingButton && isRatingButtonAsTarget)
             ) {
                 if (event.shiftKey && event.key === "Tab") {
                     event.preventDefault();
@@ -389,22 +401,21 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
              * On Shift + Tab navigation, the focus should move to the first element (from the bottom) within chat window.
              * 
              */
-            if (event.target === this.chatToggleButtonRef?.current) {
-                if (event.shiftKey && event.key === "Tab") {
-                    event.preventDefault();
-                    this.handleReverseTabNavigation();
-                } else if (event.key === "Tab") {
-                    const hasRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && this.props.hasGivenRating === false));
-                    if(hasRatingButton) {
+            const chatToggleButton = this.chatToggleButtonRef?.current;
+            const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
+            const getStartedButton = document.getElementById("webchatGetStartedButton");
+
+            if (chatToggleButton) {
+                if(event.target === chatToggleButton) {
+                    if (event.shiftKey && event.key === "Tab") {
                         event.preventDefault();
-                        const webchatHeaderRatingButton = document.getElementById("webchatHeaderOpenRatingDialogButton");
-                        webchatHeaderRatingButton?.focus();
-                    } else {
-                        event.preventDefault();
-                        const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
-                        webchatHistoryPanel?.focus();
+                        this.handleReverseTabNavigation();
+                    } else if (event.key === "Tab") {
+                        this.handleTabNavigation(event, hasRatingButton);
                     }
                 }
+            } else if((event.target === textMessageInput || event.target === getStartedButton) && !event.shiftKey && event.key === "Tab") {
+                this.handleTabNavigation(event, hasRatingButton);
             }
         }
     }
