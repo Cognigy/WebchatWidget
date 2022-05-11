@@ -364,10 +364,16 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
              * on Shift + Tab navigation.
              * 
              */
-        	const isCloseButtonAsTarget = event.target === this.closeButtonInHeaderRef?.current;
-            const isRatingButtonAsTarget = event.target === this.ratingButtonInHeaderRef?.current;
-            
-            if ((!showRatingButton && isCloseButtonAsTarget) || (showRatingButton && isRatingButtonAsTarget)) {
+            const closeButton = this.closeButtonInHeaderRef?.current;
+        	const isCloseButtonAsTarget = event.target === closeButton;
+            const isRatingButtonAsTarget = event.target ===  this.ratingButtonInHeaderRef?.current;
+            const isHistoryPanelAsTarget = event.target === document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
+   
+            if (
+                (!closeButton && !showRatingButton && isHistoryPanelAsTarget) ||
+                (closeButton && !showRatingButton && isCloseButtonAsTarget) ||
+                (showRatingButton && isRatingButtonAsTarget)
+            ) {
                 if (event.shiftKey && event.key === "Tab") {
                     event.preventDefault();
                     this.handleReverseTabNavigation();
@@ -570,8 +576,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     renderRegularLayout() {
         const {
             config,
-            messages,
-            typingIndicator,
             hasGivenRating,
             onShowRatingDialog,
         } = this.props;
