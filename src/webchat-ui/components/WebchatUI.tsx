@@ -349,7 +349,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     }
 
     handleTabNavigation = (event, hasRatingButton) => {
-        if(hasRatingButton) {
+        if (hasRatingButton) {
             event.preventDefault();
             const webchatHeaderRatingButton = document.getElementById("webchatHeaderOpenRatingDialogButton");
             webchatHeaderRatingButton?.focus();
@@ -363,13 +363,17 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     handleKeydown = (event) => {
         const { enableFocusTrap, enableRating } = this.props.config.settings;
         const { open, hasGivenRating } = this.props;
+        const { target, key, shiftKey } = event;
+        const shiftTabKeyPress = shiftKey && key === "Tab";
+        const tabKeyPress = !shiftKey && key === "Tab";        
 
         const hasRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
 
         if (enableFocusTrap && open) {
             /**
              * If the current focused element is the close button(if rating not enabled) or 
-             * rating thumbs up/down button (if rating enabled) in chat header, the focus moves
+             * rating thumbs up/down button (if rating enabled) in chat header or 
+             * chat history panel (if neither rating nor close button is present), the focus moves
              * to some element outside chat window on 'Shift + Tab' navigation.
              * 
              * In order to trap focus, move focus back to the first element (from the bottom) within chat window 
@@ -377,22 +381,23 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
              * 
              */
             const closeButton = this.closeButtonInHeaderRef?.current;
-        	const isCloseButtonAsTarget = event.target === closeButton;
-            const isRatingButtonAsTarget = event.target ===  this.ratingButtonInHeaderRef?.current;
-            const isHistoryPanelAsTarget = event.target === document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
+        	const isCloseButtonAsTarget = target === closeButton;
+            const isRatingButtonAsTarget = target ===  this.ratingButtonInHeaderRef?.current;
+            const isHistoryPanelAsTarget = target === document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
    
             if (
                 (!closeButton && !hasRatingButton && isHistoryPanelAsTarget) ||
                 (closeButton && !hasRatingButton && isCloseButtonAsTarget) ||
                 (hasRatingButton && isRatingButtonAsTarget)
             ) {
-                if (event.shiftKey && event.key === "Tab") {
+                if (shiftTabKeyPress) {
                     event.preventDefault();
                     this.handleReverseTabNavigation();
                 }
             }
             /**
-             * If the current focused element is the chat toggle button, the focus moves to some element 
+             * If chat toggle button is available and focused or if chat toggle button is not available and 
+             * text input or get-started button is focused, the focus moves to some element 
              * outside chat window on 'Tab' navigation.
              * 
              * In order to trap focus, move the focus back to the chat history panel(if rating not enabled) or
@@ -406,15 +411,15 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             const getStartedButton = document.getElementById("webchatGetStartedButton");
 
             if (chatToggleButton) {
-                if(event.target === chatToggleButton) {
-                    if (event.shiftKey && event.key === "Tab") {
+                if (target === chatToggleButton) {
+                    if (shiftTabKeyPress) {
                         event.preventDefault();
                         this.handleReverseTabNavigation();
-                    } else if (event.key === "Tab") {
+                    } else if (tabKeyPress) {
                         this.handleTabNavigation(event, hasRatingButton);
                     }
                 }
-            } else if((event.target === textMessageInput || event.target === getStartedButton) && !event.shiftKey && event.key === "Tab") {
+            } else if ((target === textMessageInput || target === getStartedButton) && tabKeyPress) {
                 this.handleTabNavigation(event, hasRatingButton);
             }
         }
