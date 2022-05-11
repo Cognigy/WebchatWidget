@@ -384,7 +384,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
              * 
              */
             const closeButton = this.closeButtonInHeaderRef?.current;
-        	const isCloseButtonAsTarget = target === closeButton;
+            const isCloseButtonAsTarget = target === closeButton;
             const isRatingButtonAsTarget = target ===  this.ratingButtonInHeaderRef?.current;
             const isHistoryPanelAsTarget = target === document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
    
