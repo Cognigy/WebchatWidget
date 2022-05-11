@@ -397,8 +397,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             }
             /**
              * If chat toggle button is available and focused or if chat toggle button is not available and 
-             * text input or get-started button is focused, the focus moves to some element 
-             * outside chat window on 'Tab' navigation.
+             * text input (when send message btn is disabled) or send button or get-started button is focused, 
+             * the focus moves to some element outside chat window on 'Tab' navigation.
              * 
              * In order to trap focus, move the focus back to the chat history panel(if rating not enabled) or
              * thumbs up/down rating button (if rating enabled) on Tab navigation.
@@ -409,6 +409,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             const chatToggleButton = this.chatToggleButtonRef?.current;
             const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
             const getStartedButton = document.getElementById("webchatGetStartedButton");
+            const sendMessageButton = document.getElementById("webchatInputMessageSendMessageButton") as HTMLButtonElement | null;
+            const isSendButtonDisabled = sendMessageButton?.disabled;
 
             if (chatToggleButton) {
                 if (target === chatToggleButton) {
@@ -419,7 +421,12 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         this.handleTabNavigation(event, hasRatingButton);
                     }
                 }
-            } else if ((target === textMessageInput || target === getStartedButton) && tabKeyPress) {
+            } else if (
+                ((isSendButtonDisabled && target === textMessageInput) || 
+                target === sendMessageButton || 
+                target === getStartedButton) && 
+                tabKeyPress) 
+            {
                 this.handleTabNavigation(event, hasRatingButton);
             }
         }
@@ -553,7 +560,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                 </UnreadMessagePreview>
                                             )
                                         }
-
                                         <FAB
                                             data-cognigy-webchat-toggle
                                             onClick={onToggle}
