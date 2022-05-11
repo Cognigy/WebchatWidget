@@ -249,7 +249,9 @@ export const getMessengerGenericTemplate = ({
 											onClick={e => onAction(e, button)}
 											className="webchat-carousel-template-button"
                                             config={this.props.config}
-											id={`${this.carouselButtonId}-${index}${i}`}
+                                            id={`${this.carouselButtonId}-${index}${i}`}
+                                            position={i + 1}
+                                            total={buttons.length}
 										/>
 									</React.Fragment>
 								))}

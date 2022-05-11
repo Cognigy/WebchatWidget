@@ -130,6 +130,7 @@ export const getMessengerTextWithQuickReplies = ({
                             }
 
                             const __html = config.settings.disableHtmlContentSanitization ? label : sanitizeHTML(label);
+                            const ariaLabel = hasMoreThanOneQuickReply ? `item ${index + 1} of ${quick_replies?.length}: ${__html}` : undefined;
 
                             return (
                                 <MessengerQuickReply
@@ -137,6 +138,7 @@ export const getMessengerTextWithQuickReplies = ({
                                     onClick={e => onAction(e, quickReply)}
                                     className="webchat-quick-reply-template-reply"
                                     id={`${webchatQuickReplyTemplateButtonId}-${index}`}
+                                    aria-label={ariaLabel}
                                 >
                                     {image}
                                     <span dangerouslySetInnerHTML={{ __html }} />
