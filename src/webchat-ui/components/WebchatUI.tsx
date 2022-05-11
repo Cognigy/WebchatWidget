@@ -332,6 +332,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         );
     }
 
+    // Handler for SHIFT+TAB Navigation in webchat
     handleReverseTabNavigation = () => {
         const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
         const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
@@ -348,6 +349,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         }
     }
 
+    // Handler for TAB Navigation in webchat
     handleTabNavigation = (event, hasRatingButton) => {
         if (hasRatingButton) {
             event.preventDefault();
@@ -360,6 +362,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         }
     }
 
+    // Key down handler
     handleKeydown = (event) => {
         const { enableFocusTrap, enableRating } = this.props.config.settings;
         const { open, hasGivenRating } = this.props;
