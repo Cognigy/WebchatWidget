@@ -537,6 +537,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             config,
             hasGivenRating,
             onShowRatingDialog,
+            messages
         } = this.props;
 
         const { enableRating } = config.settings;
@@ -560,6 +561,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     disableBranding={config.settings.disableBranding}
                     ref={this.history as any}
                     className="webchat-chat-history"
+                    tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
                 >
                     <h2 className="sr-only" id="webchatChatHistoryHeading">Chat History</h2>
                     {this.renderHistory()}
