@@ -84,4 +84,20 @@ describe("Date Picker", () => {
                 .should("be.focused");
         })
     })
+    
+    it("should trap focus", () => {
+        cy.withMessageFixture('date-picker', () => {
+            cy
+                .contains("foobar012b1").click();
+            cy
+                .realPress("Tab")
+                .contains("foobar012b2").should("be.focused");
+            cy
+                .realPress("Tab")
+                .contains("foobar012b3").should("be.focused");
+            cy
+                .realPress("Tab")
+                .get(".flatpickr-calendar ").should("be.focused");
+        })
+    })
 })
