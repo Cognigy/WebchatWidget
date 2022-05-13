@@ -29,6 +29,7 @@ import { TTyping } from '../../common/interfaces/typing';
 import UnreadMessagePreview from './presentational/UnreadMessagePreview';
 import Badge from './presentational/Badge';
 import getTextFromMessage from '../../webchat/helper/message';
+import getKeyboardFocusableElements from '../utils/find-focusable';
 import notificationSound from '../utils/notification-sound';
 import { findReverse } from '../utils/find-reverse';
 import "../../assets/style.css";
@@ -332,105 +333,38 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         );
     }
 
-    // Handler for SHIFT+TAB Navigation in webchat
-    handleReverseTabNavigation = () => {
-        const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
-        const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
-        const getStartedButton = document.getElementById("webchatGetStartedButton");
-        const webchatInputButtonMenu = document.getElementById("webchatInputButtonMenu");
-        if (textMessageInput) {
-            textMessageInput.focus();
-        } else if (getStartedButton) {
-            getStartedButton.focus();
-        } else if (webchatInputButtonMenu) {
-            webchatInputButtonMenu.focus();
-        } else {
-            webchatHistoryPanel?.focus()
-        }
-    }
-
-    // Handler for TAB Navigation in webchat
-    handleTabNavigation = (event, hasRatingButton) => {
-        if (hasRatingButton) {
-            event.preventDefault();
-            const webchatHeaderRatingButton = document.getElementById("webchatHeaderOpenRatingDialogButton");
-            webchatHeaderRatingButton?.focus();
-        } else {
-            event.preventDefault();
-            const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
-            webchatHistoryPanel?.focus();
-        }
-    }
-
     // Key down handler
     handleKeydown = (event) => {
-        const { enableFocusTrap, enableRating } = this.props.config.settings;
-        const { open, hasGivenRating } = this.props;
+        const { enableFocusTrap } = this.props.config.settings;
+        const { open } = this.props;
         const { target, key, shiftKey } = event;
         const shiftTabKeyPress = shiftKey && key === "Tab";
         const tabKeyPress = !shiftKey && key === "Tab";        
 
-        const hasRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
-
         if (enableFocusTrap && open) {
-            /**
-             * If the current focused element is the close button(if rating not enabled) or 
-             * rating thumbs up/down button (if rating enabled) in chat header or 
-             * chat history panel (if neither rating nor close button is present), the focus moves
-             * to some element outside chat window on 'Shift + Tab' navigation.
-             * 
-             * In order to trap focus, move focus back to the first element (from the bottom) within chat window 
-             * on Shift + Tab navigation.
-             * 
-             */
-            const closeButton = this.closeButtonInHeaderRef?.current;
-            const isCloseButtonAsTarget = target === closeButton;
-            const isRatingButtonAsTarget = target ===  this.ratingButtonInHeaderRef?.current;
-            const isHistoryPanelAsTarget = target === document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
-   
-            if (
-                (!closeButton && !hasRatingButton && isHistoryPanelAsTarget) ||
-                (closeButton && !hasRatingButton && isCloseButtonAsTarget) ||
-                (hasRatingButton && isRatingButtonAsTarget)
-            ) {
-                if (shiftTabKeyPress) {
-                    event.preventDefault();
-                    this.handleReverseTabNavigation();
-                }
-            }
-            /**
-             * If chat toggle button is available and focused or if chat toggle button is not available and 
-             * text input (when send message btn is disabled) or send button or get-started button is focused, 
-             * the focus moves to some element outside chat window on 'Tab' navigation.
-             * 
-             * In order to trap focus, move the focus back to the chat history panel(if rating not enabled) or
-             * thumbs up/down rating button (if rating enabled) on Tab navigation.
-             * 
-             * On Shift + Tab navigation, the focus should move to the first element (from the bottom) within chat window.
-             * 
-             */
-            const chatToggleButton = this.chatToggleButtonRef?.current;
-            const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
-            const getStartedButton = document.getElementById("webchatGetStartedButton");
-            const sendMessageButton = document.getElementById("webchatInputMessageSendMessageButton") as HTMLButtonElement | null;
-            const isSendButtonDisabled = sendMessageButton?.disabled;
+            // Get the first and last focusable elements within the list and add focus
+            const { firstFocusable, lastFocusable } = getKeyboardFocusableElements();
+            const chatToggleButton = this.chatToggleButtonRef?.current;   
 
-            if (chatToggleButton) {
-                if (target === chatToggleButton) {
-                    if (shiftTabKeyPress) {
-                        event.preventDefault();
-                        this.handleReverseTabNavigation();
-                    } else if (tabKeyPress) {
-                        this.handleTabNavigation(event, hasRatingButton);
-                    }
-                }
-            } else if (
-                ((isSendButtonDisabled && target === textMessageInput) || 
-                target === sendMessageButton || 
-                target === getStartedButton) && 
-                tabKeyPress) 
-            {
-                this.handleTabNavigation(event, hasRatingButton);
+            /**
+             * In order to trap focus, 
+             * 
+             * on Shift + Tab navigation, move the focus from first focusable element (located at the top-left of webchat)
+             * or from the chat toggle, to the last focusable element (located at the bottom-right of webchat).
+             * 
+             * On Tab navigation, the focus should move from the last focusable element or from the chat toggle to the 
+             * first focusable element within the chat window.
+             * 
+             */
+
+            if ((target === chatToggleButton || target === firstFocusable) && shiftTabKeyPress) {
+                event.preventDefault();
+                // Focus the last focusable element
+                lastFocusable?.focus();
+            } else if ((target === chatToggleButton || target === lastFocusable) && tabKeyPress) {
+                event.preventDefault();
+                // Focus the first focusable element
+                setTimeout(() => { firstFocusable?.focus(); }, 0);
             }
         }
     }
