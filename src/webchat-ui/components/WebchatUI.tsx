@@ -552,6 +552,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     title={config.settings.title || 'Cognigy Webchat'}
                     ratingButtonRef={this.ratingButtonInHeaderRef}
                     closeButtonRef={this.closeButtonInHeaderRef}
+                    chatToggleButtonRef={this.chatToggleButtonRef}
                     showRatingButton={showRatingButton}
                     onRatingButtonClick={() => onShowRatingDialog(true)}
                 />
