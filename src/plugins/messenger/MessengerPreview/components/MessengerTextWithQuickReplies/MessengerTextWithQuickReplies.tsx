@@ -130,7 +130,7 @@ export const getMessengerTextWithQuickReplies = ({
                             }
 
                             const __html = config.settings.disableHtmlContentSanitization ? label : sanitizeHTML(label);
-                            const ariaLabel = hasMoreThanOneQuickReply ? `item ${index + 1} of ${quick_replies?.length}: ${__html}` : undefined;
+                            const ariaLabel = hasMoreThanOneQuickReply ? `Item ${index + 1} of ${quick_replies?.length}: ${__html}` : undefined;
 
                             return (
                                 <MessengerQuickReply

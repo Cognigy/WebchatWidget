@@ -133,7 +133,7 @@ export const getMessengerGenericTemplate = ({
                     firstButton?.focus();
                 }, 200);
             }             
-		}
+        }
 
         // Change the selectedItem state, in order to scroll the card with a focused element into view
         handleScrollToView = (index) => {
@@ -189,21 +189,21 @@ export const getMessengerGenericTemplate = ({
                 "aria-label": listItemCount ? carouselAriaLabel : undefined, "aria-describedby": carouselAriaDescribedby};
             const carouselTitle = title ? title + ". " : "";
             const carouselHeaderA11yProps = default_action?.url ? {"aria-label": carouselTitle + "Opens in new tab"} :
-                {"aria-labelledby": carouselAriaLabelledby}		
+                {"aria-labelledby": carouselAriaLabelledby}
 
-			
+            
             const image = image_url ? (
                 this.props.config.settings.dynamicImageAspectRatio ? (
                     <FlexImage
-						src={image_url}
-						alt={image_alt_text || ""}
+                        src={image_url}
+                        alt={image_alt_text || ""}
                     />
                 ) : (
                         <FixedImage
                             style={{ backgroundImage: getBackgroundImage(image_url) }}
                         > 
-							<span role="img" aria-label={image_alt_text || "Attachment Image"}> </span>
-						</FixedImage>
+                            <span role="img" aria-label={image_alt_text || "Attachment Image"}> </span>
+                        </FixedImage>
                     )
             ) : null;
 
@@ -239,23 +239,23 @@ export const getMessengerGenericTemplate = ({
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{ __html: titleHtml }} id={carouselTitleId} />
                             <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{ __html: subtitleHtml }} config={this.props.config} id={carouselSubtitleId} />
                         </GenericContent>
-						<div>
-							{buttons &&
-								buttons.map((button, i) => (
-									<React.Fragment key={i}>
-										<Divider />
-										<MessengerButton
-											button={button}
-											onClick={e => onAction(e, button)}
-											className="webchat-carousel-template-button"
+                        <div>
+                            {buttons &&
+                                buttons.map((button, i) => (
+                                <React.Fragment key={i}>
+                                        <Divider />
+                                        <MessengerButton
+                                            button={button}
+                                            onClick={e => onAction(e, button)}
+                                            className="webchat-carousel-template-button"
                                             config={this.props.config}
                                             id={`${this.carouselButtonId}-${index}${i}`}
                                             position={i + 1}
                                             total={buttons.length}
-										/>
-									</React.Fragment>
-								))}
-						</div>
+                                        />
+                                </React.Fragment>
+                                ))}
+                        </div>
                     </Frame>
                 </ElementRoot>
             );
