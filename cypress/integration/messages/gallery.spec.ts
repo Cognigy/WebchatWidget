@@ -118,4 +118,14 @@ describe("Message with Gallery", () => {
             });
         })
     });
+
+    it("gallery buttons should have 'aria-label' attribute with button position and name", () => {
+        cy.withMessageFixture('gallery', () => {
+            cy.wrap([1,2,3,4]).each(number => {
+                cy.contains(`foobar004g1b${number}`)
+                    .invoke("attr", "aria-label")
+                    .should("contain", `Item ${number} of 4: foobar004g1b${number}`);
+            })
+        })
+    })
 })
