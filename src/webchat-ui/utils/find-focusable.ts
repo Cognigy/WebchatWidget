@@ -1,12 +1,11 @@
 /**
- * Gets keyboard-focusable elements within the webchat
+ * Gets keyboard-focusable elements within a given element
+ * @param {HTMLElement} element
  * @returns {Array}
  */
-const getKeyboardFocusableElements = () => {
-	const webchatWindow = document.getElementById("webchatWindow");
-
-	// Get all interactive elements in webchat
-	const interactiveEls = webchatWindow?.querySelectorAll(
+const getKeyboardFocusableElements = (element: HTMLElement) => {
+	// Get all interactive elements in given element
+	const interactiveEls = element?.querySelectorAll(
 		'a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
 	);
 	const interactiveElsArray = interactiveEls && Array.from(interactiveEls);

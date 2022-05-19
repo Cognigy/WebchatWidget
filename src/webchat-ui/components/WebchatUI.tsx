@@ -126,6 +126,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     chatToggleButtonRef: React.RefObject<HTMLButtonElement>;
     closeButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
     ratingButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
+    webchatWindowRef: React.RefObject<HTMLDivElement>;
 
     private unreadTitleIndicatorInterval: ReturnType<typeof setInterval> | null = null;
     private originalTitle: string = window.document.title;
@@ -140,6 +141,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         this.chatToggleButtonRef = React.createRef();
         this.closeButtonInHeaderRef = React.createRef();
         this.ratingButtonInHeaderRef = React.createRef();
+        this.webchatWindowRef = React.createRef();
     }
 
     static getDerivedStateFromProps(props: WebchatUIProps, state: WebchatUIState): WebchatUIState | null {
@@ -342,8 +344,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const tabKeyPress = !shiftKey && key === "Tab";        
 
         if (enableFocusTrap && open) {
-            // Get the first and last focusable elements within the list and add focus
-            const { firstFocusable, lastFocusable } = getKeyboardFocusableElements();
+            // Get the first and last focusable elements within the webchat window and add focus
+            const webchatWindowEl = this.webchatWindowRef?.current as HTMLElement;
+            const { firstFocusable, lastFocusable } = getKeyboardFocusableElements(webchatWindowEl);
             const chatToggleButton = this.chatToggleButtonRef?.current;   
 
             /**
@@ -465,6 +468,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                         {...webchatRootProps}
                                         className="webchat"
                                         id="webchatWindow"
+                                        ref={this.webchatWindowRef}
                                     >
                                         {!fullscreenMessage
                                             ? this.renderRegularLayout()
