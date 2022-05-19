@@ -67,4 +67,15 @@ describe("Message with Quick Replies", () => {
         }, reInit);
     })
 
+    it("quick reply button should have 'aria-label' attribute with button position and name", () => {
+        cy.withMessageFixture('quick-replies', () => {
+            cy.contains("foobar003qr01")
+                .invoke("attr", "aria-label")
+                .should("contain", "Item 1 of 2: foobar003qr01");
+            cy.contains("foobar003qr02")
+                .invoke("attr", "aria-label")
+                .should("contain", "Item 2 of 2: foobar003qr02");
+            
+        }, reInit);
+    })
 })
