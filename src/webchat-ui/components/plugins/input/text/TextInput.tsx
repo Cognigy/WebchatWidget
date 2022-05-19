@@ -339,7 +339,12 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                             />
                         )}
                         
-                        <SubmitButton disabled={this.state.text === ''} className="webchat-input-button-send" aria-label="Send Message">
+                        <SubmitButton
+                            disabled={this.state.text === ''}
+                            className="webchat-input-button-send"
+                            aria-label="Send Message"
+                            id="webchatInputMessageSendMessageButton"
+                        >
                             <SendIcon />
                         </SubmitButton>
                     </>
