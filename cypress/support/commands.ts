@@ -25,6 +25,7 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 import 'cypress-wait-until';
+import "cypress-real-events/support";
 
 Cypress.Commands.add('visitWebchat', () => {
     cy.visit('/webchat.test.html');

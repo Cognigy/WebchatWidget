@@ -151,6 +151,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
   class DatePicker extends React.Component<MessageComponentProps, IState> {
     submitButtonRef: React.RefObject<HTMLButtonElement>;
+    cancelButtonRef: React.RefObject<HTMLButtonElement>;
 
     constructor(props) {
       super(props);
@@ -158,17 +159,27 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         msg: "",
       };
       this.submitButtonRef = React.createRef();
+      this.cancelButtonRef = React.createRef();
     }
 
     componentDidMount() {
       const webchatWindow = document.getElementById("webchatWindow");
-      const element = webchatWindow?.getElementsByClassName("flatpickr-calendar");
+      const calenderElement = webchatWindow?.getElementsByClassName("flatpickr-calendar")?.[0] as HTMLElement;
       // Auto-focus the calender item on mount
-      const calender = element?.[0] as HTMLElement;
-      calender?.focus();
+      calenderElement?.focus();
       // Include the calender item to tab order
-      calender?.setAttribute("tabIndex", "0");
-      calender?.setAttribute("aria-labelledby", "webchatDatePickerHeaderLabel");
+      calenderElement?.setAttribute("tabIndex", "0");
+      calenderElement?.setAttribute("aria-labelledby", "webchatDatePickerHeaderLabel");
+
+      // Add tabIndex 0 to time input fields to include them in the tab order
+      const hourField = webchatWindow?.getElementsByClassName("flatpickr-hour")?.[0] as HTMLElement;
+      hourField?.setAttribute("tabIndex", "0");
+      const minutesField = webchatWindow?.getElementsByClassName("flatpickr-minute")?.[0] as HTMLElement;
+      minutesField?.setAttribute("tabIndex", "0");
+      const secondsField = webchatWindow?.getElementsByClassName("flatpickr-second")?.[0] as HTMLElement;
+      secondsField?.setAttribute("tabIndex", "0");
+      const amPmField = webchatWindow?.getElementsByClassName("flatpickr-am-pm")?.[0] as HTMLElement;
+      amPmField?.setAttribute("tabIndex", "0");
     }
 
     handleSubmit = () => {
@@ -199,9 +210,31 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
     onKeyDown = (event) => {
       const webchatWindow = document.getElementById("webchatWindow");
-      const element = webchatWindow?.getElementsByClassName("flatpickr-calendar");
-      const calender = element?.[0] as HTMLElement;
+      const calenderElements = webchatWindow?.getElementsByClassName("flatpickr-calendar");
+      const calender = calenderElements?.[0] as HTMLElement;
       const datePickerSubmitButton = this.submitButtonRef?.current;
+      const datePickerCancelButton = this.cancelButtonRef?.current;
+
+      const tabKeyPress = !event.shiftKey && event.key === "Tab";
+      const shiftTabKeyPress = event.shiftKey && event.key === "Tab";
+
+      // Find last input field of time picker
+      const { data } = this.props.message.data._plugin;
+      const secondsAsLastTimeInput = !!data.enableTime && data.time_24hr && data.enableSeconds;
+      const minutesAsLastTimeInput = !!data.enableTime && data.time_24hr && !data.enableSeconds;
+      const amPmAsLastTimeInput = !!data.enableTime && !data.time_24hr;
+
+      // Time input fields
+      const hourField = webchatWindow?.getElementsByClassName("flatpickr-hour")?.[0] as HTMLElement;
+      const minutesField = webchatWindow?.getElementsByClassName("flatpickr-minute")?.[0] as HTMLElement;
+      const secondsField = webchatWindow?.getElementsByClassName("flatpickr-second")?.[0] as HTMLElement;
+      const amPmField = webchatWindow?.getElementsByClassName("flatpickr-am-pm")?.[0] as HTMLElement;
+
+      // Check if last time input field is focused
+      const isLastTimeInputFieldFocused = 
+        (minutesAsLastTimeInput && event.target === minutesField) ||
+        (secondsAsLastTimeInput && event.target === secondsField) ||
+        (amPmAsLastTimeInput && event.target === amPmField)
 
       // Close Date picker on pressing Escape
       if(event.key === "Esc" || event.key === "Escape") {
@@ -210,14 +243,25 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       
       // Focus should be trapped within date-picker
       // Handle Tab Navigation
-      if (!event.shiftKey && event.key === "Tab" && event.target === datePickerSubmitButton) {
-        event.preventDefault();
-        calender?.focus(); // Move focus to calender from submit button
+      if (tabKeyPress) {
+        if(event.target === datePickerSubmitButton) {
+            event.preventDefault();
+            calender?.focus(); // Move focus to calender from submit button
+        } else if(isLastTimeInputFieldFocused) {
+            event.preventDefault();
+            datePickerCancelButton?.focus(); // Move focus to cancel button from last time input field
+        }        
       }
       // Handle Reverse Tab Navigation
-      if (event.shiftKey && event.key === "Tab" && event.target === calender) {
-        event.preventDefault();
-        datePickerSubmitButton?.focus(); // Move focus to Submit button from calender
+      if (shiftTabKeyPress) {
+          if(event.target === calender) {
+            event.preventDefault();
+            datePickerSubmitButton?.focus(); // Move focus to Submit button from calender
+          } else if(event.target === hourField) {
+            event.preventDefault();
+            calender?.focus(); // Move focus to calender from hour input field
+          }
+        
       }
     }
 
@@ -367,7 +411,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
             />
           </Content>
           <Footer className="webchat-plugin-date-picker-footer">
-            <CancelButton type="button" onClick={this.handleAbort} className="cancelButton">
+            <CancelButton type="button" onClick={this.handleAbort} className="cancelButton" ref={this.cancelButtonRef}>
               {cancelButtonText}
             </CancelButton>
             <SubmitButton type="button" onClick={this.handleSubmit} className="submitButton" ref={this.submitButtonRef}>

@@ -1,0 +1,28 @@
+{
+	"text": "",
+	"data": {
+		"_plugin": {
+			"type": "date-picker",
+			"data": {
+				"eventName": "foobar012",
+				"locale": "en",
+				"mode": "single",
+				"wantDisable": false,
+				"enable_disable": null,
+				"minDate": "today",
+				"maxDate": "tomorrow",
+				"openPickerButtonText": "foobar012b1",
+				"cancelButtonText": "foobar012b2",
+				"submitButtonText": "foobar012b3",
+				"enableTime": true,
+				"time_24hr": false,
+				"enableSeconds": true,
+				"defaultHour": 6,
+        		"defaultMinute": 30,
+        		"hourIncrement": 1,
+        		"minuteIncrement": 5,
+				"dateFormat": "YYYY-MM-DD h:i:S K"
+			}
+		}
+	}
+}

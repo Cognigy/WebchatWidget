@@ -8,7 +8,8 @@
         ],
         "types": [
             "cypress",
-            "cypress-wait-until"
+            "cypress-wait-until",
+            "cypress-real-events"
         ]
     },
     "include": [
