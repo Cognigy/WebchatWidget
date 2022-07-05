@@ -185,6 +185,13 @@
      fill: rgba(0, 0, 0, 0.9);
  }
 
+ [data-cognigy-webchat-root] .flatpickr-disabled.flatpickr-day {
+    color: rgba(57, 57, 57, 0.3);
+    background: transparent;
+    border-color: transparent;
+}
+
+
  [data-cognigy-webchat-root] .flatpickr-months .flatpickr-prev-month.disabled, [data-cognigy-webchat-root] .flatpickr-months .flatpickr-next-month.disabled {
      display: none;
  }
