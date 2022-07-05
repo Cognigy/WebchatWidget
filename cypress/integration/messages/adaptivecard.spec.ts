@@ -1,17 +1,39 @@
 describe("Message with AdaptiveCard", () => {
-    describe("", () => {
+    beforeEach(() => {
+        cy
+            .visitWebchat()
+            .initMockWebchat()
+            .openWebchat()
+    })
 
-        beforeEach(() => {
-            cy
-                .visitWebchat()
-                .initMockWebchat()
-                .openWebchat()
-        })
+    it("should render an adaptivecard from plugin", () => {
+        cy.withMessageFixture('adaptivecard', () => {
+            cy.contains("Your registration is almost complete").should("be.visible");
+        });
+    });
 
-        it("should render an adaptivecard", () => {
-            cy.withMessageFixture('adaptivecard', () => {
-                cy.contains("Your registration is almost complete").should("be.visible");
-            });
+    it.only("should render an adaptivecard from _webchat", () => {
+        cy.withMessageFixture('adaptivecard-webchat', () => {
+            cy.contains("Webchat Adaptive Card").should("be.visible");
+        });
+    });
+
+    it("submits a message through an adaptivecard form", () => {
+        cy.withMessageFixture('adaptivecard', () => {
+            cy.contains("Your registration is almost complete").should("be.visible");
+
+            cy.contains("Steak").click();
+            cy.contains("Medium-Rare").click();
+            cy.get("#SteakOther textarea").type("Tender, please!");
+            cy.contains("OK").click();
+
+            cy.getMessageFromHistory({ data: {
+                adaptivecards: {
+                    FoodChoice: "Steak",
+                    SteakTemp: "medium-rare",
+                    SteakOther: "Tender, please!"
+                }
+            }});
         });
 
         it("submits a message through an adaptivecard form", () => {

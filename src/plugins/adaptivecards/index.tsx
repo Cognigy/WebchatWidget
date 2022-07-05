@@ -4,14 +4,22 @@ import { registerMessagePlugin } from '../helper';
 
 import { updateAdaptiveCardCSSCheaply } from './styles';
 
+const isAdaptiveCard = (message) => {
+    if (message.data?._cognigy?._webchat?.adaptiveCard || message.data?._plugin?.type === "adaptivecards") {
+        return true;
+    }
+    return false;
+}
+
 const AdaptiveCards = (props) => {
+
     const { theme, onSendMessage, message } = props;
 
     useEffect(() => {
         updateAdaptiveCardCSSCheaply(theme);
     }, []);
 
-    const cardPayload = message.data._plugin.payload;
+    const cardPayload = message.data?._plugin?.payload || message.data?._cognigy?._webchat?.adaptiveCard;
 
     const onExecuteAction = useCallback((action) => {
         switch (action._propertyBag?.type) {
@@ -54,7 +62,7 @@ const AdaptiveCards = (props) => {
 }
 
 const adaptivecardsPlugin = {
-    match: 'adaptivecards',
+    match: isAdaptiveCard,
     component: AdaptiveCards,
     options: {
         fullwidth: true
