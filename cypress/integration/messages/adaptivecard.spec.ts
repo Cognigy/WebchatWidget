@@ -12,9 +12,9 @@ describe("Message with AdaptiveCard", () => {
         });
     });
 
-    it.only("should render an adaptivecard from _webchat", () => {
+    it("should render an adaptivecard from _webchat", () => {
         cy.withMessageFixture('adaptivecard-webchat', () => {
-            cy.contains("Webchat Adaptive Card").should("be.visible");
+            cy.contains("Your registration is almost complete").should("be.visible");
         });
     });
 
