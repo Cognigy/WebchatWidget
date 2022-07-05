@@ -12,7 +12,7 @@ import { IFBMURLButton } from "./MessengerPreview/interfaces/Button.interface";
 const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
 
     //check if message uses messenger plugin
-    if (!message.data?._cognigy?._webchat?.message) {
+    if (!message.data?._cognigy?._webchat?.message && !message.data?._data?._cognigy?._webchat?.message) {
             return false;
     }
 
