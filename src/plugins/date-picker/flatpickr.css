@@ -572,7 +572,7 @@
      box-shadow: -5px 0 0 #e6e6e6, 5px 0 0 #e6e6e6;
  }
 
- [data-cognigy-webchat-root] .flatpickr-day.disabled, [data-cognigy-webchat-root] .flatpickr-day.disabled:hover, [data-cognigy-webchat-root] .flatpickr-day.prevMonthDay, [data-cognigy-webchat-root] .flatpickr-day.nextMonthDay, [data-cognigy-webchat-root] .flatpickr-day.notAllowed, [data-cognigy-webchat-root] .flatpickr-day.notAllowed.prevMonthDay, [data-cognigy-webchat-root] .flatpickr-day.notAllowed.nextMonthDay {
+ [data-cognigy-webchat-root] .flatpickr-day.disabled, .flatpickr-disabled.flatpickr-day, [data-cognigy-webchat-root] .flatpickr-day.disabled:hover, [data-cognigy-webchat-root] .flatpickr-day.prevMonthDay, [data-cognigy-webchat-root] .flatpickr-day.nextMonthDay, [data-cognigy-webchat-root] .flatpickr-day.notAllowed, [data-cognigy-webchat-root] .flatpickr-day.notAllowed.prevMonthDay, [data-cognigy-webchat-root] .flatpickr-day.notAllowed.nextMonthDay {
      color: rgba(57, 57, 57, 0.3);
      background: transparent;
      border-color: transparent;
