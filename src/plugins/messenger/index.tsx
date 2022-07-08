@@ -10,6 +10,12 @@ import { sanitizeUrl } from "@braintree/sanitize-url";
 import { IFBMURLButton } from "./MessengerPreview/interfaces/Button.interface";
 
 const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
+
+    //check if message uses messenger plugin
+    if (!message.data?._cognigy?._webchat?.message && !message.data?._data?._cognigy?._webchat?.message) {
+            return false;
+    }
+
     const cognigyData = (() => {
         if (!config.settings.disableDefaultReplyCompatiblityMode && message.data?._data?._cognigy) {
             return message.data?._data?._cognigy;
