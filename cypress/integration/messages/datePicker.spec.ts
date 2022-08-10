@@ -100,4 +100,23 @@ describe("Date Picker", () => {
                 .get(".flatpickr-calendar ").should("be.focused");
         })
     })
+
+    it.only("should have class disabled for %2 dates from today", () => {
+        const today = new Date().getDate();
+                        
+        cy.withMessageFixture('date-picker-function', () => {
+            cy
+                .contains("foobar012b1").click();       
+            cy
+                .contains(`${today}`).should("not.have.class", "flatpickr-day flatpickr-disabled");
+            cy
+                .contains(`${today - 1}`).should("have.class", "flatpickr-day flatpickr-disabled");
+            cy
+                .contains(`${today + 1}`).should("have.class", "flatpickr-day flatpickr-disabled");
+            cy
+                .contains(`${today + 2}`).should("not.have.class", "flatpickr-day flatpickr-disabled");
+            cy
+                .contains(`${today - 2}`).should("not.have.class", "flatpickr-day flatpickr-disabled");
+        })
+    })
 })
