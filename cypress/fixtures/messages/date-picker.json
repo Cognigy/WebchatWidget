@@ -12,6 +12,7 @@
 				"enable_disable": null,
 				"minDate": "today",
 				"maxDate": "tomorrow",
+				"function_enable_disable": "",
 				"openPickerButtonText": "foobar012b1",
 				"cancelButtonText": "foobar012b2",
 				"submitButtonText": "foobar012b3",

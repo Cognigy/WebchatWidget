@@ -84,7 +84,7 @@ describe("Date Picker", () => {
                 .should("be.focused");
         })
     })
-    
+
     it("should trap focus", () => {
         cy.withMessageFixture('date-picker', () => {
             cy
@@ -101,22 +101,27 @@ describe("Date Picker", () => {
         })
     })
 
-    it.only("should have class disabled for %2 dates from today", () => {
-        const today = new Date().getDate();
-                        
+    it("should have class disabled for %2 dates from today", () => {                
+        const today = moment().format("D");       
+        const yesterday = moment().subtract(1, "days").format("D");        
+        const tomorrow = moment().add(1, "days").format("D");        
+        const theDayBeforeYesterday = moment().subtract(2, "days").format("D");        
+        const theDayAfterTomorrow = moment().add(2, "days").format("D");
+        
         cy.withMessageFixture('date-picker-function', () => {
             cy
-                .contains("foobar012b1").click();       
+                .contains("foobar012b1").click();
             cy
-                .contains(`${today}`).should("not.have.class", "flatpickr-day flatpickr-disabled");
+                .contains(".flatpickr-day", today).should("not.have.class", "flatpickr-day flatpickr-disabled");
             cy
-                .contains(`${today - 1}`).should("have.class", "flatpickr-day flatpickr-disabled");
+                .contains(".flatpickr-day", yesterday).should("have.class", "flatpickr-day flatpickr-disabled");
             cy
-                .contains(`${today + 1}`).should("have.class", "flatpickr-day flatpickr-disabled");
+                .contains(".flatpickr-day", tomorrow,).should("have.class", "flatpickr-day flatpickr-disabled");
             cy
-                .contains(`${today + 2}`).should("not.have.class", "flatpickr-day flatpickr-disabled");
+                .contains(".flatpickr-day", theDayBeforeYesterday).should("not.have.class", "flatpickr-day flatpickr-disabled");
             cy
-                .contains(`${today - 2}`).should("not.have.class", "flatpickr-day flatpickr-disabled");
+                .contains(".flatpickr-day", theDayAfterTomorrow).should("not.have.class", "flatpickr-day flatpickr-disabled");
+
         })
     })
 })

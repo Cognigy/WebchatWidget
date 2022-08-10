@@ -352,7 +352,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         .map(DatePicker.transformNamedDate);
         
 	  // the code in function_enable_disable was executed in a vm to check that its return value is from type boolean
-      if (data.function_enable_disable.length > 0) {
+      if (data?.function_enable_disable?.length > 0) {
         const fn = new Function(`"use strict"; return  ${data.function_enable_disable}`)();        
         mask.push(fn);                        
        }
