@@ -306,7 +306,7 @@ describe("Channel Rendering Priorities", {
                                 body: [
                                     {
                                         type: "TextBlock",
-                                        text: "DEFAULT ADAPTIVECARDS",
+                                        text: "DEFAULT TEXT",
                                         wrap: true
                                     }
                                 ]
