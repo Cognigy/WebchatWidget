@@ -272,6 +272,55 @@ describe("Channel Rendering Priorities", {
 
                 cy.contains("DEFAULT ADAPTIVECARDS").should('be.visible');
             });
+
+            it('should prefer text from the default tab over quick replies from the webchat tab', () => {
+                cy.visitMessageRenderer();
+
+                cy.renderMessage("DEFAULT TEXT", {
+                    _cognigy: {
+                        _webchat: {
+                            message: {
+                                text: "WEBCHAT QUICK REPLIES"
+                            }
+                        },
+                    }
+                }, "bot", {
+                    settings: {
+                        enableDefaultPreview: true
+                    }
+                });
+
+                cy.contains("DEFAULT TEXT").should('be.visible');
+            });
+
+            it('should prefer text from the default tab over adaptivecards from the webchat tab', () => {
+                cy.visitMessageRenderer();
+
+                cy.renderMessage("DEFAULT TEXT", {
+                    _cognigy: {
+                        _webchat: {
+                            adaptiveCard: {
+                                type: "AdaptiveCard",
+                                $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+                                version: "1.5",
+                                body: [
+                                    {
+                                        type: "TextBlock",
+                                        text: "DEFAULT ADAPTIVECARDS",
+                                        wrap: true
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }, "bot", {
+                    settings: {
+                        enableDefaultPreview: true
+                    }
+                });
+
+                cy.contains("DEFAULT TEXT").should('be.visible');
+            });
         });
     });
 });
