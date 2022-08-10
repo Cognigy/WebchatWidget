@@ -15,7 +15,7 @@ const renderMessageWithParams = (params: IGenerateTestCaseParams) => {
     const config = {
         settings: {
             enableStrictMessengerSync: params.enableStrictMessengerSync,
-            enableDefaultPreview: params.defaultPreviewTabConfigured
+            enableDefaultPreview: params.enableDefaultPreview
         }
     };
 
