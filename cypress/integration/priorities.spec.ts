@@ -14,7 +14,8 @@ const renderMessageWithParams = (params: IGenerateTestCaseParams) => {
 
     const config = {
         settings: {
-            enableStrictMessengerSync: params.enableStrictMessengerSync
+            enableStrictMessengerSync: params.enableStrictMessengerSync,
+            enableDefaultPreview: params.defaultPreviewTabConfigured
         }
     };
 
@@ -35,6 +36,9 @@ const renderMessageWithParams = (params: IGenerateTestCaseParams) => {
     };
 
 
+    cy.log(JSON.stringify(messageData));
+    cy.log(JSON.stringify(config ));
+    
     cy.renderMessage("", messageData, 'bot', config);
 }
 
@@ -80,7 +84,7 @@ const getTestDescriptionFromParams = (params: IGenerateTestCaseParams) => {
             params.enableDefaultPreview && 'enableDefaultPreview',
         ].filter(a => !!a);
 
-        if (!flagNames)
+        if (flagNames.length === 0)
             return 'no flags are set.';
 
         if (flagNames.length === 1)
@@ -213,7 +217,7 @@ describe("Channel Rendering Priorities", {
 
                 cy.renderMessage("", {
                     _cognigy: {
-                        _default: {
+                        _defaultPreview: {
                             message: {
                                 text: "DEFAULT QUICK REPLIES"
                             }
@@ -236,10 +240,8 @@ describe("Channel Rendering Priorities", {
 
                 cy.renderMessage("", {
                     _cognigy: {
-                        _default: {
-                            _adaptiveCard: {
-                                type: "adaptiveCard",
-                                adaptiveCard: {
+                        _defaultPreview: {
+                            adaptiveCard: {
                                     type: "AdaptiveCard",
                                     $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
                                     version: "1.5",
@@ -251,7 +253,6 @@ describe("Channel Rendering Priorities", {
                                         }
                                     ]
                                 }
-                            }
                         },
                         _webchat: {
                             message: {

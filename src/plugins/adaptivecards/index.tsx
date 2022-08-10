@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import AdaptiveCard from './components/Adaptivecard'
 import { registerMessagePlugin } from '../helper';
-
 import { updateAdaptiveCardCSSCheaply } from './styles';
 
 const isAdaptiveCard = (message) => {
-    if (message.data?._cognigy?._webchat?.adaptiveCard || message.data?._plugin?.type === "adaptivecards") {
+    if (message.data?._cognigy?._defaultPreview?.adaptiveCard || 
+        message.data?._cognigy?._webchat?.adaptiveCard || 
+        message.data?._plugin?.type === "adaptivecards") {
         return true;
     }
     return false;
@@ -13,13 +14,20 @@ const isAdaptiveCard = (message) => {
 
 const AdaptiveCards = (props) => {
 
+    const getCardPayload = (message) => {
+        if (message.data?._cognigy?._defaultPreview?.adaptiveCard){
+            return message.data?._cognigy?._defaultPreview?.adaptiveCard
+        }
+        return message.data?._plugin?.payload || message.data?._cognigy?._webchat?.adaptiveCard
+    }
+
     const { theme, onSendMessage, message } = props;
 
     useEffect(() => {
         updateAdaptiveCardCSSCheaply(theme);
     }, []);
 
-    const cardPayload = message.data?._plugin?.payload || message.data?._cognigy?._webchat?.adaptiveCard;
+    const cardPayload = getCardPayload(message);
 
     const onExecuteAction = useCallback((action) => {
         switch (action._propertyBag?.type) {
