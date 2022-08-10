@@ -37,8 +37,8 @@ const renderMessageWithParams = (params: IGenerateTestCaseParams) => {
 
 
     cy.log(JSON.stringify(messageData));
-    cy.log(JSON.stringify(config ));
-    
+    cy.log(JSON.stringify(config));
+
     cy.renderMessage("", messageData, 'bot', config);
 }
 
@@ -206,7 +206,9 @@ describe("Channel Rendering Priorities", {
                         }
                     }
                 }, "bot", {
-                    enableDefaultPreview: true
+                    settings: {
+                        enableDefaultPreview: true
+                    }
                 });
 
                 cy.contains("DEFAULT TEXT").should('be.visible');
@@ -229,7 +231,9 @@ describe("Channel Rendering Priorities", {
                         },
                     }
                 }, "bot", {
-                    enableDefaultPreview: true
+                    settings: {
+                        enableDefaultPreview: true
+                    }
                 });
 
                 cy.contains("DEFAULT QUICK REPLIES").should('be.visible');
@@ -242,17 +246,17 @@ describe("Channel Rendering Priorities", {
                     _cognigy: {
                         _defaultPreview: {
                             adaptiveCard: {
-                                    type: "AdaptiveCard",
-                                    $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
-                                    version: "1.5",
-                                    body: [
-                                        {
-                                            type: "TextBlock",
-                                            text: "DEFAULT ADAPTIVECARDS",
-                                            wrap: true
-                                        }
-                                    ]
-                                }
+                                type: "AdaptiveCard",
+                                $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+                                version: "1.5",
+                                body: [
+                                    {
+                                        type: "TextBlock",
+                                        text: "DEFAULT ADAPTIVECARDS",
+                                        wrap: true
+                                    }
+                                ]
+                            }
                         },
                         _webchat: {
                             message: {
@@ -261,7 +265,9 @@ describe("Channel Rendering Priorities", {
                         }
                     }
                 }, "bot", {
-                    enableDefaultPreview: true
+                    settings: {
+                        enableDefaultPreview: true
+                    }
                 });
 
                 cy.contains("DEFAULT ADAPTIVECARDS").should('be.visible');
