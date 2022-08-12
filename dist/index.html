@@ -20,47 +20,11 @@
                 showEngagementMessagesInChat: true,
                 getStartedText: "",
                 engagementMessageText: "Hi there!",
-                engagementMessageDelay: 5000,
-                enableDefaultPreview: false
+                engagementMessageDelay: 5000
             }
         }).then(function(webchat) {
             window.cognigyWebchat = webchat;
             // webchat.open();
-            webchat.sendMessage("", {
-            _cognigy: {
-                _defaultPreview: {
-                    adaptiveCard: {
-                        type: "AdaptiveCard",
-                        $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
-                        version: "1.5",
-                        body: [
-                            {
-                                type: "TextBlock",
-                                text: "DEFAULT ADAPTIVECARDS",
-                                wrap: true
-                            }
-                        ]
-                    }
-                },
-                _webchat: {
-                    message: {
-                        text: "WEBCHAT QUICK REPLIES"
-                    }
-                    // adaptiveCard: {
-                    //     type: "AdaptiveCard",
-                    //     $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
-                    //     version: "1.5",
-                    //     body: [
-                    //         {
-                    //             type: "TextBlock",
-                    //             text: "WEBCHAT ADAPTIVECARDS",
-                    //             wrap: true
-                    //         }
-                    //     ]
-                    // }
-                }
-            }
-        })
         });
     </script>
 </body>
