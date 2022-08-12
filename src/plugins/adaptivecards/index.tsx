@@ -17,21 +17,21 @@ const isAdaptiveCard = (message: IMessage, config: IWebchatConfig) => {
 
 const AdaptiveCards = (props) => {
 
+    const { theme, onSendMessage, message, config } = props;
+
     const getCardPayload = (message: IMessage) => {
-        if (message.data?._cognigy?._defaultPreview?.adaptiveCard){
+        if (message.data?._cognigy?._defaultPreview?.adaptiveCard && config.settings.enableDefaultPreview){
             return message.data?._cognigy?._defaultPreview?.adaptiveCard
         }
         return message.data?._plugin?.payload || message.data?._cognigy?._webchat?.adaptiveCard
     }
 
-    const { theme, onSendMessage, message, config} = props;
-
     useEffect(() => {
         updateAdaptiveCardCSSCheaply(theme);
     }, []);
 
-    const cardPayload = getCardPayload(message, config);
-console.log("message", message)
+    const cardPayload = getCardPayload(message);
+
     const onExecuteAction = useCallback((action) => {
         switch (action._propertyBag?.type) {
             case "Action.Submit": {
