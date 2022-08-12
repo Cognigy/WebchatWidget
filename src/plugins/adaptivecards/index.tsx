@@ -1,11 +1,14 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import AdaptiveCard from './components/Adaptivecard'
 import { registerMessagePlugin } from '../helper';
+import { IMessage } from "../../common/interfaces/message";
+import { IWebchatConfig } from "../../common/interfaces/webchat-config";
 import { updateAdaptiveCardCSSCheaply } from './styles';
 
-const isAdaptiveCard = (message) => {
-    if (message.data?._cognigy?._defaultPreview?.adaptiveCard || 
-        message.data?._cognigy?._webchat?.adaptiveCard || 
+const isAdaptiveCard = (message: IMessage, config: IWebchatConfig) => {
+    if (message.data?._cognigy?._webchat?.adaptiveCard || 
+        !(message.data?._cognigy?._defaultPreview?.adaptiveCard && !config.settings.enableDefaultPreview) &&
+        message.data?._cognigy?._defaultPreview?.adaptiveCard || 
         message.data?._plugin?.type === "adaptivecards") {
         return true;
     }
@@ -14,21 +17,21 @@ const isAdaptiveCard = (message) => {
 
 const AdaptiveCards = (props) => {
 
-    const getCardPayload = (message) => {
+    const getCardPayload = (message: IMessage) => {
         if (message.data?._cognigy?._defaultPreview?.adaptiveCard){
             return message.data?._cognigy?._defaultPreview?.adaptiveCard
         }
         return message.data?._plugin?.payload || message.data?._cognigy?._webchat?.adaptiveCard
     }
 
-    const { theme, onSendMessage, message } = props;
+    const { theme, onSendMessage, message, config} = props;
 
     useEffect(() => {
         updateAdaptiveCardCSSCheaply(theme);
     }, []);
 
-    const cardPayload = getCardPayload(message);
-
+    const cardPayload = getCardPayload(message, config);
+console.log("message", message)
     const onExecuteAction = useCallback((action) => {
         switch (action._propertyBag?.type) {
             case "Action.Submit": {
