@@ -10,7 +10,7 @@
     <script>
         initWebchat('https://endpoint-trial.cognigy.ai/325a1e29b99441f4640ba659706763fb77006e00dc0e3720600f523557d7afaa', {
             userId: "user",
-            sessionId: "session666",
+            sessionId: "session",
             settings: {
                 // colorScheme: '#FAB'
                 enableUnreadMessageSound: true,
@@ -21,51 +21,11 @@
                 getStartedText: "",
                 engagementMessageText: "Hi there!",
                 engagementMessageDelay: 5000,
-                enableDefaultPreview: false
             }
         }).then(function (webchat) {
             window.cognigyWebchat = webchat;
             // webchat.open();
-            webchat.sendMessage("", {
-                _cognigy: {
-                    _webchat: {
-                        // message: {
-                        //     text: "WEBCHAT QUICK REPLIES"
-                        // },
-                        adaptiveCard: {
-                            type: "AdaptiveCard",
-                            $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
-                            version: "1.5",
-                            body: [
-                                {
-                                    type: "TextBlock",
-                                    text: "WEBCHAT ADAPTIVECARDS",
-                                    wrap: true
-                                }
-                            ]
-                        }
-                    },
-                    _defaultPreview: {
-                        message: {
-                            text: "DEFAULT PREVIEW MESSAGE"
-                        }
-                    },
-                    //     adaptiveCard: {
-                    //         type: "AdaptiveCard",
-                    //         $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
-                    //         version: "1.5",
-                    //         body: [
-                    //             {
-                    //                 type: "TextBlock",
-                    //                 text: "DEFAULT ADAPTIVECARDS",
-                    //                 wrap: true
-                    //             }
-                    //         ]
-                    //     },
-                    // },
-                }
-            })
-        });
+        })
     </script>
 </body>
 
