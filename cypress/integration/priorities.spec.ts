@@ -307,26 +307,6 @@ describe("Channel Rendering Priorities", {
                 cy.contains("WEBCHAT QUICK REPLIES").should('be.visible');
             });
 
-            it('should prefer text from the default tab over quick replies from the webchat tab', () => {
-                cy.visitMessageRenderer();
-
-                cy.renderMessage("DEFAULT TEXT", {
-                    _cognigy: {
-                        _webchat: {
-                            message: {
-                                text: "WEBCHAT QUICK REPLIES"
-                            }
-                        },
-                    }
-                }, "bot", {
-                    settings: {
-                        enableDefaultPreview: true
-                    }
-                });
-
-                cy.contains("DEFAULT TEXT").should('be.visible');
-            });
-
             it('should prefer quick replies from the webchat tab over text from the default tab', () => {
                 cy.visitMessageRenderer();
 
@@ -421,8 +401,67 @@ describe("Channel Rendering Priorities", {
                     }
                 });
 
-            cy.contains("DEFAULT QUICK REPLIES").should('be.visible');
-        });
+                cy.contains("DEFAULT QUICK REPLIES").should('be.visible');
+            });
+
+            it('should prefer webchat adaptive card over default Quick reply', () => {
+                cy.visitMessageRenderer();
+
+                cy.renderMessage("", {
+                    _cognigy: {
+                        _webchat: {
+                            adaptiveCard: {
+                                type: "AdaptiveCard",
+                                $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+                                version: "1.5",
+                                body: [
+                                    {
+                                        type: "TextBlock",
+                                        text: "WEBCHAT ADAPTIVE CARD",
+                                        wrap: true
+                                    }
+                                ]
+                            }
+                        },
+                        _defaultPreview: {
+                            message: {
+                                text: "DEFAULT QUICK REPLIES"
+                            }
+                        },
+                    }
+                }, "bot", {
+                    settings: {
+                        enableDefaultPreview: false
+                    }
+                });
+
+                cy.contains("WEBCHAT ADAPTIVE CARD").should('be.visible');
+            });
+
+            it('should prefer webchat quick replies over default quick replies', () => {
+                cy.visitMessageRenderer();
+
+                cy.renderMessage("", {
+                    _cognigy: {
+                        _webchat: {
+                            message: {
+                                text: "WEBCHAT QUICK REPLIES"
+                            }
+                        },
+                        _defaultPreview: {
+                            message: {
+                                text: "DEFAULT QUICK REPLIES"
+                            }
+                        },
+                    }
+                }, "bot", {
+                    settings: {
+                        enableDefaultPreview: false
+                    }
+                });
+
+                cy.contains("WEBCHAT QUICK REPLIES").should('be.visible');
+            });
 
             it('should prefer text from the default tab over adaptivecards from the webchat tab', () => {
                 cy.visitMessageRenderer();
@@ -452,35 +491,79 @@ describe("Channel Rendering Priorities", {
 
             });
 
-                it('should prefer adaptive cards from the webchat tab over text from the default tab ', () => {
-                    cy.visitMessageRenderer();
-    
-                    cy.renderMessage("DEFAULT TEXT", {
-                        _cognigy: {
-                            _webchat: {
-                                adaptiveCard: {
-                                    type: "AdaptiveCard",
-                                    $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
-                                    version: "1.5",
-                                    body: [
-                                        {
-                                            type: "TextBlock",
-                                            text: "DEFAULT TEXT ADAPTIVE CARD",
-                                            wrap: true
-                                        }
-                                    ]
-                                }
+            it('should prefer adaptive cards from the webchat tab over text from the default tab ', () => {
+                cy.visitMessageRenderer();
+
+                cy.renderMessage("DEFAULT TEXT", {
+                    _cognigy: {
+                        _webchat: {
+                            adaptiveCard: {
+                                type: "AdaptiveCard",
+                                $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+                                version: "1.5",
+                                body: [
+                                    {
+                                        type: "TextBlock",
+                                        text: "DEFAULT TEXT ADAPTIVE CARD",
+                                        wrap: true
+                                    }
+                                ]
                             }
                         }
-                    }, "bot", {
-                        settings: {
-                            enableDefaultPreview: false
+                    }
+                }, "bot", {
+                    settings: {
+                        enableDefaultPreview: false
+                    }
+                });
+
+                cy.contains("DEFAULT TEXT ADAPTIVE CARD").should('be.visible');
+            });
+
+            it('should prefer adaptive cards from the default tab over adaptivecard from the webchat tab ', () => {
+                cy.visitMessageRenderer();
+
+                cy.renderMessage("", {
+                    _cognigy: {
+                        _webchat: {
+                            adaptiveCard: {
+                                type: "AdaptiveCard",
+                                $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+                                version: "1.5",
+                                body: [
+                                    {
+                                        type: "TextBlock",
+                                        text: "WEBCHAT TEXT ADAPTIVE CARD",
+                                        wrap: true
+                                    }
+                                ]
+                            }
+                        },
+                        _defaultPreview: {
+                            adaptiveCard: {
+                                type: "AdaptiveCard",
+                                $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+                                version: "1.5",
+                                body: [
+                                    {
+                                        type: "TextBlock",
+                                        text: "DEFAULT TEXT ADAPTIVE CARD",
+                                        wrap: true
+                                    }
+                                ]
+                            }
                         }
-                    });
+                    }
+                }, "bot", {
+                    settings: {
+                        enableDefaultPreview: true
+                    }
+                });
 
                 cy.contains("DEFAULT TEXT ADAPTIVE CARD").should('be.visible');
             });
         });
+
     });
 });
 

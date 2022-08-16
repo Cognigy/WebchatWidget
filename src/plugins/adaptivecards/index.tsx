@@ -14,12 +14,11 @@ const isAdaptiveCard = (message: IMessage, config: IWebchatConfig) => {
     const _plugin = message.data?._plugin?.type === "adaptivecards";
     const defaultPreviewEnabled = config.settings.enableDefaultPreview;
 
-    // if (message.data?._cognigy?._defaultPreview?.message && defaultPreviewEnabled){
-    //     return false;
-    // }
+    if (message.data?._cognigy?._defaultPreview?.message && defaultPreviewEnabled){
+        return false;
+    }
 
-    if (!(message.data?._cognigy?._defaultPreview?.message && defaultPreviewEnabled) ||
-        _defaultPreview && defaultPreviewEnabled ||
+    if (_defaultPreview && defaultPreviewEnabled ||
         _webchat && _defaultPreview && !defaultPreviewEnabled || 
         _webchat || 
         _plugin){
