@@ -390,6 +390,40 @@ describe("Channel Rendering Priorities", {
                 cy.contains("WEBCHAT ADAPTIVE CARD").should('be.visible');
             });
 
+            it('should prefer default quick replies tab over webchat adaptive card', () => {
+                cy.visitMessageRenderer();
+
+                cy.renderMessage("", {
+                    _cognigy: {
+                        _webchat: {
+                            adaptiveCard: {
+                                type: "AdaptiveCard",
+                                $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+                                version: "1.5",
+                                body: [
+                                    {
+                                        type: "TextBlock",
+                                        text: "WEBCHAT ADAPTIVE CARD",
+                                        wrap: true
+                                    }
+                                ]
+                            }
+                        },
+                        _defaultPreview: {
+                            message: {
+                                text: "DEFAULT QUICK REPLIES"
+                            }
+                        },
+                    }
+                }, "bot", {
+                    settings: {
+                        enableDefaultPreview: true
+                    }
+                });
+
+            cy.contains("DEFAULT QUICK REPLIES").should('be.visible');
+        });
+
             it('should prefer text from the default tab over adaptivecards from the webchat tab', () => {
                 cy.visitMessageRenderer();
 
@@ -418,7 +452,7 @@ describe("Channel Rendering Priorities", {
 
             });
 
-                it('should prefer aptivecards from the webchat tab over text from the default tab over', () => {
+                it('should prefer adaptive cards from the webchat tab over text from the default tab ', () => {
                     cy.visitMessageRenderer();
     
                     cy.renderMessage("DEFAULT TEXT", {

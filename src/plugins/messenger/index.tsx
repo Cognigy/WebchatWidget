@@ -18,10 +18,9 @@ const preferFacebook = (conigyData, enableStrictMessengerSync) => {
     }
 };
 
-
 const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
 
-    //check if message uses messenger plugin
+    // conditions to not use messenger plugin
     if (!message.data?._cognigy?._webchat?.message &&
         !message.data?._data?._cognigy?._webchat?.message &&
         !message.data?._cognigy?._facebook?.message &&
