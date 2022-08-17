@@ -9,11 +9,24 @@ import { IWebchatConfig } from "../../common/interfaces/webchat-config";
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { IFBMURLButton } from "./MessengerPreview/interfaces/Button.interface";
 
+const preferFacebook = (conigyData, enableStrictMessengerSync) => {
+    if (enableStrictMessengerSync) {
+        if (conigyData.syncWebchatWithFacebook) {
+            return conigyData?._facebook;
+        }
+        return conigyData?._webchat;
+    }
+};
+
 const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
 
-    //check if message uses messenger plugin
-    if (!message.data?._cognigy?._webchat?.message && !message.data?._data?._cognigy?._webchat?.message) {
-            return false;
+    // conditions to not use messenger plugin
+    if (!message.data?._cognigy?._webchat?.message &&
+        !message.data?._data?._cognigy?._webchat?.message &&
+        !message.data?._cognigy?._facebook?.message &&
+        !message.data?._cognigy?._defaultPreview &&
+        !message.data?._cognigy?._defaultPreview?.adaptiveCard) {
+        return false;
     }
 
     const cognigyData = (() => {
@@ -27,14 +40,26 @@ const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
     if (!cognigyData)
         return null;
 
-    const { _facebook, _webchat, syncWebchatWithFacebook } = cognigyData;
+    const { _facebook, _webchat, _defaultPreview } = cognigyData;
 
-    if (config.settings.enableStrictMessengerSync) {
-        if (syncWebchatWithFacebook) {
-            return _facebook;
+    if (config.settings.enableDefaultPreview) {
+        if (_defaultPreview) {
+            return _defaultPreview;
+        } else if (message.text) {
+            // supposed to be rendered with regular text plugin
+            // not handled by the "messenger plugin"
+            return null;
+        } else if (_webchat) {
+            return _webchat;
+        } else if (_facebook) {
+            return _facebook
         }
 
-        return _webchat;
+        return null;
+    }
+    
+    if (config.settings.enableStrictMessengerSync){
+        return preferFacebook(cognigyData, config.settings.enableStrictMessengerSync);
     }
 
     return _webchat || _facebook;
@@ -94,7 +119,7 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
 
                         // Switch focus to input field if the flag is enabled
                         const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
-                        if(textMessageInput && config.settings.focusInputAfterPostback) textMessageInput.focus();
+                        if (textMessageInput && config.settings.focusInputAfterPostback) textMessageInput.focus();
 
                         onSendMessage(payload, null, { label: title });
                     }
@@ -110,7 +135,7 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
                         })();
 
                         // prevent no-ops from sending you to a blank page
-                        if (url === 'about:blank') 
+                        if (url === 'about:blank')
                             return;
 
                         const target = (action as IFBMURLButton).target === "_self" ? "_self" : "_blank";
@@ -148,7 +173,7 @@ const fullscreenMessengerGenericPlugin: MessagePluginFactory = ({ React, styled 
 
                         // Switch focus to input field if the flag is enabled
                         const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
-                        if(textMessageInput && config.settings.focusInputAfterPostback) textMessageInput.focus();
+                        if (textMessageInput && config.settings.focusInputAfterPostback) textMessageInput.focus();
 
                         onSendMessage(payload, null, { label: title });
                     }
