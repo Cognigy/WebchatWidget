@@ -124,4 +124,11 @@ describe("Date Picker", () => {
 
         })
     })
+
+    it("should render the date picker even if the provided function throws a TypeError", () => {                        
+        cy.withMessageFixture('date-picker-function-invalid', () => {
+            cy
+                .contains("foobar012b1").click();
+        })
+    })
 })
