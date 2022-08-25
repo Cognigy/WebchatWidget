@@ -108,20 +108,24 @@ describe("Date Picker", () => {
         const theDayBeforeYesterday = moment().subtract(2, "days").format("D");        
         const theDayAfterTomorrow = moment().add(2, "days").format("D");
         
+        /* When today %2 is true, the date is enable > not.have.class flatpickr-disabled */                
+        const getDisabledOrEnabledClass = (day: string) => {
+            return parseInt(day) %2 === 0 ? "not.have.class" : "have.class";
+        };
+
         cy.withMessageFixture('date-picker-function', () => {
             cy
                 .contains("foobar012b1").click();
             cy
-                .contains(".flatpickr-day", today).should("not.have.class", "flatpickr-day flatpickr-disabled");
+                .contains(".flatpickr-day", today).should(getDisabledOrEnabledClass(today), "flatpickr-day today flatpickr-disabled");
             cy
-                .contains(".flatpickr-day", yesterday).should("have.class", "flatpickr-day flatpickr-disabled");
+                .contains(".flatpickr-day", yesterday).should(getDisabledOrEnabledClass(yesterday), "flatpickr-day yesterday flatpickr-disabled");
             cy
-                .contains(".flatpickr-day", tomorrow,).should("have.class", "flatpickr-day flatpickr-disabled");
+                .contains(".flatpickr-day", tomorrow,).should(getDisabledOrEnabledClass(tomorrow), "flatpickr-day tomorrow flatpickr-disabled");
             cy
-                .contains(".flatpickr-day", theDayBeforeYesterday).should("not.have.class", "flatpickr-day flatpickr-disabled");
+                .contains(".flatpickr-day", theDayBeforeYesterday).should(getDisabledOrEnabledClass(theDayBeforeYesterday), "flatpickr-day flatpickr-disabled");
             cy
-                .contains(".flatpickr-day", theDayAfterTomorrow).should("not.have.class", "flatpickr-day flatpickr-disabled");
-
+                .contains(".flatpickr-day", theDayAfterTomorrow).should(getDisabledOrEnabledClass(theDayAfterTomorrow), "flatpickr-day flatpickr-disabled");
         })
     })
 
