@@ -101,7 +101,7 @@ describe("Date Picker", () => {
         })
     })
 
-    it.only("should have class disabled for %2 weekdays", () => {                
+    it("should have class disabled for %2 weekdays", () => {                
         /* Calculate the days via moment */
         const today = moment();       
         const yesterday = moment().subtract(1, "days");        
