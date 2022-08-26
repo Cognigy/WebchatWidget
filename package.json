@@ -42,7 +42,7 @@
     "@braintree/sanitize-url": "^6.0.0",
     "@cognigy/socket-client": "^4.5.4",
     "@emotion/cache": "^10.0.29",
-    "@emotion/react": "^11.7.1",
+    "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.6.0",
     "adaptivecards": "^2.10.0",
     "cypress-real-events": "^1.7.0",
