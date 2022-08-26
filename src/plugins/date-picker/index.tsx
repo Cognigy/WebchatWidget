@@ -322,8 +322,8 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         weekNumbers: data.weekNumbers || false,
         dateFormat: enableTime ? `${dateFormat} ${timeFormat}` : dateFormat,
         defaultDate,
-        disable: [] as string[],
-        enable: [] as string[],
+        disable: [] as any[],
+        enable: [] as any[],
         enableTime,
         event: data.eventName,
         inline: true,
@@ -340,7 +340,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
           : undefined
       };
 
-      const mask: string[] = [...(data.enable_disable || [])]
+      const mask: any[] = [...(data.enable_disable || [])]
         // add special rule for weekends
         .map(dateString => {
           if (dateString === 'weekends')
@@ -350,6 +350,17 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         })
         // resolve relative date names like today, tomorrow or yesterday
         .map(DatePicker.transformNamedDate);
+        
+	  // the code in function_enable_disable was executed in a vm to check that its return value is from type boolean
+      if (data?.function_enable_disable?.length > 0) {
+        try {
+          const flatpickrFn = new Function(`"use strict"; return  ${data.function_enable_disable}`)();        
+          /* The Flatpickr function takes in a Date object */
+          if (typeof flatpickrFn(new Date()) === "boolean") {            
+            mask.push(flatpickrFn);                  
+          }
+        } catch (e) { }     
+       }
 
       if (!!data.wantDisable) {
         // add date mask as blacklist
