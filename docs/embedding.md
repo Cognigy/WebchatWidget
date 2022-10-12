@@ -50,17 +50,18 @@ You can pass [Webchat Options](#webchat-options) as an additional argument to th
 
 ### Webchat Options
 
-| Name              | Type                                    | Default                                          | Description                                                                                                      |
-| ----------------- | --------------------------------------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| userId            | string                                  | random string[<sup>1</sup>](#persistent-user-id) | The user's id                                                                                                    |
-| sessionId         | string                                  | random string                                    | The session's id                                                                                                 |
-| channel           | string                                  | `"webchat-client"`                               | The name of your client. Can be useful for analytics                                                             |
-| reconnection      | boolean                                 | `true`                                           | If `true`, will try to re-establish the connection after losing it                                               |
-| reconnectionLimit | number                                  | `5`                                              | Limit the maximum number of reconnection attempts, `0` means no limit                                            |
-| interval          | number                                  | `10000`                                          | Interval time in miliseconds the webchat will wait inbetween polls when falling back to HTTP polling.            |
-| forceWebsockets   | boolean                                 | auto-determined by runtime-environment           | If `true`, the client will only use websockets and not fall back to http polling (wins over `disableWebsockets`) |
-| disableWebsockets | boolean                                 | false                                            | If `true`, the client will only use http polling and will not try to upgrade to websockets                       |
-| settings          | [Endpoint Settings](#endpoint-settings) | -                                                | Can be used to (partially) override certain Settings from the Webchat Endpoint                                   |
+| Name                       | Type                                    | Default                                          | Description                                                                                                               |
+| -------------------------- | --------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| userId                     | string                                  | random string[<sup>1</sup>](#persistent-user-id) | The user's id                                                                                                             |
+| sessionId                  | string                                  | random string                                    | The session's id                                                                                                          |
+| channel                    | string                                  | `"webchat-client"`                               | The name of your client. Can be useful for analytics                                                                      |
+| reconnection               | boolean                                 | `true`                                           | If `true`, will try to re-establish the connection after losing it                                                        |
+| reconnectionLimit          | number                                  | `5`                                              | Limit the maximum number of reconnection attempts, `0` means no limit                                                     |
+| interval                   | number                                  | `10000`                                          | Interval time in miliseconds the webchat will wait inbetween polls when falling back to HTTP polling.                     |
+| forceWebsockets            | boolean                                 | auto-determined by runtime-environment           | If `true`, the client will only use websockets and not fall back to http polling (wins over `disableWebsockets`)          |
+| disableWebsockets          | boolean                                 | false                                            | If `true`, the client will only use http polling and will not try to upgrade to websockets                                |
+| enableInnerSocketHandshake | boolean                                 | false                                            | If `true`, the client will pass `userId`, `sessionId` and `URLToken` through a socket handshake instead of via URL params |
+| settings                   | [Endpoint Settings](#endpoint-settings) | -                                                | Can be used to (partially) override certain Settings from the Webchat Endpoint                                            |
 
 <sup id="persistent-user-id">1</sup> The `userId` will be randomly generated on first page load and then persisted user via `LocalStorage`. When that user reloads the page, the Webchat will re-use the `userId` from `LocalStorage`.
 
