@@ -44,6 +44,7 @@ export const getInitialState = (): ConfigState => ({
     enableUnreadMessagePreview: false,
     enableUnreadMessageSound: false,
     enableUnreadMessageTitleIndicator: false,
+    enableDefaultPreview: false,
     engagementMessageDelay: 5000,
     engagementMessageText: "",
     focusInputAfterPostback: false,

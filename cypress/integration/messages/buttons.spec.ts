@@ -53,4 +53,14 @@ describe("Message with Buttons", () => {
             
         });
     })
+
+    it("buttons in group should have 'aria-label' attribute with button position and name", () => {
+        cy.withMessageFixture('buttons', () => {
+            cy.wrap([1,2,3,4]).each(number => {
+                cy.contains(`foobar005b${number}`)
+                    .invoke("attr", "aria-label")
+                    .should("contain", `Item ${number} of 4: foobar005b${number}`);
+            })
+        })
+    })
 })

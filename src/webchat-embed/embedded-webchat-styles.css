@@ -32,14 +32,14 @@
 
 @media screen and (min-width: 576px) {
     [data-cognigy-webchat-root] {
-        position: fixed;
+        position: relative;
 
         left: auto;
         top: auto;
 
         overflow: visible;
         width: auto;
-        height: auto;
+        height: 100%;
     }
 
     [data-cognigy-webchat-root] [data-cognigy-webchat] {

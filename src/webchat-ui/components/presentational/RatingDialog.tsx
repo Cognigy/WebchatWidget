@@ -267,6 +267,7 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
                     </RatingDialogMain>
                     <RatingToolbar>
                         <RatingInput
+                            data-test="rating-input"
                             type="text"
                             value={ratingText}
                             onChange={this.handleSetRatingText}

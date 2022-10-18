@@ -3,8 +3,14 @@ describe('Chat Log', () => {
         cy.visitWebchat().initMockWebchat().openWebchat();;
     });
 
-    it('is chat log region focusable', () => {
-        cy.get('#webchatChatHistoryWrapperLiveLogPanel').should("have.attr", "tabindex", 0);
+    it('is chat log region non-focusable when no messages in log', () => {
+        cy.get('#webchatChatHistoryWrapperLiveLogPanel').should("have.attr", "tabindex", -1);
+    });
+
+    it('is chat log region focusable when there are messages in log', () => {
+        cy.withMessageFixture('text', () => {
+            cy.get('#webchatChatHistoryWrapperLiveLogPanel').should("have.attr", "tabindex", 0);
+        })       
     });
 
     it('is chat log region accessible', () => {

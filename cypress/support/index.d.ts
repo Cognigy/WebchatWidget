@@ -60,5 +60,10 @@ declare namespace Cypress {
        * renders a message using the message renderer
        */
       renderMessage(text?: string, data?: Object, source?: 'bot' | 'agent' | 'user', config?: any): Chainable<ReturnType<cy["window"]>>;
+    
+      /** 
+       * loads and evaluates a JavaScript fixture file
+       */
+      loadJavaScriptFixture(name: string): Chainable<unknown>
     }
   }

@@ -11,13 +11,11 @@ import { MessagePlugin } from '../../common/interfaces/message-plugin';
 import FullScreenMessage from './history/FullScreenMessage';
 import Input from './plugins/InputPluginRenderer';
 import textInputPlugin from './plugins/input/text';
-import MessageRow from './presentational/MessageRow';
 import MessagePluginRenderer from './plugins/MessagePluginRenderer';
 import regularMessagePlugin from './plugins/message/regular';
 import { InputPlugin } from '../../common/interfaces/input-plugin';
 import stylisRTL from 'stylis-rtl';
 
-import TypingIndicatorBubble from './presentational/TypingIndicatorBubble';
 import '../utils/normalize.css';
 import { MessageSender } from '../interfaces';
 import { ChatScroller } from './history/ChatScroller';
@@ -31,6 +29,7 @@ import { TTyping } from '../../common/interfaces/typing';
 import UnreadMessagePreview from './presentational/UnreadMessagePreview';
 import Badge from './presentational/Badge';
 import getTextFromMessage from '../../webchat/helper/message';
+import getKeyboardFocusableElements from '../utils/find-focusable';
 import notificationSound from '../utils/notification-sound';
 import { findReverse } from '../utils/find-reverse';
 import "../../assets/style.css";
@@ -127,6 +126,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     chatToggleButtonRef: React.RefObject<HTMLButtonElement>;
     closeButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
     ratingButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
+    webchatWindowRef: React.RefObject<HTMLDivElement>;
 
     private unreadTitleIndicatorInterval: ReturnType<typeof setInterval> | null = null;
     private originalTitle: string = window.document.title;
@@ -141,6 +141,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         this.chatToggleButtonRef = React.createRef();
         this.closeButtonInHeaderRef = React.createRef();
         this.ratingButtonInHeaderRef = React.createRef();
+        this.webchatWindowRef = React.createRef();
     }
 
     static getDerivedStateFromProps(props: WebchatUIProps, state: WebchatUIState): WebchatUIState | null {
@@ -334,70 +335,39 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         );
     }
 
-    handleReverseTabNavigation = () => {
-        const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
-        const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
-        const getStartedButton = document.getElementById("webchatGetStartedButton");
-        const webchatInputButtonMenu = document.getElementById("webchatInputButtonMenu");
-        if (textMessageInput) {
-            textMessageInput.focus();
-        } else if (getStartedButton) {
-            getStartedButton.focus();
-        } else if (webchatInputButtonMenu) {
-            webchatInputButtonMenu.focus();
-        } else {
-            webchatHistoryPanel?.focus()
-        }
-    }
-
+    // Key down handler
     handleKeydown = (event) => {
-        const { enableFocusTrap, enableRating } = this.props.config.settings;
+        const { enableFocusTrap } = this.props.config.settings;
         const { open } = this.props;
+        const { target, key, shiftKey } = event;
+        const shiftTabKeyPress = shiftKey && key === "Tab";
+        const tabKeyPress = !shiftKey && key === "Tab";        
 
         if (enableFocusTrap && open) {
+            // Get the first and last focusable elements within the webchat window and add focus
+            const webchatWindowEl = this.webchatWindowRef?.current as HTMLElement;
+            const { firstFocusable, lastFocusable } = getKeyboardFocusableElements(webchatWindowEl);
+            const chatToggleButton = this.chatToggleButtonRef?.current;   
+
             /**
-             * If the current focused element is the close button(if rating not enabled) or 
-             * rating thumbs up/down button (if rating enabled) in chat header, the focus moves
-             * to some element outside chat window on 'Shift + Tab' navigation.
+             * In order to trap focus, 
              * 
-             * In order to trap focus, move focus back to the first element (from the bottom) within chat window 
-             * on Shift + Tab navigation.
+             * on Shift + Tab navigation, move the focus from first focusable element (located at the top-left of webchat)
+             * or from the chat toggle, to the last focusable element (located at the bottom-right of webchat).
+             * 
+             * On Tab navigation, the focus should move from the last focusable element or from the chat toggle to the 
+             * first focusable element within the chat window.
              * 
              */
-            const isCloseButtonAsTarget = event.target === this.closeButtonInHeaderRef?.current;
-            const isRatingButtonAsTarget = event.target === this.ratingButtonInHeaderRef?.current;
-            if ((!enableRating && isCloseButtonAsTarget) || (enableRating && isRatingButtonAsTarget)) {
-                if (event.shiftKey && event.key === "Tab") {
-                    event.preventDefault();
-                    this.handleReverseTabNavigation();
-                }
-            }
-            /**
-             * If the current focused element is the chat toggle button, the focus moves to some element 
-             * outside chat window on 'Tab' navigation.
-             * 
-             * In order to trap focus, move the focus back to the chat history panel(if rating not enabled) or
-             * thumbs up/down rating button (if rating enabled) on Tab navigation.
-             * 
-             * On Shift + Tab navigation, the focus should move to the first element (from the bottom) within chat window.
-             * 
-             */
-            if (event.target === this.chatToggleButtonRef?.current) {
-                if (event.shiftKey && event.key === "Tab") {
-                    event.preventDefault();
-                    this.handleReverseTabNavigation();
-                } else if (event.key === "Tab") {
-                    const hasRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && this.props.hasGivenRating === false));
-                    if(hasRatingButton) {
-                        event.preventDefault();
-                        const webchatHeaderRatingButton = document.getElementById("webchatHeaderOpenRatingDialogButton");
-                        webchatHeaderRatingButton?.focus();
-                    } else {
-                        event.preventDefault();
-                        const webchatHistoryPanel = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
-                        webchatHistoryPanel?.focus();
-                    }
-                }
+
+            if ((target === chatToggleButton || target === firstFocusable) && shiftTabKeyPress) {
+                event.preventDefault();
+                // Focus the last focusable element
+                lastFocusable?.focus();
+            } else if ((target === chatToggleButton || target === lastFocusable) && tabKeyPress) {
+                event.preventDefault();
+                // Focus the first focusable element
+                setTimeout(() => { firstFocusable?.focus(); }, 0);
             }
         }
     }
@@ -498,6 +468,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                         {...webchatRootProps}
                                         className="webchat"
                                         id="webchatWindow"
+                                        ref={this.webchatWindowRef}
                                     >
                                         {!fullscreenMessage
                                             ? this.renderRegularLayout()
@@ -530,7 +501,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                 </UnreadMessagePreview>
                                             )
                                         }
-
                                         <FAB
                                             data-cognigy-webchat-toggle
                                             onClick={onToggle}
@@ -569,10 +539,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     renderRegularLayout() {
         const {
             config,
-            messages,
-            typingIndicator,
             hasGivenRating,
             onShowRatingDialog,
+            messages
         } = this.props;
 
         const { enableRating } = config.settings;
@@ -588,6 +557,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     title={config.settings.title || 'Cognigy Webchat'}
                     ratingButtonRef={this.ratingButtonInHeaderRef}
                     closeButtonRef={this.closeButtonInHeaderRef}
+                    chatToggleButtonRef={this.chatToggleButtonRef}
                     showRatingButton={showRatingButton}
                     onRatingButtonClick={() => onShowRatingDialog(true)}
                 />
@@ -595,6 +565,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     disableBranding={config.settings.disableBranding}
                     ref={this.history as any}
                     className="webchat-chat-history"
+                    tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
                 >
                     <h2 className="sr-only" id="webchatChatHistoryHeading">Chat History</h2>
                     {this.renderHistory()}

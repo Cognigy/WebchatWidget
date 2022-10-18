@@ -25,6 +25,7 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 import 'cypress-wait-until';
+import "cypress-real-events/support";
 
 Cypress.Commands.add('visitWebchat', () => {
     cy.visit('/webchat.test.html');
@@ -82,14 +83,11 @@ Cypress.Commands.add('openWebchat', () => {
 
 Cypress.Commands.add('receiveMessage', (text?: string, data?: Object, source: 'bot' | 'agent' = 'bot') => {
     cy.get('@webchat').then(webchat => {
-        (webchat as any).store.dispatch({
-            type: 'RECEIVE_MESSAGE',
-            message: {
-                id: `fakemessage-${Math.random()}-${Date.now()}`,
-                text,
-                data,
-                source
-            }
+        (webchat as any)._handleOutput({
+            id: `fakemessage-${Math.random()}-${Date.now()}`,
+            text,
+            data,
+            source
         });
     });
 
@@ -202,5 +200,14 @@ Cypress.Commands.add('getMessageFromHistory', (messageOrMatcher) => {
         });
     }, {
         errorMsg: "Message could not be found!"
+    });
+});
+
+Cypress.Commands.add("loadJavaScriptFixture", (fixture: string) => {
+    cy.fixture(fixture, null).then(arraybuffer => {
+        const jsString = Buffer.from(arraybuffer).toString('utf-8');
+        cy.window().then(window => {
+            window.eval(jsString);
+        });
     });
 });

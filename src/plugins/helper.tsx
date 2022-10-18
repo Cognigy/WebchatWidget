@@ -31,7 +31,7 @@ export const registerMessagePlugin = (plugin: MessagePlugin | MessagePluginFacto
 
 export const getRegisteredMessagePlugins = (): (MessagePlugin | MessagePluginFactory)[] => 
     // @ts-ignore
-    window.cognigyWebchatMessagePlugins || [];
+    [...(window.cognigyWebchatMessagePlugins || [])].reverse();
 
 export const prepareMessagePlugins = (messagePlugins = getRegisteredMessagePlugins(), {
     React,

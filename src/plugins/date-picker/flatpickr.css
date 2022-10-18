@@ -42,7 +42,7 @@
  [data-cognigy-webchat-root] .flatpickr-calendar.inline {
      display: block;
      position: relative;
-     width: 100%;
+     padding: 8px 16px;
  }
 
  [data-cognigy-webchat-root] .flatpickr-calendar.static {
@@ -136,7 +136,8 @@
  }
 
  [data-cognigy-webchat-root] .flatpickr-calendar:focus {
-     outline: 0;
+    outline: 0;
+    box-shadow: inset 0px 0px 0 1px #959ea9;
  }
 
  [data-cognigy-webchat-root] .flatpickr-wrapper {
@@ -178,6 +179,7 @@
      line-height: 16px;
      height: 28px;
      padding: 10px;
+     margin: 8px 16px 0px;
      z-index: 3;
      color: rgba(0, 0, 0, 0.9);
      fill: rgba(0, 0, 0, 0.9);
@@ -570,7 +572,7 @@
      box-shadow: -5px 0 0 #e6e6e6, 5px 0 0 #e6e6e6;
  }
 
- [data-cognigy-webchat-root] .flatpickr-day.disabled, [data-cognigy-webchat-root] .flatpickr-day.disabled:hover, [data-cognigy-webchat-root] .flatpickr-day.prevMonthDay, [data-cognigy-webchat-root] .flatpickr-day.nextMonthDay, [data-cognigy-webchat-root] .flatpickr-day.notAllowed, [data-cognigy-webchat-root] .flatpickr-day.notAllowed.prevMonthDay, [data-cognigy-webchat-root] .flatpickr-day.notAllowed.nextMonthDay {
+ [data-cognigy-webchat-root] .flatpickr-day.disabled, .flatpickr-disabled.flatpickr-day, [data-cognigy-webchat-root] .flatpickr-day.disabled:hover, [data-cognigy-webchat-root] .flatpickr-day.prevMonthDay, [data-cognigy-webchat-root] .flatpickr-day.nextMonthDay, [data-cognigy-webchat-root] .flatpickr-day.notAllowed, [data-cognigy-webchat-root] .flatpickr-day.notAllowed.prevMonthDay, [data-cognigy-webchat-root] .flatpickr-day.notAllowed.nextMonthDay {
      color: rgba(57, 57, 57, 0.3);
      background: transparent;
      border-color: transparent;

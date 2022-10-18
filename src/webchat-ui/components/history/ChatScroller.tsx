@@ -6,7 +6,8 @@ const CLIENT_HEIGHT_OFFSET = 16 + 70; // banner + typing indicator
 
 export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
     disableBranding: boolean;
-    showFocusOutline: boolean; 
+    showFocusOutline: boolean;
+    tabIndex: 0 | -1;
  }
 
 type InnerProps = OuterProps;
@@ -94,7 +95,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
     }
 
     render() {
-        const { children, disableBranding, showFocusOutline, ...restProps } = this.props;
+        const { children, disableBranding, showFocusOutline, tabIndex, ...restProps } = this.props;
 
         return (
             <ChatLogWrapper ref={this.rootRef} showFocusOutline={this.state.isChatLogFocused} {...restProps}>
@@ -102,7 +103,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
                 <ChatLog
                     ref={this.innerRef}
                     id="webchatChatHistoryWrapperLiveLogPanel"
-                    tabIndex={0}
+                    tabIndex={tabIndex}
                     role="log"
                     aria-live="polite"
                     onFocus={this.handleFocus}

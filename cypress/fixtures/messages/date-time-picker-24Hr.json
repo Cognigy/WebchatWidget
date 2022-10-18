@@ -6,18 +6,22 @@
 			"data": {
 				"eventName": "foobar012",
 				"locale": "en",
-				"enableTime": false,
 				"mode": "single",
 				"wantDisable": false,
 				"enable_disable": null,
 				"minDate": "today",
 				"maxDate": "tomorrow",
-				"function_enable_disable": "",
 				"openPickerButtonText": "foobar012b1",
 				"cancelButtonText": "foobar012b2",
 				"submitButtonText": "foobar012b3",
+				"enableTime": true,
 				"time_24hr": true,
-				"dateFormat": ""
+				"enableSeconds": true,
+				"defaultHour": 6,
+        		"defaultMinute": 30,
+        		"hourIncrement": 1,
+        		"minuteIncrement": 5,
+				"dateFormat": "YYYY-MM-DD H:i:S"
 			}
 		}
 	}
