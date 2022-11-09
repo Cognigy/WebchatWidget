@@ -1,0 +1,39 @@
+{
+	"text": null,
+	"data": {
+		"_cognigy": {
+			"_default": {
+				"_image": {
+					"type": "image",
+					"imageUrl": "https://placekitten.com/300/300",
+					"buttons": [
+						{
+							"id": 0.17194659386513078,
+							"payload": "",
+							"type": "web_url",
+							"title": "Download",
+							"url": "https://placekitten.com/300/300"
+						}
+					]
+				}
+			},
+			"_webchat": {
+				"message": {
+					"attachment": {
+						"type": "image",
+						"payload": {
+							"url": "https://placekitten.com/300/300",
+							"buttons": [
+								{
+									"type": "web_url",
+									"title": "Download",
+									"url": "https://placekitten.com/300/300"
+								}
+							]
+						}
+					}
+				}
+			}
+		}
+	}
+}

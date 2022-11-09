@@ -57,7 +57,7 @@ const transformAttachmentUploadApiMessage = (message: IFBMMessage | IFBMUploadAP
                     media_type,
 					url,
 					altText,
-                    buttons: []
+                    buttons: attachment.payload.buttons || []
                 }]
             }
         }
