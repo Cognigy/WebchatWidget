@@ -15,7 +15,7 @@ describe("Message with Downloadable Image", () => {
         })
     });
 
-	it("should render download button", () => {
+    it("should render download button", () => {
         cy.withMessageFixture('downloadableImage', () => {
             cy
                 .get("button").contains("Download");

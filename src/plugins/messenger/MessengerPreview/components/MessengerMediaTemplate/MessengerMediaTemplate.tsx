@@ -55,10 +55,10 @@ export const getMessengerMediaTemplate = ({
     }: IProps & React.HTMLProps<HTMLDivElement>) => {
         const { elements } = payload;
         const element = elements && elements[0];
-		const webchatButtonTemplateButtonId = useRandomId("webchatButtonTemplateButton");
+        const webchatButtonTemplateButtonId = useRandomId("webchatButtonTemplateButton");
 
-		const MessengerButton = getMessengerButton({ React, styled });
-		const Divider = getDivider({ React, styled });
+        const MessengerButton = getMessengerButton({ React, styled });
+        const Divider = getDivider({ React, styled });
 
         if (!element) return null;
 
@@ -77,26 +77,26 @@ export const getMessengerMediaTemplate = ({
         const { media_type, url, altText, buttons } = element as IFBMMediaTemplateUrlElement;
         // TODO add buttons
 
-		const imageDownloadButtons = () => {
-			return(
-				<div>
-					{buttons.map((button, index) => (
-						<React.Fragment key={index}>
-							<Divider />
-							<MessengerButton
-								button={button}
-								onClick={e => onAction(e, button)}
-								className="webchat-buttons-template-button"
-								config={config}
-								id={`${webchatButtonTemplateButtonId}-${index}`}
-								position={index + 1}
-								total={buttons.length}
-							/>
-						</React.Fragment>
-					))}
-				</div>
-			)
-		} 
+        const imageDownloadButtons = () => {
+            return(
+                <div>
+                    {buttons.map((button, index) => (
+                        <React.Fragment key={index}>
+                            <Divider />
+                            <MessengerButton
+                                button={button}
+                                onClick={e => onAction(e, button)}
+                                className="webchat-buttons-template-button"
+                                config={config}
+                                id={`${webchatButtonTemplateButtonId}-${index}`}
+                                position={index + 1}
+                                total={buttons.length}
+                            />
+                        </React.Fragment>
+                    ))}
+                </div>
+            )
+        } 
 
         if (media_type === "image") {
             const image = config.settings.dynamicImageAspectRatio ? (
@@ -110,7 +110,7 @@ export const getMessengerMediaTemplate = ({
             return (
                 <MessengerFrame {...divProps} className="webchat-media-template-image">
                     {image}
-					{imageDownloadButtons()}
+                    {imageDownloadButtons()}
                 </MessengerFrame>
             );
         }
