@@ -77,7 +77,7 @@ export const getMessengerMediaTemplate = ({
         const { media_type, url, altText, buttons } = element as IFBMMediaTemplateUrlElement;
         // TODO add buttons
 
-        const imageDownloadButtons = () => {
+        const imageButtons = () => {
             return(
                 <div>
                     {buttons.map((button, index) => (
@@ -110,7 +110,7 @@ export const getMessengerMediaTemplate = ({
             return (
                 <MessengerFrame {...divProps} className="webchat-media-template-image">
                     {image}
-                    {imageDownloadButtons()}
+                    {imageButtons()}
                 </MessengerFrame>
             );
         }
