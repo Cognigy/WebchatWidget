@@ -59,6 +59,7 @@ export const getMessengerMediaTemplate = ({
 		const { media_type, url, altText, buttons } = element as IFBMMediaTemplateUrlElement;
 
 		const hasMoreThanOnebutton = buttons && buttons.length > 1;
+		const hasNobuttons = !buttons || buttons?.length < 1;
 
         const webchatButtonTemplateButtonId = useRandomId("webchatButtonTemplateButton");
         const a11yProps = hasMoreThanOnebutton ? {role: "group", "aria-label": altText} : {};
@@ -81,6 +82,8 @@ export const getMessengerMediaTemplate = ({
         }
 
         const imageButtons = () => {
+			if(hasNobuttons) return null;
+			
             return(
                 <div {...a11yProps}>
                     {buttons.map((button, index) => (
