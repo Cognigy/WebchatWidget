@@ -54,12 +54,12 @@ export const getMessengerMediaTemplate = ({
         ...divProps
     }: IProps & React.HTMLProps<HTMLDivElement>) => {
         const { elements } = payload;
-		const element = elements && elements[0];
+        const element = elements && elements[0];
 
-		const { media_type, url, altText, buttons } = element as IFBMMediaTemplateUrlElement;
+        const { media_type, url, altText, buttons } = element as IFBMMediaTemplateUrlElement;
 
-		const hasMoreThanOnebutton = buttons && buttons.length > 1;
-		const hasNobuttons = !buttons || buttons?.length < 1;
+        const hasMoreThanOnebutton = buttons && buttons.length > 1;
+        const hasNobuttons = !buttons || buttons?.length < 1;
 
         const webchatButtonTemplateButtonId = useRandomId("webchatButtonTemplateButton");
         const a11yProps = hasMoreThanOnebutton ? {role: "group", "aria-label": altText} : {};
@@ -82,8 +82,8 @@ export const getMessengerMediaTemplate = ({
         }
 
         const imageButtons = () => {
-			if(hasNobuttons) return null;
-			
+            if(hasNobuttons) return null;
+            
             return(
                 <div {...a11yProps}>
                     {buttons.map((button, index) => (
