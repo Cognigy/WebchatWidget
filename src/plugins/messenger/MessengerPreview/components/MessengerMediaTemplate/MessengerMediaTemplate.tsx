@@ -6,9 +6,12 @@ import {
 } from '../../interfaces/MediaTemplatePayload.interface';
 import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
+import { getDivider } from '../Divider';
+import { getMessengerButton } from '../MessengerButton/MessengerButton';
 import { getFlexImage } from '../FlexImage';
 import { getBackgroundImage } from '../../lib/css';
 import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
+import { useRandomId } from '../../../../../common/utils/randomId';
 import "../../../../../assets/style.css";
 
 interface IProps extends IWithFBMActionEventHandler {
@@ -53,6 +56,17 @@ export const getMessengerMediaTemplate = ({
         const { elements } = payload;
         const element = elements && elements[0];
 
+        const { media_type, url, altText, buttons } = element as IFBMMediaTemplateUrlElement;
+
+        const hasMoreThanOnebutton = buttons && buttons.length > 1;
+        const hasNobuttons = !buttons || buttons?.length < 1;
+
+        const webchatButtonTemplateButtonId = useRandomId("webchatButtonTemplateButton");
+        const a11yProps = hasMoreThanOnebutton ? {role: "group", "aria-label": altText} : {};
+
+        const MessengerButton = getMessengerButton({ React, styled });
+        const Divider = getDivider({ React, styled });
+
         if (!element) return null;
 
         const handleFocus = (player) => {
@@ -67,8 +81,28 @@ export const getMessengerMediaTemplate = ({
             }, 100);
         }
 
-        const { media_type, url, altText } = element as IFBMMediaTemplateUrlElement;
-        // TODO add buttons
+        const imageButtons = () => {
+            if(hasNobuttons) return null;
+            
+            return(
+                <div {...a11yProps}>
+                    {buttons.map((button, index) => (
+                        <React.Fragment key={index}>
+                            <Divider />
+                            <MessengerButton
+                                button={button}
+                                onClick={e => onAction(e, button)}
+                                className="webchat-buttons-template-button"
+                                config={config}
+                                id={`${webchatButtonTemplateButtonId}-${index}`}
+                                position={index + 1}
+                                total={buttons.length}
+                            />
+                        </React.Fragment>
+                    ))}
+                </div>
+            )
+        } 
 
         if (media_type === "image") {
             const image = config.settings.dynamicImageAspectRatio ? (
@@ -82,6 +116,7 @@ export const getMessengerMediaTemplate = ({
             return (
                 <MessengerFrame {...divProps} className="webchat-media-template-image">
                     {image}
+                    {imageButtons()}
                 </MessengerFrame>
             );
         }
