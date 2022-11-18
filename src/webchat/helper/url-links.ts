@@ -1,4 +1,4 @@
-const urlMatcherRegex = /(?<=\s|^)(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/\S*)?/gm
+const urlMatcherRegex = /(^|\s)(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/\S*)?/gm
 
 /**
  * Helper function that will replace any URL in a string with HTML anchor elements.
@@ -11,12 +11,14 @@ const urlMatcherRegex = /(?<=\s|^)(http:\/\/www\.|https:\/\/www\.|http:\/\/|http
  */
 export const replaceUrlsWithHTMLanchorElem = (text: string) => {
 
-    const enhancedText = text.replace(urlMatcherRegex, url => {
-        let enhancedUrl = url;
-        if (!url.startsWith("http")) enhancedUrl = "//" + url;
+    const enhancedText = text.replace(urlMatcherRegex, (url, leadingSymbol) => {
+        const trimmedUrl = url.trim();
 
-        return `<a href=${enhancedUrl} target='blank'>${url}</a>`
-    })
+        let enhancedUrl = trimmedUrl;
+        if (!url.startsWith("http")) enhancedUrl = "//" + trimmedUrl;
+
+        return `${leadingSymbol}<a href=${enhancedUrl} target='blank'>${trimmedUrl}</a>`
+    });
 
     return enhancedText;
 };
