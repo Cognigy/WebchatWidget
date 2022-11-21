@@ -13,6 +13,7 @@ import { useRandomId } from '../../../../../common/utils/randomId';
 import { sanitizeHTML } from '../../../../../webchat/helper/sanitize';
 import { IWithMessageColor } from '../../interfaces/MessageColor.interface';
 import { IWithMessageDirection } from '../../interfaces/MessageDirection.interface';
+import { replaceUrlsWithHTMLanchorElem } from '../../../../../webchat/helper/url-links';
 
 interface Props extends IWithFBMActionEventHandler, IWithMessageColor, IWithMessageDirection {
     message: IFBMRegularMessage;
@@ -79,7 +80,9 @@ export const getMessengerTextWithQuickReplies = ({
             setTimeout(() => {quickReplyButton?.focus()}, 200);
         }, []);
 
-        const __html = config.settings.disableHtmlContentSanitization ? text : sanitizeHTML(text);
+        const enhancedURLsText = config.settings.disableRenderURLsAsLinks ? text : replaceUrlsWithHTMLanchorElem(text);
+
+        const __html = config.settings.disableHtmlContentSanitization ? enhancedURLsText : sanitizeHTML(enhancedURLsText);
 
         return (
             <div {...divProps} className="webchat-quick-reply-template-root">

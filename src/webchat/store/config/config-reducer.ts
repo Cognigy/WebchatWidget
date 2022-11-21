@@ -23,6 +23,7 @@ export const getInitialState = (): ConfigState => ({
     disableInputAutogrow: false,
     disableLocalStorage: false,
     disablePersistentHistory: false,
+    disableRenderURLsAsLinks: false,
     disableTextInputSanitization: false,
     disableToggleButton: false,
     disableUrlButtonSanitization: false,

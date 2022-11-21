@@ -4,6 +4,7 @@ import {
   MessageComponentProps,
 } from "../../../../../common/interfaces/message-plugin";
 import { sanitizeHTML } from "../../../../../webchat/helper/sanitize";
+import { replaceUrlsWithHTMLanchorElem } from "../../../../../webchat/helper/url-links";
 import { MarkdownMessageBubble } from "../../../presentational/MarkdownMessageBubble";
 import MessageBubble from "../../../presentational/MessageBubble";
 
@@ -13,6 +14,7 @@ const RegularMessage = ({
     settings: {
       enableGenericHTMLStyling,
       disableHtmlContentSanitization: disableMessageTextSanitization,
+      disableRenderURLsAsLinks,
     },
   },
   color,
@@ -46,9 +48,11 @@ const RegularMessage = ({
 
   const actualText = text || "";
 
+  const enhancedURLsText = disableRenderURLsAsLinks ? actualText : replaceUrlsWithHTMLanchorElem(actualText);
+
   const __html = disableMessageTextSanitization
-    ? actualText
-    : sanitizeHTML(actualText);
+    ? enhancedURLsText
+    : sanitizeHTML(enhancedURLsText);
 
   return (
     <MessageBubbleComponent
