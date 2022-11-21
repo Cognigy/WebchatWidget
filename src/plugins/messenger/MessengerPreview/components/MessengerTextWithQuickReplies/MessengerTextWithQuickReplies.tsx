@@ -80,9 +80,9 @@ export const getMessengerTextWithQuickReplies = ({
             setTimeout(() => {quickReplyButton?.focus()}, 200);
         }, []);
 
-		const enhancedURLsText = config.settings.disableRenderURLsAsLinks ? text : replaceUrlsWithHTMLanchorElem(text);
+        const enhancedURLsText = config.settings.disableRenderURLsAsLinks ? text : replaceUrlsWithHTMLanchorElem(text);
 
-		const __html = config.settings.disableHtmlContentSanitization ? enhancedURLsText : sanitizeHTML(enhancedURLsText);
+        const __html = config.settings.disableHtmlContentSanitization ? enhancedURLsText : sanitizeHTML(enhancedURLsText);
 
         return (
             <div {...divProps} className="webchat-quick-reply-template-root">
