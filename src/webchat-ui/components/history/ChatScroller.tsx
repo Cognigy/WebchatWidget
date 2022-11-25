@@ -1,11 +1,15 @@
 import * as React from 'react'
 import {styled} from '../../style';
 import Branding from '../branding/Branding'
+import CustomBranding from '../branding/CustomBranding';
 
 const CLIENT_HEIGHT_OFFSET = 16 + 70; // banner + typing indicator
 
 export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
     disableBranding: boolean;
+    enableCustomBranding: boolean;
+    customBrandingTitle: string;
+    customBrandingURL: string;
     showFocusOutline: boolean; 
  }
 
@@ -94,7 +98,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
     }
 
     render() {
-        const { children, disableBranding, showFocusOutline, ...restProps } = this.props;
+        const { children, disableBranding, enableCustomBranding, customBrandingTitle, customBrandingURL, showFocusOutline, ...restProps } = this.props;
 
         return (
             <ChatLogWrapper ref={this.rootRef} showFocusOutline={this.state.isChatLogFocused} {...restProps}>
@@ -111,7 +115,17 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
                     {children}
                 </ChatLog>
                 {/* Branding Logo Link */}
-                {!disableBranding && <Branding />}
+                {
+                    !disableBranding && enableCustomBranding
+                    ?
+                    <CustomBranding branding={customBrandingTitle} url={customBrandingURL}/>
+                    :
+                    !disableBranding && !enableCustomBranding
+                    ?
+                    <Branding />
+                    :
+                    null
+                }
             </ChatLogWrapper>
         )
     }

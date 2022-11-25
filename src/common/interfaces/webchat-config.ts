@@ -12,6 +12,9 @@ export interface IWebchatSettings {
   colorScheme: string;
   designTemplate: number;
   disableBranding: boolean;
+  enableCustomBranding: boolean;
+  customBrandingTitle: string;
+  customBrandingURL: string;
   disableDefaultReplyCompatiblityMode: boolean;
   disableHtmlContentSanitization: boolean;
   disableHtmlInput: boolean;

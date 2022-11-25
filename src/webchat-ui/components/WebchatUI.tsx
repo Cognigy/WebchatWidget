@@ -522,11 +522,19 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             lastUnseenMessageText && (
                                                 <UnreadMessagePreview
                                                     className="webchat-unread-message-preview"
-                                                    onClick={onToggle}
+                                                    // onClick={onToggle}
                                                     aria-live="polite"
                                                 >
                                                     <span className="sr-only">New message preview</span>
                                                     {lastUnseenMessageText}
+                                                    <button
+                                                        style={{
+                                                            background: "transparent",
+                                                            border: "none",
+                                                            cursor: "pointer"
+                                                        }}
+                                                        onClick={onClose}
+                                                    >X</button>
                                                 </UnreadMessagePreview>
                                             )
                                         }
@@ -593,6 +601,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 />
                 <HistoryWrapper
                     disableBranding={config.settings.disableBranding}
+                    enableCustomBranding={config.settings.enableCustomBranding}
+                    customBrandingTitle={config.settings.customBrandingTitle}
+                    customBrandingURL={config.settings.customBrandingURL}
                     ref={this.history as any}
                     className="webchat-chat-history"
                 >
