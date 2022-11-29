@@ -50,7 +50,7 @@ export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps)
         const buttonType = button.type;
         const buttonPayload = button.payload;
         const isWebURL = buttonType === "web_url";
-        const isPhoneNumber = buttonType === "phone_number";
+        const isPhoneNumber = buttonPayload && buttonType === "phone_number";
         const buttonTitle = button.title ? button.title + ". " : "";
         const isWebURLButtonTargetBlank = button.target !== "_self";
         const buttonTitleWithTarget = isWebURL && isWebURLButtonTargetBlank ? buttonTitle + "Opens in new tab" : button.title;
