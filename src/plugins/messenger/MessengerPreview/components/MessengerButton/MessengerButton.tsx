@@ -67,7 +67,7 @@ export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps)
                 dangerouslySetInnerHTML={{__html}} 
                 role={isWebURL ? "link" : undefined} 
                 aria-label={ariaLabel}
-                href={isPhoneNumber && buttonPayload ? `tel:${buttonPayload}` : undefined}
+                href={isPhoneNumber ? `tel:${buttonPayload}` : undefined}
             />
         )
     }
