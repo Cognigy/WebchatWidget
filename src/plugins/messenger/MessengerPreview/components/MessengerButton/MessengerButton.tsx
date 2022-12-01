@@ -14,7 +14,7 @@ interface IMessengerButtonProps {
 
 export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps) => {
 
-    const ComponentStyles = (({ theme }) => ({
+    const componentStyles = (({ theme }) => ({
         display: 'block',
         color: theme.primaryColor,
         border: 'none',
@@ -37,11 +37,11 @@ export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps)
         }
     }))
 
-    const Button = styled.button(ComponentStyles, {
+    const Button = styled.button(componentStyles, {
         width: '100%',
     });
 
-    const Link = styled.a(ComponentStyles, {
+    const Link = styled.a(componentStyles, {
         textDecoration: 'none',
         textAlign: 'center'
     });
