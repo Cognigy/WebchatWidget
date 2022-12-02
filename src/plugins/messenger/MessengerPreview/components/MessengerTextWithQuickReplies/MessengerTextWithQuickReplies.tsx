@@ -4,7 +4,7 @@ import {
     IFBMTextQuickReply,
     IFBMQuickReply
 } from '../../interfaces/QuickReply.interface';
-import { getMessengerQuickReply } from '../MessengerQuickReply';
+import { getMessengerPhoneNumberQuickReply, getMessengerQuickReply } from '../MessengerQuickReply';
 import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
 import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
@@ -25,6 +25,7 @@ export const getMessengerTextWithQuickReplies = ({
     styled
 }: MessagePluginFactoryProps) => {
     const MessengerQuickReply = getMessengerQuickReply({ React, styled });
+	const MessengerPhoneNumberQuickReply = getMessengerPhoneNumberQuickReply({ React, styled });
     const MessengerBubble = getMessengerBubble({ React, styled });
 
     const BorderBubble = styled(MessengerBubble)(({ theme }) => ({
@@ -104,8 +105,8 @@ export const getMessengerTextWithQuickReplies = ({
                 {hasQuickReplies && (
                     <QuickReplies className="webchat-quick-reply-template-replies-container" {...a11yProps}>
                         {(quick_replies as IFBMQuickReply[]).map((quickReply, index) => {
-                            const { content_type } = quickReply;
-                            let label: string = "";
+                            const { content_type, payload } = quickReply;
+                            let label = "";
                             let image: React.ReactNode;
 
                             switch (content_type) {
@@ -114,6 +115,7 @@ export const getMessengerTextWithQuickReplies = ({
                                     break;
                                 }
 
+								case "phone_number":
                                 case "text": {
                                     const { title, image_url, image_alt_text } = quickReply as IFBMTextQuickReply;
                                     label = title;
@@ -125,16 +127,25 @@ export const getMessengerTextWithQuickReplies = ({
                                     label = "Send Email-Address";
                                     break;
                                 }
-
-                                case "user_phone_number": {
-                                    label = "Send Phone Number";
-                                    break;
-                                }
                             }
 
                             const __html = config.settings.disableHtmlContentSanitization ? label : sanitizeHTML(label);
                             const ariaLabel = hasMoreThanOneQuickReply ? `Item ${index + 1} of ${quick_replies?.length}: ${__html}` : undefined;
-
+							
+							if(content_type === "phone_number") {
+								return (
+									<MessengerPhoneNumberQuickReply
+										key={index}	
+										href={`tel:${payload}`}
+										className="webchat-quick-reply-template-reply"
+										id={`${webchatQuickReplyTemplateButtonId}-${index}`}
+										aria-label={ariaLabel}
+                                >
+                                    {image}
+                                    <span dangerouslySetInnerHTML={{ __html }} />
+                                </MessengerPhoneNumberQuickReply>
+								)
+							}
                             return (
                                 <MessengerQuickReply
                                     key={index}
