@@ -25,7 +25,7 @@ export const getMessengerTextWithQuickReplies = ({
     styled
 }: MessagePluginFactoryProps) => {
     const MessengerQuickReply = getMessengerQuickReply({ React, styled });
-	const MessengerPhoneNumberQuickReply = getMessengerPhoneNumberQuickReply({ React, styled });
+    const MessengerPhoneNumberQuickReply = getMessengerPhoneNumberQuickReply({ React, styled });
     const MessengerBubble = getMessengerBubble({ React, styled });
 
     const BorderBubble = styled(MessengerBubble)(({ theme }) => ({
@@ -115,7 +115,7 @@ export const getMessengerTextWithQuickReplies = ({
                                     break;
                                 }
 
-								case "phone_number":
+                                case "phone_number":
                                 case "text": {
                                     const { title, image_url, image_alt_text } = quickReply as IFBMTextQuickReply;
                                     label = title;
@@ -131,21 +131,21 @@ export const getMessengerTextWithQuickReplies = ({
 
                             const __html = config.settings.disableHtmlContentSanitization ? label : sanitizeHTML(label);
                             const ariaLabel = hasMoreThanOneQuickReply ? `Item ${index + 1} of ${quick_replies?.length}: ${__html}` : undefined;
-							
-							if(content_type === "phone_number") {
-								return (
-									<MessengerPhoneNumberQuickReply
-										key={index}	
-										href={`tel:${payload}`}
-										className="webchat-quick-reply-template-reply"
-										id={`${webchatQuickReplyTemplateButtonId}-${index}`}
-										aria-label={ariaLabel}
+                            
+                            if(content_type === "phone_number") {
+                                return (
+                                    <MessengerPhoneNumberQuickReply
+                                        key={index}	
+                                        href={`tel:${payload}`}
+                                        className="webchat-quick-reply-template-reply"
+                                        id={`${webchatQuickReplyTemplateButtonId}-${index}`}
+                                        aria-label={ariaLabel}
                                 >
                                     {image}
                                     <span dangerouslySetInnerHTML={{ __html }} />
                                 </MessengerPhoneNumberQuickReply>
-								)
-							}
+                                )
+                            }
                             return (
                                 <MessengerQuickReply
                                     key={index}
