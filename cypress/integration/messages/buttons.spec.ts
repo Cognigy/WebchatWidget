@@ -63,4 +63,12 @@ describe("Message with Buttons", () => {
             })
         })
     })
+
+    it("phone number button should be an anchor element with 'href' attribute", () => {
+        cy.withMessageFixture('buttons', () => {
+            cy.get('a[aria-label="Item 4 of 4: foobar005b4"]')
+            .invoke("attr", "href")
+            .should("contain", `tel:000111222`);
+        })
+    })
 })
