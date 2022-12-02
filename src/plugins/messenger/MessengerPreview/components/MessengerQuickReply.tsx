@@ -31,8 +31,8 @@ const componentStyles = (({ theme }) => ({
 export const getMessengerQuickReply = ({ React, styled }: MessagePluginFactoryProps) => {
 
     const MessengerQuickReply = styled.button(componentStyles, {
-		minHeight: 40,
-	});
+        minHeight: 40,
+    });
 
     return MessengerQuickReply;
 }
@@ -40,11 +40,11 @@ export const getMessengerQuickReply = ({ React, styled }: MessagePluginFactoryPr
 export const getMessengerPhoneNumberQuickReply = ({ React, styled }: MessagePluginFactoryProps) => {
 
     const MessengerPhoneNumberQuickReply = styled.a(componentStyles, {
-		minHeight: 30,
+        minHeight: 30,
         display: 'inline-flex',
         textDecoration: 'none',
-		justifyContent: 'center',
-		alignItems: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     });
 
     return MessengerPhoneNumberQuickReply;
