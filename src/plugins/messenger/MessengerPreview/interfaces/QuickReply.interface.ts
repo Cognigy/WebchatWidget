@@ -3,7 +3,7 @@ export type IFBMQuickReply = IFBMTextQuickReply
     | IFBMEmailQuickReply;
 
 export interface IFBMTextQuickReply {
-    content_type: 'text' | 'phone_number';
+    content_type: 'text' | 'user_phone_number';
     title: string;
     payload: string;
     image_url?: string;

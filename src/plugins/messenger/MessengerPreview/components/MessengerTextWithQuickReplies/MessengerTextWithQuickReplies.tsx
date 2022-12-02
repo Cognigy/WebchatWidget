@@ -115,7 +115,7 @@ export const getMessengerTextWithQuickReplies = ({
                                     break;
                                 }
 
-                                case "phone_number":
+                                case "user_phone_number":
                                 case "text": {
                                     const { title, image_url, image_alt_text } = quickReply as IFBMTextQuickReply;
                                     label = title;
@@ -132,7 +132,7 @@ export const getMessengerTextWithQuickReplies = ({
                             const __html = config.settings.disableHtmlContentSanitization ? label : sanitizeHTML(label);
                             const ariaLabel = hasMoreThanOneQuickReply ? `Item ${index + 1} of ${quick_replies?.length}: ${__html}` : undefined;
                             
-                            if(content_type === "phone_number") {
+                            if(content_type === "user_phone_number") {
                                 return (
                                     <MessengerPhoneNumberQuickReply
                                         key={index}	
