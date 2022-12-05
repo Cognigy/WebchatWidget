@@ -286,6 +286,15 @@ The button to send the message, you can not change the icon but you can customiz
     
 }
 ```
+* *webchat-input-button-attach-file*  
+The button to attach a file, you can not change the icon but you can customize the position, size and background.
+```CSS
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-button-attach-file {
+   
+    border-radius: 20px;
+    background-color: white;
+}
+```
 * *webchat-input-persistent-menu*  
 This is the persistent input menu, you can change its color. It also contains the menu title and menu items components.
 ```CSS

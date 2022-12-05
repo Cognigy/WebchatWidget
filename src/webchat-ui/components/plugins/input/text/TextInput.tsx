@@ -3,6 +3,7 @@ import { styled } from '../../../../style';
 import { InputComponentProps } from '../../../../../common/interfaces/input-plugin';
 import SendIcon from './baseline-send-24px.svg';
 import MenuIcon from './baseline-menu-24px.svg';
+import AttachFileIcon from './attach-file.svg';
 import { IPersistentMenuItem } from '../../../../../common/interfaces/webchat-config';
 import TextareaAutosize from 'react-textarea-autosize';
 
@@ -91,6 +92,15 @@ const MenuButton = styled(Button)(({ theme }) => ({
     '&:active': {
         fill: theme.primaryStrongColor,
     }
+}));
+
+const AttachFileButton = styled(Button)(({ theme }) => ({
+    marginRight: 0,
+    paddingRight: 0,
+
+	"&:focus":{		
+		fill: theme.primaryColor,		
+	}
 }));
 
 const SubmitButton = styled(Button)(({ theme }) => ({
@@ -338,7 +348,15 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                                 id="webchatInputMessageInputInTextMode"
                             />
                         )}
-                        
+
+                         <AttachFileButton
+                            className="webchat-input-button-attach-file"
+                            aria-label="Attach File"
+                            id="webchatInputMessageAttachFileButton"
+                        >
+                            <AttachFileIcon />
+                        </AttachFileButton>
+
                         <SubmitButton
                             disabled={this.state.text === ''}
                             className="webchat-input-button-send"
