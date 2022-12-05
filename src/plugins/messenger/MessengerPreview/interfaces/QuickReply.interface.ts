@@ -1,10 +1,9 @@
 export type IFBMQuickReply = IFBMTextQuickReply
     | IFBMLocationQuickReply
-    | IFBMPhoneQuickReply
     | IFBMEmailQuickReply;
 
 export interface IFBMTextQuickReply {
-    content_type: 'text';
+    content_type: 'text' | 'user_phone_number';
     title: string;
     payload: string;
     image_url?: string;
@@ -13,10 +12,6 @@ export interface IFBMTextQuickReply {
 
 export interface IFBMLocationQuickReply {
     content_type: 'location';
-}
-
-export interface IFBMPhoneQuickReply {
-    content_type: 'user_phone_number';
 }
 
 export interface IFBMEmailQuickReply {
