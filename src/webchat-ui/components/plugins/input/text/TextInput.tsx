@@ -3,7 +3,7 @@ import { styled } from '../../../../style';
 import { InputComponentProps } from '../../../../../common/interfaces/input-plugin';
 import SendIcon from './baseline-send-24px.svg';
 import MenuIcon from './baseline-menu-24px.svg';
-import AttachFileIcon from './attach-file.svg';
+import AttachFileIcon from './attach-file-24px.svg';
 import { IPersistentMenuItem } from '../../../../../common/interfaces/webchat-config';
 import TextareaAutosize from 'react-textarea-autosize';
 import FileAttachmentSection from '../file/FileAttachmentSection';

@@ -1,9 +1,14 @@
 import React from 'react';
 import { styled } from '../../../../style';
+import AttachFile from './attach-file-20px.svg';
 import CloseIcon from "../../../../assets/baseline-close-24px.svg";
 import IconButton from '../../../presentational/IconButton';
 import DropZone from './DropZone';
 import PreviewUploadedFiles from './PreviewUploadedFiles';
+
+const AttachFileIcon = styled(AttachFile)(()=>({
+    marginBottom: -4,
+}));
 
 const CloseButton = styled(IconButton)(({ theme }) => ({
     padding: 4,
@@ -92,6 +97,7 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
                     <CloseIcon />
                 </CloseButton>
                 <FileUploadContainer>
+                    <AttachFileIcon />
                     <DragDropTypography
                         className="webchat-input-drag-and-drop-file-text"
                     >
