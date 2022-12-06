@@ -36,6 +36,7 @@ const FileNameTypography = styled.div(({theme})=> ({
 
 const RemoveFileButton = styled(IconButton)(({ theme }) => ({
     padding: 4,
+	paddingRight: 0,
     marginRight: 0,
     marginLeft: 'auto',
     "& svg" : {

@@ -3,7 +3,6 @@ import { styled } from '../../../../style';
 
 
 const DropZoneContainer = styled.div(({theme})=>({
-    padding: theme.unitSize,
     display: 'flex',
     flexDirection: 'column',
     minHeight: 40,

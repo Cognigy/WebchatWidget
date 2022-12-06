@@ -3,6 +3,7 @@ import { styled } from '../../../../style';
 import CloseIcon from "../../../../assets/baseline-close-24px.svg";
 import IconButton from '../../../presentational/IconButton';
 import DropZone from './DropZone';
+import PreviewUploadedFiles from './PreviewUploadedFiles';
 
 const CloseButton = styled(IconButton)(({ theme }) => ({
     padding: 4,
@@ -47,8 +48,9 @@ const DragDropTypography = styled.span(() => ({
 }));
 
 interface IFileAttachmentSectionProps {
-    isFileListEmpty: boolean;
+    fileList: File[];
     onAddFilesToList: (fileList: File[]) => void;
+    onRemoveFileFromList: (file: File) => void;
     onClose: () => void;
 }
 
@@ -75,7 +77,8 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
     }
 
     render() {
-        const { isFileListEmpty, onClose, onAddFilesToList } = this.props;
+        const { fileList, onClose, onAddFilesToList, onRemoveFileFromList } = this.props;
+        const isFileListEmpty = fileList?.length === 0;
 
         return (
             <DropZone
@@ -107,7 +110,14 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
                     >
                         Attach File
                     </AttachFileButton>
-                    {isFileListEmpty && <div style={{height:72}} />}
+                    {isFileListEmpty ? (
+                        <div style={{height:72}} />
+                    ):(
+                        <PreviewUploadedFiles
+                            fileList={fileList}
+                            onRemoveFileFromList={onRemoveFileFromList}
+                        /> 
+                    )}
                 </FileUploadContainer>
             </DropZone>
         );
