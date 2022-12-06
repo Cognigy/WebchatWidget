@@ -14,15 +14,20 @@ const UploadedFilesContainer = styled.div(({theme})=> ({
 
 const UploadedFilePreview = styled.div(({theme})=> ({
     padding: theme.unitSize / 2,
-    margin: theme.unitSize / 2,
+    marginRight: theme.unitSize,
     fontSize: 13,
     borderRadius: 4,
-    minWidth: 110,
-    maxWidth: 200,
+    maxWidth: 180,
     height: 24,
     border: '1px solid hsla(0, 0%, 0%, .1)',
     alignSelf: 'center',
     display: 'flex',
+}));
+
+const ImagePreview = styled.img(({theme})=> ({  
+    borderRadius: 6,
+    padding: theme.unitSize / 2,
+    alignSelf: 'center',
 }));
 
 const FileNameTypography = styled.div(({theme})=> ({
@@ -36,7 +41,7 @@ const FileNameTypography = styled.div(({theme})=> ({
 
 const RemoveFileButton = styled(IconButton)(({ theme }) => ({
     padding: 4,
-	paddingRight: 0,
+    paddingRight: 0,
     marginRight: 0,
     marginLeft: 'auto',
     "& svg" : {
@@ -72,16 +77,16 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
 
         return (
             <UploadedFilesContainer>
-                {fileList?.map((file, index) => (
+                {fileList?.map((file) => (
                     <UploadedFilePreview key={file.name}>
                         {file.type?.includes('image') && 
-                            <img width={24} height={24} src={URL.createObjectURL(file)}/>
+                            <ImagePreview width={20} height={20} src={URL.createObjectURL(file)}/>
                         }
                         <FileNameTypography>
                             {file.name}
                         </FileNameTypography>
                         <RemoveFileButton
-                            onClick={() => this.onRemoveFileButtonClick(file, index)}
+                            onClick={() => this.onRemoveFileButtonClick(file)}
                             aria-label="Remove File Attacment"
                             ref={this.removeFileButtonRef}
                         >
