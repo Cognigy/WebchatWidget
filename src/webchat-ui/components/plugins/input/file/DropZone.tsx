@@ -11,6 +11,9 @@ const DropZoneContainer = styled.div(({theme})=>({
         backgroundColor: 'hsla(0, 0%, 0%, .03)',
         boxSizing: "border-box",
         boxShadow: theme.shadow,
+        "& *":{
+            color: 'hsla(0, 0%, 0%, .3)',
+        }
     }
     
 }));
