@@ -53,6 +53,7 @@ const DragDropTypography = styled.span(() => ({
 }));
 
 interface IFileAttachmentSectionProps {
+	fileList: File[];
     isFileListEmpty: boolean;
     onHandleFileList: (fileList) => void;
     onClose: () => void;
@@ -69,9 +70,10 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
     }
 
     handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const {onHandleFileList, fileList} = this.props;
         const files = event.target.files;
-        const fileList = Array.prototype.slice.call(files);
-        this.props.onHandleFileList(fileList)
+        const newFilesArray = Array.prototype.slice.call(files);
+        onHandleFileList(fileList.concat(newFilesArray))
     }
 
     handleUploadFile = (event) => {

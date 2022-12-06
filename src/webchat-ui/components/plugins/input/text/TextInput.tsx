@@ -415,6 +415,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                     </InputForm>
                 ) : (
                     <FileAttachmentSection
+                        fileList={fileList}
                         isFileListEmpty={isFileListEmpty}
                         onHandleFileList={this.onHandleFileList}
                         onClose = {this.onCloseFileAttachmentSection}

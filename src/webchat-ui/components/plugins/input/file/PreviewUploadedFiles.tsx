@@ -50,7 +50,7 @@ const RemoveFileButton = styled(IconButton)(({ theme }) => ({
 
 
 interface IPreviewUploadedFilesProps {
-    fileList: any[];
+    fileList: File[];
     onHandleFileList: (fileList) => void;
 }
 
@@ -62,7 +62,7 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
         this.removeFileButtonRef = React.createRef();
     }
 
-    onRemoveFileButtonClick = (file) => {
+    onRemoveFileButtonClick = (file, index) => {
         const newFileList = this.props.fileList.filter(item => item.name !== file.name);
         this.props.onHandleFileList(newFileList)
     }
@@ -72,7 +72,7 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
 
         return (
             <UploadedFilesContainer>
-                {fileList?.map(file => (
+                {fileList?.map((file, index) => (
                     <UploadedFilePreview key={file.name}>
                         {file.type?.includes('image') && 
                             <img width={24} height={24} src={URL.createObjectURL(file)}/>
@@ -81,7 +81,7 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
                             {file.name}
                         </FileNameTypography>
                         <RemoveFileButton
-                            onClick={() => this.onRemoveFileButtonClick(file)}
+                            onClick={() => this.onRemoveFileButtonClick(file, index)}
                             aria-label="Remove File Attacment"
                             ref={this.removeFileButtonRef}
                         >
