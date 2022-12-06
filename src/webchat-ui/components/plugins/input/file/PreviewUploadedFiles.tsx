@@ -20,7 +20,7 @@ const UploadedFilePreview = styled.div(({theme})=> ({
     minWidth: 110,
     maxWidth: 200,
     height: 24,
-    border: '1px solid hsla(0, 0%, 0%, .2)',
+    border: '1px solid hsla(0, 0%, 0%, .1)',
     alignSelf: 'center',
     display: 'flex',
 }));

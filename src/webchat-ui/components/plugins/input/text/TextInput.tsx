@@ -316,7 +316,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         const isFileListEmpty = fileList?.length === 0;
 
         return (
-            <div>
+            <>
                 {!isAttachFileSectionOpen ? (
                     <InputForm
                         data-active={active && isFileListEmpty}
@@ -427,7 +427,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                         onHandleFileList={this.onHandleFileList}
                     />                        
                 }
-            </div>
+            </>
         )
     }
 }

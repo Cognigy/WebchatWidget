@@ -2,17 +2,11 @@ import React from 'react';
 import { styled } from '../../../../style';
 import CloseIcon from "../../../../assets/baseline-close-24px.svg";
 import IconButton from '../../../presentational/IconButton';
-
-const Wrapper = styled.div(({theme})=>({
-    padding: theme.unitSize,
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: 40
-}));
+import DropZone from './DropZone';
 
 const CloseButton = styled(IconButton)(({ theme }) => ({
     padding: 4,
-	marginRight: 0,
+    marginRight: 0,
     marginLeft: 'auto',
     "& svg" : {
         width: 18,
@@ -53,7 +47,7 @@ const DragDropTypography = styled.span(() => ({
 }));
 
 interface IFileAttachmentSectionProps {
-	fileList: File[];
+    fileList: File[];
     isFileListEmpty: boolean;
     onHandleFileList: (fileList) => void;
     onClose: () => void;
@@ -70,7 +64,7 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
     }
 
     handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const {onHandleFileList, fileList} = this.props;
+        const {onHandleFileList, fileList} = this.props;
         const files = event.target.files;
         const newFilesArray = Array.prototype.slice.call(files);
         onHandleFileList(fileList.concat(newFilesArray))
@@ -82,15 +76,18 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
     }
 
     render() {
-        const { isFileListEmpty, onClose } = this.props;
+        const { fileList, isFileListEmpty, onClose } = this.props;
 
         return (
-            <Wrapper>
-                 <CloseButton
+            <DropZone
+                fileList={fileList}
+                onHandleFileList={this.props.onHandleFileList}
+            >
+                <CloseButton
                     onClick={onClose}
                     aria-label="Close File Attacment"
                     ref={this.closeButtonRef}
-                 >
+                >
                     <CloseIcon />
                 </CloseButton>
                 <FileUploadContainer>
@@ -114,7 +111,7 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
                     </AttachFileButton>
                     {isFileListEmpty && <div style={{height:72}} />}
                 </FileUploadContainer>
-            </Wrapper>
+            </DropZone>
         );
     }
 }
