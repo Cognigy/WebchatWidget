@@ -294,8 +294,14 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         this.setState({ isAttachFileSectionOpen: false })
     }
 
-    onHandleFileList = (fileList) => {
-        this.setState({ fileList });
+    onAddFilesToList = (newFiles: File[]) => {
+        const newFileList = this.state.fileList.concat(newFiles)
+        this.setState({ fileList: newFileList });
+    }
+
+    onRemoveFileFromList = (file: File) => {
+        const newFileList = this.state.fileList.filter(item => item.name !== file.name);
+        this.setState({ fileList: newFileList });
     }
 
     render() {
@@ -415,16 +421,15 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                     </InputForm>
                 ) : (
                     <FileAttachmentSection
-                        fileList={fileList}
                         isFileListEmpty={isFileListEmpty}
-                        onHandleFileList={this.onHandleFileList}
+                        onAddFilesToList={this.onAddFilesToList}
                         onClose = {this.onCloseFileAttachmentSection}
                     />
                 )}
                 {!isFileListEmpty && 
                     <PreviewUploadedFiles
                         fileList={fileList}
-                        onHandleFileList={this.onHandleFileList}
+                        onRemoveFileFromList={this.onRemoveFileFromList}
                     />                        
                 }
             </>

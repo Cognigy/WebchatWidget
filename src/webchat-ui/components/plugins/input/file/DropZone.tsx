@@ -17,8 +17,7 @@ const DropZoneContainer = styled.div(({theme})=>({
 }));
 
 interface IDropZoneProps {
-    fileList: File[];
-    onHandleFileList: (fileList) => void;
+    onAddFilesToList: (fileList: File[]) => void;
 }
 
 interface IDropZoneState {
@@ -58,10 +57,10 @@ class DropZone extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IDr
         e.preventDefault();
         e.stopPropagation();
         this.setState({ isDropZoneVisible: false });
-        const {onHandleFileList, fileList} = this.props;
         if (e.dataTransfer?.files) {
+            const { onAddFilesToList } = this.props;
             const newFilesArray = Array.prototype.slice.call(e.dataTransfer?.files);
-            onHandleFileList(fileList.concat(newFilesArray))
+            onAddFilesToList(newFilesArray);
 		} 
     }
 

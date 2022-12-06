@@ -47,9 +47,8 @@ const DragDropTypography = styled.span(() => ({
 }));
 
 interface IFileAttachmentSectionProps {
-    fileList: File[];
     isFileListEmpty: boolean;
-    onHandleFileList: (fileList) => void;
+    onAddFilesToList: (fileList: File[]) => void;
     onClose: () => void;
 }
 
@@ -64,10 +63,10 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
     }
 
     handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const {onHandleFileList, fileList} = this.props;
+        const {onAddFilesToList} = this.props;
         const files = event.target.files;
         const newFilesArray = Array.prototype.slice.call(files);
-        onHandleFileList(fileList.concat(newFilesArray))
+        onAddFilesToList(newFilesArray);
     }
 
     handleUploadFile = (event) => {
@@ -76,12 +75,11 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
     }
 
     render() {
-        const { fileList, isFileListEmpty, onClose } = this.props;
+        const { isFileListEmpty, onClose, onAddFilesToList } = this.props;
 
         return (
             <DropZone
-                fileList={fileList}
-                onHandleFileList={this.props.onHandleFileList}
+                onAddFilesToList={onAddFilesToList}
             >
                 <CloseButton
                     onClick={onClose}
