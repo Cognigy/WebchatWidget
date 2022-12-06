@@ -286,13 +286,31 @@ The button to send the message, you can not change the icon but you can customiz
     
 }
 ```
-* *webchat-input-button-attach-file*  
-The button to attach a file, you can not change the icon but you can customize the position, size and background.
+* *webchat-input-button-add-attachments*  
+The button to open the file attachment section, you can not change the icon but you can customize the position, size and background.
 ```CSS
-[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-button-attach-file {
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-button-add-attachments {
    
     border-radius: 20px;
     background-color: white;
+}
+```
+* *webchat-input-button-browse-files*  
+The button to select a file attacment.
+```CSS
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-button-browse-files {
+   
+    border-radius: 20px;
+    background-color: white;
+}
+```
+* *webchat-input-drag-and-drop-file-text*  
+The text for drag and drop file upload, you can modify the font.
+```CSS
+[data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-input-drag-and-drop-file-text {
+ 
+     color: white;
+     
 }
 ```
 * *webchat-input-persistent-menu*  
