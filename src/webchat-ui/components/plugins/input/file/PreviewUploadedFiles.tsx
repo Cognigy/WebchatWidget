@@ -3,7 +3,7 @@ import { styled } from '../../../../style';
 import CloseIcon from "../../../../assets/baseline-close-24px.svg";
 import IconButton from '../../../presentational/IconButton';
 
-const UploadedFilesContainer = styled.div(({theme})=> ({
+const UploadedFilesContainer = styled.div(({theme}) => ({
     padding: `${theme.unitSize}px ${theme.unitSize * 2}px`,
     display: 'flex',
     flexDirection: 'row',
@@ -12,7 +12,7 @@ const UploadedFilesContainer = styled.div(({theme})=> ({
     height: theme.unitSize * 7,
 }));
 
-const UploadedFilePreview = styled.div(({theme})=> ({
+const UploadedFilePreview = styled.div(({theme}) => ({
     padding: theme.unitSize / 2,
     marginRight: theme.unitSize,
     fontSize: 13,
@@ -24,19 +24,24 @@ const UploadedFilePreview = styled.div(({theme})=> ({
     display: 'flex',
 }));
 
-const ImagePreview = styled.img(({theme})=> ({  
+const ImagePreview = styled.img(({theme}) => ({  
     borderRadius: 6,
     padding: theme.unitSize / 2,
     alignSelf: 'center',
 }));
 
-const FileNameTypography = styled.div(({theme})=> ({
+const FileNameTypography = styled.span(({theme}) => ({
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     color: 'hsla(0, 0%, 0%, .54)',
     alignSelf: 'center',
     paddingLeft: theme.unitSize / 2,
+}));
+
+const FileExtensionTypography = styled.span(() => ({
+    color: 'hsla(0, 0%, 0%, .54)',
+    alignSelf: 'center',
 }));
 
 const RemoveFileButton = styled(IconButton)(({ theme }) => ({
@@ -77,14 +82,17 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
 
         return (
             <UploadedFilesContainer>
-                {fileList?.map((file) => (
-                    <UploadedFilePreview key={file.name}>
+                {fileList?.map((file, index) => (
+                    <UploadedFilePreview key={index}>
                         {file.type?.includes('image') && 
                             <ImagePreview width={20} height={20} src={URL.createObjectURL(file)}/>
                         }
                         <FileNameTypography>
-                            {file.name}
+                            {file.name.split('.')[0]}
                         </FileNameTypography>
+                        <FileExtensionTypography>
+                            .{file.name.split('.')[1]}
+                        </FileExtensionTypography>
                         <RemoveFileButton
                             onClick={() => this.onRemoveFileButtonClick(file)}
                             aria-label="Remove File Attacment"
