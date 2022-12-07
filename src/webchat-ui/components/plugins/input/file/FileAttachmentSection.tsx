@@ -44,14 +44,21 @@ const HiddenFileInput = styled.input(() => ({
 
 const AttachFileButton = styled.button(({ theme }) => ({
     padding: theme.unitSize / 2,
-    border: 'none',
     backgroundColor: 'transparent',
-    color: 'hsla(0, 0%, 0%, .54)',
+    color: theme.primaryColor,
+    border: `1px solid ${theme.primaryColor}`,
+    borderRadius: theme.unitSize / 2,
+    marginLeft: 6,
+    marginRight: 6,
+    // color: 'hsla(0, 0%, 0%, .54)',
+    // border: 'none',
     fontSize: 14,
     cursor: 'pointer',
     outline: 'none',
     "&:focus, &:hover": {
-        color: `${theme.primaryColor} !important`,
+        // color: `${theme.primaryColor} !important`,
+        color: `${theme.primaryContrastColor} !important`,
+        backgroundColor: theme.primaryColor,
         outline: 'none',
     }
 }));
@@ -128,7 +135,7 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
                         <DragDropTypography
                             className="webchat-input-drag-and-drop-file-text"
                         >
-                            Drag and drop or
+                            Drop files or
                         </DragDropTypography>
                         <HiddenFileInput
                             ref={this.fileInputRef}
@@ -141,7 +148,7 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
                             aria-label="Browse Files"
                             onClick={this.handleUploadFile}
                         >
-                            Attach File
+                            Browse
                         </AttachFileButton>
                         {isFileListEmpty ? (
                             <div style={{height:72}} />
