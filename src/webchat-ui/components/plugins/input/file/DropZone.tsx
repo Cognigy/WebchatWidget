@@ -2,50 +2,27 @@ import React from "react";
 import { styled } from '../../../../style';
 
 
-const DropZoneContainer = styled.div(({theme})=>({
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: 40,
-
-    "&.active-drop-zone": {
-        // backgroundColor: 'hsla(0, 0%, 0%, .03)',
-        // boxShadow: theme.shadow,
-        boxSizing: "border-box",
-        boxShadow: "0px 0px 30px 20px rgba(0,0,0,0.15) inset",
-        opacity: 0.6,
-        "& *":{
-            color: 'hsla(0, 0%, 0%, .3)',
-        }
-    }
-    
+const DropZoneContainer = styled.div(() => ({
+        position: "absolute",
+        boxShadow: "0px 0px 30px 20px rgba(0,0,0,0.1) inset",
+        width: "100%",
+        height: "100%",
+        backgroundColor: 'hsla(0, 0%, 0%, .03)',
+        top: 0  
 }));
 
 interface IDropZoneProps {
+    setIsDropZoneVisible: (isVisible: boolean) => void;
     onAddFilesToList: (fileList: File[]) => void;
 }
 
-interface IDropZoneState {
-    isDropZoneVisible: boolean;
-}
-
-class DropZone extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IDropZoneProps, IDropZoneState> {
+class DropZone extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IDropZoneProps> {
     dropRef: React.RefObject<HTMLInputElement>;
 
     constructor(props) {
         super(props);
-        this.state = {
-            isDropZoneVisible: false,
-        };
-
         this.dropRef = React.createRef();
     }
-
-    handleDragEnter = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        this.setState({ isDropZoneVisible: true });
-    };
 
     handleDragOver = e => {
         e.preventDefault();
@@ -54,29 +31,26 @@ class DropZone extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IDr
     handleDragLeave = e => {
         e.preventDefault();
         e.stopPropagation();
-        this.setState({ isDropZoneVisible: false });
+        this.props.setIsDropZoneVisible(false);
     };
 
     handleDrop = e => {
         e.preventDefault();
         e.stopPropagation();
-        this.setState({ isDropZoneVisible: false });
+        this.props.setIsDropZoneVisible(false);
         if (e.dataTransfer?.files) {
             const { onAddFilesToList } = this.props;
             const newFilesArray = Array.prototype.slice.call(e.dataTransfer?.files);
             onAddFilesToList(newFilesArray);
-		} 
+        }
     }
 
     render() {
         const { children } = this.props;
-        const { isDropZoneVisible } = this.state;
 
         return (
             <DropZoneContainer
                 ref={this.dropRef}
-                className={isDropZoneVisible ? "active-drop-zone" : ""}
-                onDragEnter={this.handleDragEnter}
                 onDragOver={this.handleDragOver}
                 onDragLeave={e => this.handleDragLeave(e)}
                 onDropCapture={this.handleDrop}
