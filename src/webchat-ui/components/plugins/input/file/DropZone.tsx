@@ -8,9 +8,11 @@ const DropZoneContainer = styled.div(({theme})=>({
     minHeight: 40,
 
     "&.active-drop-zone": {
-        backgroundColor: 'hsla(0, 0%, 0%, .03)',
+        // backgroundColor: 'hsla(0, 0%, 0%, .03)',
+        // boxShadow: theme.shadow,
         boxSizing: "border-box",
-        boxShadow: theme.shadow,
+        boxShadow: "0px 0px 30px 20px rgba(0,0,0,0.15) inset",
+        opacity: 0.6,
         "& *":{
             color: 'hsla(0, 0%, 0%, .3)',
         }
@@ -67,8 +69,8 @@ class DropZone extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IDr
     }
 
     render() {
-        const {children} = this.props;
-        const {isDropZoneVisible} = this.state;
+        const { children } = this.props;
+        const { isDropZoneVisible } = this.state;
 
         return (
             <div onDragEnter={this.handleDragEnter}>
