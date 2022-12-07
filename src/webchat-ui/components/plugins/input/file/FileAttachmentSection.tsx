@@ -71,7 +71,7 @@ const DragDropTypography = styled.span(() => ({
 interface IFileAttachmentSectionProps {
     fileList: File[];
     onAddFilesToList: (fileList: File[]) => void;
-    onRemoveFileFromList: (file: File) => void;
+    onRemoveFileFromList: (index: number) => void;
     onClose: () => void;
 }
 

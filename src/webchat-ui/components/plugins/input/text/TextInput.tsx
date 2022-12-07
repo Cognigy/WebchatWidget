@@ -299,9 +299,8 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         this.setState({ fileList: newFileList });
     }
 
-    onRemoveFileFromList = (file: File) => {
-        const newFileList = this.state.fileList.filter(item => item.name !== file.name);
-        this.setState({ fileList: newFileList });
+    onRemoveFileFromList = (index: number) => {
+        this.setState({ fileList: this.state.fileList.filter((_, i) => i !== index) });
     }
 
     render() {
