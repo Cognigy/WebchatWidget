@@ -88,10 +88,10 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
                             <ImagePreview width={20} height={20} src={URL.createObjectURL(file)}/>
                         }
                         <FileNameTypography>
-                            {file.name.split('.')[0]}
+                            {getFileName(file.name)}
                         </FileNameTypography>
                         <FileExtensionTypography>
-                            .{file.name.split('.')[1]}
+                            .{getFileExtension(file.name)}
                         </FileExtensionTypography>
                         <RemoveFileButton
                             onClick={() => this.onRemoveFileButtonClick(file)}
@@ -108,3 +108,11 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
 }
 
 export default PreviewUploadedFiles;
+
+export const getFileName = (fileNameWithExtension) => {
+    return fileNameWithExtension.split('.').slice(0, -1).join('.');
+}
+
+export const getFileExtension = (fileNameWithExtension) => {
+    return fileNameWithExtension.split('.').pop();
+}
