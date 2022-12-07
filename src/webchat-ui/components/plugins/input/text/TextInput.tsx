@@ -312,6 +312,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
             disableInputAutofocus,
             disableInputAutogrow,
             enablePersistentMenu,
+            enableFileInput,
             inputAutogrowMaxRows,
             persistentMenu,
         } = props.config.settings;
@@ -377,15 +378,17 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                                             id="webchatInputMessageInputInTextMode"
                                         />
                                     )}
-
-                                    <AttachFileButton
-                                        className="webchat-input-button-add-attachments"
-                                        onClick={this.onOpenFileAttachmentSection}
-                                        aria-label="Add Attachments"
-                                        id="webchatInputMessageAttachFileButton"
-                                    >
-                                        <AttachFileIcon />
-                                    </AttachFileButton>
+                                    
+                                    {enableFileInput && 
+                                        <AttachFileButton
+                                            className="webchat-input-button-add-attachments"
+                                            onClick={this.onOpenFileAttachmentSection}
+                                            aria-label="Add Attachments"
+                                            id="webchatInputMessageAttachFileButton"
+                                        >
+                                            <AttachFileIcon />
+                                        </AttachFileButton>
+                                    }
 
                                     <SubmitButton
                                         disabled={this.state.text === '' && isFileListEmpty}

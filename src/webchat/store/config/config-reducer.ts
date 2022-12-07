@@ -36,6 +36,7 @@ export const getInitialState = (): ConfigState => ({
     enableInjectionWithoutEmptyHistory: false,
     enableInputCollation: false,
     enablePersistentMenu: false,
+	enableFileInput: false,
     enableRating: "onRequest",
     enableStrictMessengerSync: false,
     enableSTT: false,
