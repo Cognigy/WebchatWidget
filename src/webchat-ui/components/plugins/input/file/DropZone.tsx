@@ -73,17 +73,16 @@ class DropZone extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IDr
         const { isDropZoneVisible } = this.state;
 
         return (
-            <div onDragEnter={this.handleDragEnter}>
-                <DropZoneContainer
-                    ref={this.dropRef}
-                    className={isDropZoneVisible ? "active-drop-zone" : ""}
-                    onDropCapture={this.handleDrop}
-                    onDragOver={this.handleDragOver}
-                    onDragLeave={e => this.handleDragLeave(e)}
-                >
-                    {children}
-                </DropZoneContainer>
-            </div>
+            <DropZoneContainer
+                ref={this.dropRef}
+                className={isDropZoneVisible ? "active-drop-zone" : ""}
+                onDragEnter={this.handleDragEnter}
+                onDragOver={this.handleDragOver}
+                onDragLeave={e => this.handleDragLeave(e)}
+                onDropCapture={this.handleDrop}
+            >
+                {children}
+            </DropZoneContainer>
         );
     }
 }
