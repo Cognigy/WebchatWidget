@@ -2,6 +2,7 @@ import React from 'react';
 import { styled } from '../../../../style';
 import CloseIcon from "../../../../assets/baseline-close-24px.svg";
 import IconButton from '../../../presentational/IconButton';
+import LinearProgressBar from '../../../presentational/LinearProgressBar';
 
 const UploadedFilesContainer = styled.div(({theme}) => ({
     padding: `${theme.unitSize}px ${theme.unitSize * 2}px`,
@@ -10,17 +11,20 @@ const UploadedFilesContainer = styled.div(({theme}) => ({
     overflowX: 'auto',
     overflowY: 'hidden',
     height: theme.unitSize * 7,
+    alignItems: 'center',
+}));
+
+const FilePreviewWrapper = styled.div(({theme}) => ({
+    marginRight: theme.unitSize,
+    borderRadius: 4,
+    maxWidth: 180,
+    height: 34,
+    border: '1px solid hsla(0, 0%, 0%, .1)',
 }));
 
 const UploadedFilePreview = styled.div(({theme}) => ({
     padding: theme.unitSize / 2,
-    marginRight: theme.unitSize,
     fontSize: 13,
-    borderRadius: 4,
-    maxWidth: 180,
-    height: 24,
-    border: '1px solid hsla(0, 0%, 0%, .1)',
-    alignSelf: 'center',
     display: 'flex',
 }));
 
@@ -59,7 +63,6 @@ const RemoveFileButton = styled(IconButton)(({ theme }) => ({
     }
 }));
 
-
 interface IPreviewUploadedFilesProps {
     fileList: File[];
     onRemoveFileFromList: (file: File) => void;
@@ -79,28 +82,34 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
 
     render() {
         const { fileList } = this.props;
+        const progressPercentage = null; //TODO: Fix progress percentage after file upload backend is ready
 
         return (
             <UploadedFilesContainer>
                 {fileList?.map((file, index) => (
-                    <UploadedFilePreview key={index}>
-                        {file.type?.includes('image') && 
-                            <ImagePreview width={20} height={20} src={URL.createObjectURL(file)}/>
+                    <FilePreviewWrapper key={index}>
+                        <UploadedFilePreview>
+                            {file.type?.includes('image') && 
+                                <ImagePreview width={20} height={20} src={URL.createObjectURL(file)}/>
+                            }
+                            <FileNameTypography>
+                                {getFileName(file.name)}
+                            </FileNameTypography>
+                            <FileExtensionTypography>
+                                .{getFileExtension(file.name)}
+                            </FileExtensionTypography>
+                            <RemoveFileButton
+                                onClick={() => this.onRemoveFileButtonClick(file)}
+                                aria-label="Remove File Attacment"
+                                ref={this.removeFileButtonRef}
+                            >
+                                <CloseIcon />
+                            </RemoveFileButton>
+                        </UploadedFilePreview>
+                        {progressPercentage && progressPercentage !== 100 && 
+                            <LinearProgressBar progressPercentage={progressPercentage} />
                         }
-                        <FileNameTypography>
-                            {getFileName(file.name)}
-                        </FileNameTypography>
-                        <FileExtensionTypography>
-                            .{getFileExtension(file.name)}
-                        </FileExtensionTypography>
-                        <RemoveFileButton
-                            onClick={() => this.onRemoveFileButtonClick(file)}
-                            aria-label="Remove File Attacment"
-                            ref={this.removeFileButtonRef}
-                        >
-                            <CloseIcon />
-                        </RemoveFileButton>
-                    </UploadedFilePreview>
+                  </FilePreviewWrapper>
                 ))}
             </UploadedFilesContainer>
         );
