@@ -7,7 +7,7 @@ import LinearProgressBar from '../../../presentational/LinearProgressBar';
 const UploadedFilesContainer = styled.div(({theme}) => ({
     paddingRight: theme.unitSize * 2,
     paddingLeft: theme.unitSize * 2,
-    paddingBottom: 12,
+    paddingBottom: theme.unitSize * 3 / 2,
     paddingTop: 0,
     display: 'flex',
     flexDirection: 'row',

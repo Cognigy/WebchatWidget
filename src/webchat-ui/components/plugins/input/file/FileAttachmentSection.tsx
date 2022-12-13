@@ -12,8 +12,8 @@ const Wrapper = styled.div(() => ({
     }
 }));
 
-const AttachFileIcon = styled(AttachFile)(() => ({
-    marginBottom: -4,
+const AttachFileIcon = styled(AttachFile)(({ theme }) => ({
+    marginBottom: `-${theme.unitSize / 2}px`,
 }));
 
 const CloseButton = styled(IconButton)(({ theme }) => ({
