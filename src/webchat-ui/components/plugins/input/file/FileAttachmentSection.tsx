@@ -157,7 +157,7 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
                             </AttachFileButton>
                         </Wrap>
                         {isFileListEmpty ? (
-                            <div style={{height: 50}} />
+                            <div style={{ height: 48 }} />
                         ):(
                             <PreviewUploadedFiles
                                 fileList={fileList}
