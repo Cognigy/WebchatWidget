@@ -3,6 +3,7 @@ import { styled } from '../../../../style';
 import CloseIcon from "../../../../assets/baseline-close-24px.svg";
 import IconButton from '../../../presentational/IconButton';
 import LinearProgressBar from '../../../presentational/LinearProgressBar';
+import { getFileExtension, getFileName } from './helper';
 
 const UploadedFilesContainer = styled.div(({theme}) => ({
     paddingRight: theme.unitSize * 2,
@@ -119,11 +120,3 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
 }
 
 export default PreviewUploadedFiles;
-
-export const getFileName = (fileNameWithExtension) => {
-    return fileNameWithExtension.split('.').slice(0, -1).join('.');
-}
-
-export const getFileExtension = (fileNameWithExtension) => {
-    return fileNameWithExtension.split('.').pop();
-}
