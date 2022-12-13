@@ -4,7 +4,7 @@ import AttachFile from './attach-file-20px.svg';
 import CloseIcon from "../../../../assets/baseline-close-24px.svg";
 import IconButton from '../../../presentational/IconButton';
 import DropZone from './DropZone';
-import PreviewUploadedFiles from './PreviewUploadedFiles';
+import PreviewUploadedFiles, { IFile } from './PreviewUploadedFiles';
 
 const Wrapper = styled.div(() => ({
     "&.active-drop-zone": {
@@ -73,7 +73,7 @@ const DragDropTypography = styled.span(() => ({
 }));
 
 interface IFileAttachmentSectionProps {
-    fileList: File[];
+    fileList: File[] // TODO: Change this to IFile[];
     onAddFilesToList: (fileList: File[]) => void;
     onRemoveFileFromList: (index: number) => void;
     onClose: () => void;

@@ -7,7 +7,7 @@ import AttachFileIcon from './attach-file-24px.svg';
 import { IPersistentMenuItem } from '../../../../../common/interfaces/webchat-config';
 import TextareaAutosize from 'react-textarea-autosize';
 import FileAttachmentSection from '../file/FileAttachmentSection';
-import PreviewUploadedFiles from '../file/PreviewUploadedFiles';
+import PreviewUploadedFiles, { IFile } from '../file/PreviewUploadedFiles';
 
 
 const InputForm = styled.form(({ theme }) => ({
@@ -171,7 +171,7 @@ export interface TextInputState {
     mode: 'text' | 'menu';
     active: boolean;
     isAttachFileSectionOpen: boolean;
-    fileList: File[],
+    fileList: File[], //TODO: Change type to IFile[]
 }
 
 export class TextInput extends React.PureComponent<InputComponentProps, TextInputState> {
@@ -295,9 +295,15 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
     }
 
     onAddFilesToList = (newFiles: File[]) => {
+        // TOOD: Convert File[] to IFile[] here. And change the progressPercentage of each added file to 30.
+        // const convertedFileList: IFile[];
+        // const newFileList = this.state.fileList.concat(convertedFileList)
         const newFileList = this.state.fileList.concat(newFiles)
+
         this.setState({ fileList: newFileList });
         // Handle file upload here. Set the percentage for progress indicator and pass it to PreviewUploadedFiles component
+        // After sending the request, change the progress percentage to 70.
+        // After the response is received, increase the percentage to 100
     }
 
     onRemoveFileFromList = (index: number) => {

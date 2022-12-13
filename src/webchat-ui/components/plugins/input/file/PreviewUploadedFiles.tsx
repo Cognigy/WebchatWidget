@@ -66,10 +66,15 @@ const RemoveFileButton = styled(IconButton)(({ theme }) => ({
     }
 }));
 
-interface IPreviewUploadedFilesProps {
-    fileList: File[];
-    onRemoveFileFromList: (index: number) => void;
+export interface IFile {
+    file: File;
     progressPercentage?: number;
+    uploadedFile?: any;
+}
+
+interface IPreviewUploadedFilesProps {
+    fileList: File[]; // TODO: Change type to IFile[]
+    onRemoveFileFromList: (index: number) => void;
 }
 
 class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IPreviewUploadedFilesProps> {
@@ -85,22 +90,22 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
     }
 
     render() {
-        const { fileList, progressPercentage } = this.props;
+        const { fileList } = this.props;
         //TODO: Fix progress percentage after file upload backend is ready
 
         return (
             <UploadedFilesContainer>
-                {fileList?.map((file, index) => (
+                {fileList?.map((item, index) => (
                     <FilePreviewWrapper key={index}>
                         <UploadedFilePreview>
-                            {file.type?.includes('image') && 
+                            {item.type?.includes('image') && 
                                 <ImagePreview width={20} height={20} src={URL.createObjectURL(file)}/>
                             }
                             <FileNameTypography>
-                                {getFileName(file.name)}
+                                {getFileName(item.name)}
                             </FileNameTypography>
                             <FileExtensionTypography>
-                                {getFileExtension(file.name)}
+                                {getFileExtension(item.name)}
                             </FileExtensionTypography>
                             <RemoveFileButton
                                 onClick={() => this.onRemoveFileButtonClick(index)}
@@ -110,8 +115,8 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
                                 <CloseIcon />
                             </RemoveFileButton>
                         </UploadedFilePreview>
-                        {progressPercentage && progressPercentage !== 100 && 
-                            <LinearProgressBar progressPercentage={progressPercentage} />
+                        {item.progressPercentage && item.progressPercentage !== 100 && 
+                            <LinearProgressBar progressPercentage={item.progressPercentage} />
                         }
                   </FilePreviewWrapper>
                 ))}
