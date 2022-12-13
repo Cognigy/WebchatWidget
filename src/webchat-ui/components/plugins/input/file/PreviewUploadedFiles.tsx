@@ -5,12 +5,14 @@ import IconButton from '../../../presentational/IconButton';
 import LinearProgressBar from '../../../presentational/LinearProgressBar';
 
 const UploadedFilesContainer = styled.div(({theme}) => ({
-    padding: `${theme.unitSize}px ${theme.unitSize * 2}px`,
+    paddingRight: theme.unitSize * 2,
+    paddingLeft: theme.unitSize * 2,
+    paddingBottom: 12,
+    paddingTop: 0,
     display: 'flex',
     flexDirection: 'row',
     overflowX: 'auto',
     overflowY: 'hidden',
-    height: theme.unitSize * 7,
     alignItems: 'center',
 }));
 
@@ -96,7 +98,7 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
                                 {getFileName(file.name)}
                             </FileNameTypography>
                             <FileExtensionTypography>
-                                .{getFileExtension(file.name)}
+                                {getFileExtension(file.name)}
                             </FileExtensionTypography>
                             <RemoveFileButton
                                 onClick={() => this.onRemoveFileButtonClick(index)}

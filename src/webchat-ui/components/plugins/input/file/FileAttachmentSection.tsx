@@ -7,8 +7,6 @@ import DropZone from './DropZone';
 import PreviewUploadedFiles from './PreviewUploadedFiles';
 
 const Wrapper = styled.div(() => ({
-    display: 'flex',
-    flexDirection: 'column',
     "&.active-drop-zone": {
         opacity: 0.3,
     }
@@ -19,18 +17,26 @@ const AttachFileIcon = styled(AttachFile)(() => ({
 }));
 
 const CloseButton = styled(IconButton)(({ theme }) => ({
-    padding: 4,
-    marginRight: 0,
-    marginLeft: 'auto',
-    textAlign: 'end',
+    padding: theme.unitSize,
+    top: 0,
+    right: 0,
+    position: 'absolute',
     "& svg" : {
-        width: 18,
-        height: 18,
+        width: 22,
+        height: 22,
     },
     "&:focus, &:hover": {
         fill: `${theme.primaryColor} !important`,
         outline: 'none',
     }
+}));
+
+const Wrap = styled.div(({ theme }) => ({
+    height: theme.unitSize * 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    display: 'flex',
 }));
 
 
@@ -50,13 +56,11 @@ const AttachFileButton = styled.button(({ theme }) => ({
     borderRadius: theme.unitSize / 2,
     marginLeft: 6,
     marginRight: 6,
-    // color: 'hsla(0, 0%, 0%, .54)',
     border: 'none',
     fontSize: 14,
     cursor: 'pointer',
     outline: 'none',
     "&:focus, &:hover": {
-        // color: `${theme.primaryColor} !important`,
         color: `${theme.primaryContrastColor} !important`,
         backgroundColor: theme.primaryColor,
         outline: 'none',
@@ -131,27 +135,29 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
                         <CloseIcon />
                     </CloseButton>
                     <FileUploadContainer>
-                        <AttachFileIcon />
-                        <DragDropTypography
-                            className="webchat-input-drag-and-drop-file-text"
-                        >
-                            Drop files or
-                        </DragDropTypography>
-                        <HiddenFileInput
-                            ref={this.fileInputRef}
-                            type="file"
-                            multiple
-                            onChange={this.handleSelectFile}
-                        />
-                        <AttachFileButton
-                            className="webchat-input-button-browse-files"
-                            aria-label="Browse Files"
-                            onClick={this.handleUploadFile}
-                        >
-                            Browse
-                        </AttachFileButton>
+                        <Wrap>
+                            <AttachFileIcon />
+                            <DragDropTypography
+                                className="webchat-input-drag-and-drop-file-text"
+                            >
+                                Drop files or
+                            </DragDropTypography>
+                            <HiddenFileInput
+                                ref={this.fileInputRef}
+                                type="file"
+                                multiple
+                                onChange={this.handleSelectFile}
+                            />
+                            <AttachFileButton
+                                className="webchat-input-button-browse-files"
+                                aria-label="Browse Files"
+                                onClick={this.handleUploadFile}
+                            >
+                                Browse
+                            </AttachFileButton>
+                        </Wrap>
                         {isFileListEmpty ? (
-                            <div style={{height:72}} />
+                            <div style={{height: 50}} />
                         ):(
                             <PreviewUploadedFiles
                                 fileList={fileList}
