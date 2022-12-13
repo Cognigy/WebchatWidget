@@ -69,6 +69,7 @@ const RemoveFileButton = styled(IconButton)(({ theme }) => ({
 interface IPreviewUploadedFilesProps {
     fileList: File[];
     onRemoveFileFromList: (index: number) => void;
+    progressPercentage?: number;
 }
 
 class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IPreviewUploadedFilesProps> {
@@ -84,8 +85,8 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
     }
 
     render() {
-        const { fileList } = this.props;
-        const progressPercentage = null; //TODO: Fix progress percentage after file upload backend is ready
+        const { fileList, progressPercentage } = this.props;
+        //TODO: Fix progress percentage after file upload backend is ready
 
         return (
             <UploadedFilesContainer>

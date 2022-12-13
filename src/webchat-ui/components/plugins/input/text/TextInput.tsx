@@ -297,6 +297,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
     onAddFilesToList = (newFiles: File[]) => {
         const newFileList = this.state.fileList.concat(newFiles)
         this.setState({ fileList: newFileList });
+        // Handle file upload here. Set the percentage for progress indicator and pass it to PreviewUploadedFiles component
     }
 
     onRemoveFileFromList = (index: number) => {
