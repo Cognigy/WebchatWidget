@@ -48,6 +48,9 @@ const FileNameTypography = styled.span(({ theme }) => ({
 }));
 
 const FileExtensionTypography = styled.span(() => ({
+	whiteSpace: 'nowrap',
+	textOverflow: 'ellipsis',
+	overflow: 'hidden',
     color: 'hsla(0, 0%, 0%, .54)',
     alignSelf: 'center',
 }));
