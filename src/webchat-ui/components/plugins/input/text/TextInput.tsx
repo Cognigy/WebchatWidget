@@ -386,7 +386,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
             let fileUploadError = false;
             // When files with upload error is removed, we want to enable the send button
             this.state.fileList.forEach(fileItem => {
-                fileUploadError = fileItem.hasUploadError || false;
+                fileUploadError = fileItem.hasUploadError || fileUploadError;
             });
             this.setState({ fileUploadError });
         }, 100);
