@@ -8,6 +8,8 @@ import { IPersistentMenuItem } from '../../../../../common/interfaces/webchat-co
 import TextareaAutosize from 'react-textarea-autosize';
 import FileAttachmentSection from '../file/FileAttachmentSection';
 import PreviewUploadedFiles, { IFile } from '../file/PreviewUploadedFiles';
+import { fetchFileUploadToken, uploadFile } from '../../../../../webchat/helper/endpoint';
+import { IUploadFileMetaData } from '../../../../../common/interfaces/file-upload';
 
 
 const InputForm = styled.form(({ theme }) => ({
@@ -100,7 +102,7 @@ const AttachFileButton = styled(Button)(({ theme }) => ({
     marginRight: 0,
     paddingRight: 0,
 
-    "&:focus":{
+    "&:focus": {
         fill: theme.primaryColor,
     }
 }));
@@ -109,7 +111,7 @@ const SubmitButton = styled(Button)(({ theme }) => ({
     marginRight: theme.unitSize,
     marginLeft: 0,
 
-    "&:focus":{
+    "&:focus": {
         fill: theme.primaryColor,
     }
 }));
@@ -166,12 +168,13 @@ const PersistentMenuItem = styled.button(({ theme }) => ({
     }
 }));
 
-export interface TextInputState {   
+export interface TextInputState {
     text: string;
     mode: 'text' | 'menu';
     active: boolean;
     isAttachFileSectionOpen: boolean;
-    fileList: File[], //TODO: Change type to IFile[]
+    fileList: IFile[];
+    fileUploadError: boolean;
 }
 
 export class TextInput extends React.PureComponent<InputComponentProps, TextInputState> {
@@ -181,6 +184,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         active: false,
         isAttachFileSectionOpen: false,
         fileList: [],
+        fileUploadError: false
     } as TextInputState;
 
     inputRef = React.createRef<HTMLTextAreaElement | HTMLInputElement>();
@@ -196,18 +200,34 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         e.preventDefault();
         e.stopPropagation();
 
-        const { text, mode } = this.state;
+        const { text, mode, fileList } = this.state;
 
         if (mode !== 'text')
             return;
 
-        if (!text)
+        if (!text && !fileList)
             return;
 
+        let attachments: IUploadFileMetaData[] = [];
+        fileList.forEach(fileItem => {
+            if (fileItem.uploadFileMeta) {
+                fileItem.uploadFileMeta.fileName = ""; //TODO: get file name from uploaded file
+                if (!fileItem.hasUploadError) {
+                    attachments.push(fileItem.uploadFileMeta)
+                }
+            }
+        });
+
+        let data: any = null;
+        if (attachments.length > 0) {
+            data = { attachments };
+        }
+
         this.setState({
-            text: ''
+            text: '',
+            fileList: []
         }, () => {
-            this.props.onSendMessage(text, null, {
+            this.props.onSendMessage(text, data, {
                 collate: true
             });
 
@@ -215,7 +235,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                 this.inputRef.current.focus();
         })
     }
-    
+
     handleMenuButton = () => {
         const mode = this.state.mode === 'menu'
             ? 'text'
@@ -241,7 +261,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
             mode: 'text'
         });
     }
-    
+
     handleMenuKeyDown = event => {
         const { key, target } = event;
         let newFocusTarget = null;
@@ -294,20 +314,64 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         this.setState({ isAttachFileSectionOpen: false })
     }
 
-    onAddFilesToList = (newFiles: File[]) => {
-        // TOOD: Convert File[] to IFile[] here. And change the progressPercentage of each added file to 30.
-        // const convertedFileList: IFile[];
-        // const newFileList = this.state.fileList.concat(convertedFileList)
-        const newFileList = this.state.fileList.concat(newFiles)
+    onAddFilesToList = async (newFiles: File[]) => {
+        const existingFileList = this.state.fileList;
+        let newFileList: IFile[] = [];
+        newFiles.forEach(file => {
+            newFileList.push({
+                file: file,
+                progressPercentage: 20
+            });
+        });
 
-        this.setState({ fileList: newFileList });
-        // Handle file upload here. Set the percentage for progress indicator and pass it to PreviewUploadedFiles component
-        // After sending the request, change the progress percentage to 70.
-        // After the response is received, increase the percentage to 100
+        this.setState({ fileList: existingFileList.concat(newFileList) });
+
+        const fileUploadTokenApiUrl = `${this.props.config.settings._endpointTokenUrl}/fileuploadtoken`;
+        let response;
+        let hasError = false;
+        try {
+            response = await fetchFileUploadToken(fileUploadTokenApiUrl);
+        } catch (err) {
+            hasError = true;
+        }
+
+        newFileList = newFileList.map(fileItem => {
+            fileItem.progressPercentage = 50;
+            //TODO turn the file border red depending on the hasUploadError flag
+            fileItem.hasUploadError = hasError;
+            return fileItem;
+        });
+        setTimeout(() => {
+            this.setState({ fileList: existingFileList.concat(newFileList) });
+        }, 100);
+
+        newFileList = await Promise.all(newFileList.map(async fileItem => {
+            try {
+                if (!fileItem.hasUploadError) {
+                    fileItem.uploadFileMeta = await uploadFile(fileItem.file, response.fileUploadUrl, response.token);
+                    fileItem.progressPercentage = 100;
+                } else {
+                    this.state.fileUploadError = true;
+                }
+            } catch (err) {
+                fileItem.hasUploadError = true;
+                this.state.fileUploadError = true;
+            }
+            return fileItem;
+        }));
+        this.setState({ fileList: existingFileList.concat(newFileList) });
     }
 
     onRemoveFileFromList = (index: number) => {
         this.setState({ fileList: this.state.fileList.filter((_, i) => i !== index) });
+        setTimeout(() => {
+            let fileUploadError=false;
+            // When files with upload error is removed, we want to enable the send button
+            this.state.fileList.forEach(fileItem => {
+                fileUploadError = fileItem.hasUploadError || false;
+            });
+            this.state.fileUploadError=fileUploadError;
+        }, 100);
     }
 
     render() {
@@ -340,9 +404,9 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                             {enablePersistentMenu && (
                                 <MenuButton type='button'
                                     onClick={this.handleMenuButton}
-                                    className="webchat-input-button-menu" 
+                                    className="webchat-input-button-menu"
                                     aria-label="Toggle persistent menu"
-                                    aria-expanded={mode==="menu" ? true : false}
+                                    aria-expanded={mode === "menu" ? true : false}
                                     id="webchatInputButtonMenu"
                                 >
                                     <MenuIcon />
@@ -368,7 +432,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                                             spellCheck={false}
                                             id="webchatInputMessageInputInTextMode"
                                         />
-                                    ): (
+                                    ) : (
                                         <Input
                                             ref={this.inputRef}
                                             autoFocus={!disableInputAutofocus}
@@ -384,8 +448,8 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                                             id="webchatInputMessageInputInTextMode"
                                         />
                                     )}
-                                    
-                                    {enableFileInput && 
+
+                                    {enableFileInput &&
                                         <AttachFileButton
                                             className="webchat-input-button-add-attachments"
                                             onClick={this.onOpenFileAttachmentSection}
@@ -397,7 +461,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                                     }
 
                                     <SubmitButton
-                                        disabled={this.state.text === '' && isFileListEmpty}
+                                        disabled={(this.state.text === '' && isFileListEmpty) || this.state.fileUploadError}
                                         className="webchat-input-button-send"
                                         aria-label="Send Message"
                                         id="webchatInputMessageSendMessageButton"
@@ -405,7 +469,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                                         <SendIcon />
                                     </SubmitButton>
                                 </>
-                            )}				
+                            )}
                             {mode === 'menu' && (
                                 <PersistentMenu className="webchat-input-persistent-menu" tabIndex={-1}>
                                     {title && (
@@ -413,7 +477,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                                             {title}
                                         </PersistentMenuTitle>
                                     )}
-                                <div aria-labelledby="persistentMenuTitle" role="menu" ref={this.menuRef} onKeyDown={e => this.handleMenuKeyDown(e)}>
+                                    <div aria-labelledby="persistentMenuTitle" role="menu" ref={this.menuRef} onKeyDown={e => this.handleMenuKeyDown(e)}>
                                         {menuItems.map((item, index) => (
                                             <PersistentMenuItem
                                                 key={`${item.title}${item.payload}`}
@@ -429,11 +493,11 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                                 </PersistentMenu>
                             )}
                         </InputForm>
-                        {!isFileListEmpty && 
+                        {!isFileListEmpty &&
                             <PreviewUploadedFiles
                                 fileList={fileList}
                                 onRemoveFileFromList={this.onRemoveFileFromList}
-                            />                        
+                            />
                         }
                     </>
                 ) : (
@@ -441,9 +505,9 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                         fileList={fileList}
                         onAddFilesToList={this.onAddFilesToList}
                         onRemoveFileFromList={this.onRemoveFileFromList}
-                        onClose = {this.onCloseFileAttachmentSection}
+                        onClose={this.onCloseFileAttachmentSection}
                     />
-                )}            
+                )}
             </>
         )
     }

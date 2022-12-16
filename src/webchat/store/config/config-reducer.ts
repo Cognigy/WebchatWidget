@@ -88,7 +88,8 @@ export const getInitialState = (): ConfigState => ({
       bot: 'primary',
       engagement: 'primary',
       user: 'neutral',
-    }
+    },
+    _endpointTokenUrl:""
   },
 });
 

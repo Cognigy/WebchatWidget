@@ -10,6 +10,7 @@ import '../plugins/date-picker';
 import '../plugins/messenger';
 import '../plugins/rating';
 import '../plugins/adaptivecards';
+import '../plugins/files';
 import { Webchat } from '../webchat/components/Webchat';
 import { getRegisteredMessagePlugins, prepareMessagePlugins } from '../plugins/helper';
 import { getStorage } from '../webchat/helper/storage';
@@ -63,7 +64,7 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
     if (options && options.settings) {
         settings = options.settings;
     }
-
+    settings._endpointTokenUrl = webchatConfigUrl;
     const webchatRoot = document.createElement('div');
     document.body.appendChild(webchatRoot);
 

@@ -81,13 +81,14 @@ export interface IWebchatSettings {
     bot: TSourceDirection;
     engagement: TSourceDirection;
     user: TSourceDirection;
-  }
+  };
   sourceColorMapping: {
     agent: TSourceColor;
     bot: TSourceColor;
     engagement: TSourceColor;
     user: TSourceColor;
-  }
+  };
+_endpointTokenUrl: string;
 }
 
 export interface IWebchatConfig {

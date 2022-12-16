@@ -4,8 +4,9 @@ import CloseIcon from "../../../../assets/baseline-close-24px.svg";
 import IconButton from '../../../presentational/IconButton';
 import LinearProgressBar from '../../../presentational/LinearProgressBar';
 import { getFileExtension, getFileName } from './helper';
+import { IUploadFileMetaData } from '../../../../../common/interfaces/file-upload';
 
-const UploadedFilesContainer = styled.div(({theme}) => ({
+const UploadedFilesContainer = styled.div(({ theme }) => ({
     paddingRight: theme.unitSize * 2,
     paddingLeft: theme.unitSize * 2,
     paddingBottom: theme.unitSize * 3 / 2,
@@ -17,7 +18,7 @@ const UploadedFilesContainer = styled.div(({theme}) => ({
     alignItems: 'center',
 }));
 
-const FilePreviewWrapper = styled.div(({theme}) => ({
+const FilePreviewWrapper = styled.div(({ theme }) => ({
     marginRight: theme.unitSize,
     borderRadius: 4,
     maxWidth: 180,
@@ -25,19 +26,19 @@ const FilePreviewWrapper = styled.div(({theme}) => ({
     border: '1px solid hsla(0, 0%, 0%, .1)',
 }));
 
-const UploadedFilePreview = styled.div(({theme}) => ({
+const UploadedFilePreview = styled.div(({ theme }) => ({
     padding: theme.unitSize / 2,
     fontSize: 13,
     display: 'flex',
 }));
 
-const ImagePreview = styled.img(({theme}) => ({  
+const ImagePreview = styled.img(({ theme }) => ({
     borderRadius: 6,
     padding: theme.unitSize / 2,
     alignSelf: 'center',
 }));
 
-const FileNameTypography = styled.span(({theme}) => ({
+const FileNameTypography = styled.span(({ theme }) => ({
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
@@ -56,7 +57,7 @@ const RemoveFileButton = styled(IconButton)(({ theme }) => ({
     paddingRight: 0,
     marginRight: 0,
     marginLeft: 'auto',
-    "& svg" : {
+    "& svg": {
         width: 18,
         height: 18,
     },
@@ -69,17 +70,18 @@ const RemoveFileButton = styled(IconButton)(({ theme }) => ({
 export interface IFile {
     file: File;
     progressPercentage?: number;
-    uploadedFile?: any;
+    uploadFileMeta?: IUploadFileMetaData;
+    hasUploadError?: boolean;
 }
 
 interface IPreviewUploadedFilesProps {
-    fileList: File[]; // TODO: Change type to IFile[]
+    fileList: IFile[];
     onRemoveFileFromList: (index: number) => void;
 }
 
 class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IPreviewUploadedFilesProps> {
     removeFileButtonRef: React.RefObject<HTMLButtonElement>;
-   
+
     constructor(props) {
         super(props);
         this.removeFileButtonRef = React.createRef();
@@ -98,14 +100,14 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
                 {fileList?.map((item, index) => (
                     <FilePreviewWrapper key={index}>
                         <UploadedFilePreview>
-                            {item.type?.includes('image') && 
-                                <ImagePreview width={20} height={20} src={URL.createObjectURL(file)}/>
+                            {item.file.type?.includes('image') &&
+                                <ImagePreview width={20} height={20} src={URL.createObjectURL(item.file)} />
                             }
                             <FileNameTypography>
-                                {getFileName(item.name)}
+                                {getFileName(item.file.name)}
                             </FileNameTypography>
                             <FileExtensionTypography>
-                                {getFileExtension(item.name)}
+                                {getFileExtension(item.file.name)}
                             </FileExtensionTypography>
                             <RemoveFileButton
                                 onClick={() => this.onRemoveFileButtonClick(index)}
@@ -115,10 +117,10 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
                                 <CloseIcon />
                             </RemoveFileButton>
                         </UploadedFilePreview>
-                        {item.progressPercentage && item.progressPercentage !== 100 && 
+                        {item.progressPercentage && item.progressPercentage !== 100 &&
                             <LinearProgressBar progressPercentage={item.progressPercentage} />
                         }
-                  </FilePreviewWrapper>
+                    </FilePreviewWrapper>
                 ))}
             </UploadedFilesContainer>
         );

@@ -21,7 +21,7 @@ const CloseButton = styled(IconButton)(({ theme }) => ({
     top: 0,
     right: 0,
     position: 'absolute',
-    "& svg" : {
+    "& svg": {
         width: 22,
         height: 22,
     },
@@ -73,7 +73,7 @@ const DragDropTypography = styled.span(() => ({
 }));
 
 interface IFileAttachmentSectionProps {
-    fileList: File[] // TODO: Change this to IFile[];
+    fileList: IFile[];
     onAddFilesToList: (fileList: File[]) => void;
     onRemoveFileFromList: (index: number) => void;
     onClose: () => void;
@@ -83,7 +83,7 @@ interface IFileAttachmentSectionState {
     isDropZoneVisible: boolean;
 }
 
-class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IFileAttachmentSectionProps, IFileAttachmentSectionState> {    
+class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IFileAttachmentSectionProps, IFileAttachmentSectionState> {
     fileInputRef: React.RefObject<HTMLInputElement>;
     closeButtonRef: React.RefObject<HTMLButtonElement>;
 
@@ -97,7 +97,7 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
     }
 
     handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const {onAddFilesToList} = this.props;
+        const { onAddFilesToList } = this.props;
         const files = event.target.files;
         const newFilesArray = Array.prototype.slice.call(files);
         onAddFilesToList(newFilesArray);
@@ -111,7 +111,7 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
     handleDragEnter = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        
+
         this.setState({ isDropZoneVisible: true });
     };
 
@@ -162,7 +162,7 @@ class FileAttachmentSection extends React.PureComponent<React.HTMLProps<HTMLDivE
                             <PreviewUploadedFiles
                                 fileList={fileList}
                                 onRemoveFileFromList={onRemoveFileFromList}
-                            /> 
+                            />
                         )}
                     </FileUploadContainer>
                 </Wrapper>
