@@ -318,10 +318,19 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         const existingFileList = this.state.fileList;
         let newFileList: IFile[] = [];
         newFiles.forEach(file => {
-            newFileList.push({
-                file: file,
-                progressPercentage: 20
-            });
+            if (file.size > 26214400) { //25 MB
+                newFileList.push({
+                    file: file,
+                    progressPercentage: 10,
+                    hasUploadError: true,
+                    uploadErrorReason: "File size exceeds 25MB"
+                });
+            } else {
+                newFileList.push({
+                    file: file,
+                    progressPercentage: 30
+                });
+            }
         });
 
         this.setState({ fileList: existingFileList.concat(newFileList) });
@@ -336,9 +345,12 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         }
 
         newFileList = newFileList.map(fileItem => {
-            fileItem.progressPercentage = 50;
-            //TODO turn the file border red depending on the hasUploadError flag
-            fileItem.hasUploadError = hasError;
+            if (!fileItem.hasUploadError) {
+                fileItem.progressPercentage = 50;
+                //TODO turn the file border red depending on the hasUploadError flag
+                fileItem.hasUploadError = hasError;
+                fileItem.uploadErrorReason = hasError ? "Failed Upload" : fileItem.uploadErrorReason;
+            }
             return fileItem;
         });
         setTimeout(() => {
@@ -349,17 +361,18 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
             try {
                 if (!fileItem.hasUploadError) {
                     fileItem.uploadFileMeta = await uploadFile(fileItem.file, response.fileUploadUrl, response.token);
-                    fileItem.hasUploadError = fileItem.uploadFileMeta.status==="infected";
-                } 
-                
-                if(fileItem.hasUploadError) {
-                    this.state.fileUploadError = true;
-                }else{
+                    if (fileItem.uploadFileMeta.status === "infected") {
+                        fileItem.hasUploadError = true;
+                        fileItem.uploadErrorReason = "File Infected"
+                        this.setState({ fileUploadError: true });
+                    }
                     fileItem.progressPercentage = 100;
+                } else {
+                    this.setState({ fileUploadError: true });
                 }
             } catch (err) {
                 fileItem.hasUploadError = true;
-                this.state.fileUploadError = true;
+                this.setState({ fileUploadError: true });
             }
             return fileItem;
         }));
@@ -369,12 +382,12 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
     onRemoveFileFromList = (index: number) => {
         this.setState({ fileList: this.state.fileList.filter((_, i) => i !== index) });
         setTimeout(() => {
-            let fileUploadError=false;
+            let fileUploadError = false;
             // When files with upload error is removed, we want to enable the send button
             this.state.fileList.forEach(fileItem => {
                 fileUploadError = fileItem.hasUploadError || false;
             });
-            this.state.fileUploadError=fileUploadError;
+            this.setState({ fileUploadError });
         }, 100);
     }
 

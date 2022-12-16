@@ -72,6 +72,7 @@ export interface IFile {
     progressPercentage?: number;
     uploadFileMeta?: IUploadFileMetaData;
     hasUploadError?: boolean;
+    uploadErrorReason?: string;
 }
 
 interface IPreviewUploadedFilesProps {
