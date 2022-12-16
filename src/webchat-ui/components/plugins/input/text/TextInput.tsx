@@ -349,7 +349,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                 fileItem.progressPercentage = 50;
                 //TODO turn the file border red depending on the hasUploadError flag
                 fileItem.hasUploadError = hasError;
-                fileItem.uploadErrorReason = hasError ? "Failed Upload" : fileItem.uploadErrorReason;
+                fileItem.uploadErrorReason = hasError ? "Failed Upload!" : fileItem.uploadErrorReason;
             }
             return fileItem;
         });
@@ -363,7 +363,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                     fileItem.uploadFileMeta = await uploadFile(fileItem.file, response.fileUploadUrl, response.token);
                     if (fileItem.uploadFileMeta.status === "infected") {
                         fileItem.hasUploadError = true;
-                        fileItem.uploadErrorReason = "File Infected"
+                        fileItem.uploadErrorReason = "File Infected!"
                         this.setState({ fileUploadError: true });
                     }
                     fileItem.progressPercentage = 100;
@@ -372,6 +372,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                 }
             } catch (err) {
                 fileItem.hasUploadError = true;
+                fileItem.uploadErrorReason = "Failed Upload!"
                 this.setState({ fileUploadError: true });
             }
             return fileItem;
