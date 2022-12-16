@@ -349,9 +349,13 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
             try {
                 if (!fileItem.hasUploadError) {
                     fileItem.uploadFileMeta = await uploadFile(fileItem.file, response.fileUploadUrl, response.token);
-                    fileItem.progressPercentage = 100;
-                } else {
+                    fileItem.hasUploadError = fileItem.uploadFileMeta.status==="infected";
+                } 
+                
+                if(fileItem.hasUploadError) {
                     this.state.fileUploadError = true;
+                }else{
+                    fileItem.progressPercentage = 100;
                 }
             } catch (err) {
                 fileItem.hasUploadError = true;
