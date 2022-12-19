@@ -23,7 +23,7 @@ const FilePreviewWrapper = styled.div(({ theme, hasUploadError }) => ({
     borderRadius: 4,
     maxWidth: 180,
     height: 34,
-	border: hasUploadError ? '1px solid hsl(0, 100%, 50%)' : '1px solid hsla(0, 0%, 0%, .1)',
+    border: hasUploadError ? '1px solid hsla(0, 100%, 50%, .7)' : '1px solid hsla(0, 0%, 0%, .1)',
 }));
 
 const UploadedFilePreview = styled.div(({ theme }) => ({
@@ -38,11 +38,11 @@ const ImagePreview = styled.img(({ theme }) => ({
     alignSelf: 'center',
 }));
 
-const FileNameTypography = styled.span(({ theme }) => ({
+const FileNameTypography = styled.span(({ theme, hasUploadError }) => ({
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    color: 'hsla(0, 0%, 0%, .54)',
+    color: hasUploadError ? 'hsla(0, 100%, 50%, .7)' : 'hsla(0, 0%, 0%, .54)',
     alignSelf: 'center',
     paddingLeft: theme.unitSize / 2,
 }));
@@ -99,26 +99,26 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
         return (
             <UploadedFilesContainer>
                 {fileList?.map((item, index) => (
-					<FilePreviewWrapper key={index} hasUploadError={item.hasUploadError} >
+                    <FilePreviewWrapper key={index} hasUploadError={item.hasUploadError} >
                         <UploadedFilePreview>
                             {item.file.type?.includes('image') &&
                                 <ImagePreview width={20} height={20} src={URL.createObjectURL(item.file)} />
                             }
-                            <FileNameTypography>
-								{!item.hasUploadError ? getFileName(item.file.name) : item.uploadErrorReason}
+                            <FileNameTypography hasUploadError={item.hasUploadError}>
+                                {!item.hasUploadError ? getFileName(item.file.name) : item.uploadErrorReason}
                             </FileNameTypography>
-                            <FileExtensionTypography>
+                            {!item.hasUploadError && <FileExtensionTypography>
                                 {getFileExtension(item.file.name)}
-                            </FileExtensionTypography>
+                            </FileExtensionTypography>}
                             <RemoveFileButton
                                 onClick={() => this.onRemoveFileButtonClick(index)}
-								aria-label="Remove File Attachment"
+                                aria-label="Remove File Attachment"
                                 ref={this.removeFileButtonRef}
                             >
                                 <CloseIcon />
                             </RemoveFileButton>
                         </UploadedFilePreview>
-                        {item.progressPercentage && item.progressPercentage !== 100 &&
+                        {item.progressPercentage && item.progressPercentage !== 100 && !item.hasUploadError &&
                             <LinearProgressBar progressPercentage={item.progressPercentage} />
                         }
                     </FilePreviewWrapper>
