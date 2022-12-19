@@ -211,7 +211,6 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         let attachments: IUploadFileMetaData[] = [];
         fileList.forEach(fileItem => {
             if (fileItem.uploadFileMeta) {
-                fileItem.uploadFileMeta.fileName = ""; //TODO: get file name from uploaded file
                 if (!fileItem.hasUploadError) {
                     attachments.push(fileItem.uploadFileMeta)
                 }
@@ -366,6 +365,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                         fileItem.uploadErrorReason = "File Infected!"
                         this.setState({ fileUploadError: true });
                     }
+                    fileItem.uploadFileMeta.fileName = fileItem.file.name;
                     fileItem.progressPercentage = 100;
                 } else {
                     this.setState({ fileUploadError: true });
