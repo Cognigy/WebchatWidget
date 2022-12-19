@@ -18,12 +18,12 @@ const UploadedFilesContainer = styled.div(({ theme }) => ({
     alignItems: 'center',
 }));
 
-const FilePreviewWrapper = styled.div(({ theme }) => ({
+const FilePreviewWrapper = styled.div(({ theme, hasUploadError }) => ({
     marginRight: theme.unitSize,
     borderRadius: 4,
     maxWidth: 180,
     height: 34,
-    border: '1px solid hsla(0, 0%, 0%, .1)',
+	border: hasUploadError ? '1px solid hsl(0, 100%, 50%)' : '1px solid hsla(0, 0%, 0%, .1)',
 }));
 
 const UploadedFilePreview = styled.div(({ theme }) => ({
@@ -48,9 +48,6 @@ const FileNameTypography = styled.span(({ theme }) => ({
 }));
 
 const FileExtensionTypography = styled.span(() => ({
-	whiteSpace: 'nowrap',
-	textOverflow: 'ellipsis',
-	overflow: 'hidden',
     color: 'hsla(0, 0%, 0%, .54)',
     alignSelf: 'center',
 }));
@@ -102,20 +99,20 @@ class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivEl
         return (
             <UploadedFilesContainer>
                 {fileList?.map((item, index) => (
-                    <FilePreviewWrapper key={index}>
+					<FilePreviewWrapper key={index} hasUploadError={item.hasUploadError} >
                         <UploadedFilePreview>
                             {item.file.type?.includes('image') &&
                                 <ImagePreview width={20} height={20} src={URL.createObjectURL(item.file)} />
                             }
                             <FileNameTypography>
-                                {getFileName(item.file.name)}
+								{!item.hasUploadError ? getFileName(item.file.name) : item.uploadErrorReason}
                             </FileNameTypography>
                             <FileExtensionTypography>
                                 {getFileExtension(item.file.name)}
                             </FileExtensionTypography>
                             <RemoveFileButton
                                 onClick={() => this.onRemoveFileButtonClick(index)}
-                                aria-label="Remove File Attacment"
+								aria-label="Remove File Attachment"
                                 ref={this.removeFileButtonRef}
                             >
                                 <CloseIcon />

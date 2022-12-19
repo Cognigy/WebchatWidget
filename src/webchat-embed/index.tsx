@@ -10,7 +10,7 @@ import '../plugins/date-picker';
 import '../plugins/messenger';
 import '../plugins/rating';
 import '../plugins/adaptivecards';
-import '../plugins/files';
+import '../plugins/attachments';
 import { Webchat } from '../webchat/components/Webchat';
 import { getRegisteredMessagePlugins, prepareMessagePlugins } from '../plugins/helper';
 import { getStorage } from '../webchat/helper/storage';

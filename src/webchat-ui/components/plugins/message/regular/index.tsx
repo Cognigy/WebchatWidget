@@ -8,7 +8,7 @@ import { replaceUrlsWithHTMLanchorElem } from "../../../../../webchat/helper/url
 import { MarkdownMessageBubble } from "../../../presentational/MarkdownMessageBubble";
 import MessageBubble from "../../../presentational/MessageBubble";
 
-const RegularMessage = ({
+export const RegularMessage = ({
   message: { text, source },
   config: {
     settings: {
