@@ -1,8 +1,7 @@
-import styled from '@emotion/styled';
 import React from 'react';
 import { IUploadFileMetaData } from '../../common/interfaces/file-upload';
 import { MessageComponentProps } from '../../common/interfaces/message-plugin';
-import { RegularMessage } from '../../webchat-ui/components/plugins/message/regular';
+import { styled } from '../../webchat-ui/style';
 import { getMessengerListTemplate } from '../messenger/MessengerPreview/components/MessengerListTemplate/MessengerListTemplate';
 import { IFBMListTemplateElement, IFBMListTemplatePayload } from '../messenger/MessengerPreview/interfaces/ListTemplatePayload.interface';
 
@@ -11,14 +10,23 @@ const AttachmentsMessage = (props: MessageComponentProps) => {
 	const { message, config, color } = props
 	const attachments = message.data.attachments as IUploadFileMetaData[];
 
-	const payloadElements = attachments.map(item => {
+	const payloadElements: IFBMListTemplateElement[] = [];
+
+	if (message.text) {
+		payloadElements.push({
+			title: message.text,
+			subtitle: "",
+			image_url: "",
+			buttons: []
+		})
+	}
+
+	attachments.map(item => {
 		const isImage = item?.url && item?.mimeType?.startsWith("image/");
 
-		console.log(item)
-
-		return {
-			title: item?.fileName || "",
-			subtitle: "",
+		payloadElements.push({
+			title: "",
+			subtitle: item?.fileName || "",
 			image_url: isImage ? item?.url : "",
 			buttons: [{
 				type: "web_url",
@@ -26,7 +34,7 @@ const AttachmentsMessage = (props: MessageComponentProps) => {
 				title: "Open",
 				target: "_blank",
 			}]
-		} as IFBMListTemplateElement
+		})
 	})
 
 	const payload: IFBMListTemplatePayload = {
@@ -40,17 +48,12 @@ const AttachmentsMessage = (props: MessageComponentProps) => {
 	});
 
 	return (
-		<div style={{ display: "block" }}>
-			<RegularMessage
-				{...props}
-			/>
-			<MessengerListTemplate
-				payload={payload}
-				onAction={onAction}
-				config={config}
-				messageColor={color}
-			/>
-		</div>
+		<MessengerListTemplate
+			payload={payload}
+			onAction={onAction}
+			config={config}
+			messageColor={color}
+		/>
 	);
 };
 
