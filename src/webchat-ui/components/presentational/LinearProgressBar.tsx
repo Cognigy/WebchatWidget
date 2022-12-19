@@ -8,18 +8,12 @@ const ProgressBarContainer = styled.div(() => ({
     borderRadius: 50,
 }));
 
-const ProgressBar = styled.div(({ theme }) => ({
+const ProgressBar = styled.div(({ theme, progressPercentage }) => ({
     height: '100%',
-    width: `${20}%`,
+    width: `${progressPercentage}%`,
     backgroundColor: theme.primaryColor,
     borderRadius: 'inherit',
     textAlign: 'right'
-}));
-
-const ProgressText = styled.span(() => ({
-    padding: 5,
-    color: 'white',
-    fontWeight: 'bold'
 }));
 
 interface ILinearProgressBarProps {
@@ -32,9 +26,7 @@ class LinearProgressBar extends React.PureComponent<React.HTMLProps<HTMLDivEleme
 
         return (
             <ProgressBarContainer>
-                <ProgressBar>
-                    <ProgressText>{`${progressPercentage}%`}</ProgressText>
-                </ProgressBar>
+                <ProgressBar progressPercentage={progressPercentage} />
             </ProgressBarContainer>
         );
     }
