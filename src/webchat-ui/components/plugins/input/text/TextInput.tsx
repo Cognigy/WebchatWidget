@@ -322,7 +322,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                     file: file,
                     progressPercentage: 10,
                     hasUploadError: true,
-                    uploadErrorReason: "File size exceeds 25MB"
+                    uploadErrorReason: "File size > 25MB"
                 });
             } else {
                 newFileList.push({
@@ -346,9 +346,8 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         newFileList = newFileList.map(fileItem => {
             if (!fileItem.hasUploadError) {
                 fileItem.progressPercentage = 50;
-                //TODO turn the file border red depending on the hasUploadError flag
                 fileItem.hasUploadError = hasError;
-                fileItem.uploadErrorReason = hasError ? "Failed Upload!" : fileItem.uploadErrorReason;
+                fileItem.uploadErrorReason = hasError ? "Upload Failed" : fileItem.uploadErrorReason;
             }
             return fileItem;
         });
@@ -362,7 +361,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                     fileItem.uploadFileMeta = await uploadFile(fileItem.file, response.fileUploadUrl, response.token);
                     if (fileItem.uploadFileMeta.status === "infected") {
                         fileItem.hasUploadError = true;
-                        fileItem.uploadErrorReason = "File Infected!"
+                        fileItem.uploadErrorReason = "Infected File"
                         this.setState({ fileUploadError: true });
                     }
                     fileItem.uploadFileMeta.fileName = fileItem.file.name;
