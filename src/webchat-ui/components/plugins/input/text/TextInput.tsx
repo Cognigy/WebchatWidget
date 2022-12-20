@@ -314,10 +314,15 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
     }
 
     onAddFilesToList = async (newFiles: File[]) => {
+        const {
+            fileAttachmentMaxSize,
+            _endpointTokenUrl
+        } = this.props.config.settings;
+
         const existingFileList = this.state.fileList;
         let newFileList: IFile[] = [];
         newFiles.forEach(file => {
-            if (file.size > 26214400) { //25 MB
+            if (file.size > fileAttachmentMaxSize) {
                 newFileList.push({
                     file: file,
                     progressPercentage: 10,
@@ -334,7 +339,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
 
         this.setState({ fileList: existingFileList.concat(newFileList) });
 
-        const fileUploadTokenApiUrl = `${this.props.config.settings._endpointTokenUrl}/fileuploadtoken`;
+        const fileUploadTokenApiUrl = `${_endpointTokenUrl}/fileuploadtoken`;
         let response;
         let hasError = false;
         try {
@@ -399,7 +404,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
             disableInputAutofocus,
             disableInputAutogrow,
             enablePersistentMenu,
-            enableFileInput,
+            enableFileAttachment,
             inputAutogrowMaxRows,
             persistentMenu,
         } = props.config.settings;
@@ -466,7 +471,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
                                         />
                                     )}
 
-                                    {enableFileInput &&
+                                    {enableFileAttachment &&
                                         <AttachFileButton
                                             className="webchat-input-button-add-attachments"
                                             onClick={this.onOpenFileAttachmentSection}

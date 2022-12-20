@@ -43,8 +43,8 @@ export interface IWebchatSettings {
   enableUnreadMessageSound: boolean;
   enableUnreadMessageTitleIndicator: boolean;
   enableDefaultPreview: boolean;
-  /** TODO: Remove enableFileInput setting when the feature is complete. Also add it to read me */
-  enableFileInput: boolean;
+  enableFileAttachment: boolean;
+  fileAttachmentMaxSize: number;
   engagementMessageDelay: number;
   engagementMessageText: string;
   focusInputAfterPostback: boolean;
