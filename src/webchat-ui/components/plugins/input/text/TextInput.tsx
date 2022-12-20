@@ -321,13 +321,14 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
 
         const existingFileList = this.state.fileList;
         let newFileList: IFile[] = [];
+        const fileAttachmentMaxSizeInMb = fileAttachmentMaxSize > 0 ? fileAttachmentMaxSize / (1024 * 1024) : 0;
         newFiles.forEach(file => {
             if (file.size > fileAttachmentMaxSize) {
                 newFileList.push({
                     file: file,
                     progressPercentage: 10,
                     hasUploadError: true,
-                    uploadErrorReason: "File size > 25MB"
+                    uploadErrorReason: `File size > ${fileAttachmentMaxSizeInMb}MB`
                 });
             } else {
                 newFileList.push({
@@ -382,19 +383,17 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
             return fileItem;
         }));
         this.setState({ fileList: existingFileList.concat(newFileList) });
-    }
+    };
 
     onRemoveFileFromList = (index: number) => {
-        this.setState({ fileList: this.state.fileList.filter((_, i) => i !== index) });
-        setTimeout(() => {
-            let fileUploadError = false;
-            // When files with upload error is removed, we want to enable the send button
-            this.state.fileList.forEach(fileItem => {
-                fileUploadError = fileItem.hasUploadError || fileUploadError;
-            });
-            this.setState({ fileUploadError });
-        }, 100);
-    }
+        const nextFileList = this.state.fileList.filter((_, i) => i !== index)
+        let fileUploadError = false;
+        // When files with upload error is removed, we want to enable the send button
+        nextFileList.forEach(fileItem => {
+            fileUploadError = fileItem.hasUploadError || fileUploadError;
+        });
+        this.setState({ fileList: nextFileList, fileUploadError });
+    };
 
     render() {
         const { props, state } = this;
