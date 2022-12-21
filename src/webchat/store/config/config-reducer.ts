@@ -46,6 +46,8 @@ export const getInitialState = (): ConfigState => ({
     enableUnreadMessageSound: false,
     enableUnreadMessageTitleIndicator: false,
     enableDefaultPreview: false,
+    enableFileAttachment: false,
+    fileAttachmentMaxSize: 10485760,
     engagementMessageDelay: 5000,
     engagementMessageText: "",
     focusInputAfterPostback: false,
@@ -87,7 +89,8 @@ export const getInitialState = (): ConfigState => ({
       bot: 'primary',
       engagement: 'primary',
       user: 'neutral',
-    }
+    },
+    _endpointTokenUrl:""
   },
 });
 
