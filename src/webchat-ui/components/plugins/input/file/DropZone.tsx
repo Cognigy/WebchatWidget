@@ -5,7 +5,7 @@ import AttachFile from './attach-file-20px.svg';
 const DropZoneContainer = styled.div(({ theme }) => ({
     position: "absolute",
     width: "100%",
-    height: theme.unitSize * 12.25,
+    height: theme.unitSize * 15,
     bottom: 0,
 }));
 
