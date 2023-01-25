@@ -2,25 +2,25 @@ import React from "react";
 import { styled } from '../../../../style';
 import AttachFile from './attach-file-20px.svg';
 
-const DropZoneContainer = styled.div(({ theme }) => ({
+const componentStyles = (({ theme }) => ({
     position: "absolute",
     width: "100%",
     height: theme.unitSize * 15,
     bottom: 0,
 }));
 
-const AttachFileIcon = styled(AttachFile)(({ theme }) => ({
-    marginBottom: `-${theme.unitSize / 2}px`,
-}));
-
-const Wrap = styled.div(() => ({
+const DropZoneContent = styled.div(componentStyles, {
     alignItems: 'center',
     justifyContent: 'center',
     display: 'flex',
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#f7f7f7",
+    backgroundColor: "#f9f9f9",
     boxShadow: "0px 0px 30px 20px rgba(0,0,0,0.1) inset",
+});
+
+const DropZoneContainer = styled.div(componentStyles, {});
+
+const AttachFileIcon = styled(AttachFile)(({ theme }) => ({
+    marginBottom: `-${theme.unitSize / 2}px`,
 }));
 
 const DragDropTypography = styled.span(() => ({
@@ -63,21 +63,22 @@ class DropZone extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IDr
 
     render() {
         return (
-            <DropZoneContainer
-                ref={this.dropRef}
-                onDragOver={this.handleDragOver}
-                onDragLeave={e => this.handleDragLeave(e)}
-                onDropCapture={this.handleDrop}
-            >
-                <Wrap>
+            <>
+                <DropZoneContent>
                     <AttachFileIcon />
                     <DragDropTypography
                         className="webchat-input-drag-and-drop-file-text"
                     >
                         Drop to attach File
                     </DragDropTypography>
-                </Wrap>
-            </DropZoneContainer>
+                </DropZoneContent>
+                <DropZoneContainer
+                    ref={this.dropRef}
+                    onDragOver={this.handleDragOver}
+                    onDragLeave={e => this.handleDragLeave(e)}
+                    onDropCapture={this.handleDrop}
+                />
+            </>
         );
     }
 }
