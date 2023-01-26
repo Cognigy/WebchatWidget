@@ -6,7 +6,7 @@ import MenuIcon from './baseline-menu-24px.svg';
 import AttachFileIcon from './attach-file-24px.svg';
 import { IPersistentMenuItem } from '../../../../../common/interfaces/webchat-config';
 import TextareaAutosize from 'react-textarea-autosize';
-import FileAttachmentSection from '../file/FileAttachmentSection';
+import DropZone from '../file/DropZone';
 import PreviewUploadedFiles, { IFile } from '../file/PreviewUploadedFiles';
 import { fetchFileUploadToken, uploadFile } from '../../../../../webchat/helper/endpoint';
 import { IUploadFileMetaData } from '../../../../../common/interfaces/file-upload';
@@ -107,6 +107,10 @@ const AttachFileButton = styled(Button)(({ theme }) => ({
     }
 }));
 
+const HiddenFileInput = styled.input(() => ({
+    display: 'none',
+}));
+
 const SubmitButton = styled(Button)(({ theme }) => ({
     marginRight: theme.unitSize,
     marginLeft: 0,
@@ -172,7 +176,7 @@ export interface TextInputState {
     text: string;
     mode: 'text' | 'menu';
     active: boolean;
-    isAttachFileSectionOpen: boolean;
+    isDropZoneVisible: boolean;
     fileList: IFile[];
     fileUploadError: boolean;
 }
@@ -182,13 +186,14 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         text: '',
         mode: 'text',
         active: false,
-        isAttachFileSectionOpen: false,
+        isDropZoneVisible: false,
         fileList: [],
-        fileUploadError: false
+        fileUploadError: false,
     } as TextInputState;
 
     inputRef = React.createRef<HTMLTextAreaElement | HTMLInputElement>();
     menuRef = React.createRef<HTMLDivElement>();
+    fileInputRef = React.createRef<HTMLInputElement>();
 
     handleChangeState = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         this.setState({
@@ -304,15 +309,6 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         }
     }
 
-    onOpenFileAttachmentSection = (event) => {
-        event.preventDefault();
-        this.setState({ isAttachFileSectionOpen: true })
-    }
-
-    onCloseFileAttachmentSection = () => {
-        this.setState({ isAttachFileSectionOpen: false })
-    }
-
     onAddFilesToList = async (newFiles: File[]) => {
         const {
             fileAttachmentMaxSize,
@@ -395,9 +391,31 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
         this.setState({ fileList: nextFileList, fileUploadError });
     };
 
+    handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        const newFilesArray = Array.prototype.slice.call(files);
+        this.onAddFilesToList(newFilesArray);
+    }
+
+    handleUploadFile = (event) => {
+        event.preventDefault();
+        this.fileInputRef.current?.click();
+    }
+
+    handleDragEnter = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        this.setState({ isDropZoneVisible: true });
+    };
+
+    handleDropZoneVisibility = (isDropZoneVisible: boolean) => {
+        this.setState({ isDropZoneVisible })
+    }
+
     render() {
         const { props, state } = this;
-        const { text, active, mode, isAttachFileSectionOpen, fileList } = state;
+        const { text, active, mode, fileList, isDropZoneVisible } = state;
         const {
             disableInputAutocomplete,
             disableInputAutofocus,
@@ -415,120 +433,125 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
 
         return (
             <>
-                {!isAttachFileSectionOpen ? (
-                    <>
-                        <InputForm
-                            data-active={active && isFileListEmpty}
-                            onSubmit={this.handleSubmit}
-                            className="webchat-input-menu-form"
-                        >
-                            {enablePersistentMenu && (
-                                <MenuButton type='button'
-                                    onClick={this.handleMenuButton}
-                                    className="webchat-input-button-menu"
-                                    aria-label="Toggle persistent menu"
-                                    aria-expanded={mode === "menu" ? true : false}
-                                    id="webchatInputButtonMenu"
-                                >
-                                    <MenuIcon />
-                                </MenuButton>
-                            )}
-                            {mode === 'text' && (
-                                <>
-                                    {!disableInputAutogrow ? (
-                                        <TextArea
-                                            ref={this.inputRef}
-                                            autoFocus={!disableInputAutofocus}
-                                            value={text}
-                                            onChange={this.handleChangeState}
-                                            onFocus={() => this.setState({ active: true })}
-                                            onBlur={() => this.setState({ active: false })}
-                                            onKeyDown={this.handleInputKeyDown}
-                                            placeholder={props.config.settings.inputPlaceholder}
-                                            className="webchat-input-message-input"
-                                            aria-label="Message to send"
-                                            minRows={1}
-                                            maxRows={inputAutogrowMaxRows}
-                                            autoComplete={disableInputAutocomplete ? 'off' : undefined}
-                                            spellCheck={false}
-                                            id="webchatInputMessageInputInTextMode"
-                                        />
-                                    ) : (
-                                        <Input
-                                            ref={this.inputRef}
-                                            autoFocus={!disableInputAutofocus}
-                                            value={text}
-                                            onChange={this.handleChangeState}
-                                            onFocus={() => this.setState({ active: true })}
-                                            onBlur={() => this.setState({ active: false })}
-                                            placeholder={props.config.settings.inputPlaceholder}
-                                            className="webchat-input-message-input"
-                                            aria-label="Message to send"
-                                            autoComplete={disableInputAutocomplete ? 'off' : undefined}
-                                            spellCheck={false}
-                                            id="webchatInputMessageInputInTextMode"
-                                        />
-                                    )}
+                <div onDragEnter={this.handleDragEnter}>
+                    <InputForm
+                        data-active={active && isFileListEmpty}
+                        onSubmit={this.handleSubmit}
+                        className="webchat-input-menu-form"
+                    >
+                        {enablePersistentMenu && (
+                            <MenuButton type='button'
+                                onClick={this.handleMenuButton}
+                                className="webchat-input-button-menu"
+                                aria-label="Toggle persistent menu"
+                                aria-expanded={mode === "menu" ? true : false}
+                                id="webchatInputButtonMenu"
+                            >
+                                <MenuIcon />
+                            </MenuButton>
+                        )}
+                        {mode === 'text' && (
+                            <>
+                                {!disableInputAutogrow ? (
+                                    <TextArea
+                                        ref={this.inputRef}
+                                        autoFocus={!disableInputAutofocus}
+                                        value={text}
+                                        onChange={this.handleChangeState}
+                                        onFocus={() => this.setState({ active: true })}
+                                        onBlur={() => this.setState({ active: false })}
+                                        onKeyDown={this.handleInputKeyDown}
+                                        placeholder={props.config.settings.inputPlaceholder}
+                                        className="webchat-input-message-input"
+                                        aria-label="Message to send"
+                                        minRows={1}
+                                        maxRows={inputAutogrowMaxRows}
+                                        autoComplete={disableInputAutocomplete ? 'off' : undefined}
+                                        spellCheck={false}
+                                        id="webchatInputMessageInputInTextMode"
+                                    />
+                                ) : (
+                                    <Input
+                                        ref={this.inputRef}
+                                        autoFocus={!disableInputAutofocus}
+                                        value={text}
+                                        onChange={this.handleChangeState}
+                                        onFocus={() => this.setState({ active: true })}
+                                        onBlur={() => this.setState({ active: false })}
+                                        placeholder={props.config.settings.inputPlaceholder}
+                                        className="webchat-input-message-input"
+                                        aria-label="Message to send"
+                                        autoComplete={disableInputAutocomplete ? 'off' : undefined}
+                                        spellCheck={false}
+                                        id="webchatInputMessageInputInTextMode"
+                                    />
+                                )}
 
-                                    {enableFileAttachment &&
+                                {enableFileAttachment &&
+                                    <>
+                                        <HiddenFileInput
+                                            ref={this.fileInputRef}
+                                            type="file"
+                                            multiple
+                                            onChange={this.handleSelectFile}
+                                        />
                                         <AttachFileButton
                                             className="webchat-input-button-add-attachments"
-                                            onClick={this.onOpenFileAttachmentSection}
+                                            onClick={this.handleUploadFile}
                                             aria-label="Add Attachments"
                                             id="webchatInputMessageAttachFileButton"
                                         >
                                             <AttachFileIcon />
                                         </AttachFileButton>
-                                    }
+                                    </>
+                                }
 
-                                    <SubmitButton
-                                        disabled={(this.state.text === '' && isFileListEmpty) || this.state.fileUploadError}
-                                        className="webchat-input-button-send"
-                                        aria-label="Send Message"
-                                        id="webchatInputMessageSendMessageButton"
-                                    >
-                                        <SendIcon />
-                                    </SubmitButton>
-                                </>
-                            )}
-                            {mode === 'menu' && (
-                                <PersistentMenu className="webchat-input-persistent-menu" tabIndex={-1}>
-                                    {title && (
-                                        <PersistentMenuTitle className="webchat-input-persistent-menu-title" id="persistentMenuTitle">
-                                            {title}
-                                        </PersistentMenuTitle>
-                                    )}
-                                    <div aria-labelledby="persistentMenuTitle" role="menu" ref={this.menuRef} onKeyDown={e => this.handleMenuKeyDown(e)}>
-                                        {menuItems.map((item, index) => (
-                                            <PersistentMenuItem
-                                                key={`${item.title}${item.payload}`}
-                                                onClick={() => this.handleMenuItem(item)}
-                                                className="webchat-input-persistent-menu-item"
-                                                role="menuitem"
-                                                tabIndex={index === 0 ? 0 : -1}
-                                            >
-                                                {item.title}
-                                            </PersistentMenuItem>
-                                        ))}
-                                    </div>
-                                </PersistentMenu>
-                            )}
-                        </InputForm>
-                        {!isFileListEmpty &&
-                            <PreviewUploadedFiles
-                                fileList={fileList}
-                                onRemoveFileFromList={this.onRemoveFileFromList}
-                            />
-                        }
-                    </>
-                ) : (
-                    <FileAttachmentSection
-                        fileList={fileList}
+                                <SubmitButton
+                                    disabled={(this.state.text === '' && isFileListEmpty) || this.state.fileUploadError}
+                                    className="webchat-input-button-send"
+                                    aria-label="Send Message"
+                                    id="webchatInputMessageSendMessageButton"
+                                >
+                                    <SendIcon />
+                                </SubmitButton>
+                            </>
+                        )}
+                        {mode === 'menu' && (
+                            <PersistentMenu className="webchat-input-persistent-menu" tabIndex={-1}>
+                                {title && (
+                                    <PersistentMenuTitle className="webchat-input-persistent-menu-title" id="persistentMenuTitle">
+                                        {title}
+                                    </PersistentMenuTitle>
+                                )}
+                                <div aria-labelledby="persistentMenuTitle" role="menu" ref={this.menuRef} onKeyDown={e => this.handleMenuKeyDown(e)}>
+                                    {menuItems.map((item, index) => (
+                                        <PersistentMenuItem
+                                            key={`${item.title}${item.payload}`}
+                                            onClick={() => this.handleMenuItem(item)}
+                                            className="webchat-input-persistent-menu-item"
+                                            role="menuitem"
+                                            tabIndex={index === 0 ? 0 : -1}
+                                        >
+                                            {item.title}
+                                        </PersistentMenuItem>
+                                    ))}
+                                </div>
+                            </PersistentMenu>
+                        )}
+                    </InputForm>
+                    {!isFileListEmpty &&
+                        <PreviewUploadedFiles
+                            fileList={fileList}
+                            onRemoveFileFromList={this.onRemoveFileFromList}
+                        />
+                    }
+                </div>
+                {isDropZoneVisible &&
+                    <DropZone
                         onAddFilesToList={this.onAddFilesToList}
-                        onRemoveFileFromList={this.onRemoveFileFromList}
-                        onClose={this.onCloseFileAttachmentSection}
+                        setIsDropZoneVisible={this.handleDropZoneVisibility}
                     />
-                )}
+                }
             </>
         )
     }

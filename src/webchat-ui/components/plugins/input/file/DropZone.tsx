@@ -1,14 +1,31 @@
 import React from "react";
 import { styled } from '../../../../style';
+import AttachFile from './attach-file-20px.svg';
 
+const componentStyles = (({ theme }) => ({
+    position: "absolute",
+    width: "100%",
+    height: theme.unitSize * 15,
+    bottom: 0,
+}));
 
-const DropZoneContainer = styled.div(() => ({
-        position: "absolute",
-        boxShadow: "0px 0px 30px 20px rgba(0,0,0,0.1) inset",
-        width: "100%",
-        height: "100%",
-        backgroundColor: 'hsla(0, 0%, 0%, .03)',
-        top: 0  
+const DropZoneContent = styled.div(componentStyles, {
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'flex',
+    backgroundColor: "#f9f9f9",
+    boxShadow: "0px 0px 30px 20px rgba(0,0,0,0.1) inset",
+});
+
+const DropZoneContainer = styled.div(componentStyles, {});
+
+const AttachFileIcon = styled(AttachFile)(({ theme }) => ({
+    marginBottom: `-${theme.unitSize / 2}px`,
+}));
+
+const DragDropTypography = styled.span(() => ({
+    color: 'hsla(0, 0%, 0%, .54)',
+    fontSize: 14,
 }));
 
 interface IDropZoneProps {
@@ -30,7 +47,6 @@ class DropZone extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IDr
 
     handleDragLeave = e => {
         e.preventDefault();
-        e.stopPropagation();
         this.props.setIsDropZoneVisible(false);
     };
 
@@ -46,17 +62,23 @@ class DropZone extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IDr
     }
 
     render() {
-        const { children } = this.props;
-
         return (
-            <DropZoneContainer
-                ref={this.dropRef}
-                onDragOver={this.handleDragOver}
-                onDragLeave={e => this.handleDragLeave(e)}
-                onDropCapture={this.handleDrop}
-            >
-                {children}
-            </DropZoneContainer>
+            <>
+                <DropZoneContent>
+                    <AttachFileIcon />
+                    <DragDropTypography
+                        className="webchat-input-drag-and-drop-file-text"
+                    >
+                        Drop to attach File
+                    </DragDropTypography>
+                </DropZoneContent>
+                <DropZoneContainer
+                    ref={this.dropRef}
+                    onDragOver={this.handleDragOver}
+                    onDragLeave={e => this.handleDragLeave(e)}
+                    onDropCapture={this.handleDrop}
+                />
+            </>
         );
     }
 }
