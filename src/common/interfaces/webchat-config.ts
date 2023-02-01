@@ -20,6 +20,7 @@ export interface IWebchatSettings {
   disableInputAutogrow: boolean;
   disableLocalStorage: boolean;
   disablePersistentHistory: boolean;
+  disableRenderURLsAsLinks: boolean;
   disableTextInputSanitization: boolean;
   disableToggleButton: boolean;
   disableUrlButtonSanitization: boolean;
@@ -42,6 +43,8 @@ export interface IWebchatSettings {
   enableUnreadMessageSound: boolean;
   enableUnreadMessageTitleIndicator: boolean;
   enableDefaultPreview: boolean;
+  enableFileAttachment: boolean;
+  fileAttachmentMaxSize: number;
   engagementMessageDelay: number;
   engagementMessageText: string;
   focusInputAfterPostback: boolean;
@@ -78,13 +81,14 @@ export interface IWebchatSettings {
     bot: TSourceDirection;
     engagement: TSourceDirection;
     user: TSourceDirection;
-  }
+  };
   sourceColorMapping: {
     agent: TSourceColor;
     bot: TSourceColor;
     engagement: TSourceColor;
     user: TSourceColor;
-  }
+  };
+_endpointTokenUrl: string;
 }
 
 export interface IWebchatConfig {

@@ -14,5 +14,5 @@ export interface IFBMListTemplateElement {
 	image_url: string;
 	image_alt_text?: string;
     buttons: IFBMButton[];
-    default_action: IFBMDefaultAction;
+	default_action?: IFBMDefaultAction;
 }

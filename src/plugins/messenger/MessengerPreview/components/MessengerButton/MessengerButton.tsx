@@ -14,12 +14,11 @@ interface IMessengerButtonProps {
 
 export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps) => {
 
-    const Button = styled.button(({ theme }) => ({
+    const componentStyles = (({ theme }) => ({
         display: 'block',
         color: theme.primaryColor,
         border: 'none',
         backgroundColor: 'white',
-        width: '100%',
         padding: `10px 20px`,
         fontSize: 15,
         cursor: 'pointer',
@@ -27,20 +26,31 @@ export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps)
 
         '&:hover': {
             backgroundColor: 'hsl(0, 0%, 97%)'
-		},
-		
-		'&:focus': {
+        },
+        
+        '&:focus': {
             backgroundColor: 'hsl(0, 0%, 92%)'
         },
 
         '&:active': {
             backgroundColor: 'hsl(0, 0%, 92%)'
         }
-    }));
+    }))
+
+    const Button = styled.button(componentStyles, {
+        width: '100%',
+    });
+
+    const Link = styled.a(componentStyles, {
+        textDecoration: 'none',
+        textAlign: 'center'
+    });
 
     const MessengerButton = ({ button, position, total, ...props }: IMessengerButtonProps & React.ComponentProps<typeof Button>) => {		
         const buttonType = button.type;
+        const buttonPayload = button.payload;
         const isWebURL = buttonType === "web_url";
+        const isPhoneNumber = buttonPayload && buttonType === "phone_number";
         const buttonTitle = button.title ? button.title + ". " : "";
         const isWebURLButtonTargetBlank = button.target !== "_self";
         const buttonTitleWithTarget = isWebURL && isWebURLButtonTargetBlank ? buttonTitle + "Opens in new tab" : button.title;
@@ -49,12 +59,15 @@ export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps)
         const buttonLabel = getButtonLabel(button);
         const __html = props.config.settings.disableHtmlContentSanitization ? buttonLabel : sanitizeHTML(buttonLabel)
 
+        const Component = isPhoneNumber ? Link : Button;
+
         return (
-            <Button 
+            <Component
                 {...props} 
                 dangerouslySetInnerHTML={{__html}} 
                 role={isWebURL ? "link" : undefined} 
                 aria-label={ariaLabel}
+                href={isPhoneNumber ? `tel:${buttonPayload}` : undefined}
             />
         )
     }
