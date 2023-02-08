@@ -57,6 +57,8 @@ export interface WebchatUIProps {
     onClose: () => void;
     onConnect: () => void;
     onToggle: () => void;
+    onToggleForceScrolling: () => void;
+    forceScrolling: boolean;
 
     onEmitAnalytics: (event: string, payload?: any) => void;
     onTriggerEngagementMessage: () => void;
@@ -415,6 +417,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onDismissFullscreenMessage,
             onClose,
             onToggle,
+            onToggleForceScrolling,
+            forceScrolling,
             onTriggerEngagementMessage,
             webchatRootProps,
             webchatToggleProps,
@@ -541,7 +545,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             config,
             hasGivenRating,
             onShowRatingDialog,
-            messages
+            messages,
+            forceScrolling,
+            onToggleForceScrolling
         } = this.props;
 
         const { enableRating } = config.settings;
@@ -563,6 +569,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 />
                 <HistoryWrapper
                     disableBranding={config.settings.disableBranding}
+                    forceScrolling={forceScrolling}
+                    onToggleForceScrolling={() => onToggleForceScrolling()}
                     ref={this.history as any}
                     className="webchat-chat-history"
                     tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
@@ -613,6 +621,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         key={index}
                         message={message}
                         onSendMessage={this.sendMessage}
+                        afterRenderCallback={() => this.props.onToggleForceScrolling()}
                         onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}
                         onDismissFullscreen={() => { }}
                         config={config}

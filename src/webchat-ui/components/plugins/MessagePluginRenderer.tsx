@@ -19,6 +19,7 @@ export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
   onSendMessage: MessageSender;
   onSetFullscreen?: () => void;
   onDismissFullscreen?: () => void;
+  afterRenderCallback?: () => void;
   onEmitAnalytics: (name: string, payload?: any) => void;
   plugins: MessagePlugin[];
   isFullscreen?: boolean;
@@ -42,6 +43,7 @@ export default ({
   isFullscreen,
   onSetFullscreen,
   onDismissFullscreen,
+  afterRenderCallback,
   webchatTheme,
   onEmitAnalytics,
   hideAvatar,
@@ -146,6 +148,7 @@ export default ({
               onSendMessage={onSendMessage}
               onSetFullscreen={onSetFullscreen}
               onDismissFullscreen={onDismissFullscreen}
+              afterRenderCallback={afterRenderCallback}
               attributes={attributes}
               isFullscreen={isFullscreen}
               theme={webchatTheme}

@@ -8,6 +8,7 @@ import { sanitizeHTML } from '../../../webchat/helper/sanitize';
 interface IAdaptiveCardProps {
     hostConfig?: Partial<HostConfig>;
     onExecuteAction?: (actionJson: any) => void;
+    afterRenderCallback?: () => void
     payload?: boolean;
 }
 
@@ -36,7 +37,7 @@ MSAdaptiveCard.onProcessMarkdown = (text, result) => {
  * https://github.com/microsoft/AdaptiveCards/blob/5b66a52e0e0cee5074a42dcbe688d608e0327ae4/source/nodejs/adaptivecards-react/src/adaptive-card.tsx
  */
 const AdaptiveCard: FC<IAdaptiveCardProps> = (props) => {
-    const { payload, hostConfig, onExecuteAction } = props;
+    const { payload, hostConfig, onExecuteAction, afterRenderCallback } = props;
 
     const targetRef = useRef<HTMLDivElement>(null);
     const cardRef = useRef<MSAdaptiveCard>(
@@ -68,6 +69,7 @@ const AdaptiveCard: FC<IAdaptiveCardProps> = (props) => {
             const result = card.render() as HTMLElement;
             targetRef.current.innerHTML = '';
             targetRef.current.appendChild(result);
+            afterRenderCallback && afterRenderCallback();
         } catch (cardRenderError) {
             console.error('Unable to render Card', cardRenderError);
         }
