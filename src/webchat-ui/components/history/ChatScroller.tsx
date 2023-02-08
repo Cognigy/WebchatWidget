@@ -8,7 +8,7 @@ export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
     disableBranding: boolean;
     showFocusOutline: boolean;
     forceScrolling: boolean;
-    onToggleForceScrolling?: () => void;
+    toggleForceScrolling?: () => void;
     tabIndex: 0 | -1;
  }
 
@@ -75,10 +75,10 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
     }
 
     componentDidUpdate(prevProps: InnerProps, prevState: IState, wasScrolledToBottom: boolean) {
-        const { onToggleForceScrolling, forceScrolling } = this.props;
-        if(forceScrolling && onToggleForceScrolling) {
+        const { toggleForceScrolling, forceScrolling } = this.props;
+        if(forceScrolling && toggleForceScrolling) {
             this.scrollToBottom();
-            onToggleForceScrolling();
+            toggleForceScrolling();
         }
         if (wasScrolledToBottom) {
             this.scrollToBottom();

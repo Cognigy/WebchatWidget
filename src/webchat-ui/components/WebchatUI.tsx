@@ -570,7 +570,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 <HistoryWrapper
                     disableBranding={config.settings.disableBranding}
                     forceScrolling={forceScrolling}
-                    onToggleForceScrolling={() => onToggleForceScrolling()}
+                    toggleForceScrolling={() => onToggleForceScrolling()}
                     ref={this.history as any}
                     className="webchat-chat-history"
                     tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
