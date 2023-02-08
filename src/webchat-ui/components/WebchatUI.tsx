@@ -57,8 +57,8 @@ export interface WebchatUIProps {
     onClose: () => void;
     onConnect: () => void;
     onToggle: () => void;
-    onToggleForceScrolling: () => void;
-    forceScrolling: boolean;
+    onSetForceScrollingTo: (offsetTop: number) => void;
+    forceScrollingTo: number;
 
     onEmitAnalytics: (event: string, payload?: any) => void;
     onTriggerEngagementMessage: () => void;
@@ -417,8 +417,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onDismissFullscreenMessage,
             onClose,
             onToggle,
-            onToggleForceScrolling,
-            forceScrolling,
+            onSetForceScrollingTo,
+            forceScrollingTo,
             onTriggerEngagementMessage,
             webchatRootProps,
             webchatToggleProps,
@@ -546,8 +546,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             hasGivenRating,
             onShowRatingDialog,
             messages,
-            forceScrolling,
-            onToggleForceScrolling
+            forceScrollingTo,
+            onSetForceScrollingTo
         } = this.props;
 
         const { enableRating } = config.settings;
@@ -569,8 +569,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 />
                 <HistoryWrapper
                     disableBranding={config.settings.disableBranding}
-                    forceScrolling={forceScrolling}
-                    toggleForceScrolling={() => onToggleForceScrolling()}
+                    forceScrollingTo={forceScrollingTo}
+                    setForceScrollingTo={(offsetTop: number) => onSetForceScrollingTo(offsetTop)}
                     ref={this.history as any}
                     className="webchat-chat-history"
                     tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
@@ -621,14 +621,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         key={index}
                         message={message}
                         onSendMessage={this.sendMessage}
-                        afterRenderCallback={() => this.props.onToggleForceScrolling()}
+                        setForceScrollingTo={offsetTop => this.props.onSetForceScrollingTo(offsetTop)}
                         onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}
                         onDismissFullscreen={() => { }}
                         config={config}
                         plugins={messagePlugins}
                         webchatTheme={this.state.theme}
                         onEmitAnalytics={onEmitAnalytics}
-                    />
+                    />  
                 ))}
                 {enableTypingIndicator && (
                     <TypingIndicator active={isTyping} />

@@ -7,8 +7,8 @@ const CLIENT_HEIGHT_OFFSET = 16 + 70; // banner + typing indicator
 export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
     disableBranding: boolean;
     showFocusOutline: boolean;
-    forceScrolling: boolean;
-    toggleForceScrolling?: () => void;
+    forceScrollingTo: number;
+    setForceScrollingTo?: (offsetTop: number) => void;
     tabIndex: 0 | -1;
  }
 
@@ -64,6 +64,22 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         }
     }
 
+    scrollToPosition = (position: number) => {
+        const root = this.rootRef.current;
+
+        // we need the container reference to perform a scroll on it
+        if (!root)
+            return;
+
+        try {
+            root.scroll({
+                top: position - 70
+            });
+        } catch (e) {
+            root.scrollTop = position;
+        }
+    }
+
     getSnapshotBeforeUpdate() {
         const root = this.rootRef.current;
         if (!root)
@@ -75,12 +91,11 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
     }
 
     componentDidUpdate(prevProps: InnerProps, prevState: IState, wasScrolledToBottom: boolean) {
-        const { toggleForceScrolling, forceScrolling } = this.props;
-        if(forceScrolling && toggleForceScrolling) {
-            this.scrollToBottom();
-            toggleForceScrolling();
-        }
-        if (wasScrolledToBottom) {
+        const { setForceScrollingTo, forceScrollingTo } = this.props;
+        if(forceScrollingTo && setForceScrollingTo) {
+            this.scrollToPosition(forceScrollingTo);
+            setForceScrollingTo(0);
+        } else if (wasScrolledToBottom) {
             this.scrollToBottom();
         }
     }

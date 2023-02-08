@@ -12,7 +12,7 @@ export interface UIState {
     botAvatarOverrideUrl?: string;
     userAvatarOverrideUrl?: string;
     isPageVisible: boolean;
-    forceScrolling: boolean;
+    forceScrollingTo: number;
 }
 
 export const SET_OPEN = 'SET_OPEN';
@@ -28,11 +28,12 @@ export const toggleOpen = () => ({
 });
 export type ToggleOpenAction = ReturnType<typeof toggleOpen>;
 
-const TOOGLE_FORCE_SCROLLING = 'TOOGLE_FORCE_SCROLLING';
-export const toggleForceScrolling = () => ({
-    type: TOOGLE_FORCE_SCROLLING as 'TOOGLE_FORCE_SCROLLING'
+const SET_FORCE_SCROLLING_TO = 'SET_FORCE_SCROLLING_TO';
+export const setForceScrollingTo = (offsetTop: number) => ({
+    type: SET_FORCE_SCROLLING_TO as 'SET_FORCE_SCROLLING_TO',
+    offsetTop
 });
-export type ToggleForceScrolling = ReturnType<typeof toggleForceScrolling>;
+export type SetForceScrollingTo = ReturnType<typeof setForceScrollingTo>;
 
 
 const SET_TYPING = 'SET_TYPING';
@@ -94,7 +95,7 @@ const getInitialState = (): UIState => ({
     botAvatarOverrideUrl: undefined,
     userAvatarOverrideUrl: undefined,
     isPageVisible: isPageVisible(),
-    forceScrolling: false
+    forceScrollingTo: 0
 });
 
 type UIAction = SetOpenAction 
@@ -105,7 +106,7 @@ type UIAction = SetOpenAction
     | SetBotAvatarOverrideUrlAction 
     | SetUserAvatarOverrideUrlAction
     | SetPageVisibleAction
-    | ToggleForceScrolling;
+    | SetForceScrollingTo;
 
 
 export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action) => {
@@ -124,10 +125,10 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
             }
         }
 
-        case TOOGLE_FORCE_SCROLLING: {
+        case SET_FORCE_SCROLLING_TO: {
             return {
                 ...state,
-                forceScrolling: !state.forceScrolling
+                forceScrollingTo: action.offsetTop
             }
         }
 
