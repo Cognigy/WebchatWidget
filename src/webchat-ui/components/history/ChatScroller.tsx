@@ -7,8 +7,8 @@ const CLIENT_HEIGHT_OFFSET = 16 + 70; // banner + typing indicator
 export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
     disableBranding: boolean;
     showFocusOutline: boolean;
-    forceScrollingTo: number;
-    setForceScrollingTo?: (offsetTop: number) => void;
+    scrollToPosition: number;
+    setScrollToPosition?: (position: number) => void;
     tabIndex: 0 | -1;
  }
 
@@ -91,10 +91,10 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
     }
 
     componentDidUpdate(prevProps: InnerProps, prevState: IState, wasScrolledToBottom: boolean) {
-        const { setForceScrollingTo, forceScrollingTo } = this.props;
-        if(forceScrollingTo && setForceScrollingTo) {
-            this.scrollToPosition(forceScrollingTo);
-            setForceScrollingTo(0);
+        const { setScrollToPosition, scrollToPosition } = this.props;
+        if(scrollToPosition && setScrollToPosition) {
+            this.scrollToPosition(scrollToPosition);
+            setScrollToPosition(0);
         } else if (wasScrolledToBottom) {
             this.scrollToBottom();
         }

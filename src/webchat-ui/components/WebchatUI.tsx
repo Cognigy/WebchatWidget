@@ -57,8 +57,8 @@ export interface WebchatUIProps {
     onClose: () => void;
     onConnect: () => void;
     onToggle: () => void;
-    onSetForceScrollingTo: (offsetTop: number) => void;
-    forceScrollingTo: number;
+    onSetScrollToPosition: (position: number) => void;
+    scrollToPosition: number;
 
     onEmitAnalytics: (event: string, payload?: any) => void;
     onTriggerEngagementMessage: () => void;
@@ -417,8 +417,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onDismissFullscreenMessage,
             onClose,
             onToggle,
-            onSetForceScrollingTo,
-            forceScrollingTo,
+            onSetScrollToPosition,
+            scrollToPosition,
             onTriggerEngagementMessage,
             webchatRootProps,
             webchatToggleProps,
@@ -546,8 +546,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             hasGivenRating,
             onShowRatingDialog,
             messages,
-            forceScrollingTo,
-            onSetForceScrollingTo
+            scrollToPosition,
+            onSetScrollToPosition
         } = this.props;
 
         const { enableRating } = config.settings;
@@ -569,8 +569,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 />
                 <HistoryWrapper
                     disableBranding={config.settings.disableBranding}
-                    forceScrollingTo={forceScrollingTo}
-                    setForceScrollingTo={(offsetTop: number) => onSetForceScrollingTo(offsetTop)}
+                    scrollToPosition={scrollToPosition}
+                    setScrollToPosition={onSetScrollToPosition}
                     ref={this.history as any}
                     className="webchat-chat-history"
                     tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
@@ -608,7 +608,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     }
 
     renderHistory() {
-        const { messages, typingIndicator, config, onEmitAnalytics } = this.props;
+        const { messages, typingIndicator, config, onEmitAnalytics, onSetScrollToPosition } = this.props;
         const { messagePlugins = [] } = this.state;
 
         const { enableTypingIndicator } = config.settings;
@@ -621,7 +621,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         key={index}
                         message={message}
                         onSendMessage={this.sendMessage}
-                        setForceScrollingTo={offsetTop => this.props.onSetForceScrollingTo(offsetTop)}
+                        setScrollToPosition={onSetScrollToPosition}
                         onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}
                         onDismissFullscreen={() => { }}
                         config={config}

@@ -8,7 +8,7 @@ import { sanitizeHTML } from '../../../webchat/helper/sanitize';
 interface IAdaptiveCardProps {
     hostConfig?: Partial<HostConfig>;
     onExecuteAction?: (actionJson: any) => void;
-    setForceScrollingTo?: (offsetTop: number) => void;
+    setCardOffsetTop?: (offsetTop: number) => void;
     payload?: boolean;
 }
 
@@ -37,7 +37,7 @@ MSAdaptiveCard.onProcessMarkdown = (text, result) => {
  * https://github.com/microsoft/AdaptiveCards/blob/5b66a52e0e0cee5074a42dcbe688d608e0327ae4/source/nodejs/adaptivecards-react/src/adaptive-card.tsx
  */
 const AdaptiveCard: FC<IAdaptiveCardProps> = (props) => {
-    const { payload, hostConfig, onExecuteAction, setForceScrollingTo } = props;
+    const { payload, hostConfig, onExecuteAction, setCardOffsetTop } = props;
 
     const targetRef = useRef<HTMLDivElement>(null);
     const cardRef = useRef<MSAdaptiveCard>(
@@ -69,8 +69,7 @@ const AdaptiveCard: FC<IAdaptiveCardProps> = (props) => {
             const result = card.render() as HTMLElement;
             targetRef.current.innerHTML = '';
             targetRef.current.appendChild(result);
-            const offsetTop = targetRef.current.offsetTop;
-            setForceScrollingTo && offsetTop && setForceScrollingTo(offsetTop);
+            setCardOffsetTop && setCardOffsetTop(targetRef.current.offsetTop);
         } catch (cardRenderError) {
             console.error('Unable to render Card', cardRenderError);
         }

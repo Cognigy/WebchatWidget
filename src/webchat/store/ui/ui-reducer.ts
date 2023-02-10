@@ -12,7 +12,7 @@ export interface UIState {
     botAvatarOverrideUrl?: string;
     userAvatarOverrideUrl?: string;
     isPageVisible: boolean;
-    forceScrollingTo: number;
+    scrollToPosition: number;
 }
 
 export const SET_OPEN = 'SET_OPEN';
@@ -28,12 +28,12 @@ export const toggleOpen = () => ({
 });
 export type ToggleOpenAction = ReturnType<typeof toggleOpen>;
 
-const SET_FORCE_SCROLLING_TO = 'SET_FORCE_SCROLLING_TO';
-export const setForceScrollingTo = (offsetTop: number) => ({
-    type: SET_FORCE_SCROLLING_TO as 'SET_FORCE_SCROLLING_TO',
-    offsetTop
+const SET_SCROLL_TO_POSITION = 'SET_SCROLL_TO_POSITION';
+export const setScrollToPosition = (position: number) => ({
+    type: SET_SCROLL_TO_POSITION as 'SET_SCROLL_TO_POSITION',
+    position
 });
-export type SetForceScrollingTo = ReturnType<typeof setForceScrollingTo>;
+export type SetScrollToPosition = ReturnType<typeof setScrollToPosition>;
 
 
 const SET_TYPING = 'SET_TYPING';
@@ -95,7 +95,7 @@ const getInitialState = (): UIState => ({
     botAvatarOverrideUrl: undefined,
     userAvatarOverrideUrl: undefined,
     isPageVisible: isPageVisible(),
-    forceScrollingTo: 0
+    scrollToPosition: 0
 });
 
 type UIAction = SetOpenAction 
@@ -106,7 +106,7 @@ type UIAction = SetOpenAction
     | SetBotAvatarOverrideUrlAction 
     | SetUserAvatarOverrideUrlAction
     | SetPageVisibleAction
-    | SetForceScrollingTo;
+    | SetScrollToPosition;
 
 
 export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action) => {
@@ -125,10 +125,10 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
             }
         }
 
-        case SET_FORCE_SCROLLING_TO: {
+        case SET_SCROLL_TO_POSITION: {
             return {
                 ...state,
-                forceScrollingTo: action.offsetTop
+                scrollToPosition: action.position
             }
         }
 
