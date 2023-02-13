@@ -376,7 +376,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
     handleSendRating = ({ rating, comment }) => {
         if (this.history.current) {
-            this.history.current.scrollToBottom();
+            this.history.current.handleScrollTo();
         }
 
         this.props.onSendMessage(
