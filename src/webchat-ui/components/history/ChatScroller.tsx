@@ -46,28 +46,6 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         this.innerRef = React.createRef();
     }
 
-    handleScrollTo = (position?: number) => {
-        const root = this.rootRef.current;
-
-        // we need the container reference to perform a scroll on it
-        if (!root)
-            return;
-
-        const scrollTo = position ? position - 70  : root.scrollHeight - root.clientHeight;
-
-        try {
-            root.scroll({
-                top: scrollTo
-            });
-        } catch (e) {
-            root.scrollTop = scrollTo;
-        }
-    }
-
-    scrollToBottom = () => {
-        return this.handleScrollTo();
-    }
-
     getSnapshotBeforeUpdate() {
         const root = this.rootRef.current;
         if (!root)
@@ -90,6 +68,24 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
 
     componentDidMount() {
         this.handleScrollTo();
+    }
+
+    handleScrollTo = (position?: number) => {
+        const root = this.rootRef.current;
+
+        // we need the container reference to perform a scroll on it
+        if (!root)
+            return;
+
+        const scrollTo = position ? position - 70  : root.scrollHeight - root.clientHeight;
+
+        try {
+            root.scroll({
+                top: scrollTo
+            });
+        } catch (e) {
+            root.scrollTop = scrollTo;
+        }
     }
 
     // Add outline to the parent element when Chat log receives focus
