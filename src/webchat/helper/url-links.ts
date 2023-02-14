@@ -11,6 +11,8 @@ const urlMatcherRegex = /(^|\s)(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\
  */
 export const replaceUrlsWithHTMLanchorElem = (text: string) => {
 
+	if (typeof text !== "string") return text;
+
     const enhancedText = text.replace(urlMatcherRegex, (url, leadingSymbol) => {
         const trimmedUrl = url.trim();
 
