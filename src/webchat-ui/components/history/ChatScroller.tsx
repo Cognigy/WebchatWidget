@@ -77,11 +77,12 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         if (!root)
             return;
 
-        const scrollTo = position ? position - 70  : root.scrollHeight - root.clientHeight;
+        const scrollTo = position ? position - 70 : root.scrollHeight - root.clientHeight;
 
         try {
             root.scroll({
-                top: scrollTo
+                top: scrollTo,
+                behavior: "smooth",
             });
         } catch (e) {
             root.scrollTop = scrollTo;
