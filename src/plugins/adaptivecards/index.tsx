@@ -30,7 +30,7 @@ const isAdaptiveCard = (message: IMessage, config: IWebchatConfig) => {
 
 const AdaptiveCards = (props) => {
 
-    const { theme, onSendMessage, message, config } = props;
+    const { theme, onSendMessage, message, config, setCardOffsetTop } = props;
 
     const getCardPayload = (message: IMessage) => {
 
@@ -84,6 +84,7 @@ const AdaptiveCards = (props) => {
                 payload={cardPayload}
                 onExecuteAction={onExecuteAction}
                 hostConfig={hostConfig}
+                setCardOffsetTop={setCardOffsetTop}
             />
         );
     }, [cardPayload]);

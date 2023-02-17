@@ -12,6 +12,7 @@ export interface UIState {
     botAvatarOverrideUrl?: string;
     userAvatarOverrideUrl?: string;
     isPageVisible: boolean;
+    scrollToPosition: number;
 }
 
 export const SET_OPEN = 'SET_OPEN';
@@ -26,6 +27,14 @@ export const toggleOpen = () => ({
     type: TOGGLE_OPEN as 'TOGGLE_OPEN'
 });
 export type ToggleOpenAction = ReturnType<typeof toggleOpen>;
+
+const SET_SCROLL_TO_POSITION = 'SET_SCROLL_TO_POSITION';
+export const setScrollToPosition = (position: number) => ({
+    type: SET_SCROLL_TO_POSITION as 'SET_SCROLL_TO_POSITION',
+    position
+});
+export type SetScrollToPosition = ReturnType<typeof setScrollToPosition>;
+
 
 const SET_TYPING = 'SET_TYPING';
 export const setTyping = (typing: TTyping) => ({
@@ -85,7 +94,8 @@ const getInitialState = (): UIState => ({
     agentAvatarOverrideUrl: undefined,
     botAvatarOverrideUrl: undefined,
     userAvatarOverrideUrl: undefined,
-    isPageVisible: isPageVisible()
+    isPageVisible: isPageVisible(),
+    scrollToPosition: 0
 });
 
 type UIAction = SetOpenAction 
@@ -95,7 +105,8 @@ type UIAction = SetOpenAction
     | SetAgentAvatarOverrideUrlAction
     | SetBotAvatarOverrideUrlAction 
     | SetUserAvatarOverrideUrlAction
-    | SetPageVisibleAction;
+    | SetPageVisibleAction
+    | SetScrollToPosition;
 
 
 export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action) => {
@@ -111,6 +122,13 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
             return {
                 ...state,
                 typing: action.typing
+            }
+        }
+
+        case SET_SCROLL_TO_POSITION: {
+            return {
+                ...state,
+                scrollToPosition: action.position
             }
         }
 

@@ -19,6 +19,7 @@ export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
   onSendMessage: MessageSender;
   onSetFullscreen?: () => void;
   onDismissFullscreen?: () => void;
+  setScrollToPosition?: (position: number) => void;
   onEmitAnalytics: (name: string, payload?: any) => void;
   plugins: MessagePlugin[];
   isFullscreen?: boolean;
@@ -42,6 +43,7 @@ export default ({
   isFullscreen,
   onSetFullscreen,
   onDismissFullscreen,
+  setScrollToPosition,
   webchatTheme,
   onEmitAnalytics,
   hideAvatar,
@@ -146,6 +148,7 @@ export default ({
               onSendMessage={onSendMessage}
               onSetFullscreen={onSetFullscreen}
               onDismissFullscreen={onDismissFullscreen}
+              setCardOffsetTop={setScrollToPosition}
               attributes={attributes}
               isFullscreen={isFullscreen}
               theme={webchatTheme}

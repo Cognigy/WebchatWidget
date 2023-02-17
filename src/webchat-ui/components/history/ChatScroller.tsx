@@ -7,6 +7,8 @@ const CLIENT_HEIGHT_OFFSET = 16 + 70; // banner + typing indicator
 export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
     disableBranding: boolean;
     showFocusOutline: boolean;
+    scrollToPosition: number;
+    setScrollToPosition?: (position: number) => void;
     tabIndex: 0 | -1;
  }
 
@@ -44,24 +46,6 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         this.innerRef = React.createRef();
     }
 
-    scrollToBottom = () => {
-        const root = this.rootRef.current;
-
-        // we need the container reference to perform a scroll on it
-        if (!root)
-            return;
-
-        const scrollTop = root.scrollHeight - root.clientHeight;
-
-        try {
-            root.scroll({
-                top: scrollTop
-            });
-        } catch (e) {
-            root.scrollTop = scrollTop;
-        }
-    }
-
     getSnapshotBeforeUpdate() {
         const root = this.rootRef.current;
         if (!root)
@@ -73,13 +57,36 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
     }
 
     componentDidUpdate(prevProps: InnerProps, prevState: IState, wasScrolledToBottom: boolean) {
-        if (wasScrolledToBottom) {
-            this.scrollToBottom();
+        const { setScrollToPosition, scrollToPosition } = this.props;
+        if(scrollToPosition && setScrollToPosition) {
+            this.handleScrollTo(scrollToPosition);
+            setScrollToPosition(0);
+        } else if (wasScrolledToBottom) {
+            this.handleScrollTo();
         }
     }
 
     componentDidMount() {
-        this.scrollToBottom();
+        this.handleScrollTo();
+    }
+
+    handleScrollTo = (position?: number) => {
+        const root = this.rootRef.current;
+
+        // we need the container reference to perform a scroll on it
+        if (!root)
+            return;
+
+        const scrollTo = position ? position - 70 : root.scrollHeight - root.clientHeight;
+
+        try {
+            root.scroll({
+                top: scrollTo,
+                behavior: "smooth",
+            });
+        } catch (e) {
+            root.scrollTop = scrollTo;
+        }
     }
 
     // Add outline to the parent element when Chat log receives focus

@@ -57,6 +57,8 @@ export interface WebchatUIProps {
     onClose: () => void;
     onConnect: () => void;
     onToggle: () => void;
+    onSetScrollToPosition: (position: number) => void;
+    scrollToPosition: number;
 
     onEmitAnalytics: (event: string, payload?: any) => void;
     onTriggerEngagementMessage: () => void;
@@ -311,7 +313,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
     sendMessage: MessageSender = (...args) => {
         if (this.history.current) {
-            this.history.current.scrollToBottom();
+            this.history.current.handleScrollTo();
         }
 
         this.props.onSendMessage(...args);
@@ -374,7 +376,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
     handleSendRating = ({ rating, comment }) => {
         if (this.history.current) {
-            this.history.current.scrollToBottom();
+            this.history.current.handleScrollTo();
         }
 
         this.props.onSendMessage(
@@ -415,6 +417,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onDismissFullscreenMessage,
             onClose,
             onToggle,
+            onSetScrollToPosition,
+            scrollToPosition,
             onTriggerEngagementMessage,
             webchatRootProps,
             webchatToggleProps,
@@ -541,7 +545,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             config,
             hasGivenRating,
             onShowRatingDialog,
-            messages
+            messages,
+            scrollToPosition,
+            onSetScrollToPosition
         } = this.props;
 
         const { enableRating } = config.settings;
@@ -563,6 +569,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 />
                 <HistoryWrapper
                     disableBranding={config.settings.disableBranding}
+                    scrollToPosition={scrollToPosition}
+                    setScrollToPosition={onSetScrollToPosition}
                     ref={this.history as any}
                     className="webchat-chat-history"
                     tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
@@ -600,7 +608,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     }
 
     renderHistory() {
-        const { messages, typingIndicator, config, onEmitAnalytics } = this.props;
+        const { messages, typingIndicator, config, onEmitAnalytics, onSetScrollToPosition } = this.props;
         const { messagePlugins = [] } = this.state;
 
         const { enableTypingIndicator } = config.settings;
@@ -613,13 +621,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         key={index}
                         message={message}
                         onSendMessage={this.sendMessage}
+                        setScrollToPosition={onSetScrollToPosition}
                         onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}
                         onDismissFullscreen={() => { }}
                         config={config}
                         plugins={messagePlugins}
                         webchatTheme={this.state.theme}
                         onEmitAnalytics={onEmitAnalytics}
-                    />
+                    />  
                 ))}
                 {enableTypingIndicator && (
                     <TypingIndicator active={isTyping} />

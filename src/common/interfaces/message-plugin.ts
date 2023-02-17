@@ -15,6 +15,7 @@ export interface MessageComponentProps {
     onEmitAnalytics: (name: string, data?: any) => void;
     onSendMessage: MessageSender;
     onSetFullscreen?: () => void;
+    setCardOffsetTop?: (position: number) => void;
     theme: IWebchatTheme;
 }
 
