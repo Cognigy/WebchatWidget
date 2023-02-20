@@ -8,8 +8,7 @@ import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
 import { getDivider } from '../Divider';
 import { getMessengerButton } from '../MessengerButton/MessengerButton';
-import { getFlexImage } from '../FlexImage';
-import { getBackgroundImage } from '../../lib/css';
+import { getMessengerImage } from '../MessengerImage/MessengerImage';
 import { IWebchatConfig } from '../../../../../common/interfaces/webchat-config';
 import { useRandomId } from '../../../../../common/utils/randomId';
 import "../../../../../assets/style.css";
@@ -24,19 +23,11 @@ export const getMessengerMediaTemplate = ({
     styled
 }: MessagePluginFactoryProps) => {
     const MessengerFrame = getMessengerFrame({ React, styled });
-    const FlexImage = getFlexImage({ React, styled });
+    const MessengerImage = getMessengerImage({ React, styled });
 
-    const FourThirds = styled.div({
-        paddingTop: "75%"
-    });
-
-    const FixedImage = styled(FourThirds)(() => ({
-        backgroundSize: "cover",
-        backgroundPosition: "center center"
-    }));
-
-    const Video = styled(FourThirds)({
-        position: "relative"
+    const Video = styled.div({
+        paddingTop: "75%",
+        position: "relative",
     });
 
     const VideoPlayer = styled(ReactPlayer)({
@@ -69,7 +60,7 @@ export const getMessengerMediaTemplate = ({
 
         if (!element) return null;
 
-        const handleFocus = (player) => {
+        const handleFocus = (player: ReactPlayer) => {
             const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
 
             if(!config?.settings.enableAutoFocus) return;
@@ -102,20 +93,12 @@ export const getMessengerMediaTemplate = ({
                     ))}
                 </div>
             )
-        } 
+        }
 
         if (media_type === "image") {
-            const image = config.settings.dynamicImageAspectRatio ? (
-                <FlexImage src={url} alt={altText || "Attachment"} />
-            ) : (
-                    <FixedImage style={{ backgroundImage: getBackgroundImage(url) }}>   
-                        <span role="img" aria-label={altText || "Attachment Image"}> </span>
-                    </FixedImage>
-                );
-
             return (
                 <MessengerFrame {...divProps} className="webchat-media-template-image">
-                    {image}
+                    <MessengerImage url={url} config={config} altText={altText} />
                     {imageButtons()}
                 </MessengerFrame>
             );
