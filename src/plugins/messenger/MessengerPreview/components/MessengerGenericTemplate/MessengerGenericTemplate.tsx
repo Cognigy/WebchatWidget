@@ -14,7 +14,7 @@ import { getMessengerSubtitle } from '../MessengerSubtitle';
 import { Carousel } from 'react-responsive-carousel';
 
 import "./carousel.css";
-import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
+import { IWebchatConfig } from "../../../../../common/interfaces/webchat-config";
 import uuid from "uuid";
 import { sanitizeHTML } from '../../../../../webchat/helper/sanitize';
 
@@ -56,9 +56,9 @@ export const getMessengerGenericTemplate = ({
         }
     }));
 
-    const ElementRoot = styled.div(({ theme }) => ({
+    const ElementRoot = styled.div({
         display: "flex"
-    }));
+    });
 
     const Frame = styled(MessengerFrame)({
         backgroundColor: "white",
@@ -86,9 +86,9 @@ export const getMessengerGenericTemplate = ({
         IMessengerGenericTemplateProps & React.HTMLProps<HTMLDivElement>,
         IMessengerGenericTemplateState
         > {
-        carouselRootId: string = `webchatCarouselTemplateRoot-${uuid.v4()}`;
-        carouselContentId: string = `webchatCarouselContentButton-${uuid.v4()}`;
-        carouselButtonId: string = `webchatCarouselTemplateButton-${uuid.v4()}`;
+        carouselRootId = `webchatCarouselTemplateRoot-${uuid.v4()}`;
+        carouselContentId = `webchatCarouselContentButton-${uuid.v4()}`;
+        carouselButtonId = `webchatCarouselTemplateButton-${uuid.v4()}`;
 
         /**
          * Controlling the selectedItem state causes unexpected scroll behavior in IE11 and Edge 15 to 18. 
@@ -128,7 +128,7 @@ export const getMessengerGenericTemplate = ({
 
         // Change the selectedItem state, in order to scroll the card with a focused element into view
         handleScrollToView = (index) => {
-        	if(!this.isIE11Browser && !this.isLegacyEdgeBrowser) {
+            if(!this.isIE11Browser && !this.isLegacyEdgeBrowser) {
                 this.setState({selectedItem: index});
             }
         }
