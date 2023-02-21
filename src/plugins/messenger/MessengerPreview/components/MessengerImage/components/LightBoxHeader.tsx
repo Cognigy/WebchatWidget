@@ -62,7 +62,7 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
                         <DownloadIcon />
                     </Icon>
                     <Icon onClick={onClose}>
-                        <CloseIcon />
+                        <CloseIcon data-test="lightbox-close" />
                     </Icon>
                 </IconsGroup>
             </Header>

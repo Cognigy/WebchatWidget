@@ -56,6 +56,7 @@ export const getLightbox = ({ React, styled }: MessagePluginFactoryProps) => {
             <Wrapper>
                 <Content onClick={handleOnClickBackdrop}>
                     <FullImage
+                        data-test="image-lightbox"
                         alt={altText || "Attachment Full"}
                         src={url}
                         onClick={handleOnClickImage}

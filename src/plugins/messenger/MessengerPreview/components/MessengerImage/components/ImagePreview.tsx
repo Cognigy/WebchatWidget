@@ -38,12 +38,14 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
                     src={url}
                     alt={altText || "Attachment"}
                     onClick={() => onExpand()}
+                    data-test="image-preview"
                 />
             ) : (
                 <FixedImage
                     style={{ backgroundImage: getBackgroundImage(url) }}
                     onClick={() => onExpand()}
                     template={template}
+                    data-test="image-preview"
                 >   
                     <span role="img" aria-label={altText || "Attachment Image"} />
                 </FixedImage>
