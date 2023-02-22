@@ -40,7 +40,10 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
         marginLeft: '10px',
         backgroundColor: 'rgba(0, 0, 0, 0)',
         "& svg": {
-           fill: 'white'
+            fill: 'darkGrey',
+            "&:focus, &:hover": {
+                fill: 'white'
+            }
         },
     })
 
@@ -58,10 +61,10 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
             <Header>
                 <Caption>{altText}</Caption>
                 <IconsGroup>
-                    <Icon onClick={handleDownload} download>
+                    <Icon role="button" onClick={handleDownload} download aria-label="Download fullsize image">
                         <DownloadIcon />
                     </Icon>
-                    <Icon onClick={onClose}>
+                    <Icon role="button" onClick={onClose} aria-label="Close fullsize image modal">
                         <CloseIcon data-test="lightbox-close" />
                     </Icon>
                 </IconsGroup>

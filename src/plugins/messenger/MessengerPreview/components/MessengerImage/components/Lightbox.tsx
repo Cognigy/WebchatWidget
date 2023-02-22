@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useMessangerImageContext } from '../MessangerImageContext';
 import { MessagePluginFactoryProps } from "../../../../../../common/interfaces/message-plugin";
 import { getLightBoxHeader } from '../../MessengerImage/components/LightBoxHeader';
@@ -38,6 +39,14 @@ export const getLightbox = ({ React, styled }: MessagePluginFactoryProps) => {
     const LightBox = () => {
         const { url, altText, onClose } = useMessangerImageContext();
 
+        useEffect(() => {
+            const close = (e: KeyboardEvent) => {
+                e.code === "Escape" && onClose && onClose();
+            }
+            window.addEventListener('keydown', close);
+            return () => window.removeEventListener('keydown', close);
+        },[])
+
         const handleOnClickBackdrop = (event: React.MouseEvent<HTMLElement>) => {
             event.preventDefault();
             onClose();
@@ -53,7 +62,7 @@ export const getLightbox = ({ React, styled }: MessagePluginFactoryProps) => {
         }
 
         return (
-            <Wrapper>
+            <Wrapper role="dialog" aria-label="Lightbox">
                 <Content onClick={handleOnClickBackdrop}>
                     <FullImage
                         data-test="image-lightbox"
