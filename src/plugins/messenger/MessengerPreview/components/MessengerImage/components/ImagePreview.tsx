@@ -33,12 +33,18 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
     const ImagePreview = () => {
         const { config, url, altText, template, onExpand } = useMessangerImageContext();
 
+        const handleKeyDown = (event: KeyboardEvent) => {
+            event.code === "Enter" && onExpand && onExpand();
+        }
+
         return config.settings.dynamicImageAspectRatio ? (
                 <FlexImage
                     src={url}
                     alt={altText || "Attachment"}
                     onClick={() => onExpand()}
                     data-test="image-preview"
+                    tabIndex="0"
+                    onKeyDown={handleKeyDown}
                 />
             ) : (
                 <FixedImage
@@ -46,6 +52,8 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
                     onClick={() => onExpand()}
                     template={template}
                     data-test="image-preview"
+                    tabIndex="0"
+                    onKeyDown={handleKeyDown}
                 >   
                     <span role="img" aria-label={altText || "Attachment Image"} />
                 </FixedImage>

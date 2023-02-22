@@ -57,14 +57,35 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
             }
         }
 
+        const handleKeyDownload = (event: KeyboardEvent) => {
+            event.code === "Enter" && handleDownload();
+        }
+
+        const handleKeyClose = (event: KeyboardEvent) => {
+            event.code === "Enter" && onClose && onClose();
+        }
+
         return (
             <Header>
                 <Caption>{altText}</Caption>
                 <IconsGroup>
-                    <Icon role="button" onClick={handleDownload} download aria-label="Download fullsize image">
+                    <Icon
+                        role="button"
+                        onClick={handleDownload}
+                        onKeyDown={handleKeyDownload}
+                        download
+                        tabIndex="0"
+                        aria-label="Download fullsize image"
+                    >
                         <DownloadIcon />
                     </Icon>
-                    <Icon role="button" onClick={onClose} aria-label="Close fullsize image modal">
+                    <Icon
+                        role="button"
+                        onClick={onClose}
+                        onKeyDown={handleKeyClose}
+                        tabIndex="0"
+                        aria-label="Close fullsize image modal"
+                    >
                         <CloseIcon data-test="lightbox-close" />
                     </Icon>
                 </IconsGroup>

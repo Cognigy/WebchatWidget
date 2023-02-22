@@ -40,12 +40,12 @@ export const getLightbox = ({ React, styled }: MessagePluginFactoryProps) => {
         const { url, altText, onClose } = useMessangerImageContext();
 
         useEffect(() => {
-            const close = (e: KeyboardEvent) => {
-                e.code === "Escape" && onClose && onClose();
+            const close = (event: KeyboardEvent) => {
+                event.code === "Escape" && onClose && onClose();
             }
             window.addEventListener('keydown', close);
             return () => window.removeEventListener('keydown', close);
-        },[])
+        }, []);
 
         const handleOnClickBackdrop = (event: React.MouseEvent<HTMLElement>) => {
             event.preventDefault();
