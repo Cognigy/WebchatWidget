@@ -50,7 +50,7 @@ describe("Message with Image", () => {
 
         cy.withMessageFixture('image', () => {
             cy.wait(1000);
-            cy.get(".webchat-media-template-image > img").then(element => {
+            cy.get(".webchat-media-template-image > div > img").then(element => {
                 expect(element.innerHeight()).to.equal(element.innerWidth());
             });
         })
