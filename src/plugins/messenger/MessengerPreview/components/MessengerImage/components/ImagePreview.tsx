@@ -44,7 +44,7 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
             event.code === "Enter" && onExpand && onExpand();
         }
 
-        return !config.settings.dynamicImageAspectRatio ? (
+        return config.settings.dynamicImageAspectRatio ? (
                 <div tabIndex={0} role="button" aria-label="View Image in fullsize" onClick={() => onExpand()}>
                     <FlexImage
                     src={url}
