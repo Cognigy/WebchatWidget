@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useMessangerImageContext } from '../MessangerImageContext';
 import { MessagePluginFactoryProps } from "../../../../../../common/interfaces/message-plugin";
 import CloseIcon from '../../../../../../webchat-ui/assets/baseline-close-24px.svg';
@@ -5,22 +6,24 @@ import DownloadIcon from '../../../../../../webchat-ui/assets/baseline-download-
 
 export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) => {
 
-    const Header = styled.div({
+    const Header = styled.div(({ theme }) => ({
         position: 'absolute',
         top: 0,
         height: '56px',
         width: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        backgroundColor: theme.primaryColor,
         overflow: 'hidden',
         display: 'flex',
         justifyContent: 'space-between'
-    })
+    }))
 
     const Caption = styled.div({
         display: 'flex',
         alignItems: 'center',
         marginLeft: '15px',
-        color: 'white'
+        color: 'white',
+        fontWeight: '700',
+        fontSize: '16px'
     })
 
     const IconsGroup = styled.div({
@@ -29,26 +32,30 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
         marginRight: '10px'
     })
 
-    const Icon = styled.a({
-        display: 'inline-block',
-        fontSize: '40px',
-        cursor: 'pointer',
-        lineHeight: '40px',
+    const Icon = styled.button({
+        padding: '8px',
         boxSizing: 'border-box',
+        backgroundColor: 'transparent',
         border: 'none',
-        padding: '0px 5px 0px 5px',
-        marginLeft: '10px',
-        backgroundColor: 'rgba(0, 0, 0, 0)',
+        outline: 'none',
+        margin: 0,
+        transition: 'background-color .1s ease-out,color .1s ease-out,fill .1s ease-out',
+        color: 'white',
+        borderRadius: '50%',
+        cursor: 'pointer',
         "& svg": {
-            fill: 'darkGrey',
-            "&:focus, &:hover": {
-                fill: 'white'
-            }
+            fill: 'white',
         },
+        "&:hover, &:focus": {
+            backgroundColor: 'hsl(211,60%,33%)',
+            opacity: '0.85'
+        }
     })
 
     const LightBoxHeader = () => {
         const { url, altText, onClose } = useMessangerImageContext();
+
+        const firstButton = useRef<HTMLElement>(null);
 
         const handleDownload = () => {
             const isSameDomain = document.location.hostname === new URL(url, document.location.toString()).hostname;
@@ -62,6 +69,10 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
         }
 
         const handleKeyClose = (event: KeyboardEvent) => {
+            if (event.key === "Tab" || event.shiftKey) {
+                firstButton.current?.focus();
+                event.preventDefault();
+            }   
             event.code === "Enter" && onClose && onClose();
         }
 
@@ -70,7 +81,7 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
                 <Caption>{altText}</Caption>
                 <IconsGroup>
                     <Icon
-                        role="button"
+                        ref={firstButton}
                         onClick={handleDownload}
                         onKeyDown={handleKeyDownload}
                         download
@@ -80,7 +91,6 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
                         <DownloadIcon />
                     </Icon>
                     <Icon
-                        role="button"
                         onClick={onClose}
                         onKeyDown={handleKeyClose}
                         tabIndex="0"
