@@ -17,14 +17,14 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
         justifyContent: 'space-between'
     }))
 
-    const Caption = styled.div({
+    const Caption = styled.div(({ theme }) => ({
         display: 'flex',
         alignItems: 'center',
         marginLeft: '15px',
-        color: 'white',
+        color: theme.primaryContrastColor,
         fontWeight: '700',
         fontSize: '16px'
-    })
+    }))
 
     const IconsGroup = styled.div({
         display: 'flex',
@@ -32,7 +32,7 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
         marginRight: '10px'
     })
 
-    const Icon = styled.button({
+    const Icon = styled.button(({ theme }) => ({
         padding: '8px',
         boxSizing: 'border-box',
         backgroundColor: 'transparent',
@@ -40,17 +40,17 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
         outline: 'none',
         margin: 0,
         transition: 'background-color .1s ease-out,color .1s ease-out,fill .1s ease-out',
-        color: 'white',
+        color: theme.primaryContrastColor,
         borderRadius: '50%',
         cursor: 'pointer',
         "& svg": {
-            fill: 'white',
+            fill: theme.primaryContrastColor,
         },
         "&:hover, &:focus": {
-            backgroundColor: 'hsl(211,60%,33%)',
+            backgroundColor: theme.primaryStrongColor,
             opacity: '0.85'
         }
-    })
+    }))
 
     const LightBoxHeader = () => {
         const { url, altText, onClose } = useMessangerImageContext();
@@ -65,7 +65,7 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
         }
 
         const handleKeyDownload = (event: KeyboardEvent) => {
-            event.code === "Enter" && handleDownload();
+            event.key === "Enter" && handleDownload();
         }
 
         const handleKeyClose = (event: KeyboardEvent) => {

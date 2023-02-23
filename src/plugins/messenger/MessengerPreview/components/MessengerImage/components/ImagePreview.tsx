@@ -34,23 +34,35 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
     const FlexImage = styled.img({
         display: 'block',
         width: '100%',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        "&:hover": {
+            opacity: '.8'
+        },
+        "&:focus": {
+            opacity: '.8',
+            outline: 'none'
+        },
     })
 
     const ImagePreview = () => {
         const { config, url, altText, template, onExpand } = useMessangerImageContext();
 
-        const handleKeyDown = (event: KeyboardEvent) => {
-            event.code === "Enter" && onExpand && onExpand();
+        const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+            event.key === "Enter" && onExpand && onExpand();
         }
 
         return config.settings.dynamicImageAspectRatio ? (
-                <div tabIndex={0} role="button" aria-label="View Image in fullsize" onClick={() => onExpand()}>
-                    <FlexImage
-                    src={url}
-                    alt={altText || "Attachment"}
-                    data-test="image-preview"
+                <div
+                    tabIndex={0}
+                    role="button"
+                    aria-label="View Image in fullsize"
+                    onClick={() => onExpand()}
                     onKeyDown={handleKeyDown}
+                >
+                    <FlexImage
+                        src={url}
+                        alt={altText || "Attachment"}
+                        data-test="image-preview"
                     />
                 </div>
             ) : (
