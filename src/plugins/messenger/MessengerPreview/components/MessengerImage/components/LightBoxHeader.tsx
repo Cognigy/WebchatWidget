@@ -84,8 +84,6 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
                         ref={firstButton}
                         onClick={handleDownload}
                         onKeyDown={handleKeyDownload}
-                        download
-                        tabIndex="0"
                         aria-label="Download fullsize image"
                     >
                         <DownloadIcon />
@@ -93,7 +91,6 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
                     <Icon
                         onClick={onClose}
                         onKeyDown={handleKeyClose}
-                        tabIndex="0"
                         aria-label="Close fullsize image modal"
                     >
                         <CloseIcon data-test="lightbox-close" />

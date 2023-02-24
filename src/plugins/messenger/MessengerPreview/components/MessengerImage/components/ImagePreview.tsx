@@ -31,10 +31,7 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
         },
     }, templateStyle);
 
-    const FlexImage = styled.img({
-        display: 'block',
-        width: '100%',
-        cursor: 'pointer',
+    const FlexImageDiv = styled.div({
         "&:hover": {
             opacity: '.8'
         },
@@ -42,6 +39,12 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
             opacity: '.8',
             outline: 'none'
         },
+    });
+
+    const FlexImage = styled.img({ 
+        display: 'block',
+        width: '100%',
+        cursor: 'pointer'
     })
 
     const ImagePreview = () => {
@@ -51,9 +54,9 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
             event.key === "Enter" && onExpand && onExpand();
         }
 
-        return config.settings.dynamicImageAspectRatio ? (
-                <div
-                    tabIndex={0}
+        return !config.settings.dynamicImageAspectRatio ? (
+                <FlexImageDiv
+                    tabIndex="0"
                     role="button"
                     aria-label="View Image in fullsize"
                     onClick={() => onExpand()}
@@ -64,7 +67,7 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
                         alt={altText || "Attachment"}
                         data-test="image-preview"
                     />
-                </div>
+                </FlexImageDiv>
             ) : (
                 <FixedImage
                     style={{ backgroundImage: getBackgroundImage(url) }}
