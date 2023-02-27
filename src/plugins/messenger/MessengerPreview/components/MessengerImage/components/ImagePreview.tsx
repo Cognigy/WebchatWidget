@@ -49,13 +49,13 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
 
         return config.settings.dynamicImageAspectRatio ? (
                 <FlexImageDiv
-                    tabIndex="0"
-                    role="button"
-                    aria-label="View Image in fullsize"
                     onClick={() => onExpand()}
                     data-test="image-preview"
                     onKeyDown={handleKeyDown}
                     isDownloadable={isDownloadable}
+                    tabIndex={isDownloadable ? "0" : "-1"}
+                    role={isDownloadable ? "button" : "img"}
+                    aria-label={isDownloadable ? "View Image in fullsize" : ""}
                 >
                     <FlexImage src={url} alt={altText || "Attachment"} />
                 </FlexImageDiv>
@@ -66,10 +66,10 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
                     template={template}
                     isDownloadable={isDownloadable}
                     data-test="image-preview"
-                    tabIndex="0"
                     onKeyDown={handleKeyDown}
-                    role="button"
-                    aria-label="View Image in fullsize"
+                    tabIndex={isDownloadable ? "0" : "-1"}
+                    role={isDownloadable ? "button" : "img"}
+                    aria-label={isDownloadable ? "View Image in fullsize" : ""}
                 >   
                     <span role="img" aria-label={altText || "Attachment Image"} />
                 </FixedImage>
