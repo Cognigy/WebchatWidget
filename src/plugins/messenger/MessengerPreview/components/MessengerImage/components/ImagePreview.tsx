@@ -53,14 +53,11 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
                     role="button"
                     aria-label="View Image in fullsize"
                     onClick={() => onExpand()}
+                    data-test="image-preview"
                     onKeyDown={handleKeyDown}
                     isDownloadable={isDownloadable}
                 >
-                    <FlexImage
-                        src={url}
-                        alt={altText || "Attachment"}
-                        data-test="image-preview"
-                    />
+                    <FlexImage src={url} alt={altText || "Attachment"} />
                 </FlexImageDiv>
             ) : (
                 <FixedImage
