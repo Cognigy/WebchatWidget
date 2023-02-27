@@ -12,10 +12,11 @@ export const getMessengerImage = ({ React, styled }: MessagePluginFactoryProps) 
 
     const MessengerImage = (props: IFBMImage & React.HTMLProps<HTMLDivElement>) => {
         const [showLightbox, setShowLightbox] = useState(false);
+        const { isDownloadable } = props;
 
         return (
             <MessangerImageContext.Provider value={{
-                onExpand: () => setShowLightbox(true),
+                onExpand: () => isDownloadable && setShowLightbox(true),
                 onClose: () => setShowLightbox(false),
                 ...props
             }}>

@@ -18,28 +18,21 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
         }
     })[template];
 
-    const FixedImage = styled.div({
+    const FlexImageDiv = styled.div(({ isDownloadable }) => ({
+        cursor: isDownloadable ? 'pointer' : 'default',
+        "&:hover": {
+            opacity: isDownloadable ? '.8' : '1',
+        },
+        "&:focus": {
+            opacity: isDownloadable ? '.8' : '1',
+            outline: 'none'
+        },
+    }));
+
+    const FixedImage = styled(FlexImageDiv)({
         backgroundSize: "cover",
         backgroundPosition: "center center",
-        cursor: 'pointer',
-        "&:hover": {
-            opacity: '.8'
-        },
-        "&:focus": {
-            opacity: '.8',
-            outline: 'none'
-        },
     }, templateStyle);
-
-    const FlexImageDiv = styled.div({
-        "&:hover": {
-            opacity: '.8'
-        },
-        "&:focus": {
-            opacity: '.8',
-            outline: 'none'
-        },
-    });
 
     const FlexImage = styled.img({ 
         display: 'block',
@@ -48,7 +41,7 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
     })
 
     const ImagePreview = () => {
-        const { config, url, altText, template, onExpand } = useMessangerImageContext();
+        const { config, url, altText, template, isDownloadable, onExpand } = useMessangerImageContext();
 
         const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
             event.key === "Enter" && onExpand && onExpand();
@@ -61,6 +54,7 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
                     aria-label="View Image in fullsize"
                     onClick={() => onExpand()}
                     onKeyDown={handleKeyDown}
+                    isDownloadable={isDownloadable}
                 >
                     <FlexImage
                         src={url}
@@ -73,6 +67,7 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
                     style={{ backgroundImage: getBackgroundImage(url) }}
                     onClick={() => onExpand()}
                     template={template}
+                    isDownloadable={isDownloadable}
                     data-test="image-preview"
                     tabIndex="0"
                     onKeyDown={handleKeyDown}

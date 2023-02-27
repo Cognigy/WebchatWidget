@@ -49,6 +49,8 @@ export const getMessengerMediaTemplate = ({
 
         const { media_type, url, altText, buttons } = element as IFBMMediaTemplateUrlElement;
 
+        const isDownloadableImage = buttons.find(b => b.type === 'web_url') !== undefined && media_type === "image";
+
         const hasMoreThanOnebutton = buttons && buttons.length > 1;
         const hasNobuttons = !buttons || buttons?.length < 1;
 
@@ -98,7 +100,7 @@ export const getMessengerMediaTemplate = ({
         if (media_type === "image") {
             return (
                 <MessengerFrame {...divProps} className="webchat-media-template-image">
-                    <MessengerImage url={url} config={config} altText={altText} />
+                    <MessengerImage url={url} config={config} altText={altText} isDownloadable={isDownloadableImage} />
                     {imageButtons()}
                 </MessengerFrame>
             );
