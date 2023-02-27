@@ -43,6 +43,10 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
     const ImagePreview = () => {
         const { config, url, altText, template, isDownloadable, onExpand } = useMessangerImageContext();
 
+        const divTabIndex = isDownloadable ? "0" : "-1";
+        const divRole = isDownloadable ? "button" : null;
+        const divAriaLabel = isDownloadable ? "View Image in fullsize" : null;
+
         const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
             event.key === "Enter" && onExpand && onExpand();
         }
@@ -50,14 +54,13 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
         return config.settings.dynamicImageAspectRatio ? (
                 <FlexImageDiv
                     onClick={() => onExpand()}
-                    data-test="image-preview"
                     onKeyDown={handleKeyDown}
                     isDownloadable={isDownloadable}
-                    tabIndex={isDownloadable ? "0" : "-1"}
-                    role={isDownloadable ? "button" : "img"}
-                    aria-label={isDownloadable ? "View Image in fullsize" : ""}
+                    tabIndex={divTabIndex}
+                    role={divRole}
+                    aria-label={divAriaLabel}
                 >
-                    <FlexImage src={url} alt={altText || "Attachment"} />
+                    <FlexImage src={url} alt={altText || "Attachment Image"} />
                 </FlexImageDiv>
             ) : (
                 <FixedImage
@@ -65,11 +68,10 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
                     onClick={() => onExpand()}
                     template={template}
                     isDownloadable={isDownloadable}
-                    data-test="image-preview"
                     onKeyDown={handleKeyDown}
-                    tabIndex={isDownloadable ? "0" : "-1"}
-                    role={isDownloadable ? "button" : "img"}
-                    aria-label={isDownloadable ? "View Image in fullsize" : ""}
+                    tabIndex={divTabIndex}
+                    role={divRole}
+                    aria-label={divAriaLabel}
                 >   
                     <span role="img" aria-label={altText || "Attachment Image"} />
                 </FixedImage>
