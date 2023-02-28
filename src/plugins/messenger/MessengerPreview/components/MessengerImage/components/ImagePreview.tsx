@@ -36,8 +36,7 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
 
     const FlexImage = styled.img({ 
         display: 'block',
-        width: '100%',
-        cursor: 'pointer'
+        width: '100%'
     })
 
     const ImagePreview = () => {
