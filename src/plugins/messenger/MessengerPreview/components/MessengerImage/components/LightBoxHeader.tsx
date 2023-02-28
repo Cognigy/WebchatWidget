@@ -58,10 +58,7 @@ export const getLightBoxHeader = ({ React, styled }: MessagePluginFactoryProps) 
         const firstButton = useRef<HTMLElement>(null);
 
         const handleDownload = () => {
-            const isSameDomain = document.location.hostname === new URL(url, document.location.toString()).hostname;
-            if (!isSameDomain) {
-                window.open(url, '_blank');
-            }
+            window.open(url, '_blank');
         }
 
         const handleKeyDownload = (event: KeyboardEvent) => {
