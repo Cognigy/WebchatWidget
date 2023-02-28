@@ -6,6 +6,7 @@ import { IWithFBMActionEventHandler } from '../../MessengerPreview.interface';
 import { getDivider } from '../Divider';
 import { MessagePluginFactoryProps } from '../../../../../common/interfaces/message-plugin';
 import { getMessengerButton } from '../MessengerButton/MessengerButton';
+import { getMessengerImage } from '../MessengerImage/MessengerImage';
 import { getMessengerContent } from '../MessengerContent';
 import { getMessengerFrame } from '../MessengerFrame';
 import { getMessengerTitle } from '../MessengerTitle';
@@ -13,9 +14,7 @@ import { getMessengerSubtitle } from '../MessengerSubtitle';
 import { Carousel } from 'react-responsive-carousel';
 
 import "./carousel.css";
-import { IWebchatConfig } from "@cognigy/webchat-client/lib/interfaces/webchat-config";
-import { getFlexImage } from "../FlexImage";
-import { getBackgroundImage } from "../../lib/css";
+import { IWebchatConfig } from "../../../../../common/interfaces/webchat-config";
 import uuid from "uuid";
 import { sanitizeHTML } from '../../../../../webchat/helper/sanitize';
 
@@ -39,8 +38,8 @@ export const getMessengerGenericTemplate = ({
     const MessengerFrame = getMessengerFrame({ React, styled });
     const MessengerContent = getMessengerContent({ React, styled });
     const MessengerButton = getMessengerButton({ React, styled });
+    const MessengerImage = getMessengerImage({ React, styled });
     const Divider = getDivider({ React, styled });
-    const FlexImage = getFlexImage({ React, styled });
 
     const CarouselRoot = styled(Carousel)(({ theme }) => ({
         marginBottom: -32,
@@ -57,9 +56,9 @@ export const getMessengerGenericTemplate = ({
         }
     }));
 
-    const ElementRoot = styled.div(({ theme }) => ({
+    const ElementRoot = styled.div({
         display: "flex"
-    }));
+    });
 
     const Frame = styled(MessengerFrame)({
         backgroundColor: "white",
@@ -71,14 +70,6 @@ export const getMessengerGenericTemplate = ({
         "&.wide": {
             width: 320
         }
-    });
-
-    const FixedImage = styled.div({
-        paddingTop: "50%",
-        backgroundSize: "cover",
-        backgroundPosition: "center center",
-        display: "table",
-        width: "100%"
     });
 
     const GenericContent = styled(MessengerContent)({
@@ -95,9 +86,9 @@ export const getMessengerGenericTemplate = ({
         IMessengerGenericTemplateProps & React.HTMLProps<HTMLDivElement>,
         IMessengerGenericTemplateState
         > {
-        carouselRootId: string = `webchatCarouselTemplateRoot-${uuid.v4()}`;
-        carouselContentId: string = `webchatCarouselContentButton-${uuid.v4()}`;
-        carouselButtonId: string = `webchatCarouselTemplateButton-${uuid.v4()}`;
+        carouselRootId = `webchatCarouselTemplateRoot-${uuid.v4()}`;
+        carouselContentId = `webchatCarouselContentButton-${uuid.v4()}`;
+        carouselButtonId = `webchatCarouselTemplateButton-${uuid.v4()}`;
 
         /**
          * Controlling the selectedItem state causes unexpected scroll behavior in IE11 and Edge 15 to 18. 
@@ -137,7 +128,7 @@ export const getMessengerGenericTemplate = ({
 
         // Change the selectedItem state, in order to scroll the card with a focused element into view
         handleScrollToView = (index) => {
-        	if(!this.isIE11Browser && !this.isLegacyEdgeBrowser) {
+            if(!this.isIE11Browser && !this.isLegacyEdgeBrowser) {
                 this.setState({selectedItem: index});
             }
         }
@@ -191,22 +182,6 @@ export const getMessengerGenericTemplate = ({
             const carouselHeaderA11yProps = default_action?.url ? {"aria-label": carouselTitle + "Opens in new tab"} :
                 {"aria-labelledby": carouselAriaLabelledby}
 
-            
-            const image = image_url ? (
-                this.props.config.settings.dynamicImageAspectRatio ? (
-                    <FlexImage
-                        src={image_url}
-                        alt={image_alt_text || ""}
-                    />
-                ) : (
-                        <FixedImage
-                            style={{ backgroundImage: getBackgroundImage(image_url) }}
-                        > 
-                            <span role="img" aria-label={image_alt_text || "Attachment Image"}> </span>
-                        </FixedImage>
-                    )
-            ) : null;
-
             const handleKeyDown = (event, default_action) => {
                 if(default_action && event.key === "Enter") {
                     onAction(event, default_action);
@@ -225,7 +200,7 @@ export const getMessengerGenericTemplate = ({
                         onFocus={() => this.handleScrollToView(index)}
                         {...carouselRootA11yProps}
                     >
-                        {image}
+                        <MessengerImage url={image_url} config={this.props.config} altText={image_alt_text} template="generic" />
                         <GenericContent
                             onClick={e => default_action && onAction(e, default_action)}
                             className={`webchat-carousel-template-content ${default_action?.url ? "link" : ""}`}

@@ -3,10 +3,9 @@ import { IWithFBMActionEventHandler } from '../../../MessengerPreview.interface'
 import { MessagePluginFactoryProps } from '../../../../../../common/interfaces/message-plugin';
 import { getMessengerSubtitle } from '../../MessengerSubtitle';
 import { getMessengerTitle } from '../../MessengerTitle';
-import { getFlexImage } from '../../FlexImage';
+import { getMessengerImage } from '../../MessengerImage/MessengerImage';
 import { getMessengerListButton } from '../../MessengerListButton';
 import { getButtonLabel } from '../../MessengerButton/lib/messengerButtonHelpers';
-import { getBackgroundImage } from '../../../lib/css';
 import { IWebchatConfig } from '../../../../../../common/interfaces/webchat-config';
 import { useRandomId } from '../../../../../../common/utils/randomId';
 import { sanitizeHTML } from '../../../../../../webchat/helper/sanitize';
@@ -20,8 +19,8 @@ interface IMessengerListTemplateHeaderElementProps extends IWithFBMActionEventHa
 export const getMessengerListTemplateHeaderElement = ({ React, styled }: MessagePluginFactoryProps) => {
     const MessengerSubtitle = getMessengerSubtitle({ React, styled });
     const MessengerTitle = getMessengerTitle({ React, styled });
-    const FlexImage = getFlexImage({ React, styled });
     const ListButton = getMessengerListButton({ React, styled });
+    const MessengerImage = getMessengerImage({ React, styled });
 
     const Root = styled.div(() => ({
         position: 'relative',
@@ -56,12 +55,6 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
     const Subtitle = styled(MessengerSubtitle)({
         color: 'hsla(0, 0%, 100%, .9)'
     });
-
-    const FixedImage = styled.div(() => ({
-        paddingTop: '50%',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center'
-    }));
 
     const ListHeaderButton = styled(ListButton)<IWithMessageColor>(({ theme, messageColor }) => ({
         backgroundColor: messageColor === 'neutral' ? theme.greyColor : theme.primaryColor,
@@ -98,12 +91,6 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
             }
         }
 
-        const image = config.settings.dynamicImageAspectRatio
-            ? <FlexImage src={image_url} alt={image_alt_text || ""} />
-            : <FixedImage style={{ backgroundImage: image_url ? getBackgroundImage(image_url) : undefined }}>
-					<span role="img" aria-label={image_alt_text || "List Image"}> </span>
-			  </FixedImage>
-
         const isSanitizeEnabled = !config.settings.disableHtmlContentSanitization;
 
         const titleHtml = isSanitizeEnabled ? sanitizeHTML(title) : title;
@@ -122,7 +109,7 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
                     onKeyDown = {e => handleKeyDown(e, default_action)}
                     style={default_action?.url ? { cursor: "pointer" }:{}}
                 >
-                    {image}
+                    <MessengerImage url={image_url} config={config} altText={image_alt_text} template="list" />
                     <DarkLayer />
                     <Content className="webchat-list-template-header-content">
                         <Title className="webchat-list-template-header-title" dangerouslySetInnerHTML={{ __html: titleHtml }} />
