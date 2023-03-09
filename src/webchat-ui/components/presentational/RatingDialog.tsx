@@ -240,37 +240,71 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
         const webchatRatingCommentLabelId = `webchatRatingCommentLabelId-${uuid.v4()}`;
 
         return (
-            <Wrapper>
-                <RatingDialogRoot role="dialog" aria-modal="true" aria-labelledby={webchatRatingDialogTitleId} onKeyDown={this.handleKeydown}>
-                    <RatingDialogHeader>
-                        <span id={webchatRatingDialogTitleId} role="heading" aria-level={2}>{ratingTitleText}</span>
-                        <HeaderIconButton onClick={this.handleCloseRatingClick} aria-label="Close Rating dialog" ref={this.closeButtonInHeaderRef}>
+            <Wrapper className="webchat-rating-dialog-wrapper">
+                <RatingDialogRoot
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby={webchatRatingDialogTitleId}
+                    onKeyDown={this.handleKeydown}
+                    className="webchat-rating-dialog-root"
+                >
+                    <RatingDialogHeader className="webchat-rating-dialog-header">
+                        <span
+                            id={webchatRatingDialogTitleId}
+                            role="heading"
+                            aria-level={2}
+                            className="webchat-rating-dialog-title"
+                        >
+                            {ratingTitleText}
+                        </span>
+                        <HeaderIconButton
+                            onClick={this.handleCloseRatingClick}
+                            className="webchat-rating-dialog-header-close-button"
+                            aria-label="Close Rating dialog"
+                            ref={this.closeButtonInHeaderRef}
+                        >
                             <CloseIcon />
                         </HeaderIconButton>
                     </RatingDialogHeader>
-                    <RatingDialogMain>
-                        <RatingButtonContainer>
+                    <RatingDialogMain className="webchat-rating-dialog-main-content">
+                        <RatingButtonContainer className="webchat-rating-dialog-content-container">
                             <div>
-                                <RatingIconButton onClick={() => this.handleSetRatingValue(1)} selected={ratingValue === 1} aria-label="Thumbs Up">
+                                <RatingIconButton
+                                    onClick={() => this.handleSetRatingValue(1)}
+                                    className="webchat-rating-dialog-thumbs-up-button"
+                                    selected={ratingValue === 1}
+                                    aria-label="Thumbs Up"
+                                >
                                     <ThumbIcon />
                                 </RatingIconButton>
                             </div>
                             <div>
-                                <RatingIconButton onClick={() => this.handleSetRatingValue(-1)} selected={ratingValue === -1} aria-label="Thumbs Down">
+                                <RatingIconButton
+                                    onClick={() => this.handleSetRatingValue(-1)}
+                                    className="webchat-rating-dialog-thumbs-down-button"
+                                    selected={ratingValue === -1}
+                                    aria-label="Thumbs Down"
+                                >
                                     <ThumbDownIcon />
                                 </RatingIconButton>
                             </div>
                         </RatingButtonContainer>
                         <div>
-                            <div id={webchatRatingCommentLabelId}>{ratingCommentText}</div>
+                            <div 
+                                id={webchatRatingCommentLabelId}
+                                className="webchat-rating-dialog-comment-input-label"
+                            >
+                                {ratingCommentText}
+                            </div>
                         </div>
                     </RatingDialogMain>
-                    <RatingToolbar>
+                    <RatingToolbar className="webchat-rating-dialog-toolbar">
                         <RatingInput
                             data-test="rating-input"
                             type="text"
                             value={ratingText}
                             onChange={this.handleSetRatingText}
+                            className="webchat-rating-dialog-comment-input-field"
                             autoFocus
                             maxlength={500}
                             rows={3}
@@ -278,7 +312,7 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
                             ref={this.commentTextAreaRef}
                         />
                         <SendIconButton
-                            className={disableSendButton ? "disabled" : "active"}
+                            className={`webchat-rating-dialog-send-button ${disableSendButton ? "disabled" : "active"}`}
                             disabled={disableSendButton}
                             onClick={this.handleSendRatingClick}
                             ref={this.sendRatingButtonRef}

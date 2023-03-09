@@ -14,6 +14,7 @@ There are several classes that you need to take in consideration if you want to 
 * *webchat-header-logo*
 * *webchat-header-title*
 * *webchat-header-close-button*
+* *webchat-header-rating-button*
 * *webchat-chat-history*
 * *webchat-message-row*
 * *regular-message*
@@ -36,6 +37,19 @@ There are several classes that you need to take in consideration if you want to 
 * *webchat-toggle-button*
 * *webchat-unread-message-preview*
 * *webchat-unread-message-badge*
+* *webchat-rating-dialog-wrapper*
+* *webchat-rating-dialog-root*
+* *webchat-rating-dialog-header*
+* *webchat-rating-dialog-title*
+* *webchat-rating-dialog-header-close-button*
+* *webchat-rating-dialog-main-content*
+* *webchat-rating-dialog-content-container*
+* *webchat-rating-dialog-thumbs-up-button*
+* *webchat-rating-dialog-thumbs-down-button*
+* *webchat-rating-dialog-comment-input-label*
+* *webchat-rating-dialog-toolbar*
+* *webchat-rating-dialog-comment-input-field*
+* *webchat-rating-dialog-send-button*
 
 If you want to be sure that the custom CSS that you apply will be shown, you will have to add some other selectors to those classes, for the Webchat we will use the attribute selectors:
 ```CSS
