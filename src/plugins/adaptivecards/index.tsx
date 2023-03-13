@@ -58,7 +58,8 @@ const AdaptiveCards = (props) => {
     const onExecuteAction = useCallback((action) => {
         switch (action._propertyBag?.type) {
             case "Action.Submit": {
-                onSendMessage("", {
+                    onSendMessage("", {
+                    // "request": { "value": action._processedData }
                     adaptivecards: action._processedData
                 });
 
