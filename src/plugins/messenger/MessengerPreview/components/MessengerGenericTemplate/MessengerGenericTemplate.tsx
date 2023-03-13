@@ -212,7 +212,7 @@ export const getMessengerGenericTemplate = ({
                             {...carouselHeaderA11yProps}
                         >
                             <MessengerTitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{ __html: titleHtml }} id={carouselTitleId} />
-                            <MessengerSubtitle className="webchat-carousel-template-title" dangerouslySetInnerHTML={{ __html: subtitleHtml }} config={this.props.config} id={carouselSubtitleId} />
+                            <MessengerSubtitle className="webchat-carousel-template-subtitle" dangerouslySetInnerHTML={{ __html: subtitleHtml }} config={this.props.config} id={carouselSubtitleId} />
                         </GenericContent>
                         <div>
                             {buttons &&
