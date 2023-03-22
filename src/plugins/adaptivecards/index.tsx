@@ -59,8 +59,8 @@ const AdaptiveCards = (props) => {
         switch (action._propertyBag?.type) {
             case "Action.Submit": {
                     onSendMessage("", {
-                    // "request": { "value": action._processedData }
-                    adaptivecards: action._processedData
+                    adaptivecards: action._processedData,
+                    request: { value: action._processedData }
                 });
 
                 return;
