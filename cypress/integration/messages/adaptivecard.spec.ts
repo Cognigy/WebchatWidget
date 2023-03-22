@@ -32,29 +32,15 @@ describe("Message with AdaptiveCard", () => {
                     FoodChoice: "Steak",
                     SteakTemp: "medium-rare",
                     SteakOther: "Tender, please!"
+                },
+                request: {
+                    value: {
+                        FoodChoice: "Steak",
+                        SteakTemp: "medium-rare",
+                        SteakOther: "Tender, please!"
+                    }
                 }
             }});
-        });
-
-        it("submits a message through an adaptivecard form", () => {
-            cy.withMessageFixture('adaptivecard', () => {
-                cy.contains("Your registration is almost complete").should("be.visible");
-
-                cy.contains("Steak").click();
-                cy.contains("Medium-Rare").click();
-                cy.get("#SteakOther textarea").type("Tender, please!");
-                cy.contains("OK").click();
-
-                cy.getMessageFromHistory({
-                    data: {
-                        adaptivecards: {
-                            FoodChoice: "Steak",
-                            SteakTemp: "medium-rare",
-                            SteakOther: "Tender, please!"
-                        }
-                    }
-                });
-            });
         });
 
         it("renders a hyperlink when rendering markdown markup", () => {
