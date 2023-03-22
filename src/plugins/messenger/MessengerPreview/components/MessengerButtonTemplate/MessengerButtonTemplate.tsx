@@ -25,7 +25,11 @@ export const getMessengerButtonTemplate = ({
 
     const Text = styled.div(({ theme }) => ({
         padding: `${theme.unitSize * 2}px ${theme.unitSize * 3}px`,
-        whiteSpace: "pre-line"
+        whiteSpace: "pre-line",
+        "& a": {
+            color: theme.primaryContrastColor,
+            textDecoration: "underline !important"
+        },
     }));
 
     const MessengerButtonTemplate = ({

@@ -19,7 +19,7 @@ export const replaceUrlsWithHTMLanchorElem = (text: string) => {
         let enhancedUrl = trimmedUrl;
         if (!trimmedUrl.startsWith("http")) enhancedUrl = "//" + trimmedUrl;
 
-        return `${leadingSymbol}<a href=${enhancedUrl} target='blank'>${trimmedUrl}</a>`;
+        return `${leadingSymbol}<a href=${enhancedUrl} target='_blank'>${trimmedUrl}</a>`;
     });
 
     return enhancedText;
