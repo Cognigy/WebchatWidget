@@ -5,7 +5,6 @@ let processing = 0;
 
 checker.init({
 	start: "./",
-	json: true,
 	development: false,
 	production: true,
 }, function (err, packages) {
