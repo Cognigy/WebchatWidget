@@ -3,7 +3,7 @@ name: Build
 on: [pull_request]
 
 jobs: 
-  action: 
+  build: 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
