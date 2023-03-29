@@ -18,7 +18,6 @@ jobs:
         run: npm ci && npm run build
 
       - name: Update OSS_LICENSES text file
-        uses: actions/checkout@v3
         run: npm run update-license
 
       - name: Commit and push the file
