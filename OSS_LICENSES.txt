@@ -1,0 +1,2246 @@
+[
+  {
+    name: '@ampproject/remapping',
+    license: 'Apache-2.0',
+    websiteUrl: 'https://github.com/ampproject/remapping',
+    authors: 'Justin Ridgewell'
+  },
+  {
+    name: '@babel/code-frame',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/compat-data',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/core',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/generator',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/helper-compilation-targets',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/helper-environment-visitor',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/helper-function-name',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/helper-hoist-variables',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/helper-module-imports',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/helper-module-transforms',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/helper-plugin-utils',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/helper-simple-access',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/helper-split-export-declaration',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/helper-string-parser',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/helper-validator-identifier',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/helper-validator-option',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/helpers',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/highlight',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/parser',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/plugin-syntax-jsx',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/runtime',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/template',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/traverse',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@babel/types',
+    license: 'MIT',
+    websiteUrl: 'https://babel.dev/team',
+    authors: 'The Babel Team'
+  },
+  {
+    name: '@braintree/sanitize-url',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/braintree/sanitize-url',
+    authors: undefined
+  },
+  {
+    name: '@cognigy/socket-client',
+    license: 'MIT*',
+    websiteUrl: undefined,
+    authors: 'Robin Schuster'
+  },
+  {
+    name: '@colors/colors',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/DABH/colors.js',
+    authors: 'DABH'
+  },
+  {
+    name: '@cypress/request',
+    license: 'Apache-2.0',
+    websiteUrl: 'https://github.com/cypress-io/request',
+    authors: 'Mikeal Rogers'
+  },
+  {
+    name: '@cypress/xvfb',
+    license: 'MIT',
+    websiteUrl: 'https://robwu.nl',
+    authors: 'Rob Wu'
+  },
+  {
+    name: '@emotion/babel-plugin',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/main/packages/babel-plugin',
+    authors: 'Kye Hohenberger'
+  },
+  {
+    name: '@emotion/cache',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/main/packages/cache',
+    authors: undefined
+  },
+  {
+    name: '@emotion/hash',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/main/packages/hash',
+    authors: undefined
+  },
+  {
+    name: '@emotion/is-prop-valid',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/main/packages/is-prop-valid',
+    authors: undefined
+  },
+  {
+    name: '@emotion/memoize',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/main/packages/memoize',
+    authors: undefined
+  },
+  {
+    name: '@emotion/react',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/main/packages/react',
+    authors: 'Emotion Contributors'
+  },
+  {
+    name: '@emotion/serialize',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/main/packages/serialize',
+    authors: undefined
+  },
+  {
+    name: '@emotion/sheet',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/main/packages/sheet',
+    authors: undefined
+  },
+  {
+    name: '@emotion/styled',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/main/packages/styled',
+    authors: undefined
+  },
+  {
+    name: '@emotion/stylis',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/master/packages/stylis',
+    authors: undefined
+  },
+  {
+    name: '@emotion/unitless',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/main/packages/unitless',
+    authors: undefined
+  },
+  {
+    name: '@emotion/use-insertion-effect-with-fallbacks',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/main/packages/use-insertion-effect-with-fallbacks',
+    authors: undefined
+  },
+  {
+    name: '@emotion/utils',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/main/packages/utils',
+    authors: undefined
+  },
+  {
+    name: '@emotion/weak-memoize',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/emotion-js/emotion/tree/main/packages/weak-memoize',
+    authors: undefined
+  },
+  {
+    name: '@jridgewell/gen-mapping',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jridgewell/gen-mapping',
+    authors: 'Justin Ridgewell'
+  },
+  {
+    name: '@jridgewell/resolve-uri',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jridgewell/resolve-uri',
+    authors: 'Justin Ridgewell'
+  },
+  {
+    name: '@jridgewell/set-array',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jridgewell/set-array',
+    authors: 'Justin Ridgewell'
+  },
+  {
+    name: '@jridgewell/sourcemap-codec',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jridgewell/sourcemap-codec',
+    authors: 'Rich Harris'
+  },
+  {
+    name: '@jridgewell/trace-mapping',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jridgewell/trace-mapping',
+    authors: 'Justin Ridgewell'
+  },
+  {
+    name: '@types/hoist-non-react-statics',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/DefinitelyTyped/DefinitelyTyped',
+    authors: undefined
+  },
+  {
+    name: '@types/node',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/DefinitelyTyped/DefinitelyTyped',
+    authors: undefined
+  },
+  {
+    name: '@types/parse-json',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/DefinitelyTyped/DefinitelyTyped',
+    authors: undefined
+  },
+  {
+    name: '@types/prop-types',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/DefinitelyTyped/DefinitelyTyped',
+    authors: undefined
+  },
+  {
+    name: '@types/react-redux',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/DefinitelyTyped/DefinitelyTyped',
+    authors: undefined
+  },
+  {
+    name: '@types/react',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/DefinitelyTyped/DefinitelyTyped',
+    authors: undefined
+  },
+  {
+    name: '@types/scheduler',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/DefinitelyTyped/DefinitelyTyped',
+    authors: undefined
+  },
+  {
+    name: '@types/sinonjs__fake-timers',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/DefinitelyTyped/DefinitelyTyped',
+    authors: undefined
+  },
+  {
+    name: '@types/sizzle',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/DefinitelyTyped/DefinitelyTyped',
+    authors: undefined
+  },
+  {
+    name: '@types/yauzl',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/DefinitelyTyped/DefinitelyTyped',
+    authors: undefined
+  },
+  {
+    name: 'abbrev',
+    license: 'ISC',
+    websiteUrl: 'https://github.com/isaacs/abbrev-js',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'adaptivecards',
+    license: 'MIT',
+    websiteUrl: 'git://git@github.com/microsoft/AdaptiveCards',
+    authors: 'AdaptiveCards'
+  },
+  {
+    name: 'after',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/Raynos/after',
+    authors: 'Raynos'
+  },
+  {
+    name: 'aggregate-error',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'ansi-colors',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/doowb',
+    authors: 'Brian Woodward'
+  },
+  {
+    name: 'ansi-escapes',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'ansi-regex',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'ansi-styles',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'arch',
+    license: 'MIT',
+    websiteUrl: 'https://feross.org',
+    authors: 'Feross Aboukhadijeh'
+  },
+  {
+    name: 'argparse',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/nodeca/argparse',
+    authors: undefined
+  },
+  {
+    name: 'array-find-index',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'arraybuffer.slice',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/rase-/arraybuffer.slice',
+    authors: undefined
+  },
+  {
+    name: 'asap',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/kriskowal/asap',
+    authors: undefined
+  },
+  {
+    name: 'asn1',
+    license: 'MIT',
+    websiteUrl: 'joyent.com',
+    authors: 'Joyent'
+  },
+  {
+    name: 'assert-plus',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/mcavage/node-assert-plus',
+    authors: 'Mark Cavage'
+  },
+  {
+    name: 'astral-regex',
+    license: 'MIT',
+    websiteUrl: 'github.com/kevva',
+    authors: 'Kevin Mårtensson'
+  },
+  {
+    name: 'async',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/caolan/async',
+    authors: 'Caolan McMahon'
+  },
+  {
+    name: 'asynckit',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/alexindigo/asynckit',
+    authors: 'Alex Indigo'
+  },
+  {
+    name: 'at-least-node',
+    license: 'ISC',
+    websiteUrl: 'https://github.com/RyanZim/at-least-node',
+    authors: 'Ryan Zimmerman'
+  },
+  {
+    name: 'autolinker',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/gregjacobs/Autolinker.js',
+    authors: 'Gregory Jacobs'
+  },
+  {
+    name: 'aws-sign2',
+    license: 'Apache-2.0',
+    websiteUrl: 'http://www.futurealoof.com',
+    authors: 'Mikeal Rogers'
+  },
+  {
+    name: 'aws4',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/mhart',
+    authors: 'Michael Hart'
+  },
+  {
+    name: 'axios',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/axios/axios',
+    authors: 'Matt Zabriskie'
+  },
+  {
+    name: 'babel-plugin-macros',
+    license: 'MIT',
+    websiteUrl: 'https://kentcdodds.com',
+    authors: 'Kent C. Dodds'
+  },
+  {
+    name: 'backo2',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/mokesmokes/backo',
+    authors: undefined
+  },
+  {
+    name: 'balanced-match',
+    license: 'MIT',
+    websiteUrl: 'http://juliangruber.com',
+    authors: 'Julian Gruber'
+  },
+  {
+    name: 'base64-arraybuffer',
+    license: 'MIT',
+    websiteUrl: 'http://hertzen.com',
+    authors: 'Niklas von Hertzen'
+  },
+  {
+    name: 'base64-js',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/beatgammit/base64-js',
+    authors: 'T. Jameson Little'
+  },
+  {
+    name: 'bcrypt-pbkdf',
+    license: 'BSD-3-Clause',
+    websiteUrl: 'https://github.com/joyent/node-bcrypt-pbkdf',
+    authors: undefined
+  },
+  {
+    name: 'blob-util',
+    license: 'Apache-2.0',
+    websiteUrl: 'https://github.com/nolanlawson/blob-util',
+    authors: 'Nolan Lawson'
+  },
+  {
+    name: 'blob',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/webmodules/blob',
+    authors: undefined
+  },
+  {
+    name: 'bluebird',
+    license: 'MIT',
+    websiteUrl: 'http://github.com/petkaantonov/',
+    authors: 'Petka Antonov'
+  },
+  {
+    name: 'brace-expansion',
+    license: 'MIT',
+    websiteUrl: 'http://juliangruber.com',
+    authors: 'Julian Gruber'
+  },
+  {
+    name: 'brcast',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/vesparny/brcast',
+    authors: undefined
+  },
+  {
+    name: 'browserslist',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/browserslist/browserslist',
+    authors: 'Andrey Sitnik'
+  },
+  {
+    name: 'buffer-crc32',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/brianloveswords/buffer-crc32',
+    authors: 'Brian J. Brennan'
+  },
+  {
+    name: 'buffer',
+    license: 'MIT',
+    websiteUrl: 'https://feross.org',
+    authors: 'Feross Aboukhadijeh'
+  },
+  {
+    name: 'cachedir',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/LinusU/node-cachedir',
+    authors: 'Linus Unnebäck'
+  },
+  {
+    name: 'call-bind',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/ljharb/call-bind',
+    authors: 'Jordan Harband'
+  },
+  {
+    name: 'callsites',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'caniuse-lite',
+    license: 'CC-BY-4.0',
+    websiteUrl: 'http://beneb.info',
+    authors: 'Ben Briggs'
+  },
+  {
+    name: 'caseless',
+    license: 'Apache-2.0',
+    websiteUrl: 'https://github.com/mikeal/caseless',
+    authors: 'Mikeal Rogers'
+  },
+  {
+    name: 'chalk',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/chalk/chalk',
+    authors: undefined
+  },
+  {
+    name: 'check-more-types',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/kensho/check-more-types',
+    authors: 'Gleb Bahmutov'
+  },
+  {
+    name: 'ci-info',
+    license: 'MIT',
+    websiteUrl: 'https://twitter.com/wa7son',
+    authors: 'Thomas Watson Steen'
+  },
+  {
+    name: 'classnames',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/JedWatson/classnames',
+    authors: 'Jed Watson'
+  },
+  {
+    name: 'clean-stack',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'cli-cursor',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'cli-table3',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cli-table/cli-table3',
+    authors: 'James Talmage'
+  },
+  {
+    name: 'cli-truncate',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'color-convert',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/Qix-/color-convert',
+    authors: 'Heather Arthur'
+  },
+  {
+    name: 'color-name',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/colorjs/color-name',
+    authors: 'DY'
+  },
+  {
+    name: 'colorette',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jorgebucaran/colorette',
+    authors: 'Jorge Bucaran'
+  },
+  {
+    name: 'combined-stream',
+    license: 'MIT',
+    websiteUrl: 'http://debuggable.com/',
+    authors: 'Felix Geisendörfer'
+  },
+  {
+    name: 'commander',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/tj/commander.js',
+    authors: 'TJ Holowaychuk'
+  },
+  {
+    name: 'common-tags',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/zspecza/common-tags',
+    authors: 'Declan de Wet'
+  },
+  {
+    name: 'component-bind',
+    license: 'MIT*',
+    websiteUrl: 'https://github.com/component/bind',
+    authors: undefined
+  },
+  {
+    name: 'component-emitter',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/component/emitter',
+    authors: undefined
+  },
+  {
+    name: 'component-inherit',
+    license: 'MIT*',
+    websiteUrl: 'https://github.com/component/inherit',
+    authors: undefined
+  },
+  {
+    name: 'concat-map',
+    license: 'MIT',
+    websiteUrl: 'http://substack.net',
+    authors: 'James Halliday'
+  },
+  {
+    name: 'convert-source-map',
+    license: 'MIT',
+    websiteUrl: 'http://thlorenz.com',
+    authors: 'Thorsten Lorenz'
+  },
+  {
+    name: 'core-util-is',
+    license: 'MIT',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'cosmiconfig',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/davidtheclark/cosmiconfig',
+    authors: 'David Clark'
+  },
+  {
+    name: 'cross-spawn',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/moxystudio/node-cross-spawn',
+    authors: 'André Cruz'
+  },
+  {
+    name: 'css-vendor',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/css-vendor',
+    authors: 'Oleg Slobodskoi'
+  },
+  {
+    name: 'cssjanus',
+    license: 'Apache-2.0',
+    websiteUrl: 'http://www.trevorparscal.com/',
+    authors: 'Trevor Parscal'
+  },
+  {
+    name: 'csstype',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/frenic/csstype',
+    authors: 'Fredrik Nicol'
+  },
+  {
+    name: 'cypress-real-events',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/dmtrKovalenko/cypress-real-events',
+    authors: 'Dmitriy Kovalenko'
+  },
+  {
+    name: 'cypress',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cypress-io/cypress',
+    authors: undefined
+  },
+  {
+    name: 'dashdash',
+    license: 'MIT',
+    websiteUrl: 'http://trentm.com',
+    authors: 'Trent Mick'
+  },
+  {
+    name: 'dayjs',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/iamkun/dayjs',
+    authors: 'iamkun'
+  },
+  {
+    name: 'debug',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/debug-js/debug',
+    authors: 'Josh Junon'
+  },
+  {
+    name: 'debuglog',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/sam-github/node-debuglog',
+    authors: 'Sam Roberts'
+  },
+  {
+    name: 'deep-extend',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/unclechu/node-deep-extend',
+    authors: 'Viacheslav Lotsmanov'
+  },
+  {
+    name: 'deepmerge',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/TehShrike/deepmerge',
+    authors: undefined
+  },
+  {
+    name: 'delayed-stream',
+    license: 'MIT',
+    websiteUrl: 'http://debuggable.com/',
+    authors: 'Felix Geisendörfer'
+  },
+  {
+    name: 'detect-browser',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/DamonOehlman/detect-browser',
+    authors: 'Damon Oehlman'
+  },
+  {
+    name: 'dezalgo',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'dompurify',
+    license: '(MPL-2.0 OR Apache-2.0)',
+    websiteUrl: 'https://cure53.de/',
+    authors: 'Mario Heiderich'
+  },
+  {
+    name: 'ecc-jsbn',
+    license: 'MIT',
+    websiteUrl: 'http://jeremie.com/',
+    authors: 'Jeremie Miller'
+  },
+  {
+    name: 'electron-to-chromium',
+    license: 'ISC',
+    websiteUrl: 'https://github.com/kilian/electron-to-chromium',
+    authors: 'Kilian Valkhof'
+  },
+  {
+    name: 'emoji-regex',
+    license: 'MIT',
+    websiteUrl: 'https://mathiasbynens.be/',
+    authors: 'Mathias Bynens'
+  },
+  {
+    name: 'end-of-stream',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/mafintosh/end-of-stream',
+    authors: 'Mathias Buus'
+  },
+  {
+    name: 'engine.io-client',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/socketio/engine.io-client',
+    authors: undefined
+  },
+  {
+    name: 'engine.io-parser',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/socketio/engine.io-parser',
+    authors: undefined
+  },
+  {
+    name: 'enquirer',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jonschlinkert',
+    authors: 'Jon Schlinkert'
+  },
+  {
+    name: 'error-ex',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/qix-/node-error-ex',
+    authors: undefined
+  },
+  {
+    name: 'escalade',
+    license: 'MIT',
+    websiteUrl: 'https://lukeed.com',
+    authors: 'Luke Edwards'
+  },
+  {
+    name: 'escape-string-regexp',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'eventemitter2',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/hij1nx/EventEmitter2',
+    authors: 'hij1nx'
+  },
+  {
+    name: 'execa',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'executable',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/kevva',
+    authors: 'Kevin Mårtensson'
+  },
+  {
+    name: 'extend',
+    license: 'MIT',
+    websiteUrl: 'http://www.justmoon.net',
+    authors: 'Stefan Thomas'
+  },
+  {
+    name: 'extract-zip',
+    license: 'BSD-2-Clause',
+    websiteUrl: 'https://github.com/maxogden/extract-zip',
+    authors: 'max ogden'
+  },
+  {
+    name: 'extsprintf',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/davepacheco/node-extsprintf',
+    authors: undefined
+  },
+  {
+    name: 'fd-slicer',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/andrewrk/node-fd-slicer',
+    authors: 'Andrew Kelley'
+  },
+  {
+    name: 'figures',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'find-root',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/js-n/find-root',
+    authors: 'jsdnxx'
+  },
+  {
+    name: 'flatpickr',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/chmln/flatpickr',
+    authors: 'Gregory'
+  },
+  {
+    name: 'follow-redirects',
+    license: 'MIT',
+    websiteUrl: 'https://ruben.verborgh.org/',
+    authors: 'Ruben Verborgh'
+  },
+  {
+    name: 'forever-agent',
+    license: 'Apache-2.0',
+    websiteUrl: 'http://www.futurealoof.com',
+    authors: 'Mikeal Rogers'
+  },
+  {
+    name: 'form-data',
+    license: 'MIT',
+    websiteUrl: 'http://debuggable.com/',
+    authors: 'Felix Geisendörfer'
+  },
+  {
+    name: 'fs-extra',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jprichardson/node-fs-extra',
+    authors: 'JP Richardson'
+  },
+  {
+    name: 'fs.realpath',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'function-bind',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/Raynos/function-bind',
+    authors: 'Raynos'
+  },
+  {
+    name: 'gensync',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/loganfsmyth/gensync',
+    authors: 'Logan Smyth'
+  },
+  {
+    name: 'get-intrinsic',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/ljharb/get-intrinsic',
+    authors: 'Jordan Harband'
+  },
+  {
+    name: 'get-stream',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'getos',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/retrohacker/getos',
+    authors: 'william.jblankenship@gmail.com'
+  },
+  {
+    name: 'getpass',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/arekinath/node-getpass',
+    authors: 'Alex Wilson'
+  },
+  {
+    name: 'glob',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'global-dirs',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'globals',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'graceful-fs',
+    license: 'ISC',
+    websiteUrl: 'https://github.com/isaacs/node-graceful-fs',
+    authors: undefined
+  },
+  {
+    name: 'has-binary2',
+    license: 'MIT',
+    websiteUrl: undefined,
+    authors: 'Kevin Roark'
+  },
+  {
+    name: 'has-cors',
+    license: 'MIT',
+    websiteUrl: 'http://n8.io/',
+    authors: 'Nathan Rajlich'
+  },
+  {
+    name: 'has-flag',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'has-symbols',
+    license: 'MIT',
+    websiteUrl: 'http://ljharb.codes',
+    authors: 'Jordan Harband'
+  },
+  {
+    name: 'has',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/tarruda/has',
+    authors: 'Thiago de Arruda'
+  },
+  {
+    name: 'hoist-non-react-statics',
+    license: 'BSD-3-Clause',
+    websiteUrl: 'https://github.com/mridgway/hoist-non-react-statics',
+    authors: 'Michael Ridgway'
+  },
+  {
+    name: 'hosted-git-info',
+    license: 'ISC',
+    websiteUrl: 'http://re-becca.org',
+    authors: 'Rebecca Turner'
+  },
+  {
+    name: 'http-signature',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/joyent/node-http-signature',
+    authors: 'Joyent, Inc'
+  },
+  {
+    name: 'human-signals',
+    license: 'Apache-2.0',
+    websiteUrl: 'https://github.com/ehmicky',
+    authors: 'ehmicky'
+  },
+  {
+    name: 'hyphenate-style-name',
+    license: 'BSD-3-Clause',
+    websiteUrl: 'https://github.com/rexxars/hyphenate-style-name',
+    authors: 'Espen Hovlandsdal'
+  },
+  {
+    name: 'ieee754',
+    license: 'BSD-3-Clause',
+    websiteUrl: 'https://feross.org',
+    authors: 'Feross Aboukhadijeh'
+  },
+  {
+    name: 'immutable',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/leebyron',
+    authors: 'Lee Byron'
+  },
+  {
+    name: 'import-fresh',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'indent-string',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'indexof',
+    license: 'MIT*',
+    websiteUrl: undefined,
+    authors: undefined
+  },
+  {
+    name: 'inflight',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'inherits',
+    license: 'ISC',
+    websiteUrl: 'https://github.com/isaacs/inherits',
+    authors: undefined
+  },
+  {
+    name: 'ini',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'is-arrayish',
+    license: 'MIT',
+    websiteUrl: 'http://github.com/qix-',
+    authors: 'Qix'
+  },
+  {
+    name: 'is-ci',
+    license: 'MIT',
+    websiteUrl: 'https://twitter.com/wa7son',
+    authors: 'Thomas Watson Steen'
+  },
+  {
+    name: 'is-core-module',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/inspect-js/is-core-module',
+    authors: 'Jordan Harband'
+  },
+  {
+    name: 'is-fullwidth-code-point',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'is-function',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/grncdr/js-is-function',
+    authors: 'Stephen Sugden'
+  },
+  {
+    name: 'is-in-browser',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/tuxsudo/is-in-browser',
+    authors: 'Jared Anderson'
+  },
+  {
+    name: 'is-installed-globally',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'is-observable',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'is-path-inside',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'is-plain-object',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jonschlinkert',
+    authors: 'Jon Schlinkert'
+  },
+  {
+    name: 'is-react-prop',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/lttb/is-react-prop',
+    authors: 'lttb'
+  },
+  {
+    name: 'is-stream',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'is-typedarray',
+    license: 'MIT',
+    websiteUrl: 'http://hughsk.io/',
+    authors: 'Hugh Kennedy'
+  },
+  {
+    name: 'is-unicode-supported',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'isarray',
+    license: 'MIT',
+    websiteUrl: 'http://juliangruber.com',
+    authors: 'Julian Gruber'
+  },
+  {
+    name: 'isexe',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'isobject',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jonschlinkert',
+    authors: 'Jon Schlinkert'
+  },
+  {
+    name: 'isstream',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/rvagg/isstream',
+    authors: 'Rod Vagg'
+  },
+  {
+    name: 'js-tokens',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/lydell/js-tokens',
+    authors: 'Simon Lydell'
+  },
+  {
+    name: 'jsbn',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/andyperlitch/jsbn',
+    authors: 'Tom Wu'
+  },
+  {
+    name: 'jsesc',
+    license: 'MIT',
+    websiteUrl: 'https://mathiasbynens.be/',
+    authors: 'Mathias Bynens'
+  },
+  {
+    name: 'json-parse-even-better-errors',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/npm/json-parse-even-better-errors',
+    authors: 'Kat Marchán'
+  },
+  {
+    name: 'json-schema',
+    license: '(AFL-2.1 OR BSD-3-Clause)',
+    websiteUrl: 'https://github.com/kriszyp/json-schema',
+    authors: 'Kris Zyp'
+  },
+  {
+    name: 'json-stringify-safe',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'json5',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/json5/json5',
+    authors: 'Aseem Kishore'
+  },
+  {
+    name: 'jsonfile',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jprichardson/node-jsonfile',
+    authors: 'JP Richardson'
+  },
+  {
+    name: 'jsprim',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/joyent/node-jsprim',
+    authors: undefined
+  },
+  {
+    name: 'jss-camel-case',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/jss-camel-case',
+    authors: 'Oleg Slobodskoi'
+  },
+  {
+    name: 'jss-compose',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/jss-compose',
+    authors: 'Pavel Davydov'
+  },
+  {
+    name: 'jss-default-unit',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/jss-default-unit',
+    authors: 'Oleg Slobodskoi'
+  },
+  {
+    name: 'jss-expand',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/jss-expand',
+    authors: 'Pavel Davydov'
+  },
+  {
+    name: 'jss-extend',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/jss-extend',
+    authors: 'Oleg Slobodskoi'
+  },
+  {
+    name: 'jss-global',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/jss-global',
+    authors: 'Oleg Slobodskoi'
+  },
+  {
+    name: 'jss-nested',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/jss-nested',
+    authors: 'Oleg Slobodskoi'
+  },
+  {
+    name: 'jss-preset-default',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/jss-preset-default',
+    authors: 'Oleg Slobodskoi'
+  },
+  {
+    name: 'jss-props-sort',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/jss-props-sort',
+    authors: 'Oleg Slobodskoi'
+  },
+  {
+    name: 'jss-template',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/jss-template',
+    authors: 'Oleg Slobodskoi'
+  },
+  {
+    name: 'jss-vendor-prefixer',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/jss-vendor-prefixer',
+    authors: 'Oleg Slobodskoi'
+  },
+  {
+    name: 'jss',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/jss',
+    authors: 'Oleg Slobodskoi'
+  },
+  {
+    name: 'lazy-ass',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/bahmutov/lazy-ass',
+    authors: 'Gleb Bahmutov'
+  },
+  {
+    name: 'license-checker',
+    license: 'BSD-3-Clause',
+    websiteUrl: 'https://github.com/davglass/license-checker',
+    authors: 'Dav Glass'
+  },
+  {
+    name: 'lines-and-columns',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/eventualbuddha/lines-and-columns',
+    authors: 'Brian Donovan'
+  },
+  {
+    name: 'listr2',
+    license: 'MIT',
+    websiteUrl: 'https://srcs.kilic.dev',
+    authors: 'Cenk Kilic'
+  },
+  {
+    name: 'load-script',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/eldargab/load-script',
+    authors: undefined
+  },
+  {
+    name: 'lodash.once',
+    license: 'MIT',
+    websiteUrl: 'http://allyoucanleet.com/',
+    authors: 'John-David Dalton'
+  },
+  {
+    name: 'lodash',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/lodash/lodash',
+    authors: 'John-David Dalton'
+  },
+  {
+    name: 'log-symbols',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'log-update',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'loose-envify',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/zertosh/loose-envify',
+    authors: 'Andres Suarez'
+  },
+  {
+    name: 'lru-cache',
+    license: 'ISC',
+    websiteUrl: 'https://github.com/isaacs/node-lru-cache',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'memoize-one',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/alexreardon/memoize-one',
+    authors: 'Alex Reardon'
+  },
+  {
+    name: 'merge-stream',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/grncdr/merge-stream',
+    authors: 'Stephen Sugden'
+  },
+  {
+    name: 'mime-db',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jshttp/mime-db',
+    authors: undefined
+  },
+  {
+    name: 'mime-types',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jshttp/mime-types',
+    authors: undefined
+  },
+  {
+    name: 'mimic-fn',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'minimatch',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'minimist',
+    license: 'MIT',
+    websiteUrl: 'http://substack.net',
+    authors: 'James Halliday'
+  },
+  {
+    name: 'mkdirp',
+    license: 'MIT',
+    websiteUrl: 'http://substack.net',
+    authors: 'James Halliday'
+  },
+  {
+    name: 'moment',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/ichernev',
+    authors: 'Iskren Ivov Chernev'
+  },
+  {
+    name: 'ms',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/zeit/ms',
+    authors: undefined
+  },
+  {
+    name: 'node-releases',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/chicoxyzzy/node-releases',
+    authors: 'Sergey Rubanov'
+  },
+  {
+    name: 'nopt',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'normalize-package-data',
+    license: 'BSD-2-Clause',
+    websiteUrl: 'https://github.com/npm/normalize-package-data',
+    authors: 'Meryn Stol'
+  },
+  {
+    name: 'npm-normalize-package-bin',
+    license: 'ISC',
+    websiteUrl: 'https://izs.me',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'npm-run-path',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'object-assign',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'object-inspect',
+    license: 'MIT',
+    websiteUrl: 'http://substack.net',
+    authors: 'James Halliday'
+  },
+  {
+    name: 'once',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'onetime',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'os-homedir',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'os-tmpdir',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'osenv',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'ospath',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jprichardson/ospath',
+    authors: 'JP Richardson'
+  },
+  {
+    name: 'p-map',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'parent-module',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'parse-json',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'parseqs',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/get/querystring',
+    authors: 'Gal Koren'
+  },
+  {
+    name: 'parseuri',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/get/parseuri',
+    authors: 'Gal Koren'
+  },
+  {
+    name: 'path-is-absolute',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'path-key',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'path-parse',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jbgutierrez/path-parse',
+    authors: 'Javier Blanco'
+  },
+  {
+    name: 'path-type',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'pend',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/andrewrk/node-pend',
+    authors: 'Andrew Kelley'
+  },
+  {
+    name: 'performance-now',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/braveg1rl/performance-now',
+    authors: 'Braveg1rl'
+  },
+  {
+    name: 'picocolors',
+    license: 'ISC',
+    websiteUrl: 'https://github.com/alexeyraspopov/picocolors',
+    authors: 'Alexey Raspopov'
+  },
+  {
+    name: 'pify',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'pretty-bytes',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'prop-types',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/facebook/prop-types',
+    authors: undefined
+  },
+  {
+    name: 'proxy-from-env',
+    license: 'MIT',
+    websiteUrl: 'https://robwu.nl/',
+    authors: 'Rob Wu'
+  },
+  {
+    name: 'psl',
+    license: 'MIT',
+    websiteUrl: 'https://lupomontero.com/',
+    authors: 'Lupo Montero'
+  },
+  {
+    name: 'pump',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/mafintosh/pump',
+    authors: 'Mathias Buus Madsen'
+  },
+  {
+    name: 'punycode',
+    license: 'MIT',
+    websiteUrl: 'https://mathiasbynens.be/',
+    authors: 'Mathias Bynens'
+  },
+  {
+    name: 'qs',
+    license: 'BSD-3-Clause',
+    websiteUrl: 'https://github.com/ljharb/qs',
+    authors: undefined
+  },
+  {
+    name: 'querystring',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/Gozala/querystring',
+    authors: 'Irakli Gozalishvili'
+  },
+  {
+    name: 'react-animate-height',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/Stanko/react-animate-height',
+    authors: 'Stanko'
+  },
+  {
+    name: 'react-dom',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/facebook/react',
+    authors: undefined
+  },
+  {
+    name: 'react-easy-swipe',
+    license: 'MIT',
+    websiteUrl: 'http://leandrowd.github.io/',
+    authors: 'Leandro Augusto Lemos'
+  },
+  {
+    name: 'react-fast-compare',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/FormidableLabs/react-fast-compare',
+    authors: 'Chris Bolin'
+  },
+  {
+    name: 'react-is',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/facebook/react',
+    authors: undefined
+  },
+  {
+    name: 'react-player',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cookpete',
+    authors: 'Pete Cook'
+  },
+  {
+    name: 'react-redux',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/gaearon',
+    authors: 'Dan Abramov'
+  },
+  {
+    name: 'react-responsive-carousel',
+    license: 'MIT',
+    websiteUrl: 'http://leandrowd.github.io/',
+    authors: 'Leandro Augusto Lemos'
+  },
+  {
+    name: 'react-textarea-autosize',
+    license: 'MIT',
+    websiteUrl: 'httsps://andreypopp.com/',
+    authors: 'Andrey Popp'
+  },
+  {
+    name: 'react',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/facebook/react',
+    authors: undefined
+  },
+  {
+    name: 'read-installed',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'read-package-json',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'readdir-scoped-modules',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'redux',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/reduxjs/redux',
+    authors: undefined
+  },
+  {
+    name: 'regenerator-runtime',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/facebook/regenerator/tree/main/packages/runtime',
+    authors: 'Ben Newman'
+  },
+  {
+    name: 'remarkable',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/jonschlinkert/remarkable',
+    authors: undefined
+  },
+  {
+    name: 'request-progress',
+    license: 'MIT',
+    websiteUrl: 'http://indigounited.com',
+    authors: 'IndigoUnited'
+  },
+  {
+    name: 'resolve-from',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'resolve',
+    license: 'MIT',
+    websiteUrl: 'http://substack.net',
+    authors: 'James Halliday'
+  },
+  {
+    name: 'restore-cursor',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'rfdc',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/davidmarkclements/rfdc',
+    authors: 'David Mark Clements'
+  },
+  {
+    name: 'rimraf',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'rxjs',
+    license: 'Apache-2.0',
+    websiteUrl: 'https://github.com/reactivex/rxjs',
+    authors: 'Ben Lesh'
+  },
+  {
+    name: 'safe-buffer',
+    license: 'MIT',
+    websiteUrl: 'https://feross.org',
+    authors: 'Feross Aboukhadijeh'
+  },
+  {
+    name: 'safer-buffer',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/ChALkeR',
+    authors: 'Nikita Skovoroda'
+  },
+  {
+    name: 'scheduler',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/facebook/react',
+    authors: undefined
+  },
+  {
+    name: 'semver',
+    license: 'ISC',
+    websiteUrl: 'https://github.com/npm/node-semver',
+    authors: 'GitHub Inc.'
+  },
+  {
+    name: 'shebang-command',
+    license: 'MIT',
+    websiteUrl: 'github.com/kevva',
+    authors: 'Kevin Mårtensson'
+  },
+  {
+    name: 'shebang-regex',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'side-channel',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/ljharb/side-channel',
+    authors: 'Jordan Harband'
+  },
+  {
+    name: 'signal-exit',
+    license: 'ISC',
+    websiteUrl: 'https://github.com/tapjs/signal-exit',
+    authors: 'Ben Coe'
+  },
+  {
+    name: 'slice-ansi',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/chalk/slice-ansi',
+    authors: undefined
+  },
+  {
+    name: 'slide',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'socket.io-client',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/Automattic/socket.io-client',
+    authors: undefined
+  },
+  {
+    name: 'socket.io-parser',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/Automattic/socket.io-parser',
+    authors: undefined
+  },
+  {
+    name: 'source-map',
+    license: 'BSD-3-Clause',
+    websiteUrl: 'https://github.com/mozilla/source-map',
+    authors: 'Nick Fitzgerald'
+  },
+  {
+    name: 'spdx-compare',
+    license: 'MIT',
+    websiteUrl: 'https://kemitchell.com',
+    authors: 'Kyle E. Mitchell'
+  },
+  {
+    name: 'spdx-correct',
+    license: 'Apache-2.0',
+    websiteUrl: 'https://kemitchell.com',
+    authors: 'Kyle E. Mitchell'
+  },
+  {
+    name: 'spdx-exceptions',
+    license: 'CC-BY-3.0',
+    websiteUrl: 'https://github.com/kemitchell/spdx-exceptions.json',
+    authors: 'The Linux Foundation'
+  },
+  {
+    name: 'spdx-expression-parse',
+    license: 'MIT',
+    websiteUrl: 'https://kemitchell.com',
+    authors: 'Kyle E. Mitchell'
+  },
+  {
+    name: 'spdx-license-ids',
+    license: 'CC0-1.0',
+    websiteUrl: 'https://github.com/shinnn',
+    authors: 'Shinnosuke Watanabe'
+  },
+  {
+    name: 'spdx-ranges',
+    license: '(MIT AND CC-BY-3.0)',
+    websiteUrl: 'https://github.com/kemitchell/spdx-ranges.js',
+    authors: 'The Linux Foundation'
+  },
+  {
+    name: 'spdx-satisfies',
+    license: 'MIT',
+    websiteUrl: 'https://kemitchell.com',
+    authors: 'Kyle E. Mitchell'
+  },
+  {
+    name: 'sprintf-js',
+    license: 'BSD-3-Clause',
+    websiteUrl: 'http://alexei.ro/',
+    authors: 'Alexandru Marasteanu'
+  },
+  {
+    name: 'sshpk',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/joyent/node-sshpk',
+    authors: 'Joyent, Inc'
+  },
+  {
+    name: 'string-width',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'strip-ansi',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'strip-final-newline',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'styled-jss',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/cssinjs/styled-jss',
+    authors: 'lttb'
+  },
+  {
+    name: 'stylis-rtl',
+    license: 'ISC',
+    websiteUrl: 'https://github.com/FindHotel/stylis-rtl',
+    authors: 'Jop de Klein'
+  },
+  {
+    name: 'stylis',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/thysultan/stylis.js',
+    authors: 'Sultan Tarimo'
+  },
+  {
+    name: 'supports-color',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'supports-preserve-symlinks-flag',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/inspect-js/node-supports-preserve-symlinks-flag',
+    authors: 'Jordan Harband'
+  },
+  {
+    name: 'symbol-observable',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/blesh/symbol-observable',
+    authors: 'Ben Lesh'
+  },
+  {
+    name: 'theming',
+    license: 'MIT',
+    websiteUrl: 'https://iamstarkov.com',
+    authors: 'Vladimir Starkov'
+  },
+  {
+    name: 'throttleit',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/component/throttle',
+    authors: undefined
+  },
+  {
+    name: 'through',
+    license: 'MIT',
+    websiteUrl: 'dominictarr.com',
+    authors: 'Dominic Tarr'
+  },
+  {
+    name: 'tinycolor2',
+    license: 'MIT',
+    websiteUrl: 'http://briangrinstead.com',
+    authors: 'Brian Grinstead'
+  },
+  {
+    name: 'tmp',
+    license: 'MIT',
+    websiteUrl: 'http://raszi.hu/',
+    authors: 'KARASZI István'
+  },
+  {
+    name: 'to-array',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/Raynos/to-array',
+    authors: 'Raynos'
+  },
+  {
+    name: 'to-fast-properties',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'tough-cookie',
+    license: 'BSD-3-Clause',
+    websiteUrl: 'https://github.com/salesforce/tough-cookie',
+    authors: 'Jeremy Stashewsky'
+  },
+  {
+    name: 'treeify',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/notatestuser/treeify',
+    authors: 'Luke Plaster'
+  },
+  {
+    name: 'tslib',
+    license: '0BSD',
+    websiteUrl: 'https://github.com/Microsoft/tslib',
+    authors: 'Microsoft Corp.'
+  },
+  {
+    name: 'tunnel-agent',
+    license: 'Apache-2.0',
+    websiteUrl: 'http://www.futurealoof.com',
+    authors: 'Mikeal Rogers'
+  },
+  {
+    name: 'tweetnacl',
+    license: 'Unlicense',
+    websiteUrl: 'https://github.com/dchest/tweetnacl-js',
+    authors: 'TweetNaCl-js contributors'
+  },
+  {
+    name: 'type-fest',
+    license: '(MIT OR CC0-1.0)',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'uifx',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/wle8300/uifx',
+    authors: 'William Le'
+  },
+  {
+    name: 'universalify',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/RyanZim/universalify',
+    authors: 'Ryan Zimmerman'
+  },
+  {
+    name: 'untildify',
+    license: 'MIT',
+    websiteUrl: 'sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'update-browserslist-db',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/browserslist/update-db',
+    authors: 'Andrey Sitnik'
+  },
+  {
+    name: 'url',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/defunctzombie/node-url',
+    authors: undefined
+  },
+  {
+    name: 'use-composed-ref',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/Andarist/use-composed-ref',
+    authors: undefined
+  },
+  {
+    name: 'use-isomorphic-layout-effect',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/Andarist/use-isomorphic-layout-effect',
+    authors: undefined
+  },
+  {
+    name: 'use-latest',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/Andarist/use-latest',
+    authors: undefined
+  },
+  {
+    name: 'util-extend',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/isaacs/util-extend',
+    authors: undefined
+  },
+  {
+    name: 'uuid',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/uuidjs/uuid',
+    authors: undefined
+  },
+  {
+    name: 'validate-npm-package-license',
+    license: 'Apache-2.0',
+    websiteUrl: 'https://kemitchell.com',
+    authors: 'Kyle E. Mitchell'
+  },
+  {
+    name: 'verror',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/davepacheco/node-verror',
+    authors: undefined
+  },
+  {
+    name: 'warning',
+    license: 'BSD-3-Clause',
+    websiteUrl: 'http://www.freecodecamp.com',
+    authors: 'Berkeley Martinez'
+  },
+  {
+    name: 'which',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'wrap-ansi',
+    license: 'MIT',
+    websiteUrl: 'https://sindresorhus.com',
+    authors: 'Sindre Sorhus'
+  },
+  {
+    name: 'wrappy',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'ws',
+    license: 'MIT',
+    websiteUrl: 'http://2x.io',
+    authors: 'Einar Otto Stangvik'
+  },
+  {
+    name: 'xmlhttprequest-ssl',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/mjwwit/node-XMLHttpRequest',
+    authors: 'Michael de Wit'
+  },
+  {
+    name: 'yallist',
+    license: 'ISC',
+    websiteUrl: 'http://blog.izs.me/',
+    authors: 'Isaac Z. Schlueter'
+  },
+  {
+    name: 'yaml',
+    license: 'ISC',
+    websiteUrl: 'https://github.com/eemeli/yaml',
+    authors: 'Eemeli Aro'
+  },
+  {
+    name: 'yauzl',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/thejoshwolfe/yauzl',
+    authors: 'Josh Wolfe'
+  },
+  {
+    name: 'yeast',
+    license: 'MIT',
+    websiteUrl: 'https://github.com/unshiftio/yeast',
+    authors: 'Arnout Kazemier'
+  }
+]
