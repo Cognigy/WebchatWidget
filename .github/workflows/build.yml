@@ -1,12 +1,9 @@
-name: Automatic Draft Release
+name: Build pipeline
 
-on: 
-  push: 
-    tags:
-      - 'v*'
+on: [pull_request]
 
 jobs: 
-  create-draft-release: 
+  build: 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
