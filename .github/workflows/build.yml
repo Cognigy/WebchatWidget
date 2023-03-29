@@ -1,0 +1,26 @@
+name: Build
+
+on: [pull_request]
+
+jobs: 
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Build
+        run: npm ci && npm run build
+
+      - name: Update OSS_LICENSES text file
+        run: npm run update-license
+
+      - name: Commit and push the file
+        uses: maxgfr/github-commit-push-file@main
+        with:
+          commit_name: 'Update OSS_LICENSES.txt file'
