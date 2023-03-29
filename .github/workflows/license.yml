@@ -1,4 +1,4 @@
-name: 'action-test'
+name: 'license'
 on: [pull_request]
 
 jobs:
