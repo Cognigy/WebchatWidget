@@ -21,10 +21,10 @@ jobs:
         run: npm run update-license
 
       - name: Commit and push the file
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: dsayling/commit-branch-check-action@v0.1
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           commit_message: 'Update OSS_LICENSES.txt file'
-          push_options: '--force'
   test:
     needs: license
     runs-on: ubuntu-latest
