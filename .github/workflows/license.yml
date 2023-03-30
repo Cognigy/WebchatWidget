@@ -1,4 +1,4 @@
-name: 'license'
+name: license
 on: [pull_request]
 
 jobs:

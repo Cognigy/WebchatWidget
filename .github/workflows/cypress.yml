@@ -2,6 +2,9 @@ name: Run Cypress
 on:
   workflow_run:
     workflows: ["license"]
+    types: [requested]
+    branches:
+      - '*'
 jobs:
   test:
     runs-on: ubuntu-latest
