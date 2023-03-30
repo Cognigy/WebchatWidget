@@ -9,7 +9,3 @@ jobs:
       - name: Create a licenses file
         run: |
           echo "License=MIT" >> OSS_LICENSES.txt
-      - name: Commit and push the file
-        uses: maxgfr/github-commit-push-file@main
-        with:
-          commit_name: 'Add OSS_LICENSES file'
