@@ -1,35 +1,27 @@
 const checker = require('license-checker');
-
-const result = new Map();
-let processing = 0;
+const fs = require('fs');
 
 checker.init({
-    start: "./",
-    development: false,
-    production: true,
+  start: "./",
+  development: false,
+  production: true,
 }, function (err, packages) {
-    processing++;
     if (err) {
-        processing--;
+      console.log(err);
     } else {
-        const keys = Object.keys(packages);
-        for (let i = 0, il = keys.length; i < il; i++) {
-            if (packages[keys[i]].publisher === "Cognigy GmbH") {
-                continue;
-            }
-            let name = keys[i].split("@");
-            name.pop();
-            name = name.join("@");
-            const data = {
-                license: packages[keys[i]].licenses,
-                websiteUrl: packages[keys[i]].url || packages[keys[i]].repository,
-                authors: packages[keys[i]].publisher,
-            }
-            result.set(name, data);
-        }
-        processing--;
-        if (processing === 0) {
-            console.dir(Array.from(result, ([name, value]) => ({ name, ...value })), { 'maxArrayLength': null });
-        }
+			const updatedLicenseText = `${getDateString()}\n\n${JSON.stringify(packages, null, 2)}`
+			fs.writeFileSync("./OSS_LICENSES.txt", updatedLicenseText);
     }
-});
+	}
+);
+
+function getDateString() {
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = `${date.getMonth() + 1}`.padStart(2, '0');
+	const day =`${date.getDate()}`.padStart(2, '0');
+	const hours = `${date.getHours()}`.padStart(2, '0');
+	const minutes = `${date.getMinutes()}`.padStart(2, '0');
+	const seconds = `${date.getSeconds()}`.padStart(2, '0');
+	return `Created on ${day}-${month}-${year} at ${hours}:${minutes}:${seconds}`;
+}
