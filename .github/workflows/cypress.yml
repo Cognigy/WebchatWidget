@@ -1,5 +1,10 @@
 name: Run Cypress
-on: [pull_request]
+on:
+  workflow_run:
+    workflows: ["license"]
+    types: [requested]
+    branches:
+      - 'add_license_file'
 jobs:
   test:
     runs-on: ubuntu-latest
