@@ -1,7 +1,10 @@
 name: Run Cypress
 on:
-  push:
-    paths: '**.txt'
+  workflow_run:
+    workflows: ["license"]
+    types: [requested]
+    branches:
+      - 'add_license_file'
 jobs:
   test:
     runs-on: ubuntu-latest
