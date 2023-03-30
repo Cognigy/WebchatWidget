@@ -6,7 +6,7 @@ const config = require('./webpack.config');
 config.mode = 'production';
 config.plugins.push(
     new webpack.BannerPlugin({
-        banner: `[file] v${version}\nhttps://github.com/Cognigy/WebchatWidget/tree/v${version}`
+        banner: `[file] v${version}\nhttps://github.com/Cognigy/WebchatWidget/tree/v${version}\nhttps://github.com/Cognigy/WebchatWidget/tree/v${version}/OSS_LICENSES.txt`
     })
 )
 
