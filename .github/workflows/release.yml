@@ -28,6 +28,7 @@ jobs:
             dist/*.js
             dist/*.gz
             dist/*.br
+            OSS_LICENSES.txt
           body: |
             ### Potentially breaking changes
 
