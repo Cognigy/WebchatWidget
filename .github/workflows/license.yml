@@ -2,7 +2,7 @@ name: license
 on: [pull_request]
 
 jobs:
-  action:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
