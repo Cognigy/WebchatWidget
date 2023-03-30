@@ -1,8 +1,5 @@
 name: Run Cypress
-on:
-  workflow_run:
-    workflows: ["license"]
-    types: [requested]
+on: [pull_request]
 
 jobs:
   test:
