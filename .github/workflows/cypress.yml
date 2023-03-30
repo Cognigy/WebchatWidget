@@ -1,4 +1,4 @@
-name: Run Cypress
+name: Run Build
 on: [pull_request]
 jobs:
   test:
@@ -10,7 +10,7 @@ jobs:
           node-version: '16'
       - run: npm ci
       - run: npm test
-  build: 
+  license: 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,6 +28,7 @@ jobs:
         run: npm run update-license
 
       - name: Commit and push the file
-        uses: maxgfr/github-commit-push-file@main
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_name: 'Update OSS_LICENSES.txt file'
+          commit_message: 'Update OSS_LICENSES.txt file'
+          push_options: '--force'
