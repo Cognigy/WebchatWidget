@@ -1,7 +1,7 @@
 name: Run Cypress
 on:
   workflow_run:
-    workflows: ["Build"]
+    workflows: ["license"]
 jobs:
   test:
     runs-on: ubuntu-latest
