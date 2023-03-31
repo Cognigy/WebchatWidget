@@ -1,9 +1,10 @@
-name: Run Build
+name: Update Licenses
 on:
   pull_request:
     branches:
       - releases/**
       - release/**
+      - releases/test-do-not-merge
 jobs:
   update-license:
     runs-on: ubuntu-latest
