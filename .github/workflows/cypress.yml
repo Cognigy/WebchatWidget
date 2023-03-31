@@ -2,15 +2,12 @@ name: Run Cypress
 on:
   pull_request:
     branches-ignore:
-      - releases/
-      - release/
+      - releases/test-do-not-merge
+      - release/*
+      - releases/**
 jobs:
   test:
     runs-on: ubuntu-latest
-    filters:
-      branches:
-        ignore:
-          - releases/
     steps:
       - name: Checkout
         uses: actions/checkout@v2
