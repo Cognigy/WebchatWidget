@@ -1,7 +1,11 @@
 name: Run Build
-on: [pull_request]
+on:
+  pull_request:
+    branches-ignore:
+      - 'releases/**'
+      - 'release/**'
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -12,19 +16,10 @@ jobs:
         with:
           node-version: '16'
       
-      - name: Build
-        run: npm ci && npm run build
+      - name: Re-install Node Modules
+        run: npm ci
 
       - name: Run Test
         run: npm test
-
-      - name: Update OSS_LICENSES text file
-        run: npm run update-license
-
-      - name: Commit and push the file
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 'Update OSS_LICENSES.txt file'
-          push_options: '--force'
 
   
