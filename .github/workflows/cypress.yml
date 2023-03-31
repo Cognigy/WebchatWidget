@@ -1,10 +1,9 @@
 name: Run Cypress
 on:
   pull_request:
-    branches-ignore:
-      - releases/test-do-not-merge
-      - release/*
-      - releases/**
+    branches:
+      - feature/**
+      - bug/**
 jobs:
   test:
     runs-on: ubuntu-latest
