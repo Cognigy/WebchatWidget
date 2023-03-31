@@ -2,9 +2,8 @@ name: Run Build
 on:
   pull_request:
     branches:
-      - 'releases/*'
-      - 'releases/**'
-      - 'release/**'
+      - 'releases/'
+      - 'release/'
 jobs:
   update-license:
     runs-on: ubuntu-latest

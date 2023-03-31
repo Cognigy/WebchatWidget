@@ -2,9 +2,8 @@ name: Run Build
 on:
   pull_request:
     branches-ignore:
-      - 'releases/*'
-      - 'releases/**'
-      - 'release/**'
+      - 'releases/'
+      - 'release/'
 jobs:
   test:
     runs-on: ubuntu-latest
