@@ -2,6 +2,7 @@ name: Run Build
 on:
   pull_request:
     branches:
+      - 'releases/*'
       - 'releases/**'
       - 'release/**'
 jobs:
