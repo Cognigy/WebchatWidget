@@ -1,10 +1,9 @@
 name: Run Build
 on: [pull_request]
 jobs:
-  license: 
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    needs: license
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -13,9 +12,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-
+      
       - name: Build
         run: npm ci && npm run build
+
+      - name: Run Test
+        run: npm test
 
       - name: Update OSS_LICENSES text file
         run: npm run update-license
@@ -25,21 +27,5 @@ jobs:
         with:
           commit_message: 'Update OSS_LICENSES.txt file'
           push_options: '--force'
-  test:
-    runs-on: ubuntu-latest
-    needs: license
-    if: contains(github.event.head_commit.message, 'Update OSS_LICENSES.txt file')
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-          fetch-depth: 0
-          
-      - run: npm ci
-      - run: npm test
 
   
