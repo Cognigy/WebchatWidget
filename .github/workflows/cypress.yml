@@ -1,9 +1,5 @@
-name: Run Build
-on:
-  pull_request:
-    branches-ignore:
-      - 'releases/**'
-      - 'release/**'
+name: Run Cypress
+on: [pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
