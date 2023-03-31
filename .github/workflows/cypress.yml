@@ -1,4 +1,4 @@
-name: Run Build
+name: Run Cypress
 on:
   pull_request:
     branches-ignore:
