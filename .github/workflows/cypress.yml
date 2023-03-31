@@ -7,6 +7,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    filters:
+      branches:
+        ignore:
+          - releases/
     steps:
       - name: Checkout
         uses: actions/checkout@v2
