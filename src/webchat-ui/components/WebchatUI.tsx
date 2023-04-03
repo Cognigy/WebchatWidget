@@ -138,7 +138,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
     constructor(props) {
         super(props);
-
         this.history = React.createRef();
         this.chatToggleButtonRef = React.createRef();
         this.closeButtonInHeaderRef = React.createRef();
@@ -168,7 +167,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         if (this.props.config.settings.enableUnreadMessageTitleIndicator) {
             this.initializeTitleIndicator();
         }
-
+        console.log("UI")
+        console.log(this.props.config.settings)
         // initialize the engagement message if configured
         this.initializeEngagementMessage();
 

@@ -57,9 +57,19 @@ export interface IWebchatSettings {
   inputAutogrowMaxRows: number;
   inputCollationTimeout: number;
   inputPlaceholder: string;
+  maintenanceEnabled: boolean;
+  maintenanceMode: string;
+  maintenanceText: string;
   messageDelay: number;
   /** TODO: this is the botAvatarUrl (rename for major) */
   messageLogoUrl: string;
+  businessHours: {
+    enabled: boolean;
+    timeZone: string;
+    text: string;
+    mode: string;
+    businessHours: IOfficeHours[];
+  };
   persistentMenu: {
     title: string;
     menuItems: IPersistentMenuItem[];
@@ -95,4 +105,10 @@ export interface IWebchatConfig {
   active: boolean;
   URLToken: string;
   settings: IWebchatSettings;
+}
+
+export interface IOfficeHours {
+  startTime: string;
+  endTime: string;
+  weekDay: string;
 }

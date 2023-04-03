@@ -42,6 +42,6 @@ export const createWebchatStore = (webchat: Webchat, url: string, overrideWebcha
     registerTypingHandler(store, client);
     registerConnectionHandler(store, client);
     registerUiHandler(store);
-
+    console.log('create store');
     return store;
 }

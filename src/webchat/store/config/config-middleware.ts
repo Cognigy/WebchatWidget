@@ -35,7 +35,7 @@ export const createConfigMiddleware = (url: string, overrideWebchatSettings?: IW
                     ...endpointConfig.settings,
                     ...overrideWebchatSettings
                 };
-
+                console.log(`Middleware: ${JSON.stringify(settings)}`)
                 const config: ConfigState = {
                     ...endpointConfig,
                     settings

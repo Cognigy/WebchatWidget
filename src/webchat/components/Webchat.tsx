@@ -46,7 +46,7 @@ export class Webchat extends React.PureComponent<WebchatProps> {
 
         const client = new SocketClient(baseUrl, token, socketOptions);
         this.client = client;
-
+        console.log('constructor');
         const store = createWebchatStore(this, url, settings);
         this.store = store;
 
@@ -54,7 +54,9 @@ export class Webchat extends React.PureComponent<WebchatProps> {
     }
 
     componentDidMount() {
+        console.log('mount');
         this.store.dispatch(loadConfig());
+        console.log(this.store.getState().config.settings.businessHours.enabled)
     }
 
     componentWillUnmount() {
@@ -82,6 +84,8 @@ export class Webchat extends React.PureComponent<WebchatProps> {
     }
 
     open = () => {
+        console.log('open');
+        console.log(this.store.getState().config.settings)
         this.store.dispatch(setOpen(true));
     }
 

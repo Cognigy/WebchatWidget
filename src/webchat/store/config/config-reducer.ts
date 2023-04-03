@@ -12,6 +12,13 @@ export const getInitialState = (): ConfigState => ({
   settings: {
     agentAvatarUrl: "",
     backgroundImageUrl: "",
+    businessHours: {
+      enabled: false,
+      timeZone: "Europe/Berlin",
+      text: "",
+      mode: "inform",
+      businessHours: []
+    },
     colorScheme: "",
     designTemplate: 1,
     disableBranding: false,
@@ -60,6 +67,9 @@ export const getInitialState = (): ConfigState => ({
     inputAutogrowMaxRows: 5,
     inputCollationTimeout: 1000,
     inputPlaceholder: "",
+    maintenanceEnabled: false,
+    maintenanceMode: "inform",
+    maintenanceText: "",
     messageDelay: 1000,
     messageLogoUrl: "",
     persistentMenu: {
