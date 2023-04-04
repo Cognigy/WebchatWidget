@@ -53,10 +53,9 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         this._handleOutput = createOutputHandler(this.store);
     }
 
-    componentDidMount() {
+    componentWillMount() {
         console.log('mount');
-        this.store.dispatch(loadConfig());
-        console.log(this.store.getState().config.settings.businessHours.enabled)
+        this.store.dispatch(loadConfig());    
     }
 
     componentWillUnmount() {

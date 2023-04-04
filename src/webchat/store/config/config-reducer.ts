@@ -9,6 +9,7 @@ export type ConfigState = IWebchatConfig;
 export const getInitialState = (): ConfigState => ({
   URLToken: "",
   active: false,
+  isConfigLoaded: false,
   settings: {
     agentAvatarUrl: "",
     backgroundImageUrl: "",

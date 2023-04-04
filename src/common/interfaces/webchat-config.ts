@@ -105,6 +105,7 @@ export interface IWebchatConfig {
   active: boolean;
   URLToken: string;
   settings: IWebchatSettings;
+  isConfigLoaded: boolean;
 }
 
 export interface IOfficeHours {

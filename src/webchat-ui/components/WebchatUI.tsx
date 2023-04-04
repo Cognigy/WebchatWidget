@@ -186,6 +186,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             })
         }
 
+        if (this.props.config.isConfigLoaded !== prevProps.config.isConfigLoaded) {
+            console.log("fully loaded config", this.props.config);
+        }
+
         if (!prevState.hadConnection && this.props.connected) {
             this.setState({
                 hadConnection: true
@@ -436,7 +440,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
         const { disableToggleButton, enableConnectionStatusIndicator, ratingTitleText, ratingCommentText } = config.settings;
 
-        if (!this.props.config.active)
+        if (!this.props.config.active || !this.props.config.isConfigLoaded)
             return null;
 
         const showDisconnectOverlay = enableConnectionStatusIndicator && !connected && hadConnection;
