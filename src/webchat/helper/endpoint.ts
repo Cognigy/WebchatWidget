@@ -1,3 +1,4 @@
+import 'yet-another-abortcontroller-polyfill'
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { fetch } from 'whatwg-fetch';
 import { IUploadFileMetaData, IUploadFileToken } from '../../common/interfaces/file-upload';
@@ -14,9 +15,24 @@ export const getEndpointUrlToken = (webchatConfigUrl: string) => {
     return webchatConfigUrl.split('/').pop() as string;
 }
 
-export const fetchWebchatConfig = async (webchatConfigUrl: string) => {
-    const response = await fetch(webchatConfigUrl);
-    return response.json() as IWebchatConfig;
+export const fetchWebchatConfig = async (webchatConfigUrl: string, timeout: number):Promise<IWebchatConfig | null> => {
+    const abortableFetch = ('signal' in new Request('')) ? window.fetch : fetch
+    const controller = new AbortController()
+    const config = setTimeout(() => controller.abort(), timeout);
+    let response = null;
+    try{
+        response = await abortableFetch(webchatConfigUrl, {
+            signal: controller.signal
+        });
+    }catch(err) {
+        if((err as Error).name === "AbortError"){
+            console.log('Unable to fetch endpoint configuration in time')
+        }
+    }
+    
+    clearTimeout(config);
+        return response ? (response as Response).json(): null
+
 }
 
 export const fetchFileUploadToken = async (fileUploadTokenUrl: string) => {

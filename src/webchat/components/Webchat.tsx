@@ -16,6 +16,9 @@ import { IWebchatSettings } from '../../common/interfaces/webchat-config';
 import { Options } from '@cognigy/socket-client/lib/interfaces/options';
 import { updateSettings } from '../store/config/config-reducer';
 import { createOutputHandler } from '../store/messages/message-handler';
+import { isDisabledDueToMaintenance } from '../helper/maintenance';
+import { isDisabledOutOfBusinessHours } from '../helper/businessHours';
+import { isDisabledDueToConnectivity } from '../helper/connectivity';
 
 export interface WebchatProps extends FromProps {
     url: string;
@@ -46,7 +49,6 @@ export class Webchat extends React.PureComponent<WebchatProps> {
 
         const client = new SocketClient(baseUrl, token, socketOptions);
         this.client = client;
-        console.log('constructor');
         const store = createWebchatStore(this, url, settings);
         this.store = store;
 
@@ -54,7 +56,6 @@ export class Webchat extends React.PureComponent<WebchatProps> {
     }
 
     componentWillMount() {
-        console.log('mount');
         this.store.dispatch(loadConfig());    
     }
 
@@ -82,10 +83,27 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         this.store.dispatch(sendMessage({ text, data }, options));
     }
 
-    open = () => {
-        console.log('open');
-        console.log(this.store.getState().config.settings)
-        this.store.dispatch(setOpen(true));
+    open = async () => {
+        if(this.store.getState().config.settings.awaitEndpointConfig){
+            const timeout = this.store.getState().config.settings.connectivity?.enabled && this.store.getState().config.settings.connectivity?.timeout|| 1000;
+            let timeoutReached = false;
+            let timeoutCounter = 0;
+            while (!this.store.getState().config.isConfigLoaded && !timeoutReached) {
+                await new Promise(f => setTimeout(f, 50));
+                timeoutCounter += 50;
+                if(timeoutCounter >= timeout){
+                    timeoutReached = true;
+                }
+            }
+            if(this.store.getState().config.settings.connectivity?.enabled && !isDisabledDueToMaintenance(this.store.getState().config.settings) && !isDisabledOutOfBusinessHours(this.store.getState().config.settings.businessHours) && !isDisabledDueToConnectivity(this.store.getState().config.settings, timeoutReached)){
+                this.store.dispatch(setOpen(true));
+            }else if(!this.store.getState().config.settings.connectivity?.enabled && !isDisabledDueToMaintenance(this.store.getState().config.settings) && !isDisabledOutOfBusinessHours(this.store.getState().config.settings.businessHours)){
+                this.store.dispatch(setOpen(true));
+            }
+            
+        }else{
+            this.store.dispatch(setOpen(true));
+        }
     }
 
     close = () => {

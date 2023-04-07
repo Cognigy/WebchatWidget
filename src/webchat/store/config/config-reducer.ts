@@ -10,17 +10,27 @@ export const getInitialState = (): ConfigState => ({
   URLToken: "",
   active: false,
   isConfigLoaded: false,
+  isTimedOut: false,
   settings: {
     agentAvatarUrl: "",
+    awaitEndpointConfig: false,
     backgroundImageUrl: "",
     businessHours: {
+      businessHours: [],
       enabled: false,
-      timeZone: "Europe/Berlin",
-      text: "",
       mode: "inform",
-      businessHours: []
+      text: "",
+      timeZone: "Europe/Berlin",
+      title: "",
     },
     colorScheme: "",
+    connectivity: {
+      enabled: false,
+      mode: "hide",
+      text: "",
+      timeout: 2000,
+      title: ""
+    },
     designTemplate: 1,
     disableBranding: false,
     disableDefaultReplyCompatiblityMode: false,
@@ -68,9 +78,12 @@ export const getInitialState = (): ConfigState => ({
     inputAutogrowMaxRows: 5,
     inputCollationTimeout: 1000,
     inputPlaceholder: "",
-    maintenanceEnabled: false,
-    maintenanceMode: "inform",
-    maintenanceText: "",
+    maintenance: {
+      enabled: false,
+      mode: "inform",
+      text: "",
+      title: ""
+    },
     messageDelay: 1000,
     messageLogoUrl: "",
     persistentMenu: {
@@ -113,7 +126,7 @@ export const applyWebchatSettingsOverrides = (payload: Partial<IWebchatSettings>
 export type ApplyWebchatSettingsOverridesAction = ReturnType<typeof applyWebchatSettingsOverrides>;
 
 export const SET_CONFIG = "SET_CONFIG";
-export const setConfig = (config: ConfigState) => ({
+export const setConfig = (config: Partial<ConfigState>) => ({
   type: SET_CONFIG as "SET_CONFIG",
   config,
 });

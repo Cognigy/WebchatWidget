@@ -35,6 +35,10 @@ import { findReverse } from '../utils/find-reverse';
 import "../../assets/style.css";
 import TypingIndicator from './history/TypingIndicator';
 import RatingDialog from './presentational/RatingDialog';
+import { isDisabledOutOfBusinessHours, isHiddenOutOfBusinessHours, isInformingOutOfBusinessHours } from '../../webchat/helper/businessHours';
+import { isDisabledDueToMaintenance, isHiddenDueToMaintenance, isInformingDueToMaintenance } from '../../webchat/helper/maintenance';
+import FABDisabled from './presentational/FABDisabled';
+import { isDisabledDueToConnectivity, isHiddenDueToConnectivity, isInformingDueToConnectivity } from '../../webchat/helper/connectivity';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -85,6 +89,7 @@ interface WebchatUIState {
     hadConnection: boolean;
     lastUnseenMessageText: string;
     wasOpen: boolean;
+    timedOut: boolean;
 }
 
 const stylisPlugins = [
@@ -122,6 +127,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         hadConnection: false,
         lastUnseenMessageText: "",
         wasOpen: false,
+        timedOut: false
     };
 
     history: React.RefObject<ChatScroller>;
@@ -167,27 +173,13 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         if (this.props.config.settings.enableUnreadMessageTitleIndicator) {
             this.initializeTitleIndicator();
         }
-        console.log("UI")
-        console.log(this.props.config.settings)
-        // initialize the engagement message if configured
-        this.initializeEngagementMessage();
-
-        if (this.props.open) {
-            this.setState({
-                wasOpen: true
-            });
-        }
     }
 
-    componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
+    async componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
         if (this.props.config.settings.colorScheme !== prevProps.config.settings.colorScheme) {
             this.setState({
                 theme: createWebchatTheme({ primaryColor: this.props.config.settings.colorScheme })
             })
-        }
-
-        if (this.props.config.isConfigLoaded !== prevProps.config.isConfigLoaded) {
-            console.log("fully loaded config", this.props.config);
         }
 
         if (!prevState.hadConnection && this.props.connected) {
@@ -228,21 +220,45 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             this.setState({ lastUnseenMessageText: "" })
         }
 
-        // initialize the title indicator if configured
-        if (
-            this.props.config.settings.enableUnreadMessageTitleIndicator
-            && this.props.config.settings.enableUnreadMessageTitleIndicator !== prevProps.config.settings.enableUnreadMessageTitleIndicator
-        ) {
-            this.initializeTitleIndicator();
+        if (this.props.config.settings.awaitEndpointConfig && !this.props.config.isConfigLoaded) {
+            const timeout = this.props.config.settings.connectivity?.enabled && this.props.config.settings.connectivity?.timeout|| 1000;
+            let timeoutReached = false;
+            let timeoutCounter = 0;
+            while (!this.props.config.isConfigLoaded && !timeoutReached) {
+                await new Promise(f => setTimeout(f, 50));
+                timeoutCounter += 50;
+                if(timeoutCounter >= timeout){
+                    timeoutReached = true;
+                    this.setState({
+                        timedOut: true
+                    });
+                }
+            }
         }
 
-        // initialize the engagement message if configured
-        this.initializeEngagementMessage();
+        if (
+            !(
+                isDisabledDueToMaintenance(this.props.config.settings) ||
+                isDisabledOutOfBusinessHours(this.props.config.settings.businessHours)
+            )
+        ) {
 
-        if (this.props.open && !this.state.wasOpen) {
-            this.setState({
-                wasOpen: true
-            });
+            // initialize the title indicator if configured
+            if (
+                this.props.config.settings.enableUnreadMessageTitleIndicator
+                && this.props.config.settings.enableUnreadMessageTitleIndicator !== prevProps.config.settings.enableUnreadMessageTitleIndicator
+            ) {
+                this.initializeTitleIndicator();
+            }
+
+            // initialize the engagement message if configured
+            this.initializeEngagementMessage();
+
+            if (this.props.open && !this.state.wasOpen) {
+                this.setState({
+                    wasOpen: true
+                });
+            }
         }
     }
 
@@ -347,13 +363,13 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const { open } = this.props;
         const { target, key, shiftKey } = event;
         const shiftTabKeyPress = shiftKey && key === "Tab";
-        const tabKeyPress = !shiftKey && key === "Tab";        
+        const tabKeyPress = !shiftKey && key === "Tab";
 
         if (enableFocusTrap && open) {
             // Get the first and last focusable elements within the webchat window and add focus
             const webchatWindowEl = this.webchatWindowRef?.current as HTMLElement;
             const { firstFocusable, lastFocusable } = getKeyboardFocusableElements(webchatWindowEl);
-            const chatToggleButton = this.chatToggleButtonRef?.current;   
+            const chatToggleButton = this.chatToggleButtonRef?.current;
 
             /**
              * In order to trap focus, 
@@ -440,12 +456,31 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
         const { disableToggleButton, enableConnectionStatusIndicator, ratingTitleText, ratingCommentText } = config.settings;
 
-        if (!this.props.config.active || !this.props.config.isConfigLoaded)
+        if ((!this.props.config.active && !this.props.config.settings.connectivity.enabled) ||
+            (!this.props.config.isConfigLoaded && this.props.config.settings.awaitEndpointConfig) ||
+            (this.props.config.isConfigLoaded && this.props.config.settings.awaitEndpointConfig &&
+                (isHiddenOutOfBusinessHours(this.props.config.settings.businessHours) ||
+                    isHiddenDueToMaintenance(this.props.config.settings) ||
+                    isHiddenDueToConnectivity(this.props.config.settings, this.state.timedOut)
+                    )))
             return null;
+
+        const isDisabled = this.props.config.isConfigLoaded &&
+            this.props.config.settings.awaitEndpointConfig &&
+            (isDisabledDueToMaintenance(this.props.config.settings) ||
+                isDisabledOutOfBusinessHours(this.props.config.settings.businessHours) ||
+                isDisabledDueToConnectivity(this.props.config.settings, this.state.timedOut));
+
+        const isInforming = this.props.config.isConfigLoaded &&
+            this.props.config.settings.awaitEndpointConfig &&
+            (isInformingDueToMaintenance(this.props.config.settings) ||
+                isInformingOutOfBusinessHours(this.props.config.settings.businessHours) ||
+                isInformingDueToConnectivity(this.props.config.settings, this.state.timedOut));
 
         const showDisconnectOverlay = enableConnectionStatusIndicator && !connected && hadConnection;
 
         const openChatAriaLabel = () => {
+
             switch (unseenMessages.length) {
                 case 0:
                     return "Open chat";
@@ -453,6 +488,19 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     return "One unread message in chat. Open chat";
                 default:
                     return `${unseenMessages.length} unread messages in chat. Open chat`;
+            }
+        }
+
+        const getDisabledMessage = () => {
+            if (isDisabled &&
+                isDisabledDueToMaintenance(this.props.config.settings)) {
+                return this.props.config.settings.maintenance.text || "This chat is currently disabled due to maintenance";
+            } else if(isDisabled &&
+                isDisabledOutOfBusinessHours(this.props.config.settings.businessHours)){
+                return this.props.config.settings.maintenance.text || "This chat is disabled out of our business hours";
+            } else if(isDisabled &&
+                isDisabledDueToConnectivity(this.props.config.settings, this.state.timedOut)){
+                return this.props.config.settings.connectivity.text || "This chat is disabled due to connectivity issues";
             }
         }
 
@@ -470,30 +518,34 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                             onKeyDown={this.handleKeydown}
                         >
                             <CacheProvider value={styleCache}>
-                                {open && (
-                                    <WebchatRoot
-                                        data-cognigy-webchat
-                                        {...webchatRootProps}
-                                        className="webchat"
-                                        id="webchatWindow"
-                                        ref={this.webchatWindowRef}
-                                    >
-                                        {!fullscreenMessage
-                                            ? this.renderRegularLayout()
-                                            : this.renderFullscreenMessageLayout()
-                                        }
-                                        {
-                                            showRatingDialog &&
-                                            <RatingDialog
-                                                onCloseRatingDialog={() => onShowRatingDialog(false)}
-                                                onSendRating={this.handleSendRating}
-                                                ratingTitleText={customRatingTitle || ratingTitleText}
-                                                ratingCommentText={customRatingCommentText || ratingCommentText}
-                                            />
-                                        }
-                                        {showDisconnectOverlay && <DisconnectOverlay onConnect={onConnect} isPermanent={!!reconnectionLimit} onClose={onClose} />}
-                                    </WebchatRoot>
-                                )}
+                                {open &&
+                                    (!this.props.config.settings.awaitEndpointConfig ||
+                                        this.props.config.settings.awaitEndpointConfig &&
+                                        this.props.config.isConfigLoaded)
+                                    && (
+                                        <WebchatRoot
+                                            data-cognigy-webchat
+                                            {...webchatRootProps}
+                                            className="webchat"
+                                            id="webchatWindow"
+                                            ref={this.webchatWindowRef}
+                                        >
+                                            {!fullscreenMessage && !isInforming
+                                                ? this.renderRegularLayout()
+                                                : this.renderFullscreenMessageLayout()
+                                            }
+                                            {
+                                                showRatingDialog &&
+                                                <RatingDialog
+                                                    onCloseRatingDialog={() => onShowRatingDialog(false)}
+                                                    onSendRating={this.handleSendRating}
+                                                    ratingTitleText={customRatingTitle || ratingTitleText}
+                                                    ratingCommentText={customRatingCommentText || ratingCommentText}
+                                                />
+                                            }
+                                            {showDisconnectOverlay && <DisconnectOverlay onConnect={onConnect} isPermanent={!!reconnectionLimit} onClose={onClose} />}
+                                        </WebchatRoot>
+                                    )}
                                 {!disableToggleButton && (
                                     <div>
                                         {
@@ -509,31 +561,44 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                 </UnreadMessagePreview>
                                             )
                                         }
-                                        <FAB
-                                            data-cognigy-webchat-toggle
-                                            onClick={onToggle}
-                                            {...webchatToggleProps}
-                                            type='button'
-                                            className="webchat-toggle-button"
-                                            aria-label={open ? "Close chat" : openChatAriaLabel()}
-                                            ref={this.chatToggleButtonRef}
-                                        >
-                                            {open ? (
-                                                <CloseIcon />
-                                            ) : (
-                                                <ChatIcon />
-                                            )}
-                                            {
-                                                config.settings.enableUnreadMessageBadge ?
-                                                    <Badge
-                                                        content={unseenMessages.length}
-                                                        className='webchat-unread-message-badge'
-                                                        aria-label={`${unseenMessages.length} unread messages`}
-                                                    />
-                                                    :
-                                                    null
-                                            }
-                                        </FAB>
+                                        {isDisabled ?
+                                            <div title={getDisabledMessage()}>
+                                                <FABDisabled
+                                                    data-cognigy-webchat-toggle
+                                                    {...webchatToggleProps}
+                                                    type='button'
+                                                    className="webchat-toggle-button-disabled"
+                                                    aria-label={getDisabledMessage()}
+                                                    ref={this.chatToggleButtonRef}
+                                                >
+                                                    <ChatIcon />
+                                                </FABDisabled>
+                                            </div>
+                                            : <FAB
+                                                data-cognigy-webchat-toggle
+                                                onClick={onToggle}
+                                                {...webchatToggleProps}
+                                                type='button'
+                                                className="webchat-toggle-button"
+                                                aria-label={open ? "Close chat" : openChatAriaLabel()}
+                                                ref={this.chatToggleButtonRef}
+                                            >
+                                                {open ? (
+                                                    <CloseIcon />
+                                                ) : (
+                                                    <ChatIcon />
+                                                )}
+                                                {
+                                                    config.settings.enableUnreadMessageBadge ?
+                                                        <Badge
+                                                            content={unseenMessages.length}
+                                                            className='webchat-unread-message-badge'
+                                                            aria-label={`${unseenMessages.length} unread messages`}
+                                                        />
+                                                        :
+                                                        null
+                                                }
+                                            </FAB>}
                                     </div>
                                 )}
                             </CacheProvider>
@@ -569,6 +634,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     closeButtonRef={this.closeButtonInHeaderRef}
                     chatToggleButtonRef={this.chatToggleButtonRef}
                     showRatingButton={showRatingButton}
+                    showCloseButton={true}
                     onRatingButtonClick={() => onShowRatingDialog(true)}
                 />
                 <HistoryWrapper
@@ -597,6 +663,56 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
         const { messagePlugins } = this.state;
 
+        let message = fullscreenMessage as IMessage;
+
+        if(config.settings.maintenance.enabled && config.settings.maintenance.mode === "inform"){
+            message = {
+                text: config.settings.maintenance.text || "This Webchat is disabled due to maintenance",
+                data: {
+                    _plugin:{
+                        type: "full-screen-notification",
+                        text: config.settings.maintenance.text,
+                        data: {
+                            title: config.settings.maintenance.title || "",
+                            disableHtmlContentSanitization: config.settings.disableHtmlContentSanitization
+                        }
+                    }
+                },
+                source: "bot",
+                traceId: ""
+            }
+        }else if(config.settings.connectivity.enabled && config.settings.connectivity.mode === "inform"){
+            message = {
+                text: config.settings.connectivity.text || "This Webchat is disabled due to connectivity issues",
+                data: {
+                    _plugin:{
+                        type: "full-screen-notification",
+                        text: config.settings.connectivity.text,
+                        data: {
+                            title: config.settings.connectivity.title || ""
+                        }
+                    }
+                },
+                source: "bot",
+                traceId: ""
+            }
+        }else if(config.settings.businessHours.enabled && config.settings.businessHours.mode === "inform"){
+            message = {
+                text: config.settings.businessHours.text || "This Webchat is disabled out of business hours",
+                data: {
+                    _plugin:{
+                        type: "full-screen-notification",
+                        text: config.settings.businessHours.text,
+                        data: {
+                            title: config.settings.businessHours.title || ""
+                        }
+                    }
+                },
+                source: "bot",
+                traceId: ""
+            }
+        }
+
         return (
             <FullScreenMessage
                 onSendMessage={this.sendMessage}
@@ -604,7 +720,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 plugins={messagePlugins}
                 onSetFullscreen={() => { }}
                 onDismissFullscreen={onDismissFullscreenMessage}
-                message={fullscreenMessage as IMessage}
+                message={message}
                 webchatTheme={this.state.theme}
                 onEmitAnalytics={onEmitAnalytics}
             />
@@ -632,7 +748,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         plugins={messagePlugins}
                         webchatTheme={this.state.theme}
                         onEmitAnalytics={onEmitAnalytics}
-                    />  
+                    />
                 ))}
                 {enableTypingIndicator && (
                     <TypingIndicator active={isTyping} />

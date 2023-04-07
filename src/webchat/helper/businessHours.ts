@@ -73,3 +73,10 @@ export const isDisabledOutOfBusinessHours = (businessHours: IWebchatSettings['bu
     }
     return false;
 }
+
+export const isInformingOutOfBusinessHours = (businessHours: IWebchatSettings['businessHours']): boolean => {
+    if (isOutOfBusinessHours(businessHours) && businessHours.mode === "inform") {
+        return true;
+    }
+    return false;
+}

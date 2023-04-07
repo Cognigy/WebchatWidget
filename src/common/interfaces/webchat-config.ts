@@ -7,9 +7,25 @@ export type TSourceDirection = 'incoming' | 'outgoing';
 export type TSourceColor = 'primary' | 'neutral';
 
 export interface IWebchatSettings {
+  awaitEndpointConfig: boolean;
   agentAvatarUrl: string;
   backgroundImageUrl: string;
+  businessHours: {
+    businessHours: IOfficeHours[];
+    enabled: boolean;
+    mode: string;
+    text: string;
+    timeZone: string;
+    title: string;
+  };
   colorScheme: string;
+  connectivity: {
+    enabled: boolean;
+    mode: string;
+    text: string;
+    timeout: number;
+    title: string;
+  }
   designTemplate: number;
   disableBranding: boolean;
   disableDefaultReplyCompatiblityMode: boolean;
@@ -57,19 +73,15 @@ export interface IWebchatSettings {
   inputAutogrowMaxRows: number;
   inputCollationTimeout: number;
   inputPlaceholder: string;
-  maintenanceEnabled: boolean;
-  maintenanceMode: string;
-  maintenanceText: string;
+  maintenance: {
+    enabled: boolean;
+    mode: string;
+    text: string;
+    title: string;
+  };
   messageDelay: number;
   /** TODO: this is the botAvatarUrl (rename for major) */
   messageLogoUrl: string;
-  businessHours: {
-    enabled: boolean;
-    timeZone: string;
-    text: string;
-    mode: string;
-    businessHours: IOfficeHours[];
-  };
   persistentMenu: {
     title: string;
     menuItems: IPersistentMenuItem[];
@@ -106,6 +118,7 @@ export interface IWebchatConfig {
   URLToken: string;
   settings: IWebchatSettings;
   isConfigLoaded: boolean;
+  isTimedOut: boolean;
 }
 
 export interface IOfficeHours {
