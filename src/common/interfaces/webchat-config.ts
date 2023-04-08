@@ -11,7 +11,7 @@ export interface IWebchatSettings {
   agentAvatarUrl: string;
   backgroundImageUrl: string;
   businessHours: {
-    businessHours: IOfficeHours[];
+    businessHours: IBusinessHours[];
     enabled: boolean;
     mode: string;
     text: string;
@@ -121,7 +121,7 @@ export interface IWebchatConfig {
   isTimedOut: boolean;
 }
 
-export interface IOfficeHours {
+export interface IBusinessHours {
   startTime: string;
   endTime: string;
   weekDay: string;

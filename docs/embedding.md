@@ -73,7 +73,10 @@ See it in action:
 | Name                                | Type                                | Default                            | [UI Config](#UI-Configurable) | [Demo Exclusive](#Demo-Page-Settings) | [Updatable](#Safe-To-Update)    | Description                                                                                                                                                                                                     |
 | ----------------------------------- | ----------------------------------- | ---------------------------------- | ----------------------------- | ------------------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | agentAvatarUrl                      | string                              | undefined                          | x                             |                                       |                                 | A custom avatar that sould be displayed next to agent messages                                                                                                                                                  |
+| awaitEndpointConfig                 | boolean                             | false                              |                               |                                       |                                 | Await the loading of the endpoint configuration. This setting is a necessary precondition for the settings `maintenance`, `businessHours` and `connectivity`                                                    |
+| businessHours                       | [Business Hours](#business-hours)   | -                                  | x                             |                                       |                                 | Business hours will prevent the user from using the bot if he loads the embedding page out of business hours                                                                                                    |
 | colorScheme                         | string                              | #2C6CAF                            | x                             |                                       |                                 | The background color of the header and bot messages in the Webchat.                                                                                                                                             |
+| connectivity                        | [Connectivity](#connectivity)       | -                                  |                               |                                       |                                 | Enabling the connectivity handler will prevent the user from using the Webchat Widget if it's unable to load the endpoint configuration within a specified time frame                                           |
 | designTemplate                      | 1 or 2                              | 1                                  | x                             | x                                     |                                 | The Webchat design template to use. We default to design template 1 (bottom right with a button), you can switch to template 2, which is the centered webchat.                                                  |
 | disableBranding                     | boolean                             | false                              |                               |                                       |                                 | If true, hides "Powered by Cognigy" link                                                                                                                                                                        |
 | disableDefaultReplyCompatiblityMode | boolean                             | false                              |                               |                                       |                                 | If this is set to true, the webchat will not try to look for messenger content in `data._data._cognigy`. This can lead to issues with structured content in Intent Default Replies.                             |
@@ -114,6 +117,7 @@ See it in action:
 | inputAutogrowMaxRows                | number                              | 5                                  |                               |                                       |                                 | Configures the maximum amount of lines that the regular input textfield will grow to. Adding more content or lines will result in a scrollbar.                                                                  |
 | inputCollationTimeout               | number                              | 1000                               |                               |                                       |                                 | Configures the amout of time after which collated messages are automatically being submit (if using the `enableInputCollation` option)                                                                          |
 | inputPlaceholder                    | string                              | "Write a reply"                    | x                             |                                       |                                 | The placeholder text to display in the input field.                                                                                                                                                             |
+| maintenance                         | [Maintenance](#maintenance)         | -                                  | x                             |                                       |                                 | Configures the maintenance mode to prevent the user from using the Webchat Widget during maintenance                                                                                                            |
 | messageLogoUrl                      | string                              | COGNIGY.AI Logo                    | x                             |                                       |                                 | A custom avatar that should be displayed next to bot messages. Defaults to a COGNIGY.AI logo.                                                                                                                   |
 | persistentMenu                      | [Persistent Menu](#persistent-menu) | -                                  | x                             |                                       |                                 | The Persistent Menu to render in the Webchat.                                                                                                                                                                   |
 | ratingTitleText                     | string                              | "Please rate your chat experience" |                               |                                       |                                 | The title displayed in the rating dialog prompt.                                                                                                                                                                |
@@ -176,6 +180,50 @@ If the website title should display, that the virtual agent sent a new message, 
   }
 }
 ```
+
+#### Maintenance
+
+All maintenance settings require the setting `awaitEndpointConfig` as prerequisite.
+
+| Name    | Type                        | Default    | Description                                                                                                       |
+| ------- | --------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------- |
+| enabled | boolean                     | `false`    | Enable maintenance mode                                                                                           |
+| mode    | 'hide', 'disable', 'inform' | `'inform'` | Choose to either 'hide' the Webchat Widget, 'disable' it or 'inform' the user about maintenance mode              |
+| text    | string                      | `""`       | Text that is displayed to users during maintenance mode                                                           |
+| title   | string                      | `""`       | Title that is displayed to the user during maintenance mode if mode is set to 'inform'. Leave empty for no header |
+
+#### Business Hours
+
+All business hours settings require the setting `awaitEndpointConfig` as prerequisite.
+
+| Name          | Type                                                 | Default           | Description                                                                                                                       |
+| ------------- | ---------------------------------------------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| enabled       | boolean                                              | `false`           | Enable business hours                                                                                                             |
+| mode          | 'hide', 'disable', 'inform'                          | `'inform'`        | Choose to either 'hide' the Webchat Widget, 'disable' it or 'inform' the user when using the Webchat Widget out of business hours |
+| text          | string                                               | `""`              | Text that is displayed to users out of business hours                                                                             |
+| title         | string                                               | `""`              | Title that is displayed to the user out of business hours if mode is set to 'inform'. Leave empty for no header                   |
+| timeZone      | string                                               | `"Europe/Berlin"` | A timezone from the [`list of supported time zones`](https://gist.github.com/diogocapela/12c6617fc87607d11fd62d2a4f42b02a)        |
+| businessHours | Array of [Busines Hours Items](#business-hours-item) | `[]`              | An array of business hours during which the bot will be available                                                                 |
+
+#### Business Hours Item
+
+| Name      | Type   | Default                                                                                    | Description                                                |
+| --------- | ------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| startTime | string | `""`                                                                                       | The starting time of the business hours, e.g. `08:00`      |
+| endTime   | string | `""`                                                                                       | The end time of the business hours e.g. `17:00`            |
+| weekDay   | string | `"monday"`, `"tuesday"`, `"wednesday"`, `"thursday"`, `"friday"`, `"saturday"`, `"sunday"` | The day of the week when the business hours will be active |
+
+#### Connectivity
+
+All connectivity settings require the setting `awaitEndpointConfig` as prerequisite.
+
+| Name    | Type                        | Default    | Description                                                                                                                                 |
+| ------- | --------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| enabled | boolean                     | `false`    | Enable connectivity issue handling                                                                                                          |
+| mode    | 'hide', 'disable', 'inform' | `'inform'` | Choose to either 'hide' the Webchat Widget, 'disable' it or 'inform' the user when the configuration can't be loaded from the endpoint      |
+| text    | string                      | `""`       | Text that is displayed to users during connectivity issues                                                                                  |
+| title   | string                      | `""`       | Title that is displayed to the user during connectivity issues if mode is set to 'inform'. Leave empty for no header                        |
+| timeout | number                      | `2000`     | The maximum time in milliseconds to wait for successful loading of the endpoint configuration before activating connectivity issue handling |
 
 See it in action:  
 [![Edit Override Endpoint Settings](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/unread-message-preview-oubyf?fontsize=14&hidenavigation=1&theme=dark)
