@@ -7,8 +7,7 @@ import { sanitizeHTML } from "../../webchat/helper/sanitize";
 
 
 const FullScreenNotification = props => {
-
-    const { theme, message } = props;
+    const { message } = props;
 
     const { text, data } = message.data._plugin;
 
