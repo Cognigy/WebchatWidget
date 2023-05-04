@@ -57,7 +57,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
     switch (action.type) {
         case 'SEND_MESSAGE': {
             const { message, options } = action;
-            let { text, data } = message;
+            let { text, data, attachments } = message;
 
             if (!store.getState().config.settings.disableTextInputSanitization) {
                 text = sanitizeHTML(text || '');
@@ -76,10 +76,10 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
                 : null;
 
             // don't send empty messages!
-            if (!text && !data)
+            if (!text && !data && !attachments)
                 break;
 
-            client.sendMessage(text || '', data);
+            client.sendMessage(text || '', data, attachments);
 
             const displayMessage = { ...message, text };
 

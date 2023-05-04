@@ -10,7 +10,7 @@ import { IFBMListTemplateElement, IFBMListTemplatePayload } from '../messenger/M
 const MessengerListTemplate = getMessengerListTemplate({ React, styled });
 const AttachmentsMessage = (props: MessageComponentProps) => {
 	const { message, config, color, onEmitAnalytics } = props
-	const attachments = message.data.attachments as IUploadFileMetaData[];
+	const attachments = message.attachments as IUploadFileMetaData[];
 
 	const payloadElements: IFBMListTemplateElement[] = [];
 

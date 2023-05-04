@@ -222,16 +222,11 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
             }
         });
 
-        let data: any = null;
-        if (attachments.length > 0) {
-            data = { attachments };
-        }
-
         this.setState({
             text: '',
             fileList: []
         }, () => {
-            this.props.onSendMessage(text, data, {
+            this.props.onSendMessage(text, null, attachments, {
                 collate: true
             });
 

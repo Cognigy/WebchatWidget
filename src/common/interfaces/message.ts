@@ -1,6 +1,7 @@
 export interface IBaseMessage {
     text?: string;
     data?: any;
+    attachments?: any[];
     source: string;
     avatarUrl?: string;
 }
