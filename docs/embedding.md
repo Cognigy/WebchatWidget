@@ -37,6 +37,16 @@ For older browsers, we ship a seperate build of the Webchat called `webchat.lega
 See it in action:  
 [![Edit Using a Compatibility Build](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/embedding-the-cognigy-webchat-yu1yg?fontsize=14&hidenavigation=1&theme=dark)
 
+## Content-Security-Policy (CSP)
+
+When embedding Webchat within a website implementing a stricter
+security environment, the CSP should be extended
+to allow connections to the Cognigy AI Endpoint host.
+(Note: Endpoint URL is the first parameter to the initWebchat function)
+
+webchat.js, plugins and webchat initialization code need to be allowed
+to execute. Note: Webchat plugins can have their own CSP requirements.
+
 ## Using Webchat Plugins
 
 To make use of Webchat Plugins, you have to load them via `<script>` tags AFTER loading the `webchat.js` / `webchat.legacy.js` and BEFORE calling `initWebchat()`
