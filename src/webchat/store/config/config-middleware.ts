@@ -19,7 +19,6 @@ export type LoadConfigAction = ReturnType<typeof loadConfig>;
 export const createConfigMiddleware = (url: string, overrideWebchatSettings?: IWebchatSettings): Middleware<{}, StoreState> => store => next => (action: LoadConfigAction) => {
     switch (action.type) {
         case 'LOAD_CONFIG': {
-            console.log("load config")
             // we might want to check whether we need to fetch the config
 
             // this needs to be applied in order to make sure we're restoring from/to the correct store

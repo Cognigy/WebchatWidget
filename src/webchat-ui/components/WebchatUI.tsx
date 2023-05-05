@@ -139,6 +139,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     private unreadTitleIndicatorInterval: ReturnType<typeof setInterval> | null = null;
     private originalTitle: string = window.document.title;
     private titleType: 'original' | 'unread' = 'original';
+    private hideNotifications = true;
+    private visibilityCheckInitialized = false;
+    private visibilityCheckCompleted = false;
 
     private engagementMessageTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -164,15 +167,38 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         return null;
     }
 
+    private checkNotificationsHidden = async () => {
+        let timeoutReached = false;
+        if (this.props.config.settings.awaitEndpointConfig && !this.props.config.isConfigLoaded) {
+            const timeout = this.props.config.settings.connectivity?.enabled && this.props.config.settings.connectivity?.timeout || 1000;
+            let timeoutCounter = 0;
+            while (!this.props.config.isConfigLoaded && !timeoutReached) {
+                await new Promise(f => setTimeout(f, 50));
+                timeoutCounter += 50;
+                if (timeoutCounter >= timeout) {
+                    timeoutReached = true;
+                    this.setState({
+                        timedOut: true
+                    });
+                }
+            }
+        }
+        this.hideNotifications = isDisabledDueToConnectivity(this.props.config.settings, timeoutReached) ||
+            isDisabledDueToMaintenance(this.props.config.settings) ||
+            isDisabledOutOfBusinessHours(this.props.config.settings.businessHours) ||
+            isInformingDueToConnectivity(this.props.config.settings, timeoutReached) ||
+            isInformingDueToMaintenance(this.props.config.settings) ||
+            isInformingOutOfBusinessHours(this.props.config.settings.businessHours) ||
+            isHiddenDueToConnectivity(this.props.config.settings, timeoutReached) ||
+            isHiddenDueToMaintenance(this.props.config.settings) ||
+            isHiddenOutOfBusinessHours(this.props.config.settings.businessHours) || false;
+    }
+
     componentDidMount() {
         this.setState({
             inputPlugins: [...this.props.inputPlugins || [], textInputPlugin],
             messagePlugins: [...this.props.messagePlugins || [], regularMessagePlugin]
         });
-
-        if (this.props.config.settings.enableUnreadMessageTitleIndicator) {
-            this.initializeTitleIndicator();
-        }
     }
 
     async componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
@@ -188,7 +214,17 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             })
         }
 
-        if (prevProps.unseenMessages !== this.props.unseenMessages
+        if (!this.visibilityCheckInitialized) {
+            this.visibilityCheckInitialized = true;
+            await this.checkNotificationsHidden();
+            this.visibilityCheckCompleted = true;
+        }
+
+        while (!this.visibilityCheckCompleted) {
+            await new Promise(f => setTimeout(f, 50));
+        }
+
+        if (!this.hideNotifications && prevProps.unseenMessages !== this.props.unseenMessages
             || !prevProps.config.settings.enableUnreadMessagePreview && this.props.config.settings.enableUnreadMessagePreview) {
             const { unseenMessages } = this.props;
 
@@ -220,33 +256,12 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             this.setState({ lastUnseenMessageText: "" })
         }
 
-        if (this.props.config.settings.awaitEndpointConfig && !this.props.config.isConfigLoaded) {
-            const timeout = this.props.config.settings.connectivity?.enabled && this.props.config.settings.connectivity?.timeout|| 1000;
-            let timeoutReached = false;
-            let timeoutCounter = 0;
-            while (!this.props.config.isConfigLoaded && !timeoutReached) {
-                await new Promise(f => setTimeout(f, 50));
-                timeoutCounter += 50;
-                if(timeoutCounter >= timeout){
-                    timeoutReached = true;
-                    this.setState({
-                        timedOut: true
-                    });
-                }
-            }
-        }
-
         if (
-            !(
-                isDisabledDueToMaintenance(this.props.config.settings) ||
-                isDisabledOutOfBusinessHours(this.props.config.settings.businessHours)
-            )
+            !this.hideNotifications
         ) {
-
             // initialize the title indicator if configured
             if (
                 this.props.config.settings.enableUnreadMessageTitleIndicator
-                && this.props.config.settings.enableUnreadMessageTitleIndicator !== prevProps.config.settings.enableUnreadMessageTitleIndicator
             ) {
                 this.initializeTitleIndicator();
             }
@@ -312,8 +327,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
      * This sets up the "unread messages" title indicator interval.
      * It should only be registered once!
      */
-    initializeTitleIndicator = () => {
-        if (this.unreadTitleIndicatorInterval)
+    initializeTitleIndicator = async () => {
+        if (this.unreadTitleIndicatorInterval || this.hideNotifications)
             return;
 
         this.unreadTitleIndicatorInterval = setInterval(this.toggleTitleIndicator, 1000);
@@ -462,7 +477,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 (isHiddenOutOfBusinessHours(this.props.config.settings.businessHours) ||
                     isHiddenDueToMaintenance(this.props.config.settings) ||
                     isHiddenDueToConnectivity(this.props.config.settings, this.state.timedOut)
-                    )))
+                )))
             return null;
 
         const isDisabled = this.props.config.isConfigLoaded &&
@@ -495,15 +510,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             if (isDisabled &&
                 isDisabledDueToMaintenance(this.props.config.settings)) {
                 return this.props.config.settings.maintenance.text || "This chat is currently disabled due to maintenance";
-            } else if(isDisabled &&
-                isDisabledOutOfBusinessHours(this.props.config.settings.businessHours)){
+            } else if (isDisabled &&
+                isDisabledOutOfBusinessHours(this.props.config.settings.businessHours)) {
                 return this.props.config.settings.maintenance.text || "This chat is disabled out of our business hours";
-            } else if(isDisabled &&
-                isDisabledDueToConnectivity(this.props.config.settings, this.state.timedOut)){
+            } else if (isDisabled &&
+                isDisabledDueToConnectivity(this.props.config.settings, this.state.timedOut)) {
                 return this.props.config.settings.connectivity.text || "This chat is disabled due to connectivity issues";
             }
         }
-
         return (
             <>
                 <ThemeProvider theme={theme}>
@@ -562,7 +576,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             )
                                         }
                                         {isDisabled ?
-                                            <div title={getDisabledMessage()}>
+                                            <div title={getDisabledMessage()} tabIndex={-1} aria-disabled>
                                                 <FABDisabled
                                                     data-cognigy-webchat-toggle
                                                     {...webchatToggleProps}
@@ -570,6 +584,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                     className="webchat-toggle-button-disabled"
                                                     aria-label={getDisabledMessage()}
                                                     ref={this.chatToggleButtonRef}
+                                                    disabled
                                                 >
                                                     <ChatIcon />
                                                 </FABDisabled>
@@ -665,11 +680,11 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
         let message = fullscreenMessage as IMessage;
 
-        if(config.settings.maintenance.enabled && config.settings.maintenance.mode === "inform"){
+        if (config.settings.maintenance.enabled && config.settings.maintenance.mode === "inform") {
             message = {
                 text: config.settings.maintenance.text || "This Webchat is disabled due to maintenance",
                 data: {
-                    _plugin:{
+                    _plugin: {
                         type: "full-screen-notification",
                         text: config.settings.maintenance.text,
                         data: {
@@ -681,11 +696,11 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 source: "bot",
                 traceId: ""
             }
-        }else if(config.settings.connectivity.enabled && config.settings.connectivity.mode === "inform"){
+        } else if (config.settings.connectivity.enabled && config.settings.connectivity.mode === "inform") {
             message = {
                 text: config.settings.connectivity.text || "This Webchat is disabled due to connectivity issues",
                 data: {
-                    _plugin:{
+                    _plugin: {
                         type: "full-screen-notification",
                         text: config.settings.connectivity.text,
                         data: {
@@ -696,11 +711,11 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 source: "bot",
                 traceId: ""
             }
-        }else if(config.settings.businessHours.enabled && config.settings.businessHours.mode === "inform"){
+        } else if (config.settings.businessHours.enabled && config.settings.businessHours.mode === "inform") {
             message = {
                 text: config.settings.businessHours.text || "This Webchat is disabled out of business hours",
                 data: {
-                    _plugin:{
+                    _plugin: {
                         type: "full-screen-notification",
                         text: config.settings.businessHours.text,
                         data: {
