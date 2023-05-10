@@ -273,6 +273,7 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
                                     onClick={() => this.handleSetRatingValue(1)}
                                     className="webchat-rating-dialog-thumbs-up-button"
                                     selected={ratingValue === 1}
+                                    aria-pressed={ratingValue === 1}
                                     aria-label="Thumbs Up"
                                 >
                                     <ThumbIcon />
@@ -283,6 +284,7 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
                                     onClick={() => this.handleSetRatingValue(-1)}
                                     className="webchat-rating-dialog-thumbs-down-button"
                                     selected={ratingValue === -1}
+                                    aria-pressed={ratingValue === -1}
                                     aria-label="Thumbs Down"
                                 >
                                     <ThumbDownIcon />
