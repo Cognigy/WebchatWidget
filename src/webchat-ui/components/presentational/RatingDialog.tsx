@@ -225,10 +225,8 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
     render() {
         const { props, state } = this;
         const {
-            onCloseRatingDialog,
             ratingTitleText,
             ratingCommentText,
-            ...restProps
         } = props;
         const {
             ratingValue,
