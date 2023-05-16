@@ -29,7 +29,7 @@ export const createConfigMiddleware = (url: string, overrideWebchatSettings?: IW
             }
 
             (async () => {
-                const endpointConfig = await fetchWebchatConfig(url,store.getState().config.settings.connectivity?.enabled && store.getState().config.settings.connectivity?.timeout || 1000);
+                const endpointConfig = await fetchWebchatConfig(url,store.getState().config.settings.connectivity?.enabled && store.getState().config.settings.connectivity?.timeout || 4000);
 
                 if(endpointConfig){
                     const settings: IWebchatSettings = {
