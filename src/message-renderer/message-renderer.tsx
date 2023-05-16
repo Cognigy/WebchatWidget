@@ -11,12 +11,15 @@ export class MessageRenderer {
 	static renderMessage(message: IMessage, target: HTMLElement, config?: IWebchatConfig) {
 		ReactDOM.render(<MessageRendererComponent message={message} config={config} />, target);
 	}
-	static isMessageSupported(message: IMessage, config?: IWebchatConfig) {
+	static getPluginsForMessage(message: IMessage, config?: IWebchatConfig) {
 		const fullConfig = getMessageRendererConfig(config);
 		const plugins = getMessageRendererPlugins();
 		const matcher = getPluginsForMessage(plugins, fullConfig);
 		const matchedPlugins = matcher(message);
 
-		return matchedPlugins.length > 0;
+		return matchedPlugins;
+	}
+	static isMessageSupported(message: IMessage, config?: IWebchatConfig) {
+		return MessageRenderer.getPluginsForMessage(message, config).length > 0;
 	}
 }
