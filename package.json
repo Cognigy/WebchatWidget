@@ -10,7 +10,7 @@
   "main": "lib/webchat/index.js",
   "scripts": {
     "build": "npm run bundle",
-    "bundle": "npm run webchat && npm run webchat-legacy && npm run date-picker && npm run date-picker-legacy && npm run rating && npm run rating-legacy &&  npm run speech-input && npm run speech-input-legacy && npm run speech-output && npm run speech-output-legacy && npm run messenger && npm run messenger-legacy && npm run message-renderer && npm run adaptivecards && npm run adaptivecards-legacy && npm run attachments && npm run attachments-legacy",
+    "bundle": "npm run webchat && npm run webchat-legacy && npm run date-picker && npm run date-picker-legacy && npm run rating && npm run rating-legacy &&  npm run speech-input && npm run speech-input-legacy && npm run speech-output && npm run speech-output-legacy && npm run messenger && npm run messenger-legacy && npm run message-renderer && npm run adaptivecards && npm run adaptivecards-legacy && npm run attachments && npm run attachments-legacy && npm run full-screen-notification && npm run full-screen-notification-legacy",
     "update-license": "node update-license.js",
     "dev": "webpack-dev-server --config webpack.dev.js --host 0.0.0.0",
     "message-renderer": "webpack --config webpack.message-renderer.production.js",
@@ -18,6 +18,8 @@
     "adaptivecards": "webpack --config webpack.production-plugin.adaptivecards.js",
     "date-picker-legacy": "webpack --config webpack.production-plugin.date-picker.legacy.js",
     "date-picker": "webpack --config webpack.production-plugin.date-picker.js",
+    "full-screen-notification-legacy": "webpack --config webpack.production-plugin.full-screen-notification.legacy.js",
+    "full-screen-notification": "webpack --config webpack.production-plugin.full-screen-notification.js",
     "messenger": "webpack --config webpack.production-plugin.messenger.js",
     "messenger-legacy": "webpack --config webpack.production-plugin.messenger.legacy.js",
     "rating-legacy": "webpack --config webpack.production-plugin.rating.legacy.js",
@@ -70,7 +72,8 @@
     "styled-jss": "^2.2.3",
     "stylis-rtl": "^1.0.1",
     "tinycolor2": "^1.4.2",
-    "uifx": "^2.0.7"
+    "uifx": "^2.0.7",
+    "yet-another-abortcontroller-polyfill": "^0.0.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.7",
