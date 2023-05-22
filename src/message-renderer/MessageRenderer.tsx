@@ -10,7 +10,8 @@ import {
 import regularMessagePlugin from "../webchat-ui/components/plugins/message/regular";
 import MessagePluginRenderer from "../webchat-ui/components/plugins/MessagePluginRenderer";
 import { createWebchatTheme, styled } from "../webchat-ui/style";
-import { getInitialState } from "../webchat/store/config/config-reducer";
+import { getMessageRendererConfig } from "./getMessageRendererConfig";
+import { getMessageRendererPlugins } from "./getMessageRendererPlugins";
 
 interface IMessageRendererProps {
   message: IMessage;
@@ -20,18 +21,7 @@ interface IMessageRendererProps {
 const MessageRenderer: FC<IMessageRendererProps> = (props) => {
   const { message, config } = props;
 
-  const actualConfig = useMemo(() => {
-    const defaultConfig = getInitialState();
-
-    return {
-      ...defaultConfig,
-      ...config,
-      settings: {
-        ...defaultConfig.settings,
-        ...config?.settings
-      }
-    }
-  }, [config]);
+  const actualConfig = useMemo(() => getMessageRendererConfig(config), [config]);
 
   const onEmitAnalytics = useCallback(console.log.bind(console), []);
   const onSendMessage = useCallback(
@@ -39,14 +29,7 @@ const MessageRenderer: FC<IMessageRendererProps> = (props) => {
     []
   );
 
-  const plugins = useMemo(() => {
-    const plugins = prepareMessagePlugins(
-      [...getRegisteredMessagePlugins(), regularMessagePlugin],
-      { React, styled }
-    );
-
-    return plugins;
-  }, []);
+  const plugins = useMemo(() => getMessageRendererPlugins(), []);
 
   const theme = useMemo(() => createWebchatTheme({
     primaryColor: actualConfig.settings.colorScheme
