@@ -13,6 +13,7 @@ export interface UIState {
     userAvatarOverrideUrl?: string;
     isPageVisible: boolean;
     scrollToPosition: number;
+    lastScrolledPosition: number | null;
 }
 
 export const SET_OPEN = 'SET_OPEN';
@@ -34,6 +35,13 @@ export const setScrollToPosition = (position: number) => ({
     position
 });
 export type SetScrollToPosition = ReturnType<typeof setScrollToPosition>;
+
+const SET_LAST_SCROLLED_POSITION = 'SET_LAST_SCROLLED_POSITION';
+export const setLastScrolledPosition = (position: number | null) => ({
+    type: SET_LAST_SCROLLED_POSITION as 'SET_LAST_SCROLLED_POSITION',
+    position
+});
+export type SetLastScrolledPosition = ReturnType<typeof setLastScrolledPosition>;
 
 
 const SET_TYPING = 'SET_TYPING';
@@ -95,18 +103,20 @@ const getInitialState = (): UIState => ({
     botAvatarOverrideUrl: undefined,
     userAvatarOverrideUrl: undefined,
     isPageVisible: isPageVisible(),
-    scrollToPosition: 0
+    scrollToPosition: 0,
+    lastScrolledPosition: null
 });
 
-type UIAction = SetOpenAction 
-    | SetTypingAction 
-    | SetInputModeAction 
-    | SetFullscreenMessageAction 
+type UIAction = SetOpenAction
+    | SetTypingAction
+    | SetInputModeAction
+    | SetFullscreenMessageAction
     | SetAgentAvatarOverrideUrlAction
-    | SetBotAvatarOverrideUrlAction 
+    | SetBotAvatarOverrideUrlAction
     | SetUserAvatarOverrideUrlAction
     | SetPageVisibleAction
-    | SetScrollToPosition;
+    | SetScrollToPosition
+    | SetLastScrolledPosition;
 
 
 export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action) => {
@@ -129,6 +139,13 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
             return {
                 ...state,
                 scrollToPosition: action.position
+            }
+        }
+            
+        case SET_LAST_SCROLLED_POSITION: {
+            return {
+                ...state,
+                lastScrolledPosition: action.position
             }
         }
 
