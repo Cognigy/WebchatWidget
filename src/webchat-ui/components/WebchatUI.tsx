@@ -62,7 +62,9 @@ export interface WebchatUIProps {
     onConnect: () => void;
     onToggle: () => void;
     onSetScrollToPosition: (position: number) => void;
+    onSetLastScrolledPosition: (position: number | null) => void;
     scrollToPosition: number;
+    lastScrolledPosition: number | null;
 
     onEmitAnalytics: (event: string, payload?: any) => void;
     onTriggerEngagementMessage: () => void;
@@ -352,6 +354,11 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         }
 
         this.props.onSendMessage(...args);
+
+        // we activate scrollToPosition functionality on first message
+        if (this.props.lastScrolledPosition === null) {
+            this.props.onSetLastScrolledPosition(0);
+        }
     }
 
     renderInput = () => {
@@ -453,7 +460,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onClose,
             onToggle,
             onSetScrollToPosition,
+            onSetLastScrolledPosition,
             scrollToPosition,
+            lastScrolledPosition,
             onTriggerEngagementMessage,
             webchatRootProps,
             webchatToggleProps,
@@ -631,7 +640,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onShowRatingDialog,
             messages,
             scrollToPosition,
-            onSetScrollToPosition
+            lastScrolledPosition,
+            onSetScrollToPosition,
+            onSetLastScrolledPosition
         } = this.props;
 
         const { enableRating } = config.settings;
@@ -656,6 +667,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     disableBranding={config.settings.disableBranding}
                     scrollToPosition={scrollToPosition}
                     setScrollToPosition={onSetScrollToPosition}
+                    lastScrolledPosition={lastScrolledPosition}
+                    setLastScrolledPosition={onSetLastScrolledPosition}
                     ref={this.history as any}
                     className="webchat-chat-history"
                     tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order

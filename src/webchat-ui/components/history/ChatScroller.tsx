@@ -8,7 +8,9 @@ export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
     disableBranding: boolean;
     showFocusOutline: boolean;
     scrollToPosition: number;
+    lastScrolledPosition: number | null;
     setScrollToPosition?: (position: number) => void;
+    setLastScrolledPosition?: (position: number | null) => void;
     tabIndex: 0 | -1;
  }
 
@@ -57,17 +59,31 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
     }
 
     componentDidUpdate(prevProps: InnerProps, prevState: IState, wasScrolledToBottom: boolean) {
-        const { setScrollToPosition, scrollToPosition } = this.props;
-        if(scrollToPosition && setScrollToPosition) {
-            this.handleScrollTo(scrollToPosition);
+        const { setScrollToPosition, scrollToPosition, lastScrolledPosition, setLastScrolledPosition } = this.props;
+        if (scrollToPosition && setScrollToPosition) {
+            // we skip scrollToPosition on first render and re-renders
+            if (lastScrolledPosition === null && setLastScrolledPosition) {
+                setTimeout(() => { this.handleScrollTo() }, 1000);
+                setLastScrolledPosition(0);
+            } else if (typeof lastScrolledPosition === "number" && scrollToPosition > lastScrolledPosition) {
+                setTimeout(() => { this.handleScrollTo(scrollToPosition) }, 0);
+                setLastScrolledPosition && setLastScrolledPosition(scrollToPosition);
+            } else if (wasScrolledToBottom) {
+                setTimeout(() => { this.handleScrollTo() }, 0);
+            }
             setScrollToPosition(0);
         } else if (wasScrolledToBottom) {
-            this.handleScrollTo();
-        }
+            setTimeout(() => { this.handleScrollTo() }, 0);
+        }  
     }
 
     componentDidMount() {
-        this.handleScrollTo();
+        setTimeout(() => { this.handleScrollTo() }, 0);
+    }
+
+    componentWillUnmount() {
+        const { setLastScrolledPosition } = this.props;
+        setLastScrolledPosition && setLastScrolledPosition(null);
     }
 
     handleScrollTo = (position?: number) => {
@@ -93,7 +109,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
     handleFocus = () => {
         if(this.innerRef.current === document.activeElement) {
             this.setState({isChatLogFocused: true});
-        }        
+        }
     }
 
     // Remove outline from the parent element when Chat log loses focus 
