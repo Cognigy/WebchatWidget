@@ -63,22 +63,22 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         if (scrollToPosition && setScrollToPosition) {
             // we skip scrollToPosition on first render and re-renders
             if (lastScrolledPosition === null && setLastScrolledPosition) {
-                setTimeout(() => { this.handleScrollTo() }, 100);
+                setTimeout(() => { this.handleScrollTo() }, 1000);
                 setLastScrolledPosition(0);
             } else if (typeof lastScrolledPosition === "number" && scrollToPosition > lastScrolledPosition) {
-                setTimeout(() => { this.handleScrollTo(scrollToPosition) }, 10);
+                setTimeout(() => { this.handleScrollTo(scrollToPosition) }, 0);
                 setLastScrolledPosition && setLastScrolledPosition(scrollToPosition);
             } else if (wasScrolledToBottom) {
-                this.handleScrollTo();
+                setTimeout(() => { this.handleScrollTo() }, 0);
             }
             setScrollToPosition(0);
         } else if (wasScrolledToBottom) {
-            this.handleScrollTo();
+            setTimeout(() => { this.handleScrollTo() }, 0);
         }  
     }
 
     componentDidMount() {
-        this.handleScrollTo();
+        setTimeout(() => { this.handleScrollTo() }, 0);
     }
 
     componentWillUnmount() {
