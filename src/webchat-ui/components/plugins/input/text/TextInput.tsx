@@ -181,6 +181,12 @@ export interface TextInputState {
     fileUploadError: boolean;
 }
 
+declare global {
+        interface Window {
+        WebChatInputTextCallback: (text: string) => void;
+    }
+}
+
 export class TextInput extends React.PureComponent<InputComponentProps, TextInputState> {
     state = {
         text: '',
@@ -194,6 +200,13 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
     inputRef = React.createRef<HTMLTextAreaElement | HTMLInputElement>();
     menuRef = React.createRef<HTMLDivElement>();
     fileInputRef = React.createRef<HTMLInputElement>();
+
+    componentDidMount(): void {
+        // Global handler to modify the input text
+        window.WebChatInputTextCallback = (text: string) => {
+            this.setState({ text });
+        }
+    }
 
     handleChangeState = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         this.setState({
