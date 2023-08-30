@@ -1,4 +1,3 @@
-import 'yet-another-abortcontroller-polyfill'
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { fetch } from 'whatwg-fetch';
 import { IUploadFileMetaData, IUploadFileToken } from '../../common/interfaces/file-upload';
