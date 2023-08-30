@@ -72,8 +72,7 @@
     "styled-jss": "^2.2.3",
     "stylis-rtl": "^1.0.1",
     "tinycolor2": "^1.4.2",
-    "uifx": "^2.0.7",
-    "yet-another-abortcontroller-polyfill": "^0.0.4"
+    "uifx": "^2.0.7"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.7",
