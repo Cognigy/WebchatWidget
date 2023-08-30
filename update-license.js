@@ -3,8 +3,13 @@ const fs = require('fs');
 
 checker.init({
     start: "./",
+    customFormat: {
+        "path": false,
+        "licenseText": false
+    },
     development: false,
     production: true,
+    relativeLicensePath: true,
 }, function (err, packages) {
     if (err) {
         console.log(err);
