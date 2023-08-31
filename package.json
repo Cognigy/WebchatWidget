@@ -127,5 +127,8 @@
     "webpack-dev-server": "^4.7.2",
     "whatwg-fetch": "^3.6.2",
     "zlib": "^1.0.5"
+  },
+  "engines": {
+    "node": ">=18.15.0"
   }
 }
