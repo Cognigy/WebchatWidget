@@ -44,6 +44,10 @@ const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
 
     if (config.settings.enableDefaultPreview) {
         if (_defaultPreview) {
+            // Skip on empty text
+            if (_defaultPreview?.message?.text === "") {
+                return null;
+            }
             return _defaultPreview;
         } else if (message.text) {
             // supposed to be rendered with regular text plugin
