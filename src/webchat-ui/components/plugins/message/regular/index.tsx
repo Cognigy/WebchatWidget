@@ -5,8 +5,9 @@ import {
 } from "../../../../../common/interfaces/message-plugin";
 import { sanitizeHTML } from "../../../../../webchat/helper/sanitize";
 import { replaceUrlsWithHTMLanchorElem } from "../../../../../webchat/helper/url-links";
-import { MarkdownMessageBubble } from "../../../presentational/MarkdownMessageBubble";
-import MessageBubble from "../../../presentational/MessageBubble";
+// import { MarkdownMessageBubble } from "../../../presentational/MarkdownMessageBubble";
+// import MessageBubble from "../../../presentational/MessageBubble";
+import { Message } from "@cognigy/chat-components";
 
 const RegularMessage = ({
   message: { text, source },
@@ -42,9 +43,9 @@ const RegularMessage = ({
   const bubbleColor = color === 'primary' ? 'primary' : 'default';
   const align = direction === 'outgoing' ? 'right' : 'left';
 
-  const MessageBubbleComponent = enableGenericHTMLStyling
-    ? MarkdownMessageBubble
-    : MessageBubble;
+  // const MessageBubbleComponent = enableGenericHTMLStyling
+  //   ? MarkdownMessageBubble
+  //   : MessageBubble;
 
   const actualText = text || "";
 
@@ -55,10 +56,10 @@ const RegularMessage = ({
     : sanitizeHTML(enhancedURLsText);
 
   return (
-    <MessageBubbleComponent
+    <Message
       color={bubbleColor}
       align={align}
-      dangerouslySetInnerHTML={{ __html }}
+      content={{text: __html}}
       className={className}
     />
   );
