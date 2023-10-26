@@ -15,7 +15,7 @@ import { Carousel } from 'react-responsive-carousel';
 
 import "./carousel.css";
 import { IWebchatConfig } from "../../../../../common/interfaces/webchat-config";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid"
 import { sanitizeHTML } from '../../../../../webchat/helper/sanitize';
 
 export interface IMessengerGenericTemplateProps
@@ -86,9 +86,9 @@ export const getMessengerGenericTemplate = ({
         IMessengerGenericTemplateProps & React.HTMLProps<HTMLDivElement>,
         IMessengerGenericTemplateState
         > {
-        carouselRootId = `webchatCarouselTemplateRoot-${uuid.v4()}`;
-        carouselContentId = `webchatCarouselContentButton-${uuid.v4()}`;
-        carouselButtonId = `webchatCarouselTemplateButton-${uuid.v4()}`;
+		carouselRootId = `webchatCarouselTemplateRoot-${uuidv4()}`;
+		carouselContentId = `webchatCarouselContentButton-${uuidv4()}`;
+		carouselButtonId = `webchatCarouselTemplateButton-${uuidv4()}`;
 
         /**
          * Controlling the selectedItem state causes unexpected scroll behavior in IE11 and Edge 15 to 18. 
@@ -166,8 +166,8 @@ export const getMessengerGenericTemplate = ({
 
             const carouselListLength = this.props.payload.elements.length;
             const isCentered = this.props.config.settings.designTemplate === 2;
-            const carouselTitleId = `webchatCarouselTemplateTitle-${uuid.v4()}`;
-            const carouselSubtitleId = `webchatCarouselTemplateSubtitle-${uuid.v4()}`;
+			const carouselTitleId = `webchatCarouselTemplateTitle-${uuidv4()}`;
+			const carouselSubtitleId = `webchatCarouselTemplateSubtitle-${uuidv4()}`;
 
             const buttonsCountLabel = buttons.length === 1 ? "1 button or link." : `${buttons.length} buttons or links.`;
             const buttonsInListItemAriaLabel = buttons.length > 0 ? `with ${buttonsCountLabel}` : undefined;

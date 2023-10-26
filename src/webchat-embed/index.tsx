@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { styled } from '../webchat-ui/style';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from "uuid"
 import './embedded-webchat-styles.css';
 
 // load plugins
@@ -51,7 +51,7 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
         }
 
         if (!userId) {
-            userId = uuid.v4();
+            userId = uuidv4();
             if (!disableLocalStorage) browserStorage.setItem('userId', userId);
         }
 

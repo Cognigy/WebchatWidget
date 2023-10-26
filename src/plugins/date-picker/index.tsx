@@ -12,7 +12,7 @@ import moment from 'moment';
 import { MessageComponentProps, MessagePlugin, MessagePluginFactory } from "../../common/interfaces/message-plugin";
 import { createMessagePlugin, registerMessagePlugin } from "../helper";
 import { IMessage } from "../../common/interfaces/message";
-import uuid from "uuid"
+import { v4 as uuidv4 } from "uuid"
 
 const datePickerDaySelector = ".flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay";
 
@@ -382,8 +382,8 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       let cancelButtonText = message.data._plugin.data.cancelButtonText || 'cancel';
       let submitButtonText = message.data._plugin.data.submitButtonText || 'submit';
 
-      const datePickerHeading = `webchatDatePickerHeading-${uuid.v4()}`;
-      const datePickerDescription = `webchatDatePickerContentDescription-${uuid.v4()}`;
+		const datePickerHeading = `webchatDatePickerHeading-${uuidv4()}`;
+		const datePickerDescription = `webchatDatePickerContentDescription-${uuidv4()}`;
 
       const a11yProps = {role:"dialog", "aria-modal":"true", "aria-labelledby": datePickerHeading, "aria-describedby": datePickerDescription};
 

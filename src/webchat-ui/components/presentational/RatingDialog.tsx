@@ -7,7 +7,7 @@ import CloseIcon from "../../assets/baseline-close-24px.svg";
 import ThumbIcon from '../../assets/thumb-up-24dp.svg';
 import ThumbDownIcon from './ThumbDownIcon';
 import Textarea from './Textarea';
-import uuid from "uuid"
+import { v4 as uuidv4 } from "uuid"
 
 const Wrapper = styled.div({
     height: "100%",
@@ -234,8 +234,8 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
         } = state;
 
         const disableSendButton = ratingValue !== -1 && ratingValue !== 1;
-        const webchatRatingDialogTitleId = `webchatRatingDialogTitle-${uuid.v4()}`;
-        const webchatRatingCommentLabelId = `webchatRatingCommentLabelId-${uuid.v4()}`;
+		const webchatRatingDialogTitleId = `webchatRatingDialogTitle-${uuidv4()}`;
+		const webchatRatingCommentLabelId = `webchatRatingCommentLabelId-${uuidv4()}`;
 
         return (
             <Wrapper className="webchat-rating-dialog-wrapper">
