@@ -6,11 +6,16 @@
 </head>
 
 <body>
+    <style>
+        :root {
+            --webchat-bubble-background-user: #dcc;
+        }
+    </style>
     <script src="./webchat.js"></script>
     <script>
-        initWebchat('https://endpoint-trial.cognigy.ai/325a1e29b99441f4640ba659706763fb77006e00dc0e3720600f523557d7afaa', {
-            userId: "user",
-            sessionId: "session",
+        initWebchat('https://endpoint-dev.cognigy.ai/d39ab038bc476cd9cbd4dd427e08dec43812dcbb8d57123ec3ac51fa4432fc15', {
+            userId: "user1",
+            sessionId: "session1",
             settings: {
                 // colorScheme: '#FAB'
                 enableUnreadMessageSound: true,

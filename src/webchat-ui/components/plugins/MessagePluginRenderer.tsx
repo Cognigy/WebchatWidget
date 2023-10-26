@@ -13,6 +13,8 @@ import {
   TSourceDirection,
 } from "../../../common/interfaces/webchat-config";
 
+import { Message, match } from "@cognigy/chat-components";
+
 export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
   message: IMessage;
   config: IWebchatConfig;
@@ -131,12 +133,15 @@ export default ({
     }
   })();
 
+  if (match(message)) return <Message message={message} action={onSendMessage} />;
+
   return (
     <>
       {matchedPlugins.map(
         ({ component: Component, options, name = "unknown" }, index) => {
           const emitAnalytics = (event: string, payload?: any) =>
             onEmitAnalytics(`plugin/${name}/${event}`, payload);
+
 
           const messageElement = (
             <Component
