@@ -50,7 +50,7 @@
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "adaptivecards": "^2.10.0",
-    "axios": "0.27.2",
+    "axios": "1.6.0",
     "cypress-real-events": "^1.7.0",
     "dompurify": "^2.0.7",
     "flatpickr": "4.6.3",
