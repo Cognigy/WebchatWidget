@@ -133,7 +133,15 @@ export default ({
     }
   })();
 
-  if (match(message)) return <Message message={message} action={onSendMessage} />;
+  if (match(message))
+		return (
+			<Message
+        action={onSendMessage}
+				config={config}
+				message={message}
+				onEmitAnalytics={onEmitAnalytics}
+			/>
+		);
 
   return (
     <>
