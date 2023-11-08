@@ -2,7 +2,7 @@ import * as React from 'react'
 import {styled} from '../../style';
 import Branding from '../branding/Branding'
 
-const CLIENT_HEIGHT_OFFSET = 16 + 70; // banner + typing indicator
+const CLIENT_HEIGHT_OFFSET = 16 + 70; // banner + typing indicator offset
 
 export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
     disableBranding: boolean;
