@@ -3,6 +3,8 @@ export interface IBaseMessage {
     data?: any;
     source: string;
     avatarUrl?: string;
+    avatarName?: string;
+    timestamp?: number;
 }
 
 export interface IUserMessage extends IBaseMessage {

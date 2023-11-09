@@ -90,7 +90,8 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
 
             next(addMessage({
                 ...displayMessage,
-                avatarUrl: getAvatarForMessage(displayMessage, store.getState())
+                avatarUrl: getAvatarForMessage(displayMessage, store.getState()),
+                timestamp: Date.now(),
             }));
 
             break;
@@ -108,6 +109,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
             next(addMessage({
                 ...message,
                 source: message.source || 'bot',
+                timestamp: Date.now(),
                 avatarUrl
             } as IBotMessage, isUnseen));
 
