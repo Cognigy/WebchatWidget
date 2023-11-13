@@ -22,7 +22,7 @@ import { ChatScroller } from './history/ChatScroller';
 import FAB from './presentational/FAB';
 import WebchatWrapper from './presentational/WebchatWrapper';
 import ChatIcon from '../assets/baseline-chat-24px.svg';
-import CloseIcon from '../assets/baseline-close-24px.svg';
+import CollapseIcon from '../assets/collapse-20px.svg';
 import DisconnectOverlay from './presentational/DisconnectOverlay';
 import { IWebchatConfig } from '../../common/interfaces/webchat-config';
 import { TTyping } from '../../common/interfaces/typing';
@@ -614,7 +614,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                 ref={this.chatToggleButtonRef}
                                             >
                                                 {open ? (
-                                                    <CloseIcon />
+													<CollapseIcon />
                                                 ) : (
                                                     <ChatIcon />
                                                 )}
