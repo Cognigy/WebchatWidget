@@ -14,6 +14,7 @@ export interface UIState {
     isPageVisible: boolean;
     scrollToPosition: number;
     lastScrolledPosition: number | null;
+	showHomeScreen: boolean;
 }
 
 export const SET_OPEN = 'SET_OPEN';
@@ -43,6 +44,12 @@ export const setLastScrolledPosition = (position: number | null) => ({
 });
 export type SetLastScrolledPosition = ReturnType<typeof setLastScrolledPosition>;
 
+export const SET_SHOW_HOME_SCREEN = 'SET_SHOW_HOME_SCREEN';
+export const setShowHomeScreen = (showHomeScreen: boolean) => ({
+	type: SET_SHOW_HOME_SCREEN as 'SET_SHOW_HOME_SCREEN',
+	showHomeScreen
+});
+export type SetShowHomeScreenAction = ReturnType<typeof setShowHomeScreen>;
 
 const SET_TYPING = 'SET_TYPING';
 export const setTyping = (typing: TTyping) => ({
@@ -104,7 +111,8 @@ const getInitialState = (): UIState => ({
     userAvatarOverrideUrl: undefined,
     isPageVisible: isPageVisible(),
     scrollToPosition: 0,
-    lastScrolledPosition: null
+	lastScrolledPosition: null,
+	showHomeScreen: true,
 });
 
 type UIAction = SetOpenAction
@@ -116,7 +124,8 @@ type UIAction = SetOpenAction
     | SetUserAvatarOverrideUrlAction
     | SetPageVisibleAction
     | SetScrollToPosition
-    | SetLastScrolledPosition;
+	| SetLastScrolledPosition
+	| SetShowHomeScreenAction;
 
 
 export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action) => {
@@ -148,6 +157,13 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
                 lastScrolledPosition: action.position
             }
         }
+
+		case SET_SHOW_HOME_SCREEN: {
+			return {
+				...state,
+				showHomeScreen: action.showHomeScreen
+			}
+		}
 
         case SET_INPUT_MODE: {
             return {
