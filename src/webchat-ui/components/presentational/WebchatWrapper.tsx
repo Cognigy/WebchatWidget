@@ -1,4 +1,4 @@
-import { styled } from "../../style";
+import styled from '@emotion/styled'
 
 const WebchatWrapper = styled.div({
     display: 'flex',

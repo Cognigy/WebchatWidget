@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { styled } from '../../../../style';
+import React from 'react';
+import styled from '@emotion/styled';
 import { InputComponentProps } from '../../../../../common/interfaces/input-plugin';
 import SendIcon from './baseline-send-24px.svg';
 import MenuIcon from './baseline-menu-24px.svg';

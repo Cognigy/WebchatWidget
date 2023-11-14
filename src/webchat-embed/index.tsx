@@ -1,6 +1,6 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { styled } from '../webchat-ui/style';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import styled from '@emotion/styled';
 import { v4 as uuidv4 } from "uuid"
 import './embedded-webchat-styles.css';
 

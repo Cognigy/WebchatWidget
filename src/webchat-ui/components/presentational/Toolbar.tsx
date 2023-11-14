@@ -1,4 +1,4 @@
-import { styled, IColorProps } from "../../style";
+import styled from '@emotion/styled';
 import Background from "./Background";
 
 export default styled(Background)(({ theme }) => ({

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { styled } from '../../style';
+import React from 'react';
+import styled from '@emotion/styled';
 
 import Message, { MessageProps } from '../plugins/MessagePluginRenderer';
 
@@ -8,9 +8,11 @@ const FullscreenMessage = styled(Message)({
     minHeight: 0
 });
 
-export default (props: MessageProps) => (
+const FullScreenMessageWithProps = (props: MessageProps) => (
     <FullscreenMessage
         {...props}
         isFullscreen={true}
     />
 )
+
+export default FullScreenMessageWithProps;

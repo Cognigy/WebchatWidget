@@ -1,4 +1,4 @@
-import { styled } from "../../style";
+import styled from '@emotion/styled';
 import MessageBubble from "./MessageBubble";
 import tinycolor from "tinycolor2";
 

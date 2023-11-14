@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import Toolbar from './Toolbar';
 import Logo from './Logo';
-import { styled } from '../../style';
+import styled from '@emotion/styled';
 import IconButton from './IconButton';
 import CloseIcon from '../../assets/baseline-close-24px.svg';
 import ThumbsUpDownIcon from '../../assets/thumbs-up-down-24dp.svg';
@@ -42,7 +42,7 @@ interface HeaderProps {
     chatToggleButtonRef?: React.RefObject<HTMLButtonElement>;
 }
 
-export default ({ logoUrl, connected, title, showRatingButton, showCloseButton, onRatingButtonClick, onClose, closeButtonRef, ratingButtonRef, chatToggleButtonRef, ...props }: HeaderProps) => {
+export const Header = ({ logoUrl, connected, title, showRatingButton, showCloseButton, onRatingButtonClick, onClose, closeButtonRef, ratingButtonRef, chatToggleButtonRef, ...props }: HeaderProps) => {
     // Close webchat window and restore focus
     const handleCloseClick = () => {
         onClose && onClose();
@@ -78,3 +78,5 @@ export default ({ logoUrl, connected, title, showRatingButton, showCloseButton, 
         </HeaderBar>
     );
 };
+
+export default Header;

@@ -1,5 +1,5 @@
-import * as React from 'react'
-import {styled} from '../../style';
+import React from 'react'
+import styled from '@emotion/styled';
 import Branding from '../branding/Branding'
 
 const CLIENT_HEIGHT_OFFSET = 16 + 70; // banner + typing indicator

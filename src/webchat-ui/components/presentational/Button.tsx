@@ -1,4 +1,5 @@
-import { styled, IColorProps } from "../../style";
+import styled from '@emotion/styled';
+import { IColorProps } from "../../style";
 import { interactionCss, createTransition } from "../../utils/css";
 
 
@@ -28,7 +29,7 @@ export default styled.button<IColorProps>(({ color, theme }) => {
         backgroundColor: colors.main,
         color: colors.contrast,
 
-        textTransform: 'uppercase',
+		textTransform: 'unset',
         fontWeight: 'bold',
 
         border: 'none',

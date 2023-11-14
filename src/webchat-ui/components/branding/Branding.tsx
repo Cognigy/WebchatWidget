@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { styled } from '../../style';
+import styled from '@emotion/styled';
 import CognigyLogo from '../../assets/cognigy_logo.svg';
 
 const Link = styled.a(({ theme }) => ({

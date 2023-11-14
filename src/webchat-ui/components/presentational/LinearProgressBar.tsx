@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from '../../style';
+import styled from '@emotion/styled';
 
 const ProgressBarContainer = styled.div(() => ({
     height: 2,
@@ -8,7 +8,7 @@ const ProgressBarContainer = styled.div(() => ({
     borderRadius: 50,
 }));
 
-const ProgressBar = styled.div(({ theme, progressPercentage }) => ({
+const ProgressBar = styled.div<ILinearProgressBarProps>(({ theme, progressPercentage }) => ({
     height: '100%',
     width: `${progressPercentage}%`,
     backgroundColor: theme.primaryColor,

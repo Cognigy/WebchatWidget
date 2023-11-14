@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import { InputComponentProps } from '../../common/interfaces/input-plugin';
 import Toolbar from '../../webchat-ui/components/presentational/Toolbar';
 import Button from '../../webchat-ui/components/presentational/Button';
-import { styled } from '../../webchat-ui/style';
+import styled from '@emotion/styled';
 
 const GetStartedButton = styled(Button)(({ theme }) => ({
     marginBottom: theme.unitSize * 2,
@@ -14,7 +14,7 @@ const GetStartedButton = styled(Button)(({ theme }) => ({
     }
 }));
 
-export default ({ onSendMessage, config }: InputComponentProps) => (
+const GetStartedInput = ({ onSendMessage, config }: InputComponentProps) => (
     <Toolbar>
         <GetStartedButton
             onClick={() => onSendMessage(config.settings.getStartedPayload, config.settings.getStartedData, { label: config.settings.getStartedText ?? '' })}
@@ -25,3 +25,5 @@ export default ({ onSendMessage, config }: InputComponentProps) => (
         </GetStartedButton>
     </Toolbar>
 )
+
+export default GetStartedInput

@@ -21,6 +21,8 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "react/prop-types": "off",
+		"no-empty": "off"
     },
     "settings": {
         "react": {

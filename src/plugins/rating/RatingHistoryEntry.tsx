@@ -1,7 +1,7 @@
 import React from 'react';
 import { MessageComponentProps } from '../../common/interfaces/message-plugin';
 import tinycolor from 'tinycolor2';
-import { styled } from '../../webchat-ui/style';
+import styled from '@emotion/styled';
 import ThumbIcon from '../../webchat-ui/assets/thumb-up-24dp.svg';
 import { getRating } from '.';
 
@@ -34,7 +34,7 @@ const RatingHistoryEntry = styled.div(({ theme }) => ({
 	color: tinycolor(theme.greyContrastColor).setAlpha(.6).toHslString(),
 }));
 
-export default ({ message, config }: MessageComponentProps) => {
+const RatingHistoryEntryWithProps = ({ message, config }: MessageComponentProps) => {
 	const rating = getRating(message);
 
 	const ratingText = config.settings.ratingMessageHistoryRatingText;
@@ -73,3 +73,5 @@ export default ({ message, config }: MessageComponentProps) => {
 		</RatingHistoryEntry>
 	)
 };
+
+export default RatingHistoryEntryWithProps;

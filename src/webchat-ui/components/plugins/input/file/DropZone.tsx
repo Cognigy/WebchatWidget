@@ -1,5 +1,5 @@
 import React from "react";
-import { styled } from '../../../../style';
+import styled from '@emotion/styled';
 import AttachFile from './attach-file-20px.svg';
 
 const componentStyles = (({ theme }) => ({

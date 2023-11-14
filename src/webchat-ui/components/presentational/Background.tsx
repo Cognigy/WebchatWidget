@@ -1,5 +1,5 @@
-import { styled, IColorProps } from "../../style";
-import tinycolor from 'tinycolor2'
+import styled from '@emotion/styled';
+import { IColorProps } from "../../style";
 
 export default styled.div<IColorProps>(({ color, theme }) => {
     switch (color) {

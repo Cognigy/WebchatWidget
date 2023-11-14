@@ -1,4 +1,4 @@
-import { styled } from "../../style";
+import styled from '@emotion/styled';
 import IconButton from "./IconButton";
 
 const FAB = styled(IconButton)(({ theme }) => ({

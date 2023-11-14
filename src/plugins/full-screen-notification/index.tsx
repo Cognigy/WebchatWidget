@@ -1,8 +1,8 @@
 import "idempotent-babel-polyfill";
-import * as React from "react";
+import React from "react";
 import { registerMessagePlugin } from "../helper";
 import Header from "../../webchat-ui/components/presentational/Header";
-import { styled } from "../../webchat-ui/style";
+import styled from '@emotion/styled';
 import { sanitizeHTML } from "../../webchat/helper/sanitize";
 
 

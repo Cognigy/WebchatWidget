@@ -1,6 +1,4 @@
-import styledOriginal, { CreateStyled } from '@emotion/styled';
 import tinycolor from 'tinycolor2';
-import { join } from 'path';
 
 export interface IWebchatTheme {
     // Webchat V3 theme colors
@@ -268,5 +266,3 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
 }
 
 export interface IColorProps { color?: 'primary' | 'default' | 'grey' }
-
-export const styled = styledOriginal as CreateStyled<IWebchatTheme>

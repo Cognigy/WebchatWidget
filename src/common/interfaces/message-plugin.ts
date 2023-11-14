@@ -1,7 +1,8 @@
 import React from 'react';
 import { IMessage } from "./message";
 import { MessageSender } from '../../webchat-ui/interfaces';
-import { styled, IWebchatTheme } from '../../webchat-ui/style';
+import styled from '@emotion/styled';
+import { IWebchatTheme } from '../../webchat-ui/style';
 import { IWebchatConfig } from './webchat-config';
 
 export interface MessageComponentProps {
