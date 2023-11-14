@@ -3,7 +3,47 @@ import tinycolor from 'tinycolor2';
 import { join } from 'path';
 
 export interface IWebchatTheme {
+    // Webchat V3 theme colors
+    // Primary Colors
     primaryColor: string;
+    primaryColorHover: string;
+    primaryColorDisabled: string;
+
+    // Secondary Colors
+    secondaryColor: string;
+    secondaryColorHover: string;
+    secondaryColorDisabled: string;
+
+    // Meta Colors
+    backgroundHome: string;
+    backgroundWebchat: string;
+    backgroundBotMessage: string;
+    backgroungUserMessage: string;
+
+    textLink: string;
+    textLinkHover: string;
+    textLinkDisabled: string;
+
+    //Basic Colors
+    black10: string;
+    black20: string;
+    black40: string;
+    black60: string;
+    black80: string;
+    black95: string;
+    white: string;
+
+    textDark: string;
+    textLight: string;
+
+    // Confirmation Colors
+    green: string;
+    green10: string;
+    red: string;
+    red10: string;
+
+
+    // Legacy Webchat V2 theme colors
     primaryStrongColor: string;
     primaryWeakColor: string;
     primaryContrastColor: string;
@@ -62,10 +102,118 @@ const getGradient = (color: string) => {
 
 const cognigyBlue = '#3f51b5';
 
+// Webchat 3 Theme color defaults
+const primaryColor = '#2455E6';
+const primaryColorHover = '#113192';
+const primaryColorDisabled = '#D1DBFA';
+
+const secondaryColor = '#1A1A1A';
+const secondaryColorHover = '#4D4D4D';
+const secondaryColorDisabled = '#E5E5E5';
+
+const backgroundHome = 'radial-gradient(204.5% 136.79% at 0.53% 95.79%, #EDECF9 0%, #BFBAFF 31.77%, #2152E3 65.63%, #05309E 100%)';
+const backgroundWebchat = "#FFFFFF";
+const backgroundBotMessage = "#FFFFFF";
+const backgroungUserMessage = "#E8EBFF";
+
+const textLink = "#6688ED";
+const textLinkHover = "#1947D2";
+const textLinkDisabled = "#D1DCFA";
+
+const black10 = "#1A1A1A";
+const black20 = "#333333";
+const black40 = "#666666";
+const black60 = "#999999";
+const black80 = "#CCCCCC";
+const black95 = "#F2F2F2";
+const white = "#FFFFFF";
+
+const green = "#009918";
+const green10 = "#E5F5E8";
+const red = "#FF0000";
+const red10 = "#FFE5E5";
+
 
 export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchatTheme => {
     if (!theme.primaryColor)
-        theme.primaryColor = cognigyBlue;
+        theme.primaryColor = primaryColor;
+
+    if (!theme.primaryColorHover)
+        theme.primaryColorHover = primaryColorHover;
+
+    if (!theme.primaryColorDisabled)
+        theme.primaryColorDisabled = primaryColorDisabled;
+
+    if (!theme.secondaryColor)
+        theme.secondaryColor = secondaryColor;
+
+    if (!theme.secondaryColorHover)
+        theme.secondaryColorHover = secondaryColorHover;
+
+    if (!theme.secondaryColorDisabled)
+        theme.secondaryColorDisabled = secondaryColorDisabled;
+
+    if (!theme.backgroundHome)
+        theme.backgroundHome = backgroundHome;
+
+    if (!theme.backgroundWebchat)
+        theme.backgroundWebchat = backgroundWebchat;
+
+    if (!theme.backgroundBotMessage)
+        theme.backgroundBotMessage = backgroundBotMessage;
+
+    if (!theme.backgroungUserMessage)
+        theme.backgroungUserMessage = backgroungUserMessage;
+
+    if (!theme.textLink)
+        theme.textLink = textLink;
+
+    if (!theme.textLinkHover)
+        theme.textLinkHover = textLinkHover;
+
+    if (!theme.textLinkDisabled)
+        theme.textLinkDisabled = textLinkDisabled;
+
+    if (!theme.black10)
+        theme.black10 = black10;
+
+    if (!theme.black20)
+        theme.black20 = black20;
+
+    if (!theme.black40)
+        theme.black40 = black40;
+
+    if (!theme.black60)
+        theme.black60 = black60;
+
+    if (!theme.black80)
+        theme.black80 = black80;
+
+    if (!theme.black95)
+        theme.black95 = black95;
+
+    if (!theme.white)
+        theme.white = white;
+
+    if (!theme.textDark)
+        theme.textDark = black10;
+
+    if (!theme.textLight)
+        theme.textLight = white;
+
+    if (!theme.green)
+        theme.green = green;
+
+    if (!theme.green10)
+        theme.green10 = green10;
+
+    if (!theme.red)
+        theme.red = red;
+
+    if (!theme.red10)
+        theme.red10 = red10;
+
+
 
     if (!theme.primaryWeakColor)
         theme.primaryWeakColor = weak(theme.primaryColor);
@@ -81,7 +229,7 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
 
     if (!theme.primaryStrongGradient)
         theme.primaryStrongGradient = getGradient(theme.primaryStrongColor);
-    
+
     if (!theme.shadow)
         theme.shadow = '0 5px 18px 0 rgba(151, 124, 156, 0.2), 0 5px 32px 0 rgba(203, 195, 212, 0.2), 0 8px 58px 0 rgba(216, 212, 221, 0.1)';
 
@@ -119,6 +267,6 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
     return theme as IWebchatTheme;
 }
 
-export interface IColorProps { color?: 'primary' | 'default' | 'grey' };
+export interface IColorProps { color?: 'primary' | 'default' | 'grey' }
 
-export const styled = styledOriginal as CreateStyled<IWebchatTheme>;
+export const styled = styledOriginal as CreateStyled<IWebchatTheme>
