@@ -164,7 +164,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             // This is a demo of injecting a custom color scheme
             document.documentElement.style.setProperty('--webchat-primary-color', color);
             // This is example of how a new theme properties can be added
-            document.documentElement.style.setProperty('--webchat-background-bot-message', color);
+            // document.documentElement.style.setProperty('--webchat-background-bot-message', color);
 
             return {
                 ...state,
