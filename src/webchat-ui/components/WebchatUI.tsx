@@ -483,6 +483,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             showRatingDialog,
             onShowRatingDialog,
             onSetHasGivenRating,
+			onSetShowHomeScreen,
             customRatingTitle,
             customRatingCommentText,
             ...restProps
@@ -655,7 +656,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onSetScrollToPosition,
 			onSetLastScrolledPosition,
 			showHomeScreen,
-			onSetShowHomeScreen
+			onSetShowHomeScreen,
+			onClose
         } = this.props;
 
         const { enableRating } = config.settings;
@@ -666,6 +668,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 			<HomeScreen
 				showHomeScreen={showHomeScreen}
 				onSetShowHomeScreen={onSetShowHomeScreen}
+				onClose={onClose}
 				config={config}
 			/>
 		);
@@ -673,7 +676,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         return (
             <>
                 <Header
-                    onClose={this.props.onClose}
+					onClose={() => onSetShowHomeScreen(true)}
                     connected={config.active}
                     logoUrl={config.settings.headerLogoUrl}
                     title={config.settings.title || 'Cognigy Webchat'}
