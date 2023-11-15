@@ -6,11 +6,13 @@ export interface IWebchatTheme {
     primaryColor: string;
     primaryColorHover: string;
     primaryColorDisabled: string;
+    primaryContrastColor: string;
 
     // Secondary Colors
     secondaryColor: string;
     secondaryColorHover: string;
     secondaryColorDisabled: string;
+    secondaryContrastColor: string;
 
     // Meta Colors
     backgroundHome: string;
@@ -44,7 +46,6 @@ export interface IWebchatTheme {
     // Legacy Webchat V2 theme colors
     primaryStrongColor: string;
     primaryWeakColor: string;
-    primaryContrastColor: string;
     primaryGradient: string;
     primaryStrongGradient: string;
 
@@ -98,58 +99,79 @@ const getGradient = (color: string) => {
     return gradient;
 }
 
-const cognigyBlue = '#3f51b5';
+const deriveHoverColor = (color: string) => {
+    const hslColor = tinycolor(color).toHsl()
+    const lightness = hslColor.l;
+    const hoverLightness = lightness >= 0.5 ? (lightness - 0.2) : (lightness + 0.2);
+    hslColor.l = hoverLightness;
 
-// Webchat 3 Theme color defaults
-const primaryColor = '#2455E6';
-const primaryColorHover = '#113192';
-const primaryColorDisabled = '#D1DBFA';
-
-const secondaryColor = '#1A1A1A';
-const secondaryColorHover = '#4D4D4D';
-const secondaryColorDisabled = '#E5E5E5';
-
-const backgroundHome = 'radial-gradient(204.5% 136.79% at 0.53% 95.79%, #EDECF9 0%, #BFBAFF 31.77%, #2152E3 65.63%, #05309E 100%)';
-const backgroundWebchat = "#FFFFFF";
-const backgroundBotMessage = "#FFFFFF";
-const backgroungUserMessage = "#E8EBFF";
-
-const textLink = "#6688ED";
-const textLinkHover = "#1947D2";
-const textLinkDisabled = "#D1DCFA";
-
-const black10 = "#1A1A1A";
-const black20 = "#333333";
-const black40 = "#666666";
-const black60 = "#999999";
-const black80 = "#CCCCCC";
-const black95 = "#F2F2F2";
-const white = "#FFFFFF";
-
-const green = "#009918";
-const green10 = "#E5F5E8";
-const red = "#FF0000";
-const red10 = "#FFE5E5";
-
+    return tinycolor(hslColor).toHslString();
+};
 
 export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchatTheme => {
+
+// Webchat V2 primary color
+    const cognigyBlue = '#3f51b5';
+
+    // Webchat 3 Theme color defaults
+    const primaryColor = '#2455E6';
+    const primaryColorHover = '#113192';
+    const primaryColorDisabled = '#D1DBFA';
+
+    const secondaryColor = '#1A1A1A';
+    const secondaryColorHover = '#4D4D4D';
+    const secondaryColorDisabled = '#E5E5E5';
+
+    const backgroundHome = 'radial-gradient(204.5% 136.79% at 0.53% 95.79%, #EDECF9 0%, #BFBAFF 31.77%, #2152E3 65.63%, #05309E 100%)';
+    const backgroundWebchat = "#FFFFFF";
+    const backgroundBotMessage = "#FFFFFF";
+    const backgroungUserMessage = "#E8EBFF";
+
+    const textLink = "#6688ED";
+    const textLinkHover = "#1947D2";
+    const textLinkDisabled = "#D1DCFA";
+
+    const black10 = "#1A1A1A";
+    const black20 = "#333333";
+    const black40 = "#666666";
+    const black60 = "#999999";
+    const black80 = "#CCCCCC";
+    const black95 = "#F2F2F2";
+    const white = "#FFFFFF";
+
+    const textDark = black10;
+    const textLight = white;
+
+    const green = "#009918";
+    const green10 = "#E5F5E8";
+    const red = "#FF0000";
+    const red10 = "#FFE5E5";
+
+
+
     if (!theme.primaryColor)
         theme.primaryColor = primaryColor;
 
     if (!theme.primaryColorHover)
-        theme.primaryColorHover = primaryColorHover;
+        theme.primaryColorHover = deriveHoverColor(theme.primaryColor)
 
     if (!theme.primaryColorDisabled)
         theme.primaryColorDisabled = primaryColorDisabled;
+
+    if (!theme.primaryContrastColor)
+        theme.primaryContrastColor = tinycolor(theme.primaryColor).isLight() ? textDark : textLight;
 
     if (!theme.secondaryColor)
         theme.secondaryColor = secondaryColor;
 
     if (!theme.secondaryColorHover)
-        theme.secondaryColorHover = secondaryColorHover;
+        theme.secondaryColorHover = deriveHoverColor(theme.secondaryColor)
 
     if (!theme.secondaryColorDisabled)
         theme.secondaryColorDisabled = secondaryColorDisabled;
+
+    if (!theme.secondaryContrastColor)
+        theme.secondaryContrastColor = tinycolor(theme.secondaryColor).isLight() ? textDark : textLight;
 
     if (!theme.backgroundHome)
         theme.backgroundHome = backgroundHome;
@@ -194,10 +216,10 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
         theme.white = white;
 
     if (!theme.textDark)
-        theme.textDark = black10;
+        theme.textDark = textDark;
 
     if (!theme.textLight)
-        theme.textLight = white;
+        theme.textLight = textLight;
 
     if (!theme.green)
         theme.green = green;
