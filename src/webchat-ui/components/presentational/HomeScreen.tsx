@@ -11,27 +11,28 @@ import { IWebchatConfig } from '../../../common/interfaces/webchat-config';
 import PrimaryButton from './PrimaryButton';
 import SecondaryButton from './SecondaryButton';
 import IconButton from './IconButton';
+import Branding from '../branding/Branding';
 
 const HomeScreenRoot = styled.div(({ theme }) => ({
-    display: 'flex',
+	display: 'flex',
 	flexDirection: 'column',
-    height: '100%',
-    width: '100%',
-    color: theme.primaryContrastColor,
-    fontSize: 16,
-    fontWeight: 700,
-    boxSizing: 'border-box',
+	height: '100%',
+	width: '100%',
+	color: theme.primaryContrastColor,
+	fontSize: 16,
+	fontWeight: 700,
+	boxSizing: 'border-box',
 
-    '& *': {
-        boxSizing: 'border-box',
-    }
+	'& *': {
+		boxSizing: 'border-box',
+	}
 }));
 
 const HomeScreenContent = styled.div(({ theme }) => ({
-    background: theme.backgroundHome,
-    flexGrow: 1,
-    display: 'flex',
-    flexDirection: 'column',
+	background: theme.backgroundHome,
+	flexGrow: 1,
+	display: 'flex',
+	flexDirection: 'column',
 	alignItems: 'flex-start',
 	justifyContent: 'flex-start',
 	height: '100%',
@@ -42,9 +43,9 @@ const HomeScreenContent = styled.div(({ theme }) => ({
 const HomeScreenHeader = styled.div(({ theme }) => ({
 	display: 'flex',
 	flexDirection: 'row',
-    alignItems: 'center',
+	alignItems: 'center',
 	justifyContent: 'space-between',
-    width: '100%',
+	width: '100%',
 	marginBottom: 20,
 }));
 
@@ -70,40 +71,42 @@ const HomeScreenButtons = styled.div(({ theme }) => ({
 }));
 
 const HomeScreenActions = styled.div(({ theme }) => ({
-    alignSelf: 'flex-end',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: ' center',
-    justifyContent: 'center',
-    width: '100%',
-    padding: "20px 20px 12px 20px",
-    backgroundColor: theme.backgroundWebchat,
+	alignSelf: 'flex-end',
+	display: 'flex',
+	flexDirection: 'column',
+	alignItems: ' center',
+	justifyContent: 'center',
+	width: '100%',
+	padding: "20px 20px 12px 20px",
+	backgroundColor: theme.backgroundWebchat,
 }));
 
 const StartButton = styled(PrimaryButton)(({ theme }) => ({
-    marginBottom: 16,
+	marginBottom: 16,
 	flexGrow: 1,
 }));
 
 const PrevConversationsButton = styled(SecondaryButton)(({ theme }) => ({
-    marginBottom: 24,
+	marginBottom: 24,
 	flexGrow: 1,
 }));
 
 
 interface IHomeScreenProps {
-    config: IWebchatConfig;
-    showHomeScreen: boolean;
-    onSetShowHomeScreen: (show: boolean) => void;
+	config: IWebchatConfig;
+	showHomeScreen: boolean;
+	onSetShowHomeScreen: (show: boolean) => void;
 	onClose: () => void;
 }
 
 export const HomeScreen = (props: IHomeScreenProps) => {
 	const { config, showHomeScreen, onSetShowHomeScreen, onClose } = props;
 
-    return (
-        <HomeScreenRoot className="webchat-homescreen-root">
-            <HomeScreenContent className="webchat-homescreen-content">
+	const disableBranding = config?.settings?.disableBranding
+
+	return (
+		<HomeScreenRoot className="webchat-homescreen-root">
+			<HomeScreenContent className="webchat-homescreen-content">
 				<HomeScreenHeader className="webchat-homescreen-header">
 					<div className="webchat-homescreen-header-title">{config?.settings?.title || "Cognigy Webchat"}</div>
 					<HomeScreenHeaderIconButton
@@ -121,20 +124,22 @@ export const HomeScreen = (props: IHomeScreenProps) => {
 				<HomeScreenButtons className="webchat-homescreen-buttons">
 					Button Section
 				</HomeScreenButtons>
-            </HomeScreenContent>
-            <HomeScreenActions className="webchat-homescreen-actions">
-                <StartButton
-                    onClick={() => onSetShowHomeScreen(false)}
-                    className="webchat-homescreen-send-button" aria-label="Start chat"
-                >
-                    Start conversation
-                </StartButton>
-                <PrevConversationsButton
-                    onClick={() => console.log("Clicked Previous conversations")}
-                >
-                    Previous conversations
-                </PrevConversationsButton>
-            </HomeScreenActions>
-        </HomeScreenRoot>
-    );
+			</HomeScreenContent>
+			<HomeScreenActions className="webchat-homescreen-actions">
+				<StartButton
+					onClick={() => onSetShowHomeScreen(false)}
+					className="webchat-homescreen-send-button" aria-label="Start chat"
+				>
+					Start conversation
+				</StartButton>
+				<PrevConversationsButton
+					onClick={() => console.log("Clicked Previous conversations")}
+				>
+					Previous conversations
+				</PrevConversationsButton>
+				{/* Branding Logo Link */}
+				{!disableBranding && <Branding />}
+			</HomeScreenActions>
+		</HomeScreenRoot>
+	);
 }
