@@ -1,58 +1,68 @@
-import { styled, IColorProps } from "../../style";
+import styled from '@emotion/styled';
+import { IColorProps } from "../../style";
 import { interactionCss, createTransition } from "../../utils/css";
 
 
 export default styled.button<IColorProps>(({ color, theme }) => {
 
-    const colors = {
-        weak: theme.greyWeakColor,
-        main: theme.greyColor,
-        strong: theme.greyStrongColor,
-        contrast: theme.greyContrastColor
-    }
+	const colors = {
+		weak: theme.greyWeakColor,
+		main: theme.greyColor,
+		strong: theme.greyStrongColor,
+		contrast: theme.greyContrastColor
+	}
 
-    if (color === 'primary') {
-        colors.weak = theme.primaryWeakColor;
-        colors.main = theme.primaryColor;
-        colors.strong = theme.primaryStrongColor;
-        colors.contrast = theme.primaryContrastColor;
-    }
+	if (color === 'primary') {
+		colors.weak = theme.secondaryColorDisabled;
+		colors.main = theme.secondaryColor;
+		colors.strong = theme.secondaryColorHover;
+		colors.contrast = theme.secondaryContrastColor;
+	}
 
-    return {
-        ...interactionCss,
+	return {
+		...interactionCss,
 
-        borderRadius: theme.unitSize * 2,
-        padding: `${theme.unitSize}px ${theme.unitSize * 2}px`,
-        boxSizing: 'border-box',
+		borderRadius: 10,
+		display: "flex",
+		width: 303,
+		height: 44,
+		padding: "11px 0px",
+		justifyContent: "center",
+		alignItems: "center",
+		flexShrink: 0,
 
-        backgroundColor: colors.main,
-        color: colors.contrast,
+		backgroundColor: colors.main,
+		color: colors.contrast,
 
-        textTransform: 'uppercase',
-        fontWeight: 'bold',
+		textTransform: 'unset',
+		fontSize: 14,
+		fontStyle: "normal",
+		fontWeight: 600,
+		lineHeight: "160%",
 
-        border: 'none',
-        outline: 'none',
+		border: 'none',
+		outline: 'none',
 
-        cursor: 'pointer',
+		cursor: 'pointer',
 
-        transition: createTransition('background-color', 'transform', 'box-shadow'),
-        transform: 'translate(0px, 0px)',
+		transition: createTransition('background-color'),
 
-        '&:disabled': {
-            opacity: .4,
-            cursor: 'default',
-        },
+		'&:disabled': {
+			opacity: .4,
+			cursor: 'default',
+			backgroundColor: colors.weak,
+		},
 
-        '&:hover:not(:disabled)': {
-            transform: 'translate(0px, -0px)',
-            backgroundColor: colors.strong,
-            boxShadow: '0 1px 1px hsla(0, 0%, 0%, .2)'
-        },
+		'&:hover:not(:disabled)': {
+			backgroundColor: colors.strong,
+		},
 
-        '&:active:not(:disabled)': {
-            transform: 'translate(0px, 1px)',
-            backgroundColor: colors.weak,
-        }
-    }
+		'&:focus:not(:disabled)': {
+			backgroundColor: colors.strong,
+		},
+
+		'&:active:not(:disabled)': {
+			backgroundColor: colors.weak,
+		}
+	}
 });

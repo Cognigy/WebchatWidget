@@ -1,6 +1,5 @@
-import React from 'react';
-import { styled } from '../../style';
-import { CSSProperties } from 'react';
+import React, { CSSProperties } from 'react';
+import styled from '@emotion/styled';
 import { getBackgroundImage } from '../../../plugins/messenger/MessengerPreview/lib/css';
 
 interface IAvatarProps {

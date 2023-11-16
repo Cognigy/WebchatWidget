@@ -1,6 +1,7 @@
-import { styled, IColorProps } from "../../style";
+import styled from '@emotion/styled';
+import { IColorProps } from "../../style";
 import { interactionCss, createTransition } from "../../utils/css";
-import tinycolor from 'tinycolor2'
+import tinycolor from 'tinycolor2';
 
 export default styled.button<IColorProps>(({ theme }) => {
 

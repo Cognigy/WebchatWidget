@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { styled } from '../../style';
+import React from 'react';
+import styled from '@emotion/styled';
 import { interactionCss } from '../../utils/css';
 import { getBackgroundImage } from '../../../plugins/messenger/MessengerPreview/lib/css';
 

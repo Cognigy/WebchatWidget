@@ -1,11 +1,12 @@
-import * as React from "react";
+import React from "react";
 import { IMessage } from "../../../common/interfaces/message";
 import { MessagePlugin } from "../../../common/interfaces/message-plugin";
 import { MessageSender } from "../../interfaces";
 import { getPluginsForMessage } from "../../../plugins/helper";
 import MessageRow from "../presentational/MessageRow";
 import Avatar from "../presentational/Avatar";
-import { styled, IWebchatTheme } from "../../style";
+import styled from '@emotion/styled';
+import { IWebchatTheme } from "../../style";
 import "../../../assets/style.css";
 import {
   IWebchatConfig,
@@ -37,7 +38,7 @@ const FullWidthMessageRow = styled.div(({ theme }) => ({
   paddingBottom: theme.unitSize,
 }));
 
-export default ({
+const MessagePluginRenderer = ({
   message,
   config,
   onSendMessage,
@@ -201,3 +202,5 @@ export default ({
     </>
   );
 };
+
+export default MessagePluginRenderer;

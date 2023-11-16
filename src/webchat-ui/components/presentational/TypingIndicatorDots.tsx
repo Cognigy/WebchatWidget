@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import { keyframes } from '@emotion/react';
-import { styled, IWebchatTheme } from '../../style';
+import styled from '@emotion/styled'
+import { IWebchatTheme } from '../../style';
 import tinycolor from 'tinycolor2';
 
 const bounce = (theme: IWebchatTheme) => keyframes({
@@ -49,10 +50,12 @@ const Dot = styled.div(({ theme }) => ({
     },
 }));
 
-export default () => (
+const TypingIndicatorDots = () => (
     <Container>
         <Dot />
         <Dot />
         <Dot />
     </Container>
-)
+);
+
+export default TypingIndicatorDots

@@ -1,5 +1,5 @@
 import tinycolor from 'tinycolor2';
-import { styled } from "../../style";
+import styled from '@emotion/styled';
 import { interactionCss, createTransition } from '../../utils/css';
 
 export default styled.textarea(({ theme }) => ({

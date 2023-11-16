@@ -1,11 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import { InputComponentProps, InputPlugin, RuleInputPlugin, SelectInputPlugin } from '../../../common/interfaces/input-plugin';
 import { IMessage } from '../../../common/interfaces/message';
 import Toolbar from '../presentational/Toolbar';
-import { styled, IWebchatTheme } from '../../style';
+import styled from '@emotion/styled';
+import { IWebchatTheme } from '../../style';
 import IconButton from '../presentational/IconButton';
 
-export interface InputProps extends InputComponentProps, React.HTMLProps<HTMLDivElement> {
+type HTMLDivPropsWithoutInputMode = Omit<React.HTMLProps<HTMLDivElement>, "inputMode">;
+
+export interface InputProps extends InputComponentProps, HTMLDivPropsWithoutInputMode {
     plugins: InputPlugin[];
     messages: IMessage[];
     onSetInputMode: (inputMode: string) => void;
@@ -30,7 +33,7 @@ const InputRoot = styled.div(({ theme }) => ({
     backgroundColor: 'white'
 }))
 
-export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInputMode, webchatTheme, onEmitAnalytics, ...props }: InputProps): JSX.Element => {
+const InputPluginRenderer = ({ messages, config, onSendMessage, plugins, inputMode, onSetInputMode, webchatTheme, onEmitAnalytics, ...props }: InputProps): JSX.Element => {
     const results: any[] = [];
 
     const attributes = Object.keys(props).length > 0
@@ -93,3 +96,5 @@ export default ({ messages, config, onSendMessage, plugins, inputMode, onSetInpu
         </InputRoot>
     )
 }
+
+export default InputPluginRenderer;

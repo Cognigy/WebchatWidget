@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { styled } from '../../style';
+import React from 'react';
+import styled from '@emotion/styled';
 import IconButton from './IconButton';
 import CloseIcon from '../../assets/baseline-close-24px.svg';
 import Button from './Button';
@@ -52,7 +52,7 @@ const HeaderIconButton = styled(IconButton)(({ theme }) => ({
     }
 }));
 
-export default ({ isPermanent, onClose, onConnect }) => {
+const DisconnectOverlay = ({ isPermanent, onClose, onConnect }) => {
     return (
         <Wrapper>
             <Dialog>
@@ -74,3 +74,5 @@ export default ({ isPermanent, onClose, onConnect }) => {
         </Wrapper>
     );
 };
+
+export default DisconnectOverlay

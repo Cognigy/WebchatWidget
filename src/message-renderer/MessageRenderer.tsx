@@ -1,5 +1,5 @@
+import React from "react";
 import { ThemeProvider } from "@emotion/react";
-import * as React from "react";
 import { FC, useMemo, useCallback } from "react";
 import { IMessage } from "../common/interfaces/message";
 import { IWebchatConfig } from "../common/interfaces/webchat-config";
@@ -9,7 +9,8 @@ import {
 } from "../plugins/helper";
 import regularMessagePlugin from "../webchat-ui/components/plugins/message/regular";
 import MessagePluginRenderer from "../webchat-ui/components/plugins/MessagePluginRenderer";
-import { createWebchatTheme, styled } from "../webchat-ui/style";
+import styled from '@emotion/styled';
+import { createWebchatTheme } from "../webchat-ui/style";
 import { getMessageRendererConfig } from "./getMessageRendererConfig";
 import { getMessageRendererPlugins } from "./getMessageRendererPlugins";
 

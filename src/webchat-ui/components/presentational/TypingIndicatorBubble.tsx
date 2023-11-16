@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import TypingIndicatorDots from './TypingIndicatorDots';
 import MessageBubble from './MessageBubble';
-import { styled } from '../../style';
+import styled from '@emotion/styled'
 
 const TypingIndicatorBubbleRoot = styled(MessageBubble)(({ theme }) => ({
     marginBottom: -theme.unitSize,
@@ -18,7 +18,7 @@ const TypingIndicatorBubbleRoot = styled(MessageBubble)(({ theme }) => ({
     }
 }));
 
-export default ({ className, ...restProps }: React.ComponentProps<typeof TypingIndicatorBubbleRoot>) => (
+const TypingIndicatorBubble = ({ className, ...restProps }: React.ComponentProps<typeof TypingIndicatorBubbleRoot>) => (
     <TypingIndicatorBubbleRoot
         align='left'
         color='primary'
@@ -28,3 +28,5 @@ export default ({ className, ...restProps }: React.ComponentProps<typeof TypingI
         <TypingIndicatorDots />
     </TypingIndicatorBubbleRoot>
 )
+
+export default TypingIndicatorBubble;

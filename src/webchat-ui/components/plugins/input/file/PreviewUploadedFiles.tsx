@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from '../../../../style';
+import styled from '@emotion/styled';
 import CloseIcon from "../../../../assets/baseline-close-24px.svg";
 import IconButton from '../../../presentational/IconButton';
 import LinearProgressBar from '../../../presentational/LinearProgressBar';
@@ -18,7 +18,7 @@ const UploadedFilesContainer = styled.div(({ theme }) => ({
     alignItems: 'center',
 }));
 
-const FilePreviewWrapper = styled.div(({ theme, hasUploadError }) => ({
+const FilePreviewWrapper = styled.div<Pick<IFile, "hasUploadError">>(({ theme, hasUploadError }) => ({
     marginRight: theme.unitSize,
     borderRadius: 4,
     maxWidth: 180,
@@ -38,7 +38,7 @@ const ImagePreview = styled.img(({ theme }) => ({
     alignSelf: 'center',
 }));
 
-const FileNameTypography = styled.span(({ theme, hasUploadError }) => ({
+const FileNameTypography = styled.span<Pick<IFile, "hasUploadError">>(({ theme, hasUploadError }) => ({
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',

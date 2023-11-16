@@ -1,5 +1,6 @@
-import * as React from 'react';
-import { styled, IColorProps } from '../../style';
+import React from 'react';
+import styled from '@emotion/styled';
+import { IColorProps } from '../../style';
 import { IAlignmentProps } from './MessageRow';
 
 export default styled.div<IColorProps & IAlignmentProps>(({ color, theme, align }) => ({

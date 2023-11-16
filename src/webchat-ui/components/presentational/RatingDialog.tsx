@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from "../../style";
+import styled from '@emotion/styled';
 import Toolbar from './Toolbar';
 import IconButton from './IconButton';
 import SendIcon from '../plugins/input/text/baseline-send-24px.svg';
@@ -114,9 +114,14 @@ const SendIconButton = styled(IconButton)(({ theme }) => ({
     },
 }));
 
+interface IOnSendRatingProps {
+	rating: number | null;
+	comment: string;
+}
+
 interface IRatingDialogProps {
     onCloseRatingDialog: () => void;
-    onSendRating: ({ rating: number, comment: string }) => void;
+	onSendRating: (props: IOnSendRatingProps) => void;
     ratingTitleText: string;
     ratingCommentText: string;
 }
@@ -154,7 +159,7 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
 
         if (this.state.ratingValue === value) {
             nextValue = null;
-        };
+		}
 
         this.setState({
             ratingValue: nextValue,
@@ -300,13 +305,12 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
                     </RatingDialogMain>
                     <RatingToolbar className="webchat-rating-dialog-toolbar">
                         <RatingInput
-                            data-test="rating-input"
-                            type="text"
+							data-test="rating-input"
                             value={ratingText}
                             onChange={this.handleSetRatingText}
                             className="webchat-rating-dialog-comment-input-field"
                             autoFocus
-                            maxlength={500}
+							maxLength={500}
                             rows={3}
                             aria-labelledby={webchatRatingCommentLabelId}
                             ref={this.commentTextAreaRef}
@@ -325,6 +329,6 @@ class RatingDialog extends React.PureComponent<React.HTMLProps<HTMLDivElement> &
             </Wrapper>
         );
     }
-};
+}
 
 export default RatingDialog;

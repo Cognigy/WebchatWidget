@@ -1,5 +1,5 @@
 import React, { ComponentProps } from 'react';
-import { styled } from '../../style';
+import styled from '@emotion/styled';
 
 const BadgeBase = styled.span(({ theme }) => ({
     display: 'flex',
@@ -22,18 +22,18 @@ const BadgeBase = styled.span(({ theme }) => ({
 }));
 
 interface IBadgeProps extends ComponentProps<typeof BadgeBase> {
-    content: number;
+	_content: number;
 }
 
 const Badge = (props: IBadgeProps) => {
 
-    const { content, ...badgeBaseProps } = props;
+	const { _content, ...badgeBaseProps } = props;
 
-    if (content === 0)
+	if (_content === 0)
         return null;
 
     return (
-        <BadgeBase {...badgeBaseProps}>{content}</BadgeBase>
+		<BadgeBase {...badgeBaseProps}>{_content}</BadgeBase>
     );
 }
 

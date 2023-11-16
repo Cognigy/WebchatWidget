@@ -1,4 +1,4 @@
-import { styled } from "../../style";
+import styled from '@emotion/styled'
 import ResetCSS from "./ResetCSS";
 
 export default styled(ResetCSS)(({ theme }) => ({

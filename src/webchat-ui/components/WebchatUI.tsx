@@ -1,8 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import { IMessage } from '../../common/interfaces/message';
 import Header from './presentational/Header';
 import { CacheProvider, ThemeProvider } from '@emotion/react';
-import { IWebchatTheme, createWebchatTheme, styled } from '../style';
+import styled from '@emotion/styled';
+import { IWebchatTheme, createWebchatTheme } from '../style';
 import WebchatRoot from './presentational/WebchatRoot';
 import { History } from './history/History';
 import createCache from '@emotion/cache';
@@ -39,6 +40,7 @@ import { isDisabledOutOfBusinessHours, isHiddenOutOfBusinessHours, isInformingOu
 import { isDisabledDueToMaintenance, isHiddenDueToMaintenance, isInformingDueToMaintenance } from '../../webchat/helper/maintenance';
 import FABDisabled from './presentational/FABDisabled';
 import { isDisabledDueToConnectivity, isHiddenDueToConnectivity, isInformingDueToConnectivity } from '../../webchat/helper/connectivity';
+import { HomeScreen } from './presentational/HomeScreen';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -81,6 +83,9 @@ export interface WebchatUIProps {
     onSetHasGivenRating: () => void;
     customRatingTitle: string;
     customRatingCommentText: string;
+
+	showHomeScreen: boolean;
+	onSetShowHomeScreen: (show: boolean) => void;
 }
 
 interface WebchatUIState {
@@ -478,6 +483,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             showRatingDialog,
             onShowRatingDialog,
             onSetHasGivenRating,
+			onSetShowHomeScreen,
             customRatingTitle,
             customRatingCommentText,
             ...restProps
@@ -648,17 +654,29 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             scrollToPosition,
             lastScrolledPosition,
             onSetScrollToPosition,
-            onSetLastScrolledPosition
+			onSetLastScrolledPosition,
+			showHomeScreen,
+			onSetShowHomeScreen,
+			onClose
         } = this.props;
 
         const { enableRating } = config.settings;
 
         const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
 
+		if (showHomeScreen) return (
+			<HomeScreen
+				showHomeScreen={showHomeScreen}
+				onSetShowHomeScreen={onSetShowHomeScreen}
+				onClose={onClose}
+				config={config}
+			/>
+		);
+
         return (
             <>
                 <Header
-                    onClose={this.props.onClose}
+					onClose={() => onSetShowHomeScreen(true)}
                     connected={config.active}
                     logoUrl={config.settings.headerLogoUrl}
                     title={config.settings.title || 'Cognigy Webchat'}

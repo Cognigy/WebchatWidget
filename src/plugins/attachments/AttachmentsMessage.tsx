@@ -2,7 +2,7 @@ import { sanitizeUrl } from '@braintree/sanitize-url';
 import React, { memo } from 'react';
 import { IUploadFileMetaData } from '../../common/interfaces/file-upload';
 import { MessageComponentProps } from '../../common/interfaces/message-plugin';
-import { styled } from '../../webchat-ui/style';
+import styled from '@emotion/styled';
 import { getMessengerListTemplate } from '../messenger/MessengerPreview/components/MessengerListTemplate/MessengerListTemplate';
 import { IFBMURLButton } from '../messenger/MessengerPreview/interfaces/Button.interface';
 import { IFBMListTemplateElement, IFBMListTemplatePayload } from '../messenger/MessengerPreview/interfaces/ListTemplatePayload.interface';
