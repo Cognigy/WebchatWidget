@@ -298,8 +298,6 @@ export class BaseInput extends React.PureComponent<InputComponentProps, TextInpu
 			inputAutogrowMaxRows,
 		} = props.config.settings;
 
-		console.log({ inputAutogrowMaxRows })
-
 		const isFileListEmpty = fileList?.length === 0;
 
 		return (
@@ -310,7 +308,7 @@ export class BaseInput extends React.PureComponent<InputComponentProps, TextInpu
 						onSubmit={this.handleSubmit}
 						className="webchat-input-menu-form"
 					>
-						{/* {enableFileAttachment && */}
+						{enableFileAttachment &&
 						<>
 							<HiddenFileInput
 								ref={this.fileInputRef}
@@ -327,7 +325,7 @@ export class BaseInput extends React.PureComponent<InputComponentProps, TextInpu
 								<AttachFileIcon />
 							</AttachFileButton>
 						</>
-						{/* } */}
+						}
 
 						<TextArea
 							ref={this.inputRef}
