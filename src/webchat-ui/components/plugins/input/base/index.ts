@@ -1,13 +1,13 @@
-import { TextInput } from "./TextInput";
+import { BaseInput } from "./BaseInput";
 import { InputPlugin } from "../../../../../common/interfaces/input-plugin";
 import KeyboardIcon from './baseline-keyboard-24px.svg';
 
-const textInputPlugin: InputPlugin = {
+const baseInputPlugin: InputPlugin = {
     name: 'text-input',
     type: 'select',
     id: 'text',
-    component: TextInput,
+	component: BaseInput,
     icon: KeyboardIcon
 };
 
-export default textInputPlugin;
+export default baseInputPlugin;

@@ -11,8 +11,7 @@ const getSpeechRecognition = (): SpeechRecognition | null => {
         return new SpeechRecognition();
     } catch (e) { }
 
-    try {
-        // @ts-ignore
+	try {
         return new webkitSpeechRecognition() as SpeechRecognition;
     } catch (e) { }
 
@@ -106,8 +105,7 @@ export const getSpeechInput = ({ React, styled }: InputPluginFactoryProps) => {
                 }
             }
 
-            this.state = {
-                // @ts-ignore
+			this.state = {
                 speechRecognition,
                 active: false,
                 result: '',

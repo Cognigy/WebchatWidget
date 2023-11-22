@@ -37,8 +37,7 @@ export const getInitialState = (): ConfigState => ({
     disableHtmlContentSanitization: false,
     disableHtmlInput: false,
     disableInputAutocomplete: false,
-    disableInputAutofocus: false,
-    disableInputAutogrow: false,
+      disableInputAutofocus: false,
     disableLocalStorage: false,
     disablePersistentHistory: false,
     disableRenderURLsAsLinks: false,
@@ -75,7 +74,7 @@ export const getInitialState = (): ConfigState => ({
     getStartedText: "",
     headerLogoUrl: "",
     ignoreLineBreaks: false,
-    inputAutogrowMaxRows: 5,
+    inputAutogrowMaxRows: 4,
     inputCollationTimeout: 1000,
     inputPlaceholder: "",
     maintenance: {

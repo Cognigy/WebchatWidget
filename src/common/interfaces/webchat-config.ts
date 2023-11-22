@@ -32,8 +32,7 @@ export interface IWebchatSettings {
   disableHtmlContentSanitization: boolean;
   disableHtmlInput: boolean;
   disableInputAutocomplete: boolean;
-  disableInputAutofocus: boolean;
-  disableInputAutogrow: boolean;
+	disableInputAutofocus: boolean;
   disableLocalStorage: boolean;
   disablePersistentHistory: boolean;
   disableRenderURLsAsLinks: boolean;

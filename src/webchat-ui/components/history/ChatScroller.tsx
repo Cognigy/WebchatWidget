@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from '@emotion/styled';
-import Branding from '../branding/Branding'
 
 const CLIENT_HEIGHT_OFFSET = 16 + 70; // banner + typing indicator
 
@@ -133,9 +132,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
                     onBlur={this.handleBlur}
                 >
                     {children}
-                </ChatLog>
-                {/* Branding Logo Link */}
-                {!disableBranding && <Branding />}
+				</ChatLog>
             </ChatLogWrapper>
         )
     }

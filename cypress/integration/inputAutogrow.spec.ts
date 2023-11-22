@@ -62,7 +62,8 @@ describe('Input Autogrow', () => {
             });
     });
 
-    it('should use an "input" element if "disableInputAutogrow" flag is set', () => {
+	// Autogrow is now always enabled
+	xit('should use an "input" element if "disableInputAutogrow" flag is set', () => {
         cy.visitWebchat().initMockWebchat({
             settings: {
                 disableInputAutogrow: true

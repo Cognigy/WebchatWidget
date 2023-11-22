@@ -5,6 +5,7 @@ import Toolbar from '../presentational/Toolbar';
 import styled from '@emotion/styled';
 import { IWebchatTheme } from '../../style';
 import IconButton from '../presentational/IconButton';
+import Branding from '../branding/Branding';
 
 type HTMLDivPropsWithoutInputMode = Omit<React.HTMLProps<HTMLDivElement>, "inputMode">;
 
@@ -28,10 +29,16 @@ const SmallToolbar = styled(Toolbar)({
 })
 
 const InputRoot = styled.div(({ theme }) => ({
-    position: 'relative', 
-    boxShadow: theme.shadow,
-    backgroundColor: 'white'
+    // position: 'absolute',
+    // bottom: 0,
+    borderTop: `1px solid var(--basics-black-80, ${theme.black80})`,
+    backgroundColor: theme.white,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 12,
+    padding: "24px 20px 12px 20px",
 }))
+
 
 const InputPluginRenderer = ({ messages, config, onSendMessage, plugins, inputMode, onSetInputMode, webchatTheme, onEmitAnalytics, ...props }: InputProps): JSX.Element => {
     const results: any[] = [];
@@ -93,6 +100,8 @@ const InputPluginRenderer = ({ messages, config, onSendMessage, plugins, inputMo
                     onEmitAnalytics={emitAnalytics}
                 />
             )}
+            {/* Branding Logo Link */}
+            {!config.settings.disableBranding && <Branding />}
         </InputRoot>
     )
 }
