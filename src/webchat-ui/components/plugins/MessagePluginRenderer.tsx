@@ -134,7 +134,7 @@ const MessagePluginRenderer = ({
     }
   })();
 
-  if (match(message))
+  if (match(message, config))
 		return (
 			<Message
         action={onSendMessage}
