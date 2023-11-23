@@ -51,8 +51,7 @@ export const getInitialState = (): ConfigState => ({
     enableFocusTrap: false,
     enableGenericHTMLStyling: false,
     enableInjectionWithoutEmptyHistory: false,
-    enableInputCollation: false,
-    enablePersistentMenu: false,
+	  enableInputCollation: false,
     enableRating: "onRequest",
     enableStrictMessengerSync: false,
     enableSTT: false,
@@ -84,11 +83,7 @@ export const getInitialState = (): ConfigState => ({
       title: ""
     },
     messageDelay: 1000,
-    messageLogoUrl: "",
-    persistentMenu: {
-      title: "",
-      menuItems: [],
-    },
+	  messageLogoUrl: "",
     ratingCommentText: "Feel free to leave a comment.",
     ratingMessageHistoryCommentText: "You commented:",
     ratingMessageHistoryRatingText: "You gave the following rating:",

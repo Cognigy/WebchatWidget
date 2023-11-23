@@ -1,8 +1,3 @@
-export interface IPersistentMenuItem {
-  title: string;
-  payload: string;
-}
-
 export type TSourceDirection = 'incoming' | 'outgoing';
 export type TSourceColor = 'primary' | 'neutral';
 
@@ -46,8 +41,7 @@ export interface IWebchatSettings {
   enableFocusTrap: boolean;
   enableGenericHTMLStyling: boolean;
   enableInjectionWithoutEmptyHistory: boolean;
-  enableInputCollation: boolean;
-  enablePersistentMenu: boolean;
+	enableInputCollation: boolean;
   enableRating: "always" | "once" | "onRequest";
   enableStrictMessengerSync: boolean;
   enableSTT: boolean;
@@ -80,11 +74,7 @@ export interface IWebchatSettings {
   };
   messageDelay: number;
   /** TODO: this is the botAvatarUrl (rename for major) */
-  messageLogoUrl: string;
-  persistentMenu: {
-    title: string;
-    menuItems: IPersistentMenuItem[];
-  };
+	messageLogoUrl: string;
   ratingCommentText: string;
   ratingMessageHistoryCommentText: string;
   ratingMessageHistoryRatingText: string;
