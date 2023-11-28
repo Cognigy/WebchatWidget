@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import Toolbar from './Toolbar';
 import IconButton from './IconButton';
-import SendIcon from '../plugins/input/text/baseline-send-24px.svg';
+import SendIcon from '../plugins/input/base/baseline-send-24px.svg';
 import CloseIcon from "../../assets/baseline-close-24px.svg";
 import ThumbIcon from '../../assets/thumb-up-24dp.svg';
 import ThumbDownIcon from './ThumbDownIcon';

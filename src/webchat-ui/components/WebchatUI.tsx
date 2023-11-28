@@ -11,7 +11,7 @@ import { isolate } from '../utils/css';
 import { MessagePlugin } from '../../common/interfaces/message-plugin';
 import FullScreenMessage from './history/FullScreenMessage';
 import Input from './plugins/InputPluginRenderer';
-import textInputPlugin from './plugins/input/text';
+import baseInputPlugin from './plugins/input/base';
 import MessagePluginRenderer from './plugins/MessagePluginRenderer';
 import regularMessagePlugin from './plugins/message/regular';
 import { InputPlugin } from '../../common/interfaces/input-plugin';
@@ -209,7 +209,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
     componentDidMount() {
         this.setState({
-            inputPlugins: [...this.props.inputPlugins || [], textInputPlugin],
+			inputPlugins: [...this.props.inputPlugins || [], baseInputPlugin],
             messagePlugins: [...this.props.messagePlugins || [], regularMessagePlugin]
         });
     }

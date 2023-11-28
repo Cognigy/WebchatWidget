@@ -108,6 +108,13 @@ const deriveHoverColor = (color: string) => {
     return tinycolor(hslColor).toHslString();
 };
 
+const deriveDisabledColor = (color: string) => {
+	const hslColor = tinycolor(color).toHsl()
+	hslColor.l = 0.9;
+
+	return tinycolor(hslColor).toHslString();
+};
+
 export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchatTheme => {
 
     // Webchat V2 primary color
@@ -157,7 +164,7 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
         theme.primaryColorHover = deriveHoverColor(theme.primaryColor)
 
     if (!theme.primaryColorDisabled)
-        theme.primaryColorDisabled = primaryColorDisabled;
+		theme.primaryColorDisabled = deriveDisabledColor(theme.primaryColor);
 
     if (!theme.primaryContrastColor)
         theme.primaryContrastColor = tinycolor(theme.primaryColor).isLight() ? textDark : textLight;
@@ -169,7 +176,7 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
         theme.secondaryColorHover = deriveHoverColor(theme.secondaryColor)
 
     if (!theme.secondaryColorDisabled)
-        theme.secondaryColorDisabled = secondaryColorDisabled;
+		theme.secondaryColorDisabled = deriveDisabledColor(theme.secondaryColor);
 
     if (!theme.secondaryContrastColor)
         theme.secondaryContrastColor = tinycolor(theme.secondaryColor).isLight() ? textDark : textLight;
