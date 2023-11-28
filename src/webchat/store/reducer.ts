@@ -8,6 +8,7 @@ import { unseenMessages } from './unseen-messages/unseen-message-reducer';
 import { autoInject } from './autoinject/autoinject-reducer';
 import { rating } from "./rating/rating-reducer";
 import { inputCollation } from "./input-collation/input-collation-reducer";
+import { input } from "./input/input-reducer";
 import { StoreState } from "./store";
 
 const rootReducer = combineReducers({
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     rating,
     ui,
     connection,
-    inputCollation
+	inputCollation,
+	input,
 });
 
 const RESET_STATE = 'RESET_STATE';

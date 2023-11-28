@@ -22,7 +22,8 @@
     ],
     "rules": {
         "react/prop-types": "off",
-		"no-empty": "off"
+		"no-empty": "off",
+		"no-empty-function": "off"
     },
     "settings": {
         "react": {

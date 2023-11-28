@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import classnames from 'classnames';
 import { InputComponentProps } from '../../../../../common/interfaces/input-plugin';
 import SendIcon from './send-icon-16px.svg';
-import SpeechIcon from './speech-icon-16px.svg';
+import SpeechIconSVG from './speech-icon-16px.svg';
 import AttachFileIcon from './attachment-icon-16px.svg';
 import TextareaAutosize from 'react-textarea-autosize';
 import DropZone from '../file/DropZone';
@@ -16,10 +16,6 @@ const InputForm = styled.form(({ theme }) => ({
     alignItems: 'center',
     gap: 12,
     marginBottom: 0,
-
-    '&.webchat-input-menu-form-speech-active': {
-        backgroundColor: theme.backgroundUserMessage,
-    },
 }));
 
 const TextArea = styled(TextareaAutosize)(({ theme }) => ({
@@ -75,7 +71,47 @@ const AttachFileButton = styled(Button)(({ theme }) => ({
 }));
 
 const SpeechButton = styled(Button)(({ theme }) => ({
+    position: 'relative',
 
+    "&.webchat-input-button-speech-active": {
+        fill: theme.textLight,
+    },
+}));
+
+const SpeechIcon = styled(SpeechIconSVG)(({ theme }) => ({
+    position: 'relative',
+}));
+
+const SpeechButtonBackground = styled.div(({ theme }) => ({
+    position: 'absolute',
+    top: '-6px',
+    left: '-6px',
+    backgroundColor: theme.primaryColor,
+    height: 28,
+    width: 28,
+    borderRadius: 16,
+}));
+
+const SpeechButtonAnimatedBackground = styled.div(({ theme }) => ({
+    position: 'absolute',
+    top: '-6px',
+    left: '-6px',
+    backgroundColor: theme.primaryColor,
+    opacity: 0.2,
+    height: 28,
+    width: 28,
+    borderRadius: 16,
+    animation: `expanding 2s ease-in-out infinite`,
+
+    "@keyframes expanding": {
+        "from, to": {
+            transform: "scale(1)"
+
+        },
+        "50%": {
+            transform: "scale(1.3)"
+        }
+    }
 }));
 
 const HiddenFileInput = styled.input(() => ({
@@ -97,12 +133,16 @@ export interface TextInputState {
 
 interface ISpeechInputState {
     speechRecognition: SpeechRecognition;
-    speechActive: boolean;
     speechResult: string;
     isFinalResult: boolean;
 }
 
 interface IBaseInputState extends TextInputState, ISpeechInputState { }
+
+interface IBaseInputProps extends InputComponentProps {
+    sttActive: boolean;
+    onSetSTTActive: (active: boolean) => void;
+}
 
 declare global {
     interface Window {
@@ -128,8 +168,8 @@ const combineStrings = (str1: string, str2: string) => {
     return str1 + " " + str2;
 }
 
-export class BaseInput extends React.PureComponent<InputComponentProps, IBaseInputState> {
-    constructor(props: InputComponentProps) {
+export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputState> {
+    constructor(props: IBaseInputProps) {
         super(props);
 
         const speechRecognition = getSpeechRecognition();
@@ -152,7 +192,6 @@ export class BaseInput extends React.PureComponent<InputComponentProps, IBaseInp
             fileUploadError: false,
 
             speechRecognition,
-            speechActive: false,
             speechResult: '',
             isFinalResult: false
         } as IBaseInputState;
@@ -203,8 +242,9 @@ export class BaseInput extends React.PureComponent<InputComponentProps, IBaseInp
         const { speechRecognition } = this.state;
         speechRecognition.stop();
 
+        this.props.onSetSTTActive(false);
+
         this.setState({
-            speechActive: false,
             speechResult: '',
             isFinalResult: false
         })
@@ -216,9 +256,10 @@ export class BaseInput extends React.PureComponent<InputComponentProps, IBaseInp
 
     toggleSTT = (e) => {
         e.preventDefault();
-        const { speechActive, speechRecognition } = this.state;
+        const { speechRecognition } = this.state;
+        const { sttActive, onSetSTTActive } = this.props;
 
-        if (speechActive) {
+        if (sttActive) {
             this.handleCancelSpeech();
 
             if (this.inputRef.current)
@@ -227,11 +268,11 @@ export class BaseInput extends React.PureComponent<InputComponentProps, IBaseInp
             speechRecognition.start();
         }
 
-        const newState: Partial<ISpeechInputState> = {
-            speechActive: !speechActive,
-        }
+        const newState: Partial<ISpeechInputState> = {}
 
-        if (speechActive) {
+        onSetSTTActive(!sttActive);
+
+        if (sttActive) {
             newState.speechResult = '',
                 newState.isFinalResult = false;
         }
@@ -252,13 +293,14 @@ export class BaseInput extends React.PureComponent<InputComponentProps, IBaseInp
         const {
             text,
             fileList,
-            speechActive,
             speechResult
         } = this.state;
+        const { sttActive } = this.props;
+
 
         let messageText = text;
 
-        if (speechActive) {
+        if (sttActive) {
 
             if (text && speechResult) {
                 messageText = text + " " + speechResult;
@@ -420,13 +462,14 @@ export class BaseInput extends React.PureComponent<InputComponentProps, IBaseInp
     render() {
         const { props, state } = this;
 
+        const { sttActive } = props;
+
         const {
             text,
             textActive,
             fileList,
             isDropZoneVisible,
             speechResult: speechInterim,
-            speechActive,
         } = state;
 
         const {
@@ -444,9 +487,9 @@ export class BaseInput extends React.PureComponent<InputComponentProps, IBaseInp
                     <InputForm
                         data-active={textActive && isFileListEmpty}
                         onSubmit={this.handleSubmit}
-                        className={classnames("webchat-input-menu-form", speechActive && "webchat-input-menu-form-speech-active")}
+                        className={classnames("webchat-input-menu-form")}
                     >
-                        {/* {enableFileAttachment && */}
+                        {enableFileAttachment &&
                         <>
                             <HiddenFileInput
                                 ref={this.fileInputRef}
@@ -463,7 +506,7 @@ export class BaseInput extends React.PureComponent<InputComponentProps, IBaseInp
                                 <AttachFileIcon />
                             </AttachFileButton>
                         </>
-                        {/* } */}
+                        }
 
                         <TextArea
                             ref={(this.inputRef) as React.Ref<HTMLTextAreaElement>}
@@ -484,12 +527,25 @@ export class BaseInput extends React.PureComponent<InputComponentProps, IBaseInp
                         />
 
                         <SpeechButton
-                            className="webchat-input-button-speech"
+                            className={classnames("webchat-input-button-speech", sttActive && "webchat-input-button-speech-active")}
                             aria-label="Speech to text"
                             id="webchatInputMessageSpeechButton"
                             onClick={this.toggleSTT}
                             disabled={!this.isSTTSupported()}
                         >
+                            {
+                                sttActive &&
+                                <>
+                                    <SpeechButtonAnimatedBackground
+                                        className={classnames("webchat-input-button-speech-background")}
+                                        aria-hidden="true"
+                                    />
+                                    <SpeechButtonBackground
+                                        className={classnames("webchat-input-button-speech-background")}
+                                        aria-hidden="true"
+                                    />
+                                </>
+                            }
                             <SpeechIcon />
                         </SpeechButton>
 

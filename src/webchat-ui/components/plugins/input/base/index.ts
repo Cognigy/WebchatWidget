@@ -1,12 +1,12 @@
-import { BaseInput } from "./BaseInput";
 import { InputPlugin } from "../../../../../common/interfaces/input-plugin";
 import KeyboardIcon from './baseline-keyboard-24px.svg';
+import { ConnectedBaseInput } from "./ConnectedBaseInput";
 
 const baseInputPlugin: InputPlugin = {
     name: 'text-input',
     type: 'select',
     id: 'text',
-	component: BaseInput,
+	component: ConnectedBaseInput,
     icon: KeyboardIcon
 };
 

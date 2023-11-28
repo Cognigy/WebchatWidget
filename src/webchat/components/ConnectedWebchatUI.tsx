@@ -20,6 +20,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
 		ui: { open, typing, inputMode, fullscreenMessage, scrollToPosition, lastScrolledPosition, showHomeScreen },
         config,
         rating: { showRatingDialog, hasGivenRating, customRatingTitle, customRatingCommentText },
+        input: { sttActive },
     }) => ({
         messages,
         unseenMessages,
@@ -37,6 +38,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         customRatingTitle,
         customRatingCommentText,
 		showHomeScreen,
+        sttActive,
     }),
     dispatch => ({
         onSendMessage: (text, data, options) => dispatch(sendMessage({ text, data }, options)),

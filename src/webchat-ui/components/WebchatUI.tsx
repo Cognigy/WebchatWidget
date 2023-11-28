@@ -86,6 +86,8 @@ export interface WebchatUIProps {
 
 	showHomeScreen: boolean;
 	onSetShowHomeScreen: (show: boolean) => void;
+
+	sttActive: boolean;
 }
 
 interface WebchatUIState {
@@ -386,6 +388,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 webchatTheme={this.state.theme}
                 onEmitAnalytics={this.props.onEmitAnalytics}
                 theme={this.state.theme}
+				sttActive={this.props.sttActive}
             />
         );
     }
