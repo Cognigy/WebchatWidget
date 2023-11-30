@@ -6,45 +6,53 @@ import { resetState } from "../reducer";
 import { getAllConversationsByUserID, getStorage } from "../../helper/storage";
 import { setConversations } from "../previous-conversations/previous-conversations-reducer";
 
-type Actions = SetOptionsAction
+type Actions = SetOptionsAction;
 
 export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (action: Actions) => {
-    const key = getOptionsKey(store.getState().options);
-    const { active } = store.getState().config; // Actual settings are loaded
-    const { disableLocalStorage, disablePersistentHistory, useSessionStorage } = store.getState().config.settings;
-    const { userId } = store.getState().options;
-    const browserStorage = getStorage({ useSessionStorage, disableLocalStorage });
+	const key = getOptionsKey(store.getState().options);
+	const { active } = store.getState().config; // Actual settings are loaded
+	const { disableLocalStorage, disablePersistentHistory, useSessionStorage } =
+		store.getState().config.settings;
+	const { userId } = store.getState().options;
+	const browserStorage = getStorage({ useSessionStorage, disableLocalStorage });
 
-    switch (action.type) {
-        case 'SET_OPTIONS': {
-            // TODO decouple this into a separate action or middleware handler
-            if (browserStorage) {
-                const key = getOptionsKey(action.options);
-                const persistedString = browserStorage.getItem(key);
+	switch (action.type) {
+		case "SET_OPTIONS": {
+			// TODO decouple this into a separate action or middleware handler
+			if (browserStorage) {
+				const key = getOptionsKey(action.options);
+				const persistedString = browserStorage.getItem(key);
 
-                if (action.options?.userId) {
-                    const previousConversations = getAllConversationsByUserID(browserStorage, action.options.userId);
-                    store.dispatch(setConversations(previousConversations));
-                }
+				if (action.options?.userId) {
+					const previousConversations = getAllConversationsByUserID(
+						browserStorage,
+						action.options?.userId,
+						action.options?.sessionId,
+					);
+					store.dispatch(setConversations(previousConversations));
+				}
 
-                if (persistedString) {
-                    try {
-                        const persisted = JSON.parse(persistedString);
+				if (persistedString) {
+					try {
+						const persisted = JSON.parse(persistedString);
 
-                        store.dispatch(resetState(persisted));
-                    } catch (e) { }
-                }
-            }
-        }
-    }
+						store.dispatch(resetState(persisted));
+					} catch (e) {}
+				}
+			}
+		}
+	}
 
-    if (browserStorage && active && userId && !disablePersistentHistory) {
-        const { messages, rating } = store.getState();
-        browserStorage.setItem(key, JSON.stringify({
-            messages,
-            rating,
-        }));
-    }
+	if (browserStorage && active && userId && !disablePersistentHistory) {
+		const { messages, rating } = store.getState();
+		browserStorage.setItem(
+			key,
+			JSON.stringify({
+				messages,
+				rating,
+			}),
+		);
+	}
 
-    return next(action);
-}
+	return next(action);
+};

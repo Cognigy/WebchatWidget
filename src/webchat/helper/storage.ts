@@ -18,27 +18,34 @@ export const getStorage = (
 	return window.localStorage;
 };
 
-export const getAllConversationsByUserID = (storage: Storage, currentUserId: string) => {
+export const getAllConversationsByUserID = (
+	storage: Storage,
+	currentUserId?: string,
+	currentSessionId?: string,
+) => {
     return Object.keys(storage).reduce((obj, k) => {
-        const data = storage.getItem(k) || "";
+        // skip missing userId or sessionId
+        if (!currentSessionId || !currentUserId) return obj;
+
+		const data = storage.getItem(k) || "";
 
 		// skip if not JSON
-        if (!isValidJSON(k) || !isValidJSON(data)) return obj;
-        
-        const sessionId = JSON.parse(k)?.[2] || "";
-        const userId = JSON.parse(k)?.[1] || "";
+		if (!isValidJSON(k) || !isValidJSON(data)) return obj;
+
+		const sessionId = JSON.parse(k)?.[2] || "";
+		const userId = JSON.parse(k)?.[1] || "";
 
 		// skip different userID
 		if (currentUserId !== userId) return obj;
 
-		// skip missing SessionID
-        if (!sessionId) return obj;
+		// skip current sessionId
+		if (sessionId === currentSessionId) return obj;
 
-        const messages = JSON.parse(data)?.messages;
-		
+		const messages = JSON.parse(data)?.messages;
+
 		// skip empty
 		if (!Array.isArray(messages) || messages.length === 0) return obj;
 
-		return { ...obj, [sessionId]: JSON.parse(data)};
+		return { ...obj, [sessionId]: JSON.parse(data) };
 	}, {});
 };

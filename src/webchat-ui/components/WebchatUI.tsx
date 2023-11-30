@@ -705,6 +705,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 				{showPreviousConversationsScreen ? (
 					<PreviousConversationsScreen
                         conversations={this.props.previousConversations}
+                        onSetShowPreviousConversationsScreen={onSetShowPreviousConversationsScreen}
 						config={config}
 					/>
 				) : (
