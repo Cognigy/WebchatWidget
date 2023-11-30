@@ -41,6 +41,8 @@ import { isDisabledDueToMaintenance, isHiddenDueToMaintenance, isInformingDueToM
 import FABDisabled from './presentational/FABDisabled';
 import { isDisabledDueToConnectivity, isHiddenDueToConnectivity, isInformingDueToConnectivity } from '../../webchat/helper/connectivity';
 import { HomeScreen } from './presentational/HomeScreen';
+import { PreviousConversationsScreen } from './presentational/previous-conversations/OverviewScreen';
+import { PreviousConversationsState } from '../../webchat/store/previous-conversations/previous-conversations-reducer';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -85,7 +87,11 @@ export interface WebchatUIProps {
     customRatingCommentText: string;
 
 	showHomeScreen: boolean;
-	onSetShowHomeScreen: (show: boolean) => void;
+    onSetShowHomeScreen: (show: boolean) => void;
+    
+    showPreviousConversationsScreen: boolean;
+    onSetShowPreviousConversationsScreen: (show: boolean) => void;
+    previousConversations: PreviousConversationsState;
 }
 
 interface WebchatUIState {
@@ -458,6 +464,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const { props, state } = this;
         const { messages,
             unseenMessages,
+            previousConversations,
             onSendMessage,
             onConnect,
             config,
@@ -656,53 +663,72 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onSetScrollToPosition,
 			onSetLastScrolledPosition,
 			showHomeScreen,
-			onSetShowHomeScreen,
+            onSetShowHomeScreen,
+            showPreviousConversationsScreen,
+            onSetShowPreviousConversationsScreen,
 			onClose
         } = this.props;
 
         const { enableRating } = config.settings;
 
         const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
-
-		if (showHomeScreen) return (
+        
+        if (showHomeScreen) return (
 			<HomeScreen
 				showHomeScreen={showHomeScreen}
-				onSetShowHomeScreen={onSetShowHomeScreen}
+                onSetShowHomeScreen={onSetShowHomeScreen}
+                onSetShowPreviousConversationsScreen={onSetShowPreviousConversationsScreen}
 				onClose={onClose}
 				config={config}
 			/>
-		);
+        );
+
+        const handleOnClose = () => {
+            onSetShowPreviousConversationsScreen(false);
+            onSetShowHomeScreen(true);
+        }
 
         return (
-            <>
-                <Header
-					onClose={() => onSetShowHomeScreen(true)}
-                    connected={config.active}
-                    logoUrl={config.settings.headerLogoUrl}
-                    title={config.settings.title || 'Cognigy Webchat'}
-                    ratingButtonRef={this.ratingButtonInHeaderRef}
-                    closeButtonRef={this.closeButtonInHeaderRef}
-                    chatToggleButtonRef={this.chatToggleButtonRef}
-                    showRatingButton={showRatingButton}
-                    showCloseButton={true}
-                    onRatingButtonClick={() => onShowRatingDialog(true)}
-                />
-                <HistoryWrapper
-                    disableBranding={config.settings.disableBranding}
-                    scrollToPosition={scrollToPosition}
-                    setScrollToPosition={onSetScrollToPosition}
-                    lastScrolledPosition={lastScrolledPosition}
-                    setLastScrolledPosition={onSetLastScrolledPosition}
-                    ref={this.history as any}
-                    className="webchat-chat-history"
-                    tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
-                >
-                    <h2 className="sr-only" id="webchatChatHistoryHeading">Chat History</h2>
-                    {this.renderHistory()}
-                </HistoryWrapper>
-                {this.renderInput()}
-            </>
-        )
+			<>
+				<Header
+					onClose={handleOnClose}
+					connected={config.active}
+					logoUrl={config.settings.headerLogoUrl}
+					title={config.settings.title || "Cognigy Webchat"}
+					ratingButtonRef={this.ratingButtonInHeaderRef}
+					closeButtonRef={this.closeButtonInHeaderRef}
+					chatToggleButtonRef={this.chatToggleButtonRef}
+					showRatingButton={showRatingButton}
+					showCloseButton={true}
+					onRatingButtonClick={() => onShowRatingDialog(true)}
+				/>
+				{showPreviousConversationsScreen ? (
+					<PreviousConversationsScreen
+                        conversations={this.props.previousConversations}
+						config={config}
+					/>
+				) : (
+					<>
+						<HistoryWrapper
+							disableBranding={config.settings.disableBranding}
+							scrollToPosition={scrollToPosition}
+							setScrollToPosition={onSetScrollToPosition}
+							lastScrolledPosition={lastScrolledPosition}
+							setLastScrolledPosition={onSetLastScrolledPosition}
+							ref={this.history as any}
+							className="webchat-chat-history"
+							tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
+						>
+							<h2 className="sr-only" id="webchatChatHistoryHeading">
+								Chat History
+							</h2>
+							{this.renderHistory()}
+						</HistoryWrapper>
+						{this.renderInput()}
+					</>
+				)}
+			</>
+		);
     }
 
     renderFullscreenMessageLayout() {
@@ -780,7 +806,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     }
 
     renderHistory() {
-        const { messages, typingIndicator, config, onEmitAnalytics, onSetScrollToPosition } = this.props;
+        const { messages, previousConversations, typingIndicator, config, onEmitAnalytics, onSetScrollToPosition } = this.props;
         const { messagePlugins = [] } = this.state;
 
         const { enableTypingIndicator } = config.settings;

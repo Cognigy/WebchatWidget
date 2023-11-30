@@ -96,13 +96,19 @@ interface IHomeScreenProps {
 	config: IWebchatConfig;
 	showHomeScreen: boolean;
 	onSetShowHomeScreen: (show: boolean) => void;
+	onSetShowPreviousConversationsScreen: (show: boolean) => void;
 	onClose: () => void;
 }
 
 export const HomeScreen = (props: IHomeScreenProps) => {
-	const { config, showHomeScreen, onSetShowHomeScreen, onClose } = props;
+	const { config, showHomeScreen, onSetShowHomeScreen, onSetShowPreviousConversationsScreen, onClose } = props;
 
-	const disableBranding = config?.settings?.disableBranding
+	const disableBranding = config?.settings?.disableBranding;
+
+	const handleShowPreviousConversations = () => {
+		onSetShowHomeScreen(false);
+		onSetShowPreviousConversationsScreen(true);
+	}
 
 	return (
 		<HomeScreenRoot className="webchat-homescreen-root">
@@ -133,7 +139,7 @@ export const HomeScreen = (props: IHomeScreenProps) => {
 					Start conversation
 				</StartButton>
 				<PrevConversationsButton
-					onClick={() => console.log("Clicked Previous conversations")}
+					onClick={handleShowPreviousConversations}
 				>
 					Previous conversations
 				</PrevConversationsButton>
