@@ -795,6 +795,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     <MessagePluginRenderer
                         key={index}
                         message={message}
+                        prevMessage={messages?.[index - 1]}
                         onSendMessage={this.sendMessage}
                         setScrollToPosition={onSetScrollToPosition}
                         onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}

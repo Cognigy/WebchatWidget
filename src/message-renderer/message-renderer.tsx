@@ -8,8 +8,20 @@ import { getMessageRendererPlugins } from "./getMessageRendererPlugins";
 import { getPluginsForMessage } from "../plugins/helper";
 
 export class MessageRenderer {
-	static renderMessage(message: IMessage, target: HTMLElement, config?: IWebchatConfig) {
-		ReactDOM.render(<MessageRendererComponent message={message} config={config} />, target);
+	static renderMessage(
+		message: IMessage,
+		target: HTMLElement,
+		config?: IWebchatConfig,
+		prevMexssage?: IMessage,
+	) {
+		ReactDOM.render(
+			<MessageRendererComponent
+				message={message}
+				config={config}
+				prevMessage={prevMexssage}
+			/>,
+			target,
+		);
 	}
 	static getPluginsForMessage(message: IMessage, config?: IWebchatConfig) {
 		const fullConfig = getMessageRendererConfig(config);

@@ -5,202 +5,201 @@ import { MessageSender } from "../../interfaces";
 import { getPluginsForMessage } from "../../../plugins/helper";
 import MessageRow from "../presentational/MessageRow";
 import Avatar from "../presentational/Avatar";
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 import { IWebchatTheme } from "../../style";
 import "../../../assets/style.css";
 import {
-  IWebchatConfig,
-  TSourceColor,
-  TSourceDirection,
+	IWebchatConfig,
+	TSourceColor,
+	TSourceDirection,
 } from "../../../common/interfaces/webchat-config";
 
 import { Message, match } from "@cognigy/chat-components";
 
 export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
-  message: IMessage;
-  config: IWebchatConfig;
-  onSendMessage: MessageSender;
-  onSetFullscreen?: () => void;
-  onDismissFullscreen?: () => void;
-  setScrollToPosition?: (position: number) => void;
-  onEmitAnalytics: (name: string, payload?: any) => void;
-  plugins: MessagePlugin[];
-  isFullscreen?: boolean;
-  webchatTheme: IWebchatTheme;
-  hideAvatar?: boolean;
+	message: IMessage;
+	config: IWebchatConfig;
+	onSendMessage: MessageSender;
+	onSetFullscreen?: () => void;
+	onDismissFullscreen?: () => void;
+	setScrollToPosition?: (position: number) => void;
+	onEmitAnalytics: (name: string, payload?: any) => void;
+	plugins: MessagePlugin[];
+	prevMessage?: IMessage;
+	isFullscreen?: boolean;
+	webchatTheme: IWebchatTheme;
+	hideAvatar?: boolean;
 }
 
 const FullWidthMessageRow = styled.div(({ theme }) => ({
-  flexShrink: 0,
-  marginTop: theme.unitSize,
-  marginBottom: theme.unitSize,
-  paddingTop: theme.unitSize,
-  paddingBottom: theme.unitSize,
+	flexShrink: 0,
+	marginTop: theme.unitSize,
+	marginBottom: theme.unitSize,
+	paddingTop: theme.unitSize,
+	paddingBottom: theme.unitSize,
 }));
 
 const MessagePluginRenderer = ({
-  message,
-  config,
-  onSendMessage,
-  plugins,
-  isFullscreen,
-  onSetFullscreen,
-  onDismissFullscreen,
-  setScrollToPosition,
-  webchatTheme,
-  onEmitAnalytics,
-  hideAvatar,
-  ...props
+	message,
+	prevMessage,
+	config,
+	onSendMessage,
+	plugins,
+	isFullscreen,
+	onSetFullscreen,
+	onDismissFullscreen,
+	setScrollToPosition,
+	webchatTheme,
+	onEmitAnalytics,
+	hideAvatar,
+	...props
 }: MessageProps): JSX.Element => {
-  const attributes = Object.keys(props).length > 0 ? props : undefined;
+	const attributes = Object.keys(props).length > 0 ? props : undefined;
 
-  const matchedPlugins = getPluginsForMessage(plugins, config)(message);
-  const source = message.source;
+	const matchedPlugins = getPluginsForMessage(plugins, config)(message);
+	const source = message.source;
 
-  const className = (() => {
-    switch (source) {
-      case "user":
-        return "webchat-message-row user";
+	const className = (() => {
+		switch (source) {
+			case "user":
+				return "webchat-message-row user";
 
-      case "bot":
-        return "webchat-message-row bot";
+			case "bot":
+				return "webchat-message-row bot";
 
-      case "agent":
-        return "webchat-message-row agent";
+			case "agent":
+				return "webchat-message-row agent";
 
-      case "engagement":
-        return "webchat-message-row engagement";
+			case "engagement":
+				return "webchat-message-row engagement";
 
-      default:
-        return "webchat-message-row";
-    }
-  })();
+			default:
+				return "webchat-message-row";
+		}
+	})();
 
-  const avatarClassName = (() => {
-    switch (source) {
-      case "user":
-        return "webchat-avatar user";
+	const avatarClassName = (() => {
+		switch (source) {
+			case "user":
+				return "webchat-avatar user";
 
-      case "bot":
-        return "webchat-avatar bot";
+			case "bot":
+				return "webchat-avatar bot";
 
-      case "agent":
-        return "webchat-avatar agent";
+			case "agent":
+				return "webchat-avatar agent";
 
-      case "engagement":
-        return "webchat-avatar engagement";
+			case "engagement":
+				return "webchat-avatar engagement";
 
-      default:
-        return "webchat-avatar";
-    }
-  })();
+			default:
+				return "webchat-avatar";
+		}
+	})();
 
-  const direction = ((): TSourceDirection => {
-    const configDirection = config.settings.sourceDirectionMapping[source];
+	const direction = ((): TSourceDirection => {
+		const configDirection = config.settings.sourceDirectionMapping[source];
 
-    if (configDirection) 
-      return configDirection;
+		if (configDirection) return configDirection;
 
-    return "incoming";
-  })();
+		return "incoming";
+	})();
 
-  const color = ((): TSourceColor => {
-    const configColor = config.settings.sourceColorMapping[source];
+	const color = ((): TSourceColor => {
+		const configColor = config.settings.sourceColorMapping[source];
 
-    if (configColor)
-      return configColor;
+		if (configColor) return configColor;
 
-    return 'neutral';
-  })();
+		return "neutral";
+	})();
 
-  const align = direction === "incoming" ? "left" : "right";
+	const align = direction === "incoming" ? "left" : "right";
 
-  const messageSource = (() => {
-    switch (source) {
-      case "user":
-        return "I say: ";
+	const messageSource = (() => {
+		switch (source) {
+			case "user":
+				return "I say: ";
 
-      case "bot":
-        return "Bot says: ";
+			case "bot":
+				return "Bot says: ";
 
-      case "agent":
-        return "Agent says: ";
+			case "agent":
+				return "Agent says: ";
 
-      case "engagement":
-        return "Bot says: ";
+			case "engagement":
+				return "Bot says: ";
 
-      default:
-        return "Message says: ";
-    }
-  })();
+			default:
+				return "Message says: ";
+		}
+	})();
 
-  if (match(message, config))
+	if (match(message, config)) {
 		return (
 			<Message
-        action={onSendMessage}
+				action={onSendMessage}
 				config={config}
 				message={message}
 				onEmitAnalytics={onEmitAnalytics}
+				prevMessage={prevMessage}
 			/>
 		);
+	}
 
-  return (
-    <>
-      {matchedPlugins.map(
-        ({ component: Component, options, name = "unknown" }, index) => {
-          const emitAnalytics = (event: string, payload?: any) =>
-            onEmitAnalytics(`plugin/${name}/${event}`, payload);
+	return (
+		<>
+			{matchedPlugins.map(({ component: Component, options, name = "unknown" }, index) => {
+				const emitAnalytics = (event: string, payload?: any) =>
+					onEmitAnalytics(`plugin/${name}/${event}`, payload);
 
+				const messageElement = (
+					<Component
+						key={index}
+						config={config}
+						message={message}
+						direction={direction}
+						color={color}
+						onSendMessage={onSendMessage}
+						onSetFullscreen={onSetFullscreen}
+						onDismissFullscreen={onDismissFullscreen}
+						setCardOffsetTop={setScrollToPosition}
+						attributes={attributes}
+						isFullscreen={isFullscreen}
+						theme={webchatTheme}
+						onEmitAnalytics={emitAnalytics}
+					/>
+				);
 
-          const messageElement = (
-            <Component
-              key={index}
-              config={config}
-              message={message}
-              direction={direction}
-              color={color}
-              onSendMessage={onSendMessage}
-              onSetFullscreen={onSetFullscreen}
-              onDismissFullscreen={onDismissFullscreen}
-              setCardOffsetTop={setScrollToPosition}
-              attributes={attributes}
-              isFullscreen={isFullscreen}
-              theme={webchatTheme}
-              onEmitAnalytics={emitAnalytics}
-            />
-          );
+				const key = `${index}:${JSON.stringify(message)}`;
 
-          const key = `${index}:${JSON.stringify(message)}`;
+				if (isFullscreen) {
+					return messageElement;
+				}
 
-          if (isFullscreen) {
-            return messageElement;
-          }
+				if (options && options.fullwidth) {
+					return (
+						<FullWidthMessageRow className={className} key={key}>
+							{messageElement}
+						</FullWidthMessageRow>
+					);
+				}
 
-          if (options && options.fullwidth) {
-            return (
-              <FullWidthMessageRow className={className} key={key}>
-                {messageElement}
-              </FullWidthMessageRow>
-            );
-          }
-
-          return (
-            <MessageRow key={key} align={align} className={className}>
-              <Avatar
-                src={message.avatarUrl as string}
-                className={avatarClassName}
-                aria-label={messageSource}
-                style={{
-                  display: hideAvatar ? "none" : undefined,
-                }}
-              />
-              {messageElement}
-            </MessageRow>
-          );
-        }
-      )}
-    </>
-  );
+				return (
+					<MessageRow key={key} align={align} className={className}>
+						<Avatar
+							src={message.avatarUrl as string}
+							className={avatarClassName}
+							aria-label={messageSource}
+							style={{
+								display: hideAvatar ? "none" : undefined,
+							}}
+						/>
+						{messageElement}
+					</MessageRow>
+				);
+			})}
+		</>
+	);
 };
 
 export default MessagePluginRenderer;
