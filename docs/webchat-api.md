@@ -66,7 +66,7 @@ webchat.sendMessage("hello world!", {}, {
 ```
 
 ### Showing notification in Chat
-It is possible to override the visible message text by using a third parameter like this:
+Shows a notification banner when the Webchat is open.
 ```javascript
 webchat.showNotification("hello world!");
 ```
