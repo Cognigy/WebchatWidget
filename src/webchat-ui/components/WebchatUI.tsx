@@ -41,6 +41,7 @@ import { isDisabledDueToMaintenance, isHiddenDueToMaintenance, isInformingDueToM
 import FABDisabled from './presentational/FABDisabled';
 import { isDisabledDueToConnectivity, isHiddenDueToConnectivity, isInformingDueToConnectivity } from '../../webchat/helper/connectivity';
 import { HomeScreen } from './presentational/HomeScreen';
+import Notifications from './presentational/Notifications';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -687,6 +688,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     showCloseButton={true}
                     onRatingButtonClick={() => onShowRatingDialog(true)}
                 />
+                {/* When we have common Header implemented, 
+                we should move notifications container there  */}
+				<Notifications />
                 <HistoryWrapper
                     disableBranding={config.settings.disableBranding}
                     scrollToPosition={scrollToPosition}
