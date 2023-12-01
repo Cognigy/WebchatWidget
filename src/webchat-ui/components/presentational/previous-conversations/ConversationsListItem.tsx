@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import ArrowIcon from "../../../assets/arrow-back-16px.svg";
+import AvatarPlaceholder from "../../../assets/avatar-placeholder-50px.svg";
 import Ellipsis from "../../../assets/ellipsis-4px.svg";
 import { getAvatars, getLastMessagePreview, getParticipants, getRelativeTime } from "./helpers";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
@@ -84,6 +85,17 @@ const Avatar = styled.img(({ theme }) => ({
 	},
 }));
 
+const FallBackAvatar = styled(AvatarPlaceholder)(({ theme }) => ({
+	borderRadius: "50%",
+	width: "28px",
+	height: "28px",
+	boxSizing: "border-box",
+    border: `2px solid ${theme.white}`,
+    "rect": {
+		fill: theme.primaryColor,
+	},
+}));
+
 interface IConversationsListItemProps {
 	config: IWebchatConfig;
 	conversation: PrevConversationsState[string];
@@ -93,16 +105,22 @@ interface IConversationsListItemProps {
 export const ConversationsListItem = (props: IConversationsListItemProps) => {
 	const { sessionId, conversation, config } = props;
 
+	const avatars = getAvatars(conversation.messages);
+
 	const handleClick = () => {
 		console.log(sessionId, conversation);
 	};
 
 	return (
-		<ListItem className="webchat-homescreen-content" onClick={handleClick}>
+		<ListItem className="webchat-prev-conversations-item" onClick={handleClick}>
 			<Left>
-				{getAvatars(conversation.messages).map((avatar, i) => {
-					return <Avatar key={i} src={avatar} alt="Image avatar" />;
-				})}
+				{avatars.length > 0 ? (
+					avatars.map((avatar, i) => {
+						return <Avatar key={i} src={avatar} alt="Image avatar" />;
+					})
+				) : (
+					<FallBackAvatar />
+				)}
 			</Left>
 			<Center>
 				<CenterTitle>{getLastMessagePreview(conversation.messages)}</CenterTitle>
