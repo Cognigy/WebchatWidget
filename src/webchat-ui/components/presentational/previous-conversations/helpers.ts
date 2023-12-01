@@ -74,7 +74,9 @@ export const getParticipants = (messages: IMessage[], config: IWebchatConfig) =>
 	// TODO: get the correct names, if any, from the endpoint
 
 	if (hasBot) partecipants.push(config?.settings?.title || "Bot");
-	if (hasLiveAgent) partecipants.push("Live Agent");
+    if (hasLiveAgent) partecipants.push("Agent");
+    
+    if (!hasBot && !hasLiveAgent) return "You";
 
 	return partecipants.join(", ");
 };
