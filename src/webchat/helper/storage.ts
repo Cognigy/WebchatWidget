@@ -23,9 +23,9 @@ export const getAllConversationsByUserID = (
 	currentUserId?: string,
 	currentSessionId?: string,
 ) => {
-    return Object.keys(storage).reduce((obj, k) => {
-        // skip missing userId or sessionId
-        if (!currentSessionId || !currentUserId) return obj;
+	return Object.keys(storage).reduce((obj, k) => {
+		// skip missing userId or sessionId
+		if (!currentSessionId || !currentUserId) return obj;
 
 		const data = storage.getItem(k) || "";
 

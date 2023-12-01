@@ -81,7 +81,7 @@ const Avatar = styled.img(() => ({
 }));
 
 interface IConversationsListItemProps {
-    config: IWebchatConfig;
+	config: IWebchatConfig;
 	conversation: PrevConversationsState[string];
 	sessionId: string;
 }
