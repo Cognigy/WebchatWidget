@@ -116,9 +116,6 @@ export const HomeScreen = (props: IHomeScreenProps) => {
 					<div className="webchat-homescreen-header-title">
 						{config?.settings?.title || "Cognigy Webchat"}
 					</div>
-					<div className="webchat-homescreen-header-title">
-						{config?.settings?.title || "Cognigy Webchat"}
-					</div>
 					<HomeScreenHeaderIconButton
 						onClick={onClose}
 						className="webchat-homescreen-close-button"
