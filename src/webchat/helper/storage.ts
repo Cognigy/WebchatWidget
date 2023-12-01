@@ -23,29 +23,30 @@ export const getAllConversationsByUserID = (
 	currentUserId?: string,
 	currentSessionId?: string,
 ) => {
-	return Object.keys(storage).reduce((obj, k) => {
+	return Object.keys(storage).reduce((acc, item) => {
 		// skip missing userId or sessionId
-		if (!currentSessionId || !currentUserId) return obj;
+		if (!currentSessionId || !currentUserId) return acc;
 
-		const data = storage.getItem(k) || "";
+		const data = storage.getItem(item) || "";
 
 		// skip if not JSON
-		if (!isValidJSON(k) || !isValidJSON(data)) return obj;
+		if (!isValidJSON(item) || !isValidJSON(data)) return acc;
 
-		const sessionId = JSON.parse(k)?.[2] || "";
-		const userId = JSON.parse(k)?.[1] || "";
+		const sessionId = JSON.parse(item)?.[2] || "";
+		const userId = JSON.parse(item)?.[1] || "";
 
 		// skip different userID
-		if (currentUserId !== userId) return obj;
+		if (currentUserId !== userId) return acc;
 
 		// skip current sessionId
-		if (sessionId === currentSessionId) return obj;
+		if (sessionId === currentSessionId) return acc;
 
 		const messages = JSON.parse(data)?.messages;
 
 		// skip empty
-		if (!Array.isArray(messages) || messages.length === 0) return obj;
-
-		return { ...obj, [sessionId]: JSON.parse(data) };
+        if (!Array.isArray(messages) || messages.length === 0) return acc;
+        
+        acc[sessionId] = JSON.parse(data);
+        return acc;
 	}, {});
 };
