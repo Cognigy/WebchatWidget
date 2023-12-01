@@ -3,6 +3,7 @@ import { IMessage } from "../../../../common/interfaces/message";
 import getTextFromMessage, { getMessageAttachmentType } from "../../../../webchat/helper/message";
 import { findReverse } from "../../../utils/find-reverse";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
+import { PreviousConversationsState } from "../../../../webchat/store/previous-conversations/previous-conversations-reducer";
 
 export const getRelativeTime = (messages: IMessage[]) => {
 	const lastMessage = messages[messages.length - 1];
@@ -38,19 +39,11 @@ export const getRelativeTime = (messages: IMessage[]) => {
 	return relativeTime.fromNow();
 };
 
-export const getLastReadableMessageText = (messages: IMessage[]) => {
+export const getLastMessagePreview = (messages: IMessage[]) => {
 	const lastReadableMessage = findReverse(messages, message => !!getTextFromMessage(message));
-
 	if (lastReadableMessage) {
 		return getTextFromMessage(lastReadableMessage);
 	}
-
-	return "";
-};
-
-export const getLastMessagePreview = (messages: IMessage[]) => {
-	const lastReadableMessageText = getLastReadableMessageText(messages);
-	if (lastReadableMessageText) return lastReadableMessageText;
 
 	// we don't have text messages in the chat
 	// we need to find the last attachment type
@@ -88,7 +81,24 @@ export const getParticipants = (messages: IMessage[], config: IWebchatConfig) =>
 
 export const getAvatars = (messages: IMessage[]) => {
 	const notUserMessages = messages.filter(message => message?.source !== "user");
-	// get all different avatars
+
 	const uniqueAvatars = [...new Set(notUserMessages.map(item => item?.avatarUrl))];
 	return uniqueAvatars;
+};
+
+export const sortConversationsByFreshness = (conversations: PreviousConversationsState) => {
+	const sortedConversations: PreviousConversationsState = Object.entries(conversations)
+		.sort(
+			([, a], [, b]) =>
+				(b.messages[b.messages.length - 1]?.timestamp || 0) -
+				(a.messages[a.messages.length - 1]?.timestamp || 0),
+		)
+		.reduce(
+			(r, [k, v]) => ({
+				...r,
+				[k]: v,
+			}),
+			{},
+		);
+	return sortedConversations;
 };

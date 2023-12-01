@@ -5,6 +5,7 @@ import { ConversationsListItem } from "./ConversationsListItem";
 import PrimaryButton from "../PrimaryButton";
 import { PreviousConversationsState } from "../../../../webchat/store/previous-conversations/previous-conversations-reducer";
 import Branding from "../../branding/Branding";
+import { sortConversationsByFreshness } from "./helpers";
 
 const ScreenRoot = styled.div(({ theme }) => ({
 	height: "100%",
@@ -20,7 +21,7 @@ const ScreenRoot = styled.div(({ theme }) => ({
 	},
 }));
 
-const ScreenContent = styled.div(({theme}) => ({
+const ScreenContent = styled.div(({ theme }) => ({
 	rowGap: "8px",
 	display: "flex",
 	flexDirection: "column",
@@ -28,22 +29,22 @@ const ScreenContent = styled.div(({theme}) => ({
 	overflowY: "auto",
 	flexGrow: 1,
 	minHeight: 0,
-    height: theme.blockSize,
+	height: theme.blockSize,
 	"&:focus": {
 		outline: "none",
 	},
 }));
 
 const ScreenActions = styled.div(({ theme }) => ({
-	alignSelf: 'flex-end',
-	display: 'flex',
-	flexDirection: 'column',
-	alignItems: ' center',
-	justifyContent: 'center',
-	width: '100%',
+	alignSelf: "flex-end",
+	display: "flex",
+	flexDirection: "column",
+	alignItems: " center",
+	justifyContent: "center",
+	width: "100%",
 	padding: "20px 20px 12px 20px",
 	backgroundColor: theme.backgroundWebchat,
-	borderTop: `1px solid var(--basics-black-80, ${theme.black80})`
+	borderTop: `1px solid var(--basics-black-80, ${theme.black80})`,
 }));
 
 const StartButton = styled(PrimaryButton)(() => ({
@@ -62,7 +63,11 @@ export const PreviousConversationsScreen = (props: IPreviousConversationsScreenP
 
 	const disableBranding = config?.settings?.disableBranding;
 
-	const keys = Object.keys(conversations);
+	// we sort the conversation based on last message timestamp
+	// result: the last updated conversation goes on top
+	const sortedConversations = sortConversationsByFreshness(conversations);
+
+	const sessions = Object.keys(sortedConversations);
 
 	const handleStartButtonClick = () => {
 		onSetShowPreviousConversationsScreen(false);
@@ -71,12 +76,12 @@ export const PreviousConversationsScreen = (props: IPreviousConversationsScreenP
 	return (
 		<ScreenRoot className="webchat-homescreen-root">
 			<ScreenContent className="webchat-homescreen-content">
-				{keys.map((session, i) => {
+				{sessions.map((session, i) => {
 					return (
 						<ConversationsListItem
 							key={i}
 							sessionId={session}
-							conversation={conversations?.[session]}
+							conversation={sortedConversations[session]}
 							config={config}
 						/>
 					);
