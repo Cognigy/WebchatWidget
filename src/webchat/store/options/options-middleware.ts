@@ -8,7 +8,7 @@ import { setConversations } from "../previous-conversations/previous-conversatio
 
 type Actions = SetOptionsAction;
 
-export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (action: Actions) => {
+export const optionsMiddleware: Middleware<object, StoreState> = store => next => (action: Actions) => {
 	const key = getOptionsKey(store.getState().options);
 	const { active } = store.getState().config; // Actual settings are loaded
 	const { disableLocalStorage, disablePersistentHistory, useSessionStorage } =
@@ -24,12 +24,12 @@ export const optionsMiddleware: Middleware<{}, StoreState> = store => next => (a
 				const persistedString = browserStorage.getItem(key);
 
 				if (action.options?.userId) {
-					const previousConversations = getAllConversationsByUserID(
+					const prevConversations = getAllConversationsByUserID(
 						browserStorage,
 						action.options?.userId,
 						action.options?.sessionId,
 					);
-					store.dispatch(setConversations(previousConversations));
+					store.dispatch(setConversations(prevConversations));
 				}
 
 				if (persistedString) {

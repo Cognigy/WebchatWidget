@@ -3,7 +3,7 @@ import { IMessage } from "../../../../common/interfaces/message";
 import getTextFromMessage, { getMessageAttachmentType } from "../../../../webchat/helper/message";
 import { findReverse } from "../../../utils/find-reverse";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
-import { PreviousConversationsState } from "../../../../webchat/store/previous-conversations/previous-conversations-reducer";
+import { PrevConversationsState } from "../../../../webchat/store/previous-conversations/previous-conversations-reducer";
 
 export const getRelativeTime = (messages: IMessage[]) => {
 	const lastMessage = messages[messages.length - 1];
@@ -86,8 +86,8 @@ export const getAvatars = (messages: IMessage[]) => {
 	return uniqueAvatars;
 };
 
-export const sortConversationsByFreshness = (conversations: PreviousConversationsState) => {
-	const sortedConversations: PreviousConversationsState = Object.entries(conversations)
+export const sortConversationsByFreshness = (conversations: PrevConversationsState) => {
+	const sortedConversations: PrevConversationsState = Object.entries(conversations)
 		.sort(
 			([, a], [, b]) =>
 				(b.messages[b.messages.length - 1]?.timestamp || 0) -

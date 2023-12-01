@@ -4,7 +4,7 @@ import ArrowIcon from "../../../assets/arrow-back-16px.svg";
 import Ellipsis from "../../../assets/ellipsis-4px.svg";
 import { getAvatars, getLastMessagePreview, getParticipants, getRelativeTime } from "./helpers";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
-import { PreviousConversationsState } from "../../../../webchat/store/previous-conversations/previous-conversations-reducer";
+import { PrevConversationsState } from "../../../../webchat/store/previous-conversations/previous-conversations-reducer";
 
 const ListItem = styled.div(({ theme }) => ({
 	display: "flex",
@@ -82,7 +82,7 @@ const Avatar = styled.img(() => ({
 
 interface IConversationsListItemProps {
     config: IWebchatConfig;
-	conversation: PreviousConversationsState[string];
+	conversation: PrevConversationsState[string];
 	sessionId: string;
 }
 

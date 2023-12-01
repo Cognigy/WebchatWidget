@@ -2,23 +2,23 @@ import { Reducer } from "redux";
 import { IMessage } from "../../../common/interfaces/message";
 import { RatingState } from "../rating/rating-reducer";
 
-export type PreviousConversationsState = {
+export type PrevConversationsState = {
 	[key: string]: {
 		messages: IMessage[];
 		ratings: RatingState;
 	};
 };
 
-const getInitialState = (): PreviousConversationsState => ({});
+const getInitialState = (): PrevConversationsState => ({});
 
 const SET_CONVERSATIONS = "SET_CONVERSATIONS";
-export const setConversations = (conversations: PreviousConversationsState) => ({
+export const setConversations = (conversations: PrevConversationsState) => ({
 	type: SET_CONVERSATIONS as "SET_CONVERSATIONS",
 	conversations,
 });
 export type SetConversationsAction = ReturnType<typeof setConversations>;
 
-export const previousConversations: Reducer<PreviousConversationsState, SetConversationsAction> = (
+export const prevConversations: Reducer<PrevConversationsState, SetConversationsAction> = (
 	state = getInitialState(),
 	action,
 ) => {

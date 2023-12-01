@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
 import { ConversationsListItem } from "./ConversationsListItem";
 import PrimaryButton from "../PrimaryButton";
-import { PreviousConversationsState } from "../../../../webchat/store/previous-conversations/previous-conversations-reducer";
+import { PrevConversationsState } from "../../../../webchat/store/previous-conversations/previous-conversations-reducer";
 import Branding from "../../branding/Branding";
 import { sortConversationsByFreshness } from "./helpers";
 
@@ -52,14 +52,14 @@ const StartButton = styled(PrimaryButton)(() => ({
 	flexGrow: 1,
 }));
 
-interface IPreviousConversationsScreenProps {
+interface IPrevConversationsScreenProps {
 	config: IWebchatConfig;
-	conversations: PreviousConversationsState;
-	onSetShowPreviousConversationsScreen: (show: boolean) => void;
+	conversations: PrevConversationsState;
+	onSetShowPrevConversationsScreen: (show: boolean) => void;
 }
 
-export const PreviousConversationsScreen = (props: IPreviousConversationsScreenProps) => {
-	const { conversations, config, onSetShowPreviousConversationsScreen } = props;
+export const PrevConversationsScreen = (props: IPrevConversationsScreenProps) => {
+	const { conversations, config, onSetShowPrevConversationsScreen } = props;
 
 	const disableBranding = config?.settings?.disableBranding;
 
@@ -70,7 +70,7 @@ export const PreviousConversationsScreen = (props: IPreviousConversationsScreenP
 	const sessions = Object.keys(sortedConversations);
 
 	const handleStartButtonClick = () => {
-		onSetShowPreviousConversationsScreen(false);
+		onSetShowPrevConversationsScreen(false);
 	};
 
 	return (
