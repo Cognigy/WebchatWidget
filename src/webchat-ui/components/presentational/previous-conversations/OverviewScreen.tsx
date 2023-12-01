@@ -74,8 +74,8 @@ export const PrevConversationsScreen = (props: IPrevConversationsScreenProps) =>
 	};
 
 	return (
-		<ScreenRoot className="webchat-homescreen-root">
-			<ScreenContent className="webchat-homescreen-content">
+		<ScreenRoot className="webchat-prev-conversations-root">
+			<ScreenContent className="webchat-prev-conversations-content">
 				{sessions.map((session, i) => {
 					return (
 						<ConversationsListItem
@@ -87,10 +87,10 @@ export const PrevConversationsScreen = (props: IPrevConversationsScreenProps) =>
 					);
 				})}
 			</ScreenContent>
-			<ScreenActions className="webchat-homescreen-actions">
+			<ScreenActions className="webchat-prev-conversations-actions">
 				<StartButton
 					onClick={handleStartButtonClick}
-					className="webchat-homescreen-send-button"
+					className="webchat-prev-conversations-send-button"
 					aria-label="Start chat"
 				>
 					Start conversation
