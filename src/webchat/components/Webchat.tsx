@@ -19,6 +19,7 @@ import { createOutputHandler } from '../store/messages/message-handler';
 import { isDisabledDueToMaintenance } from '../helper/maintenance';
 import { isDisabledOutOfBusinessHours } from '../helper/businessHours';
 import { isDisabledDueToConnectivity } from '../helper/connectivity';
+import { createNotification } from '../../webchat-ui/components/presentational/Notifications';
 
 export interface WebchatProps extends FromProps {
     url: string;
@@ -112,6 +113,10 @@ export class Webchat extends React.PureComponent<WebchatProps> {
 
     toggle = () => {
         this.store.dispatch(toggleOpen());
+    }
+
+    showNotification = (message: string) => {
+        createNotification(message,);
     }
 
     on = (event, handler) => {

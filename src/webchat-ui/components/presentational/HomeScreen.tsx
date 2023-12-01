@@ -6,8 +6,13 @@ import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
 import IconButton from "./IconButton";
 import Branding from "../branding/Branding";
+import Notifications from "./Notifications";
 
 const HomeScreenRoot = styled.div(({ theme }) => ({
+	display: "flex",
+	flexDirection: "column",
+	height: "100%",
+	width: "100%",
 	display: "flex",
 	flexDirection: "column",
 	height: "100%",
@@ -34,6 +39,11 @@ const HomeScreenContent = styled.div(({ theme }) => ({
 	padding: "20px 20px 35px 20px",
 }));
 
+const FullWidthContainer = styled.div(() => ({
+	marginInline: -20,
+	width: "calc(100% + 40px)",
+}));
+
 const HomeScreenHeader = styled.div(() => ({
 	display: "flex",
 	flexDirection: "row",
@@ -47,9 +57,11 @@ const HomeScreenHeaderIconButton = styled(IconButton)(({ theme }) => ({
 	color: theme.textLight,
 	fill: theme.textLight,
 	"&.active, &:hover": {
+	"&.active, &:hover": {
 		color: theme.textLight,
 		fill: theme.textLight,
 	},
+	svg: {
 	svg: {
 		width: 16,
 		height: 16,
@@ -65,6 +77,12 @@ const HomeScreenButtons = styled.div(() => ({
 }));
 
 const HomeScreenActions = styled.div(({ theme }) => ({
+	alignSelf: "flex-end",
+	display: "flex",
+	flexDirection: "column",
+	alignItems: " center",
+	justifyContent: "center",
+	width: "100%",
 	alignSelf: "flex-end",
 	display: "flex",
 	flexDirection: "column",
@@ -110,15 +128,22 @@ export const HomeScreen = (props: IHomeScreenProps) => {
 					<div className="webchat-homescreen-header-title">
 						{config?.settings?.title || "Cognigy Webchat"}
 					</div>
+					<div className="webchat-homescreen-header-title">
+						{config?.settings?.title || "Cognigy Webchat"}
+					</div>
 					<HomeScreenHeaderIconButton
 						onClick={onClose}
 						className="webchat-homescreen-close-button"
 						aria-label="Close"
 						color="primary"
+						color="primary"
 					>
 						<CloseIcon />
 					</HomeScreenHeaderIconButton>
 				</HomeScreenHeader>
+				<FullWidthContainer>
+					<Notifications />
+				</FullWidthContainer>
 				<HomeScreenTitle className="webchat-homescreen-title">
 					{config?.settings?.getStartedButtonText || "Welcome to the Cognigy Webchat"}
 				</HomeScreenTitle>
@@ -129,6 +154,8 @@ export const HomeScreen = (props: IHomeScreenProps) => {
 			<HomeScreenActions className="webchat-homescreen-actions">
 				<StartButton
 					onClick={() => onSetShowHomeScreen(false)}
+					className="webchat-homescreen-send-button"
+					aria-label="Start chat"
 					className="webchat-homescreen-send-button"
 					aria-label="Start chat"
 				>
@@ -142,4 +169,6 @@ export const HomeScreen = (props: IHomeScreenProps) => {
 			</HomeScreenActions>
 		</HomeScreenRoot>
 	);
+};
+
 };

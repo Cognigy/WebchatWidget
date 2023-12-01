@@ -43,6 +43,7 @@ import { isDisabledDueToConnectivity, isHiddenDueToConnectivity, isInformingDueT
 import { HomeScreen } from './presentational/HomeScreen';
 import { PrevConversationsScreen } from './presentational/previous-conversations/OverviewScreen';
 import { PrevConversationsState } from '../../webchat/store/previous-conversations/previous-conversations-reducer';
+import Notifications from './presentational/Notifications';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -710,6 +711,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 					/>
 				) : (
 					<>
+                {/* When we have common Header implemented, 
+                we should move notifications container there  */}
+				<Notifications />
 						<HistoryWrapper
 							disableBranding={config.settings.disableBranding}
 							scrollToPosition={scrollToPosition}

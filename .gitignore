@@ -10,4 +10,4 @@ dist/index.html
 cypress/screenshots
 cypress/videos
 .DS_Store
-.vscode
+/.vscode/
