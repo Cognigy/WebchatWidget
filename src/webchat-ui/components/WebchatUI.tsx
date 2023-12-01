@@ -807,7 +807,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     }
 
     renderHistory() {
-        const { messages, previousConversations, typingIndicator, config, onEmitAnalytics, onSetScrollToPosition } = this.props;
+        const { messages, typingIndicator, config, onEmitAnalytics, onSetScrollToPosition } = this.props;
         const { messagePlugins = [] } = this.state;
 
         const { enableTypingIndicator } = config.settings;

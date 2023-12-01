@@ -9,7 +9,7 @@ export const getRelativeTime = (messages: IMessage[]) => {
 	if (!lastMessage?.timestamp) return "";
 
 	moment.relativeTimeThreshold("d", 6);
-	moment.relativeTimeThreshold("w", 4);
+	moment.relativeTimeThreshold("w", 4); // we need to enable week Threshold
 	moment.updateLocale("en", {
 		relativeTime: {
 			past: "%s",
@@ -58,6 +58,7 @@ export const getLastMessagePreview = (messages: IMessage[]) => {
 
 	const attachmentType = getMessageAttachmentType(lastMessage);
 
+	// TODO: implement icons here
 	switch (attachmentType) {
 		case "template":
 			return "template...";
@@ -74,7 +75,7 @@ export const getLastMessagePreview = (messages: IMessage[]) => {
 
 export const getParticipants = (messages: IMessage[], config: IWebchatConfig) => {
 	const partecipants: string[] = [];
-	const hasBot = messages.some(message => message?.source === "bot");
+	const hasBot = messages.some(message => ["bot", "engagement"].includes(message?.source));
 	const hasLiveAgent = messages.some(message => message?.source === "agent");
 
 	// TODO: get the correct names, if any, from the endpoint
@@ -83,4 +84,11 @@ export const getParticipants = (messages: IMessage[], config: IWebchatConfig) =>
 	if (hasLiveAgent) partecipants.push("Live Agent");
 
 	return partecipants.join(", ");
+};
+
+export const getAvatars = (messages: IMessage[]) => {
+	const notUserMessages = messages.filter(message => message?.source !== "user");
+	// get all different avatars
+	const uniqueAvatars = [...new Set(notUserMessages.map(item => item?.avatarUrl))];
+	return uniqueAvatars;
 };
