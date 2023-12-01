@@ -38,6 +38,10 @@ const CenterTitle = styled.div(({ theme }) => ({
 	fontStyle: "normal",
 	fontWeight: 400,
 	lineHeight: "140%",
+	overflow: "hidden",
+	textOverflow: "ellipsis",
+	whiteSpace: "nowrap",
+	maxWidth: "290px",
 }));
 
 const CenterMeta = styled.div(({ theme }) => ({
@@ -66,13 +70,13 @@ const Right = styled.div(({ theme }) => ({
 	},
 }));
 
-const Avatar = styled.img(() => ({
+const Avatar = styled.img(({ theme }) => ({
 	borderRadius: "50%",
 	width: "28px",
 	height: "28px",
-	backgroundColor: "var(--primary-color)",
+	backgroundColor: theme.primaryColor,
 	boxSizing: "border-box",
-	border: "2px solid #fff",
+	border: `2px solid ${theme.white}`,
 	overflow: "hidden",
 	position: "relative",
 	":not(:last-child)": {
