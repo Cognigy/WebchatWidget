@@ -13,10 +13,6 @@ const HomeScreenRoot = styled.div(({ theme }) => ({
 	flexDirection: "column",
 	height: "100%",
 	width: "100%",
-	display: "flex",
-	flexDirection: "column",
-	height: "100%",
-	width: "100%",
 	color: theme.primaryContrastColor,
 	fontSize: 16,
 	fontWeight: 700,
@@ -57,11 +53,9 @@ const HomeScreenHeaderIconButton = styled(IconButton)(({ theme }) => ({
 	color: theme.textLight,
 	fill: theme.textLight,
 	"&.active, &:hover": {
-	"&.active, &:hover": {
 		color: theme.textLight,
 		fill: theme.textLight,
 	},
-	svg: {
 	svg: {
 		width: 16,
 		height: 16,
@@ -77,12 +71,6 @@ const HomeScreenButtons = styled.div(() => ({
 }));
 
 const HomeScreenActions = styled.div(({ theme }) => ({
-	alignSelf: "flex-end",
-	display: "flex",
-	flexDirection: "column",
-	alignItems: " center",
-	justifyContent: "center",
-	width: "100%",
 	alignSelf: "flex-end",
 	display: "flex",
 	flexDirection: "column",
@@ -136,7 +124,6 @@ export const HomeScreen = (props: IHomeScreenProps) => {
 						className="webchat-homescreen-close-button"
 						aria-label="Close"
 						color="primary"
-						color="primary"
 					>
 						<CloseIcon />
 					</HomeScreenHeaderIconButton>
@@ -156,8 +143,6 @@ export const HomeScreen = (props: IHomeScreenProps) => {
 					onClick={() => onSetShowHomeScreen(false)}
 					className="webchat-homescreen-send-button"
 					aria-label="Start chat"
-					className="webchat-homescreen-send-button"
-					aria-label="Start chat"
 				>
 					Start conversation
 				</StartButton>
@@ -169,6 +154,4 @@ export const HomeScreen = (props: IHomeScreenProps) => {
 			</HomeScreenActions>
 		</HomeScreenRoot>
 	);
-};
-
 };
