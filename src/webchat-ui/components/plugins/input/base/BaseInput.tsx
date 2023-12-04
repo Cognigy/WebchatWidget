@@ -142,6 +142,7 @@ interface IBaseInputState extends TextInputState, ISpeechInputState { }
 interface IBaseInputProps extends InputComponentProps {
     sttActive: boolean;
     onSetSTTActive: (active: boolean) => void;
+    webchatSpeechTimeoutRef: React.RefObject<NodeJS.Timeout>;
 }
 
 declare global {
@@ -167,6 +168,8 @@ const combineStrings = (str1: string, str2: string) => {
     if (!str2) return str1;
     return str1 + " " + str2;
 }
+
+let webchatSpeechTimeoutRef: NodeJS.Timeout | null = null
 
 export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputState> {
     constructor(props: IBaseInputProps) {
@@ -195,6 +198,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
             speechResult: '',
             isFinalResult: false
         } as IBaseInputState;
+
     }
 
     inputRef = React.createRef<HTMLTextAreaElement | HTMLInputElement>();
@@ -219,10 +223,24 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
         }
     }
 
+    componentWillUnmount(): void {
+        if (webchatSpeechTimeoutRef) {
+            clearTimeout(webchatSpeechTimeoutRef);
+        }
+    }
+
     handleSpeechResult = (e: SpeechRecognitionEvent) => {
         const result = e.results[e.resultIndex];
         const { isFinal } = result;
         const { transcript } = result[0];
+
+        // Reset the 3s timeout for active speech recognition
+        if (webchatSpeechTimeoutRef) {
+            clearTimeout(webchatSpeechTimeoutRef);
+        }
+        webchatSpeechTimeoutRef = setTimeout(() => {
+            this.handleCancelSpeech();
+        }, 3000);
 
         this.setState({
             speechResult: transcript,
@@ -242,12 +260,20 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
         const { speechRecognition } = this.state;
         speechRecognition.stop();
 
+        if (webchatSpeechTimeoutRef) {
+            clearTimeout(webchatSpeechTimeoutRef);
+        }
+
         this.props.onSetSTTActive(false);
 
         this.setState({
             speechResult: '',
             isFinalResult: false
         })
+
+        if (this.inputRef.current) {
+            this.inputRef.current.focus();
+        }
     }
 
     isSTTSupported() {
@@ -261,23 +287,20 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 
         if (sttActive) {
             this.handleCancelSpeech();
-
-            if (this.inputRef.current)
-                this.inputRef.current.focus();
         } else {
             speechRecognition.start();
-        }
 
-        const newState: Partial<ISpeechInputState> = {}
+            if (webchatSpeechTimeoutRef) {
+                clearTimeout(webchatSpeechTimeoutRef);
+            }
+
+            webchatSpeechTimeoutRef = setTimeout(() => {
+                this.handleCancelSpeech();
+            }, 3000);
+        }
 
         onSetSTTActive(!sttActive);
 
-        if (sttActive) {
-            newState.speechResult = '',
-                newState.isFinalResult = false;
-        }
-
-        this.setState(newState as ISpeechInputState);
     }
 
     handleChangeTextValue = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
