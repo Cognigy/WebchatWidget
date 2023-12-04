@@ -14,7 +14,8 @@ export interface UIState {
     isPageVisible: boolean;
     scrollToPosition: number;
     lastScrolledPosition: number | null;
-	showHomeScreen: boolean;
+    showHomeScreen: boolean;
+    showPrevConversationsScreen: boolean;
 }
 
 export const SET_OPEN = 'SET_OPEN';
@@ -50,6 +51,13 @@ export const setShowHomeScreen = (showHomeScreen: boolean) => ({
 	showHomeScreen
 });
 export type SetShowHomeScreenAction = ReturnType<typeof setShowHomeScreen>;
+
+export const SET_SHOW_PREV_CONVERSATIONS_SCREEN = 'SET_SHOW_PREV_CONVERSATIONS_SCREEN';
+export const setShowPrevConversationsScreen = (showPrevConversationsScreen: boolean) => ({
+	type: SET_SHOW_PREV_CONVERSATIONS_SCREEN as 'SET_SHOW_PREV_CONVERSATIONS_SCREEN',
+	showPrevConversationsScreen
+});
+export type SetShowPrevConversationsScreenAction = ReturnType<typeof setShowPrevConversationsScreen>;
 
 const SET_TYPING = 'SET_TYPING';
 export const setTyping = (typing: TTyping) => ({
@@ -112,7 +120,8 @@ const getInitialState = (): UIState => ({
     isPageVisible: isPageVisible(),
     scrollToPosition: 0,
 	lastScrolledPosition: null,
-	showHomeScreen: true,
+    showHomeScreen: true,
+    showPrevConversationsScreen: false,
 });
 
 type UIAction = SetOpenAction
@@ -125,7 +134,8 @@ type UIAction = SetOpenAction
     | SetPageVisibleAction
     | SetScrollToPosition
 	| SetLastScrolledPosition
-	| SetShowHomeScreenAction;
+    | SetShowHomeScreenAction
+    | SetShowPrevConversationsScreenAction;
 
 
 export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action) => {
@@ -162,6 +172,13 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
 			return {
 				...state,
 				showHomeScreen: action.showHomeScreen
+			}
+        }
+            
+        case SET_SHOW_PREV_CONVERSATIONS_SCREEN: {
+			return {
+				...state,
+				showPrevConversationsScreen: action.showPrevConversationsScreen
 			}
 		}
 
