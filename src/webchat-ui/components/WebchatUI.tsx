@@ -41,6 +41,8 @@ import { isDisabledDueToMaintenance, isHiddenDueToMaintenance, isInformingDueToM
 import FABDisabled from './presentational/FABDisabled';
 import { isDisabledDueToConnectivity, isHiddenDueToConnectivity, isInformingDueToConnectivity } from '../../webchat/helper/connectivity';
 import { HomeScreen } from './presentational/HomeScreen';
+import { PrevConversationsScreen } from './presentational/previous-conversations/OverviewScreen';
+import { PrevConversationsState } from '../../webchat/store/previous-conversations/previous-conversations-reducer';
 import Notifications from './presentational/Notifications';
 
 export interface WebchatUIProps {
@@ -85,10 +87,14 @@ export interface WebchatUIProps {
     customRatingTitle: string;
     customRatingCommentText: string;
 
-	showHomeScreen: boolean;
-	onSetShowHomeScreen: (show: boolean) => void;
+    showHomeScreen: boolean;
+    onSetShowHomeScreen: (show: boolean) => void;
 
-	sttActive: boolean;
+    sttActive: boolean;
+
+    showPrevConversationsScreen: boolean;
+    onSetShowPrevConversationsScreen: (show: boolean) => void;
+    prevConversations: PrevConversationsState;
 }
 
 interface WebchatUIState {
@@ -212,7 +218,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
     componentDidMount() {
         this.setState({
-			inputPlugins: [...this.props.inputPlugins || [], baseInputPlugin],
+            inputPlugins: [...this.props.inputPlugins || [], baseInputPlugin],
             messagePlugins: [...this.props.messagePlugins || [], regularMessagePlugin]
         });
     }
@@ -389,7 +395,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 webchatTheme={this.state.theme}
                 onEmitAnalytics={this.props.onEmitAnalytics}
                 theme={this.state.theme}
-				sttActive={this.props.sttActive}
+                sttActive={this.props.sttActive}
             />
         );
     }
@@ -462,6 +468,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const { props, state } = this;
         const { messages,
             unseenMessages,
+            prevConversations,
             onSendMessage,
             onConnect,
             config,
@@ -487,7 +494,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             showRatingDialog,
             onShowRatingDialog,
             onSetHasGivenRating,
-			onSetShowHomeScreen,
+            onSetShowHomeScreen,
             customRatingTitle,
             customRatingCommentText,
             ...restProps
@@ -624,7 +631,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                 ref={this.chatToggleButtonRef}
                                             >
                                                 {open ? (
-													<CollapseIcon />
+                                                    <CollapseIcon />
                                                 ) : (
                                                     <ChatIcon />
                                                 )}
@@ -658,32 +665,40 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             scrollToPosition,
             lastScrolledPosition,
             onSetScrollToPosition,
-			onSetLastScrolledPosition,
-			showHomeScreen,
-			onSetShowHomeScreen,
-			onClose
+            onSetLastScrolledPosition,
+            showHomeScreen,
+            onSetShowHomeScreen,
+            showPrevConversationsScreen,
+            onSetShowPrevConversationsScreen,
+            onClose
         } = this.props;
 
         const { enableRating } = config.settings;
 
         const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
+        
+        if (showHomeScreen) return (
+            <HomeScreen
+                showHomeScreen={showHomeScreen}
+                onSetShowHomeScreen={onSetShowHomeScreen}
+                onSetShowPrevConversationsScreen={onSetShowPrevConversationsScreen}
+                onClose={onClose}
+                config={config}
+            />
+        );
 
-		if (showHomeScreen) return (
-			<HomeScreen
-				showHomeScreen={showHomeScreen}
-				onSetShowHomeScreen={onSetShowHomeScreen}
-				onClose={onClose}
-				config={config}
-			/>
-		);
+        const handleOnClose = () => {
+            onSetShowPrevConversationsScreen(false);
+            onSetShowHomeScreen(true);
+        }
 
         return (
             <>
                 <Header
-					onClose={() => onSetShowHomeScreen(true)}
+                    onClose={handleOnClose}
                     connected={config.active}
                     logoUrl={config.settings.headerLogoUrl}
-                    title={config.settings.title || 'Cognigy Webchat'}
+                    title={config.settings.title || "Cognigy Webchat"}
                     ratingButtonRef={this.ratingButtonInHeaderRef}
                     closeButtonRef={this.closeButtonInHeaderRef}
                     chatToggleButtonRef={this.chatToggleButtonRef}
@@ -691,25 +706,37 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     showCloseButton={true}
                     onRatingButtonClick={() => onShowRatingDialog(true)}
                 />
+                {showPrevConversationsScreen ? (
+                    <PrevConversationsScreen
+                        conversations={this.props.prevConversations}
+                        onSetShowPrevConversationsScreen={onSetShowPrevConversationsScreen}
+                        config={config}
+                    />
+                ) : (
+                    <>
                 {/* When we have common Header implemented, 
                 we should move notifications container there  */}
-				<Notifications />
-                <HistoryWrapper
-                    disableBranding={config.settings.disableBranding}
-                    scrollToPosition={scrollToPosition}
-                    setScrollToPosition={onSetScrollToPosition}
-                    lastScrolledPosition={lastScrolledPosition}
-                    setLastScrolledPosition={onSetLastScrolledPosition}
-                    ref={this.history as any}
-                    className="webchat-chat-history"
-                    tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
-                >
-                    <h2 className="sr-only" id="webchatChatHistoryHeading">Chat History</h2>
-                    {this.renderHistory()}
-                </HistoryWrapper>
-                {this.renderInput()}
+                <Notifications />
+                        <HistoryWrapper
+                            disableBranding={config.settings.disableBranding}
+                            scrollToPosition={scrollToPosition}
+                            setScrollToPosition={onSetScrollToPosition}
+                            lastScrolledPosition={lastScrolledPosition}
+                            setLastScrolledPosition={onSetLastScrolledPosition}
+                            ref={this.history as any}
+                            className="webchat-chat-history"
+                            tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
+                        >
+                            <h2 className="sr-only" id="webchatChatHistoryHeading">
+                                Chat History
+                            </h2>
+                            {this.renderHistory()}
+                        </HistoryWrapper>
+                        {this.renderInput()}
+                    </>
+                )}
             </>
-        )
+        );
     }
 
     renderFullscreenMessageLayout() {

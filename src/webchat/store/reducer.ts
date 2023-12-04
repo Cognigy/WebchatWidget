@@ -9,6 +9,7 @@ import { autoInject } from './autoinject/autoinject-reducer';
 import { rating } from "./rating/rating-reducer";
 import { inputCollation } from "./input-collation/input-collation-reducer";
 import { input } from "./input/input-reducer";
+import { prevConversations } from "./previous-conversations/previous-conversations-reducer";
 import { StoreState } from "./store";
 
 const rootReducer = combineReducers({
@@ -20,8 +21,9 @@ const rootReducer = combineReducers({
     rating,
     ui,
     connection,
-	inputCollation,
-	input,
+    inputCollation,
+    input,
+    prevConversations
 });
 
 const RESET_STATE = 'RESET_STATE';

@@ -1,12 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import Toolbar from "./Toolbar";
-import Button from "./Button";
-import SendIcon from "../plugins/input/text/baseline-send-24px.svg";
 import CloseIcon from "../../assets/close-16px.svg";
-import ThumbIcon from "../../assets/thumb-up-24dp.svg";
-import ThumbDownIcon from "./ThumbDownIcon";
-import Textarea from "./Textarea";
 import { IWebchatConfig } from "../../../common/interfaces/webchat-config";
 import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
@@ -46,7 +40,7 @@ const FullWidthContainer = styled.div(() => ({
 	width: "calc(100% + 40px)",
 }));
 
-const HomeScreenHeader = styled.div(({ theme }) => ({
+const HomeScreenHeader = styled.div(() => ({
 	display: "flex",
 	flexDirection: "row",
 	alignItems: "center",
@@ -72,7 +66,7 @@ const HomeScreenTitle = styled.div(({ theme }) => ({
 	color: theme.textLight,
 }));
 
-const HomeScreenButtons = styled.div(({ theme }) => ({
+const HomeScreenButtons = styled.div(() => ({
 	marginTop: "auto",
 }));
 
@@ -87,12 +81,12 @@ const HomeScreenActions = styled.div(({ theme }) => ({
 	backgroundColor: theme.backgroundWebchat,
 }));
 
-const StartButton = styled(PrimaryButton)(({ theme }) => ({
+const StartButton = styled(PrimaryButton)(() => ({
 	marginBottom: 16,
 	flexGrow: 1,
 }));
 
-const PrevConversationsButton = styled(SecondaryButton)(({ theme }) => ({
+const PrevConversationsButton = styled(SecondaryButton)(() => ({
 	marginBottom: 24,
 	flexGrow: 1,
 }));
@@ -101,13 +95,19 @@ interface IHomeScreenProps {
 	config: IWebchatConfig;
 	showHomeScreen: boolean;
 	onSetShowHomeScreen: (show: boolean) => void;
+	onSetShowPrevConversationsScreen: (show: boolean) => void;
 	onClose: () => void;
 }
 
 export const HomeScreen = (props: IHomeScreenProps) => {
-	const { config, showHomeScreen, onSetShowHomeScreen, onClose } = props;
+	const { config, onSetShowHomeScreen, onSetShowPrevConversationsScreen, onClose } = props;
 
 	const disableBranding = config?.settings?.disableBranding;
+
+	const handleShowPrevConversations = () => {
+		onSetShowHomeScreen(false);
+		onSetShowPrevConversationsScreen(true);
+	};
 
 	return (
 		<HomeScreenRoot className="webchat-homescreen-root">
@@ -143,9 +143,7 @@ export const HomeScreen = (props: IHomeScreenProps) => {
 				>
 					Start conversation
 				</StartButton>
-				<PrevConversationsButton
-					onClick={() => console.log("Clicked Previous conversations")}
-				>
+				<PrevConversationsButton onClick={handleShowPrevConversations}>
 					Previous conversations
 				</PrevConversationsButton>
 				{/* Branding Logo Link */}
