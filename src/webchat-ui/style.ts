@@ -18,7 +18,7 @@ export interface IWebchatTheme {
     backgroundHome: string;
     backgroundWebchat: string;
     backgroundBotMessage: string;
-	backgroundUserMessage: string;
+    backgroundUserMessage: string;
 
     textLink: string;
     textLinkHover: string;
@@ -109,13 +109,16 @@ const deriveHoverColor = (color: string) => {
 };
 
 const deriveDisabledColor = (color: string) => {
-	const hslColor = tinycolor(color).toHsl()
-	hslColor.l = 0.9;
+    const hslColor = tinycolor(color).toHsl()
+    hslColor.l = 0.9;
 
-	return tinycolor(hslColor).toHslString();
+    return tinycolor(hslColor).toHslString();
 };
 
 export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchatTheme => {
+
+    // Webchat endpoint default color
+    const webchatEndpointDefaultColor = '#2C6CAF';
 
     // Webchat V2 primary color
     const cognigyBlue = '#3f51b5';
@@ -130,10 +133,10 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
     const secondaryColorDisabled = '#E5E5E5';
 
     // TODO: Add calculation for the radial gradient. Based on which colors?
-    const backgroundHome = 'radial-gradient(204.5% 136.79% at 0.53% 95.79%, #EDECF9 0%, #BFBAFF 31.77%, #2152E3 65.63%, #05309E 100%)';
+    let backgroundHome = 'radial-gradient(204.5% 136.79% at 0.53% 95.79%, #EDECF9 0%, #BFBAFF 31.77%, #2152E3 65.63%, #05309E 100%)';
     const backgroundWebchat = "#FFFFFF";
     const backgroundBotMessage = "#FFFFFF";
-	const backgroundUserMessage = "#E8EBFF";
+    const backgroundUserMessage = "#E8EBFF";
 
     const textLink = "#6688ED";
     const textLinkHover = "#1947D2";
@@ -156,6 +159,15 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
     const red10 = "#FFE5E5";
 
 
+    // calculate new gradient based on optional theme.primaryColor if no theme.backgroundHome is given
+    if ((theme.primaryColor && theme.primaryColor !== webchatEndpointDefaultColor) && !theme.backgroundHome) {
+        if (tinycolor(theme.primaryColor).isLight()) {
+            backgroundHome = `radial-gradient(204.5% 136.79% at 0.53% 95.79%, ${tinycolor(theme.primaryColor).lighten(20).toHslString()} 0%, ${theme.primaryColor} 31.77%, ${tinycolor(theme.primaryColor).darken(20).toHslString()} 65.63%, ${tinycolor(theme.primaryColor).darken(40).toHslString()} 100%)`;
+        } else {
+            backgroundHome = `radial-gradient(204.5% 136.79% at 0.53% 95.79%, ${tinycolor(theme.primaryColor).lighten(40).toHslString()} 0%, ${tinycolor(theme.primaryColor).lighten(20).toHslString()} 31.77%, ${theme.primaryColor} 65.63%, ${tinycolor(theme.primaryColor).darken(20).toHslString()} 100%)`;
+        }
+    }
+
 
     if (!theme.primaryColor)
         theme.primaryColor = primaryColor;
@@ -164,7 +176,7 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
         theme.primaryColorHover = deriveHoverColor(theme.primaryColor)
 
     if (!theme.primaryColorDisabled)
-		theme.primaryColorDisabled = deriveDisabledColor(theme.primaryColor);
+        theme.primaryColorDisabled = deriveDisabledColor(theme.primaryColor);
 
     if (!theme.primaryContrastColor)
         theme.primaryContrastColor = tinycolor(theme.primaryColor).isLight() ? textDark : textLight;
@@ -176,7 +188,7 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
         theme.secondaryColorHover = deriveHoverColor(theme.secondaryColor)
 
     if (!theme.secondaryColorDisabled)
-		theme.secondaryColorDisabled = deriveDisabledColor(theme.secondaryColor);
+        theme.secondaryColorDisabled = deriveDisabledColor(theme.secondaryColor);
 
     if (!theme.secondaryContrastColor)
         theme.secondaryContrastColor = tinycolor(theme.secondaryColor).isLight() ? textDark : textLight;
@@ -190,8 +202,8 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
     if (!theme.backgroundBotMessage)
         theme.backgroundBotMessage = backgroundBotMessage;
 
-	if (!theme.backgroundUserMessage)
-		theme.backgroundUserMessage = backgroundUserMessage;
+    if (!theme.backgroundUserMessage)
+        theme.backgroundUserMessage = backgroundUserMessage;
 
     if (!theme.textLink)
         theme.textLink = textLink;
