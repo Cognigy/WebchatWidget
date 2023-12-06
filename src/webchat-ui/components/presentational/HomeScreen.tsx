@@ -7,7 +7,7 @@ import SecondaryButton from "./SecondaryButton";
 import IconButton from "./IconButton";
 import Branding from "../branding/Branding";
 import Notifications from "./Notifications";
-// import { ActionButtons } from "@cognigy/chat-components";
+import { ActionButtons } from "@cognigy/chat-components";
 import { WebchatUIProps } from "../WebchatUI";
 
 const HomeScreenRoot = styled.div(({ theme }) => ({
@@ -148,7 +148,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 					{config?.settings?.getStartedButtonText || "Welcome to the Cognigy Webchat"}
 				</HomeScreenTitle>
 				<HomeScreenButtons className="webchat-homescreen-buttons">
-					{/* <ActionButtons
+					<ActionButtons
 						size="large"
 						showUrlIcon
 						action={() => { }}
@@ -178,7 +178,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 						]}
 						config={config}
 						onEmitAnalytics={onEmitAnalytics}
-					/> */}
+					/>
 				</HomeScreenButtons>
 			</HomeScreenContent>
 			<HomeScreenActions className="webchat-homescreen-actions">
