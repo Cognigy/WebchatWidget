@@ -5,8 +5,10 @@ import { SetOptionsAction } from "./options-reducer";
 import { resetState } from "../reducer";
 import { getAllConversationsByUserID, getStorage } from "../../helper/storage";
 import { setConversations } from "../previous-conversations/previous-conversations-reducer";
+import { SendMessageAction, TriggerEngagementMessageAction } from "../messages/message-middleware";
+import { ReceiveMessageAction } from "../messages/message-handler";
 
-type Actions = SetOptionsAction;
+type Actions = SetOptionsAction | SendMessageAction | ReceiveMessageAction | TriggerEngagementMessageAction;
 
 export const optionsMiddleware: Middleware<object, StoreState> = store => next => (action: Actions) => {
 	const key = getOptionsKey(store.getState().options, store.getState().config);
@@ -41,7 +43,29 @@ export const optionsMiddleware: Middleware<object, StoreState> = store => next =
 					} catch (e) {}
 				}
 			}
+			break;
 		}
+
+		// TODO: we need to activate this in order to make working the storage event listener (see Webchat.tsx)
+		// The old logic on the bottom of the file is going to infinite loops.
+		// We just fix this by restricting the logic only to specific actions.
+		// need to include also Rating actions
+		//
+		// case "SEND_MESSAGE":
+		// case "RECEIVE_MESSAGE":
+		// case "TRIGGER_ENGAGEMENT_MESSAGE": {
+		// 		if (browserStorage && active && userId && !disablePersistentHistory) {
+		// 			const { messages, rating } = store.getState();
+		// 			browserStorage.setItem(
+		// 				key,
+		// 				JSON.stringify({
+		// 					messages,
+		// 					rating,
+		// 				}),
+		// 			);
+		// 		}
+		// 	break;
+		// }
 	}
 
 	if (browserStorage && active && userId && !disablePersistentHistory) {

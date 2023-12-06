@@ -20,6 +20,7 @@ import { isDisabledDueToMaintenance } from '../helper/maintenance';
 import { isDisabledOutOfBusinessHours } from '../helper/businessHours';
 import { isDisabledDueToConnectivity } from '../helper/connectivity';
 import { createNotification } from '../../webchat-ui/components/presentational/Notifications';
+import { syncStorage } from '../store/previous-conversations/previous-conversations-middleware';
 
 export interface WebchatProps extends FromProps {
     url: string;
@@ -56,12 +57,19 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         this._handleOutput = createOutputHandler(this.store);
     }
 
+    // TODO: activate this listener only if needed by specs
+    // It requires changes on options-middleware in order to avoid infinite loop
+    // componentDidMount() {
+    //     window.addEventListener('storage', this.syncStorage);
+    // }
+
     componentWillMount() {
         this.store.dispatch(loadConfig());    
     }
 
     componentWillUnmount() {
         this.client.disconnect();
+        // window.removeEventListener('storage', this.syncStorage);
     }
 
     registerAnalyticsService(handler: (event: { type: string; payload?: any; }) => void) {
@@ -73,6 +81,10 @@ export class Webchat extends React.PureComponent<WebchatProps> {
             type,
             payload
         });
+    }
+
+    syncStorage = (e: StorageEvent) => {
+        this.store.dispatch(syncStorage(e?.key));
     }
 
     // component API (for usage via ref)
