@@ -56,10 +56,11 @@ interface IPrevConversationsScreenProps {
 	config: IWebchatConfig;
 	conversations: PrevConversationsState;
 	onSetShowPrevConversationsScreen: (show: boolean) => void;
+	onSwitchSession: (sessionId: string, conversation: PrevConversationsState[string]) => void;
 }
 
 export const PrevConversationsScreen = (props: IPrevConversationsScreenProps) => {
-	const { conversations, config, onSetShowPrevConversationsScreen } = props;
+	const { conversations, config, onSetShowPrevConversationsScreen, onSwitchSession } = props;
 
 	const disableBranding = config?.settings?.disableBranding;
 
@@ -81,6 +82,8 @@ export const PrevConversationsScreen = (props: IPrevConversationsScreenProps) =>
 						<ConversationsListItem
 							key={i}
 							sessionId={session}
+							switchSession={onSwitchSession}
+							startConversation={handleStartButtonClick}
 							conversation={sortedConversations[session]}
 							config={config}
 						/>

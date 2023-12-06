@@ -6,6 +6,8 @@ import { setInputMode, setFullscreenMessage, setOpen, toggleOpen, setScrollToPos
 import { getPluginsForMessage, isFullscreenPlugin } from '../../plugins/helper';
 import { connect as doConnect } from "../store/connection/connection-middleware";
 import { setHasGivenRating, showRatingDialog } from "../store/rating/rating-reducer";
+import { switchSession } from "../store/previous-conversations/previous-conversations-middleware";
+import { PrevConversationsState } from "../store/previous-conversations/previous-conversations-reducer";
 
 type FromState = Pick<WebchatUIProps, 'messages' | 'unseenMessages' | 'prevConversations' | 'open' | 'typingIndicator' | 'inputMode' | 'fullscreenMessage' | 'config' | 'connected' | 'reconnectionLimit' | 'scrollToPosition'| 'lastScrolledPosition'>;
 type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' | 'onSetScrollToPosition' | 'onSetLastScrolledPosition' | 'onTriggerEngagementMessage'>;
@@ -56,6 +58,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onSetHasGivenRating: () => dispatch(setHasGivenRating()),
         onSetShowHomeScreen: (show: boolean) => dispatch(setShowHomeScreen(show)),
         onSetShowPrevConversationsScreen: (show: boolean) => dispatch(setShowPrevConversationsScreen(show)),
+        onSwitchSession: (sessionId: string, conversation: PrevConversationsState[string]) => dispatch(switchSession(sessionId, conversation)),
     }),
     ({ fullscreenMessage, ...state }, dispatch, props) => {
         if (!fullscreenMessage) {

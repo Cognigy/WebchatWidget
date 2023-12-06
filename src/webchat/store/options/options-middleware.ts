@@ -9,7 +9,7 @@ import { setConversations } from "../previous-conversations/previous-conversatio
 type Actions = SetOptionsAction;
 
 export const optionsMiddleware: Middleware<object, StoreState> = store => next => (action: Actions) => {
-	const key = getOptionsKey(store.getState().options);
+	const key = getOptionsKey(store.getState().options, store.getState().config);
 	const { active } = store.getState().config; // Actual settings are loaded
 	const { disableLocalStorage, disablePersistentHistory, useSessionStorage } =
 		store.getState().config.settings;
@@ -20,7 +20,7 @@ export const optionsMiddleware: Middleware<object, StoreState> = store => next =
 		case "SET_OPTIONS": {
 			// TODO decouple this into a separate action or middleware handler
 			if (browserStorage) {
-				const key = getOptionsKey(action.options);
+				const key = getOptionsKey(action.options, store.getState().config);
 				const persistedString = browserStorage.getItem(key);
 
 				if (action.options?.userId) {
@@ -28,6 +28,7 @@ export const optionsMiddleware: Middleware<object, StoreState> = store => next =
 						browserStorage,
 						action.options?.userId,
 						action.options?.sessionId,
+						store.getState().config?.URLToken
 					);
 					store.dispatch(setConversations(prevConversations));
 				}

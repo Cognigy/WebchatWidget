@@ -90,8 +90,8 @@ const FallBackAvatar = styled(AvatarPlaceholder)(({ theme }) => ({
 	width: "28px",
 	height: "28px",
 	boxSizing: "border-box",
-    border: `2px solid ${theme.white}`,
-    "rect": {
+	border: `2px solid ${theme.white}`,
+	"& rect": {
 		fill: theme.primaryColor,
 	},
 }));
@@ -100,15 +100,18 @@ interface IConversationsListItemProps {
 	config: IWebchatConfig;
 	conversation: PrevConversationsState[string];
 	sessionId: string;
+	switchSession: (sessionId: string, conversation: PrevConversationsState[string]) => void;
+	startConversation: () => void;
 }
 
 export const ConversationsListItem = (props: IConversationsListItemProps) => {
-	const { sessionId, conversation, config } = props;
+	const { sessionId, conversation, config, switchSession, startConversation } = props;
 
 	const avatars = getAvatars(conversation.messages);
 
 	const handleClick = () => {
-		console.log(sessionId, conversation);
+		startConversation();
+		switchSession(sessionId, conversation);
 	};
 
 	return (

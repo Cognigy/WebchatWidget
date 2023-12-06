@@ -93,6 +93,7 @@ export interface WebchatUIProps {
     showPrevConversationsScreen: boolean;
     onSetShowPrevConversationsScreen: (show: boolean) => void;
     prevConversations: PrevConversationsState;
+    onSwitchSession: (sessionId: string, conversation: PrevConversationsState[string]) => void;
 }
 
 interface WebchatUIState {
@@ -667,6 +668,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onSetShowHomeScreen,
             showPrevConversationsScreen,
             onSetShowPrevConversationsScreen,
+            onSwitchSession,
 			onClose
         } = this.props;
 
@@ -707,6 +709,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 					<PrevConversationsScreen
                         conversations={this.props.prevConversations}
                         onSetShowPrevConversationsScreen={onSetShowPrevConversationsScreen}
+                        onSwitchSession={onSwitchSession}
 						config={config}
 					/>
 				) : (
