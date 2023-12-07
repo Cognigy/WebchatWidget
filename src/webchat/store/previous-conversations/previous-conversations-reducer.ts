@@ -5,7 +5,7 @@ import { RatingState } from "../rating/rating-reducer";
 export type PrevConversationsState = {
 	[key: string]: {
 		messages: IMessage[];
-		ratings: RatingState;
+		rating: RatingState;
 	};
 };
 
@@ -18,13 +18,29 @@ export const setConversations = (conversations: PrevConversationsState) => ({
 });
 export type SetConversationsAction = ReturnType<typeof setConversations>;
 
-export const prevConversations: Reducer<PrevConversationsState, SetConversationsAction> = (
-	state = getInitialState(),
-	action,
-) => {
+const UPDATE_PREV_CONVERSATION = "UPDATE_PREV_CONVERSATION";
+export const updatePrevConversation = (
+	sessionId: string,
+	conversation: PrevConversationsState[string],
+) => ({
+	type: UPDATE_PREV_CONVERSATION as "UPDATE_PREV_CONVERSATION",
+	sessionId,
+	conversation,
+});
+export type UpdatePrevConversation = ReturnType<typeof updatePrevConversation>;
+
+export const prevConversations: Reducer<
+	PrevConversationsState,
+	SetConversationsAction | UpdatePrevConversation
+> = (state = getInitialState(), action) => {
 	switch (action.type) {
 		case "SET_CONVERSATIONS": {
 			return action.conversations;
+		}
+
+		case "UPDATE_PREV_CONVERSATION": {
+			const { sessionId, conversation } = action;
+			return { ...state, [sessionId]: conversation };
 		}
 
 		default:

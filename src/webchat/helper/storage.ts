@@ -26,7 +26,7 @@ export const getAllConversationsByUserID = (
 ) => {
 	return Object.keys(storage).reduce((acc, item) => {
 		// skip missing userId or sessionId
-		if (!currentSessionId || !currentUserId) return acc;
+		if (!currentSessionId || !currentUserId || !currentURLtoken) return acc;
 
 		const data = storage.getItem(item) || "";
 
@@ -44,7 +44,7 @@ export const getAllConversationsByUserID = (
 		if (currentURLtoken !== URLtoken) return acc;
 
 		// skip current sessionId
-		if (sessionId === currentSessionId) return acc;
+		// if (sessionId === currentSessionId) return acc;
 
 		const messages = JSON.parse(data)?.messages;
 

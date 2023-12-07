@@ -41,7 +41,9 @@ const getInitialState = (): RatingState => ({
     customRatingCommentText: "",
 });
 
-type RatingAction = ShowRatingDialogAction
+export const ratingInitialState = getInitialState();
+
+export type RatingAction = ShowRatingDialogAction
     | SetHasGivenRating
     | SetCustomRatingTitle
     | SetCustomRatingCommentText;

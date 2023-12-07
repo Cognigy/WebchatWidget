@@ -101,16 +101,14 @@ interface IConversationsListItemProps {
 	conversation: PrevConversationsState[string];
 	sessionId: string;
 	switchSession: (sessionId: string, conversation: PrevConversationsState[string]) => void;
-	startConversation: () => void;
 }
 
 export const ConversationsListItem = (props: IConversationsListItemProps) => {
-	const { sessionId, conversation, config, switchSession, startConversation } = props;
+	const { sessionId, conversation, config, switchSession } = props;
 
 	const avatars = getAvatars(conversation.messages);
 
 	const handleClick = () => {
-		startConversation();
 		switchSession(sessionId, conversation);
 	};
 

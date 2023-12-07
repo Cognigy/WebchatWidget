@@ -44,6 +44,8 @@ import { HomeScreen } from './presentational/HomeScreen';
 import { PrevConversationsScreen } from './presentational/previous-conversations/OverviewScreen';
 import { PrevConversationsState } from '../../webchat/store/previous-conversations/previous-conversations-reducer';
 import Notifications from './presentational/Notifications';
+import Chip from './presentational/Chip';
+import { isConversationEnded } from './presentational/previous-conversations/helpers';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -382,6 +384,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
     renderInput = () => {
         const { inputPlugins } = this.state;
+        const { messages } = this.props;
+        if(isConversationEnded(messages)) return null;
 
         return (
             <Input
@@ -820,6 +824,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const { enableTypingIndicator } = config.settings;
         const isTyping = typingIndicator !== 'remove' && typingIndicator !== 'hide';
 
+        const isExpired = isConversationEnded(messages);
+
         return (
             <>
                 {messages.map((message, index) => (
@@ -837,6 +843,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         onEmitAnalytics={onEmitAnalytics}
                     />
                 ))}
+                {isExpired && <Chip withWrapper label="Conversation ended" />}
                 {enableTypingIndicator && (
                     <TypingIndicator active={isTyping} />
                 )}

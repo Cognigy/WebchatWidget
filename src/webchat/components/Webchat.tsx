@@ -20,7 +20,7 @@ import { isDisabledDueToMaintenance } from '../helper/maintenance';
 import { isDisabledOutOfBusinessHours } from '../helper/businessHours';
 import { isDisabledDueToConnectivity } from '../helper/connectivity';
 import { createNotification } from '../../webchat-ui/components/presentational/Notifications';
-import { syncStorage } from '../store/previous-conversations/previous-conversations-middleware';
+import { syncStorageToState } from '../store/previous-conversations/previous-conversations-middleware';
 
 export interface WebchatProps extends FromProps {
     url: string;
@@ -57,8 +57,9 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         this._handleOutput = createOutputHandler(this.store);
     }
 
-    // TODO: activate this listener only if needed by specs
-    // It requires changes on options-middleware in order to avoid infinite loop
+    // This listener is used to sync local storage changes
+    // from other tabs to redux of inactive tabs
+    // Check also previous-conversations-middleware.ts
     // componentDidMount() {
     //     window.addEventListener('storage', this.syncStorage);
     // }
@@ -72,6 +73,12 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         // window.removeEventListener('storage', this.syncStorage);
     }
 
+    syncStorage = (e: StorageEvent) => {
+        if (e?.key && e?.newValue) {
+            this.store.dispatch(syncStorageToState(e.key, e.newValue));
+        }
+    }
+
     registerAnalyticsService(handler: (event: { type: string; payload?: any; }) => void) {
         this.analytics.on('analytics-event', handler);
     }
@@ -81,10 +88,6 @@ export class Webchat extends React.PureComponent<WebchatProps> {
             type,
             payload
         });
-    }
-
-    syncStorage = (e: StorageEvent) => {
-        this.store.dispatch(syncStorage(e?.key));
     }
 
     // component API (for usage via ref)

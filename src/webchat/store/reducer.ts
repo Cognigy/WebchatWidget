@@ -32,7 +32,7 @@ export const resetState = (state?: StoreState) => ({
 export type ResetStateAction = ReturnType<typeof resetState>;
 
 const SET_PREV_STATE = 'SET_PREV_STATE';
-export const setPrevState = (state?: PrevConversationsState[string]) => ({
+export const setPrevState = (state: PrevConversationsState[string]) => ({
     type: SET_PREV_STATE as 'SET_PREV_STATE',
     state
 });
