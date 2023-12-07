@@ -89,9 +89,11 @@ export interface WebchatUIProps {
     customRatingTitle: string;
     customRatingCommentText: string;
 
-	showHomeScreen: boolean;
+    showHomeScreen: boolean;
     onSetShowHomeScreen: (show: boolean) => void;
-    
+
+    sttActive: boolean;
+
     showPrevConversationsScreen: boolean;
     onSetShowPrevConversationsScreen: (show: boolean) => void;
     prevConversations: PrevConversationsState;
@@ -219,7 +221,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
     componentDidMount() {
         this.setState({
-			inputPlugins: [...this.props.inputPlugins || [], baseInputPlugin],
+            inputPlugins: [...this.props.inputPlugins || [], baseInputPlugin],
             messagePlugins: [...this.props.messagePlugins || [], regularMessagePlugin]
         });
     }
@@ -398,6 +400,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 webchatTheme={this.state.theme}
                 onEmitAnalytics={this.props.onEmitAnalytics}
                 theme={this.state.theme}
+                sttActive={this.props.sttActive}
             />
         );
     }
@@ -496,7 +499,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             showRatingDialog,
             onShowRatingDialog,
             onSetHasGivenRating,
-			onSetShowHomeScreen,
+            onSetShowHomeScreen,
             customRatingTitle,
             customRatingCommentText,
             ...restProps
@@ -633,7 +636,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                 ref={this.chatToggleButtonRef}
                                             >
                                                 {open ? (
-													<CollapseIcon />
+                                                    <CollapseIcon />
                                                 ) : (
                                                     <ChatIcon />
                                                 )}
@@ -667,8 +670,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             scrollToPosition,
             lastScrolledPosition,
             onSetScrollToPosition,
-			onSetLastScrolledPosition,
-			showHomeScreen,
+            onSetLastScrolledPosition,
+            showHomeScreen,
             onSetShowHomeScreen,
             showPrevConversationsScreen,
             onSetShowPrevConversationsScreen,
@@ -681,13 +684,13 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
         
         if (showHomeScreen) return (
-			<HomeScreen
-				showHomeScreen={showHomeScreen}
+            <HomeScreen
+                showHomeScreen={showHomeScreen}
                 onSetShowHomeScreen={onSetShowHomeScreen}
                 onSetShowPrevConversationsScreen={onSetShowPrevConversationsScreen}
-				onClose={onClose}
-				config={config}
-			/>
+                onClose={onClose}
+                config={config}
+            />
         );
 
         const handleOnClose = () => {
@@ -696,21 +699,21 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         }
 
         return (
-			<>
-				<Header
-					onClose={handleOnClose}
-					connected={config.active}
-					logoUrl={config.settings.headerLogoUrl}
-					title={config.settings.title || "Cognigy Webchat"}
-					ratingButtonRef={this.ratingButtonInHeaderRef}
-					closeButtonRef={this.closeButtonInHeaderRef}
-					chatToggleButtonRef={this.chatToggleButtonRef}
-					showRatingButton={showRatingButton}
-					showCloseButton={true}
-					onRatingButtonClick={() => onShowRatingDialog(true)}
-				/>
-				{showPrevConversationsScreen ? (
-					<PrevConversationsScreen
+            <>
+                <Header
+                    onClose={handleOnClose}
+                    connected={config.active}
+                    logoUrl={config.settings.headerLogoUrl}
+                    title={config.settings.title || "Cognigy Webchat"}
+                    ratingButtonRef={this.ratingButtonInHeaderRef}
+                    closeButtonRef={this.closeButtonInHeaderRef}
+                    chatToggleButtonRef={this.chatToggleButtonRef}
+                    showRatingButton={showRatingButton}
+                    showCloseButton={true}
+                    onRatingButtonClick={() => onShowRatingDialog(true)}
+                />
+                {showPrevConversationsScreen ? (
+                    <PrevConversationsScreen
                         conversations={this.props.prevConversations}
                         onSetShowPrevConversationsScreen={onSetShowPrevConversationsScreen}
                         onSwitchSession={onSwitchSession}
@@ -720,27 +723,27 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 					<>
                 {/* When we have common Header implemented, 
                 we should move notifications container there  */}
-				<Notifications />
-						<HistoryWrapper
-							disableBranding={config.settings.disableBranding}
-							scrollToPosition={scrollToPosition}
-							setScrollToPosition={onSetScrollToPosition}
-							lastScrolledPosition={lastScrolledPosition}
-							setLastScrolledPosition={onSetLastScrolledPosition}
-							ref={this.history as any}
-							className="webchat-chat-history"
-							tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
-						>
-							<h2 className="sr-only" id="webchatChatHistoryHeading">
-								Chat History
-							</h2>
-							{this.renderHistory()}
-						</HistoryWrapper>
-						{this.renderInput()}
-					</>
-				)}
-			</>
-		);
+                <Notifications />
+                        <HistoryWrapper
+                            disableBranding={config.settings.disableBranding}
+                            scrollToPosition={scrollToPosition}
+                            setScrollToPosition={onSetScrollToPosition}
+                            lastScrolledPosition={lastScrolledPosition}
+                            setLastScrolledPosition={onSetLastScrolledPosition}
+                            ref={this.history as any}
+                            className="webchat-chat-history"
+                            tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
+                        >
+                            <h2 className="sr-only" id="webchatChatHistoryHeading">
+                                Chat History
+                            </h2>
+                            {this.renderHistory()}
+                        </HistoryWrapper>
+                        {this.renderInput()}
+                    </>
+                )}
+            </>
+        );
     }
 
     renderFullscreenMessageLayout() {
@@ -830,17 +833,18 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             <>
                 {messages.map((message, index) => (
                     <MessagePluginRenderer
+                        config={config}
+                        isLast={index === messages.length - 1}
                         key={index}
                         message={message}
-                        prevMessage={messages?.[index - 1]}
-                        onSendMessage={this.sendMessage}
-                        setScrollToPosition={onSetScrollToPosition}
-                        onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}
                         onDismissFullscreen={() => { }}
-                        config={config}
-                        plugins={messagePlugins}
-                        webchatTheme={this.state.theme}
                         onEmitAnalytics={onEmitAnalytics}
+                        onSendMessage={this.sendMessage}
+                        onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}
+                        plugins={messagePlugins}
+                        prevMessage={messages?.[index - 1]}
+                        setScrollToPosition={onSetScrollToPosition}
+                        webchatTheme={this.state.theme}
                     />
                 ))}
                 {isExpired && <Chip withWrapper label="Conversation ended" />}

@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import { IWebchatTheme } from '../../style';
 import IconButton from '../presentational/IconButton';
 import Branding from '../branding/Branding';
+import classnames from 'classnames';
 
 type HTMLDivPropsWithoutInputMode = Omit<React.HTMLProps<HTMLDivElement>, "inputMode">;
 
@@ -15,6 +16,7 @@ export interface InputProps extends InputComponentProps, HTMLDivPropsWithoutInpu
     onSetInputMode: (inputMode: string) => void;
     inputMode: string;
     webchatTheme: IWebchatTheme;
+	sttActive: boolean;
 }
 
 const SmallToolbar = styled(Toolbar)({
@@ -31,16 +33,20 @@ const SmallToolbar = styled(Toolbar)({
 const InputRoot = styled.div(({ theme }) => ({
     // position: 'absolute',
     // bottom: 0,
-    borderTop: `1px solid var(--basics-black-80, ${theme.black80})`,
+	borderTop: `1px solid ${theme.black80}`,
     backgroundColor: theme.white,
     display: 'flex',
     flexDirection: 'column',
     gap: 12,
     padding: "24px 20px 12px 20px",
+
+	'&.webchat-input-stt-active': {
+		backgroundColor: theme.backgroundUserMessage,
+	},
 }))
 
 
-const InputPluginRenderer = ({ messages, config, onSendMessage, plugins, inputMode, onSetInputMode, webchatTheme, onEmitAnalytics, ...props }: InputProps): JSX.Element => {
+const InputPluginRenderer = ({ messages, config, onSendMessage, plugins, inputMode, onSetInputMode, webchatTheme, onEmitAnalytics, sttActive, ...props }: InputProps): JSX.Element => {
     const results: any[] = [];
 
     const attributes = Object.keys(props).length > 0
@@ -89,7 +95,7 @@ const InputPluginRenderer = ({ messages, config, onSendMessage, plugins, inputMo
     const emitAnalytics = ((event: string, payload?: any) => onEmitAnalytics(`plugin/${(matchedSelectInput && matchedSelectInput.name) || 'unknown'}/${event}`, payload));
 
     return (
-        <InputRoot className="webchat-input">
+		<InputRoot className={classnames("webchat-input", sttActive && "webchat-input-stt-active")}>
             {tabs}
             {matchedSelectInput && (
                 <matchedSelectInput.component
