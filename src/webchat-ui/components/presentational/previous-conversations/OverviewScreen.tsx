@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import styled from "@emotion/styled";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
 import { ConversationsListItem } from "./ConversationsListItem";
@@ -63,13 +63,15 @@ interface IPrevConversationsScreenProps {
 export const PrevConversationsScreen = (props: IPrevConversationsScreenProps) => {
 	const { conversations, config, onSetShowPrevConversationsScreen, onSwitchSession } = props;
 
+	console.count('PrevConversationsScreen');
+
 	const disableBranding = config?.settings?.disableBranding;
 
 	// we sort the conversation based on last message timestamp
 	// result: the last updated conversation goes on top
-	const sortedConversations = useMemo(() => sortConversationsByFreshness(conversations), [conversations]);
+	const sortedConversations = sortConversationsByFreshness(conversations);
 
-	const sessions = useMemo(() => Object.keys(sortedConversations), [sortedConversations]);
+	const sessions = Object.keys(sortedConversations);
 
 	const handleStartButtonClick = () => {
 		// we start a new blank session
@@ -86,7 +88,7 @@ export const PrevConversationsScreen = (props: IPrevConversationsScreenProps) =>
 	return (
 		<ScreenRoot className="webchat-prev-conversations-root">
 			<ScreenContent className="webchat-prev-conversations-content">
-				{sessions.map((session, i) => {
+				{sessions.length > 0 && sessions.map((session, i) => {
 					return (
 						<ConversationsListItem
 							key={i}

@@ -43,9 +43,6 @@ export const getAllConversations = (
 		// skip different URLtoken
 		if (currentURLtoken !== URLtoken) return acc;
 
-		// skip current sessionId
-		// if (sessionId === currentSessionId) return acc;
-
 		const messages = JSON.parse(data)?.messages;
 
 		// skip empty
