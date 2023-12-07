@@ -37,7 +37,7 @@ export const getInitialState = (): ConfigState => ({
     disableHtmlContentSanitization: false,
     disableHtmlInput: false,
     disableInputAutocomplete: false,
-      disableInputAutofocus: false,
+    disableInputAutofocus: false,
     disableLocalStorage: false,
     disablePersistentHistory: false,
     disableRenderURLsAsLinks: false,
@@ -51,7 +51,7 @@ export const getInitialState = (): ConfigState => ({
     enableFocusTrap: false,
     enableGenericHTMLStyling: false,
     enableInjectionWithoutEmptyHistory: false,
-	  enableInputCollation: false,
+    enableInputCollation: false,
     enableRating: "onRequest",
     enableStrictMessengerSync: false,
     enableSTT: false,
@@ -83,7 +83,7 @@ export const getInitialState = (): ConfigState => ({
       title: ""
     },
     messageDelay: 1000,
-	  messageLogoUrl: "",
+    messageLogoUrl: "",
     ratingCommentText: "Feel free to leave a comment.",
     ratingMessageHistoryCommentText: "You commented:",
     ratingMessageHistoryRatingText: "You gave the following rating:",
@@ -108,7 +108,7 @@ export const getInitialState = (): ConfigState => ({
       engagement: 'primary',
       user: 'neutral',
     },
-    _endpointTokenUrl:""
+    _endpointTokenUrl: ""
   },
 });
 

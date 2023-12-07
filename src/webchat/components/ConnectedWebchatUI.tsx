@@ -18,9 +18,10 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         unseenMessages,
         prevConversations,
         connection: { connected, reconnectionLimit },
-		ui: { open, typing, inputMode, fullscreenMessage, scrollToPosition, lastScrolledPosition, showHomeScreen, showPrevConversationsScreen },
+        ui: { open, typing, inputMode, fullscreenMessage, scrollToPosition, lastScrolledPosition, showHomeScreen, showPrevConversationsScreen },
         config,
         rating: { showRatingDialog, hasGivenRating, customRatingTitle, customRatingCommentText },
+        input: { sttActive },
     }) => ({
         messages,
         unseenMessages,
@@ -39,6 +40,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         customRatingTitle,
         customRatingCommentText,
         showHomeScreen,
+        sttActive,
         showPrevConversationsScreen,
     }),
     dispatch => ({

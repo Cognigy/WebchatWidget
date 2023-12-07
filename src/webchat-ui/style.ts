@@ -18,7 +18,7 @@ export interface IWebchatTheme {
     backgroundHome: string;
     backgroundWebchat: string;
     backgroundBotMessage: string;
-    backgroungUserMessage: string;
+	backgroundUserMessage: string;
 
     textLink: string;
     textLinkHover: string;
@@ -133,7 +133,7 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
     const backgroundHome = 'radial-gradient(204.5% 136.79% at 0.53% 95.79%, #EDECF9 0%, #BFBAFF 31.77%, #2152E3 65.63%, #05309E 100%)';
     const backgroundWebchat = "#FFFFFF";
     const backgroundBotMessage = "#FFFFFF";
-    const backgroungUserMessage = "#E8EBFF";
+	const backgroundUserMessage = "#E8EBFF";
 
     const textLink = "#6688ED";
     const textLinkHover = "#1947D2";
@@ -190,8 +190,8 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
     if (!theme.backgroundBotMessage)
         theme.backgroundBotMessage = backgroundBotMessage;
 
-    if (!theme.backgroungUserMessage)
-        theme.backgroungUserMessage = backgroungUserMessage;
+	if (!theme.backgroundUserMessage)
+		theme.backgroundUserMessage = backgroundUserMessage;
 
     if (!theme.textLink)
         theme.textLink = textLink;
