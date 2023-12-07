@@ -3,7 +3,7 @@ import { getOptionsKey } from "./options";
 import { StoreState } from "../store";
 import { SetOptionsAction } from "./options-reducer";
 import { resetState } from "../reducer";
-import { getAllConversationsByUserID, getStorage } from "../../helper/storage";
+import { getAllConversations, getStorage } from "../../helper/storage";
 import { setConversations } from "../previous-conversations/previous-conversations-reducer";
 // import { SendMessageAction, TriggerEngagementMessageAction } from "../messages/message-middleware";
 // import { ReceiveMessageAction } from "../messages/message-handler";
@@ -27,7 +27,7 @@ export const optionsMiddleware: Middleware<object, StoreState> = store => next =
 				const persistedString = browserStorage.getItem(key);
 
 				if (action.options?.userId) {
-					const prevConversations = getAllConversationsByUserID(
+					const prevConversations = getAllConversations(
 						browserStorage,
 						action.options?.userId,
 						action.options?.sessionId,

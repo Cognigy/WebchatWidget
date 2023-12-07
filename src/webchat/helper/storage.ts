@@ -18,7 +18,7 @@ export const getStorage = (
 	return window.localStorage;
 };
 
-export const getAllConversationsByUserID = (
+export const getAllConversations = (
 	storage: Storage,
 	currentUserId?: string,
 	currentSessionId?: string,
