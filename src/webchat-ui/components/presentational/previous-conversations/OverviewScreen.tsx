@@ -63,8 +63,6 @@ interface IPrevConversationsScreenProps {
 export const PrevConversationsScreen = (props: IPrevConversationsScreenProps) => {
 	const { conversations, config, onSetShowPrevConversationsScreen, onSwitchSession } = props;
 
-	console.count('PrevConversationsScreen');
-
 	const disableBranding = config?.settings?.disableBranding;
 
 	// we sort the conversation based on last message timestamp
