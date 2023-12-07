@@ -10,4 +10,8 @@ dist/index.html
 cypress/screenshots
 cypress/videos
 .DS_Store
-/.vscode/
+
+# Editor directories and files
+.vscode/*
+!vscode/launch.json
+!.vscode/extensions.json
