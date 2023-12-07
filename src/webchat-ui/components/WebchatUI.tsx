@@ -826,17 +826,18 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             <>
                 {messages.map((message, index) => (
                     <MessagePluginRenderer
+                        config={config}
+                        isLast={index === messages.length - 1}
                         key={index}
                         message={message}
-                        prevMessage={messages?.[index - 1]}
-                        onSendMessage={this.sendMessage}
-                        setScrollToPosition={onSetScrollToPosition}
-                        onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}
                         onDismissFullscreen={() => { }}
-                        config={config}
-                        plugins={messagePlugins}
-                        webchatTheme={this.state.theme}
                         onEmitAnalytics={onEmitAnalytics}
+                        onSendMessage={this.sendMessage}
+                        onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}
+                        plugins={messagePlugins}
+                        prevMessage={messages?.[index - 1]}
+                        setScrollToPosition={onSetScrollToPosition}
+                        webchatTheme={this.state.theme}
                     />
                 ))}
                 {enableTypingIndicator && (

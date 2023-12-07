@@ -301,7 +301,7 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
 
 
     if (!theme.fontFamily)
-        theme.fontFamily = 'sans-serif'
+        theme.fontFamily = 'Figtree, sans-serif'
 
 
     return theme as IWebchatTheme;

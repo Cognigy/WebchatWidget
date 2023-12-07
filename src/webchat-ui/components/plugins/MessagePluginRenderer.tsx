@@ -17,18 +17,19 @@ import {
 import { Message, match } from "@cognigy/chat-components";
 
 export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
-	message: IMessage;
 	config: IWebchatConfig;
+	hideAvatar?: boolean;
+	isFullscreen?: boolean;
+	isLast?: boolean;
+	message: IMessage;
+	onDismissFullscreen?: () => void;
+	onEmitAnalytics: (name: string, payload?: any) => void;
 	onSendMessage: MessageSender;
 	onSetFullscreen?: () => void;
-	onDismissFullscreen?: () => void;
-	setScrollToPosition?: (position: number) => void;
-	onEmitAnalytics: (name: string, payload?: any) => void;
 	plugins: MessagePlugin[];
 	prevMessage?: IMessage;
-	isFullscreen?: boolean;
+	setScrollToPosition?: (position: number) => void;
 	webchatTheme: IWebchatTheme;
-	hideAvatar?: boolean;
 }
 
 const FullWidthMessageRow = styled.div(({ theme }) => ({
@@ -40,18 +41,19 @@ const FullWidthMessageRow = styled.div(({ theme }) => ({
 }));
 
 const MessagePluginRenderer = ({
-	message,
-	prevMessage,
 	config,
-	onSendMessage,
-	plugins,
+	hideAvatar,
 	isFullscreen,
-	onSetFullscreen,
+	isLast,
+	message,
 	onDismissFullscreen,
+	onEmitAnalytics,
+	onSendMessage,
+	onSetFullscreen,
+	plugins,
+	prevMessage,
 	setScrollToPosition,
 	webchatTheme,
-	onEmitAnalytics,
-	hideAvatar,
 	...props
 }: MessageProps): JSX.Element => {
 	const attributes = Object.keys(props).length > 0 ? props : undefined;
@@ -139,6 +141,7 @@ const MessagePluginRenderer = ({
 			<Message
 				action={onSendMessage}
 				config={config}
+				isLast={isLast}
 				message={message}
 				onEmitAnalytics={onEmitAnalytics}
 				prevMessage={prevMessage}
