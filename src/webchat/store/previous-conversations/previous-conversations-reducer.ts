@@ -18,27 +18,27 @@ export const setConversations = (conversations: PrevConversationsState) => ({
 });
 export type SetConversationsAction = ReturnType<typeof setConversations>;
 
-const UPDATE_PREV_CONVERSATION = "UPDATE_PREV_CONVERSATION";
-export const updatePrevConversation = (
+const UPSERT_PREV_CONVERSATION = "UPSERT_PREV_CONVERSATION";
+export const upsertPrevConversation = (
 	sessionId: string,
 	conversation: PrevConversationsState[string],
 ) => ({
-	type: UPDATE_PREV_CONVERSATION as "UPDATE_PREV_CONVERSATION",
+	type: UPSERT_PREV_CONVERSATION as "UPSERT_PREV_CONVERSATION",
 	sessionId,
 	conversation,
 });
-export type UpdatePrevConversation = ReturnType<typeof updatePrevConversation>;
+export type UpsertPrevConversation = ReturnType<typeof upsertPrevConversation>;
 
 export const prevConversations: Reducer<
 	PrevConversationsState,
-	SetConversationsAction | UpdatePrevConversation
+	SetConversationsAction | UpsertPrevConversation
 > = (state = getInitialState(), action) => {
 	switch (action.type) {
 		case "SET_CONVERSATIONS": {
 			return action.conversations;
 		}
 
-		case "UPDATE_PREV_CONVERSATION": {
+		case "UPSERT_PREV_CONVERSATION": {
 			const { sessionId, conversation } = action;
 			return { ...state, [sessionId]: conversation };
 		}
