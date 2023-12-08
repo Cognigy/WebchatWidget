@@ -305,7 +305,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 
     handleChangeTextValue = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         this.setState({
-            text: (e.target as any).value
+            text: e.target.value
         });
     }
 
