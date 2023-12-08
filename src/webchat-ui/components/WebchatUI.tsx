@@ -670,7 +670,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onSetShowHomeScreen,
             showPrevConversationsScreen,
             onSetShowPrevConversationsScreen,
-            onClose
+            onClose,
+            onEmitAnalytics,
         } = this.props;
 
         const { enableRating } = config.settings;
@@ -684,6 +685,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 onSetShowPrevConversationsScreen={onSetShowPrevConversationsScreen}
                 onClose={onClose}
                 config={config}
+                onEmitAnalytics={onEmitAnalytics}
             />
         );
 
