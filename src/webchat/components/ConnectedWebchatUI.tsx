@@ -22,9 +22,11 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         connection: { connected, reconnectionLimit },
         ui: { open, typing, inputMode, fullscreenMessage, scrollToPosition, lastScrolledPosition, showHomeScreen, showPrevConversationsScreen },
         config,
+        options: { sessionId },
         rating: { showRatingDialog, hasGivenRating, customRatingTitle, customRatingCommentText },
         input: { sttActive },
     }) => ({
+        currentSession: sessionId,
         messages,
         unseenMessages,
         prevConversations,
@@ -60,7 +62,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onSetHasGivenRating: () => dispatch(setHasGivenRating()),
         onSetShowHomeScreen: (show: boolean) => dispatch(setShowHomeScreen(show)),
         onSetShowPrevConversationsScreen: (show: boolean) => dispatch(setShowPrevConversationsScreen(show)),
-        onSwitchSession: (sessionId: string, conversation: PrevConversationsState[string]) => dispatch(switchSession(sessionId, conversation)),
+        onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => dispatch(switchSession(sessionId, conversation)),
     }),
     ({ fullscreenMessage, ...state }, dispatch, props) => {
         if (!fullscreenMessage) {

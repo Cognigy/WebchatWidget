@@ -14,7 +14,7 @@ import { SocketClient } from '@cognigy/socket-client';
 import { getEndpointBaseUrl, getEndpointUrlToken } from '../helper/endpoint';
 import { IWebchatSettings } from '../../common/interfaces/webchat-config';
 import { Options } from '@cognigy/socket-client/lib/interfaces/options';
-import { updateSettings } from '../store/config/config-reducer';
+import { setInitialSessionId, updateSettings } from '../store/config/config-reducer';
 import { createOutputHandler } from '../store/messages/message-handler';
 import { isDisabledDueToMaintenance } from '../helper/maintenance';
 import { isDisabledOutOfBusinessHours } from '../helper/businessHours';
@@ -64,7 +64,10 @@ export class Webchat extends React.PureComponent<WebchatProps> {
     }
 
     componentWillMount() {
-        this.store.dispatch(loadConfig());    
+        this.store.dispatch(loadConfig());
+        if (this.props.options?.sessionId) {
+            this.store.dispatch(setInitialSessionId(this.props.options.sessionId));
+        }
     }
 
     componentWillUnmount() {

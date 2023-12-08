@@ -100,7 +100,7 @@ interface IConversationsListItemProps {
 	config: IWebchatConfig;
 	conversation: PrevConversationsState[string];
 	sessionId: string;
-	switchSession: (sessionId: string, conversation: PrevConversationsState[string]) => void;
+	switchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => void;
 }
 
 export const ConversationsListItem = (props: IConversationsListItemProps) => {

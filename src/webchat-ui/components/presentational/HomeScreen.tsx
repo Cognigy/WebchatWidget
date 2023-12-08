@@ -9,6 +9,7 @@ import Branding from "../branding/Branding";
 import Notifications from "./Notifications";
 import { ActionButtons } from "@cognigy/chat-components";
 import { WebchatUIProps } from "../WebchatUI";
+import { PrevConversationsState } from "../../../webchat/store/previous-conversations/previous-conversations-reducer";
 
 const HomeScreenRoot = styled.div(({ theme }) => ({
 	display: "flex",
@@ -108,21 +109,34 @@ const PrevConversationsButton = styled(SecondaryButton)(() => ({
 
 interface IHomeScreenProps {
 	config: IWebchatConfig;
+	currentSession: string;
 	showHomeScreen: boolean;
 	onSetShowHomeScreen: (show: boolean) => void;
 	onSetShowPrevConversationsScreen: (show: boolean) => void;
+	onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => void;
 	onClose: () => void;
 	onEmitAnalytics: WebchatUIProps["onEmitAnalytics"];
 }
 
 export const HomeScreen: React.FC<IHomeScreenProps> = props => {
-	const { config, onSetShowHomeScreen, onSetShowPrevConversationsScreen, onClose, onEmitAnalytics } = props;
+	const { config, currentSession, onSetShowHomeScreen, onSetShowPrevConversationsScreen, onSwitchSession, onClose, onEmitAnalytics } = props;
 
 	const disableBranding = config?.settings?.disableBranding;
 
 	const handleShowPrevConversations = () => {
 		onSetShowHomeScreen(false);
 		onSetShowPrevConversationsScreen(true);
+	};
+
+	const handleStartConversation = () => {
+		const { initialSessionId } = config;
+		if (!initialSessionId) {
+			onSwitchSession();
+		}
+		if (initialSessionId && initialSessionId !== currentSession) {
+			onSwitchSession(initialSessionId);
+		}
+		onSetShowHomeScreen(false);
 	};
 
 	return (
@@ -183,7 +197,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 			</HomeScreenContent>
 			<HomeScreenActions className="webchat-homescreen-actions">
 				<StartButton
-					onClick={() => onSetShowHomeScreen(false)}
+					onClick={handleStartConversation}
 					className="webchat-homescreen-send-button"
 					aria-label="Start chat"
 				>

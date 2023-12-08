@@ -48,6 +48,7 @@ import Chip from './presentational/Chip';
 import { isConversationEnded } from './presentational/previous-conversations/helpers';
 
 export interface WebchatUIProps {
+    currentSession: string;
     messages: IMessage[];
     unseenMessages: IMessage[];
     fullscreenMessage?: IMessage;
@@ -97,7 +98,7 @@ export interface WebchatUIProps {
     showPrevConversationsScreen: boolean;
     onSetShowPrevConversationsScreen: (show: boolean) => void;
     prevConversations: PrevConversationsState;
-    onSwitchSession: (sessionId: string, conversation: PrevConversationsState[string]) => void;
+    onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => void;
 }
 
 interface WebchatUIState {
@@ -663,6 +664,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
     renderRegularLayout() {
         const {
+            currentSession,
             config,
             hasGivenRating,
             onShowRatingDialog,
@@ -688,6 +690,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             <HomeScreen
                 showHomeScreen={showHomeScreen}
                 onSetShowHomeScreen={onSetShowHomeScreen}
+                onSwitchSession={onSwitchSession}
+                currentSession={currentSession}
                 onSetShowPrevConversationsScreen={onSetShowPrevConversationsScreen}
                 onClose={onClose}
                 config={config}

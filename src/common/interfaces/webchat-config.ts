@@ -105,6 +105,7 @@ _endpointTokenUrl: string;
 export interface IWebchatConfig {
   active: boolean;
   URLToken: string;
+  initialSessionId: string;
   settings: IWebchatSettings;
   isConfigLoaded: boolean;
   isTimedOut: boolean;
