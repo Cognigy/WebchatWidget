@@ -65,9 +65,8 @@ export const createPrevConversationsMiddleware =
 				break;
 			}
 			case "SYNC_STORAGE_TO_STATE": {
-				// The idea of this action is to get in sync the redux state with storage updates.
-				// It makes sense only if the storage get updated from a another tab and we need to update redux conversations history
-				// NOTE: This action get triggered only if the listener to 'storage' event in Webchat.tsx is active
+				// The idea of this action is to get in sync the redux state with storage updates evetually done from other tabs.
+				// This action is only triggered when a window other than itself makes the changes. (see listener on Webchat.tsx)
 				const { disableLocalStorage, useSessionStorage } = store.getState().config.settings;
 				const browserStorage = getStorage({ useSessionStorage, disableLocalStorage });
 				if (!browserStorage || !isValidJSON(action.value)) break;
@@ -79,7 +78,7 @@ export const createPrevConversationsMiddleware =
 				const conversation = JSON.parse(action.value);
 				const currentKey = getOptionsKey(store.getState().options, store.getState().config);
 				if (currentKey === action.key) {
-					// in this case the storage modified a key active in other tabs
+					// in this case the modified storage key is the same of the current one
 					store.dispatch(setPrevState(conversation));
 				}
 				const currentToken = store.getState().config?.URLToken;

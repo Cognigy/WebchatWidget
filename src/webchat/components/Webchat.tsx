@@ -57,12 +57,11 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         this._handleOutput = createOutputHandler(this.store);
     }
 
-    // This listener is used to sync local storage changes
-    // from other tabs to redux of inactive tabs
-    // Check also previous-conversations-middleware.ts
-    // componentDidMount() {
-    //     window.addEventListener('storage', this.syncStorage);
-    // }
+    // This listener is used to sync local storage changes to redux
+    // Storage event is only triggered when a window other than itself makes the changes.
+    componentDidMount() {
+        window.addEventListener('storage', this.syncStorage);
+    }
 
     componentWillMount() {
         this.store.dispatch(loadConfig());    
@@ -70,7 +69,7 @@ export class Webchat extends React.PureComponent<WebchatProps> {
 
     componentWillUnmount() {
         this.client.disconnect();
-        // window.removeEventListener('storage', this.syncStorage);
+        window.removeEventListener('storage', this.syncStorage);
     }
 
     syncStorage = (e: StorageEvent) => {

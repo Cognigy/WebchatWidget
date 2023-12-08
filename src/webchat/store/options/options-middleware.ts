@@ -5,13 +5,13 @@ import { SetOptionsAction } from "./options-reducer";
 import { resetState } from "../reducer";
 import { getAllConversations, getStorage } from "../../helper/storage";
 import { setConversations } from "../previous-conversations/previous-conversations-reducer";
-// import { SendMessageAction, TriggerEngagementMessageAction } from "../messages/message-middleware";
-// import { ReceiveMessageAction } from "../messages/message-handler";
-// import { RatingAction } from "../rating/rating-reducer";
+import { SendMessageAction, TriggerEngagementMessageAction } from "../messages/message-middleware";
+import { ReceiveMessageAction } from "../messages/message-handler";
+import { RatingAction } from "../rating/rating-reducer";
 
-// type Actions = SetOptionsAction | SendMessageAction | ReceiveMessageAction | TriggerEngagementMessageAction | RatingAction;
+type Actions = SetOptionsAction | SendMessageAction | ReceiveMessageAction | TriggerEngagementMessageAction | RatingAction;
 
-export const optionsMiddleware: Middleware<object, StoreState> = store => next => (action: SetOptionsAction) => {
+export const optionsMiddleware: Middleware<object, StoreState> = store => next => (action: Actions) => {
 	const key = getOptionsKey(store.getState().options, store.getState().config);
 	const { active } = store.getState().config; // Actual settings are loaded
 	const { disableLocalStorage, disablePersistentHistory, useSessionStorage } =
@@ -47,42 +47,25 @@ export const optionsMiddleware: Middleware<object, StoreState> = store => next =
 			break;
 		}
 
-		// TODO: we need to activate this in order to make working the storage event listener (see Webchat.tsx)
-		// The old logic on the bottom of this file is going to infinite loops,
-		// we fix this by restricting the logic only to specific actions.
-		// case "SEND_MESSAGE":
-		// case "RECEIVE_MESSAGE":
-		// case "TRIGGER_ENGAGEMENT_MESSAGE":
-		// case "SHOW_RATING_DIALOG":
-		// case "SET_HAS_GIVEN_RATING":
-		// case "SET_CUSTOM_RATING_TITLE":
-		// case "SET_CUSTOM_RATING_COMMENT_TEXT": {
-		// 	if (browserStorage && active && userId && !disablePersistentHistory) {
-		// 		const { messages, rating } = store.getState();
-		// 		browserStorage.setItem(
-		// 			key,
-		// 			JSON.stringify({
-		// 				messages,
-		// 				rating,
-		// 			}),
-		// 		);
-		// 	}
-		// 	break;
-		// }
-	}
-
-	// TODO: this block get excuted on every action dispached.
-	// It would be anyway better to restrict only to the actions regarting
-	// messages and rating reducer (see example above)
-	if (browserStorage && active && userId && !disablePersistentHistory) {
-		const { messages, rating } = store.getState();
-		browserStorage.setItem(
-			key,
-			JSON.stringify({
-				messages,
-				rating,
-			}),
-		);
+		case "SEND_MESSAGE":
+		case "RECEIVE_MESSAGE":
+		case "TRIGGER_ENGAGEMENT_MESSAGE":
+		case "SHOW_RATING_DIALOG":
+		case "SET_HAS_GIVEN_RATING":
+		case "SET_CUSTOM_RATING_TITLE":
+		case "SET_CUSTOM_RATING_COMMENT_TEXT": {
+			if (browserStorage && active && userId && !disablePersistentHistory) {
+				const { messages, rating } = store.getState();
+				browserStorage.setItem(
+					key,
+					JSON.stringify({
+						messages,
+						rating,
+					}),
+				);
+			}
+			break;
+		}
 	}
 
 	return next(action);
