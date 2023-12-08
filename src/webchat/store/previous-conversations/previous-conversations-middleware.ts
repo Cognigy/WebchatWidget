@@ -1,10 +1,7 @@
 import { Middleware } from "redux";
 import { StoreState } from "../store";
 import { getStorage } from "../../helper/storage";
-import {
-	PrevConversationsState,
-	upsertPrevConversation,
-} from "./previous-conversations-reducer";
+import { PrevConversationsState, upsertPrevConversation } from "./previous-conversations-reducer";
 import { SendMessageAction, TriggerEngagementMessageAction } from "../messages/message-middleware";
 import { ReceiveMessageAction } from "../messages/message-handler";
 import { RatingAction } from "../rating/rating-reducer";
@@ -76,7 +73,8 @@ export const createPrevConversationsMiddleware =
 				if (!browserStorage || !isValidJSON(action.value)) break;
 
 				const sessionId: string = JSON.parse(action.key)?.[2] || "";
-				if (!sessionId) break;
+				const URLtoken: string = JSON.parse(action.key)?.[3] || "";
+				if (!sessionId || !URLtoken) break;
 
 				const conversation = JSON.parse(action.value);
 				const currentKey = getOptionsKey(store.getState().options, store.getState().config);
@@ -84,7 +82,11 @@ export const createPrevConversationsMiddleware =
 					// in this case the storage modified a key active in other tabs
 					store.dispatch(setPrevState(conversation));
 				}
-				store.dispatch(upsertPrevConversation(sessionId, conversation));
+				const currentToken = store.getState().config?.URLToken;
+				if (currentToken === URLtoken) {
+					// in this case a new or prev conversation is running on other tab
+					store.dispatch(upsertPrevConversation(sessionId, conversation));
+				}
 				break;
 			}
 		}
