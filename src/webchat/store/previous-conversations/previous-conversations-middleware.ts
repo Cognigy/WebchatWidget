@@ -9,6 +9,7 @@ import { SetPrevStateAction, setPrevState } from "../reducer";
 import { SocketClient } from "@cognigy/socket-client";
 import { isValidJSON } from "../../../webchat-ui/utils/isValidJSON";
 import { getOptionsKey } from "../options/options";
+import { autoInjectHandledReset, triggerAutoInject } from "../autoinject/autoinject-reducer";
 
 const SWITCH_SESSION = "SWITCH_SESSION";
 export const switchSession = (
@@ -55,7 +56,10 @@ export const createPrevConversationsMiddleware =
 						rating: ratingInitialState,
 					};
 
-				client.switchSession(targetSession);
+				client.switchSession(targetSession).then(() => {
+					store.dispatch(autoInjectHandledReset());
+					store.dispatch(triggerAutoInject());
+				});
 				store.dispatch(setPrevState(targetConversation));
 				break;
 			}
