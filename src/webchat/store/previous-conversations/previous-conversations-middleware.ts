@@ -10,6 +10,7 @@ import { SocketClient } from "@cognigy/socket-client";
 import { isValidJSON } from "../../../webchat-ui/utils/isValidJSON";
 import { getOptionsKey } from "../options/options";
 import { autoInjectHandledReset, triggerAutoInject } from "../autoinject/autoinject-reducer";
+import { setConnecting } from "../connection/connection-reducer";
 
 const SWITCH_SESSION = "SWITCH_SESSION";
 export const switchSession = (
@@ -56,11 +57,19 @@ export const createPrevConversationsMiddleware =
 						rating: ratingInitialState,
 					};
 
-				client.switchSession(targetSession).then(() => {
-					store.dispatch(autoInjectHandledReset());
-					store.dispatch(triggerAutoInject());
-				});
 				store.dispatch(setPrevState(targetConversation));
+				store.dispatch(setConnecting(true));
+				client
+					.switchSession(targetSession)
+					.then(() => {
+						store.dispatch(setConnecting(false));
+						store.dispatch(autoInjectHandledReset());
+						store.dispatch(triggerAutoInject());
+					})
+					.catch(() => {
+						// TODO: should we do something else if switching connection goes wrong?
+						store.dispatch(setConnecting(false));
+					});
 				break;
 			}
 			case "SEND_MESSAGE":
