@@ -43,7 +43,6 @@ import { isDisabledDueToConnectivity, isHiddenDueToConnectivity, isInformingDueT
 import { HomeScreen } from './presentational/HomeScreen';
 import { PrevConversationsScreen } from './presentational/previous-conversations/OverviewScreen';
 import { PrevConversationsState } from '../../webchat/store/previous-conversations/previous-conversations-reducer';
-import Notifications from './presentational/Notifications';
 
 export interface WebchatUIProps {
     messages: IMessage[];
@@ -490,10 +489,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             webchatToggleProps,
             connected,
             reconnectionLimit,
-            hasGivenRating,
             showRatingDialog,
             onShowRatingDialog,
-            onSetHasGivenRating,
             onSetShowHomeScreen,
             customRatingTitle,
             customRatingCommentText,
@@ -659,8 +656,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     renderRegularLayout() {
         const {
             config,
-            hasGivenRating,
-            onShowRatingDialog,
             messages,
             scrollToPosition,
             lastScrolledPosition,
@@ -672,10 +667,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onSetShowPrevConversationsScreen,
             onClose
         } = this.props;
-
-        const { enableRating } = config.settings;
-
-        const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
         
         if (showHomeScreen) return (
             <HomeScreen
@@ -692,19 +683,21 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onSetShowHomeScreen(true);
         }
 
+        const handleOnGoBack = () => {
+            onSetShowPrevConversationsScreen(false);
+            onSetShowHomeScreen(true);
+        }
+
         return (
             <>
                 <Header
                     onClose={handleOnClose}
-                    connected={config.active}
+                    onGoBack={handleOnGoBack}
                     logoUrl={config.settings.headerLogoUrl}
-                    title={config.settings.title || "Cognigy Webchat"}
-                    ratingButtonRef={this.ratingButtonInHeaderRef}
+                    title={config.settings.title || "Cognigy"}
                     closeButtonRef={this.closeButtonInHeaderRef}
                     chatToggleButtonRef={this.chatToggleButtonRef}
-                    showRatingButton={showRatingButton}
-                    showCloseButton={true}
-                    onRatingButtonClick={() => onShowRatingDialog(true)}
+                    mainContentRef={this.history?.current?.rootRef}
                 />
                 {showPrevConversationsScreen ? (
                     <PrevConversationsScreen
@@ -714,9 +707,6 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     />
                 ) : (
                     <>
-                {/* When we have common Header implemented, 
-                we should move notifications container there  */}
-                <Notifications />
                         <HistoryWrapper
                             disableBranding={config.settings.disableBranding}
                             scrollToPosition={scrollToPosition}

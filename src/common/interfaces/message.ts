@@ -2,8 +2,8 @@ export interface IBaseMessage {
 	avatarName?: string;
 	avatarUrl?: string;
 	data?: any;
-	isLast: boolean;
-	prevMessage: IMessage;
+	isLast?: boolean;
+	prevMessage?: IMessage;
 	source: string;
 	text?: string;
 	timestamp?: number;
