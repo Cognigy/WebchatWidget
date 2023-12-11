@@ -678,7 +678,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             showPrevConversations,
             onSetShowPrevConversations,
             onSwitchSession,
-			onClose,
+            onClose,
             onEmitAnalytics,
         } = this.props;
 
@@ -723,10 +723,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         conversations={this.props.prevConversations}
                         onSetShowPrevConversations={onSetShowPrevConversations}
                         onSwitchSession={onSwitchSession}
-						config={config}
-					/>
-				) : (
-					<>
+                        config={config}
+                    />
+                ) : (
+                    <>
                 {/* When we have common Header implemented, 
                 we should move notifications container there  */}
                 <Notifications />
@@ -853,10 +853,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         webchatTheme={this.state.theme}
                     />
                 ))}
-                {isExpired && <Chip withWrapper label="Conversation ended" />}
-                {enableTypingIndicator && (
-                    <TypingIndicator active={isTyping} />
+                {isExpired && (
+                    <Chip
+                        withWrapper
+                        label="Conversation ended"
+                        className="webchat-chip-conversation-ended"
+                    />
                 )}
+                {enableTypingIndicator && <TypingIndicator active={isTyping} />}
             </>
         )
     }
