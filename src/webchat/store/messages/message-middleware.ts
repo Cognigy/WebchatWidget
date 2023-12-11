@@ -38,7 +38,7 @@ const TRIGGER_ENGAGEMENT_MESSAGE = 'TRIGGER_ENGAGEMENT_MESSAGE';
 export const triggerEngagementMessage = () => ({
     type: TRIGGER_ENGAGEMENT_MESSAGE as 'TRIGGER_ENGAGEMENT_MESSAGE'
 });
-type TriggerEngagementMessageAction = ReturnType<typeof triggerEngagementMessage>;
+export type TriggerEngagementMessageAction = ReturnType<typeof triggerEngagementMessage>;
 
 export const getAvatarForMessage = (message: IMessage, state: StoreState) => {
     switch (message.source) {

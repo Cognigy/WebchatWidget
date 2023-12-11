@@ -2,10 +2,12 @@ import { WebchatUI, WebchatUIProps } from "../../webchat-ui";
 import { connect } from "react-redux";
 import { StoreState } from "../store/store";
 import { sendMessage, triggerEngagementMessage } from '../store/messages/message-middleware';
-import { setInputMode, setFullscreenMessage, setOpen, toggleOpen, setScrollToPosition, setLastScrolledPosition, setShowHomeScreen, setShowPrevConversationsScreen } from '../store/ui/ui-reducer';
+import { setInputMode, setFullscreenMessage, setOpen, toggleOpen, setScrollToPosition, setLastScrolledPosition, setShowHomeScreen, setShowPrevConversations } from '../store/ui/ui-reducer';
 import { getPluginsForMessage, isFullscreenPlugin } from '../../plugins/helper';
 import { connect as doConnect } from "../store/connection/connection-middleware";
 import { setHasGivenRating, showRatingDialog } from "../store/rating/rating-reducer";
+import { switchSession } from "../store/previous-conversations/previous-conversations-middleware";
+import { PrevConversationsState } from "../store/previous-conversations/previous-conversations-reducer";
 
 type FromState = Pick<WebchatUIProps, 'messages' | 'unseenMessages' | 'prevConversations' | 'open' | 'typingIndicator' | 'inputMode' | 'fullscreenMessage' | 'config' | 'connected' | 'reconnectionLimit' | 'scrollToPosition'| 'lastScrolledPosition'>;
 type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' | 'onSetScrollToPosition' | 'onSetLastScrolledPosition' | 'onTriggerEngagementMessage'>;
@@ -18,11 +20,13 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         unseenMessages,
         prevConversations,
         connection: { connected, reconnectionLimit },
-        ui: { open, typing, inputMode, fullscreenMessage, scrollToPosition, lastScrolledPosition, showHomeScreen, showPrevConversationsScreen },
+        ui: { open, typing, inputMode, fullscreenMessage, scrollToPosition, lastScrolledPosition, showHomeScreen, showPrevConversations },
         config,
+        options: { sessionId },
         rating: { showRatingDialog, hasGivenRating, customRatingTitle, customRatingCommentText },
         input: { sttActive },
     }) => ({
+        currentSession: sessionId,
         messages,
         unseenMessages,
         prevConversations,
@@ -41,7 +45,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         customRatingCommentText,
         showHomeScreen,
         sttActive,
-        showPrevConversationsScreen,
+        showPrevConversations,
     }),
     dispatch => ({
         onSendMessage: (text, data, options) => dispatch(sendMessage({ text, data }, options)),
@@ -57,7 +61,8 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onShowRatingDialog: (show: boolean) => dispatch(showRatingDialog(show)),
         onSetHasGivenRating: () => dispatch(setHasGivenRating()),
         onSetShowHomeScreen: (show: boolean) => dispatch(setShowHomeScreen(show)),
-        onSetShowPrevConversationsScreen: (show: boolean) => dispatch(setShowPrevConversationsScreen(show)),
+        onSetShowPrevConversations: (show: boolean) => dispatch(setShowPrevConversations(show)),
+        onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => dispatch(switchSession(sessionId, conversation)),
     }),
     ({ fullscreenMessage, ...state }, dispatch, props) => {
         if (!fullscreenMessage) {

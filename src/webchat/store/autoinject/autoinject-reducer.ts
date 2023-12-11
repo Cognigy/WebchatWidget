@@ -2,7 +2,6 @@ import { Reducer } from "redux";
 import { SetConfigAction } from '../config/config-reducer';
 import { SetConnectedAction } from '../connection/connection-reducer';
 import { SetOptionsAction } from "../options/options-reducer";
-import { ResetStateAction } from "../reducer";
 import { SetOpenAction } from '../ui/ui-reducer';
 
 const getInitialState = () => ({
@@ -13,7 +12,7 @@ const getInitialState = () => ({
     isAutoInjectHandled: false
 });
 
-export interface IAutoInjectState extends ReturnType<typeof getInitialState> { }
+export type TAutoInjectState = ReturnType<typeof getInitialState>;
 
 const TRIGGER_AUTO_INJECT = 'TRIGGER_AUTO_INJECT';
 export const triggerAutoInject = () => ({
@@ -27,14 +26,27 @@ export const autoInjectHandled = () => ({
 });
 export type TAutoInjectTriggeredAction = ReturnType<typeof autoInjectHandled>;
 
-export type TAutoInjectAction = SetConnectedAction | SetOpenAction | SetOptionsAction | SetConfigAction | TTriggerAutoInjectAction | TAutoInjectTriggeredAction;
+const AUTO_INJECT_HANDLED_RESET = 'AUTO_INJECT_HANDLED_RESET';
+export const autoInjectHandledReset = () => ({
+    type: AUTO_INJECT_HANDLED_RESET as 'AUTO_INJECT_HANDLED_RESET',
+});
+export type TAutoInjectResetAction = ReturnType<typeof autoInjectHandledReset>;
+
+export type TAutoInjectAction =
+    | SetConnectedAction
+    | SetOpenAction
+    | SetOptionsAction
+    | SetConfigAction
+    | TTriggerAutoInjectAction
+    | TAutoInjectTriggeredAction
+    | TAutoInjectResetAction;
 
 /**
  * This reducer collects and manages information about
  * - whether the auto-inject message is ready to be sent
  * - whether the auto-inject message has been sent already
  */
-export const autoInject: Reducer<IAutoInjectState, TAutoInjectAction> = (state = getInitialState(), action) => {
+export const autoInject: Reducer<TAutoInjectState, TAutoInjectAction> = (state = getInitialState(), action) => {
     switch (action.type) {
         case 'SET_CONNECTED': {
             if (action.connected && !state.isConnectedOnce) {
@@ -85,6 +97,17 @@ export const autoInject: Reducer<IAutoInjectState, TAutoInjectAction> = (state =
                 return {
                     ...state,
                     isAutoInjectHandled: true
+                }
+            }
+
+            break;
+        }
+            
+        case 'AUTO_INJECT_HANDLED_RESET': {
+            if (state.isAutoInjectHandled) {
+                return {
+                    ...state,
+                    isAutoInjectHandled: false
                 }
             }
 

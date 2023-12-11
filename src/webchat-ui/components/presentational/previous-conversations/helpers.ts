@@ -72,11 +72,10 @@ export const getParticipants = (messages: IMessage[], config: IWebchatConfig) =>
 	const hasLiveAgent = messages.some(message => message?.source === "agent");
 
 	// TODO: get the correct names, if any, from the endpoint
-
 	if (hasBot) partecipants.push(config?.settings?.title || "Bot");
-    if (hasLiveAgent) partecipants.push("Agent");
-    
-    if (!hasBot && !hasLiveAgent) return "You";
+	if (hasLiveAgent) partecipants.push("Agent");
+
+	if (!hasBot && !hasLiveAgent) return "You";
 
 	return partecipants.join(", ");
 };
@@ -103,4 +102,16 @@ export const sortConversationsByFreshness = (conversations: PrevConversationsSta
 			{},
 		);
 	return sortedConversations;
+};
+
+export const isConversationEnded = (messages: IMessage[]) => {
+	if (!Array.isArray(messages) || messages.length === 0) {
+		return false;
+	}
+	// TODO: get expiration time from the endpoint (pending from coming v3)
+	const EXPIRATION_DAYS_LIMIT = 30;
+	const lastMessageTimestamp = messages[messages.length - 1]?.timestamp || Date.now();
+	const daysDifference = moment().diff(lastMessageTimestamp, "days");
+	if (daysDifference >= EXPIRATION_DAYS_LIMIT) return true;
+	return false;
 };
