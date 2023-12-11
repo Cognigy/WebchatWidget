@@ -112,20 +112,20 @@ interface IHomeScreenProps {
 	currentSession: string;
 	showHomeScreen: boolean;
 	onSetShowHomeScreen: (show: boolean) => void;
-	onSetShowPrevConversationsScreen: (show: boolean) => void;
+	onSetShowPrevConversations: (show: boolean) => void;
 	onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => void;
 	onClose: () => void;
 	onEmitAnalytics: WebchatUIProps["onEmitAnalytics"];
 }
 
 export const HomeScreen: React.FC<IHomeScreenProps> = props => {
-	const { config, currentSession, onSetShowHomeScreen, onSetShowPrevConversationsScreen, onSwitchSession, onClose, onEmitAnalytics } = props;
+	const { config, currentSession, onSetShowHomeScreen, onSetShowPrevConversations, onSwitchSession, onClose, onEmitAnalytics } = props;
 
 	const disableBranding = config?.settings?.disableBranding;
 
 	const handleShowPrevConversations = () => {
 		onSetShowHomeScreen(false);
-		onSetShowPrevConversationsScreen(true);
+		onSetShowPrevConversations(true);
 	};
 
 	const handleStartConversation = () => {

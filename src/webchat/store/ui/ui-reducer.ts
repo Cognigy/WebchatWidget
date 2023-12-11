@@ -15,7 +15,7 @@ export interface UIState {
     scrollToPosition: number;
     lastScrolledPosition: number | null;
     showHomeScreen: boolean;
-    showPrevConversationsScreen: boolean;
+    showPrevConversations: boolean;
 }
 
 export const SET_OPEN = 'SET_OPEN';
@@ -52,12 +52,12 @@ export const setShowHomeScreen = (showHomeScreen: boolean) => ({
 });
 export type SetShowHomeScreenAction = ReturnType<typeof setShowHomeScreen>;
 
-export const SET_SHOW_PREV_CONVERSATIONS_SCREEN = 'SET_SHOW_PREV_CONVERSATIONS_SCREEN';
-export const setShowPrevConversationsScreen = (showPrevConversationsScreen: boolean) => ({
-	type: SET_SHOW_PREV_CONVERSATIONS_SCREEN as 'SET_SHOW_PREV_CONVERSATIONS_SCREEN',
-	showPrevConversationsScreen
+export const SET_SHOW_PREV_CONVERSATIONS = 'SET_SHOW_PREV_CONVERSATIONS';
+export const setShowPrevConversations = (showPrevConversations: boolean) => ({
+	type: SET_SHOW_PREV_CONVERSATIONS as 'SET_SHOW_PREV_CONVERSATIONS',
+	showPrevConversations
 });
-export type SetShowPrevConversationsScreenAction = ReturnType<typeof setShowPrevConversationsScreen>;
+export type SetShowPrevConversationsAction = ReturnType<typeof setShowPrevConversations>;
 
 const SET_TYPING = 'SET_TYPING';
 export const setTyping = (typing: TTyping) => ({
@@ -121,7 +121,7 @@ const getInitialState = (): UIState => ({
     scrollToPosition: 0,
 	lastScrolledPosition: null,
     showHomeScreen: true,
-    showPrevConversationsScreen: false,
+    showPrevConversations: false,
 });
 
 type UIAction = SetOpenAction
@@ -135,7 +135,7 @@ type UIAction = SetOpenAction
     | SetScrollToPosition
 	| SetLastScrolledPosition
     | SetShowHomeScreenAction
-    | SetShowPrevConversationsScreenAction;
+    | SetShowPrevConversationsAction;
 
 
 export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action) => {
@@ -175,10 +175,10 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
 			}
         }
             
-        case SET_SHOW_PREV_CONVERSATIONS_SCREEN: {
+        case SET_SHOW_PREV_CONVERSATIONS: {
 			return {
 				...state,
-				showPrevConversationsScreen: action.showPrevConversationsScreen
+				showPrevConversations: action.showPrevConversations
 			}
 		}
 

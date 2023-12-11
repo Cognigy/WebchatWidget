@@ -41,7 +41,7 @@ import { isDisabledDueToMaintenance, isHiddenDueToMaintenance, isInformingDueToM
 import FABDisabled from './presentational/FABDisabled';
 import { isDisabledDueToConnectivity, isHiddenDueToConnectivity, isInformingDueToConnectivity } from '../../webchat/helper/connectivity';
 import { HomeScreen } from './presentational/HomeScreen';
-import { PrevConversationsScreen } from './presentational/previous-conversations/OverviewScreen';
+import { PrevConversationsList } from './presentational/previous-conversations/ConversationsList';
 import { PrevConversationsState } from '../../webchat/store/previous-conversations/previous-conversations-reducer';
 import Notifications from './presentational/Notifications';
 import Chip from './presentational/Chip';
@@ -95,8 +95,8 @@ export interface WebchatUIProps {
 
     sttActive: boolean;
 
-    showPrevConversationsScreen: boolean;
-    onSetShowPrevConversationsScreen: (show: boolean) => void;
+    showPrevConversations: boolean;
+    onSetShowPrevConversations: (show: boolean) => void;
     prevConversations: PrevConversationsState;
     onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => void;
 }
@@ -675,8 +675,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onSetLastScrolledPosition,
             showHomeScreen,
             onSetShowHomeScreen,
-            showPrevConversationsScreen,
-            onSetShowPrevConversationsScreen,
+            showPrevConversations,
+            onSetShowPrevConversations,
             onSwitchSession,
 			onClose,
             onEmitAnalytics,
@@ -692,7 +692,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 onSetShowHomeScreen={onSetShowHomeScreen}
                 onSwitchSession={onSwitchSession}
                 currentSession={currentSession}
-                onSetShowPrevConversationsScreen={onSetShowPrevConversationsScreen}
+                onSetShowPrevConversations={onSetShowPrevConversations}
                 onClose={onClose}
                 config={config}
                 onEmitAnalytics={onEmitAnalytics}
@@ -700,7 +700,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         );
 
         const handleOnClose = () => {
-            onSetShowPrevConversationsScreen(false);
+            onSetShowPrevConversations(false);
             onSetShowHomeScreen(true);
         }
 
@@ -718,10 +718,10 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     showCloseButton={true}
                     onRatingButtonClick={() => onShowRatingDialog(true)}
                 />
-                {showPrevConversationsScreen ? (
-                    <PrevConversationsScreen
+                {showPrevConversations ? (
+                    <PrevConversationsList
                         conversations={this.props.prevConversations}
-                        onSetShowPrevConversationsScreen={onSetShowPrevConversationsScreen}
+                        onSetShowPrevConversations={onSetShowPrevConversations}
                         onSwitchSession={onSwitchSession}
 						config={config}
 					/>

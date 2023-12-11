@@ -7,7 +7,7 @@ import { PrevConversationsState } from "../../../../webchat/store/previous-conve
 import Branding from "../../branding/Branding";
 import { sortConversationsByFreshness } from "./helpers";
 
-const ScreenRoot = styled.div(({ theme }) => ({
+const ConversationsListRoot = styled.div(({ theme }) => ({
 	height: "100%",
 	width: "100%",
 	fontSize: 16,
@@ -21,7 +21,7 @@ const ScreenRoot = styled.div(({ theme }) => ({
 	},
 }));
 
-const ScreenContent = styled.div(({ theme }) => ({
+const ConversationsList = styled.div(({ theme }) => ({
 	rowGap: "8px",
 	display: "flex",
 	flexDirection: "column",
@@ -35,7 +35,7 @@ const ScreenContent = styled.div(({ theme }) => ({
 	},
 }));
 
-const ScreenActions = styled.div(({ theme }) => ({
+const ConversationsListActions = styled.div(({ theme }) => ({
 	alignSelf: "flex-end",
 	display: "flex",
 	flexDirection: "column",
@@ -52,15 +52,15 @@ const StartButton = styled(PrimaryButton)(() => ({
 	flexGrow: 1,
 }));
 
-interface IPrevConversationsScreenProps {
+interface IPrevConversationsListProps {
 	config: IWebchatConfig;
 	conversations: PrevConversationsState;
-	onSetShowPrevConversationsScreen: (show: boolean) => void;
+	onSetShowPrevConversations: (show: boolean) => void;
 	onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => void;
 }
 
-export const PrevConversationsScreen = (props: IPrevConversationsScreenProps) => {
-	const { conversations, config, onSetShowPrevConversationsScreen, onSwitchSession } = props;
+export const PrevConversationsList = (props: IPrevConversationsListProps) => {
+	const { conversations, config, onSetShowPrevConversations, onSwitchSession } = props;
 
 	const disableBranding = config?.settings?.disableBranding;
 
@@ -73,30 +73,34 @@ export const PrevConversationsScreen = (props: IPrevConversationsScreenProps) =>
 	const handleStartButtonClick = () => {
 		// we initialize a new session
 		onSwitchSession();
-		onSetShowPrevConversationsScreen(false);
+		onSetShowPrevConversations(false);
 	};
 
-	const switchSession = useCallback((sessionId: string, conversation: PrevConversationsState[string]) => {
-		onSwitchSession(sessionId, conversation);
-		onSetShowPrevConversationsScreen(false);
-	}, []);
+	const switchSession = useCallback(
+		(sessionId?: string, conversation?: PrevConversationsState[string]) => {
+			onSwitchSession(sessionId, conversation);
+			onSetShowPrevConversations(false);
+		},
+		[],
+	);
 
 	return (
-		<ScreenRoot className="webchat-prev-conversations-root">
-			<ScreenContent className="webchat-prev-conversations-content">
-				{sessions.length > 0 && sessions.map((session, i) => {
-					return (
-						<ConversationsListItem
-							key={i}
-							sessionId={session}
-							switchSession={switchSession}
-							conversation={sortedConversations[session]}
-							config={config}
-						/>
-					);
-				})}
-			</ScreenContent>
-			<ScreenActions className="webchat-prev-conversations-actions">
+		<ConversationsListRoot className="webchat-prev-conversations-root">
+			<ConversationsList className="webchat-prev-conversations-content">
+				{sessions.length > 0 &&
+					sessions.map((session, i) => {
+						return (
+							<ConversationsListItem
+								key={i}
+								sessionId={session}
+								switchSession={switchSession}
+								conversation={sortedConversations[session]}
+								config={config}
+							/>
+						);
+					})}
+			</ConversationsList>
+			<ConversationsListActions className="webchat-prev-conversations-actions">
 				<StartButton
 					onClick={handleStartButtonClick}
 					className="webchat-prev-conversations-send-button"
@@ -105,7 +109,7 @@ export const PrevConversationsScreen = (props: IPrevConversationsScreenProps) =>
 					Start new conversation
 				</StartButton>
 				{!disableBranding && <Branding />}
-			</ScreenActions>
-		</ScreenRoot>
+			</ConversationsListActions>
+		</ConversationsListRoot>
 	);
 };
