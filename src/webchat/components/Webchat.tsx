@@ -20,7 +20,6 @@ import { isDisabledDueToMaintenance } from '../helper/maintenance';
 import { isDisabledOutOfBusinessHours } from '../helper/businessHours';
 import { isDisabledDueToConnectivity } from '../helper/connectivity';
 import { createNotification } from '../../webchat-ui/components/presentational/Notifications';
-import { syncStorageToState } from '../store/previous-conversations/previous-conversations-middleware';
 
 export interface WebchatProps extends FromProps {
     url: string;
@@ -57,12 +56,6 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         this._handleOutput = createOutputHandler(this.store);
     }
 
-    // This listener is used to sync local storage changes to redux
-    // Storage event is only triggered when a window other than itself makes the changes.
-    componentDidMount() {
-        window.addEventListener('storage', this.syncStorage);
-    }
-
     componentWillMount() {
         this.store.dispatch(loadConfig());
         if (this.props.options?.sessionId) {
@@ -72,13 +65,6 @@ export class Webchat extends React.PureComponent<WebchatProps> {
 
     componentWillUnmount() {
         this.client.disconnect();
-        window.removeEventListener('storage', this.syncStorage);
-    }
-
-    syncStorage = (e: StorageEvent) => {
-        if (e?.key && e?.newValue) {
-            this.store.dispatch(syncStorageToState(e.key, e.newValue));
-        }
     }
 
     registerAnalyticsService(handler: (event: { type: string; payload?: any; }) => void) {

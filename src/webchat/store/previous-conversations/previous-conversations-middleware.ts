@@ -1,14 +1,11 @@
 import { Middleware } from "redux";
 import { StoreState } from "../store";
-import { getStorage } from "../../helper/storage";
 import { PrevConversationsState, upsertPrevConversation } from "./previous-conversations-reducer";
 import { SendMessageAction, TriggerEngagementMessageAction } from "../messages/message-middleware";
 import { ReceiveMessageAction } from "../messages/message-handler";
 import { RatingAction, ratingInitialState } from "../rating/rating-reducer";
 import { SetPrevStateAction, setPrevState } from "../reducer";
 import { SocketClient } from "@cognigy/socket-client";
-import { isValidJSON } from "../../../webchat-ui/utils/isValidJSON";
-import { getOptionsKey } from "../options/options";
 import { autoInjectHandledReset, triggerAutoInject } from "../autoinject/autoinject-reducer";
 import { setConnecting } from "../connection/connection-reducer";
 
@@ -23,18 +20,9 @@ export const switchSession = (
 });
 export type SwitchSessionAction = ReturnType<typeof switchSession>;
 
-const SYNC_STORAGE_TO_STATE = "SYNC_STORAGE_TO_STATE";
-export const syncStorageToState = (key: string, value: string) => ({
-	type: SYNC_STORAGE_TO_STATE as "SYNC_STORAGE_TO_STATE",
-	key,
-	value,
-});
-export type SyncStorageAction = ReturnType<typeof syncStorageToState>;
-
 type Actions =
 	| SwitchSessionAction
 	| SetPrevStateAction
-	| SyncStorageAction
 	| SendMessageAction
 	| ReceiveMessageAction
 	| TriggerEngagementMessageAction
@@ -87,30 +75,6 @@ export const createPrevConversationsMiddleware =
 					rating: store.getState().rating,
 				};
 				store.dispatch(upsertPrevConversation(currentSession, conversation));
-				break;
-			}
-			case "SYNC_STORAGE_TO_STATE": {
-				// The idea of this action is to get in sync the redux state with storage updates evetually done from other tabs.
-				// This action is only triggered when a window other than itself makes the changes. (see listener on Webchat.tsx)
-				const { disableLocalStorage, useSessionStorage } = store.getState().config.settings;
-				const browserStorage = getStorage({ useSessionStorage, disableLocalStorage });
-				if (!browserStorage || !isValidJSON(action.value)) break;
-
-				const sessionId: string = JSON.parse(action.key)?.[2] || "";
-				const URLtoken: string = JSON.parse(action.key)?.[3] || "";
-				if (!sessionId || !URLtoken) break;
-
-				const conversation = JSON.parse(action.value);
-				const currentKey = getOptionsKey(store.getState().options, store.getState().config);
-				if (currentKey === action.key) {
-					// in this case the modified storage key is the same of the current one
-					store.dispatch(setPrevState(conversation));
-				}
-				const currentToken = store.getState().config?.URLToken;
-				if (currentToken === URLtoken) {
-					// in this case a new or prev conversation is running on other tab
-					store.dispatch(upsertPrevConversation(sessionId, conversation));
-				}
 				break;
 			}
 		}
