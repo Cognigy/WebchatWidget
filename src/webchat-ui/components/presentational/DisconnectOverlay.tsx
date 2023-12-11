@@ -26,7 +26,7 @@ const Dialog = styled.div(({ theme }) => ({
     padding: theme.unitSize * 2,
     borderRadius: theme.unitSize,
 
-    backgroundColor: '#fafafa',
+    backgroundColor: theme.backgroundWebchat,
     color: theme.greyContrastColor,
 
     boxShadow: theme.shadow,

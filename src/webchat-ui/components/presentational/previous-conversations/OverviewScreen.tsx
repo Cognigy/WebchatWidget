@@ -13,7 +13,7 @@ const ScreenRoot = styled.div(({ theme }) => ({
 	fontSize: 16,
 	fontWeight: 700,
 	boxSizing: "border-box",
-	backgroundColor: theme.white,
+	backgroundColor: theme.backgroundWebchat,
 	display: "flex",
 	flexDirection: "column",
 	"& *": {

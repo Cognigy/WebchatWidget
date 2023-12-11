@@ -5,7 +5,7 @@ export default styled(ResetCSS)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
 
-    backgroundColor: '#fafafa',
+    backgroundColor: theme.backgroundWebchat,
 
     overflow: 'hidden',
 
