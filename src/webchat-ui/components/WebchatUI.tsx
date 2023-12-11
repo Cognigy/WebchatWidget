@@ -388,7 +388,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
     renderInput = () => {
         const { inputPlugins } = this.state;
         const { messages } = this.props;
-        if(isConversationEnded(messages)) return null;
+        if (isConversationEnded(messages)) return null;
 
         return (
             <Input
