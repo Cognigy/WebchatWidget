@@ -96,10 +96,6 @@ const Header: FC<HeaderProps> = props => {
 		mainContentRef.current.scrollHeight > mainContentRef.current.clientHeight ||
 		!logoUrl;
 
-	console.log(mainContentRef?.current);
-	console.log(mainContentRef?.current?.scrollHeight);
-	console.log(mainContentRef?.current?.clientHeight);
-
 	return (
 		<>
 			<HeaderBar {...rest} className="webchat-header-bar">
