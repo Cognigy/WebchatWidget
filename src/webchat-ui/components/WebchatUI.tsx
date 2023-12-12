@@ -698,6 +698,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         }
         const showInformationMessage = isInforming && informMessage;
 
+        // TODO: implement better navigation history and currentPage string property on redux
         const isSecondaryView = showInformationMessage;
         
         if (showHomeScreen && !isSecondaryView) return (
