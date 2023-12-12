@@ -8,6 +8,7 @@ export type ConfigState = IWebchatConfig;
 
 export const getInitialState = (): ConfigState => ({
   URLToken: "",
+  initialSessionId: "",
   active: false,
   isConfigLoaded: false,
   isTimedOut: false,
@@ -133,9 +134,16 @@ export const updateSettings = (payload: Partial<IWebchatSettings>) => ({
 });
 export type UpdateSettingsAction = ReturnType<typeof updateSettings>;
 
+const SET_INITIAL_SESSION_ID = 'SET_INITIAL_SESSION_ID';
+export const setInitialSessionId = (sessionId: string) => ({
+    type: SET_INITIAL_SESSION_ID as 'SET_INITIAL_SESSION_ID',
+    sessionId
+});
+export type SetInitialSessionAction = ReturnType<typeof setInitialSessionId>;
+
 export const config: Reducer<
   ConfigState,
-  SetConfigAction | UpdateSettingsAction | ApplyWebchatSettingsOverridesAction
+  SetConfigAction | UpdateSettingsAction | ApplyWebchatSettingsOverridesAction | SetInitialSessionAction
 > = (state = getInitialState(), action) => {
   switch (action.type) {
     case "SET_CONFIG": {
@@ -174,6 +182,9 @@ export const config: Reducer<
           }
         },
       };
+    }
+    case "SET_INITIAL_SESSION_ID": {
+      return { ...state, initialSessionId: action.sessionId };
     }
   }
 

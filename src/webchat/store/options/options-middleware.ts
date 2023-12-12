@@ -3,13 +3,13 @@ import { getOptionsKey } from "./options";
 import { StoreState } from "../store";
 import { SetOptionsAction } from "./options-reducer";
 import { resetState } from "../reducer";
-import { getAllConversationsByUserID, getStorage } from "../../helper/storage";
+import { getAllConversations, getStorage } from "../../helper/storage";
 import { setConversations } from "../previous-conversations/previous-conversations-reducer";
 
 type Actions = SetOptionsAction;
 
 export const optionsMiddleware: Middleware<object, StoreState> = store => next => (action: Actions) => {
-	const key = getOptionsKey(store.getState().options);
+	const key = getOptionsKey(store.getState().options, store.getState().config);
 	const { active } = store.getState().config; // Actual settings are loaded
 	const { disableLocalStorage, disablePersistentHistory, useSessionStorage } =
 		store.getState().config.settings;
@@ -20,14 +20,15 @@ export const optionsMiddleware: Middleware<object, StoreState> = store => next =
 		case "SET_OPTIONS": {
 			// TODO decouple this into a separate action or middleware handler
 			if (browserStorage) {
-				const key = getOptionsKey(action.options);
+				const key = getOptionsKey(action.options, store.getState().config);
 				const persistedString = browserStorage.getItem(key);
 
 				if (action.options?.userId) {
-					const prevConversations = getAllConversationsByUserID(
+					const prevConversations = getAllConversations(
 						browserStorage,
 						action.options?.userId,
 						action.options?.sessionId,
+						store.getState().config?.URLToken
 					);
 					store.dispatch(setConversations(prevConversations));
 				}
@@ -40,9 +41,12 @@ export const optionsMiddleware: Middleware<object, StoreState> = store => next =
 					} catch (e) {}
 				}
 			}
+			break;
 		}
 	}
 
+	// TODO: this block get excuted on every action dispached.
+	// It would be anyway better to restrict only to the actions regarding messages and rating
 	if (browserStorage && active && userId && !disablePersistentHistory) {
 		const { messages, rating } = store.getState();
 		browserStorage.setItem(

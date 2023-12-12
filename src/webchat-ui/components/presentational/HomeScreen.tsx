@@ -1,12 +1,15 @@
 import React from "react";
 import styled from "@emotion/styled";
 import CloseIcon from "../../assets/close-16px.svg";
-import { IWebchatConfig } from "../../../common/interfaces/webchat-config";
+import { IWebchatConfig, IWebchatSettings } from "../../../common/interfaces/webchat-config";
 import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
 import IconButton from "./IconButton";
 import Branding from "../branding/Branding";
 import Notifications from "./Notifications";
+import { ActionButtons } from "@cognigy/chat-components";
+import { WebchatUIProps } from "../WebchatUI";
+import { PrevConversationsState } from "../../../webchat/store/previous-conversations/previous-conversations-reducer";
 
 const HomeScreenRoot = styled.div(({ theme }) => ({
 	display: "flex",
@@ -23,17 +26,30 @@ const HomeScreenRoot = styled.div(({ theme }) => ({
 	},
 }));
 
-const HomeScreenContent = styled.div(({ theme }) => ({
-	background: theme.backgroundHome,
-	flexGrow: 1,
-	display: "flex",
-	flexDirection: "column",
-	alignItems: "flex-start",
-	justifyContent: "flex-start",
-	height: "100%",
-	width: "100%",
-	padding: "20px 20px 35px 20px",
-}));
+interface IHomeScreenContentProps {
+	settings: IWebchatSettings;
+}
+
+const HomeScreenContent = styled.div<IHomeScreenContentProps>(({ theme, settings }) => {
+	let backgroundImage = "none";
+	if (theme.backgroundHome) backgroundImage = theme.backgroundHome;
+	if (settings?.backgroundImageUrl) backgroundImage = `url("${settings.backgroundImageUrl}")`;
+	if (theme.backgroundHome && settings?.backgroundImageUrl) backgroundImage = `url("${settings.backgroundImageUrl}"), ${theme.backgroundHome}`;
+
+	return {
+		backgroundImage,
+		backgroundSize: "cover",
+		backgroundPosition: "center center",
+		flexGrow: 1,
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "flex-start",
+		justifyContent: "flex-start",
+		height: "100%",
+		width: "100%",
+		padding: "20px 20px 35px 20px",
+	}
+});
 
 const FullWidthContainer = styled.div(() => ({
 	marginInline: -20,
@@ -93,25 +109,39 @@ const PrevConversationsButton = styled(SecondaryButton)(() => ({
 
 interface IHomeScreenProps {
 	config: IWebchatConfig;
+	currentSession: string;
 	showHomeScreen: boolean;
 	onSetShowHomeScreen: (show: boolean) => void;
-	onSetShowPrevConversationsScreen: (show: boolean) => void;
+	onSetShowPrevConversations: (show: boolean) => void;
+	onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => void;
 	onClose: () => void;
+	onEmitAnalytics: WebchatUIProps["onEmitAnalytics"];
 }
 
-export const HomeScreen = (props: IHomeScreenProps) => {
-	const { config, onSetShowHomeScreen, onSetShowPrevConversationsScreen, onClose } = props;
+export const HomeScreen: React.FC<IHomeScreenProps> = props => {
+	const { config, currentSession, onSetShowHomeScreen, onSetShowPrevConversations, onSwitchSession, onClose, onEmitAnalytics } = props;
 
 	const disableBranding = config?.settings?.disableBranding;
 
 	const handleShowPrevConversations = () => {
 		onSetShowHomeScreen(false);
-		onSetShowPrevConversationsScreen(true);
+		onSetShowPrevConversations(true);
+	};
+
+	const handleStartConversation = () => {
+		const { initialSessionId } = config;
+		if (!initialSessionId) {
+			onSwitchSession();
+		}
+		if (initialSessionId && initialSessionId !== currentSession) {
+			onSwitchSession(initialSessionId);
+		}
+		onSetShowHomeScreen(false);
 	};
 
 	return (
 		<HomeScreenRoot className="webchat-homescreen-root">
-			<HomeScreenContent className="webchat-homescreen-content">
+			<HomeScreenContent className="webchat-homescreen-content" settings={config?.settings}>
 				<HomeScreenHeader className="webchat-homescreen-header">
 					<div className="webchat-homescreen-header-title">
 						{config?.settings?.title || "Cognigy Webchat"}
@@ -132,12 +162,42 @@ export const HomeScreen = (props: IHomeScreenProps) => {
 					{config?.settings?.getStartedButtonText || "Welcome to the Cognigy Webchat"}
 				</HomeScreenTitle>
 				<HomeScreenButtons className="webchat-homescreen-buttons">
-					Button Section
+					<ActionButtons
+						size="large"
+						showUrlIcon
+						action={() => { }}
+						buttonClassName="webchat-homescreen-button"
+						containerClassName="webchat-homescreen-button-container"
+						payload={[
+							{
+								title: "Cognigy Homepage",
+								type: "web_url",
+								url: "https://www.cognigy.com/",
+							},
+							{
+								title: "How are you?",
+								type: "postback",
+								payload: "How are you?",
+							},
+							{
+								title: "What is your name?",
+								type: "postback",
+								payload: "What is your name?",
+							},
+							{
+								title: "What is your favorite color?",
+								type: "postback",
+								payload: "What is your favorite color?",
+							},
+						]}
+						config={config}
+						onEmitAnalytics={onEmitAnalytics}
+					/>
 				</HomeScreenButtons>
 			</HomeScreenContent>
 			<HomeScreenActions className="webchat-homescreen-actions">
 				<StartButton
-					onClick={() => onSetShowHomeScreen(false)}
+					onClick={handleStartConversation}
 					className="webchat-homescreen-send-button"
 					aria-label="Start chat"
 				>
