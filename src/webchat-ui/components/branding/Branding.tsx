@@ -1,6 +1,7 @@
-import React, { memo } from 'react';
-import styled from '@emotion/styled';
-import CognigyLogo from '../../assets/cognigy_logo.svg';
+import React, { memo } from "react";
+import styled from "@emotion/styled";
+import CognigyLogo from "../../assets/cognigy_logo.svg";
+import { Typography } from "@cognigy/chat-components";
 
 const Link = styled.a(({ theme }) => ({
 	display: "flex",
@@ -10,11 +11,7 @@ const Link = styled.a(({ theme }) => ({
 
 	color: theme.textDark,
 
-	textDecoration: 'none',
-	fontSize: 10,
-	fontStyle: "normal",
-	fontWeight: 500,
-	lineHeight: "120%",
+	textDecoration: "none",
 
 	"&:focus": {
 		outline: "none",
@@ -22,9 +19,9 @@ const Link = styled.a(({ theme }) => ({
 		"#cognigyBrandingLogo": {
 			"& path, & polygon": {
 				fill: theme.primaryWeakColor,
-			}
-		}
-	}
+			},
+		},
+	},
 }));
 
 const Logo = styled(CognigyLogo)(({ theme }) => ({
@@ -33,14 +30,21 @@ const Logo = styled(CognigyLogo)(({ theme }) => ({
 
 	"& *": {
 		fill: theme.textDark,
-	}
+	},
 }));
 
 const URL = `https://www.cognigy.com/?utm_campaign=CognigyWebchatEmbedded&utm_medium=webchat&utm_term=webchat&utm_content=webchat&utm_source=${window.location.hostname}`;
 
 const Branding = () => (
-	<Link href={URL} target="_blank" aria-label="Powered by Cognigy. Opens in new tab" id="cognigyBrandingLink">
-		Powered by
+	<Link
+		href={URL}
+		target="_blank"
+		aria-label="Powered by Cognigy. Opens in new tab"
+		id="cognigyBrandingLink"
+	>
+		<Typography variant="copy-medium" component="span" fontSize={10} lineHeight="120%">
+			Powered by
+		</Typography>
 		<Logo aria-hidden="true" id="cognigyBrandingLogo" />
 	</Link>
 );
