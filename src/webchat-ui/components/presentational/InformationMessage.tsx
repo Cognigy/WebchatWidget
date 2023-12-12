@@ -33,7 +33,7 @@ export const InformationMessage = (props: IInformationMessageProps) => {
 		<MessageRoot className="webchat-information-message-root">
 			<Message className="webchat-information-message-content">
 				<InfoMessageSVG />
-				<Typography variant="title1-regular">
+				<Typography variant="title1-regular" style={{margin: 0}}>
 					{message}
 				</Typography>
 			</Message>
