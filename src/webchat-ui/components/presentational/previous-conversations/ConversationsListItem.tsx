@@ -6,6 +6,7 @@ import Ellipsis from "../../../assets/ellipsis-4px.svg";
 import { getAvatars, getLastMessagePreview, getParticipants, getRelativeTime } from "./helpers";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
 import { PrevConversationsState } from "../../../../webchat/store/previous-conversations/previous-conversations-reducer";
+import { Typography } from "@cognigy/chat-components";
 
 const ListItem = styled.div(({ theme }) => ({
 	display: "flex",
@@ -33,24 +34,16 @@ const Center = styled.div(() => ({
 	height: "100%",
 }));
 
-const CenterTitle = styled.div(({ theme }) => ({
+const CenterTitle = styled(Typography)(({ theme }) => ({
 	color: theme.black10,
-	fontSize: "14px",
-	fontStyle: "normal",
-	fontWeight: 400,
-	lineHeight: "140%",
 	overflow: "hidden",
 	textOverflow: "ellipsis",
 	whiteSpace: "nowrap",
 	maxWidth: "290px",
 }));
 
-const CenterMeta = styled.div(({ theme }) => ({
+const CenterMeta = styled(Typography)(({ theme }) => ({
 	color: theme.black10,
-	fontSize: "12px",
-	fontStyle: "normal",
-	fontWeight: 400,
-	lineHeight: "140%",
 	display: "flex",
 	gap: "8px",
 	alignItems: "center",
@@ -124,8 +117,10 @@ export const ConversationsListItem = (props: IConversationsListItemProps) => {
 				)}
 			</Left>
 			<Center>
-				<CenterTitle>{getLastMessagePreview(conversation.messages)}</CenterTitle>
-				<CenterMeta>
+				<CenterTitle variant="body-regular" component="div">
+					{getLastMessagePreview(conversation.messages)}
+				</CenterTitle>
+				<CenterMeta variant="title2-regular" component="div">
 					<MetaNames>{getParticipants(conversation.messages, config)}</MetaNames>
 					<Ellipsis />
 					<MetaTime>{getRelativeTime(conversation.messages)}</MetaTime>
