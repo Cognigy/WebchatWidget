@@ -20,7 +20,7 @@ export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
 	config: IWebchatConfig;
 	hideAvatar?: boolean;
 	isFullscreen?: boolean;
-	isLast?: boolean;
+	hasReply?: boolean;
 	message: IMessage;
 	onDismissFullscreen?: () => void;
 	onEmitAnalytics: (name: string, payload?: any) => void;
@@ -44,7 +44,7 @@ const MessagePluginRenderer = ({
 	config,
 	hideAvatar,
 	isFullscreen,
-	isLast,
+	hasReply,
 	message,
 	onDismissFullscreen,
 	onEmitAnalytics,
@@ -141,7 +141,7 @@ const MessagePluginRenderer = ({
 			<Message
 				action={onSendMessage}
 				config={config}
-				isLast={isLast}
+				hasReply={hasReply}
 				message={message}
 				onEmitAnalytics={onEmitAnalytics}
 				prevMessage={prevMessage}

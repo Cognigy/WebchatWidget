@@ -804,10 +804,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
 
         return (
             <>
-                {messages.map((message, index) => (
-                    <MessagePluginRenderer
+                {messages.map((message, index) => {
+
+                    // Lookahead if there is a user reply
+                    const hasReply = messages.slice(index + 1).some(message => message.source === 'user');
+
+                    return <MessagePluginRenderer
                         config={config}
-                        isLast={index === messages.length - 1}
+                        hasReply={hasReply}
                         key={index}
                         message={message}
                         onDismissFullscreen={() => { }}
@@ -819,7 +823,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                         setScrollToPosition={onSetScrollToPosition}
                         webchatTheme={this.state.theme}
                     />
-                ))}
+                })}
                 {isExpired && (
                     <Chip
                         withWrapper
