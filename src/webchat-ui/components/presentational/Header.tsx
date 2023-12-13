@@ -102,7 +102,7 @@ const Header: FC<HeaderProps> = props => {
 				{onGoBack && (
 					<HeaderIconButton
 						data-header-close-button
-						onClick={handleCloseClick}
+						onClick={onGoBack}
 						className="webchat-header-back-button"
 						aria-label="Go Back"
 						ref={closeButtonRef}
