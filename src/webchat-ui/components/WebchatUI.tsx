@@ -57,6 +57,7 @@ import { PrevConversationsList } from "./presentational/previous-conversations/C
 import { PrevConversationsState } from "../../webchat/store/previous-conversations/previous-conversations-reducer";
 import Chip from "./presentational/Chip";
 import { isConversationEnded } from "./presentational/previous-conversations/helpers";
+import { InformationMessage } from "./presentational/InformationMessage";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -629,8 +630,8 @@ export class WebchatUI extends React.PureComponent<
 											id="webchatWindow"
 											ref={this.webchatWindowRef}
 										>
-											{!fullscreenMessage && !isInforming
-												? this.renderRegularLayout()
+											{!fullscreenMessage
+												? this.renderRegularLayout(isInforming)
 												: this.renderFullscreenMessageLayout()}
 											{showRatingDialog && (
 												<RatingDialog
@@ -722,7 +723,7 @@ export class WebchatUI extends React.PureComponent<
 		);
 	}
 
-	renderRegularLayout() {
+	renderRegularLayout(isInforming: boolean) {
 		const {
 			currentSession,
 			config,
@@ -740,7 +741,21 @@ export class WebchatUI extends React.PureComponent<
 			onEmitAnalytics,
 		} = this.props;
 
-		if (showHomeScreen)
+		let informMessage = "";
+        if (config.settings.maintenance.enabled && config.settings.maintenance.mode === "inform") {
+            informMessage = config.settings.maintenance.text || "This Webchat is disabled due to maintenance";
+        } else if (config.settings.connectivity.enabled && config.settings.connectivity.mode === "inform") {
+            informMessage = config.settings.connectivity.text || "This Webchat is disabled due to connectivity issues";
+        } else if (config.settings.businessHours.enabled && config.settings.businessHours.mode === "inform") {
+            informMessage = config.settings.businessHours.text || "This Webchat is disabled out of business hours";
+		}
+		
+		const showInformationMessage = isInforming && informMessage;
+
+        // TODO: implement better navigation history and currentPage string property on redux
+        const isSecondaryView = showInformationMessage;
+
+		if (showHomeScreen && !isSecondaryView)
 			return (
 				<HomeScreen
 					showHomeScreen={showHomeScreen}
@@ -755,7 +770,12 @@ export class WebchatUI extends React.PureComponent<
 			);
 
 		const handleOnClose = () => {
-			onClose?.();
+			if (showInformationMessage) {
+                onClose?.();
+            } else {
+                onSetShowPrevConversations(false);
+                onSetShowHomeScreen(true);
+            }
 		};
 
 		// TODO implement proper navigation solution
@@ -768,14 +788,16 @@ export class WebchatUI extends React.PureComponent<
 			<>
 				<Header
 					onClose={handleOnClose}
-					onGoBack={handleOnGoBack}
+					onGoBack={showInformationMessage ? handleOnGoBack : undefined}
 					logoUrl={config.settings.headerLogoUrl}
 					title={config.settings.title || "Cognigy"}
 					closeButtonRef={this.closeButtonInHeaderRef}
 					chatToggleButtonRef={this.chatToggleButtonRef}
 					mainContentRef={this.history?.current?.rootRef}
 				/>
-				{showPrevConversations ? (
+				{showInformationMessage ? (
+                    <InformationMessage message={informMessage} />
+                ) : showPrevConversations ? (
 					<PrevConversationsList
 						conversations={this.props.prevConversations}
 						onSetShowPrevConversations={onSetShowPrevConversations}
@@ -812,69 +834,6 @@ export class WebchatUI extends React.PureComponent<
 
 		const { messagePlugins } = this.state;
 
-		let message = fullscreenMessage as IMessage;
-
-		if (config.settings.maintenance.enabled && config.settings.maintenance.mode === "inform") {
-			message = {
-				text:
-					config.settings.maintenance.text ||
-					"This Webchat is disabled due to maintenance",
-				data: {
-					_plugin: {
-						type: "full-screen-notification",
-						text: config.settings.maintenance.text,
-						data: {
-							title: config.settings.maintenance.title || "",
-							disableHtmlContentSanitization:
-								config.settings.disableHtmlContentSanitization,
-						},
-					},
-				},
-				source: "bot",
-				traceId: "",
-			};
-		} else if (
-			config.settings.connectivity.enabled &&
-			config.settings.connectivity.mode === "inform"
-		) {
-			message = {
-				text:
-					config.settings.connectivity.text ||
-					"This Webchat is disabled due to connectivity issues",
-				data: {
-					_plugin: {
-						type: "full-screen-notification",
-						text: config.settings.connectivity.text,
-						data: {
-							title: config.settings.connectivity.title || "",
-						},
-					},
-				},
-				source: "bot",
-				traceId: "",
-			};
-		} else if (
-			config.settings.businessHours.enabled &&
-			config.settings.businessHours.mode === "inform"
-		) {
-			message = {
-				text:
-					config.settings.businessHours.text ||
-					"This Webchat is disabled out of business hours",
-				data: {
-					_plugin: {
-						type: "full-screen-notification",
-						text: config.settings.businessHours.text,
-						data: {
-							title: config.settings.businessHours.title || "",
-						},
-					},
-				},
-				source: "bot",
-				traceId: "",
-			};
-		}
-
 		return (
 			<FullScreenMessage
 				onSendMessage={this.sendMessage}
@@ -882,7 +841,7 @@ export class WebchatUI extends React.PureComponent<
 				plugins={messagePlugins}
 				onSetFullscreen={() => {}}
 				onDismissFullscreen={onDismissFullscreenMessage}
-				message={message}
+				message={fullscreenMessage as IMessage}
 				webchatTheme={this.state.theme}
 				onEmitAnalytics={onEmitAnalytics}
 			/>
