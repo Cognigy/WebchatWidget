@@ -7,7 +7,7 @@ import SecondaryButton from "./SecondaryButton";
 import IconButton from "./IconButton";
 import Branding from "../branding/Branding";
 import Notifications from "./Notifications";
-import { ActionButtons } from "@cognigy/chat-components";
+import { ActionButtons, Typography } from "@cognigy/chat-components";
 import { WebchatUIProps } from "../WebchatUI";
 import { PrevConversationsState } from "../../../webchat/store/previous-conversations/previous-conversations-reducer";
 
@@ -34,7 +34,8 @@ const HomeScreenContent = styled.div<IHomeScreenContentProps>(({ theme, settings
 	let backgroundImage = "none";
 	if (theme.backgroundHome) backgroundImage = theme.backgroundHome;
 	if (settings?.backgroundImageUrl) backgroundImage = `url("${settings.backgroundImageUrl}")`;
-	if (theme.backgroundHome && settings?.backgroundImageUrl) backgroundImage = `url("${settings.backgroundImageUrl}"), ${theme.backgroundHome}`;
+	if (theme.backgroundHome && settings?.backgroundImageUrl)
+		backgroundImage = `url("${settings.backgroundImageUrl}"), ${theme.backgroundHome}`;
 
 	return {
 		backgroundImage,
@@ -48,7 +49,7 @@ const HomeScreenContent = styled.div<IHomeScreenContentProps>(({ theme, settings
 		height: "100%",
 		width: "100%",
 		padding: "20px 20px 35px 20px",
-	}
+	};
 });
 
 const FullWidthContainer = styled.div(() => ({
@@ -78,8 +79,10 @@ const HomeScreenHeaderIconButton = styled(IconButton)(({ theme }) => ({
 	},
 }));
 
-const HomeScreenTitle = styled.div(({ theme }) => ({
+const HomeScreenTitle = styled(Typography)(({ theme }) => ({
 	color: theme.textLight,
+	fontWeight: 700,
+	margin: 0,
 }));
 
 const HomeScreenButtons = styled.div(() => ({
@@ -119,7 +122,15 @@ interface IHomeScreenProps {
 }
 
 export const HomeScreen: React.FC<IHomeScreenProps> = props => {
-	const { config, currentSession, onSetShowHomeScreen, onSetShowPrevConversations, onSwitchSession, onClose, onEmitAnalytics } = props;
+	const {
+		config,
+		currentSession,
+		onSetShowHomeScreen,
+		onSetShowPrevConversations,
+		onSwitchSession,
+		onClose,
+		onEmitAnalytics,
+	} = props;
 
 	const disableBranding = config?.settings?.disableBranding;
 
@@ -143,9 +154,15 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 		<HomeScreenRoot className="webchat-homescreen-root">
 			<HomeScreenContent className="webchat-homescreen-content" settings={config?.settings}>
 				<HomeScreenHeader className="webchat-homescreen-header">
-					<div className="webchat-homescreen-header-title">
+					<Typography
+						variant="title1-semibold"
+						component="h2"
+						fontWeight={700}
+						margin={0}
+						className="webchat-homescreen-header-title"
+					>
 						{config?.settings?.title || "Cognigy Webchat"}
-					</div>
+					</Typography>
 					<HomeScreenHeaderIconButton
 						onClick={onClose}
 						className="webchat-homescreen-close-button"
@@ -158,14 +175,14 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 				<FullWidthContainer>
 					<Notifications />
 				</FullWidthContainer>
-				<HomeScreenTitle className="webchat-homescreen-title">
+				<HomeScreenTitle variant="title1-semibold" component="h4" className="webchat-homescreen-title">
 					{config?.settings?.getStartedButtonText || "Welcome to the Cognigy Webchat"}
 				</HomeScreenTitle>
 				<HomeScreenButtons className="webchat-homescreen-buttons">
 					<ActionButtons
 						size="large"
 						showUrlIcon
-						action={() => { }}
+						action={() => {}}
 						buttonClassName="webchat-homescreen-button"
 						containerClassName="webchat-homescreen-button-container"
 						payload={[
