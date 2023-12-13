@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import styled from "@emotion/styled";
-import CognigyLogo from "../../assets/cognigy_logo.svg";
 import { Typography } from "@cognigy/chat-components";
 
 const Link = styled.a(({ theme }) => ({
@@ -24,15 +23,6 @@ const Link = styled.a(({ theme }) => ({
 	},
 }));
 
-const Logo = styled(CognigyLogo)(({ theme }) => ({
-	height: 7,
-	marginLeft: 3,
-
-	"& *": {
-		fill: theme.textDark,
-	},
-}));
-
 const URL = `https://www.cognigy.com/?utm_campaign=CognigyWebchatEmbedded&utm_medium=webchat&utm_term=webchat&utm_content=webchat&utm_source=${window.location.hostname}`;
 
 const Branding = () => (
@@ -43,9 +33,8 @@ const Branding = () => (
 		id="cognigyBrandingLink"
 	>
 		<Typography variant="copy-medium" component="span" fontSize={10} lineHeight="120%">
-			Powered by
+			Powered by Cognigy.AI
 		</Typography>
-		<Logo aria-hidden="true" id="cognigyBrandingLogo" />
 	</Link>
 );
 
