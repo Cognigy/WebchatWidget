@@ -742,18 +742,29 @@ export class WebchatUI extends React.PureComponent<
 		} = this.props;
 
 		let informMessage = "";
-        if (config.settings.maintenance.enabled && config.settings.maintenance.mode === "inform") {
-            informMessage = config.settings.maintenance.text || "This Webchat is disabled due to maintenance";
-        } else if (config.settings.connectivity.enabled && config.settings.connectivity.mode === "inform") {
-            informMessage = config.settings.connectivity.text || "This Webchat is disabled due to connectivity issues";
-        } else if (config.settings.businessHours.enabled && config.settings.businessHours.mode === "inform") {
-            informMessage = config.settings.businessHours.text || "This Webchat is disabled out of business hours";
+		if (config.settings.maintenance.enabled && config.settings.maintenance.mode === "inform") {
+			informMessage =
+				config.settings.maintenance.text || "This Webchat is disabled due to maintenance";
+		} else if (
+			config.settings.connectivity.enabled &&
+			config.settings.connectivity.mode === "inform"
+		) {
+			informMessage =
+				config.settings.connectivity.text ||
+				"This Webchat is disabled due to connectivity issues";
+		} else if (
+			config.settings.businessHours.enabled &&
+			config.settings.businessHours.mode === "inform"
+		) {
+			informMessage =
+				config.settings.businessHours.text ||
+				"This Webchat is disabled out of business hours";
 		}
-		
+
 		const showInformationMessage = isInforming && informMessage;
 
-        // TODO: implement better navigation history and currentPage string property on redux
-        const isSecondaryView = showInformationMessage;
+		// TODO: implement better navigation history and currentPage string property on redux
+		const isSecondaryView = showInformationMessage;
 
 		if (showHomeScreen && !isSecondaryView)
 			return (
@@ -771,11 +782,11 @@ export class WebchatUI extends React.PureComponent<
 
 		const handleOnClose = () => {
 			if (showInformationMessage) {
-                onClose?.();
-            } else {
-                onSetShowPrevConversations(false);
-                onSetShowHomeScreen(true);
-            }
+				onClose?.();
+			} else {
+				onSetShowPrevConversations(false);
+				onSetShowHomeScreen(true);
+			}
 		};
 
 		// TODO implement proper navigation solution
@@ -796,8 +807,8 @@ export class WebchatUI extends React.PureComponent<
 					mainContentRef={this.history?.current?.rootRef}
 				/>
 				{showInformationMessage ? (
-                    <InformationMessage message={informMessage} />
-                ) : showPrevConversations ? (
+					<InformationMessage message={informMessage} />
+				) : showPrevConversations ? (
 					<PrevConversationsList
 						conversations={this.props.prevConversations}
 						onSetShowPrevConversations={onSetShowPrevConversations}
