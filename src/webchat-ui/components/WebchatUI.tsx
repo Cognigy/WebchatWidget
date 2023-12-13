@@ -781,12 +781,7 @@ export class WebchatUI extends React.PureComponent<
 			);
 
 		const handleOnClose = () => {
-			if (showInformationMessage) {
-				onClose?.();
-			} else {
-				onSetShowPrevConversations(false);
-				onSetShowHomeScreen(true);
-			}
+			onClose?.();
 		};
 
 		// TODO implement proper navigation solution
@@ -799,7 +794,7 @@ export class WebchatUI extends React.PureComponent<
 			<>
 				<Header
 					onClose={handleOnClose}
-					onGoBack={!showInformationMessage ? handleOnGoBack : undefined}
+					onGoBack={showInformationMessage ? undefined : handleOnGoBack}
 					logoUrl={config.settings.headerLogoUrl}
 					title={config.settings.title || "Cognigy"}
 					closeButtonRef={this.closeButtonInHeaderRef}
