@@ -39,16 +39,16 @@ const HeaderBar = styled.div(({ theme }) => ({
 
 const HeaderIconButton = styled(IconButton)(({ theme }) => ({
 	color: theme.black10,
-	borderRadius: 12,
+	borderRadius: 4,
 	"&:focus": {
-		outline: `1px solid ${theme.primaryColor}`,
+		outline: `2px solid ${theme.primaryColor}`,
 	},
 	"& svg": {
 		fill: theme.black10,
 		width: 16,
 		height: 16,
 	},
-	padding: 0,
+	padding: 2,
 }));
 
 const Logo = styled.img(() => ({
