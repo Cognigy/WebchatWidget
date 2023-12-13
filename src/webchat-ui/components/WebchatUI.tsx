@@ -788,7 +788,7 @@ export class WebchatUI extends React.PureComponent<
 			<>
 				<Header
 					onClose={handleOnClose}
-					onGoBack={showInformationMessage ? handleOnGoBack : undefined}
+					onGoBack={!showInformationMessage ? handleOnGoBack : undefined}
 					logoUrl={config.settings.headerLogoUrl}
 					title={config.settings.title || "Cognigy"}
 					closeButtonRef={this.closeButtonInHeaderRef}
