@@ -46,6 +46,7 @@ import { PrevConversationsState } from '../../webchat/store/previous-conversatio
 import Notifications from './presentational/Notifications';
 import Chip from './presentational/Chip';
 import { isConversationEnded } from './presentational/previous-conversations/helpers';
+import { InformationMessage } from './presentational/InformationMessage';
 
 export interface WebchatUIProps {
     currentSession: string;
@@ -556,6 +557,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                 return this.props.config.settings.connectivity.text || "This chat is disabled due to connectivity issues";
             }
         }
+
         return (
             <>
                 <ThemeProvider theme={theme}>
@@ -582,9 +584,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                             id="webchatWindow"
                                             ref={this.webchatWindowRef}
                                         >
-                                            {!fullscreenMessage && !isInforming
-                                                ? this.renderRegularLayout()
-                                                : this.renderFullscreenMessageLayout()
+                                            {fullscreenMessage
+                                                ? this.renderFullscreenMessageLayout()
+                                                : this.renderRegularLayout(isInforming)
                                             }
                                             {
                                                 showRatingDialog &&
@@ -662,7 +664,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         )
     }
 
-    renderRegularLayout() {
+    renderRegularLayout(isInforming: boolean) {
         const {
             currentSession,
             config,
@@ -685,8 +687,21 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         const { enableRating } = config.settings;
 
         const showRatingButton = enableRating && (enableRating === "always" || (enableRating === "once" && hasGivenRating === false));
+
+        let informMessage = "";
+        if (config.settings.maintenance.enabled && config.settings.maintenance.mode === "inform") {
+            informMessage = config.settings.maintenance.text || "This Webchat is disabled due to maintenance";
+        } else if (config.settings.connectivity.enabled && config.settings.connectivity.mode === "inform") {
+            informMessage = config.settings.connectivity.text || "This Webchat is disabled due to connectivity issues";
+        } else if (config.settings.businessHours.enabled && config.settings.businessHours.mode === "inform") {
+            informMessage = config.settings.businessHours.text || "This Webchat is disabled out of business hours";
+        }
+        const showInformationMessage = isInforming && informMessage;
+
+        // TODO: implement better navigation history and currentPage string property on redux
+        const isSecondaryView = showInformationMessage;
         
-        if (showHomeScreen) return (
+        if (showHomeScreen && !isSecondaryView) return (
             <HomeScreen
                 showHomeScreen={showHomeScreen}
                 onSetShowHomeScreen={onSetShowHomeScreen}
@@ -700,9 +715,13 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
         );
 
         const handleOnClose = () => {
-            onSetShowPrevConversations(false);
-            onSetShowHomeScreen(true);
-        }
+            if (showInformationMessage) {
+                onClose();
+            } else {
+                onSetShowPrevConversations(false);
+                onSetShowHomeScreen(true);
+            }
+        };
 
         return (
             <>
@@ -718,7 +737,9 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     showCloseButton={true}
                     onRatingButtonClick={() => onShowRatingDialog(true)}
                 />
-                {showPrevConversations ? (
+                {showInformationMessage ? (
+                    <InformationMessage message={informMessage} />
+                ) : showPrevConversations ? (
                     <PrevConversationsList
                         conversations={this.props.prevConversations}
                         onSetShowPrevConversations={onSetShowPrevConversations}
@@ -727,9 +748,8 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                     />
                 ) : (
                     <>
-                {/* When we have common Header implemented, 
-                we should move notifications container there  */}
-                <Notifications />
+                        {/* When we have common Header implemented, we should move notifications container there  */}
+                        <Notifications />
                         <HistoryWrapper
                             disableBranding={config.settings.disableBranding}
                             scrollToPosition={scrollToPosition}
@@ -760,66 +780,14 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
             onEmitAnalytics
         } = this.props;
 
-        const { messagePlugins } = this.state;
-
-        let message = fullscreenMessage as IMessage;
-
-        if (config.settings.maintenance.enabled && config.settings.maintenance.mode === "inform") {
-            message = {
-                text: config.settings.maintenance.text || "This Webchat is disabled due to maintenance",
-                data: {
-                    _plugin: {
-                        type: "full-screen-notification",
-                        text: config.settings.maintenance.text,
-                        data: {
-                            title: config.settings.maintenance.title || "",
-                            disableHtmlContentSanitization: config.settings.disableHtmlContentSanitization
-                        }
-                    }
-                },
-                source: "bot",
-                traceId: ""
-            }
-        } else if (config.settings.connectivity.enabled && config.settings.connectivity.mode === "inform") {
-            message = {
-                text: config.settings.connectivity.text || "This Webchat is disabled due to connectivity issues",
-                data: {
-                    _plugin: {
-                        type: "full-screen-notification",
-                        text: config.settings.connectivity.text,
-                        data: {
-                            title: config.settings.connectivity.title || ""
-                        }
-                    }
-                },
-                source: "bot",
-                traceId: ""
-            }
-        } else if (config.settings.businessHours.enabled && config.settings.businessHours.mode === "inform") {
-            message = {
-                text: config.settings.businessHours.text || "This Webchat is disabled out of business hours",
-                data: {
-                    _plugin: {
-                        type: "full-screen-notification",
-                        text: config.settings.businessHours.text,
-                        data: {
-                            title: config.settings.businessHours.title || ""
-                        }
-                    }
-                },
-                source: "bot",
-                traceId: ""
-            }
-        }
-
         return (
             <FullScreenMessage
                 onSendMessage={this.sendMessage}
                 config={config}
-                plugins={messagePlugins}
+                plugins={this.state.messagePlugins}
                 onSetFullscreen={() => { }}
                 onDismissFullscreen={onDismissFullscreenMessage}
-                message={message}
+                message={fullscreenMessage as IMessage}
                 webchatTheme={this.state.theme}
                 onEmitAnalytics={onEmitAnalytics}
             />
