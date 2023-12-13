@@ -1,5 +1,6 @@
 import React, { ComponentProps } from "react";
 import styled from "@emotion/styled";
+import { Typography } from "@cognigy/chat-components";
 
 const ChipWrapper = styled.div(() => ({
 	display: "flex",
@@ -8,11 +9,10 @@ const ChipWrapper = styled.div(() => ({
 	padding: "20px",
 }));
 
-const ChipBase = styled.span(({ theme }) => ({
+const ChipBase = styled(Typography)(({ theme }) => ({
 	padding: "8px 12px",
 	maxWidth: "250px",
-	fontSize: "12px",
-	fontWeight: 600,
+	lineHeight: "normal",
 	borderRadius: "15px",
 	backgroundColor: theme.black80,
 	color: theme.black20,
@@ -32,7 +32,7 @@ const Chip = (props: IChipProps) => {
 
 	return (
 		<ChipWrapper>
-			<ChipBase {...chipProps}>{label}</ChipBase>
+			<ChipBase variant="title2-semibold" component="span" {...chipProps}>{label}</ChipBase>
 		</ChipWrapper>
 	);
 };
