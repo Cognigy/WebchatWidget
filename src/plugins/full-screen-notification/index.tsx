@@ -16,7 +16,7 @@ const FullScreenNotification = props => {
     const Dialog = styled.div(({ theme }) => ({
         paddingLeft: theme.unitSize * 2,
         paddingRight: theme.unitSize * 2,
-        backgroundColor: '#fafafa',
+        backgroundColor: theme.backgroundWebchat,
         color: theme.greyContrastColor,
         textAlign: "center",
         height: data.title ? `calc(100% - ${theme.unitSize * 7}px)`: "100%",

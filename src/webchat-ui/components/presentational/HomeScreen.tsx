@@ -68,12 +68,12 @@ const HomeScreenHeader = styled.div(() => ({
 
 const HomeScreenHeaderIconButton = styled(IconButton)(({ theme }) => ({
 	color: theme.textLight,
-	fill: theme.textLight,
 	"&.active, &:hover": {
 		color: theme.textLight,
 		fill: theme.textLight,
 	},
 	svg: {
+		fill: theme.textLight,
 		width: 16,
 		height: 16,
 	},

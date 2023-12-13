@@ -24,7 +24,7 @@ const Wrapper = styled.div({
 });
 
 const RatingDialogRoot = styled.div(({ theme }) => ({
-    backgroundColor: '#fafafa',
+    backgroundColor: theme.backgroundWebchat,
     color: theme.greyContrastColor,
     borderRadius: theme.unitSize,
     boxShadow: theme.shadow,

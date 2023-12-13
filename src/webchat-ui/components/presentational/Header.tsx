@@ -1,82 +1,157 @@
-import React from 'react';
-import Toolbar from './Toolbar';
-import Logo from './Logo';
-import styled from '@emotion/styled';
-import IconButton from './IconButton';
-import CloseIcon from '../../assets/baseline-close-24px.svg';
-import ThumbsUpDownIcon from '../../assets/thumbs-up-down-24dp.svg';
+import React, { FC } from "react";
+import styled from "@emotion/styled";
+import IconButton from "./IconButton";
+import CloseIcon from "../../assets/close-16px.svg";
+import GoBackIcon from "../../assets/arrow-back-16px.svg";
+import Notifications from "./Notifications";
+import classnames from "classnames";
 
-const HeaderBar = styled(Toolbar)(({ theme }) => ({
-    boxShadow: '0 5px 18px 0 rgba(0, 0, 0, 0.08), 0 5px 32px 0 rgba(0, 0, 0, 0.08), 0 8px 58px 0 rgba(0, 0, 0, 0.08)',
-    zIndex: 2,
-    minHeight: 'auto',
-    height: theme.unitSize * 7,
-    flexBasis: theme.unitSize * 7,
-    flexShrink: 0,
-    fontSize: 16,
-    fontWeight: 700
-}))
+const HeaderBar = styled.div(({ theme }) => ({
+	alignItems: "center",
+	borderBottom: `1px solid ${theme.black80}`,
+	color: theme.black10,
+	display: "flex",
+	flexShrink: 0,
+	fontSize: 18,
+	fontWeight: 600,
+	lineHeight: 1.3,
+	margin: 0,
+	padding: 20,
+	resize: "vertical",
+	textAlign: "center",
+	zIndex: 2,
+	"& .logoNameContainer": {
+		alignItems: "center",
+		display: "flex",
+		flexDirection: "column",
+		height: 79,
+		marginInline: "auto",
+		justifyContent: "space-between",
+	},
+	"& .logoNameContainer-compact": {
+		flexDirection: "row",
+		height: 28,
+	},
+	"& img:not(.compact)": {
+		marginBottom: 10,
+	},
+}));
 
 const HeaderIconButton = styled(IconButton)(({ theme }) => ({
-    color: theme.primaryContrastColor,
-    fill: theme.primaryContrastColor,
-    borderRadius: "50%",
-    // stroke: theme.primaryContrastColor
-    "&:focus, &:hover": {
-        backgroundColor: theme.primaryStrongColor,
-        fill: `${theme.primaryContrastColor} !important`,
-        opacity: 0.85,
-    }
+	color: theme.black10,
+	borderRadius: 4,
+	"&:focus": {
+		outline: `2px solid ${theme.primaryColor}`,
+	},
+	"& svg": {
+		fill: theme.black10,
+		width: 16,
+		height: 16,
+	},
+	padding: 2,
+}));
+
+const Logo = styled.img(() => ({
+	borderRadius: "50%",
+	fontSize: 12,
+	width: 48,
+	height: 48,
+	marginInline: 8,
+	"&.compact": {
+		width: 28,
+		height: 28,
+	},
 }));
 
 interface HeaderProps {
-    title: string;
-    connected: boolean;
-    showRatingButton: boolean;
-    showCloseButton: boolean;
-    onRatingButtonClick?: () => void;
-    logoUrl?: string;
-    onClose?: () => void;
-    closeButtonRef?: React.RefObject<HTMLButtonElement>;
-    ratingButtonRef?: React.RefObject<HTMLButtonElement>;
-    chatToggleButtonRef?: React.RefObject<HTMLButtonElement>;
+	title: string;
+	logoUrl?: string;
+	onClose?: () => void;
+	onGoBack?: () => void;
+	closeButtonRef?: React.RefObject<HTMLButtonElement>;
+	chatToggleButtonRef?: React.RefObject<HTMLButtonElement>;
+	mainContentRef?: React.RefObject<HTMLElement>;
 }
 
-export const Header = ({ logoUrl, connected, title, showRatingButton, showCloseButton, onRatingButtonClick, onClose, closeButtonRef, ratingButtonRef, chatToggleButtonRef, ...props }: HeaderProps) => {
-    // Close webchat window and restore focus
-    const handleCloseClick = () => {
-        onClose && onClose();
-        chatToggleButtonRef?.current?.focus();  // Restore focus to chat toggle button
-    }
+const Header: FC<HeaderProps> = props => {
+	const {
+		logoUrl,
+		title,
+		mainContentRef,
+		onClose,
+		onGoBack,
+		closeButtonRef,
+		chatToggleButtonRef,
+		...rest
+	} = props;
 
-    return (
-        <HeaderBar color='primary' {...props} className="webchat-header-bar">
-            {logoUrl && <Logo src={logoUrl} className="webchat-header-logo" aria-hidden="true" />}
-            <span style={{ flexGrow: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} className="webchat-header-title" role="heading" aria-level={1} id="webchatHeaderTitle">{title}</span>
-            {showRatingButton &&
-                <HeaderIconButton
-                    onClick={onRatingButtonClick}
-                    className="webchat-header-rating-button"
-                    aria-label="Rate your chat"
-                    id="webchatHeaderOpenRatingDialogButton"
-                    ref={ratingButtonRef}
-                >
-                    <ThumbsUpDownIcon />
-                </HeaderIconButton>
-            }
-            {showCloseButton &&
-                <HeaderIconButton
-                    data-header-close-button
-                    onClick={handleCloseClick}
-                    className="webchat-header-close-button"
-                    aria-label="Close Chat"
-                    ref={closeButtonRef}
-                >
-                    <CloseIcon />
-                </HeaderIconButton>
-            }
-        </HeaderBar>
-    );
+	const handleCloseClick = () => {
+		onClose?.();
+		// Restore focus to chat toggle button
+		chatToggleButtonRef?.current?.focus?.();
+	};
+
+	const isCompact =
+		!mainContentRef?.current ||
+		mainContentRef.current.scrollHeight > mainContentRef.current.clientHeight ||
+		!logoUrl;
+
+	return (
+		<>
+			<HeaderBar {...rest} className="webchat-header-bar">
+				{onGoBack && (
+					<HeaderIconButton
+						data-header-close-button
+						onClick={onGoBack}
+						className="webchat-header-back-button"
+						aria-label="Go Back"
+						ref={closeButtonRef}
+					>
+						<GoBackIcon />
+					</HeaderIconButton>
+				)}
+				<div
+					className={classnames(
+						"logoNameContainer",
+						isCompact && "logoNameContainer-compact",
+					)}
+				>
+					{logoUrl && (
+						<Logo
+							src={logoUrl}
+							className={classnames("webchat-header-logo", isCompact && "compact")}
+							alt="Chat logo"
+						/>
+					)}
+					<span
+						style={{
+							whiteSpace: "nowrap",
+							overflow: "hidden",
+							textOverflow: "ellipsis",
+						}}
+						className="webchat-header-title"
+						role="heading"
+						aria-level={1}
+						id="webchatHeaderTitle"
+					>
+						{title}
+					</span>
+				</div>
+				{onClose && (
+					<HeaderIconButton
+						data-header-close-button
+						onClick={handleCloseClick}
+						className="webchat-header-close-button"
+						aria-label="Close Chat"
+						ref={closeButtonRef}
+					>
+						<CloseIcon />
+					</HeaderIconButton>
+				)}
+			</HeaderBar>
+			<Notifications />
+		</>
+	);
 };
 
 export default Header;

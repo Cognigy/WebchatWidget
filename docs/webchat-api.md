@@ -71,6 +71,12 @@ Shows a notification banner when the Webchat is open.
 webchat.showNotification("hello world!");
 ```
 
+### Skipping the Start Screen
+To skip the start screen and start the conversation immidiately, use startConversation method:
+```javascript
+webchat.startConversation();
+```
+
 See it in action:  
 [![Edit Sending Messages via the Webchat API](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/using-the-webchat-api-hnd6r?fontsize=14&hidenavigation=1&theme=dark)
 

@@ -105,7 +105,6 @@ The text that is in the header, you can modify the font as you wish.
 ```CSS
 [data-cognigy-webchat-root] [data-cognigy-webchat].webchat .webchat-header-title {
 
-    text-align: center;
     font-size: 20px;
 }
 ```

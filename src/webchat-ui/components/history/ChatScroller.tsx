@@ -72,7 +72,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
             }
             setScrollToPosition(0);
         } else if (wasScrolledToBottom) {
-            setTimeout(() => { this.handleScrollTo() }, 0);
+            setTimeout(() => { this.handleScrollTo(undefined, true) }, 0);
         }  
     }
 
@@ -85,7 +85,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         setLastScrolledPosition && setLastScrolledPosition(null);
     }
 
-    handleScrollTo = (position?: number) => {
+    handleScrollTo = (position?: number, instant = false) => {
         const root = this.rootRef.current;
 
         // we need the container reference to perform a scroll on it
@@ -97,7 +97,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
         try {
             root.scroll({
                 top: scrollTo,
-                behavior: "smooth",
+                behavior: instant ? "instant" : "smooth",
             });
         } catch (e) {
             root.scrollTop = scrollTo;
