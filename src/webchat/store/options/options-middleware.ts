@@ -5,8 +5,11 @@ import { SetOptionsAction } from "./options-reducer";
 import { resetState } from "../reducer";
 import { getAllConversations, getStorage } from "../../helper/storage";
 import { setConversations } from "../previous-conversations/previous-conversations-reducer";
+import { SendMessageAction, TriggerEngagementMessageAction } from "../messages/message-middleware";
+import { ReceiveMessageAction } from "../messages/message-handler";
+import { RatingAction } from "../rating/rating-reducer";
 
-type Actions = SetOptionsAction;
+type Actions = SetOptionsAction | SendMessageAction | ReceiveMessageAction | TriggerEngagementMessageAction | RatingAction;
 
 export const optionsMiddleware: Middleware<object, StoreState> = store => next => (action: Actions) => {
 	const key = getOptionsKey(store.getState().options, store.getState().config);
@@ -43,19 +46,25 @@ export const optionsMiddleware: Middleware<object, StoreState> = store => next =
 			}
 			break;
 		}
-	}
-
-	// TODO: this block get excuted on every action dispached.
-	// It would be anyway better to restrict only to the actions regarding messages and rating
-	if (browserStorage && active && userId && !disablePersistentHistory) {
-		const { messages, rating } = store.getState();
-		browserStorage.setItem(
-			key,
-			JSON.stringify({
-				messages,
-				rating,
-			}),
-		);
+		case "SEND_MESSAGE":
+		case "RECEIVE_MESSAGE":
+		case "TRIGGER_ENGAGEMENT_MESSAGE":
+		case "SHOW_RATING_DIALOG":
+		case "SET_HAS_GIVEN_RATING":
+		case "SET_CUSTOM_RATING_TITLE":
+		case "SET_CUSTOM_RATING_COMMENT_TEXT": {
+			if (browserStorage && active && userId && !disablePersistentHistory) {
+				const { messages, rating } = store.getState();
+				browserStorage.setItem(
+					key,
+					JSON.stringify({
+						messages,
+						rating,
+					}),
+				);
+			}
+			break;
+		}
 	}
 
 	return next(action);
