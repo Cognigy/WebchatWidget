@@ -755,12 +755,12 @@ export class WebchatUI extends React.PureComponent<
 			);
 
 		const handleOnClose = () => {
-			onSetShowPrevConversations(false);
-			onSetShowHomeScreen(true);
+			onClose?.();
 		};
 
+		// TODO implement proper navigation solution
 		const handleOnGoBack = () => {
-			onSetShowPrevConversationsScreen(false);
+			onSetShowPrevConversations(false);
 			onSetShowHomeScreen(true);
 		};
 
