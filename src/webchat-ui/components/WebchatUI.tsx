@@ -529,6 +529,9 @@ export class WebchatUI extends React.PureComponent<
 			showRatingDialog,
 			onShowRatingDialog,
 			onSetShowHomeScreen,
+			onSetHasGivenRating,
+			onSetShowPrevConversations,
+			onSwitchSession,
 			customRatingTitle,
 			customRatingCommentText,
 			...restProps
