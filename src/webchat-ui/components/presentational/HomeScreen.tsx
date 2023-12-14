@@ -119,6 +119,7 @@ interface IHomeScreenProps {
 	onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => void;
 	onClose: () => void;
 	onEmitAnalytics: WebchatUIProps["onEmitAnalytics"];
+	onSendActionButtonMessage: WebchatUIProps["onSendMessage"];
 }
 
 export const HomeScreen: React.FC<IHomeScreenProps> = props => {
@@ -130,7 +131,32 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 		onSwitchSession,
 		onClose,
 		onEmitAnalytics,
+		onSendActionButtonMessage,
 	} = props;
+
+	// TODO: Load buttons from new endpoint config
+	const buttons = [
+		{
+			title: "Cognigy Homepage",
+			type: "web_url",
+			url: "https://www.cognigy.com/",
+		},
+		{
+			title: "How are you?",
+			type: "postback",
+			payload: "How are you?",
+		},
+		{
+			title: "What is your name?",
+			type: "postback",
+			payload: "What is your name?",
+		},
+		{
+			title: "What is your favorite color?",
+			type: "postback",
+			payload: "What is your favorite color?",
+		},
+	]
 
 	const disableBranding = config?.settings?.disableBranding;
 
@@ -182,32 +208,11 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 					<ActionButtons
 						size="large"
 						showUrlIcon
-						action={() => {}}
 						buttonClassName="webchat-homescreen-button"
 						containerClassName="webchat-homescreen-button-container"
-						payload={[
-							{
-								title: "Cognigy Homepage",
-								type: "web_url",
-								url: "https://www.cognigy.com/",
-							},
-							{
-								title: "How are you?",
-								type: "postback",
-								payload: "How are you?",
-							},
-							{
-								title: "What is your name?",
-								type: "postback",
-								payload: "What is your name?",
-							},
-							{
-								title: "What is your favorite color?",
-								type: "postback",
-								payload: "What is your favorite color?",
-							},
-						]}
+						payload={buttons}
 						config={config}
+						action={onSendActionButtonMessage}
 						onEmitAnalytics={onEmitAnalytics}
 					/>
 				</HomeScreenButtons>

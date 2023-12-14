@@ -57,6 +57,7 @@ import { PrevConversationsList } from "./presentational/previous-conversations/C
 import { PrevConversationsState } from "../../webchat/store/previous-conversations/previous-conversations-reducer";
 import Chip from "./presentational/Chip";
 import { isConversationEnded } from "./presentational/previous-conversations/helpers";
+import { ISendMessageOptions } from '../../webchat/store/messages/message-middleware';
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -738,7 +739,13 @@ export class WebchatUI extends React.PureComponent<
 			onSwitchSession,
 			onClose,
 			onEmitAnalytics,
+			onSendMessage,
 		} = this.props;
+
+		const onSendActionButtonMessage = (text?: string, data?: any, options?: Partial<ISendMessageOptions>) => {
+			onSetShowHomeScreen(false);
+			onSendMessage(text, data, options);
+		};
 
 		if (showHomeScreen)
 			return (
@@ -751,6 +758,7 @@ export class WebchatUI extends React.PureComponent<
 					onClose={onClose}
 					config={config}
 					onEmitAnalytics={onEmitAnalytics}
+					onSendActionButtonMessage={onSendActionButtonMessage}
 				/>
 			);
 
