@@ -1,7 +1,7 @@
 import { Middleware } from "redux";
 import { StoreState } from "../store";
-import { SetOpenAction, SetPageVisibleAction, ToggleOpenAction } from "../ui/ui-reducer";
-import { SendMessageAction } from "../messages/message-middleware";
+import { SetHasAcceptedTermsAction, SetOpenAction, SetPageVisibleAction, ToggleOpenAction, setStoredMessage } from "../ui/ui-reducer";
+import { SendMessageAction, sendMessage } from "../messages/message-middleware";
 import { setOptions } from "../options/options-reducer";
 import { SocketClient } from "@cognigy/socket-client";
 import { setConnecting, setReconnectionLimit } from "./connection-reducer";
@@ -13,8 +13,9 @@ export interface ISendMessageOptions {
 }
 
 const CONNECT = 'CONNECT'
-export const connect = () => ({
-    type: CONNECT as 'CONNECT'
+export const connect = (termsAccepted?: boolean) => ({
+    type: CONNECT as 'CONNECT',
+    termsAccepted
 });
 export type ConnectAction = ReturnType<typeof connect>;
 
@@ -24,10 +25,12 @@ type announceNetworkOnAction = ReturnType<typeof announceNetworkOn>;
 
 
 // forwards messages to the socket
-export const createConnectionMiddleware = (client: SocketClient): Middleware<{}, StoreState> => store => next => (action: SetOpenAction | ToggleOpenAction | ConnectAction | SendMessageAction | SetPageVisibleAction | announceNetworkOnAction) => {
+export const createConnectionMiddleware = (client: SocketClient): Middleware<{}, StoreState> => store => next => (action: SetOpenAction | ToggleOpenAction | ConnectAction | SetHasAcceptedTermsAction | SendMessageAction | SetPageVisibleAction | announceNetworkOnAction) => {
     switch (action.type) {
         case 'CONNECT': {
-            if (!client.connected && !store.getState().connection.connecting) {
+            const { hasAcceptedTerms, storedMessage } = store.getState().ui;
+
+            if (!client.connected && !store.getState().connection.connecting && (hasAcceptedTerms || action.termsAccepted)) {
                 store.dispatch(setConnecting(true));
                 
                 client.connect()
@@ -35,7 +38,12 @@ export const createConnectionMiddleware = (client: SocketClient): Middleware<{},
                     // set options
                     store.dispatch(setConnecting(false));
                     store.dispatch(setReconnectionLimit(false))
-                        store.dispatch(setOptions(client.socketOptions));
+                    store.dispatch(setOptions(client.socketOptions));
+
+                    if (storedMessage) {
+                        store.dispatch(sendMessage({ text: storedMessage.text, data: storedMessage.data }, storedMessage.options));
+                        store.dispatch(setStoredMessage(null));
+                    }
                     }).catch(error => {
                         store.dispatch(setConnecting(false));
                     })
@@ -48,6 +56,14 @@ export const createConnectionMiddleware = (client: SocketClient): Middleware<{},
                 if (!client.connected) {
                     store.dispatch(connect())
                 }
+            }
+
+            break;
+        }
+
+        case 'SET_HAS_ACCEPTED_TERMS': {
+            if (!client.connected) {
+                store.dispatch(connect(true))
             }
 
             break;

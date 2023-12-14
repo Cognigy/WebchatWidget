@@ -9,7 +9,6 @@ import Branding from "../branding/Branding";
 import Notifications from "./Notifications";
 import { ActionButtons, Typography } from "@cognigy/chat-components";
 import { WebchatUIProps } from "../WebchatUI";
-import { PrevConversationsState } from "../../../webchat/store/previous-conversations/previous-conversations-reducer";
 
 const HomeScreenRoot = styled.div(({ theme }) => ({
 	display: "flex",
@@ -112,26 +111,24 @@ const PrevConversationsButton = styled(SecondaryButton)(() => ({
 
 interface IHomeScreenProps {
 	config: IWebchatConfig;
-	currentSession: string;
 	showHomeScreen: boolean;
 	onSetShowHomeScreen: (show: boolean) => void;
 	onSetShowPrevConversations: (show: boolean) => void;
-	onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => void;
 	onClose: () => void;
 	onEmitAnalytics: WebchatUIProps["onEmitAnalytics"];
 	onSendActionButtonMessage: WebchatUIProps["onSendMessage"];
+	onStartConversation: () => void;
 }
 
 export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 	const {
 		config,
-		currentSession,
 		onSetShowHomeScreen,
 		onSetShowPrevConversations,
-		onSwitchSession,
 		onClose,
 		onEmitAnalytics,
 		onSendActionButtonMessage,
+		onStartConversation,
 	} = props;
 
 	// TODO: Load buttons from new endpoint config
@@ -163,17 +160,6 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 	const handleShowPrevConversations = () => {
 		onSetShowHomeScreen(false);
 		onSetShowPrevConversations(true);
-	};
-
-	const handleStartConversation = () => {
-		const { initialSessionId } = config;
-		if (!initialSessionId) {
-			onSwitchSession();
-		}
-		if (initialSessionId && initialSessionId !== currentSession) {
-			onSwitchSession(initialSessionId);
-		}
-		onSetShowHomeScreen(false);
 	};
 
 	return (
@@ -219,7 +205,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 			</HomeScreenContent>
 			<HomeScreenActions className="webchat-homescreen-actions">
 				<StartButton
-					onClick={handleStartConversation}
+					onClick={onStartConversation}
 					className="webchat-homescreen-send-button"
 					aria-label="Start chat"
 				>

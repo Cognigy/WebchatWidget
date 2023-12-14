@@ -27,7 +27,7 @@ export interface IWebchatSettings {
   disableHtmlContentSanitization: boolean;
   disableHtmlInput: boolean;
   disableInputAutocomplete: boolean;
-	disableInputAutofocus: boolean;
+  disableInputAutofocus: boolean;
   disableLocalStorage: boolean;
   disablePersistentHistory: boolean;
   disableRenderURLsAsLinks: boolean;
@@ -41,7 +41,7 @@ export interface IWebchatSettings {
   enableFocusTrap: boolean;
   enableGenericHTMLStyling: boolean;
   enableInjectionWithoutEmptyHistory: boolean;
-	enableInputCollation: boolean;
+  enableInputCollation: boolean;
   enableRating: "always" | "once" | "onRequest";
   enableStrictMessengerSync: boolean;
   enableSTT: boolean;
@@ -74,7 +74,7 @@ export interface IWebchatSettings {
   };
   messageDelay: number;
   /** TODO: this is the botAvatarUrl (rename for major) */
-	messageLogoUrl: string;
+  messageLogoUrl: string;
   ratingCommentText: string;
   ratingMessageHistoryCommentText: string;
   ratingMessageHistoryRatingText: string;
@@ -99,7 +99,9 @@ export interface IWebchatSettings {
     engagement: TSourceColor;
     user: TSourceColor;
   };
-_endpointTokenUrl: string;
+  _endpointTokenUrl: string;
+  privacyMessage: string;
+  privacyUrl: string;
 }
 
 export interface IWebchatConfig {

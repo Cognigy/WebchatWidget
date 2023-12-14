@@ -109,7 +109,11 @@ export const getInitialState = (): ConfigState => ({
       engagement: 'primary',
       user: 'neutral',
     },
-    _endpointTokenUrl: ""
+    _endpointTokenUrl: "",
+    privacyMessage: `Please accept our privacy policy to start your chats
+
+This website uses the messaging software Cognigy, which enables you to have conversations with us. Cognigy needs to save some cookies on your device. Your data is safe though and it will not be used to identify you personally. To learn more, please read our Privacy Policy.`,
+    privacyUrl: "https://www.cognigy.com/",
   },
 });
 
