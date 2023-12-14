@@ -57,11 +57,8 @@ import { PrevConversationsList } from "./presentational/previous-conversations/C
 import { PrevConversationsState } from "../../webchat/store/previous-conversations/previous-conversations-reducer";
 import Chip from "./presentational/Chip";
 import { isConversationEnded } from "./presentational/previous-conversations/helpers";
-<<<<<<< HEAD
 import { ISendMessageOptions } from '../../webchat/store/messages/message-middleware';
-=======
 import { InformationMessage } from "./presentational/InformationMessage";
->>>>>>> v3
 
 export interface WebchatUIProps {
 	currentSession: string;
