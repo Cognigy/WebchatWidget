@@ -59,6 +59,8 @@ import Chip from "./presentational/Chip";
 import { isConversationEnded } from "./presentational/previous-conversations/helpers";
 import { ISendMessageOptions } from '../../webchat/store/messages/message-middleware';
 import { InformationMessage } from "./presentational/InformationMessage";
+import { PrivacyNotice } from "./presentational/PrivacyNotice";
+import { UIState } from "../../webchat/store/ui/ui-reducer";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -112,6 +114,10 @@ export interface WebchatUIProps {
 	onSetShowPrevConversations: (show: boolean) => void;
 	prevConversations: PrevConversationsState;
 	onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => void;
+
+	hasAcceptedTerms: boolean;
+	onAcceptTerms: () => void;
+	onSetStoredMessage: (message: UIState['storedMessage']) => void;
 }
 
 interface WebchatUIState {
@@ -390,11 +396,10 @@ export class WebchatUI extends React.PureComponent<
 			this.titleType = "original";
 		} else {
 			if (this.props.unseenMessages.length > 0) {
-				document.title = `(${this.props.unseenMessages.length}) ${
-					this.props.unseenMessages.length === 1
+				document.title = `(${this.props.unseenMessages.length}) ${this.props.unseenMessages.length === 1
 						? this.props.config.settings.unreadMessageTitleText
 						: this.props.config.settings.unreadMessageTitleTextPlural
-				}`;
+					}`;
 				this.titleType = "unread";
 			}
 		}
@@ -535,6 +540,8 @@ export class WebchatUI extends React.PureComponent<
 			onSwitchSession,
 			customRatingTitle,
 			customRatingCommentText,
+			onAcceptTerms,
+			onSetStoredMessage,
 			...restProps
 		} = props;
 		const { theme, hadConnection, lastUnseenMessageText } = state;
@@ -744,6 +751,9 @@ export class WebchatUI extends React.PureComponent<
 			onClose,
 			onEmitAnalytics,
 			onSendMessage,
+			hasAcceptedTerms,
+			onAcceptTerms,
+			onSetStoredMessage,
 		} = this.props;
 
 		let informMessage = "";
@@ -773,16 +783,37 @@ export class WebchatUI extends React.PureComponent<
 
 		const onSendActionButtonMessage = (text?: string, data?: any, options?: Partial<ISendMessageOptions>) => {
 			onSetShowHomeScreen(false);
-			onSendMessage(text, data, options);
+
+			if (!hasAcceptedTerms) {
+				onSetStoredMessage({
+					text,
+					data,
+					options
+				});
+			} else {
+				onSendMessage(text, data, options);
+			}
 		};
+
+		const handleStartConversation = () => {
+			if (hasAcceptedTerms) {
+				const { initialSessionId } = config;
+				if (!initialSessionId) {
+					onSwitchSession();
+				}
+				if (initialSessionId && initialSessionId !== currentSession) {
+					onSwitchSession(initialSessionId);
+				}
+			}
+			onSetShowHomeScreen(false);
+		}
 
 		if (showHomeScreen && !isSecondaryView)
 			return (
 				<HomeScreen
 					showHomeScreen={showHomeScreen}
 					onSetShowHomeScreen={onSetShowHomeScreen}
-					onSwitchSession={onSwitchSession}
-					currentSession={currentSession}
+					onStartConversation={handleStartConversation}
 					onSetShowPrevConversations={onSetShowPrevConversations}
 					onClose={onClose}
 					config={config}
@@ -801,6 +832,54 @@ export class WebchatUI extends React.PureComponent<
 			onSetShowHomeScreen(true);
 		};
 
+		const handleAcceptTerms = () => {
+			onAcceptTerms();
+		}
+
+		const getRegularLayoutContent = () => {
+			if (showInformationMessage) return (
+				<InformationMessage message={informMessage} />
+			);
+
+			if (!hasAcceptedTerms) return (
+				<PrivacyNotice
+					privacyMessage={config.settings.privacyMessage}
+					privacyUrl={config.settings.privacyUrl}
+					onAcceptTerms={handleAcceptTerms}
+				/>
+			)
+
+			if (showPrevConversations) return (
+				<PrevConversationsList
+					conversations={this.props.prevConversations}
+					onSetShowPrevConversations={onSetShowPrevConversations}
+					onSwitchSession={onSwitchSession}
+					config={config}
+				/>
+			);
+
+			return (
+				<>
+					<HistoryWrapper
+						disableBranding={config.settings.disableBranding}
+						scrollToPosition={scrollToPosition}
+						setScrollToPosition={onSetScrollToPosition}
+						lastScrolledPosition={lastScrolledPosition}
+						setLastScrolledPosition={onSetLastScrolledPosition}
+						ref={this.history as any}
+						className="webchat-chat-history"
+						tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
+					>
+						<h2 className="sr-only" id="webchatChatHistoryHeading">
+							Chat History
+						</h2>
+						{this.renderHistory()}
+					</HistoryWrapper>
+					{this.renderInput()}
+				</>
+			)
+		}
+
 		return (
 			<>
 				<Header
@@ -812,35 +891,7 @@ export class WebchatUI extends React.PureComponent<
 					chatToggleButtonRef={this.chatToggleButtonRef}
 					mainContentRef={this.history?.current?.rootRef}
 				/>
-				{showInformationMessage ? (
-					<InformationMessage message={informMessage} />
-				) : showPrevConversations ? (
-					<PrevConversationsList
-						conversations={this.props.prevConversations}
-						onSetShowPrevConversations={onSetShowPrevConversations}
-						onSwitchSession={onSwitchSession}
-						config={config}
-					/>
-				) : (
-					<>
-						<HistoryWrapper
-							disableBranding={config.settings.disableBranding}
-							scrollToPosition={scrollToPosition}
-							setScrollToPosition={onSetScrollToPosition}
-							lastScrolledPosition={lastScrolledPosition}
-							setLastScrolledPosition={onSetLastScrolledPosition}
-							ref={this.history as any}
-							className="webchat-chat-history"
-							tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
-						>
-							<h2 className="sr-only" id="webchatChatHistoryHeading">
-								Chat History
-							</h2>
-							{this.renderHistory()}
-						</HistoryWrapper>
-						{this.renderInput()}
-					</>
-				)}
+				{getRegularLayoutContent()}
 			</>
 		);
 	}
@@ -856,7 +907,7 @@ export class WebchatUI extends React.PureComponent<
 				onSendMessage={this.sendMessage}
 				config={config}
 				plugins={messagePlugins}
-				onSetFullscreen={() => {}}
+				onSetFullscreen={() => { }}
 				onDismissFullscreen={onDismissFullscreenMessage}
 				message={fullscreenMessage as IMessage}
 				webchatTheme={this.state.theme}
@@ -889,7 +940,7 @@ export class WebchatUI extends React.PureComponent<
 							hasReply={hasReply}
 							key={index}
 							message={message}
-							onDismissFullscreen={() => {}}
+							onDismissFullscreen={() => { }}
 							onEmitAnalytics={onEmitAnalytics}
 							onSendMessage={this.sendMessage}
 							onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}

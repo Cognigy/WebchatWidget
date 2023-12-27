@@ -2,6 +2,7 @@ import { Reducer } from "redux";
 import { IMessage } from "../../../common/interfaces/message";
 import { TTyping } from "../../../common/interfaces/typing";
 import { isPageVisible } from '../../helper/page-visibility';
+import { ISendMessageOptions } from "../messages/message-middleware";
 
 export interface UIState {
     open: boolean;
@@ -16,6 +17,10 @@ export interface UIState {
     lastScrolledPosition: number | null;
     showHomeScreen: boolean;
     showPrevConversations: boolean;
+    hasAcceptedTerms: boolean;
+    storedMessage: {
+        text?: string, data?: any, options?: Partial<ISendMessageOptions>
+    } | null,
 }
 
 export const SET_OPEN = 'SET_OPEN';
@@ -47,15 +52,15 @@ export type SetLastScrolledPosition = ReturnType<typeof setLastScrolledPosition>
 
 export const SET_SHOW_HOME_SCREEN = 'SET_SHOW_HOME_SCREEN';
 export const setShowHomeScreen = (showHomeScreen: boolean) => ({
-	type: SET_SHOW_HOME_SCREEN as 'SET_SHOW_HOME_SCREEN',
-	showHomeScreen
+    type: SET_SHOW_HOME_SCREEN as 'SET_SHOW_HOME_SCREEN',
+    showHomeScreen
 });
 export type SetShowHomeScreenAction = ReturnType<typeof setShowHomeScreen>;
 
 export const SET_SHOW_PREV_CONVERSATIONS = 'SET_SHOW_PREV_CONVERSATIONS';
 export const setShowPrevConversations = (showPrevConversations: boolean) => ({
-	type: SET_SHOW_PREV_CONVERSATIONS as 'SET_SHOW_PREV_CONVERSATIONS',
-	showPrevConversations
+    type: SET_SHOW_PREV_CONVERSATIONS as 'SET_SHOW_PREV_CONVERSATIONS',
+    showPrevConversations
 });
 export type SetShowPrevConversationsAction = ReturnType<typeof setShowPrevConversations>;
 
@@ -108,6 +113,19 @@ export const setPageVisible = (visible: boolean) => ({
 });
 export type SetPageVisibleAction = ReturnType<typeof setPageVisible>;
 
+const SET_HAS_ACCEPTED_TERMS = 'SET_HAS_ACCEPTED_TERMS';
+export const setHasAcceptedTerms = () => ({
+    type: SET_HAS_ACCEPTED_TERMS as 'SET_HAS_ACCEPTED_TERMS',
+});
+export type SetHasAcceptedTermsAction = ReturnType<typeof setHasAcceptedTerms>;
+
+const SET_STORED_MESSAGE = 'SET_STORED_MESSAGE';
+export const setStoredMessage = (message: UIState['storedMessage']) => ({
+    type: SET_STORED_MESSAGE as 'SET_STORED_MESSAGE',
+    message
+});
+export type SetStoredMessageAction = ReturnType<typeof setStoredMessage>;
+
 
 const getInitialState = (): UIState => ({
     open: false,
@@ -119,9 +137,11 @@ const getInitialState = (): UIState => ({
     userAvatarOverrideUrl: undefined,
     isPageVisible: isPageVisible(),
     scrollToPosition: 0,
-	lastScrolledPosition: null,
+    lastScrolledPosition: null,
     showHomeScreen: true,
     showPrevConversations: false,
+    hasAcceptedTerms: false,
+    storedMessage: null,
 });
 
 type UIAction = SetOpenAction
@@ -133,9 +153,11 @@ type UIAction = SetOpenAction
     | SetUserAvatarOverrideUrlAction
     | SetPageVisibleAction
     | SetScrollToPosition
-	| SetLastScrolledPosition
+    | SetLastScrolledPosition
     | SetShowHomeScreenAction
-    | SetShowPrevConversationsAction;
+    | SetShowPrevConversationsAction
+    | SetHasAcceptedTermsAction
+    | SetStoredMessageAction;
 
 
 export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action) => {
@@ -168,19 +190,19 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
             }
         }
 
-		case SET_SHOW_HOME_SCREEN: {
-			return {
-				...state,
-				showHomeScreen: action.showHomeScreen
-			}
+        case SET_SHOW_HOME_SCREEN: {
+            return {
+                ...state,
+                showHomeScreen: action.showHomeScreen
+            }
         }
             
         case SET_SHOW_PREV_CONVERSATIONS: {
-			return {
-				...state,
-				showPrevConversations: action.showPrevConversations
-			}
-		}
+            return {
+                ...state,
+                showPrevConversations: action.showPrevConversations
+            }
+        }
 
         case SET_INPUT_MODE: {
             return {
@@ -221,6 +243,20 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
             return {
                 ...state,
                 isPageVisible: action.visible
+            }
+        }
+
+        case SET_HAS_ACCEPTED_TERMS: {
+            return {
+                ...state,
+                hasAcceptedTerms: true
+            }
+        }
+
+        case SET_STORED_MESSAGE: {
+            return {
+                ...state,
+                storedMessage: action.message
             }
         }
     }
