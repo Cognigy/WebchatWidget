@@ -75,6 +75,7 @@ interface HeaderProps {
 	title: string;
 	logoUrl?: string;
 	showChatOptions?: boolean;
+	isChatOptionsButtonVisible?: boolean;
 	onClose?: () => void;
 	onGoBack?: () => void;
 	onSetShowChatOptions?: (show: boolean) => void;
@@ -96,6 +97,7 @@ const Header: FC<HeaderProps> = props => {
 		menuButtonRef,
 		chatToggleButtonRef,
 		showChatOptions,
+		isChatOptionsButtonVisible,
 		...rest
 	} = props;
 
@@ -165,14 +167,16 @@ const Header: FC<HeaderProps> = props => {
 					
 				</div>
 				<HeaderIconsWrapper>
-					<HeaderIconButton
-						data-header-menu-button
-						onClick={handleMenuClick}
-						aria-label="Menu"
-						ref={menuButtonRef}
-					>
-						<MenuIcon />
-					</HeaderIconButton>
+					{isChatOptionsButtonVisible && (
+						<HeaderIconButton
+							data-header-menu-button
+							onClick={handleMenuClick}
+							aria-label="Menu"
+							ref={menuButtonRef}
+						>
+							<MenuIcon />
+						</HeaderIconButton>
+					)}
 					{onClose && (
 						<HeaderIconButton
 							data-header-close-button

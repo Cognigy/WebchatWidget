@@ -60,6 +60,7 @@ import { isConversationEnded } from "./presentational/previous-conversations/hel
 import { ISendMessageOptions } from '../../webchat/store/messages/message-middleware';
 import { InformationMessage } from "./presentational/InformationMessage";
 import { PrivacyNotice } from "./presentational/PrivacyNotice";
+import { ChatOptions } from "./presentational/chat-options/ChatOptions";
 import { UIState } from "../../webchat/store/ui/ui-reducer";
 
 export interface WebchatUIProps {
@@ -871,7 +872,7 @@ export class WebchatUI extends React.PureComponent<
 
 			if(showChatOptions) return (
 				// TODO: implement chat options screen
-				<div></div>
+				<ChatOptions config={config} />
 			)
 
 			return (
@@ -896,12 +897,15 @@ export class WebchatUI extends React.PureComponent<
 			)
 		}
 
+		const isChatOptionsButtonVisible = !showChatOptions && !showPrevConversations && !showHomeScreen && !showInformationMessage && hasAcceptedTerms;
+
 		return (
 			<>
 				<Header
 					onClose={handleOnClose}
 					onGoBack={showInformationMessage ? undefined : handleOnGoBack}
 					showChatOptions={showChatOptions}
+					isChatOptionsButtonVisible={isChatOptionsButtonVisible}
 					onSetShowChatOptions={onSetShowChatOptions}
 					logoUrl={config.settings.headerLogoUrl}
 					title={config.settings.title || "Cognigy"}
