@@ -17,7 +17,7 @@ export interface UIState {
     lastScrolledPosition: number | null;
     showHomeScreen: boolean;
     showPrevConversations: boolean;
-    showChatOptions: boolean;
+    showChatOptionsScreen: boolean;
     hasAcceptedTerms: boolean;
     storedMessage: {
         text?: string, data?: any, options?: Partial<ISendMessageOptions>
@@ -66,11 +66,11 @@ export const setShowPrevConversations = (showPrevConversations: boolean) => ({
 export type SetShowPrevConversationsAction = ReturnType<typeof setShowPrevConversations>;
 
 export const SET_SHOW_CHAT_OPTIONS = 'SET_SHOW_CHAT_OPTIONS';
-export const setShowChatOptions = (showChatOptions: boolean) => ({
+export const setShowChatOptionsScreen = (showChatOptionsScreen: boolean) => ({
     type: SET_SHOW_CHAT_OPTIONS as 'SET_SHOW_CHAT_OPTIONS',
-    showChatOptions
+    showChatOptionsScreen
 });
-export type SetShowChatOptionsAction = ReturnType<typeof setShowChatOptions>;
+export type SetShowChatOptionsScreenAction = ReturnType<typeof setShowChatOptionsScreen>;
 
 const SET_TYPING = 'SET_TYPING';
 export const setTyping = (typing: TTyping) => ({
@@ -148,7 +148,7 @@ const getInitialState = (): UIState => ({
     lastScrolledPosition: null,
     showHomeScreen: true,
     showPrevConversations: false,
-    showChatOptions: false,
+    showChatOptionsScreen: false,
     hasAcceptedTerms: false,
     storedMessage: null,
 });
@@ -165,7 +165,7 @@ type UIAction = SetOpenAction
     | SetLastScrolledPosition
     | SetShowHomeScreenAction
     | SetShowPrevConversationsAction
-    | SetShowChatOptionsAction
+    | SetShowChatOptionsScreenAction
     | SetHasAcceptedTermsAction
     | SetStoredMessageAction;
 
@@ -217,7 +217,7 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
         case SET_SHOW_CHAT_OPTIONS: {
             return {
                 ...state,
-                showChatOptions: action.showChatOptions
+                showChatOptionsScreen: action.showChatOptionsScreen
             }
         }
 

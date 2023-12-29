@@ -74,11 +74,11 @@ const Logo = styled.img(() => ({
 interface HeaderProps {
 	title: string;
 	logoUrl?: string;
-	showChatOptions?: boolean;
+	showChatOptionsScreen?: boolean;
 	isChatOptionsButtonVisible?: boolean;
 	onClose?: () => void;
 	onGoBack?: () => void;
-	onSetShowChatOptions?: (show: boolean) => void;
+	onSetShowChatOptionsScreen?: (show: boolean) => void;
 	closeButtonRef?: React.RefObject<HTMLButtonElement>;
 	menuButtonRef?: React.RefObject<HTMLButtonElement>;
 	chatToggleButtonRef?: React.RefObject<HTMLButtonElement>;
@@ -92,11 +92,11 @@ const Header: FC<HeaderProps> = props => {
 		mainContentRef,
 		onClose,
 		onGoBack,
-		onSetShowChatOptions,
+		onSetShowChatOptionsScreen,
 		closeButtonRef,
 		menuButtonRef,
 		chatToggleButtonRef,
-		showChatOptions,
+		showChatOptionsScreen,
 		isChatOptionsButtonVisible,
 		...rest
 	} = props;
@@ -108,7 +108,7 @@ const Header: FC<HeaderProps> = props => {
 	};
 
 	const handleMenuClick = () => {
-		onSetShowChatOptions?.(true);
+		onSetShowChatOptionsScreen?.(true);
 	};
 
 	const isCompact =
@@ -136,7 +136,7 @@ const Header: FC<HeaderProps> = props => {
 						isCompact && "logoNameContainer-compact",
 					)}
 				>
-					{showChatOptions ? (
+					{showChatOptionsScreen ? (
 						<Typography variant="h2-semibold">
 							Chat Options
 						</Typography>

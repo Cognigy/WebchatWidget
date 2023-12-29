@@ -116,8 +116,8 @@ export interface WebchatUIProps {
 	prevConversations: PrevConversationsState;
 	onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => void;
 
-	showChatOptions: boolean;
-	onSetShowChatOptions: (show: boolean) => void;
+	showChatOptionsScreen: boolean;
+	onSetShowChatOptionsScreen: (show: boolean) => void;
 
 	hasAcceptedTerms: boolean;
 	onAcceptTerms: () => void;
@@ -753,8 +753,8 @@ export class WebchatUI extends React.PureComponent<
 			onSetShowHomeScreen,
 			showPrevConversations,
 			onSetShowPrevConversations,
-			showChatOptions,
-			onSetShowChatOptions,
+			showChatOptionsScreen,
+			onSetShowChatOptionsScreen,
 			onSwitchSession,
 			onClose,
 			onEmitAnalytics,
@@ -836,11 +836,11 @@ export class WebchatUI extends React.PureComponent<
 
 		// TODO implement proper navigation solution
 		const handleOnGoBack = () => {
-			if(!showChatOptions) {
+			if(!showChatOptionsScreen) {
 				onSetShowPrevConversations(false);
 				onSetShowHomeScreen(true);
 			} else {
-				onSetShowChatOptions(false);
+				onSetShowChatOptionsScreen(false);
 			}
 		};
 
@@ -870,7 +870,7 @@ export class WebchatUI extends React.PureComponent<
 				/>
 			);
 
-			if(showChatOptions) return (
+			if(showChatOptionsScreen) return (
 				// TODO: implement chat options screen
 				<ChatOptions config={config} />
 			)
@@ -897,16 +897,16 @@ export class WebchatUI extends React.PureComponent<
 			)
 		}
 
-		const isChatOptionsButtonVisible = !showChatOptions && !showPrevConversations && !showHomeScreen && !showInformationMessage && hasAcceptedTerms;
+		const isChatOptionsButtonVisible = !showChatOptionsScreen && !showPrevConversations && !showHomeScreen && !showInformationMessage && hasAcceptedTerms;
 
 		return (
 			<>
 				<Header
 					onClose={handleOnClose}
 					onGoBack={showInformationMessage ? undefined : handleOnGoBack}
-					showChatOptions={showChatOptions}
+					showChatOptionsScreen={showChatOptionsScreen}
+					onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
 					isChatOptionsButtonVisible={isChatOptionsButtonVisible}
-					onSetShowChatOptions={onSetShowChatOptions}
 					logoUrl={config.settings.headerLogoUrl}
 					title={config.settings.title || "Cognigy"}
 					closeButtonRef={this.closeButtonInHeaderRef}

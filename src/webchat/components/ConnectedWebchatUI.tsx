@@ -2,7 +2,7 @@ import { WebchatUI, WebchatUIProps } from "../../webchat-ui";
 import { connect } from "react-redux";
 import { StoreState } from "../store/store";
 import { sendMessage, triggerEngagementMessage } from '../store/messages/message-middleware';
-import { setInputMode, setFullscreenMessage, setOpen, toggleOpen, setScrollToPosition, setLastScrolledPosition, setShowHomeScreen, setShowPrevConversations, setShowChatOptions, setHasAcceptedTerms, UIState, setStoredMessage } from '../store/ui/ui-reducer';
+import { setInputMode, setFullscreenMessage, setOpen, toggleOpen, setScrollToPosition, setLastScrolledPosition, setShowHomeScreen, setShowPrevConversations, setShowChatOptionsScreen, setHasAcceptedTerms, UIState, setStoredMessage } from '../store/ui/ui-reducer';
 import { getPluginsForMessage, isFullscreenPlugin } from '../../plugins/helper';
 import { connect as doConnect } from "../store/connection/connection-middleware";
 import { setHasGivenRating, showRatingDialog } from "../store/rating/rating-reducer";
@@ -20,7 +20,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         unseenMessages,
         prevConversations,
         connection: { connected, reconnectionLimit },
-        ui: { open, typing, inputMode, fullscreenMessage, scrollToPosition, lastScrolledPosition, showHomeScreen, showPrevConversations, showChatOptions, hasAcceptedTerms },
+        ui: { open, typing, inputMode, fullscreenMessage, scrollToPosition, lastScrolledPosition, showHomeScreen, showPrevConversations, showChatOptionsScreen, hasAcceptedTerms },
         config,
         options: { sessionId },
         rating: { showRatingDialog, hasGivenRating, customRatingTitle, customRatingCommentText },
@@ -46,7 +46,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         showHomeScreen,
         sttActive,
         showPrevConversations,
-        showChatOptions,
+        showChatOptionsScreen,
         hasAcceptedTerms,
     }),
     dispatch => ({
@@ -64,7 +64,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onSetHasGivenRating: () => dispatch(setHasGivenRating()),
         onSetShowHomeScreen: (show: boolean) => dispatch(setShowHomeScreen(show)),
         onSetShowPrevConversations: (show: boolean) => dispatch(setShowPrevConversations(show)),
-        onSetShowChatOptions: (show: boolean) => dispatch(setShowChatOptions(show)),
+        onSetShowChatOptionsScreen: (show: boolean) => dispatch(setShowChatOptionsScreen(show)),
         onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => dispatch(switchSession(sessionId, conversation)),
         onAcceptTerms: () => dispatch(setHasAcceptedTerms()),
         onSetStoredMessage: (message: UIState['storedMessage']) => dispatch(setStoredMessage(message)),
