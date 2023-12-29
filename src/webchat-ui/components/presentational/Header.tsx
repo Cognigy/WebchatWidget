@@ -6,6 +6,7 @@ import GoBackIcon from "../../assets/arrow-back-16px.svg";
 import MenuIcon from "../../assets/menu-16px.svg";
 import Notifications from "./Notifications";
 import classnames from "classnames";
+import { Typography } from "@cognigy/chat-components";
 
 const HeaderBar = styled.div(({ theme }) => ({
 	alignItems: "center",
@@ -73,8 +74,10 @@ const Logo = styled.img(() => ({
 interface HeaderProps {
 	title: string;
 	logoUrl?: string;
+	showChatOptions?: boolean;
 	onClose?: () => void;
 	onGoBack?: () => void;
+	onSetShowChatOptions?: (show: boolean) => void;
 	closeButtonRef?: React.RefObject<HTMLButtonElement>;
 	menuButtonRef?: React.RefObject<HTMLButtonElement>;
 	chatToggleButtonRef?: React.RefObject<HTMLButtonElement>;
@@ -88,9 +91,11 @@ const Header: FC<HeaderProps> = props => {
 		mainContentRef,
 		onClose,
 		onGoBack,
+		onSetShowChatOptions,
 		closeButtonRef,
 		menuButtonRef,
 		chatToggleButtonRef,
+		showChatOptions,
 		...rest
 	} = props;
 
@@ -98,6 +103,10 @@ const Header: FC<HeaderProps> = props => {
 		onClose?.();
 		// Restore focus to chat toggle button
 		chatToggleButtonRef?.current?.focus?.();
+	};
+
+	const handleMenuClick = () => {
+		onSetShowChatOptions?.(true);
 	};
 
 	const isCompact =
@@ -125,31 +134,40 @@ const Header: FC<HeaderProps> = props => {
 						isCompact && "logoNameContainer-compact",
 					)}
 				>
-					{logoUrl && (
-						<Logo
-							src={logoUrl}
-							className={classnames("webchat-header-logo", isCompact && "compact")}
-							alt="Chat logo"
-						/>
+					{showChatOptions ? (
+						<Typography variant="h2-semibold">
+							Chat Options
+						</Typography>
+					) : (
+						<>
+							{logoUrl && (
+								<Logo
+									src={logoUrl}
+									className={classnames("webchat-header-logo", isCompact && "compact")}
+									alt="Chat logo"
+								/>
+							)}
+							<span
+								style={{
+									whiteSpace: "nowrap",
+									overflow: "hidden",
+									textOverflow: "ellipsis",
+								}}
+								className="webchat-header-title"
+								role="heading"
+								aria-level={1}
+								id="webchatHeaderTitle"
+							>
+								{title}
+							</span>
+						</>
 					)}
-					<span
-						style={{
-							whiteSpace: "nowrap",
-							overflow: "hidden",
-							textOverflow: "ellipsis",
-						}}
-						className="webchat-header-title"
-						role="heading"
-						aria-level={1}
-						id="webchatHeaderTitle"
-					>
-						{title}
-					</span>
+					
 				</div>
 				<HeaderIconsWrapper>
 					<HeaderIconButton
 						data-header-menu-button
-						onClick={handleCloseClick}
+						onClick={handleMenuClick}
 						aria-label="Menu"
 						ref={menuButtonRef}
 					>

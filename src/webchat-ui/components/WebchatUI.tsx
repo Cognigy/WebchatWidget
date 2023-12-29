@@ -115,6 +115,9 @@ export interface WebchatUIProps {
 	prevConversations: PrevConversationsState;
 	onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => void;
 
+	showChatOptions: boolean;
+	onSetShowChatOptions: (show: boolean) => void;
+
 	hasAcceptedTerms: boolean;
 	onAcceptTerms: () => void;
 	onSetStoredMessage: (message: UIState['storedMessage']) => void;
@@ -749,6 +752,8 @@ export class WebchatUI extends React.PureComponent<
 			onSetShowHomeScreen,
 			showPrevConversations,
 			onSetShowPrevConversations,
+			showChatOptions,
+			onSetShowChatOptions,
 			onSwitchSession,
 			onClose,
 			onEmitAnalytics,
@@ -830,8 +835,12 @@ export class WebchatUI extends React.PureComponent<
 
 		// TODO implement proper navigation solution
 		const handleOnGoBack = () => {
-			onSetShowPrevConversations(false);
-			onSetShowHomeScreen(true);
+			if(!showChatOptions) {
+				onSetShowPrevConversations(false);
+				onSetShowHomeScreen(true);
+			} else {
+				onSetShowChatOptions(false);
+			}
 		};
 
 		const handleAcceptTerms = () => {
@@ -860,6 +869,11 @@ export class WebchatUI extends React.PureComponent<
 				/>
 			);
 
+			if(showChatOptions) return (
+				// TODO: implement chat options screen
+				<div></div>
+			)
+
 			return (
 				<>
 					<HistoryWrapper
@@ -887,6 +901,8 @@ export class WebchatUI extends React.PureComponent<
 				<Header
 					onClose={handleOnClose}
 					onGoBack={showInformationMessage ? undefined : handleOnGoBack}
+					showChatOptions={showChatOptions}
+					onSetShowChatOptions={onSetShowChatOptions}
 					logoUrl={config.settings.headerLogoUrl}
 					title={config.settings.title || "Cognigy"}
 					closeButtonRef={this.closeButtonInHeaderRef}
