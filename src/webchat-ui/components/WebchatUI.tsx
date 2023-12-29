@@ -173,6 +173,7 @@ export class WebchatUI extends React.PureComponent<
 	history: React.RefObject<ChatScroller>;
 	chatToggleButtonRef: React.RefObject<HTMLButtonElement>;
 	closeButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
+	menuButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
 	ratingButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
 	webchatWindowRef: React.RefObject<HTMLDivElement>;
 
@@ -190,6 +191,7 @@ export class WebchatUI extends React.PureComponent<
 		this.history = React.createRef();
 		this.chatToggleButtonRef = React.createRef();
 		this.closeButtonInHeaderRef = React.createRef();
+		this.menuButtonInHeaderRef = React.createRef();
 		this.ratingButtonInHeaderRef = React.createRef();
 		this.webchatWindowRef = React.createRef();
 	}
@@ -888,6 +890,7 @@ export class WebchatUI extends React.PureComponent<
 					logoUrl={config.settings.headerLogoUrl}
 					title={config.settings.title || "Cognigy"}
 					closeButtonRef={this.closeButtonInHeaderRef}
+					menuButtonRef={this.menuButtonInHeaderRef}
 					chatToggleButtonRef={this.chatToggleButtonRef}
 					mainContentRef={this.history?.current?.rootRef}
 				/>

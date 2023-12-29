@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import IconButton from "./IconButton";
 import CloseIcon from "../../assets/close-16px.svg";
 import GoBackIcon from "../../assets/arrow-back-16px.svg";
+import MenuIcon from "../../assets/menu-16px.svg";
 import Notifications from "./Notifications";
 import classnames from "classnames";
 
@@ -37,6 +38,12 @@ const HeaderBar = styled.div(({ theme }) => ({
 	},
 }));
 
+const HeaderIconsWrapper = styled.div(() => ({
+	display: "flex",
+	alignItems: "flex-start",
+	gap: 24
+}));
+
 const HeaderIconButton = styled(IconButton)(({ theme }) => ({
 	color: theme.black10,
 	borderRadius: 4,
@@ -69,6 +76,7 @@ interface HeaderProps {
 	onClose?: () => void;
 	onGoBack?: () => void;
 	closeButtonRef?: React.RefObject<HTMLButtonElement>;
+	menuButtonRef?: React.RefObject<HTMLButtonElement>;
 	chatToggleButtonRef?: React.RefObject<HTMLButtonElement>;
 	mainContentRef?: React.RefObject<HTMLElement>;
 }
@@ -81,6 +89,7 @@ const Header: FC<HeaderProps> = props => {
 		onClose,
 		onGoBack,
 		closeButtonRef,
+		menuButtonRef,
 		chatToggleButtonRef,
 		...rest
 	} = props;
@@ -137,17 +146,27 @@ const Header: FC<HeaderProps> = props => {
 						{title}
 					</span>
 				</div>
-				{onClose && (
+				<HeaderIconsWrapper>
 					<HeaderIconButton
-						data-header-close-button
+						data-header-menu-button
 						onClick={handleCloseClick}
-						className="webchat-header-close-button"
-						aria-label="Close Chat"
-						ref={closeButtonRef}
+						aria-label="Menu"
+						ref={menuButtonRef}
 					>
-						<CloseIcon />
+						<MenuIcon />
 					</HeaderIconButton>
-				)}
+					{onClose && (
+						<HeaderIconButton
+							data-header-close-button
+							onClick={handleCloseClick}
+							className="webchat-header-close-button"
+							aria-label="Close Chat"
+							ref={closeButtonRef}
+						>
+							<CloseIcon />
+						</HeaderIconButton>
+					)}
+				</HeaderIconsWrapper>
 			</HeaderBar>
 			<Notifications />
 		</>
