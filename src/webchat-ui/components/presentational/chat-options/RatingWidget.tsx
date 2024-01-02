@@ -35,6 +35,10 @@ const RatingButton = styled(IconButton)(({ theme, selected }) => ({
 		width: 16,
 		height: 16,
 	},
+	"&:focus": {
+		outline: "none",
+		boxShadow: `inset 0 0 0 2px ${theme.primaryColor}`,
+	},
 }));
 
 const RatingUpIcon = styled(RatingUp)(({ theme, selected }) => ({
@@ -65,12 +69,20 @@ const RatingInput = styled.textarea(({ theme }) => ({
 	width: "100%",
 	height: "100px",
 	padding: 12,
+	"&:focus": {
+		outline: "none",
+		border: `2px solid ${theme.primaryColor}`,
+	},
 }));
 
-const SendButton = styled(PrimaryButton)(() => ({
+const SendButton = styled(PrimaryButton)(({ theme }) => ({
 	width: "100%",
 	"&:disabled": {
 		opacity: 1,
+	},
+	"&:focus": {
+		outline: "none",
+		border: `2px solid ${theme.primaryColor}`,
 	},
 }));
 
