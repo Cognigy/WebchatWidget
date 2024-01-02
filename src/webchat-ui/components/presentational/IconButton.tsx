@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 import { IColorProps } from "../../style";
-import { interactionCss, createTransition } from "../../utils/css";
-import tinycolor from 'tinycolor2';
+import { createTransition } from "../../utils/css";
+interface IIconButtonProps extends IColorProps{
+    selected?: boolean;
+}
 
-export default styled.button<IColorProps>(({ theme }) => {
+export default styled.button<IIconButtonProps>(({ theme }) => {
 
     const normal = 'hsla(0, 0%, 0%, .24)';
     const highlight = 'hsla(0, 0%, 0%, .54)';
