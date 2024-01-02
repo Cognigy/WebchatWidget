@@ -34,6 +34,7 @@ const ChatOptionsFooter = styled.div(({ theme }) => ({
 const StyledFooterTypography = styled(Typography)(() => ({
 	lineHeight: "19.6px",
 	wordWrap: "break-word",
+	margin: 0,
 }));
 
 interface IOnSendRatingProps {
