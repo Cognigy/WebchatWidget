@@ -25,12 +25,12 @@ const ChatOptionsFooter = styled.div(({ theme }) => ({
 	alignItems: " center",
 	justifyContent: "center",
 	width: "100%",
-    height: 44,
-    padding: "12px 0px",
+	height: 44,
+	padding: "12px 0px",
 	backgroundColor: theme.backgroundWebchat,
 	borderTop: `1px solid var(--basics-black-80, ${theme.black80})`,    
-    gap: 24,
-    display: 'inline-flex'
+	gap: 24,
+	display: 'inline-flex'
 }));
 
 const StyledFooterTypography = styled(Typography)(() => ({
@@ -62,8 +62,8 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 				/>				
 			</ChatOptionsContainer>
 			<ChatOptionsFooter className="webchat-chat-options-footer">
-                <StyledFooterTypography variant="body-semibold">Imprint</StyledFooterTypography>
-                <StyledFooterTypography variant="body-semibold">Data Privacy</StyledFooterTypography>
+				<StyledFooterTypography variant="body-semibold">Imprint</StyledFooterTypography>
+				<StyledFooterTypography variant="body-semibold">Data Privacy</StyledFooterTypography>
 			</ChatOptionsFooter>
 		</ChatOptionsRoot>
 	);
