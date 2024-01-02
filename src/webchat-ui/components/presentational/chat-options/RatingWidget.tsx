@@ -5,6 +5,7 @@ import RatingDown from "../../../assets/rating-down-16px.svg";
 import RatingUp from "../../../assets/rating-up-16px.svg";
 import IconButton from "../IconButton";
 import PrimaryButton from "../PrimaryButton";
+import { createNotification } from "../Notifications";
 
 const RatingWidgetRoot = styled.div(() => ({
 	width: "100%",
@@ -78,21 +79,32 @@ const SendButton = styled(PrimaryButton)(() => ({
 }));
 
 type TRatingValue = 1 | -1 | null;
-
+interface IOnSendRatingProps {
+	rating: TRatingValue;
+	comment: string;
+}
 interface IRatingWidgetProps {
     ratingTitleText: string;
 	ratingCommentText: string;
+    onSendRating: (props: IOnSendRatingProps) => void;
 }
 
 export const RatingWidget = (props: IRatingWidgetProps) => {
-    const { ratingTitleText, ratingCommentText } = props;
+    const { ratingTitleText, ratingCommentText, onSendRating } = props;
     const [ratingValue, setRatingValue] = React.useState<TRatingValue>(null);
     const [ratingText, setRatingText] = React.useState("");
 
     const ratingInputRef = React.useRef(null);
     const sendRatingButtonRef = React.useRef(null);
 
-    const disableSendButton = ratingValue !== -1 && ratingValue !== 1
+    const disableSendButton = ratingValue !== -1 && ratingValue !== 1;
+
+    const handleSubmitFeedback = () => {
+        onSendRating({rating: ratingValue, comment: ratingText});
+        setTimeout(() => createNotification("Your feedback was submitted."), 500);
+        setRatingValue(null);
+        setRatingText("");
+    }
 
 	return (
 		<RatingWidgetRoot className="webchat-chat-options-root">
@@ -126,14 +138,11 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
                     rows={4}
                     ref={ratingInputRef}
                     placeholder={ratingCommentText}
-                />        
-
+                />
                 <SendButton
                     className={`webchat-rating-widget-send-button ${disableSendButton ? "disabled" : "active"}`}
                     disabled={disableSendButton}
-                    onClick={() => {
-                        console.log(ratingCommentText, ratingText);
-                    }}
+                    onClick={handleSubmitFeedback}
                     ref={sendRatingButtonRef}
                 >
                     Send feedback

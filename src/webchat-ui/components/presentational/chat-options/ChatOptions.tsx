@@ -38,20 +38,28 @@ const StyledFooterTypography = styled(Typography)(() => ({
 	wordWrap: 'break-word',
 }));
 
+interface IOnSendRatingProps {
+	rating: number | null;
+	comment: string;
+}
 
 interface IChatOptionsProps {
 	config: IWebchatConfig;
+	onSendRating: (props: IOnSendRatingProps) => void;
 }
 
 export const ChatOptions = (props: IChatOptionsProps) => {
-	const { config } = props;
+	const { config, onSendRating } = props;
 	const {ratingTitleText,	ratingCommentText} = config.settings;
 
 	return (
 		<ChatOptionsRoot className="webchat-chat-options-root">
 			<ChatOptionsContainer className="webchat-chat-options-container">
-				<RatingWidget ratingTitleText={ratingTitleText} ratingCommentText={ratingCommentText} />
-				
+				<RatingWidget 
+					ratingTitleText={ratingTitleText}
+					ratingCommentText={ratingCommentText}
+					onSendRating={onSendRating}
+				/>				
 			</ChatOptionsContainer>
 			<ChatOptionsFooter className="webchat-chat-options-footer">
                 <StyledFooterTypography variant="body-semibold">Imprint</StyledFooterTypography>

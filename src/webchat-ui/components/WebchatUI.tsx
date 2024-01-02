@@ -871,8 +871,7 @@ export class WebchatUI extends React.PureComponent<
 			);
 
 			if(showChatOptionsScreen) return (
-				// TODO: implement chat options screen
-				<ChatOptions config={config} />
+				<ChatOptions config={config} onSendRating={this.handleSendRating}/>
 			)
 
 			return (
