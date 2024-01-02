@@ -21,21 +21,19 @@ const ChatOptionsContainer = styled.div(() => ({
 
 
 const ChatOptionsFooter = styled.div(({ theme }) => ({
-	alignSelf: "flex-end",
 	alignItems: " center",
 	justifyContent: "center",
-	width: "100%",
-	height: 44,
 	padding: "12px 0px",
+	gap: 24,
+	width: "100%",
+	display: "flex",	
 	backgroundColor: theme.backgroundWebchat,
 	borderTop: `1px solid var(--basics-black-80, ${theme.black80})`,    
-	gap: 24,
-	display: 'inline-flex'
 }));
 
 const StyledFooterTypography = styled(Typography)(() => ({
-	lineHeight: 19.60,
-	wordWrap: 'break-word',
+	lineHeight: "19.6px",
+	wordWrap: "break-word",
 }));
 
 interface IOnSendRatingProps {
