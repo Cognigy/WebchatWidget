@@ -62,17 +62,47 @@ const RatingTextContainer = styled.div(() => ({
 	alignSelf: "stretch",
 }));
 
-const RatingInput = styled.textarea(({ theme }) => ({
+const RatingInputWrapper = styled.div(({ theme }) => ({
 	borderRadius: 10,
 	border: `1px solid var(--basics-black-60, ${theme.black60})`,
 	background: `var(--Basics-white, ${theme.white})`, 
 	width: "100%",
 	height: "100px",
 	padding: 12,
+	"&:focus-within": {
+		borderColor: "transparent",
+		outline: `2px solid ${theme.primaryColor}`,
+	},
+}));
+
+const RatingInput = styled.textarea(({ theme }) => ({
+	padding: "0 12px 0 0",
+	width: "100%",
+	height: "100%",
+	border: "none",
+	resize: "none",
+
+	color: theme.black10,
+	fontFamily: "Figtree",
+	fontSize: 14,
+	fontWeight: 400,
+	lineHeight: "140%",
+
 	"&:focus": {
 		outline: "none",
-		border: `2px solid ${theme.primaryColor}`,
 	},
+
+	"::-webkit-scrollbar": {
+        width: 2,
+        height: 2,
+		
+    },
+    "::-webkit-scrollbar-track": {
+        backgroundColor: theme.black95,
+    },
+    "::-webkit-scrollbar-thumb": {
+        backgroundColor: theme.black60,
+    },
 }));
 
 const SendButton = styled(PrimaryButton)(({ theme }) => ({
@@ -138,6 +168,7 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 				</RatingButton>
 			</RatingButtonContainer>
 			<RatingTextContainer>
+				<RatingInputWrapper>
 				<RatingInput
 					data-test="rating-input"
 					value={ratingText}
@@ -147,6 +178,7 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 					ref={ratingInputRef}
 					placeholder={ratingCommentText}
 				/>
+				</RatingInputWrapper>
 				<SendButton
 					className={`webchat-rating-widget-send-button ${disableSendButton ? "disabled" : "active"}`}
 					disabled={disableSendButton}
