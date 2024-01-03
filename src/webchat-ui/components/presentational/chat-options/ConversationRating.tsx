@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
-import { RatingWidget } from "./RatingWidget";
-import { PostbackButtons } from "./PostbackButtons";
-import { WebchatUIProps } from "../../WebchatUI";
 import { ChatOptionsFooter } from "./ChatOptionsFooter";
+import { RatingWidget } from "./RatingWidget";
+import { WebchatUIProps } from "../../WebchatUI";
 
 const ChatOptionsRoot = styled.div(() => ({
 	width: "100%",
@@ -19,16 +18,6 @@ const ChatOptionsContainer = styled.div(() => ({
 	flexDirection: "column",
 }));
 
-const DividerWrapper = styled.div(() => ({
-	padding: "12px 0px",
-}));
-
-const Divider = styled.div(({ theme }) => ({
-	height: 1,
-	width: "100%",
-	backgroundColor: theme.black80,
-}));
-
 interface IOnSendRatingProps {
 	rating: number | null;
 	comment: string;
@@ -41,21 +30,13 @@ interface IChatOptionsProps {
 	onSendActionButtonMessage: WebchatUIProps["onSendMessage"];
 }
 
-export const ChatOptions = (props: IChatOptionsProps) => {
-	const { config, onSendRating, onEmitAnalytics, onSendActionButtonMessage } = props;
+export const ConversationRating = (props: IChatOptionsProps) => {
+	const { config, onSendRating } = props;
 	const {ratingTitleText,	ratingCommentText} = config.settings;
 
 	return (
 		<ChatOptionsRoot className="webchat-chat-options-root">
 			<ChatOptionsContainer className="webchat-chat-options-container">
-				<PostbackButtons
-					config={config}
-					onSendActionButtonMessage={onSendActionButtonMessage}
-					onEmitAnalytics={onEmitAnalytics}
-				/>
-				<DividerWrapper>
-					<Divider />
-				</DividerWrapper>
 				<RatingWidget 
 					ratingTitleText={ratingTitleText}
 					ratingCommentText={ratingCommentText}
