@@ -35,7 +35,6 @@ import notificationSound from "../utils/notification-sound";
 import { findReverse } from "../utils/find-reverse";
 import "../../assets/style.css";
 import TypingIndicator from "./history/TypingIndicator";
-import RatingDialog from "./presentational/RatingDialog";
 import {
 	isDisabledOutOfBusinessHours,
 	isHiddenOutOfBusinessHours,
@@ -913,7 +912,13 @@ export class WebchatUI extends React.PureComponent<
 			return "Cognigy";
 		}
 
-		const isChatOptionsButtonVisible = !showChatOptionsScreen && !showRatingDialog && !showPrevConversations && !showHomeScreen && !showInformationMessage && hasAcceptedTerms;
+		const isChatOptionsButtonVisible =
+			!showChatOptionsScreen &&
+			!showRatingDialog &&
+			!showPrevConversations &&
+			!showHomeScreen &&
+			!showInformationMessage &&
+			hasAcceptedTerms;
 
 		return (
 			<>
