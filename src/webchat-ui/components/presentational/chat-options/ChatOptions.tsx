@@ -46,7 +46,7 @@ interface IChatOptionsProps {
 
 export const ChatOptions = (props: IChatOptionsProps) => {
 	const { config, showOnlyRating, onSendRating, onEmitAnalytics, onSendActionButtonMessage } = props;
-	const {ratingTitleText,	ratingCommentText} = config.settings;
+	const { ratingTitleText, ratingCommentText } = config.settings;
 
 	return (
 		<ChatOptionsRoot className="webchat-chat-options-root">
@@ -63,11 +63,11 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 						</DividerWrapper>
 					</>
 				)}
-				<RatingWidget 
+				<RatingWidget
 					ratingTitleText={ratingTitleText}
 					ratingCommentText={ratingCommentText}
 					onSendRating={onSendRating}
-				/>				
+				/>
 			</ChatOptionsContainer>
 			<ChatOptionsFooter />
 		</ChatOptionsRoot>
