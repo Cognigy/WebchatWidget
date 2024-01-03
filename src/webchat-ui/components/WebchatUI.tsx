@@ -903,6 +903,16 @@ export class WebchatUI extends React.PureComponent<
 			)
 		}
 
+		const getTitles = () => {
+			if (showChatOptionsScreen) {
+				return "Chat Options";
+			}
+			if (config.settings.title) {
+				return config.settings.title;
+			}
+			return "Cognigy";
+		}
+
 		const isChatOptionsButtonVisible = !showChatOptionsScreen && !showPrevConversations && !showHomeScreen && !showInformationMessage && hasAcceptedTerms;
 
 		return (
@@ -910,11 +920,11 @@ export class WebchatUI extends React.PureComponent<
 				<Header
 					onClose={handleOnClose}
 					onGoBack={showInformationMessage ? undefined : handleOnGoBack}
-					showChatOptionsScreen={showChatOptionsScreen}
 					onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
 					isChatOptionsButtonVisible={isChatOptionsButtonVisible}
 					logoUrl={config.settings.headerLogoUrl}
-					title={config.settings.title || "Cognigy"}
+					hideLogo={showChatOptionsScreen}
+					title={getTitles()}
 					closeButtonRef={this.closeButtonInHeaderRef}
 					menuButtonRef={this.menuButtonInHeaderRef}
 					chatToggleButtonRef={this.chatToggleButtonRef}

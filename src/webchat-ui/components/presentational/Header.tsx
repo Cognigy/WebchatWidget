@@ -41,13 +41,13 @@ const HeaderBar = styled.div(({ theme }) => ({
 
 const BackButtonWrapper = styled.div(() => ({
 	display: "flex",
-	gap: 24
+	gap: 24,
 }));
 
 const HeaderIconsWrapper = styled.div(() => ({
 	display: "flex",
 	alignItems: "flex-start",
-	gap: 24
+	gap: 24,
 }));
 
 const HeaderIconButton = styled(IconButton)(({ theme }) => ({
@@ -79,7 +79,7 @@ const Logo = styled.img(() => ({
 interface HeaderProps {
 	title: string;
 	logoUrl?: string;
-	showChatOptionsScreen?: boolean;
+	hideLogo?: boolean;
 	isChatOptionsButtonVisible?: boolean;
 	onClose?: () => void;
 	onGoBack?: () => void;
@@ -101,7 +101,7 @@ const Header: FC<HeaderProps> = props => {
 		closeButtonRef,
 		menuButtonRef,
 		chatToggleButtonRef,
-		showChatOptionsScreen,
+		hideLogo,
 		isChatOptionsButtonVisible,
 		...rest
 	} = props;
@@ -119,13 +119,14 @@ const Header: FC<HeaderProps> = props => {
 	const isCompact =
 		!mainContentRef?.current ||
 		mainContentRef.current.scrollHeight > mainContentRef.current.clientHeight ||
-		!logoUrl;
+		!logoUrl ||
+		hideLogo;
 
 	return (
 		<>
 			<HeaderBar {...rest} className="webchat-header-bar">
 				{onGoBack && (
-					<BackButtonWrapper style={{width: isChatOptionsButtonVisible ? 56 : 16}}>
+					<BackButtonWrapper style={{ width: isChatOptionsButtonVisible ? 56 : 16 }}>
 						<HeaderIconButton
 							data-header-close-button
 							onClick={onGoBack}
@@ -143,35 +144,20 @@ const Header: FC<HeaderProps> = props => {
 						isCompact && "logoNameContainer-compact",
 					)}
 				>
-					{showChatOptionsScreen ? (
-						<Typography variant="h2-semibold">
-							Chat Options
-						</Typography>
-					) : (
-						<>
-							{logoUrl && (
-								<Logo
-									src={logoUrl}
-									className={classnames("webchat-header-logo", isCompact && "compact")}
-									alt="Chat logo"
-								/>
-							)}
-							<span
-								style={{
-									whiteSpace: "nowrap",
-									overflow: "hidden",
-									textOverflow: "ellipsis",
-								}}
-								className="webchat-header-title"
-								role="heading"
-								aria-level={1}
-								id="webchatHeaderTitle"
-							>
-								{title}
-							</span>
-						</>
+					{(logoUrl && !hideLogo) && (
+						<Logo
+							src={logoUrl}
+							className={classnames("webchat-header-logo", isCompact && "compact")}
+							alt="Chat logo"
+						/>
 					)}
-					
+					<Typography
+						variant="h2-semibold"
+						id="webchatHeaderTitle"
+						className="webchat-header-title"
+					>
+						{title}
+					</Typography>
 				</div>
 				<HeaderIconsWrapper>
 					{isChatOptionsButtonVisible && (
