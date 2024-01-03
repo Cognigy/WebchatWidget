@@ -791,6 +791,7 @@ export class WebchatUI extends React.PureComponent<
 
 		const onSendActionButtonMessage = (text?: string, data?: any, options?: Partial<ISendMessageOptions>) => {
 			onSetShowHomeScreen(false);
+			onSetShowChatOptionsScreen(false);
 
 			if (!hasAcceptedTerms) {
 				onSetStoredMessage({
@@ -814,6 +815,7 @@ export class WebchatUI extends React.PureComponent<
 				}
 			}
 			onSetShowHomeScreen(false);
+			onSetShowChatOptionsScreen(false);
 		}
 
 		if (showHomeScreen && !isSecondaryView)
