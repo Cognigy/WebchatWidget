@@ -859,23 +859,15 @@ export class WebchatUI extends React.PureComponent<
 				/>
 			);
 
-			if(showChatOptionsScreen) return (
+			if(showChatOptionsScreen || showRatingDialog) return (
 				<ChatOptions
 					config={config}
+					showOnlyRating={showRatingDialog}
 					onSendRating={this.handleSendRating}
 					onEmitAnalytics={onEmitAnalytics}
 					onSendActionButtonMessage={onSendActionButtonMessage}
 				/>
-			)
-
-			if(showRatingDialog) return (
-				<ConversationRating
-					config={config}
-					onSendRating={this.handleSendRating}
-					onEmitAnalytics={onEmitAnalytics}
-					onSendActionButtonMessage={onSendActionButtonMessage}
-				/>
-			)
+			);
 
 			return (
 				<>

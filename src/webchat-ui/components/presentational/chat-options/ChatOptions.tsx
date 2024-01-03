@@ -9,6 +9,8 @@ import { ChatOptionsFooter } from "./ChatOptionsFooter";
 const ChatOptionsRoot = styled.div(() => ({
 	width: "100%",
 	height: "100%",
+	display: "flex",
+	flexDirection: "column",
 }));
 
 const ChatOptionsContainer = styled.div(() => ({
@@ -36,26 +38,31 @@ interface IOnSendRatingProps {
 
 interface IChatOptionsProps {
 	config: IWebchatConfig;
+	showOnlyRating?: boolean;
 	onSendRating: (props: IOnSendRatingProps) => void;
 	onEmitAnalytics: WebchatUIProps["onEmitAnalytics"];
 	onSendActionButtonMessage: WebchatUIProps["onSendMessage"];
 }
 
 export const ChatOptions = (props: IChatOptionsProps) => {
-	const { config, onSendRating, onEmitAnalytics, onSendActionButtonMessage } = props;
+	const { config, showOnlyRating, onSendRating, onEmitAnalytics, onSendActionButtonMessage } = props;
 	const {ratingTitleText,	ratingCommentText} = config.settings;
 
 	return (
 		<ChatOptionsRoot className="webchat-chat-options-root">
 			<ChatOptionsContainer className="webchat-chat-options-container">
-				<PostbackButtons
-					config={config}
-					onSendActionButtonMessage={onSendActionButtonMessage}
-					onEmitAnalytics={onEmitAnalytics}
-				/>
-				<DividerWrapper>
-					<Divider />
-				</DividerWrapper>
+				{!showOnlyRating && (
+					<>
+						<PostbackButtons
+							config={config}
+							onSendActionButtonMessage={onSendActionButtonMessage}
+							onEmitAnalytics={onEmitAnalytics}
+						/>
+						<DividerWrapper>
+							<Divider />
+						</DividerWrapper>
+					</>
+				)}
 				<RatingWidget 
 					ratingTitleText={ratingTitleText}
 					ratingCommentText={ratingCommentText}
