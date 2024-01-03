@@ -5,7 +5,7 @@ import { sendMessage, triggerEngagementMessage } from '../store/messages/message
 import { setInputMode, setFullscreenMessage, setOpen, toggleOpen, setScrollToPosition, setLastScrolledPosition, setShowHomeScreen, setShowPrevConversations, setShowChatOptionsScreen, setHasAcceptedTerms, UIState, setStoredMessage } from '../store/ui/ui-reducer';
 import { getPluginsForMessage, isFullscreenPlugin } from '../../plugins/helper';
 import { connect as doConnect } from "../store/connection/connection-middleware";
-import { setHasGivenRating, showRatingDialog } from "../store/rating/rating-reducer";
+import { setHasGivenRating, showRatingScreen } from "../store/rating/rating-reducer";
 import { switchSession } from "../store/previous-conversations/previous-conversations-middleware";
 import { PrevConversationsState } from "../store/previous-conversations/previous-conversations-reducer";
 
@@ -23,7 +23,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         ui: { open, typing, inputMode, fullscreenMessage, scrollToPosition, lastScrolledPosition, showHomeScreen, showPrevConversations, showChatOptionsScreen, hasAcceptedTerms },
         config,
         options: { sessionId },
-        rating: { showRatingDialog, hasGivenRating, customRatingTitle, customRatingCommentText },
+        rating: { showRatingScreen, hasGivenRating, customRatingTitle, customRatingCommentText },
         input: { sttActive },
     }) => ({
         currentSession: sessionId,
@@ -39,7 +39,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         config,
         connected,
         reconnectionLimit,
-        showRatingDialog,
+        showRatingScreen,
         hasGivenRating,
         customRatingTitle,
         customRatingCommentText,
@@ -60,7 +60,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onSetLastScrolledPosition: (position: number | null) => dispatch(setLastScrolledPosition(position)),
         onTriggerEngagementMessage: () => dispatch(triggerEngagementMessage()),
         onConnect: () => dispatch(doConnect()),
-        onShowRatingDialog: (show: boolean) => dispatch(showRatingDialog(show)),
+        onShowRatingScreen: (show: boolean) => dispatch(showRatingScreen(show)),
         onSetHasGivenRating: () => dispatch(setHasGivenRating()),
         onSetShowHomeScreen: (show: boolean) => dispatch(setShowHomeScreen(show)),
         onSetShowPrevConversations: (show: boolean) => dispatch(setShowPrevConversations(show)),

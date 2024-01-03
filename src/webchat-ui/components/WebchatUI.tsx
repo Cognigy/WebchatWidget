@@ -100,8 +100,8 @@ export interface WebchatUIProps {
 	reconnectionLimit: boolean;
 
 	hasGivenRating: boolean;
-	showRatingDialog: boolean;
-	onShowRatingDialog: (show: boolean) => void;
+	showRatingScreen: boolean;
+	onShowRatingScreen: (show: boolean) => void;
 	onSetHasGivenRating: () => void;
 	customRatingTitle: string;
 	customRatingCommentText: string;
@@ -508,7 +508,7 @@ export class WebchatUI extends React.PureComponent<
 		);
 
 		this.props.onSetHasGivenRating();
-		this.props.onShowRatingDialog(false);
+		this.props.onShowRatingScreen(false);
 	};
 
 	render() {
@@ -538,8 +538,8 @@ export class WebchatUI extends React.PureComponent<
 			webchatToggleProps,
 			connected,
 			reconnectionLimit,
-			showRatingDialog,
-			onShowRatingDialog,
+			showRatingScreen,
+			onShowRatingScreen,
 			onSetShowHomeScreen,
 			onSetHasGivenRating,
 			onSetShowPrevConversations,
@@ -739,8 +739,8 @@ export class WebchatUI extends React.PureComponent<
 			onSetShowPrevConversations,
 			showChatOptionsScreen,
 			onSetShowChatOptionsScreen,
-			showRatingDialog,
-			onShowRatingDialog,
+			showRatingScreen,
+			onShowRatingScreen,
 			onSwitchSession,
 			onClose,
 			onEmitAnalytics,
@@ -824,12 +824,12 @@ export class WebchatUI extends React.PureComponent<
 
 		// TODO implement proper navigation solution
 		const handleOnGoBack = () => {
-			if(!showChatOptionsScreen && !showRatingDialog) {
+			if(!showChatOptionsScreen && !showRatingScreen) {
 				onSetShowPrevConversations(false);
 				onSetShowHomeScreen(true);
 			} else {
 				onSetShowChatOptionsScreen(false);
-				onShowRatingDialog(false);
+				onShowRatingScreen(false);
 			}
 		};
 
@@ -859,10 +859,10 @@ export class WebchatUI extends React.PureComponent<
 				/>
 			);
 
-			if(showChatOptionsScreen || showRatingDialog) return (
+			if(showChatOptionsScreen || showRatingScreen) return (
 				<ChatOptions
 					config={config}
-					showOnlyRating={showRatingDialog}
+					showOnlyRating={showRatingScreen}
 					onSendRating={this.handleSendRating}
 					onEmitAnalytics={onEmitAnalytics}
 					onSendActionButtonMessage={onSendActionButtonMessage}
@@ -895,7 +895,7 @@ export class WebchatUI extends React.PureComponent<
 			if (showChatOptionsScreen) {
 				return "Chat options";
 			}
-			if (showRatingDialog) {
+			if (showRatingScreen) {
 				return "Conversation rating";
 			}
 			if (config.settings.title) {
@@ -906,7 +906,7 @@ export class WebchatUI extends React.PureComponent<
 
 		const isChatOptionsButtonVisible =
 			!showChatOptionsScreen &&
-			!showRatingDialog &&
+			!showRatingScreen &&
 			!showPrevConversations &&
 			!showHomeScreen &&
 			!showInformationMessage &&
@@ -920,7 +920,7 @@ export class WebchatUI extends React.PureComponent<
 					onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
 					isChatOptionsButtonVisible={isChatOptionsButtonVisible}
 					logoUrl={config.settings.headerLogoUrl}
-					hideLogo={showChatOptionsScreen || showRatingDialog}
+					hideLogo={showChatOptionsScreen || showRatingScreen}
 					title={getTitles()}
 					closeButtonRef={this.closeButtonInHeaderRef}
 					menuButtonRef={this.menuButtonInHeaderRef}

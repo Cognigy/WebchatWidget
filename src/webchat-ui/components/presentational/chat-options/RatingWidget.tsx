@@ -32,7 +32,7 @@ const RatingButton = styled(IconButton)(({ theme, selected }) => ({
 	alignItems: "center",
 	gap: 16,
 	borderRadius: 15,
-	"svg": {
+	svg: {
 		width: 16,
 		height: 16,
 	},
@@ -43,15 +43,15 @@ const RatingButton = styled(IconButton)(({ theme, selected }) => ({
 }));
 
 const RatingUpIcon = styled(RatingUp)(({ theme, selected }) => ({
-	"path": {
-		fill: selected ? theme.black95: theme.black10,
-	}
+	path: {
+		fill: selected ? theme.black95 : theme.black10,
+	},
 }));
 
 const RatingDownIcon = styled(RatingDown)(({ theme, selected }) => ({
-	"path": {
-		fill: selected ? theme.black95: theme.black10,
-	}
+	path: {
+		fill: selected ? theme.black95 : theme.black10,
+	},
 }));
 
 const RatingTextContainer = styled.div(() => ({
@@ -96,15 +96,21 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 	const disableSendButton = ratingValue !== -1 && ratingValue !== 1;
 
 	const handleSubmitFeedback = () => {
-		onSendRating({rating: ratingValue, comment: ratingText});
+		onSendRating({ rating: ratingValue, comment: ratingText });
 		setTimeout(() => createNotification("Your feedback was submitted."), 500);
 		setRatingValue(null);
 		setRatingText("");
-	}
+	};
 
 	return (
-		<RatingWidgetRoot className="webchat-chat-options-root">
-			<Typography variant="title1-semibold" component="div">{ratingTitleText}</Typography>
+		<RatingWidgetRoot className="webchat-rating-widget-root">
+			<Typography
+				variant="title1-semibold"
+				component="div"
+				className="webchat-rating-widget-title"
+			>
+				{ratingTitleText}
+			</Typography>
 			<RatingButtonContainer className="webchat-rating-widget-content-container">
 				<RatingButton
 					onClick={() => setRatingValue(1)}
@@ -112,8 +118,8 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 					aria-pressed={ratingValue === 1}
 					aria-label="Thumbs Up"
 					selected={ratingValue === 1}
-				> 
-					<RatingUpIcon selected={ratingValue === 1}/>
+				>
+					<RatingUpIcon selected={ratingValue === 1} />
 				</RatingButton>
 				<RatingButton
 					onClick={() => setRatingValue(-1)}
@@ -121,8 +127,8 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 					aria-pressed={ratingValue === -1}
 					aria-label="Thumbs Down"
 					selected={ratingValue === -1}
-				>                    
-					<RatingDownIcon selected={ratingValue === -1}/>                    
+				>
+					<RatingDownIcon selected={ratingValue === -1} />
 				</RatingButton>
 			</RatingButtonContainer>
 			<RatingTextContainer>
@@ -130,14 +136,16 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 					data-test="rating-input"
 					value={ratingText}
 					disabled={ratingValue === null}
-					onChange={(e) => setRatingText(e.target.value)}
+					onChange={e => setRatingText(e.target.value)}
 					className="webchat-rating-widget-comment-input-field"
 					rows={4}
 					ref={ratingInputRef}
 					placeholder={ratingCommentText}
 				/>
 				<SendButton
-					className={`webchat-rating-widget-send-button ${disableSendButton ? "disabled" : "active"}`}
+					className={`webchat-rating-widget-send-button ${
+						disableSendButton ? "disabled" : "active"
+					}`}
 					disabled={disableSendButton}
 					onClick={handleSubmitFeedback}
 					ref={sendRatingButtonRef}
