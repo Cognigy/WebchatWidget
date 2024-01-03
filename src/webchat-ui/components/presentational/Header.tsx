@@ -39,6 +39,11 @@ const HeaderBar = styled.div(({ theme }) => ({
 	},
 }));
 
+const BackButtonWrapper = styled.div(() => ({
+	display: "flex",
+	gap: 24
+}));
+
 const HeaderIconsWrapper = styled.div(() => ({
 	display: "flex",
 	alignItems: "flex-start",
@@ -56,7 +61,7 @@ const HeaderIconButton = styled(IconButton)(({ theme }) => ({
 		width: 16,
 		height: 16,
 	},
-	padding: 2,
+	padding: 0,
 }));
 
 const Logo = styled.img(() => ({
@@ -120,15 +125,17 @@ const Header: FC<HeaderProps> = props => {
 		<>
 			<HeaderBar {...rest} className="webchat-header-bar">
 				{onGoBack && (
-					<HeaderIconButton
-						data-header-close-button
-						onClick={onGoBack}
-						className="webchat-header-back-button"
-						aria-label="Go Back"
-						ref={closeButtonRef}
-					>
-						<GoBackIcon />
-					</HeaderIconButton>
+					<BackButtonWrapper style={{width: isChatOptionsButtonVisible ? 56 : 16}}>
+						<HeaderIconButton
+							data-header-close-button
+							onClick={onGoBack}
+							className="webchat-header-back-button"
+							aria-label="Go Back"
+							ref={closeButtonRef}
+						>
+							<GoBackIcon />
+						</HeaderIconButton>
+					</BackButtonWrapper>
 				)}
 				<div
 					className={classnames(
