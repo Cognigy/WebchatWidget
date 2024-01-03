@@ -58,10 +58,9 @@ export const PostbackButtons = (prop: IPostbackButtonsProps) => {
             </Typography>
             <ActionButtonsWrapper className="webchat-chat-options-action-btns-wrapper">
                 <ActionButtons
-                    size="large"
                     showUrlIcon
-                    buttonClassName="webchat-homescreen-button"
-                    containerClassName="webchat-homescreen-button-container"
+                    buttonClassName="webchat-chat-options-button"
+                    containerClassName="webchat-chat-options-button-container"
                     payload={buttons}
                     config={config}
                     action={onSendActionButtonMessage}
