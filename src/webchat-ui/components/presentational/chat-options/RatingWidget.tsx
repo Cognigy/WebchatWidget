@@ -6,6 +6,7 @@ import RatingUp from "../../../assets/rating-up-16px.svg";
 import IconButton from "../IconButton";
 import PrimaryButton from "../PrimaryButton";
 import { createNotification } from "../Notifications";
+import MultilineInput from "../MultilineInput";
 
 const RatingWidgetRoot = styled.div(() => ({
 	width: "100%",
@@ -60,49 +61,6 @@ const RatingTextContainer = styled.div(() => ({
 	alignItems: "flex-start",
 	gap: 16,
 	alignSelf: "stretch",
-}));
-
-const RatingInputWrapper = styled.div(({ theme }) => ({
-	borderRadius: 10,
-	border: `1px solid var(--basics-black-60, ${theme.black60})`,
-	background: `var(--Basics-white, ${theme.white})`, 
-	width: "100%",
-	height: "100px",
-	padding: 12,
-	"&:focus-within": {
-		borderColor: "transparent",
-		outline: `2px solid ${theme.primaryColor}`,
-	},
-}));
-
-const RatingInput = styled.textarea(({ theme }) => ({
-	padding: "0 12px 0 0",
-	width: "100%",
-	height: "100%",
-	border: "none",
-	resize: "none",
-
-	color: theme.black10,
-	fontFamily: "Figtree",
-	fontSize: 14,
-	fontWeight: 400,
-	lineHeight: "140%",
-
-	"&:focus": {
-		outline: "none",
-	},
-
-	"::-webkit-scrollbar": {
-        width: 2,
-        height: 2,
-		
-    },
-    "::-webkit-scrollbar-track": {
-        backgroundColor: theme.black95,
-    },
-    "::-webkit-scrollbar-thumb": {
-        backgroundColor: theme.black60,
-    },
 }));
 
 const SendButton = styled(PrimaryButton)(({ theme }) => ({
@@ -168,17 +126,16 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 				</RatingButton>
 			</RatingButtonContainer>
 			<RatingTextContainer>
-				<RatingInputWrapper>
-				<RatingInput
+				<MultilineInput
 					data-test="rating-input"
 					value={ratingText}
+					disabled={ratingValue === null}
 					onChange={(e) => setRatingText(e.target.value)}
 					className="webchat-rating-widget-comment-input-field"
 					rows={4}
 					ref={ratingInputRef}
 					placeholder={ratingCommentText}
 				/>
-				</RatingInputWrapper>
 				<SendButton
 					className={`webchat-rating-widget-send-button ${disableSendButton ? "disabled" : "active"}`}
 					disabled={disableSendButton}
