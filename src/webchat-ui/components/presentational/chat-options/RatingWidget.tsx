@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import styled from "@emotion/styled";
 import { Typography } from "@cognigy/chat-components";
 import RatingDown from "../../../assets/rating-down-16px.svg";
@@ -87,11 +87,11 @@ interface IRatingWidgetProps {
 
 export const RatingWidget = (props: IRatingWidgetProps) => {
 	const { ratingTitleText, ratingCommentText, onSendRating } = props;
-	const [ratingValue, setRatingValue] = React.useState<TRatingValue>(null);
-	const [ratingText, setRatingText] = React.useState("");
+	const [ratingValue, setRatingValue] = useState<TRatingValue>(null);
+	const [ratingText, setRatingText] = useState("");
 
-	const ratingInputRef = React.useRef(null);
-	const sendRatingButtonRef = React.useRef(null);
+	const ratingInputRef = useRef(null);
+	const sendRatingButtonRef = useRef(null);
 
 	const disableSendButton = ratingValue !== -1 && ratingValue !== 1;
 

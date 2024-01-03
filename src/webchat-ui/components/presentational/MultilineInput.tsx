@@ -1,4 +1,4 @@
-import React, { ComponentProps } from "react";
+import React, { ComponentProps, RefObject } from "react";
 import styled from "@emotion/styled";
 
 const InputWrapper = styled.div(({ theme }) => ({
@@ -54,7 +54,7 @@ const Input = styled.textarea(({ theme }) => ({
 
 interface IMultilineInputProps extends ComponentProps<typeof Input> {
 	className?: string;
-	inputRef?: React.RefObject<HTMLTextAreaElement>;
+	inputRef?: RefObject<HTMLTextAreaElement>;
 	placeholder?: string;
 	dataTest?: string;
 }
