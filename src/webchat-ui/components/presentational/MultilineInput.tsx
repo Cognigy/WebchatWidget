@@ -1,4 +1,4 @@
-import React, { ComponentProps, RefObject } from "react";
+import React, { ComponentProps, forwardRef } from "react";
 import styled from "@emotion/styled";
 
 const InputWrapper = styled.div(({ theme }) => ({
@@ -54,24 +54,25 @@ const Input = styled.textarea(({ theme }) => ({
 
 interface IMultilineInputProps extends ComponentProps<typeof Input> {
 	className?: string;
-	inputRef?: RefObject<HTMLTextAreaElement>;
 	placeholder?: string;
 	dataTest?: string;
 }
 
-const MultilineInput = (props: IMultilineInputProps) => {
-	const { className, inputRef, dataTest, ...restProps } = props;
+const MultilineInput = forwardRef<HTMLTextAreaElement, IMultilineInputProps>((props, ref) => {
+	const { className, dataTest, ...restProps } = props;
 
 	return (
 		<InputWrapper>
 			<Input
 				{...restProps}
 				data-test={dataTest}
-				ref={inputRef}
+				ref={ref}
 				className={`${className} ${props.disabled ? "disabled" : ""}`.trim()}
 			/>
 		</InputWrapper>
 	);
-};
+});
+
+MultilineInput.displayName = "MultilineInput";
 
 export default MultilineInput;

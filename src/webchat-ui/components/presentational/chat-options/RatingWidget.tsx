@@ -91,7 +91,6 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 	const [ratingText, setRatingText] = useState("");
 
 	const ratingInputRef = useRef(null);
-	const sendRatingButtonRef = useRef(null);
 
 	const disableSendButton = ratingValue !== -1 && ratingValue !== 1;
 
@@ -148,7 +147,6 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 					}`}
 					disabled={disableSendButton}
 					onClick={handleSubmitFeedback}
-					ref={sendRatingButtonRef}
 				>
 					Send feedback
 				</SendButton>

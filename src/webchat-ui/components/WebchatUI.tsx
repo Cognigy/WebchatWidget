@@ -542,6 +542,7 @@ export class WebchatUI extends React.PureComponent<
 			onSetShowHomeScreen,
 			onSetHasGivenRating,
 			onSetShowPrevConversations,
+			onSetShowChatOptionsScreen,
 			onSwitchSession,
 			customRatingTitle,
 			customRatingCommentText,
@@ -555,8 +556,6 @@ export class WebchatUI extends React.PureComponent<
 			disableToggleButton,
 			enableConnectionStatusIndicator,
 		} = config.settings;
-
-		console.log(customRatingCommentText, customRatingTitle)
 
 		if (
 			(!this.props.config.active && !this.props.config.settings.connectivity.enabled) ||
@@ -732,8 +731,6 @@ export class WebchatUI extends React.PureComponent<
 			messages,
 			scrollToPosition,
 			lastScrolledPosition,
-			customRatingTitle,
-			customRatingCommentText,
 			onSetScrollToPosition,
 			onSetLastScrolledPosition,
 			showHomeScreen,
@@ -742,6 +739,8 @@ export class WebchatUI extends React.PureComponent<
 			onSetShowPrevConversations,
 			showChatOptionsScreen,
 			onSetShowChatOptionsScreen,
+			customRatingTitle,
+			customRatingCommentText,
 			showRatingScreen,
 			onShowRatingScreen,
 			onSwitchSession,
