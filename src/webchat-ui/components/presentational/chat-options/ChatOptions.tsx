@@ -78,6 +78,7 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 					onSendRating={onSendRating}
 				/>
 			</ChatOptionsContainer>
+			{/* TODO: Display footer only if the corresponding setting is enabled */}
 			<ChatOptionsFooter />
 		</ChatOptionsRoot>
 	);

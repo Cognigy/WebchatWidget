@@ -33,6 +33,7 @@ interface IPostbackButtonsProps {
 export const PostbackButtons = (prop: IPostbackButtonsProps) => {
     const { config, onSendActionButtonMessage, onEmitAnalytics } = prop;
 
+    // TODO: Get the buttons from the config
 	const buttons = [
 		{
 			title: "Who are Cognigy?",
