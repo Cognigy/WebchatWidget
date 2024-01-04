@@ -38,6 +38,8 @@ interface IOnSendRatingProps {
 
 interface IChatOptionsProps {
 	config: IWebchatConfig;
+	ratingTitleText: string;
+	ratingCommentText: string;
 	showOnlyRating?: boolean;
 	onSendRating: (props: IOnSendRatingProps) => void;
 	onEmitAnalytics: WebchatUIProps["onEmitAnalytics"];
@@ -45,8 +47,15 @@ interface IChatOptionsProps {
 }
 
 export const ChatOptions = (props: IChatOptionsProps) => {
-	const { config, showOnlyRating, onSendRating, onEmitAnalytics, onSendActionButtonMessage } = props;
-	const { ratingTitleText, ratingCommentText } = config.settings;
+	const {
+		config,
+		showOnlyRating,
+		ratingTitleText,
+		ratingCommentText,
+		onSendRating,
+		onEmitAnalytics,
+		onSendActionButtonMessage,
+	} = props;
 
 	return (
 		<ChatOptionsRoot className="webchat-chat-options-root">

@@ -61,7 +61,6 @@ import { InformationMessage } from "./presentational/InformationMessage";
 import { PrivacyNotice } from "./presentational/PrivacyNotice";
 import { ChatOptions } from "./presentational/chat-options/ChatOptions";
 import { UIState } from "../../webchat/store/ui/ui-reducer";
-import { ConversationRating } from "./presentational/chat-options/ConversationRating";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -557,6 +556,8 @@ export class WebchatUI extends React.PureComponent<
 			enableConnectionStatusIndicator,
 		} = config.settings;
 
+		console.log(customRatingCommentText, customRatingTitle)
+
 		if (
 			(!this.props.config.active && !this.props.config.settings.connectivity.enabled) ||
 			(!this.props.config.isConfigLoaded && this.props.config.settings.awaitEndpointConfig) ||
@@ -731,6 +732,8 @@ export class WebchatUI extends React.PureComponent<
 			messages,
 			scrollToPosition,
 			lastScrolledPosition,
+			customRatingTitle,
+			customRatingCommentText,
 			onSetScrollToPosition,
 			onSetLastScrolledPosition,
 			showHomeScreen,
@@ -862,6 +865,8 @@ export class WebchatUI extends React.PureComponent<
 			if(showChatOptionsScreen || showRatingScreen) return (
 				<ChatOptions
 					config={config}
+					ratingTitleText={customRatingTitle || config.settings.ratingTitleText}
+					ratingCommentText={customRatingCommentText || config.settings.ratingCommentText}
 					showOnlyRating={showRatingScreen}
 					onSendRating={this.handleSendRating}
 					onEmitAnalytics={onEmitAnalytics}
