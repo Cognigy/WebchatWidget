@@ -923,8 +923,10 @@ export class WebchatUI extends React.PureComponent<
 					onGoBack={showInformationMessage ? undefined : handleOnGoBack}
 					onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
 					isChatOptionsButtonVisible={isChatOptionsButtonVisible}
-					logoUrl={config.settings.headerLogoUrl}
-					hideLogo={showChatOptionsScreen || showRatingScreen}
+					logoUrl={!showChatOptionsScreen && !showRatingScreen
+						? config.settings.headerLogoUrl
+						: undefined
+					}
 					title={getTitles()}
 					closeButtonRef={this.closeButtonInHeaderRef}
 					menuButtonRef={this.menuButtonInHeaderRef}

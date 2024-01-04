@@ -79,7 +79,6 @@ const Logo = styled.img(() => ({
 interface HeaderProps {
 	title: string;
 	logoUrl?: string;
-	hideLogo?: boolean;
 	isChatOptionsButtonVisible?: boolean;
 	onClose?: () => void;
 	onGoBack?: () => void;
@@ -101,7 +100,6 @@ const Header: FC<HeaderProps> = props => {
 		closeButtonRef,
 		menuButtonRef,
 		chatToggleButtonRef,
-		hideLogo,
 		isChatOptionsButtonVisible,
 		...rest
 	} = props;
@@ -119,8 +117,7 @@ const Header: FC<HeaderProps> = props => {
 	const isCompact =
 		!mainContentRef?.current ||
 		mainContentRef.current.scrollHeight > mainContentRef.current.clientHeight ||
-		!logoUrl ||
-		hideLogo;
+		!logoUrl;
 
 	return (
 		<>
@@ -144,7 +141,7 @@ const Header: FC<HeaderProps> = props => {
 						isCompact && "logoNameContainer-compact",
 					)}
 				>
-					{(logoUrl && !hideLogo) && (
+					{logoUrl && (
 						<Logo
 							src={logoUrl}
 							className={classnames("webchat-header-logo", isCompact && "compact")}
