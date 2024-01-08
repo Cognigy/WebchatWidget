@@ -49,7 +49,7 @@ export const optionsMiddleware: Middleware<object, StoreState> = store => next =
 		case "SEND_MESSAGE":
 		case "RECEIVE_MESSAGE":
 		case "TRIGGER_ENGAGEMENT_MESSAGE":
-		case "SHOW_RATING_DIALOG":
+		case "SHOW_RATING_SCREEN":
 		case "SET_HAS_GIVEN_RATING":
 		case "SET_CUSTOM_RATING_TITLE":
 		case "SET_CUSTOM_RATING_COMMENT_TEXT": {

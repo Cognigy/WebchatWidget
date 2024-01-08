@@ -2,17 +2,17 @@ import { Reducer } from "redux";
 
 export interface RatingState {
     hasGivenRating: boolean;
-    showRatingDialog: boolean;
+    showRatingScreen: boolean;
     customRatingTitle: string;
     customRatingCommentText: string;
 }
 
-const SHOW_RATING_DIALOG = "SHOW_RATING_DIALOG";
-export const showRatingDialog = (show: boolean) => ({
-    type: SHOW_RATING_DIALOG as "SHOW_RATING_DIALOG",
+const SHOW_RATING_SCREEN = "SHOW_RATING_SCREEN";
+export const showRatingScreen = (show: boolean) => ({
+    type: SHOW_RATING_SCREEN as "SHOW_RATING_SCREEN",
     show
 });
-type ShowRatingDialogAction = ReturnType<typeof showRatingDialog>;
+type ShowRatingScreenAction = ReturnType<typeof showRatingScreen>;
 
 const SET_HAS_GIVEN_RATING = "SET_HAS_GIVEN_RATING";
 export const setHasGivenRating = () => ({
@@ -36,14 +36,14 @@ type SetCustomRatingCommentText = ReturnType<typeof setCustomRatingCommentText>;
 
 const getInitialState = (): RatingState => ({
     hasGivenRating: false,
-    showRatingDialog: false,
+    showRatingScreen: false,
     customRatingTitle: "",
     customRatingCommentText: "",
 });
 
 export const ratingInitialState = getInitialState();
 
-export type RatingAction = ShowRatingDialogAction
+export type RatingAction = ShowRatingScreenAction
     | SetHasGivenRating
     | SetCustomRatingTitle
     | SetCustomRatingCommentText;
@@ -51,13 +51,13 @@ export type RatingAction = ShowRatingDialogAction
 
 export const rating: Reducer<RatingState, RatingAction> = (state = getInitialState(), action) => {
     switch (action.type) {
-        case SHOW_RATING_DIALOG: {
+        case SHOW_RATING_SCREEN: {
 
-            // reset custom texts when the rating dialog is closed
+            // reset custom texts when the rating screen is closed
             if (action.show === false) {
                 return {
                     ...state,
-                    showRatingDialog: action.show,
+                    showRatingScreen: action.show,
                     customRatingTitle: "",
                     customRatingCommentText: "",
                 }
@@ -65,7 +65,7 @@ export const rating: Reducer<RatingState, RatingAction> = (state = getInitialSta
             } else {
                 return {
                     ...state,
-                    showRatingDialog: action.show
+                    showRatingScreen: action.show
                 }
             }
 

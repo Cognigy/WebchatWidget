@@ -85,7 +85,7 @@ export const getInitialState = (): ConfigState => ({
     },
     messageDelay: 1000,
     messageLogoUrl: "",
-    ratingCommentText: "Feel free to leave a comment.",
+    ratingCommentText: "Type something here...",
     ratingMessageHistoryCommentText: "You commented:",
     ratingMessageHistoryRatingText: "You gave the following rating:",
     ratingTitleText: "Please rate your chat experience",

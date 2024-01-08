@@ -133,7 +133,7 @@ describe("Rating", () => {
         cy.get("#webchatHeaderOpenRatingDialogButton").click();
 
         cy.contains("Please rate your chat experience").should("be.visible");
-        cy.contains("Feel free to leave a comment.").should("be.visible");
+        cy.contains("Type something here...").should("be.visible");
     });
 
     it("submits a rating after clicking the rating button", () => {

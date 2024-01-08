@@ -3,8 +3,10 @@ import styled from "@emotion/styled";
 import IconButton from "./IconButton";
 import CloseIcon from "../../assets/close-16px.svg";
 import GoBackIcon from "../../assets/arrow-back-16px.svg";
+import MenuIcon from "../../assets/menu-16px.svg";
 import Notifications from "./Notifications";
 import classnames from "classnames";
+import { Typography } from "@cognigy/chat-components";
 
 const HeaderBar = styled.div(({ theme }) => ({
 	alignItems: "center",
@@ -37,6 +39,17 @@ const HeaderBar = styled.div(({ theme }) => ({
 	},
 }));
 
+const BackButtonWrapper = styled.div(() => ({
+	display: "flex",
+	gap: 24,
+}));
+
+const HeaderIconsWrapper = styled.div(() => ({
+	display: "flex",
+	alignItems: "flex-start",
+	gap: 24,
+}));
+
 const HeaderIconButton = styled(IconButton)(({ theme }) => ({
 	color: theme.black10,
 	borderRadius: 4,
@@ -48,7 +61,7 @@ const HeaderIconButton = styled(IconButton)(({ theme }) => ({
 		width: 16,
 		height: 16,
 	},
-	padding: 2,
+	padding: 0,
 }));
 
 const Logo = styled.img(() => ({
@@ -66,9 +79,12 @@ const Logo = styled.img(() => ({
 interface HeaderProps {
 	title: string;
 	logoUrl?: string;
+	isChatOptionsButtonVisible?: boolean;
 	onClose?: () => void;
 	onGoBack?: () => void;
+	onSetShowChatOptionsScreen?: (show: boolean) => void;
 	closeButtonRef?: React.RefObject<HTMLButtonElement>;
+	menuButtonRef?: React.RefObject<HTMLButtonElement>;
 	chatToggleButtonRef?: React.RefObject<HTMLButtonElement>;
 	mainContentRef?: React.RefObject<HTMLElement>;
 }
@@ -80,8 +96,11 @@ const Header: FC<HeaderProps> = props => {
 		mainContentRef,
 		onClose,
 		onGoBack,
+		onSetShowChatOptionsScreen,
 		closeButtonRef,
+		menuButtonRef,
 		chatToggleButtonRef,
+		isChatOptionsButtonVisible,
 		...rest
 	} = props;
 
@@ -89,6 +108,10 @@ const Header: FC<HeaderProps> = props => {
 		onClose?.();
 		// Restore focus to chat toggle button
 		chatToggleButtonRef?.current?.focus?.();
+	};
+
+	const handleMenuClick = () => {
+		onSetShowChatOptionsScreen?.(true);
 	};
 
 	const isCompact =
@@ -100,15 +123,17 @@ const Header: FC<HeaderProps> = props => {
 		<>
 			<HeaderBar {...rest} className="webchat-header-bar">
 				{onGoBack && (
-					<HeaderIconButton
-						data-header-close-button
-						onClick={onGoBack}
-						className="webchat-header-back-button"
-						aria-label="Go Back"
-						ref={closeButtonRef}
-					>
-						<GoBackIcon />
-					</HeaderIconButton>
+					<BackButtonWrapper style={{ width: isChatOptionsButtonVisible ? 56 : 16 }}>
+						<HeaderIconButton
+							data-header-close-button
+							onClick={onGoBack}
+							className="webchat-header-back-button"
+							aria-label="Go Back"
+							ref={closeButtonRef}
+						>
+							<GoBackIcon />
+						</HeaderIconButton>
+					</BackButtonWrapper>
 				)}
 				<div
 					className={classnames(
@@ -123,31 +148,37 @@ const Header: FC<HeaderProps> = props => {
 							alt="Chat logo"
 						/>
 					)}
-					<span
-						style={{
-							whiteSpace: "nowrap",
-							overflow: "hidden",
-							textOverflow: "ellipsis",
-						}}
-						className="webchat-header-title"
-						role="heading"
-						aria-level={1}
+					<Typography
+						variant="h2-semibold"
 						id="webchatHeaderTitle"
+						className="webchat-header-title"
 					>
 						{title}
-					</span>
+					</Typography>
 				</div>
-				{onClose && (
-					<HeaderIconButton
-						data-header-close-button
-						onClick={handleCloseClick}
-						className="webchat-header-close-button"
-						aria-label="Close Chat"
-						ref={closeButtonRef}
-					>
-						<CloseIcon />
-					</HeaderIconButton>
-				)}
+				<HeaderIconsWrapper>
+					{isChatOptionsButtonVisible && (
+						<HeaderIconButton
+							data-header-menu-button
+							onClick={handleMenuClick}
+							aria-label="Menu"
+							ref={menuButtonRef}
+						>
+							<MenuIcon />
+						</HeaderIconButton>
+					)}
+					{onClose && (
+						<HeaderIconButton
+							data-header-close-button
+							onClick={handleCloseClick}
+							className="webchat-header-close-button"
+							aria-label="Close Chat"
+							ref={closeButtonRef}
+						>
+							<CloseIcon />
+						</HeaderIconButton>
+					)}
+				</HeaderIconsWrapper>
 			</HeaderBar>
 			<Notifications />
 		</>
