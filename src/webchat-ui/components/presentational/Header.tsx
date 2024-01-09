@@ -39,6 +39,17 @@ const HeaderBar = styled.div(({ theme }) => ({
 	"& img:not(.compact)": {
 		marginBottom: 10,
 	},
+
+	animation: `slideinfromtop 0.5s ease-out`,
+
+	"@keyframes slideinfromtop": {
+		"from": {
+			transform: "translateY(-100%)",
+		},
+		"to": {
+			transform: "translateY(0%)",
+		}
+	}
 }));
 
 const BackButtonWrapper = styled.div(() => ({

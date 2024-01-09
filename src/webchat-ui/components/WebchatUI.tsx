@@ -162,11 +162,24 @@ const HistoryWrapper = styled(History)(({ theme }) => ({
 const RegularLayoutRoot = styled.div(() => ({
 	position: "relative",
 	height: "100%",
+	display: "flex",
+	flexDirection: "column",
 }));
 
 const RegularLayoutContentWrapper = styled.div(() => ({
+	height: "100%",
 	zIndex: 2,
 	position: "relative",
+	animation: `slideinfromright 0.5s ease-out`,
+
+	"@keyframes slideinfromright": {
+		"from": {
+			transform: "translateX(100%)",
+		},
+		"to": {
+			transform: "translateX(0%)",
+		}
+	}
 }));
 
 export class WebchatUI extends React.PureComponent<
