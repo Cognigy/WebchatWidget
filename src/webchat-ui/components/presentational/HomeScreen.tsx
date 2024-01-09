@@ -12,6 +12,8 @@ import { WebchatUIProps } from "../WebchatUI";
 
 const HomeScreenRoot = styled.div(({ theme }) => ({
 	display: "flex",
+	position: "absolute",
+	top: 0,
 	flexDirection: "column",
 	height: "100%",
 	width: "100%",

@@ -159,6 +159,16 @@ const HistoryWrapper = styled(History)(({ theme }) => ({
 	height: theme.blockSize,
 }));
 
+const RegularLayoutRoot = styled.div(() => ({
+	position: "relative",
+	height: "100%",
+}));
+
+const RegularLayoutContentWrapper = styled.div(() => ({
+	zIndex: 2,
+	position: "relative",
+}));
+
 export class WebchatUI extends React.PureComponent<
 	React.HTMLProps<HTMLDivElement> & WebchatUIProps,
 	WebchatUIState
@@ -402,8 +412,8 @@ export class WebchatUI extends React.PureComponent<
 		} else {
 			if (this.props.unseenMessages.length > 0) {
 				document.title = `(${this.props.unseenMessages.length}) ${this.props.unseenMessages.length === 1
-						? this.props.config.settings.unreadMessageTitleText
-						: this.props.config.settings.unreadMessageTitleTextPlural
+					? this.props.config.settings.unreadMessageTitleText
+					: this.props.config.settings.unreadMessageTitleTextPlural
 					}`;
 				this.titleType = "unread";
 			}
@@ -806,27 +816,13 @@ export class WebchatUI extends React.PureComponent<
 			onSetShowChatOptionsScreen(false);
 		}
 
-		if (showHomeScreen && !isSecondaryView)
-			return (
-				<HomeScreen
-					showHomeScreen={showHomeScreen}
-					onSetShowHomeScreen={onSetShowHomeScreen}
-					onStartConversation={handleStartConversation}
-					onSetShowPrevConversations={onSetShowPrevConversations}
-					onClose={onClose}
-					config={config}
-					onEmitAnalytics={onEmitAnalytics}
-					onSendActionButtonMessage={onSendActionButtonMessage}
-				/>
-			);
-
 		const handleOnClose = () => {
 			onClose?.();
 		};
 
 		// TODO implement proper navigation solution
 		const handleOnGoBack = () => {
-			if(!showChatOptionsScreen && !showRatingScreen) {
+			if (!showChatOptionsScreen && !showRatingScreen) {
 				onSetShowPrevConversations(false);
 				onSetShowHomeScreen(true);
 			} else {
@@ -861,7 +857,7 @@ export class WebchatUI extends React.PureComponent<
 				/>
 			);
 
-			if(showChatOptionsScreen || showRatingScreen) return (
+			if (showChatOptionsScreen || showRatingScreen) return (
 				<ChatOptions
 					config={config}
 					ratingTitleText={customRatingTitle || config.settings.ratingTitleText}
@@ -917,24 +913,46 @@ export class WebchatUI extends React.PureComponent<
 			hasAcceptedTerms;
 
 		return (
-			<>
-				<Header
-					onClose={handleOnClose}
-					onGoBack={showInformationMessage ? undefined : handleOnGoBack}
-					onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
-					isChatOptionsButtonVisible={isChatOptionsButtonVisible}
-					logoUrl={!showChatOptionsScreen && !showRatingScreen
-						? config.settings.headerLogoUrl
-						: undefined
-					}
-					title={getTitles()}
-					closeButtonRef={this.closeButtonInHeaderRef}
-					menuButtonRef={this.menuButtonInHeaderRef}
-					chatToggleButtonRef={this.chatToggleButtonRef}
-					mainContentRef={this.history?.current?.rootRef}
-				/>
-				{getRegularLayoutContent()}
-			</>
+			<RegularLayoutRoot>
+				{
+					(!showHomeScreen || isSecondaryView) &&
+					<Header
+						onClose={handleOnClose}
+						onGoBack={showInformationMessage ? undefined : handleOnGoBack}
+						onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
+						isChatOptionsButtonVisible={isChatOptionsButtonVisible}
+						logoUrl={!showChatOptionsScreen && !showRatingScreen
+							? config.settings.headerLogoUrl
+							: undefined
+						}
+						title={getTitles()}
+						closeButtonRef={this.closeButtonInHeaderRef}
+						menuButtonRef={this.menuButtonInHeaderRef}
+						chatToggleButtonRef={this.chatToggleButtonRef}
+						mainContentRef={this.history?.current?.rootRef}
+					/>
+				}
+				{
+					!isSecondaryView && <HomeScreen
+						showHomeScreen={showHomeScreen}
+						onSetShowHomeScreen={onSetShowHomeScreen}
+						onStartConversation={handleStartConversation}
+						onSetShowPrevConversations={onSetShowPrevConversations}
+						onClose={onClose}
+						config={config}
+						onEmitAnalytics={onEmitAnalytics}
+						onSendActionButtonMessage={onSendActionButtonMessage}
+					/>
+				}
+				{
+					(!showHomeScreen || isSecondaryView) &&
+					<RegularLayoutContentWrapper>
+						{
+							getRegularLayoutContent()
+						}
+					</RegularLayoutContentWrapper>
+				}
+			</RegularLayoutRoot>
 		);
 	}
 

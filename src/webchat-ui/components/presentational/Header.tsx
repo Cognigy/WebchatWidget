@@ -11,6 +11,8 @@ import { Typography } from "@cognigy/chat-components";
 const HeaderBar = styled.div(({ theme }) => ({
 	alignItems: "center",
 	borderBottom: `1px solid ${theme.black80}`,
+	backgroundColor: theme.backgroundWebchat,
+	position: "relative",
 	color: theme.black10,
 	display: "flex",
 	flexShrink: 0,
