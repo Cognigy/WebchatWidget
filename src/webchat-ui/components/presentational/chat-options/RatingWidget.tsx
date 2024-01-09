@@ -7,6 +7,7 @@ import IconButton from "../IconButton";
 import PrimaryButton from "../PrimaryButton";
 import { createNotification } from "../Notifications";
 import MultilineInput from "../MultilineInput";
+import { IOnSendRatingProps } from "./ChatOptions";
 
 const RatingWidgetRoot = styled.div(() => ({
 	width: "100%",
@@ -75,18 +76,17 @@ const SendButton = styled(PrimaryButton)(({ theme }) => ({
 }));
 
 type TRatingValue = 1 | -1 | null;
-interface IOnSendRatingProps {
-	rating: TRatingValue;
-	comment: string;
-}
+
 interface IRatingWidgetProps {
 	ratingTitleText: string;
 	ratingCommentText: string;
+	/** When true, a feedback status pill is displayed in the chat history */
+	showRatingStatus?: boolean;
 	onSendRating: (props: IOnSendRatingProps) => void;
 }
 
 export const RatingWidget = (props: IRatingWidgetProps) => {
-	const { ratingTitleText, ratingCommentText, onSendRating } = props;
+	const { ratingTitleText, ratingCommentText, showRatingStatus, onSendRating } = props;
 	const [ratingValue, setRatingValue] = useState<TRatingValue>(null);
 	const [ratingText, setRatingText] = useState("");
 
@@ -95,7 +95,7 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 	const disableSendButton = ratingValue !== -1 && ratingValue !== 1;
 
 	const handleSubmitFeedback = () => {
-		onSendRating({ rating: ratingValue, comment: ratingText });
+		onSendRating({ rating: ratingValue, comment: ratingText, showRatingStatus });
 		setTimeout(() => createNotification("Your feedback was submitted."), 500);
 		setRatingValue(null);
 		setRatingText("");

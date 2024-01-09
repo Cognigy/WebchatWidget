@@ -31,9 +31,10 @@ const Divider = styled.div(({ theme }) => ({
 	backgroundColor: theme.black80,
 }));
 
-interface IOnSendRatingProps {
+export interface IOnSendRatingProps {
 	rating: number | null;
 	comment: string;
+	showRatingStatus?: boolean;
 }
 
 interface IChatOptionsProps {
@@ -76,6 +77,7 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 					ratingTitleText={ratingTitleText}
 					ratingCommentText={ratingCommentText}
 					onSendRating={onSendRating}
+					showRatingStatus={showOnlyRating}
 				/>
 			</ChatOptionsContainer>
 			{/* TODO: Display footer only if the corresponding setting is enabled */}
