@@ -58,10 +58,11 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
         }
             
         case 'SET_PREV_STATE': {
+            const { showRatingScreen, ...rating } = action.state.rating;
             return rootReducer({
                 ...state,
                 messages: [...action.state.messages],
-                rating: {...action.state.rating}
+                rating: {showRatingScreen: false, ...rating}
             }, { type: '' })
         }
     }

@@ -483,7 +483,9 @@ export class WebchatUI extends React.PureComponent<
 		}
 	};
 
-	handleSendRating = ({ rating, comment }) => {
+	handleSendRating = ({ rating, comment, showRatingStatus }) => {
+		this.props.onShowRatingScreen(false);
+
 		if (this.history.current) {
 			this.history.current.handleScrollTo();
 		}
@@ -498,6 +500,7 @@ export class WebchatUI extends React.PureComponent<
 							parameters: {
 								rating,
 								comment,
+								showRatingStatus,
 							},
 						},
 					],
@@ -507,7 +510,6 @@ export class WebchatUI extends React.PureComponent<
 		);
 
 		this.props.onSetHasGivenRating();
-		this.props.onShowRatingScreen(false);
 	};
 
 	render() {
