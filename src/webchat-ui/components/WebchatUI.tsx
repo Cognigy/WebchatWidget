@@ -61,6 +61,7 @@ import { InformationMessage } from "./presentational/InformationMessage";
 import { PrivacyNotice } from "./presentational/PrivacyNotice";
 import { ChatOptions } from "./presentational/chat-options/ChatOptions";
 import { UIState } from "../../webchat/store/ui/ui-reducer";
+import { CSSTransition } from "react-transition-group";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -166,20 +167,28 @@ const RegularLayoutRoot = styled.div(() => ({
 	flexDirection: "column",
 }));
 
-const RegularLayoutContentWrapper = styled.div(() => ({
+const RegularLayoutContentWrapper = styled.div(({ theme }) => ({
 	height: "100%",
 	zIndex: 2,
 	position: "relative",
-	animation: `slideinfromright 0.5s ease-out`,
+	display: "flex",
+	flexDirection: "column",
+	backgroundColor: theme.white,
 
-	"@keyframes slideinfromright": {
-		"from": {
-			transform: "translateX(100%)",
-		},
-		"to": {
-			transform: "translateX(0%)",
-		}
-	}
+	"&.slide-in-enter": {
+		transform: "translateX(100%)",
+	},
+	"&.slide-in-enter-active": {
+		transform: "translateX(0%)",
+		transition: "transform 500ms ease-out",
+	},
+	"&.slide-in-exit": {
+		transform: "translateX(0%)",
+	},
+	"&.slide-in-exit-active": {
+		transform: "translateX(100%)",
+		transition: "transform 500ms ease-out",
+	},
 }));
 
 export class WebchatUI extends React.PureComponent<
@@ -928,22 +937,29 @@ export class WebchatUI extends React.PureComponent<
 		return (
 			<RegularLayoutRoot>
 				{
-					(!showHomeScreen || isSecondaryView) &&
-					<Header
-						onClose={handleOnClose}
-						onGoBack={showInformationMessage ? undefined : handleOnGoBack}
-						onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
-						isChatOptionsButtonVisible={isChatOptionsButtonVisible}
-						logoUrl={!showChatOptionsScreen && !showRatingScreen
-							? config.settings.headerLogoUrl
-							: undefined
-						}
-						title={getTitles()}
-						closeButtonRef={this.closeButtonInHeaderRef}
-						menuButtonRef={this.menuButtonInHeaderRef}
-						chatToggleButtonRef={this.chatToggleButtonRef}
-						mainContentRef={this.history?.current?.rootRef}
-					/>
+					<CSSTransition
+						in={!!(!showHomeScreen || showInformationMessage)}
+						timeout={500}
+						classNames="slide-in"
+						mountOnEnter
+						unmountOnExit
+					>
+						<Header
+							onClose={handleOnClose}
+							onGoBack={showInformationMessage ? undefined : handleOnGoBack}
+							onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
+							isChatOptionsButtonVisible={isChatOptionsButtonVisible}
+							logoUrl={!showChatOptionsScreen && !showRatingScreen
+								? config.settings.headerLogoUrl
+								: undefined
+							}
+							title={getTitles()}
+							closeButtonRef={this.closeButtonInHeaderRef}
+							menuButtonRef={this.menuButtonInHeaderRef}
+							chatToggleButtonRef={this.chatToggleButtonRef}
+							mainContentRef={this.history?.current?.rootRef}
+						/>
+					</CSSTransition>
 				}
 				{
 					!isSecondaryView && <HomeScreen
@@ -958,12 +974,19 @@ export class WebchatUI extends React.PureComponent<
 					/>
 				}
 				{
-					(!showHomeScreen || isSecondaryView) &&
-					<RegularLayoutContentWrapper>
-						{
-							getRegularLayoutContent()
-						}
-					</RegularLayoutContentWrapper>
+					<CSSTransition
+						in={!!(!showHomeScreen || showInformationMessage)}
+						timeout={500}
+						classNames="slide-in"
+						mountOnEnter
+						unmountOnExit
+					>
+						<RegularLayoutContentWrapper>
+							{
+								getRegularLayoutContent()
+							}
+						</RegularLayoutContentWrapper>
+					</CSSTransition>
 				}
 			</RegularLayoutRoot>
 		);

@@ -23,7 +23,7 @@ const HeaderBar = styled.div(({ theme }) => ({
 	padding: 20,
 	resize: "vertical",
 	textAlign: "center",
-	zIndex: 2,
+	zIndex: 3,
 	"& .logoNameContainer": {
 		alignItems: "center",
 		display: "flex",
@@ -40,16 +40,20 @@ const HeaderBar = styled.div(({ theme }) => ({
 		marginBottom: 10,
 	},
 
-	animation: `slideinfromtop 0.5s ease-out`,
-
-	"@keyframes slideinfromtop": {
-		"from": {
-			transform: "translateY(-100%)",
-		},
-		"to": {
-			transform: "translateY(0%)",
-		}
-	}
+	"&.slide-in-enter": {
+		transform: "translateY(-100%)",
+	},
+	"&.slide-in-enter-active": {
+		transform: "translateY(0%)",
+		transition: "transform 500ms ease-out",
+	},
+	"&.slide-in-exit": {
+		transform: "translateY(0%)",
+	},
+	"&.slide-in-exit-active": {
+		transform: "translateY(-100%)",
+		transition: "transform 500ms ease-out",
+	},
 }));
 
 const BackButtonWrapper = styled.div(() => ({
