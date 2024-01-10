@@ -962,16 +962,23 @@ export class WebchatUI extends React.PureComponent<
 					</CSSTransition>
 				}
 				{
-					!isSecondaryView && <HomeScreen
-						showHomeScreen={showHomeScreen}
-						onSetShowHomeScreen={onSetShowHomeScreen}
-						onStartConversation={handleStartConversation}
-						onSetShowPrevConversations={onSetShowPrevConversations}
-						onClose={onClose}
-						config={config}
-						onEmitAnalytics={onEmitAnalytics}
-						onSendActionButtonMessage={onSendActionButtonMessage}
-					/>
+					!isSecondaryView &&
+					<CSSTransition
+						in={!showHomeScreen}
+						classNames="hidebackground"
+						timeout={500}
+					>
+						<HomeScreen
+							showHomeScreen={showHomeScreen}
+							onSetShowHomeScreen={onSetShowHomeScreen}
+							onStartConversation={handleStartConversation}
+							onSetShowPrevConversations={onSetShowPrevConversations}
+							onClose={onClose}
+							config={config}
+							onEmitAnalytics={onEmitAnalytics}
+							onSendActionButtonMessage={onSendActionButtonMessage}
+						/>
+						</CSSTransition>
 				}
 				{
 					<CSSTransition
