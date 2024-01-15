@@ -45,14 +45,14 @@ const HeaderBar = styled.div(({ theme }) => ({
 	},
 	"&.slide-in-enter-active": {
 		transform: "translateY(0%)",
-		transition: "transform 500ms ease-out",
+		transition: "transform 400ms ease-out",
 	},
 	"&.slide-in-exit": {
 		transform: "translateY(0%)",
 	},
 	"&.slide-in-exit-active": {
 		transform: "translateY(-100%)",
-		transition: "transform 500ms ease-out",
+		transition: "transform 400ms ease-out",
 	},
 }));
 

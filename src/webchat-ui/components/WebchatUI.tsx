@@ -180,14 +180,14 @@ const RegularLayoutContentWrapper = styled.div(({ theme }) => ({
 	},
 	"&.slide-in-enter-active": {
 		transform: "translateX(0%)",
-		transition: "transform 500ms ease-out",
+		transition: "transform 400ms ease-out",
 	},
 	"&.slide-in-exit": {
 		transform: "translateX(0%)",
 	},
 	"&.slide-in-exit-active": {
 		transform: "translateX(100%)",
-		transition: "transform 500ms ease-out",
+		transition: "transform 400ms ease-out",
 	},
 }));
 
