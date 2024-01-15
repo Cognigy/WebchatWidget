@@ -12,6 +12,8 @@ import { WebchatUIProps } from "../WebchatUI";
 
 const HomeScreenRoot = styled.div(({ theme }) => ({
 	display: "flex",
+	position: "absolute",
+	top: 0,
 	flexDirection: "column",
 	height: "100%",
 	width: "100%",
@@ -22,6 +24,13 @@ const HomeScreenRoot = styled.div(({ theme }) => ({
 
 	"& *": {
 		boxSizing: "border-box",
+	},
+
+	"&.hidebackground-enter": {
+		transform: "translateY(0)",
+	},
+	"&.hidebackground-enter-done": {
+		transform: "translateY(20px)",
 	},
 }));
 
