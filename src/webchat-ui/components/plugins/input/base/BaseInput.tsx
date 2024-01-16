@@ -11,7 +11,13 @@ import PreviewUploadedFiles, { IFile } from '../file/PreviewUploadedFiles';
 import { fetchFileUploadToken, uploadFile } from '../../../../../webchat/helper/endpoint';
 import { IUploadFileMetaData } from '../../../../../common/interfaces/file-upload';
 
-const InputForm = styled.form(({ theme }) => ({
+const InputWrapper = styled.div(() => ({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 12,
+}));
+
+const InputForm = styled.form(() => ({
     display: 'flex',
     alignItems: 'center',
     gap: 12,
@@ -506,7 +512,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 
         return (
             <>
-                <div onDragEnter={this.handleDragEnter}>
+                <InputWrapper onDragEnter={this.handleDragEnter}>
                     <InputForm
                         data-active={textActive && isFileListEmpty}
                         onSubmit={this.handleSubmit}
@@ -587,7 +593,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
                             onRemoveFileFromList={this.onRemoveFileFromList}
                         />
                     }
-                </div>
+                </InputWrapper>
                 {isDropZoneVisible &&
                     <DropZone
                         onAddFilesToList={this.onAddFilesToList}
