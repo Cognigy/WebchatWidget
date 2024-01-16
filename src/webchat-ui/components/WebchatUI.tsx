@@ -169,8 +169,7 @@ const RegularLayoutRoot = styled.div(() => ({
 
 const RegularLayoutContentWrapper = styled.div(({ theme }) => ({
 	height: "100%",
-	zIndex: 2,
-	position: "relative",
+	zIndex: 3,
 	display: "flex",
 	flexDirection: "column",
 	backgroundColor: theme.white,
