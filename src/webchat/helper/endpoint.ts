@@ -49,8 +49,7 @@ export const uploadFile = async (file: any, fileUploadUrl: string, token: string
         method: "POST",
         url: fileUploadUrl
     };
-    let axiosResponse: AxiosResponse;
-    axiosResponse = await Axios(axiosRequest);
+    const axiosResponse: AxiosResponse = await Axios(axiosRequest);
 
     return axiosResponse.data as IUploadFileMetaData;
 }

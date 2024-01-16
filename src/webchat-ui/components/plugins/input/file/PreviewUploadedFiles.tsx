@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, HTMLProps, useRef } from "react";
 import styled from "@emotion/styled";
 import CloseIcon from "../../../../assets/close-10px.svg";
 import IconButton from "../../../presentational/IconButton";
@@ -71,70 +71,60 @@ export interface IFile {
 	uploadErrorReason?: string;
 }
 
-interface IPreviewUploadedFilesProps {
+interface IPreviewUploadedFilesProps extends HTMLProps<HTMLDivElement> {
 	fileList: IFile[];
 	onRemoveFileFromList: (index: number) => void;
 }
 
-class PreviewUploadedFiles extends React.PureComponent<
-	React.HTMLProps<HTMLDivElement> & IPreviewUploadedFilesProps
-> {
-	removeFileButtonRef: React.RefObject<HTMLButtonElement>;
+const PreviewUploadedFiles: FC<IPreviewUploadedFilesProps> = props => {
+	const { fileList, onRemoveFileFromList } = props;
+	const removeFileButtonRef = useRef<HTMLButtonElement>(null);
 
-	constructor(props) {
-		super(props);
-		this.removeFileButtonRef = React.createRef();
-	}
-
-	onRemoveFileButtonClick = (index: number) => {
-		this.props.onRemoveFileFromList(index);
+	const onRemoveFileButtonClick = (index: number) => {
+		onRemoveFileFromList(index);
 	};
 
-	render() {
-		const { fileList } = this.props;
-
-		return (
-			<UploadedFilesContainer>
-				{fileList?.map((item, index) => (
-					<FilePreviewWrapper key={index} hasUploadError={item.hasUploadError}>
-						<UploadedFilePreview>
-							<RemoveFileButton
-								onClick={() => this.onRemoveFileButtonClick(index)}
-								aria-label="Remove File Attachment"
-								ref={this.removeFileButtonRef}
-							>
-								<CloseIcon />
-							</RemoveFileButton>
-							<FileName
-								component="span"
-								variant="title2-regular"
-								hasUploadError={item.hasUploadError}
-							>
-								{!item.hasUploadError
-									? getFileName(item.file.name)
-									: item.uploadErrorReason}
-							</FileName>
-							{!item.hasUploadError && (
-								<FileExtension component="span" variant="title2-regular">
-									{getFileExtension(item.file.name)}
-								</FileExtension>
-							)}
-							<FileSize component="span" variant="title2-regular">
-								{item.file.size > 1000000
-									? `${(item.file.size / 1000000).toFixed(2)} MB`
-									: `${(item.file.size / 1000).toFixed(2)} KB`}
-							</FileSize>
-						</UploadedFilePreview>
-						{item.progressPercentage &&
-							item.progressPercentage !== 100 &&
-							!item.hasUploadError && (
-								<LinearProgressBar progressPercentage={item.progressPercentage} />
-							)}
-					</FilePreviewWrapper>
-				))}
-			</UploadedFilesContainer>
-		);
-	}
-}
+	return (
+		<UploadedFilesContainer>
+			{fileList?.map((item, index) => (
+				<FilePreviewWrapper key={index}>
+					<UploadedFilePreview>
+						<RemoveFileButton
+							onClick={() => onRemoveFileButtonClick(index)}
+							aria-label="Remove File Attachment"
+							ref={removeFileButtonRef}
+						>
+							<CloseIcon />
+						</RemoveFileButton>
+						<FileName
+							component="span"
+							variant="title2-regular"
+							hasUploadError={item.hasUploadError}
+						>
+							{!item.hasUploadError
+								? getFileName(item.file.name)
+								: item.uploadErrorReason}
+						</FileName>
+						{!item.hasUploadError && (
+							<FileExtension component="span" variant="title2-regular">
+								{getFileExtension(item.file.name)}
+							</FileExtension>
+						)}
+						<FileSize component="span" variant="title2-regular">
+							{item.file.size > 1000000
+								? `${(item.file.size / 1000000).toFixed(2)} MB`
+								: `${(item.file.size / 1000).toFixed(2)} KB`}
+						</FileSize>
+					</UploadedFilePreview>
+					{item.progressPercentage &&
+						item.progressPercentage !== 100 &&
+						!item.hasUploadError && (
+							<LinearProgressBar progressPercentage={item.progressPercentage} />
+						)}
+				</FilePreviewWrapper>
+			))}
+		</UploadedFilesContainer>
+	);
+};
 
 export default PreviewUploadedFiles;
