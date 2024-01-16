@@ -7,20 +7,37 @@ import { getFileExtension, getFileName } from "./helper";
 import { IUploadFileMetaData } from "../../../../../common/interfaces/file-upload";
 import { Typography } from "@cognigy/chat-components";
 
-const UploadedFilesContainer = styled.div(() => ({
+const UploadedFilesContainer = styled.div(({ theme }) => ({
 	display: "flex",
 	flexDirection: "row",
 	overflowX: "auto",
 	overflowY: "hidden",
 	alignItems: "center",
 	gap: 12,
+
+	"&::-webkit-scrollbar": {
+		width: 2,
+		height: 2,
+		visibility: "hidden",
+	},
+
+	"&:hover": {
+		"&::-webkit-scrollbar-track": {
+			backgroundColor: theme.black95,
+		},
+		"&::-webkit-scrollbar-thumb": {
+			backgroundColor: theme.black60,
+		},
+	},
 }));
 
 const FilePreviewWrapper = styled.div(({ theme }) => ({
 	borderRadius: 15,
-	maxWidth: 210,
 	height: 33,
 	backgroundColor: theme.black95,
+	"&:focus-within": {
+		backgroundColor: theme.black80,
+	},
 }));
 
 const UploadedFilePreview = styled.div(() => ({
@@ -40,7 +57,6 @@ const FileName = styled(Typography)<Pick<IFile, "hasUploadError">>(({ hasUploadE
 const FileExtension = styled(Typography)(({ theme }) => ({
 	color: theme.black10,
 	alignSelf: "center",
-	textTransform: "uppercase",
 }));
 
 const FileSize = styled(Typography)(({ theme }) => ({
@@ -56,7 +72,7 @@ const RemoveFileButton = styled(IconButton)(({ theme }) => ({
 		height: 10,
 	},
 	"&:focus, &:hover": {
-		"& svg": {
+		"& path": {
 			fill: `${theme.primaryColor} !important`,
 			outline: "none",
 		},
@@ -78,7 +94,7 @@ interface IPreviewUploadedFilesProps extends HTMLProps<HTMLDivElement> {
 
 const PreviewUploadedFiles: FC<IPreviewUploadedFilesProps> = props => {
 	const { fileList, onRemoveFileFromList } = props;
-	const removeFileButtonRef = useRef<HTMLButtonElement>(null);
+	const removeFileButtonRefs = useRef<HTMLButtonElement[]>([]);
 
 	const onRemoveFileButtonClick = (index: number) => {
 		onRemoveFileFromList(index);
@@ -91,25 +107,38 @@ const PreviewUploadedFiles: FC<IPreviewUploadedFilesProps> = props => {
 					<UploadedFilePreview>
 						<RemoveFileButton
 							onClick={() => onRemoveFileButtonClick(index)}
-							aria-label="Remove File Attachment"
-							ref={removeFileButtonRef}
+							onFocus={() => {
+								removeFileButtonRefs.current[index].scrollIntoView({
+									behavior: "smooth",
+									inline: "center",
+								});
+							}
+							}
+							aria-label={`Remove File Attachment ${index + 1}`}
+							ref={ref => {
+								if (ref) {
+									removeFileButtonRefs.current[index] = ref;
+								}
+							}}
 						>
 							<CloseIcon />
 						</RemoveFileButton>
-						<FileName
-							component="span"
-							variant="title2-regular"
-							hasUploadError={item.hasUploadError}
-						>
-							{!item.hasUploadError
-								? getFileName(item.file.name)
-								: item.uploadErrorReason}
-						</FileName>
-						{!item.hasUploadError && (
-							<FileExtension component="span" variant="title2-regular">
-								{getFileExtension(item.file.name)}
-							</FileExtension>
-						)}
+						<span>
+							<FileName
+								component="span"
+								variant="title2-regular"
+								hasUploadError={item.hasUploadError}
+							>
+								{!item.hasUploadError
+									? getFileName(item.file.name)
+									: item.uploadErrorReason}
+							</FileName>
+							{!item.hasUploadError && (
+								<FileExtension component="span" variant="title2-regular">
+									{getFileExtension(item.file.name)}
+								</FileExtension>
+							)}
+						</span>
 						<FileSize component="span" variant="title2-regular">
 							{item.file.size > 1000000
 								? `${(item.file.size / 1000000).toFixed(2)} MB`
