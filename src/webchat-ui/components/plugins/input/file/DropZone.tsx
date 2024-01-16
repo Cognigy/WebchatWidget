@@ -1,6 +1,7 @@
 import React from "react";
 import styled from '@emotion/styled';
-import AttachFile from './attach-file-20px.svg';
+import AttachFileIcon from '../../../../assets/attachment-16px.svg';
+import { Typography } from "@cognigy/chat-components";
 
 const componentStyles = (({ theme }) => ({
     position: "absolute",
@@ -13,19 +14,13 @@ const DropZoneContent = styled.div(componentStyles, {
     alignItems: 'center',
     justifyContent: 'center',
     display: 'flex',
-    backgroundColor: "#f9f9f9",
-    boxShadow: "0px 0px 30px 20px rgba(0,0,0,0.1) inset",
+    gap: 8,
 });
 
 const DropZoneContainer = styled.div(componentStyles, {});
 
-const AttachFileIcon = styled(AttachFile)(({ theme }) => ({
-    marginBottom: `-${theme.unitSize / 2}px`,
-}));
-
-const DragDropTypography = styled.span(() => ({
-    color: 'hsla(0, 0%, 0%, .54)',
-    fontSize: 14,
+const DragDropTypography = styled(Typography)(({ theme }) => ({
+    color: theme.black10,
 }));
 
 interface IDropZoneProps {
@@ -67,9 +62,11 @@ class DropZone extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IDr
                 <DropZoneContent>
                     <AttachFileIcon />
                     <DragDropTypography
+                        variant="title1-regular"
+                        component="span"
                         className="webchat-input-drag-and-drop-file-text"
                     >
-                        Drop to attach File
+                        Drop to attach
                     </DragDropTypography>
                 </DropZoneContent>
                 <DropZoneContainer
