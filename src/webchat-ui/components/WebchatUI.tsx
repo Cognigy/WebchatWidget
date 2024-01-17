@@ -27,7 +27,6 @@ import CollapseIcon from "../assets/collapse-20px.svg";
 import DisconnectOverlay from "./presentational/DisconnectOverlay";
 import { IWebchatConfig } from "../../common/interfaces/webchat-config";
 import { TTyping } from "../../common/interfaces/typing";
-import UnreadMessagePreview from "./presentational/UnreadMessagePreview";
 import Badge from "./presentational/Badge";
 import getTextFromMessage from "../../webchat/helper/message";
 import getKeyboardFocusableElements from "../utils/find-focusable";
@@ -62,6 +61,7 @@ import { PrivacyNotice } from "./presentational/PrivacyNotice";
 import { ChatOptions } from "./presentational/chat-options/ChatOptions";
 import { UIState } from "../../webchat/store/ui/ui-reducer";
 import { CSSTransition } from "react-transition-group";
+import { TeaserMessage } from "./presentational/TeaserMessage";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -543,6 +543,21 @@ export class WebchatUI extends React.PureComponent<
 		this.props.onSetHasGivenRating();
 	};
 
+	handleSendActionButtonMessage = (text?: string, data?: any, options?: Partial<ISendMessageOptions>) => {
+		this.props.onSetShowHomeScreen(false);
+		this.props.onSetShowChatOptionsScreen(false);
+
+		if (!this.props.hasAcceptedTerms) {
+			this.props.onSetStoredMessage({
+				text,
+				data,
+				options
+			});
+		} else {
+			this.props.onSendMessage(text, data, options);
+		}
+	};
+
 	render() {
 		const { props, state } = this;
 		const {
@@ -695,16 +710,13 @@ export class WebchatUI extends React.PureComponent<
 										{
 											// Show the message teaser if there is a last bot message and the webchat is closed
 											lastUnseenMessageText && (
-												<UnreadMessagePreview
-													className="webchat-unread-message-preview"
-													onClick={onToggle}
-													aria-live="polite"
-												>
-													<span className="sr-only">
-														New message preview
-													</span>
-													{lastUnseenMessageText}
-												</UnreadMessagePreview>
+												<TeaserMessage
+													messageText={lastUnseenMessageText}
+													onToggle={onToggle}
+													config={config}
+													onEmitAnalytics={onEmitAnalytics}
+													onSendActionButtonMessage={this.handleSendActionButtonMessage}
+												/>
 											)
 										}
 										{isDisabled ? (
@@ -810,21 +822,6 @@ export class WebchatUI extends React.PureComponent<
 		// TODO: implement better navigation history and currentPage string property on redux
 		const isSecondaryView = showInformationMessage;
 
-		const onSendActionButtonMessage = (text?: string, data?: any, options?: Partial<ISendMessageOptions>) => {
-			onSetShowHomeScreen(false);
-			onSetShowChatOptionsScreen(false);
-
-			if (!hasAcceptedTerms) {
-				onSetStoredMessage({
-					text,
-					data,
-					options
-				});
-			} else {
-				onSendMessage(text, data, options);
-			}
-		};
-
 		const handleStartConversation = () => {
 			if (hasAcceptedTerms) {
 				const { initialSessionId } = config;
@@ -888,7 +885,7 @@ export class WebchatUI extends React.PureComponent<
 					showOnlyRating={showRatingScreen}
 					onSendRating={this.handleSendRating}
 					onEmitAnalytics={onEmitAnalytics}
-					onSendActionButtonMessage={onSendActionButtonMessage}
+					onSendActionButtonMessage={this.handleSendActionButtonMessage}
 				/>
 			);
 
@@ -977,7 +974,7 @@ export class WebchatUI extends React.PureComponent<
 							onClose={onClose}
 							config={config}
 							onEmitAnalytics={onEmitAnalytics}
-							onSendActionButtonMessage={onSendActionButtonMessage}
+								onSendActionButtonMessage={this.handleSendActionButtonMessage}
 						/>
 						</CSSTransition>
 				}
