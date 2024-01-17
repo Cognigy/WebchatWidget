@@ -559,6 +559,9 @@ export class WebchatUI extends React.PureComponent<
 			customRatingCommentText,
 			onAcceptTerms,
 			onSetStoredMessage,
+			onSetFileList,
+			onSetFileUploadError,
+			onSetDropZoneVisible,
 			...restProps
 		} = props;
 		const { theme, hadConnection, lastUnseenMessageText } = state;
