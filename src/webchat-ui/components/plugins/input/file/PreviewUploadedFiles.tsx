@@ -1,11 +1,13 @@
-import React, { FC, HTMLProps, useRef } from "react";
+import React, { FC, useRef } from "react";
 import styled from "@emotion/styled";
 import CloseIcon from "../../../../assets/close-10px.svg";
 import IconButton from "../../../presentational/IconButton";
 import LinearProgressBar from "../../../presentational/LinearProgressBar";
 import { getFileExtension, getFileName } from "./helper";
-import { IUploadFileMetaData } from "../../../../../common/interfaces/file-upload";
 import { Typography } from "@cognigy/chat-components";
+import { useDispatch, useSelector } from "react-redux";
+import { StoreState } from "../../../../../webchat/store/store";
+import { IFile, removeFileFromList } from "../../../../../webchat/store/input/input-reducer";
 
 const UploadedFilesContainer = styled.div(({ theme }) => ({
 	display: "flex",
@@ -79,25 +81,15 @@ const RemoveFileButton = styled(IconButton)(({ theme }) => ({
 	},
 }));
 
-export interface IFile {
-	file: File;
-	progressPercentage?: number;
-	uploadFileMeta?: IUploadFileMetaData;
-	hasUploadError?: boolean;
-	uploadErrorReason?: string;
-}
-
-interface IPreviewUploadedFilesProps extends HTMLProps<HTMLDivElement> {
-	fileList: IFile[];
-	onRemoveFileFromList: (index: number) => void;
-}
-
-const PreviewUploadedFiles: FC<IPreviewUploadedFilesProps> = props => {
-	const { fileList, onRemoveFileFromList } = props;
+const PreviewUploadedFiles: FC = () => {
 	const removeFileButtonRefs = useRef<HTMLButtonElement[]>([]);
 
+	const fileList = useSelector((state: StoreState) => state.input.fileList);
+
+	const dispatch = useDispatch();
+
 	const onRemoveFileButtonClick = (index: number) => {
-		onRemoveFileFromList(index);
+		dispatch(removeFileFromList(index));
 	};
 
 	return (
@@ -112,8 +104,7 @@ const PreviewUploadedFiles: FC<IPreviewUploadedFilesProps> = props => {
 									behavior: "smooth",
 									inline: "center",
 								});
-							}
-							}
+							}}
 							aria-label={`Remove File Attachment ${index + 1}`}
 							ref={ref => {
 								if (ref) {

@@ -61,6 +61,9 @@ import { InformationMessage } from "./presentational/InformationMessage";
 import { PrivacyNotice } from "./presentational/PrivacyNotice";
 import { ChatOptions } from "./presentational/chat-options/ChatOptions";
 import { UIState } from "../../webchat/store/ui/ui-reducer";
+import DropZone from "./plugins/input/file/DropZone";
+import { fetchFileUploadToken, uploadFile } from "../../webchat/helper/endpoint";
+import { IFile } from "../../webchat/store/input/input-reducer";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -109,6 +112,12 @@ export interface WebchatUIProps {
 	onSetShowHomeScreen: (show: boolean) => void;
 
 	sttActive: boolean;
+	isDropZoneVisible: boolean;
+	onSetDropZoneVisible: (isVisible: boolean) => void;
+	fileList: IFile[];
+	onSetFileList: (fileList: IFile[]) => void;
+	fileUploadError: boolean;
+	onSetFileUploadError: (hasError: boolean) => void;
 
 	showPrevConversations: boolean;
 	onSetShowPrevConversations: (show: boolean) => void;
@@ -422,6 +431,80 @@ export class WebchatUI extends React.PureComponent<
 			this.props.onSetLastScrolledPosition(0);
 		}
 	};
+
+	onAddFilesToList = async (newFiles: File[]) => {
+        const {
+            fileAttachmentMaxSize,
+            _endpointTokenUrl
+        } = this.props.config.settings;
+
+        const existingFileList = this.props.fileList;
+        let newFileList: IFile[] = [];
+        const fileAttachmentMaxSizeInMb = fileAttachmentMaxSize > 0 ? fileAttachmentMaxSize / (1024 * 1024) : 0;
+        newFiles.forEach(file => {
+            if (file.size > fileAttachmentMaxSize) {
+                newFileList.push({
+                    file: file,
+                    progressPercentage: 10,
+                    hasUploadError: true,
+                    uploadErrorReason: `File size > ${fileAttachmentMaxSizeInMb}MB`
+                });
+            } else {
+                newFileList.push({
+                    file: file,
+                    progressPercentage: 30
+                });
+            }
+        });
+
+		const { onSetFileList, onSetFileUploadError } = this.props;
+
+		onSetFileList(existingFileList.concat(newFileList));
+
+        const fileUploadTokenApiUrl = `${_endpointTokenUrl}/fileuploadtoken`;
+        let response;
+        let hasError = false;
+        try {
+            response = await fetchFileUploadToken(fileUploadTokenApiUrl);
+        } catch (err) {
+            hasError = true;
+        }
+
+        newFileList = newFileList.map(fileItem => {
+            if (!fileItem.hasUploadError) {
+                fileItem.progressPercentage = 50;
+                fileItem.hasUploadError = hasError;
+                fileItem.uploadErrorReason = hasError ? "Upload Failed" : fileItem.uploadErrorReason;
+            }
+            return fileItem;
+        });
+        setTimeout(() => {
+			onSetFileList(existingFileList.concat(newFileList));
+        }, 100);
+
+        newFileList = await Promise.all(newFileList.map(async fileItem => {
+            try {
+                if (!fileItem.hasUploadError) {
+                    fileItem.uploadFileMeta = await uploadFile(fileItem.file, response.fileUploadUrl, response.token);
+                    if (fileItem.uploadFileMeta.status === "infected") {
+                        fileItem.hasUploadError = true;
+                        fileItem.uploadErrorReason = "Infected File";
+						onSetFileUploadError(true);
+                    }
+                    fileItem.uploadFileMeta.fileName = fileItem.file.name;
+                    fileItem.progressPercentage = 100;
+                } else {
+					onSetFileUploadError(true);
+                }
+            } catch (err) {
+                fileItem.hasUploadError = true;
+                fileItem.uploadErrorReason = "Failed Upload!";
+				onSetFileUploadError(true);
+            }
+            return fileItem;
+        }));
+		onSetFileList(existingFileList.concat(newFileList));
+    };
 
 	renderInput = () => {
 		const { inputPlugins } = this.state;
@@ -752,6 +835,7 @@ export class WebchatUI extends React.PureComponent<
 			hasAcceptedTerms,
 			onAcceptTerms,
 			onSetStoredMessage,
+			isDropZoneVisible,
 		} = this.props;
 
 		let informMessage = "";
@@ -841,6 +925,17 @@ export class WebchatUI extends React.PureComponent<
 			onAcceptTerms();
 		}
 
+		const handleDragEnter = (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+	
+			this.props.onSetDropZoneVisible(true);
+		};
+
+		const handleDropZoneVisibility = (isDropZoneVisible: boolean) => {
+			this.props.onSetDropZoneVisible(isDropZoneVisible);
+		}
+
 		const getRegularLayoutContent = () => {
 			if (showInformationMessage) return (
 				<InformationMessage message={informMessage} />
@@ -875,6 +970,10 @@ export class WebchatUI extends React.PureComponent<
 				/>
 			);
 
+			if(isDropZoneVisible) return (
+				<DropZone setIsDropZoneVisible={handleDropZoneVisibility} onAddFilesToList={this.onAddFilesToList} />
+			)
+
 			return (
 				<>
 					<HistoryWrapper
@@ -886,6 +985,7 @@ export class WebchatUI extends React.PureComponent<
 						ref={this.history as any}
 						className="webchat-chat-history"
 						tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
+						onDragEnter={handleDragEnter}
 					>
 						<h2 className="sr-only" id="webchatChatHistoryHeading">
 							Chat History
