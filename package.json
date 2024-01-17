@@ -1,6 +1,6 @@
 {
 	"name": "@cognigy/webchat",
-	"version": "3.0.0-beta.12",
+	"version": "3.0.0-beta.13",
 	"description": "Webchat Widget for Cognigy.AI",
 	"author": "Cognigy GmbH <info@cognigy.com>",
 	"contributors": [
@@ -44,11 +44,12 @@
 	},
 	"dependencies": {
 		"@braintree/sanitize-url": "^6.0.0",
-		"@cognigy/chat-components": "0.9.0",
-		"@cognigy/socket-client": "5.0.0-beta.7",
+		"@cognigy/chat-components": "0.10.0",
+		"@cognigy/socket-client": "5.0.0-beta.10",
 		"@emotion/cache": "^10.0.29",
 		"@emotion/react": "^11.7.1",
 		"@emotion/styled": "^11.6.0",
+		"@types/react-transition-group": "4.4.10",
 		"adaptivecards": "^2.10.0",
 		"axios": "0.27.2",
 		"classnames": "2.3.2",
@@ -69,6 +70,7 @@
 		"react-redux": "7.2.8",
 		"react-responsive-carousel": "^3.2.22",
 		"react-textarea-autosize": "8.5.3",
+		"react-transition-group": "4.4.5",
 		"redux": "^4.0.4",
 		"remarkable": "^2.0.1",
 		"styled-jss": "^2.2.3",

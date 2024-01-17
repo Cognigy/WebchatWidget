@@ -62,8 +62,8 @@ import { PrivacyNotice } from "./presentational/PrivacyNotice";
 import { ChatOptions } from "./presentational/chat-options/ChatOptions";
 import { UIState } from "../../webchat/store/ui/ui-reducer";
 import DropZone from "./plugins/input/file/DropZone";
-import { fetchFileUploadToken, uploadFile } from "../../webchat/helper/endpoint";
 import { IFile } from "../../webchat/store/input/input-reducer";
+import { CSSTransition } from "react-transition-group";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -166,6 +166,36 @@ const HistoryWrapper = styled(History)(({ theme }) => ({
 	flexGrow: 1,
 	minHeight: 0,
 	height: theme.blockSize,
+}));
+
+const RegularLayoutRoot = styled.div(() => ({
+	position: "relative",
+	height: "100%",
+	display: "flex",
+	flexDirection: "column",
+}));
+
+const RegularLayoutContentWrapper = styled.div(({ theme }) => ({
+	height: "100%",
+	zIndex: 3,
+	display: "flex",
+	flexDirection: "column",
+	backgroundColor: theme.white,
+
+	"&.slide-in-enter": {
+		transform: "translateX(100%)",
+	},
+	"&.slide-in-enter-active": {
+		transform: "translateX(0%)",
+		transition: "transform 400ms ease-out",
+	},
+	"&.slide-in-exit": {
+		transform: "translateX(0%)",
+	},
+	"&.slide-in-exit-active": {
+		transform: "translateX(100%)",
+		transition: "transform 400ms ease-out",
+	},
 }));
 
 export class WebchatUI extends React.PureComponent<
@@ -411,8 +441,8 @@ export class WebchatUI extends React.PureComponent<
 		} else {
 			if (this.props.unseenMessages.length > 0) {
 				document.title = `(${this.props.unseenMessages.length}) ${this.props.unseenMessages.length === 1
-						? this.props.config.settings.unreadMessageTitleText
-						: this.props.config.settings.unreadMessageTitleTextPlural
+					? this.props.config.settings.unreadMessageTitleText
+					: this.props.config.settings.unreadMessageTitleTextPlural
 					}`;
 				this.titleType = "unread";
 			}
@@ -821,27 +851,13 @@ export class WebchatUI extends React.PureComponent<
 			onSetShowChatOptionsScreen(false);
 		}
 
-		if (showHomeScreen && !isSecondaryView)
-			return (
-				<HomeScreen
-					showHomeScreen={showHomeScreen}
-					onSetShowHomeScreen={onSetShowHomeScreen}
-					onStartConversation={handleStartConversation}
-					onSetShowPrevConversations={onSetShowPrevConversations}
-					onClose={onClose}
-					config={config}
-					onEmitAnalytics={onEmitAnalytics}
-					onSendActionButtonMessage={onSendActionButtonMessage}
-				/>
-			);
-
 		const handleOnClose = () => {
 			onClose?.();
 		};
 
 		// TODO implement proper navigation solution
 		const handleOnGoBack = () => {
-			if(!showChatOptionsScreen && !showRatingScreen) {
+			if (!showChatOptionsScreen && !showRatingScreen) {
 				onSetShowPrevConversations(false);
 				onSetShowHomeScreen(true);
 			} else {
@@ -887,7 +903,7 @@ export class WebchatUI extends React.PureComponent<
 				/>
 			);
 
-			if(showChatOptionsScreen || showRatingScreen) return (
+			if (showChatOptionsScreen || showRatingScreen) return (
 				<ChatOptions
 					config={config}
 					ratingTitleText={customRatingTitle || config.settings.ratingTitleText}
@@ -947,24 +963,67 @@ export class WebchatUI extends React.PureComponent<
 			hasAcceptedTerms;
 
 		return (
-			<>
-				<Header
-					onClose={handleOnClose}
-					onGoBack={showInformationMessage ? undefined : handleOnGoBack}
-					onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
-					isChatOptionsButtonVisible={isChatOptionsButtonVisible}
-					logoUrl={!showChatOptionsScreen && !showRatingScreen
-						? config.settings.headerLogoUrl
-						: undefined
-					}
-					title={getTitles()}
-					closeButtonRef={this.closeButtonInHeaderRef}
-					menuButtonRef={this.menuButtonInHeaderRef}
-					chatToggleButtonRef={this.chatToggleButtonRef}
-					mainContentRef={this.history?.current?.rootRef}
-				/>
-				{getRegularLayoutContent()}
-			</>
+			<RegularLayoutRoot>
+				{
+					<CSSTransition
+						in={!!(!showHomeScreen || showInformationMessage)}
+						timeout={500}
+						classNames="slide-in"
+						mountOnEnter
+						unmountOnExit
+					>
+						<Header
+							onClose={handleOnClose}
+							onGoBack={showInformationMessage ? undefined : handleOnGoBack}
+							onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
+							isChatOptionsButtonVisible={isChatOptionsButtonVisible}
+							logoUrl={!showChatOptionsScreen && !showRatingScreen
+								? config.settings.headerLogoUrl
+								: undefined
+							}
+							title={getTitles()}
+							closeButtonRef={this.closeButtonInHeaderRef}
+							menuButtonRef={this.menuButtonInHeaderRef}
+							chatToggleButtonRef={this.chatToggleButtonRef}
+							mainContentRef={this.history?.current?.rootRef}
+						/>
+					</CSSTransition>
+				}
+				{
+					!isSecondaryView &&
+					<CSSTransition
+						in={!showHomeScreen}
+						classNames="hidebackground"
+						timeout={500}
+					>
+						<HomeScreen
+							showHomeScreen={showHomeScreen}
+							onSetShowHomeScreen={onSetShowHomeScreen}
+							onStartConversation={handleStartConversation}
+							onSetShowPrevConversations={onSetShowPrevConversations}
+							onClose={onClose}
+							config={config}
+							onEmitAnalytics={onEmitAnalytics}
+							onSendActionButtonMessage={onSendActionButtonMessage}
+						/>
+						</CSSTransition>
+				}
+				{
+					<CSSTransition
+						in={!!(!showHomeScreen || showInformationMessage)}
+						timeout={500}
+						classNames="slide-in"
+						mountOnEnter
+						unmountOnExit
+					>
+						<RegularLayoutContentWrapper>
+							{
+								getRegularLayoutContent()
+							}
+						</RegularLayoutContentWrapper>
+					</CSSTransition>
+				}
+			</RegularLayoutRoot>
 		);
 	}
 

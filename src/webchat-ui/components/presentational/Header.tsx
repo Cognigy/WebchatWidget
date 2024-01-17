@@ -11,6 +11,8 @@ import { Typography } from "@cognigy/chat-components";
 const HeaderBar = styled.div(({ theme }) => ({
 	alignItems: "center",
 	borderBottom: `1px solid ${theme.black80}`,
+	backgroundColor: theme.backgroundWebchat,
+	position: "relative",
 	color: theme.black10,
 	display: "flex",
 	flexShrink: 0,
@@ -21,7 +23,7 @@ const HeaderBar = styled.div(({ theme }) => ({
 	padding: 20,
 	resize: "vertical",
 	textAlign: "center",
-	zIndex: 2,
+	zIndex: 3,
 	"& .logoNameContainer": {
 		alignItems: "center",
 		display: "flex",
@@ -36,6 +38,21 @@ const HeaderBar = styled.div(({ theme }) => ({
 	},
 	"& img:not(.compact)": {
 		marginBottom: 10,
+	},
+
+	"&.slide-in-enter": {
+		transform: "translateY(-100%)",
+	},
+	"&.slide-in-enter-active": {
+		transform: "translateY(0%)",
+		transition: "transform 400ms ease-out",
+	},
+	"&.slide-in-exit": {
+		transform: "translateY(0%)",
+	},
+	"&.slide-in-exit-active": {
+		transform: "translateY(-100%)",
+		transition: "transform 400ms ease-out",
 	},
 }));
 
