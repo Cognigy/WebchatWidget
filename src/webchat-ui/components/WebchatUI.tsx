@@ -432,80 +432,6 @@ export class WebchatUI extends React.PureComponent<
 		}
 	};
 
-	onAddFilesToList = async (newFiles: File[]) => {
-        const {
-            fileAttachmentMaxSize,
-            _endpointTokenUrl
-        } = this.props.config.settings;
-
-        const existingFileList = this.props.fileList;
-        let newFileList: IFile[] = [];
-        const fileAttachmentMaxSizeInMb = fileAttachmentMaxSize > 0 ? fileAttachmentMaxSize / (1024 * 1024) : 0;
-        newFiles.forEach(file => {
-            if (file.size > fileAttachmentMaxSize) {
-                newFileList.push({
-                    file: file,
-                    progressPercentage: 10,
-                    hasUploadError: true,
-                    uploadErrorReason: `File size > ${fileAttachmentMaxSizeInMb}MB`
-                });
-            } else {
-                newFileList.push({
-                    file: file,
-                    progressPercentage: 30
-                });
-            }
-        });
-
-		const { onSetFileList, onSetFileUploadError } = this.props;
-
-		onSetFileList(existingFileList.concat(newFileList));
-
-        const fileUploadTokenApiUrl = `${_endpointTokenUrl}/fileuploadtoken`;
-        let response;
-        let hasError = false;
-        try {
-            response = await fetchFileUploadToken(fileUploadTokenApiUrl);
-        } catch (err) {
-            hasError = true;
-        }
-
-        newFileList = newFileList.map(fileItem => {
-            if (!fileItem.hasUploadError) {
-                fileItem.progressPercentage = 50;
-                fileItem.hasUploadError = hasError;
-                fileItem.uploadErrorReason = hasError ? "Upload Failed" : fileItem.uploadErrorReason;
-            }
-            return fileItem;
-        });
-        setTimeout(() => {
-			onSetFileList(existingFileList.concat(newFileList));
-        }, 100);
-
-        newFileList = await Promise.all(newFileList.map(async fileItem => {
-            try {
-                if (!fileItem.hasUploadError) {
-                    fileItem.uploadFileMeta = await uploadFile(fileItem.file, response.fileUploadUrl, response.token);
-                    if (fileItem.uploadFileMeta.status === "infected") {
-                        fileItem.hasUploadError = true;
-                        fileItem.uploadErrorReason = "Infected File";
-						onSetFileUploadError(true);
-                    }
-                    fileItem.uploadFileMeta.fileName = fileItem.file.name;
-                    fileItem.progressPercentage = 100;
-                } else {
-					onSetFileUploadError(true);
-                }
-            } catch (err) {
-                fileItem.hasUploadError = true;
-                fileItem.uploadErrorReason = "Failed Upload!";
-				onSetFileUploadError(true);
-            }
-            return fileItem;
-        }));
-		onSetFileList(existingFileList.concat(newFileList));
-    };
-
 	renderInput = () => {
 		const { inputPlugins } = this.state;
 		const { messages } = this.props;
@@ -970,9 +896,8 @@ export class WebchatUI extends React.PureComponent<
 				/>
 			);
 
-			if(isDropZoneVisible) return (
-				<DropZone setIsDropZoneVisible={handleDropZoneVisibility} onAddFilesToList={this.onAddFilesToList} />
-			)
+			if(isDropZoneVisible) 
+				return <DropZone />
 
 			return (
 				<>

@@ -141,7 +141,7 @@ interface IBaseInputProps extends InputComponentProps {
 	fileList: IFile[];
 	onSetFileList: (fileList: IFile[]) => void;
 	onAddFilesToList: (fileList: File[]) => void;
-	webchatSpeechTimeoutRef: React.RefObject<NodeJS.Timeout>;
+	webchatSpeechTimeoutRef?: React.RefObject<NodeJS.Timeout>;
 }
 
 declare global {

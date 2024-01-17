@@ -1,10 +1,11 @@
 import React, { FC, useRef } from "react";
+import { useDispatch } from "react-redux";
 import styled from "@emotion/styled";
 import AttachFileIcon from "../../../../assets/attachment-16px.svg";
 import { Typography } from "@cognigy/chat-components";
 import Branding from "../../../branding/Branding";
 import { setDropZoneVisible } from "../../../../../webchat/store/input/input-reducer";
-import { useDispatch } from "react-redux";
+import { addFilesToList } from "../../../../../webchat/store/input/file-input-middleware";
 
 const componentStyles = () => ({
 	width: "100%",
@@ -36,12 +37,7 @@ const DragDropTypography = styled(Typography)(({ theme }) => ({
 	color: theme.black10,
 }));
 
-interface IDropZoneProps {
-	setIsDropZoneVisible: (isVisible: boolean) => void;
-	onAddFilesToList: (fileList: File[]) => void;
-}
-
-const DropZone: FC<IDropZoneProps> = props => {
+const DropZone: FC = () => {
 	const dropRef = useRef<HTMLInputElement>(null);
 	const dispatch = useDispatch();
 
@@ -54,14 +50,13 @@ const DropZone: FC<IDropZoneProps> = props => {
 		dispatch(setDropZoneVisible(false));
 	};
 
-	const handleDrop = e => {
+	const handleDrop = async e => {
 		e.preventDefault();
 		e.stopPropagation();
 		dispatch(setDropZoneVisible(false));
 		if (e.dataTransfer?.files) {
-			const { onAddFilesToList } = props;
 			const newFilesArray = Array.prototype.slice.call(e.dataTransfer?.files);
-			onAddFilesToList(newFilesArray);
+			dispatch(addFilesToList(newFilesArray));
 		}
 	};
 

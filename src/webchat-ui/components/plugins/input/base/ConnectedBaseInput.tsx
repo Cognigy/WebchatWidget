@@ -4,6 +4,7 @@ import { BaseInput } from "./BaseInput";
 import { StoreState } from "../../../../../webchat/store/store";
 import { InputComponentProps } from "../../../../../common/interfaces/input-plugin";
 import { IFile, setFileList, setSTTActive } from "../../../../../webchat/store/input/input-reducer";
+import { addFilesToList } from "../../../../../webchat/store/input/file-input-middleware";
 
 
 export const ConnectedBaseInput = (props: InputComponentProps) => {
@@ -21,7 +22,7 @@ export const ConnectedBaseInput = (props: InputComponentProps) => {
 			fileList={fileList}
 			fileUploadError={fileUploadError}
 			onSetFileList={(fileList: IFile[]) => dispatch(setFileList(fileList))}
-			onAddFilesToList={(fileList: File[]) => {console.log("onAddFilesToList", fileList)}}
+			onAddFilesToList={(fileList: File[]) => dispatch(addFilesToList(fileList))}
 		/>
 	);
 };
