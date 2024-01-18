@@ -916,7 +916,7 @@ export class WebchatUI extends React.PureComponent<
 			);
 
 			if(isDropZoneVisible) 
-				return <DropZone />
+				return <DropZone disableBranding={config.settings.disableBranding} />
 
 			return (
 				<>
@@ -993,7 +993,7 @@ export class WebchatUI extends React.PureComponent<
 					!isSecondaryView &&
 					<CSSTransition
 						in={!showHomeScreen}
-						classNames="hidebackground"
+						// classNames="hidebackground"
 						timeout={500}
 					>
 						<HomeScreen

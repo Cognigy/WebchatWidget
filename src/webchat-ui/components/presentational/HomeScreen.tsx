@@ -224,7 +224,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 					Previous conversations
 				</PrevConversationsButton>
 				{/* Branding Logo Link */}
-				{!disableBranding && <Branding />}
+				{!disableBranding && <Branding id="cognigyHomeScreenBranding" />}
 			</HomeScreenActions>
 		</HomeScreenRoot>
 	);

@@ -37,9 +37,15 @@ const DragDropTypography = styled(Typography)(({ theme }) => ({
 	color: theme.black10,
 }));
 
-const DropZone: FC = () => {
+interface IDropZoneProps {
+	disableBranding?: boolean;
+}
+
+const DropZone: FC<IDropZoneProps> = props => {
 	const dropRef = useRef<HTMLInputElement>(null);
 	const dispatch = useDispatch();
+
+	const { disableBranding } = props;
 
 	const handleDragOver = e => {
 		e.preventDefault();
@@ -73,7 +79,7 @@ const DropZone: FC = () => {
 						Drop to attach
 					</DragDropTypography>
 				</DropZoneContent>
-				<Branding />
+				{!disableBranding && <Branding id="cognigyDropZoneLogo" />}
 			</DropZoneRoot>
 			<DropZoneContainer
 				ref={dropRef}
