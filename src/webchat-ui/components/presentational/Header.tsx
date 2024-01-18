@@ -132,8 +132,8 @@ const Header: FC<HeaderProps> = props => {
 	};
 
 	const isCompact =
-		!mainContentRef?.current ||
-		mainContentRef.current.scrollHeight > mainContentRef.current.clientHeight ||
+		(mainContentRef && !mainContentRef?.current) ||
+		mainContentRef?.current?.scrollHeight > mainContentRef?.current?.clientHeight ||
 		!logoUrl;
 
 	return (
