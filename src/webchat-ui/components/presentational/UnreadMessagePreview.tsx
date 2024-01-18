@@ -8,6 +8,8 @@ const UnreadMessagePreview = styled.div(({ theme }) => ({
 	boxShadow: '0px 4px 6px 0px rgba(28, 28, 28, 0.20)',
 	border: '1px solid rgba(26, 26, 26, 0.10)',
 
+	cursor: 'pointer',
+
 	display: 'flex',
 	flexDirection: 'column',
 	justifyContent: 'center',

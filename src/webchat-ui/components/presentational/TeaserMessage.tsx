@@ -8,6 +8,7 @@ import { IWebchatButton } from "@cognigy/socket-client";
 import { WebchatUIProps } from "../WebchatUI";
 import { IWebchatConfig } from "../../../common/interfaces/webchat-config";
 import { ISendMessageOptions } from "../../../webchat/store/messages/message-middleware";
+import { useMediaQuery } from "react-responsive";
 
 const TeaserMessageRoot = styled.div(({ theme }) => ({
 	position: "fixed",
@@ -65,6 +66,7 @@ interface ITeaserMessageProps {
 	onEmitAnalytics: WebchatUIProps["onEmitAnalytics"];
 	onSendActionButtonMessage: WebchatUIProps["onSendMessage"];
 	config: IWebchatConfig;
+	onHideTeaserMessage: () => void;
 }
 
 // TODO: Load buttons from new endpoint config
@@ -87,7 +89,9 @@ const buttons: IWebchatButton[] = [
 ]
 
 export const TeaserMessage = (props: ITeaserMessageProps) => {
-	const { onToggle, messageText, config, onEmitAnalytics, onSendActionButtonMessage } = props;
+	const { onToggle, messageText, config, onEmitAnalytics, onSendActionButtonMessage, onHideTeaserMessage } = props;
+
+	const isDesktopMedia = useMediaQuery({ query: "(min-width: 576px)" });
 
 	const handleMessageClick = () => {
 		onToggle();
@@ -96,7 +100,13 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 	const handleActionButtonClick = (text?: string, data?: any, options?: Partial<ISendMessageOptions>) => {
 		onSendActionButtonMessage(text, data, options);
 		onToggle();
-	}
+	};
+
+	const handleHideTeaserMessage = (e: React.MouseEvent<HTMLInputElement>) => {
+		e.stopPropagation();
+		e.preventDefault();
+		onHideTeaserMessage();
+	};
 
 	return (
 		<TeaserMessageRoot className="webchat-teaser-message-root">
@@ -113,10 +123,10 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 							className="webchat-teaser-message-header-title"
 							margin={0}
 						>
-							Cognigy
+							{config.settings.title || "Cognigy"}
 						</Typography>
 						<CloseIconWrapper>
-							<CloseIcon onClick={() => { }} />
+							<CloseIcon onClick={handleHideTeaserMessage} />
 						</CloseIconWrapper>
 					</TeaserMessageHeaderContent>
 				</TeaserMessageHeader>
@@ -133,7 +143,6 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 			</UnreadMessagePreview>
 			<ButtonContainer className="webchat-teaser-message-actions">
 				<ActionButtons
-					size="large"
 					showUrlIcon
 					buttonClassName="webchat-teaser-message-button"
 					containerClassName="webchat-teaser-message-button-container"
@@ -141,6 +150,7 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 					config={config}
 					action={handleActionButtonClick}
 					onEmitAnalytics={onEmitAnalytics}
+					size={isDesktopMedia ? "large" : "small"}
 				/>
 			</ButtonContainer>
 		</TeaserMessageRoot>

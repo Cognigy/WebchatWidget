@@ -668,6 +668,13 @@ export class WebchatUI extends React.PureComponent<
 				);
 			}
 		};
+
+		const onHideTeaserMessage = () => {
+			this.setState({
+				lastUnseenMessageText: "",
+			});
+		};
+
 		return (
 			<>
 				<ThemeProvider theme={theme}>
@@ -716,6 +723,7 @@ export class WebchatUI extends React.PureComponent<
 													config={config}
 													onEmitAnalytics={onEmitAnalytics}
 													onSendActionButtonMessage={this.handleSendActionButtonMessage}
+													onHideTeaserMessage={onHideTeaserMessage}
 												/>
 											)
 										}
