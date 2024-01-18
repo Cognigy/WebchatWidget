@@ -15,14 +15,9 @@ const TeaserMessageRoot = styled.div(({ theme }) => ({
 	right: "20px",
 	bottom: "84px",
 
-	// height: "100%",
-	// width: "100%",
-	// backgroundColor: theme.white,
-	// flex: "1 0 0",
 	display: "flex",
 	flexDirection: "column",
 	alignItems: "flex-end",
-	// justifyContent: "space-between",
 	gap: "16px",
 }));
 
