@@ -7,6 +7,7 @@ import MenuIcon from "../../assets/menu-16px.svg";
 import Notifications from "./Notifications";
 import classnames from "classnames";
 import { Typography } from "@cognigy/chat-components";
+import CognigyAIAvatar from "../../assets/cognigy-ai-avatar-48px.svg";
 
 const HeaderBar = styled.div(({ theme }) => ({
 	alignItems: "center",
@@ -30,11 +31,16 @@ const HeaderBar = styled.div(({ theme }) => ({
 		flexDirection: "column",
 		height: 79,
 		marginInline: "auto",
-		justifyContent: "space-between",
+		gap: 8,
 	},
 	"& .logoNameContainer-compact": {
 		flexDirection: "row",
 		height: 28,
+
+		".compact": {
+			width: 28,
+			height: 28,
+		},
 	},
 	"& img:not(.compact)": {
 		marginBottom: 10,
@@ -87,10 +93,6 @@ const Logo = styled.img(() => ({
 	width: 48,
 	height: 48,
 	marginInline: 8,
-	"&.compact": {
-		width: 28,
-		height: 28,
-	},
 }));
 
 interface HeaderProps {
@@ -133,8 +135,7 @@ const Header: FC<HeaderProps> = props => {
 
 	const isCompact =
 		!mainContentRef?.current ||
-		mainContentRef.current.scrollHeight > mainContentRef.current.clientHeight ||
-		!logoUrl;
+		mainContentRef.current.scrollHeight > mainContentRef.current.clientHeight;
 
 	return (
 		<>
@@ -158,17 +159,21 @@ const Header: FC<HeaderProps> = props => {
 						isCompact && "logoNameContainer-compact",
 					)}
 				>
-					{logoUrl && (
-						<Logo
-							src={logoUrl}
-							className={classnames("webchat-header-logo", isCompact && "compact")}
-							alt="Chat logo"
-						/>
+					{isChatOptionsButtonVisible && (
+						logoUrl ?
+							<Logo
+								src={logoUrl}
+								className={classnames("webchat-header-logo", isCompact && "compact")}
+								alt="Chat logo"
+							/>
+							:
+							<CognigyAIAvatar className={classnames("webchat-header-cognigy-logo", isCompact && "compact")} />
 					)}
 					<Typography
 						variant="h2-semibold"
 						id="webchatHeaderTitle"
 						className="webchat-header-title"
+						margin={0}
 					>
 						{title}
 					</Typography>

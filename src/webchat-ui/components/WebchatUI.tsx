@@ -915,6 +915,12 @@ export class WebchatUI extends React.PureComponent<
 		}
 
 		const getTitles = () => {
+			if (!hasAcceptedTerms) {
+				return "Privacy notice";
+			}
+			if (showPrevConversations) {
+				return "Previous conversations";
+			}
 			if (showChatOptionsScreen) {
 				return "Chat options";
 			}
