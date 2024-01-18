@@ -111,7 +111,7 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 	return (
 		<TeaserMessageRoot className="webchat-teaser-message-root">
 			<UnreadMessagePreview
-				className="webchat-unread-message-preview"
+				className="webchat-teaser-message-bubble"
 				onClick={handleMessageClick}
 				aria-live="polite"
 			>
@@ -125,7 +125,7 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 						>
 							{config.settings.title || "Cognigy"}
 						</Typography>
-						<CloseIconWrapper>
+						<CloseIconWrapper className="webchat-teaser-message-header-close-button">
 							<CloseIcon onClick={handleHideTeaserMessage} />
 						</CloseIconWrapper>
 					</TeaserMessageHeaderContent>
@@ -141,7 +141,7 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 					{messageText}
 				</Typography>
 			</UnreadMessagePreview>
-			<ButtonContainer className="webchat-teaser-message-actions">
+			<ButtonContainer className="webchat-teaser-message-action-buttons">
 				<ActionButtons
 					showUrlIcon
 					buttonClassName="webchat-teaser-message-button"
