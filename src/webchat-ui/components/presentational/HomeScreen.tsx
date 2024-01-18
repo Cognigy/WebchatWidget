@@ -26,12 +26,12 @@ const HomeScreenRoot = styled.div(({ theme }) => ({
 		boxSizing: "border-box",
 	},
 
-	"&.hidebackground-enter": {
-		transform: "translateY(0)",
-	},
-	"&.hidebackground-enter-done": {
-		transform: "translateY(20px)",
-	},
+	// "&.hidebackground-enter": {
+	// 	transform: "translateY(0)",
+	// },
+	// "&.hidebackground-enter-done": {
+	// 	transform: "translateY(20px)",
+	// },
 }));
 
 interface IHomeScreenContentProps {

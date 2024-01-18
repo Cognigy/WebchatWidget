@@ -5,6 +5,7 @@ import { RatingWidget } from "./RatingWidget";
 import { PostbackButtons } from "./PostbackButtons";
 import { WebchatUIProps } from "../../WebchatUI";
 import { ChatOptionsFooter } from "./ChatOptionsFooter";
+import { TTSOption } from "./TTSOption";
 
 const ChatOptionsRoot = styled.div(() => ({
 	width: "100%",
@@ -68,6 +69,11 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 							onSendActionButtonMessage={onSendActionButtonMessage}
 							onEmitAnalytics={onEmitAnalytics}
 						/>
+						<DividerWrapper>
+							<Divider />
+						</DividerWrapper>
+
+						<TTSOption onToggle={() => { }} />
 						<DividerWrapper>
 							<Divider />
 						</DividerWrapper>
