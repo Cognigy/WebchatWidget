@@ -993,7 +993,6 @@ export class WebchatUI extends React.PureComponent<
 					!isSecondaryView &&
 					<CSSTransition
 						in={!showHomeScreen}
-						// classNames="hidebackground"
 						timeout={500}
 					>
 						<HomeScreen
