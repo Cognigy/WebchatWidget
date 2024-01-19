@@ -25,6 +25,13 @@ const HomeScreenRoot = styled.div(({ theme }) => ({
 	"& *": {
 		boxSizing: "border-box",
 	},
+
+	"&.hidebackground-enter-done": {
+		"& .webchat-homescreen-content": {
+			backgroundImage: "none",
+		}
+	},
+
 }));
 
 interface IHomeScreenContentProps {

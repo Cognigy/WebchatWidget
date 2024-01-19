@@ -994,6 +994,7 @@ export class WebchatUI extends React.PureComponent<
 					<CSSTransition
 						in={!showHomeScreen}
 						timeout={500}
+						classNames="hidebackground"
 					>
 						<HomeScreen
 							showHomeScreen={showHomeScreen}
