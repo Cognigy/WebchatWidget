@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { IColorProps } from "../../style";
 import { createTransition } from "../../utils/css";
-interface IIconButtonProps extends IColorProps{
+export interface IIconButtonProps extends IColorProps {
     selected?: boolean;
 }
 

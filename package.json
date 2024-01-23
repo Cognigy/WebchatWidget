@@ -44,7 +44,7 @@
 	},
 	"dependencies": {
 		"@braintree/sanitize-url": "^6.0.0",
-		"@cognigy/chat-components": "0.10.0",
+		"@cognigy/chat-components": "0.10.7",
 		"@cognigy/socket-client": "5.0.0-beta.10",
 		"@emotion/cache": "^10.0.29",
 		"@emotion/react": "^11.7.1",
@@ -68,6 +68,7 @@
 		"react-hot-toast": "^2.4.1",
 		"react-player": "^2.9.0",
 		"react-redux": "7.2.8",
+		"react-responsive": "9.0.2",
 		"react-responsive-carousel": "^3.2.22",
 		"react-textarea-autosize": "8.5.3",
 		"react-transition-group": "4.4.5",
