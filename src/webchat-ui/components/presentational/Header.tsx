@@ -135,7 +135,7 @@ const Header: FC<HeaderProps> = props => {
 
 	const isCompact =
 		!mainContentRef?.current ||
-		mainContentRef.current.scrollHeight > mainContentRef.current.clientHeight;
+		mainContentRef.current.scrollHeight > mainContentRef.current.clientHeight || !isChatOptionsButtonVisible;
 
 	return (
 		<>
