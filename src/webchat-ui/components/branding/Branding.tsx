@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { FC, memo } from "react";
 import styled from "@emotion/styled";
 import { Typography } from "@cognigy/chat-components";
 
@@ -25,12 +25,16 @@ const Link = styled.a(({ theme }) => ({
 
 const URL = `https://www.cognigy.com/?utm_campaign=CognigyWebchatEmbedded&utm_medium=webchat&utm_term=webchat&utm_content=webchat&utm_source=${window.location.hostname}`;
 
-const Branding = () => (
+interface IBrandingProps {
+	id?: string;
+}
+
+const Branding: FC<IBrandingProps> = (props) => (
 	<Link
 		href={URL}
 		target="_blank"
 		aria-label="Powered by Cognigy. Opens in new tab"
-		id="cognigyBrandingLink"
+		id={props.id ?? "cognigyBrandingLink"}
 	>
 		<Typography variant="copy-medium" component="span" fontSize={10} lineHeight="120%">
 			Powered by Cognigy.AI

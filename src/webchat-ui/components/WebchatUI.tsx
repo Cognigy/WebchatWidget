@@ -60,6 +60,8 @@ import { InformationMessage } from "./presentational/InformationMessage";
 import { PrivacyNotice } from "./presentational/PrivacyNotice";
 import { ChatOptions } from "./presentational/chat-options/ChatOptions";
 import { UIState } from "../../webchat/store/ui/ui-reducer";
+import DropZone from "./plugins/input/file/DropZone";
+import { IFile } from "../../webchat/store/input/input-reducer";
 import { CSSTransition } from "react-transition-group";
 import { TeaserMessage } from "./presentational/TeaserMessage";
 
@@ -110,6 +112,12 @@ export interface WebchatUIProps {
 	onSetShowHomeScreen: (show: boolean) => void;
 
 	sttActive: boolean;
+	isDropZoneVisible: boolean;
+	onSetDropZoneVisible: (isVisible: boolean) => void;
+	fileList: IFile[];
+	onSetFileList: (fileList: IFile[]) => void;
+	fileUploadError: boolean;
+	onSetFileUploadError: (hasError: boolean) => void;
 
 	showPrevConversations: boolean;
 	onSetShowPrevConversations: (show: boolean) => void;
@@ -596,6 +604,9 @@ export class WebchatUI extends React.PureComponent<
 			customRatingCommentText,
 			onAcceptTerms,
 			onSetStoredMessage,
+			onSetFileList,
+			onSetFileUploadError,
+			onSetDropZoneVisible,
 			...restProps
 		} = props;
 		const { theme, hadConnection, lastUnseenMessageText } = state;
@@ -803,6 +814,7 @@ export class WebchatUI extends React.PureComponent<
 			hasAcceptedTerms,
 			onAcceptTerms,
 			onSetStoredMessage,
+			isDropZoneVisible,
 		} = this.props;
 
 		let informMessage = "";
@@ -863,6 +875,17 @@ export class WebchatUI extends React.PureComponent<
 			onAcceptTerms();
 		}
 
+		const handleDragEnter = (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+	
+			this.props.onSetDropZoneVisible(true);
+		};
+
+		const handleDropZoneVisibility = (isDropZoneVisible: boolean) => {
+			this.props.onSetDropZoneVisible(isDropZoneVisible);
+		}
+
 		const getRegularLayoutContent = () => {
 			if (showInformationMessage) return (
 				<InformationMessage message={informMessage} />
@@ -897,6 +920,9 @@ export class WebchatUI extends React.PureComponent<
 				/>
 			);
 
+			if(isDropZoneVisible) 
+				return <DropZone disableBranding={config.settings.disableBranding} />
+
 			return (
 				<>
 					<HistoryWrapper
@@ -908,6 +934,7 @@ export class WebchatUI extends React.PureComponent<
 						ref={this.history as any}
 						className="webchat-chat-history"
 						tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
+						onDragEnter={handleDragEnter}
 					>
 						<h2 className="sr-only" id="webchatChatHistoryHeading">
 							Chat History
@@ -977,8 +1004,8 @@ export class WebchatUI extends React.PureComponent<
 					!isSecondaryView &&
 					<CSSTransition
 						in={!showHomeScreen}
-						classNames="hidebackground"
 						timeout={500}
+						classNames="hidebackground"
 					>
 						<HomeScreen
 							showHomeScreen={showHomeScreen}

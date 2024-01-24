@@ -1,86 +1,94 @@
-import React from "react";
-import styled from '@emotion/styled';
-import AttachFile from './attach-file-20px.svg';
+import React, { FC, useRef } from "react";
+import { useDispatch } from "react-redux";
+import styled from "@emotion/styled";
+import AttachFileIcon from "../../../../assets/attachment-16px.svg";
+import { Typography } from "@cognigy/chat-components";
+import Branding from "../../../branding/Branding";
+import { setDropZoneVisible } from "../../../../../webchat/store/input/input-reducer";
+import { addFilesToList } from "../../../../../webchat/store/input/file-input-middleware";
 
-const componentStyles = (({ theme }) => ({
-    position: "absolute",
-    width: "100%",
-    height: theme.unitSize * 15,
-    bottom: 0,
-}));
-
-const DropZoneContent = styled.div(componentStyles, {
-    alignItems: 'center',
-    justifyContent: 'center',
-    display: 'flex',
-    backgroundColor: "#f9f9f9",
-    boxShadow: "0px 0px 30px 20px rgba(0,0,0,0.1) inset",
+const componentStyles = () => ({
+	width: "100%",
+	height: "100%",
+	bottom: 0,
 });
 
-const DropZoneContainer = styled.div(componentStyles, {});
+const DropZoneRoot = styled.div(componentStyles, {
+	display: "flex",
+	flexDirection: "column",
+	flexGrow: 1,
+	minHeight: 0,
+	padding: 12,
+});
 
-const AttachFileIcon = styled(AttachFile)(({ theme }) => ({
-    marginBottom: `-${theme.unitSize / 2}px`,
+const DropZoneContent = styled.div(() => ({
+	height: "100%",
+	alignItems: "center",
+	justifyContent: "center",
+	display: "flex",
+	gap: 8,
 }));
 
-const DragDropTypography = styled.span(() => ({
-    color: 'hsla(0, 0%, 0%, .54)',
-    fontSize: 14,
+const DropZoneContainer = styled.div(componentStyles, {
+	position: "absolute",
+});
+
+const DragDropTypography = styled(Typography)(({ theme }) => ({
+	color: theme.black10,
 }));
 
 interface IDropZoneProps {
-    setIsDropZoneVisible: (isVisible: boolean) => void;
-    onAddFilesToList: (fileList: File[]) => void;
+	disableBranding?: boolean;
 }
 
-class DropZone extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IDropZoneProps> {
-    dropRef: React.RefObject<HTMLInputElement>;
+const DropZone: FC<IDropZoneProps> = props => {
+	const dropRef = useRef<HTMLInputElement>(null);
+	const dispatch = useDispatch();
 
-    constructor(props) {
-        super(props);
-        this.dropRef = React.createRef();
-    }
+	const { disableBranding } = props;
 
-    handleDragOver = e => {
-        e.preventDefault();
-    };
+	const handleDragOver = e => {
+		e.preventDefault();
+	};
 
-    handleDragLeave = e => {
-        e.preventDefault();
-        this.props.setIsDropZoneVisible(false);
-    };
+	const handleDragLeave = e => {
+		e.preventDefault();
+		dispatch(setDropZoneVisible(false));
+	};
 
-    handleDrop = e => {
-        e.preventDefault();
-        e.stopPropagation();
-        this.props.setIsDropZoneVisible(false);
-        if (e.dataTransfer?.files) {
-            const { onAddFilesToList } = this.props;
-            const newFilesArray = Array.prototype.slice.call(e.dataTransfer?.files);
-            onAddFilesToList(newFilesArray);
-        }
-    }
+	const handleDrop = async e => {
+		e.preventDefault();
+		e.stopPropagation();
+		dispatch(setDropZoneVisible(false));
+		if (e.dataTransfer?.files) {
+			const newFilesArray = Array.prototype.slice.call(e.dataTransfer?.files);
+			dispatch(addFilesToList(newFilesArray));
+		}
+	};
 
-    render() {
-        return (
-            <>
-                <DropZoneContent>
-                    <AttachFileIcon />
-                    <DragDropTypography
-                        className="webchat-input-drag-and-drop-file-text"
-                    >
-                        Drop to attach File
-                    </DragDropTypography>
-                </DropZoneContent>
-                <DropZoneContainer
-                    ref={this.dropRef}
-                    onDragOver={this.handleDragOver}
-                    onDragLeave={e => this.handleDragLeave(e)}
-                    onDropCapture={this.handleDrop}
-                />
-            </>
-        );
-    }
-}
+	return (
+		<>
+			<DropZoneRoot>
+				<DropZoneContent>
+					<AttachFileIcon />
+					<DragDropTypography
+						variant="title1-regular"
+						component="span"
+						className="webchat-input-drag-and-drop-file-text"
+					>
+						Drop to attach
+					</DragDropTypography>
+				</DropZoneContent>
+				{!disableBranding && <Branding id="cognigyDropZoneLogo" />}
+			</DropZoneRoot>
+			<DropZoneContainer
+				ref={dropRef}
+				onDragOver={handleDragOver}
+				onDragLeave={handleDragLeave}
+				onDropCapture={handleDrop}
+			/>
+		</>
+	);
+};
 
 export default DropZone;

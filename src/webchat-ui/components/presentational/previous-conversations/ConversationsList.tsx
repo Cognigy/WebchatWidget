@@ -108,7 +108,7 @@ export const PrevConversationsList = (props: IPrevConversationsListProps) => {
 				>
 					Start new conversation
 				</StartButton>
-				{!disableBranding && <Branding />}
+				{!disableBranding && <Branding id="cognigyConversationListBranding" />}
 			</ConversationsListActions>
 		</ConversationsListRoot>
 	);

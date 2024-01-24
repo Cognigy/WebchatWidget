@@ -27,12 +27,12 @@ const HomeScreenRoot = styled.div(({ theme }) => ({
 		boxSizing: "border-box",
 	},
 
-	"&.hidebackground-enter": {
-		transform: "translateY(0)",
-	},
 	"&.hidebackground-enter-done": {
-		transform: "translateY(20px)",
+		"& .webchat-homescreen-content": {
+			backgroundImage: "none",
+		}
 	},
+
 }));
 
 interface IHomeScreenContentProps {
@@ -225,7 +225,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 					Previous conversations
 				</PrevConversationsButton>
 				{/* Branding Logo Link */}
-				{!disableBranding && <Branding />}
+				{!disableBranding && <Branding id="cognigyHomeScreenBranding" />}
 			</HomeScreenActions>
 		</HomeScreenRoot>
 	);

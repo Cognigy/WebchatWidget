@@ -8,6 +8,7 @@ import { connect as doConnect } from "../store/connection/connection-middleware"
 import { setHasGivenRating, showRatingScreen } from "../store/rating/rating-reducer";
 import { switchSession } from "../store/previous-conversations/previous-conversations-middleware";
 import { PrevConversationsState } from "../store/previous-conversations/previous-conversations-reducer";
+import { IFile, setDropZoneVisible, setFileList, setFileUploadError } from "../store/input/input-reducer";
 
 type FromState = Pick<WebchatUIProps, 'messages' | 'unseenMessages' | 'prevConversations' | 'open' | 'typingIndicator' | 'inputMode' | 'fullscreenMessage' | 'config' | 'connected' | 'reconnectionLimit' | 'scrollToPosition'| 'lastScrolledPosition'>;
 type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' | 'onSetScrollToPosition' | 'onSetLastScrolledPosition' | 'onTriggerEngagementMessage'>;
@@ -24,7 +25,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         config,
         options: { sessionId },
         rating: { showRatingScreen, hasGivenRating, customRatingTitle, customRatingCommentText },
-        input: { sttActive },
+        input: { sttActive, isDropZoneVisible, fileList, fileUploadError },
     }) => ({
         currentSession: sessionId,
         messages,
@@ -45,6 +46,9 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         customRatingCommentText,
         showHomeScreen,
         sttActive,
+        isDropZoneVisible,
+        fileList,
+        fileUploadError,
         showPrevConversations,
         showChatOptionsScreen,
         hasAcceptedTerms,
@@ -68,6 +72,9 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => dispatch(switchSession(sessionId, conversation)),
         onAcceptTerms: () => dispatch(setHasAcceptedTerms()),
         onSetStoredMessage: (message: UIState['storedMessage']) => dispatch(setStoredMessage(message)),
+        onSetDropZoneVisible: (isVisible: boolean) => dispatch(setDropZoneVisible(isVisible)),
+        onSetFileList: (fileList: IFile[]) => dispatch(setFileList(fileList)),
+        onSetFileUploadError: (error: boolean) => dispatch(setFileUploadError(error)),
     }),
     ({ fullscreenMessage, ...state }, dispatch, props) => {
         if (!fullscreenMessage) {
