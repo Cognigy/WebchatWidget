@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { useSelector, useDispatch } from "react-redux";
+import { StoreState } from "../../../../webchat/store/store";
+import { setTTSActive } from "../../../../webchat/store/ui/ui-reducer";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
 import { RatingWidget } from "./RatingWidget";
 import { PostbackButtons } from "./PostbackButtons";
@@ -59,6 +62,13 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 		onSendActionButtonMessage,
 	} = props;
 
+	const ttsEnabled = useSelector((state: StoreState) => state.ui.ttsActive);
+	const dispatch = useDispatch();
+
+	const handleToggleTTS = () => {
+		dispatch(setTTSActive(!ttsEnabled));
+	};
+
 	return (
 		<ChatOptionsRoot className="webchat-chat-options-root">
 			<ChatOptionsContainer className="webchat-chat-options-container">
@@ -73,7 +83,7 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 							<Divider />
 						</DividerWrapper>
 
-						<TTSOption onToggle={() => { }} />
+						<TTSOption onToggle={handleToggleTTS} />
 						<DividerWrapper>
 							<Divider />
 						</DividerWrapper>
