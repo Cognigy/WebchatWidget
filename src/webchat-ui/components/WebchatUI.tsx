@@ -27,7 +27,6 @@ import CollapseIcon from "../assets/collapse-20px.svg";
 import DisconnectOverlay from "./presentational/DisconnectOverlay";
 import { IWebchatConfig } from "../../common/interfaces/webchat-config";
 import { TTyping } from "../../common/interfaces/typing";
-import UnreadMessagePreview from "./presentational/UnreadMessagePreview";
 import Badge from "./presentational/Badge";
 import getTextFromMessage from "../../webchat/helper/message";
 import getKeyboardFocusableElements from "../utils/find-focusable";
@@ -61,7 +60,10 @@ import { InformationMessage } from "./presentational/InformationMessage";
 import { PrivacyNotice } from "./presentational/PrivacyNotice";
 import { ChatOptions } from "./presentational/chat-options/ChatOptions";
 import { UIState } from "../../webchat/store/ui/ui-reducer";
+import DropZone from "./plugins/input/file/DropZone";
+import { IFile } from "../../webchat/store/input/input-reducer";
 import { CSSTransition } from "react-transition-group";
+import { TeaserMessage } from "./presentational/TeaserMessage";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -110,6 +112,12 @@ export interface WebchatUIProps {
 	onSetShowHomeScreen: (show: boolean) => void;
 
 	sttActive: boolean;
+	isDropZoneVisible: boolean;
+	onSetDropZoneVisible: (isVisible: boolean) => void;
+	fileList: IFile[];
+	onSetFileList: (fileList: IFile[]) => void;
+	fileUploadError: boolean;
+	onSetFileUploadError: (hasError: boolean) => void;
 
 	showPrevConversations: boolean;
 	onSetShowPrevConversations: (show: boolean) => void;
@@ -543,6 +551,21 @@ export class WebchatUI extends React.PureComponent<
 		this.props.onSetHasGivenRating();
 	};
 
+	handleSendActionButtonMessage = (text?: string, data?: any, options?: Partial<ISendMessageOptions>) => {
+		this.props.onSetShowHomeScreen(false);
+		this.props.onSetShowChatOptionsScreen(false);
+
+		if (!this.props.hasAcceptedTerms) {
+			this.props.onSetStoredMessage({
+				text,
+				data,
+				options
+			});
+		} else {
+			this.props.onSendMessage(text, data, options);
+		}
+	};
+
 	render() {
 		const { props, state } = this;
 		const {
@@ -581,6 +604,9 @@ export class WebchatUI extends React.PureComponent<
 			customRatingCommentText,
 			onAcceptTerms,
 			onSetStoredMessage,
+			onSetFileList,
+			onSetFileUploadError,
+			onSetDropZoneVisible,
 			...restProps
 		} = props;
 		const { theme, hadConnection, lastUnseenMessageText } = state;
@@ -653,6 +679,13 @@ export class WebchatUI extends React.PureComponent<
 				);
 			}
 		};
+
+		const onHideTeaserMessage = () => {
+			this.setState({
+				lastUnseenMessageText: "",
+			});
+		};
+
 		return (
 			<>
 				<ThemeProvider theme={theme}>
@@ -695,16 +728,14 @@ export class WebchatUI extends React.PureComponent<
 										{
 											// Show the message teaser if there is a last bot message and the webchat is closed
 											lastUnseenMessageText && (
-												<UnreadMessagePreview
-													className="webchat-unread-message-preview"
-													onClick={onToggle}
-													aria-live="polite"
-												>
-													<span className="sr-only">
-														New message preview
-													</span>
-													{lastUnseenMessageText}
-												</UnreadMessagePreview>
+												<TeaserMessage
+													messageText={lastUnseenMessageText}
+													onToggle={onToggle}
+													config={config}
+													onEmitAnalytics={onEmitAnalytics}
+													onSendActionButtonMessage={this.handleSendActionButtonMessage}
+													onHideTeaserMessage={onHideTeaserMessage}
+												/>
 											)
 										}
 										{isDisabled ? (
@@ -783,6 +814,7 @@ export class WebchatUI extends React.PureComponent<
 			hasAcceptedTerms,
 			onAcceptTerms,
 			onSetStoredMessage,
+			isDropZoneVisible,
 		} = this.props;
 
 		let informMessage = "";
@@ -809,21 +841,6 @@ export class WebchatUI extends React.PureComponent<
 
 		// TODO: implement better navigation history and currentPage string property on redux
 		const isSecondaryView = showInformationMessage;
-
-		const onSendActionButtonMessage = (text?: string, data?: any, options?: Partial<ISendMessageOptions>) => {
-			onSetShowHomeScreen(false);
-			onSetShowChatOptionsScreen(false);
-
-			if (!hasAcceptedTerms) {
-				onSetStoredMessage({
-					text,
-					data,
-					options
-				});
-			} else {
-				onSendMessage(text, data, options);
-			}
-		};
 
 		const handleStartConversation = () => {
 			if (hasAcceptedTerms) {
@@ -858,6 +875,17 @@ export class WebchatUI extends React.PureComponent<
 			onAcceptTerms();
 		}
 
+		const handleDragEnter = (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+	
+			this.props.onSetDropZoneVisible(true);
+		};
+
+		const handleDropZoneVisibility = (isDropZoneVisible: boolean) => {
+			this.props.onSetDropZoneVisible(isDropZoneVisible);
+		}
+
 		const getRegularLayoutContent = () => {
 			if (showInformationMessage) return (
 				<InformationMessage message={informMessage} />
@@ -888,9 +916,12 @@ export class WebchatUI extends React.PureComponent<
 					showOnlyRating={showRatingScreen}
 					onSendRating={this.handleSendRating}
 					onEmitAnalytics={onEmitAnalytics}
-					onSendActionButtonMessage={onSendActionButtonMessage}
+					onSendActionButtonMessage={this.handleSendActionButtonMessage}
 				/>
 			);
+
+			if(isDropZoneVisible) 
+				return <DropZone disableBranding={config.settings.disableBranding} />
 
 			return (
 				<>
@@ -903,6 +934,7 @@ export class WebchatUI extends React.PureComponent<
 						ref={this.history as any}
 						className="webchat-chat-history"
 						tabIndex={messages?.length === 0 ? -1 : 0} // When no messages, remove chat history from tab order
+						onDragEnter={handleDragEnter}
 					>
 						<h2 className="sr-only" id="webchatChatHistoryHeading">
 							Chat History
@@ -915,6 +947,12 @@ export class WebchatUI extends React.PureComponent<
 		}
 
 		const getTitles = () => {
+			if (!hasAcceptedTerms) {
+				return "Privacy notice";
+			}
+			if (showPrevConversations) {
+				return "Previous conversations";
+			}
 			if (showChatOptionsScreen) {
 				return "Chat options";
 			}
@@ -966,8 +1004,8 @@ export class WebchatUI extends React.PureComponent<
 					!isSecondaryView &&
 					<CSSTransition
 						in={!showHomeScreen}
-						classNames="hidebackground"
 						timeout={500}
+						classNames="hidebackground"
 					>
 						<HomeScreen
 							showHomeScreen={showHomeScreen}
@@ -977,7 +1015,7 @@ export class WebchatUI extends React.PureComponent<
 							onClose={onClose}
 							config={config}
 							onEmitAnalytics={onEmitAnalytics}
-							onSendActionButtonMessage={onSendActionButtonMessage}
+								onSendActionButtonMessage={this.handleSendActionButtonMessage}
 						/>
 						</CSSTransition>
 				}

@@ -9,6 +9,7 @@ import Branding from "../branding/Branding";
 import Notifications from "./Notifications";
 import { ActionButtons, Typography } from "@cognigy/chat-components";
 import { WebchatUIProps } from "../WebchatUI";
+import { IWebchatButton } from "@cognigy/socket-client";
 
 const HomeScreenRoot = styled.div(({ theme }) => ({
 	display: "flex",
@@ -26,12 +27,12 @@ const HomeScreenRoot = styled.div(({ theme }) => ({
 		boxSizing: "border-box",
 	},
 
-	"&.hidebackground-enter": {
-		transform: "translateY(0)",
-	},
 	"&.hidebackground-enter-done": {
-		transform: "translateY(20px)",
+		"& .webchat-homescreen-content": {
+			backgroundImage: "none",
+		}
 	},
+
 }));
 
 interface IHomeScreenContentProps {
@@ -141,7 +142,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 	} = props;
 
 	// TODO: Load buttons from new endpoint config
-	const buttons = [
+	const buttons: IWebchatButton[] = [
 		{
 			title: "Cognigy Homepage",
 			type: "web_url",
@@ -224,7 +225,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 					Previous conversations
 				</PrevConversationsButton>
 				{/* Branding Logo Link */}
-				{!disableBranding && <Branding />}
+				{!disableBranding && <Branding id="cognigyHomeScreenBranding" />}
 			</HomeScreenActions>
 		</HomeScreenRoot>
 	);

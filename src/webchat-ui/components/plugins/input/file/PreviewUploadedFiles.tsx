@@ -1,131 +1,150 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import CloseIcon from "../../../../assets/baseline-close-24px.svg";
-import IconButton from '../../../presentational/IconButton';
-import LinearProgressBar from '../../../presentational/LinearProgressBar';
-import { getFileExtension, getFileName } from './helper';
-import { IUploadFileMetaData } from '../../../../../common/interfaces/file-upload';
+import React, { FC, useRef } from "react";
+import styled from "@emotion/styled";
+import CloseIcon from "../../../../assets/close-10px.svg";
+import IconButton from "../../../presentational/IconButton";
+import LinearProgressBar from "../../../presentational/LinearProgressBar";
+import { getFileExtension, getFileName } from "./helper";
+import { Typography } from "@cognigy/chat-components";
+import { useDispatch, useSelector } from "react-redux";
+import { StoreState } from "../../../../../webchat/store/store";
+import { IFile, removeFileFromList } from "../../../../../webchat/store/input/input-reducer";
 
 const UploadedFilesContainer = styled.div(({ theme }) => ({
-    paddingRight: theme.unitSize * 2,
-    paddingLeft: theme.unitSize * 2,
-    paddingBottom: theme.unitSize * 3 / 2,
-    paddingTop: 0,
-    display: 'flex',
-    flexDirection: 'row',
-    overflowX: 'auto',
-    overflowY: 'hidden',
-    alignItems: 'center',
+	display: "flex",
+	flexDirection: "row",
+	overflowX: "auto",
+	overflowY: "hidden",
+	alignItems: "center",
+	gap: 12,
+
+	"&::-webkit-scrollbar": {
+		width: 2,
+		height: 2,
+		visibility: "hidden",
+	},
+
+	"&:hover": {
+		"&::-webkit-scrollbar-track": {
+			backgroundColor: theme.black95,
+		},
+		"&::-webkit-scrollbar-thumb": {
+			backgroundColor: theme.black60,
+		},
+	},
 }));
 
-const FilePreviewWrapper = styled.div<Pick<IFile, "hasUploadError">>(({ theme, hasUploadError }) => ({
-    marginRight: theme.unitSize,
-    borderRadius: 4,
-    maxWidth: 180,
-    height: 34,
-    border: hasUploadError ? '1px solid hsla(0, 100%, 50%, .7)' : '1px solid hsla(0, 0%, 0%, .1)',
+const FilePreviewWrapper = styled.div(({ theme }) => ({
+	borderRadius: 15,
+	height: 33,
+	backgroundColor: theme.black95,
+	"&:focus-within": {
+		backgroundColor: theme.black80,
+	},
 }));
 
-const UploadedFilePreview = styled.div(({ theme }) => ({
-    padding: theme.unitSize / 2,
-    fontSize: 13,
-    display: 'flex',
+const UploadedFilePreview = styled.div(() => ({
+	display: "flex",
+	gap: 12,
+	padding: "8px 12px",
 }));
 
-const ImagePreview = styled.img(({ theme }) => ({
-    borderRadius: 6,
-    padding: theme.unitSize / 2,
-    alignSelf: 'center',
+const FileName = styled(Typography)<Pick<IFile, "hasUploadError">>(({ hasUploadError, theme }) => ({
+	whiteSpace: "nowrap",
+	textOverflow: "ellipsis",
+	overflow: "hidden",
+	color: hasUploadError ? "hsla(0, 100%, 50%, .7)" : theme.black10,
+	alignSelf: "center",
 }));
 
-const FileNameTypography = styled.span<Pick<IFile, "hasUploadError">>(({ theme, hasUploadError }) => ({
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    color: hasUploadError ? 'hsla(0, 100%, 50%, .7)' : 'hsla(0, 0%, 0%, .54)',
-    alignSelf: 'center',
-    paddingLeft: theme.unitSize / 2,
+const FileExtension = styled(Typography)(({ theme }) => ({
+	color: theme.black10,
+	alignSelf: "center",
 }));
 
-const FileExtensionTypography = styled.span(() => ({
-    color: 'hsla(0, 0%, 0%, .54)',
-    alignSelf: 'center',
+const FileSize = styled(Typography)(({ theme }) => ({
+	color: theme.black40,
+	alignSelf: "center",
+	textWrap: "nowrap",
 }));
 
 const RemoveFileButton = styled(IconButton)(({ theme }) => ({
-    padding: 4,
-    paddingRight: 0,
-    marginRight: 0,
-    marginLeft: 'auto',
-    "& svg": {
-        width: 18,
-        height: 18,
-    },
-    "&:focus, &:hover": {
-        fill: `${theme.primaryColor} !important`,
-        outline: 'none',
-    }
+	padding: 0,
+	"& svg": {
+		width: 10,
+		height: 10,
+	},
+	"&:focus, &:hover": {
+		"& path": {
+			fill: `${theme.primaryColor} !important`,
+			outline: "none",
+		},
+	},
 }));
 
-export interface IFile {
-    file: File;
-    progressPercentage?: number;
-    uploadFileMeta?: IUploadFileMetaData;
-    hasUploadError?: boolean;
-    uploadErrorReason?: string;
-}
+const PreviewUploadedFiles: FC = () => {
+	const removeFileButtonRefs = useRef<HTMLButtonElement[]>([]);
 
-interface IPreviewUploadedFilesProps {
-    fileList: IFile[];
-    onRemoveFileFromList: (index: number) => void;
-}
+	const fileList = useSelector((state: StoreState) => state.input.fileList);
 
-class PreviewUploadedFiles extends React.PureComponent<React.HTMLProps<HTMLDivElement> & IPreviewUploadedFilesProps> {
-    removeFileButtonRef: React.RefObject<HTMLButtonElement>;
+	const dispatch = useDispatch();
 
-    constructor(props) {
-        super(props);
-        this.removeFileButtonRef = React.createRef();
-    }
+	const onRemoveFileButtonClick = (index: number) => {
+		dispatch(removeFileFromList(index));
+	};
 
-    onRemoveFileButtonClick = (index: number) => {
-        this.props.onRemoveFileFromList(index);
-    }
-
-    render() {
-        const { fileList } = this.props;
-        //TODO: Fix progress percentage after file upload backend is ready
-
-        return (
-            <UploadedFilesContainer>
-                {fileList?.map((item, index) => (
-                    <FilePreviewWrapper key={index} hasUploadError={item.hasUploadError} >
-                        <UploadedFilePreview>
-                            {item.file.type?.includes('image') &&
-                                <ImagePreview width={20} height={20} src={URL.createObjectURL(item.file)} />
-                            }
-                            <FileNameTypography hasUploadError={item.hasUploadError}>
-                                {!item.hasUploadError ? getFileName(item.file.name) : item.uploadErrorReason}
-                            </FileNameTypography>
-                            {!item.hasUploadError && <FileExtensionTypography>
-                                {getFileExtension(item.file.name)}
-                            </FileExtensionTypography>}
-                            <RemoveFileButton
-                                onClick={() => this.onRemoveFileButtonClick(index)}
-                                aria-label="Remove File Attachment"
-                                ref={this.removeFileButtonRef}
-                            >
-                                <CloseIcon />
-                            </RemoveFileButton>
-                        </UploadedFilePreview>
-                        {item.progressPercentage && item.progressPercentage !== 100 && !item.hasUploadError &&
-                            <LinearProgressBar progressPercentage={item.progressPercentage} />
-                        }
-                    </FilePreviewWrapper>
-                ))}
-            </UploadedFilesContainer>
-        );
-    }
-}
+	return (
+		<UploadedFilesContainer>
+			{fileList?.map((item, index) => (
+				<FilePreviewWrapper key={index}>
+					<UploadedFilePreview>
+						<RemoveFileButton
+							onClick={() => onRemoveFileButtonClick(index)}
+							onFocus={() => {
+								removeFileButtonRefs.current[index].scrollIntoView({
+									behavior: "smooth",
+									inline: "center",
+								});
+							}}
+							aria-label={`Remove File Attachment ${index + 1}`}
+							ref={ref => {
+								if (ref) {
+									removeFileButtonRefs.current[index] = ref;
+								}
+							}}
+						>
+							<CloseIcon />
+						</RemoveFileButton>
+						<span>
+							<FileName
+								component="span"
+								variant="title2-regular"
+								hasUploadError={item.hasUploadError}
+							>
+								{!item.hasUploadError
+									? getFileName(item.file.name)
+									: item.uploadErrorReason}
+							</FileName>
+							{!item.hasUploadError && (
+								<FileExtension component="span" variant="title2-regular">
+									{getFileExtension(item.file.name)}
+								</FileExtension>
+							)}
+						</span>
+						<FileSize component="span" variant="title2-regular">
+							{item.file.size > 1000000
+								? `${(item.file.size / 1000000).toFixed(2)} MB`
+								: `${(item.file.size / 1000).toFixed(2)} KB`}
+						</FileSize>
+					</UploadedFilePreview>
+					{item.progressPercentage &&
+						item.progressPercentage !== 100 &&
+						!item.hasUploadError && (
+							<LinearProgressBar progressPercentage={item.progressPercentage} />
+						)}
+				</FilePreviewWrapper>
+			))}
+		</UploadedFilesContainer>
+	);
+};
 
 export default PreviewUploadedFiles;

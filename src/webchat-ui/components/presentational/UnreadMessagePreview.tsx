@@ -1,17 +1,20 @@
 import styled from '@emotion/styled'
 
 const UnreadMessagePreview = styled.div(({ theme }) => ({
-    maxWidth: '200px',
-    backgroundColor: 'white',
-    padding: '16px 24px',
-    position: 'fixed',
-    borderRadius: '16px 16px 0px',
-    right: '80px',
-    bottom: '100px',
-    boxShadow: theme.shadow,
-    color: theme.greyContrastColor,
-    fontSize: '14px',
-    fontFamily: "sans-serif",
+	width: '335px',
+	backgroundColor: theme.backgroundBotMessage,
+	padding: '16px',
+	borderRadius: '15px',
+	boxShadow: '0px 4px 6px 0px rgba(28, 28, 28, 0.20)',
+	border: '1px solid rgba(26, 26, 26, 0.10)',
+
+	cursor: 'pointer',
+
+	display: 'flex',
+	flexDirection: 'column',
+	justifyContent: 'center',
+	alignItems: 'flex-start',
+	gap: '16px',
 }));
 
 export default UnreadMessagePreview;
