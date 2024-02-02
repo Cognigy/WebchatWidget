@@ -64,7 +64,7 @@ const DisconnectOverlay = ({ isPermanent, onClose, onConnect }) => {
                     )}
             </Dialog>
             <HeaderIconButton
-                data-header-close-button
+                data-disconnect-overlay-close-button
                 onClick={onClose}
                 className="webchat-header-close-button"
                 aria-label="Close Warning"

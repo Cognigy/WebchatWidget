@@ -143,7 +143,7 @@ const Header: FC<HeaderProps> = props => {
 				{onGoBack && (
 					<BackButtonWrapper style={{ width: isChatOptionsButtonVisible ? 56 : 16 }}>
 						<HeaderIconButton
-							data-header-close-button
+							data-header-back-button
 							onClick={onGoBack}
 							className="webchat-header-back-button"
 							aria-label="Go Back"
