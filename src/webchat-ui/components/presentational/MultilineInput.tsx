@@ -1,10 +1,11 @@
 import React, { ComponentProps, forwardRef } from "react";
 import styled from "@emotion/styled";
+import MediaQuery from "react-responsive";
 
 const InputWrapper = styled.div(({ theme }) => ({
 	borderRadius: 10,
 	border: `1px solid var(--basics-black-60, ${theme.black60})`,
-	background: `var(--Basics-white, ${theme.white})`, 
+	background: `var(--Basics-white, ${theme.white})`,
 	width: "100%",
 	height: "100px",
 	padding: 12,
@@ -42,7 +43,6 @@ const Input = styled.textarea(({ theme }) => ({
 	"::-webkit-scrollbar": {
 		width: 2,
 		height: 2,
-		
 	},
 	"::-webkit-scrollbar-track": {
 		backgroundColor: theme.black95,
@@ -63,12 +63,17 @@ const MultilineInput = forwardRef<HTMLTextAreaElement, IMultilineInputProps>((pr
 
 	return (
 		<InputWrapper>
-			<Input
-				{...restProps}
-				data-test={dataTest}
-				ref={ref}
-				className={`${className} ${props.disabled ? "disabled" : ""}`.trim()}
-			/>
+			<MediaQuery maxWidth={575}>
+				{matches => (
+					<Input
+						{...restProps}
+						data-test={dataTest}
+						ref={ref}
+						className={`${className} ${props.disabled ? "disabled" : ""}`.trim()}
+						style={matches ? { fontSize: "16px" } : undefined}
+					/>
+				)}
+			</MediaQuery>
 		</InputWrapper>
 	);
 });
