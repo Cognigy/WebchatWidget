@@ -28,22 +28,20 @@ const HeaderBar = styled.div(({ theme }) => ({
 	"& .logoNameContainer": {
 		alignItems: "center",
 		display: "flex",
-		flexDirection: "column",
-		height: 79,
-		marginInline: "auto",
-		gap: 8,
-	},
-	"& .logoNameContainer-compact": {
 		flexDirection: "row",
 		height: 28,
-
-		".compact": {
+		marginInline: "auto",
+		gap: 8,
+		"& .webchat-header-logo": {
+			borderRadius: "50%",
 			width: 28,
 			height: 28,
 		},
-	},
-	"& img:not(.compact)": {
-		marginBottom: 10,
+		"& .webchat-header-cognigy-logo": {
+			borderRadius: "50%",
+			width: 28,
+			height: 28,
+		},
 	},
 
 	"&.slide-in-enter": {
@@ -90,8 +88,8 @@ const HeaderIconButton = styled(IconButton)(({ theme }) => ({
 const Logo = styled.img(() => ({
 	borderRadius: "50%",
 	fontSize: 12,
-	width: 48,
-	height: 48,
+	width: 28,
+	height: 28,
 	marginInline: 8,
 }));
 
@@ -105,14 +103,12 @@ interface HeaderProps {
 	closeButtonRef?: React.RefObject<HTMLButtonElement>;
 	menuButtonRef?: React.RefObject<HTMLButtonElement>;
 	chatToggleButtonRef?: React.RefObject<HTMLButtonElement>;
-	mainContentRef?: React.RefObject<HTMLElement>;
 }
 
 const Header: FC<HeaderProps> = props => {
 	const {
 		logoUrl,
 		title,
-		mainContentRef,
 		onClose,
 		onGoBack,
 		onSetShowChatOptionsScreen,
@@ -133,10 +129,6 @@ const Header: FC<HeaderProps> = props => {
 		onSetShowChatOptionsScreen?.(true);
 	};
 
-	const isCompact =
-		!mainContentRef?.current ||
-		mainContentRef.current.scrollHeight > mainContentRef.current.clientHeight || !isChatOptionsButtonVisible;
-
 	return (
 		<>
 			<HeaderBar {...rest} className="webchat-header-bar">
@@ -153,22 +145,19 @@ const Header: FC<HeaderProps> = props => {
 						</HeaderIconButton>
 					</BackButtonWrapper>
 				)}
-				<div
-					className={classnames(
-						"logoNameContainer",
-						isCompact && "logoNameContainer-compact",
-					)}
-				>
-					{isChatOptionsButtonVisible && (
-						logoUrl ?
+				<div className={classnames("logoNameContainer")}>
+					{isChatOptionsButtonVisible &&
+						(logoUrl ? (
 							<Logo
 								src={logoUrl}
-								className={classnames("webchat-header-logo", isCompact && "compact")}
+								className={classnames("webchat-header-logo")}
 								alt="Chat logo"
 							/>
-							:
-							<CognigyAIAvatar className={classnames("webchat-header-cognigy-logo", isCompact && "compact")} />
-					)}
+						) : (
+							<CognigyAIAvatar
+								className={classnames("webchat-header-cognigy-logo")}
+							/>
+						))}
 					<Typography
 						variant="h2-semibold"
 						id="webchatHeaderTitle"
