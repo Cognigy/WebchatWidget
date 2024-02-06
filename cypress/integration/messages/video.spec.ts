@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../support/index.d.ts" />
 
 describe("Message with Video", () => {
@@ -6,33 +7,36 @@ describe("Message with Video", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen()
     })
 
     it("should render video player", () => {
         cy.withMessageFixture('video', () => {
-            cy
-                .get(".webchat-message-row video").should("be.visible");
+            cy.get('.webchat-message-row .react-player__preview').should("be.visible");
+            cy.get(".webchat-message-row video").should("not.exist");
+
+            cy.get('.webchat-message-row .react-player__preview').click();
+            cy.get(".webchat-message-row video").should("be.visible");
         })
     })
 
     it("should have controls in player", () => {
         cy.withMessageFixture('video', () => {
-            cy
-                .get(".webchat-message-row video").should("have.attr", "controls");
+            cy.get('.webchat-message-row .react-player__preview').click();
+            cy.get(".webchat-message-row video").should("have.attr", "controls");
         })
     })
 
     it("should have class 'webchat-media-template-video'", () => {
         cy.withMessageFixture('video', () => {
-            cy
-                .get(".webchat-message-row .webchat-media-template-video");
+            cy.get(".webchat-message-row .webchat-media-template-video");
         })
 	})
 	
 	it("should have sr-only default alternate text for video", () => {
         cy.withMessageFixture('video', () => {
-            cy
-				.get(".webchat-message-row .webchat-media-template-video .sr-only")
+            cy.get(".webchat-message-row .webchat-media-template-video .sr-only")
 				.contains("Attachment Video")
 				.should("not.be.visible");
         })

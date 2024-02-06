@@ -4,6 +4,8 @@ describe("Message with AdaptiveCard", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen()
     })
 
     it("should render an adaptivecard from plugin", () => {
@@ -70,11 +72,13 @@ describe("Message with AdaptiveCard", () => {
         });
     });
 
-    it("prefers the sideoaded adaptivecards plugin over the internal one", () => {
+    // on v3 plugins concept is deprecated
+    xit("prefers the sideoaded adaptivecards plugin over the internal one", () => {
         cy.visitWebchat();
         cy.loadJavaScriptFixture("adaptivecards.webchat-plugin.js");
         cy.initMockWebchat();
         cy.openWebchat();
+        cy.startConversation();
 
         cy.receiveMessageFixture("adaptivecard");
 
@@ -86,6 +90,7 @@ describe("Message with AdaptiveCard", () => {
         cy.visitWebchat();
         cy.initMockWebchat();
         cy.openWebchat();
+        cy.startConversation();
 
         cy.receiveMessageFixture("adaptivecard");
 
