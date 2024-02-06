@@ -997,7 +997,6 @@ export class WebchatUI extends React.PureComponent<
 							closeButtonRef={this.closeButtonInHeaderRef}
 							menuButtonRef={this.menuButtonInHeaderRef}
 							chatToggleButtonRef={this.chatToggleButtonRef}
-							mainContentRef={this.history?.current?.rootRef}
 						/>
 					</CSSTransition>
 				}
