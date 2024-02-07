@@ -62,6 +62,7 @@ interface ITeaserMessageProps {
 	onSendActionButtonMessage: WebchatUIProps["onSendMessage"];
 	config: IWebchatConfig;
 	onHideTeaserMessage: () => void;
+	wasOpen: boolean;
 }
 
 // TODO: Load buttons from new endpoint config
@@ -84,7 +85,7 @@ const buttons: IWebchatButton[] = [
 ]
 
 export const TeaserMessage = (props: ITeaserMessageProps) => {
-	const { onToggle, messageText, config, onEmitAnalytics, onSendActionButtonMessage, onHideTeaserMessage } = props;
+	const { onToggle, messageText, config, onEmitAnalytics, onSendActionButtonMessage, onHideTeaserMessage, wasOpen } = props;
 
 	const isDesktopMedia = useMediaQuery({ query: "(min-width: 576px)" });
 
@@ -136,18 +137,20 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 					{messageText}
 				</Typography>
 			</UnreadMessagePreview>
-			<ButtonContainer className="webchat-teaser-message-action-buttons">
-				<ActionButtons
-					showUrlIcon
-					buttonClassName="webchat-teaser-message-button"
-					containerClassName="webchat-teaser-message-button-container"
-					payload={buttons}
-					config={config}
-					action={handleActionButtonClick}
-					onEmitAnalytics={onEmitAnalytics}
-					size={isDesktopMedia ? "large" : "small"}
-				/>
-			</ButtonContainer>
+			{!wasOpen &&
+				<ButtonContainer className="webchat-teaser-message-action-buttons">
+					<ActionButtons
+						showUrlIcon
+						buttonClassName="webchat-teaser-message-button"
+						containerClassName="webchat-teaser-message-button-container"
+						payload={buttons}
+						config={config}
+						action={handleActionButtonClick}
+						onEmitAnalytics={onEmitAnalytics}
+						size={isDesktopMedia ? "large" : "small"}
+					/>
+				</ButtonContainer>
+			}
 		</TeaserMessageRoot>
 	);
 };

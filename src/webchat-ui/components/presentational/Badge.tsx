@@ -9,12 +9,13 @@ const BadgeBase = styled.span(({ theme }) => ({
     alignContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top: '-10%',
-    right: '-5%',
+    top: 0,
+    right: 0,
     fontSize: theme.unitSize * 3 / 2,
+	lineHeight: 12,
     fontWeight: 700,
-    width: theme.unitSize * 3,
-    height: theme.unitSize * 3,
+    width: theme.unitSize * 2,
+    height: theme.unitSize * 2,
     borderRadius: '50%',
     backgroundColor: 'rgb(235, 15, 0)',
     color: 'white',
@@ -29,11 +30,15 @@ const Badge = (props: IBadgeProps) => {
 
 	const { _content, ...badgeBaseProps } = props;
 
-	if (_content === 0)
+	let content = _content;
+
+	if (content === 0)
         return null;
 
+	if (content > 99) content = 99;
+
     return (
-		<BadgeBase {...badgeBaseProps}>{_content}</BadgeBase>
+		<BadgeBase {...badgeBaseProps}>{content}</BadgeBase>
     );
 }
 
