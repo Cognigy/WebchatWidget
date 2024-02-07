@@ -772,7 +772,7 @@ export class WebchatUI extends React.PureComponent<
 												{open ? <CollapseIcon /> : <ChatIcon />}
 												{config.settings.enableUnreadMessageBadge ? (
 													<Badge
-														content={unseenMessages.length}
+														_content={unseenMessages.length}
 														className="webchat-unread-message-badge"
 														aria-label={`${unseenMessages.length} unread messages`}
 													/>
