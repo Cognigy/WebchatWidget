@@ -20,7 +20,7 @@ const SpeechOutput = (props: MessageComponentProps) => {
         return null;
 
     // check whether text to speech is enabled in endpoint
-    if (!props.config.settings.enableTTS)
+	if (!props.config.settings.behavior.enableTTS)
         return null;
 
     // we already checked that text exists in the match function

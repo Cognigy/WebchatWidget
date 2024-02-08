@@ -118,7 +118,7 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 							className="webchat-teaser-message-header-title"
 							margin={0}
 						>
-							{config.settings.title || "Cognigy"}
+							{config.settings.layout.title || "Cognigy"}
 						</Typography>
 						<CloseIconWrapper className="webchat-teaser-message-header-close-button">
 							<CloseIcon onClick={handleHideTeaserMessage} />

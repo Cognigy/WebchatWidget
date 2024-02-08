@@ -23,7 +23,9 @@
     "rules": {
         "react/prop-types": "off",
 		"no-empty": "off",
-		"no-empty-function": "off"
+		"no-empty-function": "off",
+		"@typescript-eslint/no-empty-function": "off",
+		"@typescript-eslint/ban-ts-comment": "off"
     },
     "settings": {
         "react": {

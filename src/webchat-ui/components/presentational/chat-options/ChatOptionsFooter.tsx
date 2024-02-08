@@ -32,7 +32,7 @@ const StyledFooterTypography = styled(Typography)(() => ({
 // TODO: Get text and URL for the footer items from the config
 export const ChatOptionsFooter = () => {
 	const footerItem1Text = "Imprint";
-	const footerItem2Text = "Data Protection";
+	const footerItem2Text = "Data Privacy";
 
 	const footerItem1URL = "https://www.cognigy.com/legal-notice";
 	const footerItem2URL = "https://www.cognigy.com/privacy-policy";

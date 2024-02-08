@@ -23,7 +23,7 @@ import { createFileInputMiddleware } from './input/file-input-middleware';
 export type StoreState = StateType<typeof reducer>;
 
 // creates a store and connects it to a webchat client
-export const createWebchatStore = (webchat: Webchat, url: string, overrideWebchatSettings?: IWebchatSettings) => {
+export const createWebchatStore = (webchat: Webchat, url: string, overrideWebchatSettings?: Partial<IWebchatSettings>) => {
     const { client } = webchat;
     
     const store = createStore(

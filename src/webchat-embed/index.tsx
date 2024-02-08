@@ -15,6 +15,7 @@ import '../plugins/full-screen-notification';
 import { Webchat } from '../webchat/components/Webchat';
 import { getRegisteredMessagePlugins, prepareMessagePlugins } from '../plugins/helper';
 import { getStorage } from '../webchat/helper/storage';
+import { IWebchatSettings } from '../common/interfaces/webchat-config';
 
 
 type SocketOptions = React.ComponentProps<typeof Webchat>['options'];
@@ -24,22 +25,31 @@ type InitWebchatOptions = SocketOptions & {
     settings?: WebchatSettings;
 }
 
+declare global {
+	interface Window {
+		initWebchat: typeof initWebchat;
+		cognigyWebchatInputPlugins: any[];
+		__COGNIGY_WEBCHAT: {
+			React: typeof React;
+		};
+	}
+
+}
+
 const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOptions, callback?: (webchat: Webchat) => void) => {
-    // @ts-ignore
     const messagePlugins = prepareMessagePlugins(getRegisteredMessagePlugins(), {
         React,
         styled
     });
 
-    // @ts-ignore
     const inputPlugins = (window.cognigyWebchatInputPlugins || [])
         .map(plugin => typeof plugin === 'function'
             ? plugin({ React, styled })
             : plugin
         );
 
-    const disableLocalStorage = options?.settings?.disableLocalStorage ?? false;
-    const useSessionStorage = options?.settings?.useSessionStorage ?? false;
+	const disableLocalStorage = options?.settings?.embeddingConfiguration?.disableLocalStorage ?? false;
+	const useSessionStorage = options?.settings?.embeddingConfiguration?.useSessionStorage ?? false;
     const browserStorage = getStorage({ disableLocalStorage, useSessionStorage });
 
     // if no specific userId is provided, try to load one from localStorage/sessionStorage, otherwise generate one and persist it in localStorage/sessionStorage
@@ -61,11 +71,11 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
         options.userId = userId;
     }
 
-    let settings: Partial<WebchatSettings> = {};
+	let settings: Partial<IWebchatSettings> = {};
     if (options && options.settings) {
         settings = options.settings;
     }
-    settings._endpointTokenUrl = webchatConfigUrl;
+	settings.embeddingConfiguration = { _endpointTokenUrl: webchatConfigUrl } as Partial<IWebchatSettings>['embeddingConfiguration'];
     const webchatRoot = document.createElement('div');
     document.body.appendChild(webchatRoot);
 
@@ -96,10 +106,8 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
     return cognigyWebchat;
 };
 
-// @ts-ignore
 window.initWebchat = initWebchat;
 
-// @ts-ignore
 window.__COGNIGY_WEBCHAT = {
     React
 };

@@ -41,10 +41,12 @@ interface IHomeScreenContentProps {
 
 const HomeScreenContent = styled.div<IHomeScreenContentProps>(({ theme, settings }) => {
 	let backgroundImage = "none";
+	const backgroundImageURL = settings?.homeScreen?.background?.imageUrl;
+
 	if (theme.backgroundHome) backgroundImage = theme.backgroundHome;
-	if (settings?.backgroundImageUrl) backgroundImage = `url("${settings.backgroundImageUrl}")`;
-	if (theme.backgroundHome && settings?.backgroundImageUrl)
-		backgroundImage = `url("${settings.backgroundImageUrl}"), ${theme.backgroundHome}`;
+	if (backgroundImageURL) backgroundImage = `url("${backgroundImageURL}")`;
+	if (theme.backgroundHome && backgroundImageURL)
+		backgroundImage = `url("${backgroundImageURL}"), ${theme.backgroundHome}`;
 
 	return {
 		backgroundImage,
@@ -165,7 +167,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 		},
 	]
 
-	const disableBranding = config?.settings?.disableBranding;
+	const disableBranding = config?.settings?.layout?.watermark !== "default";
 
 	const handleShowPrevConversations = () => {
 		onSetShowHomeScreen(false);
@@ -183,7 +185,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 						margin={0}
 						className="webchat-homescreen-header-title"
 					>
-						{config?.settings?.title || "Cognigy Webchat"}
+						{config?.settings?.layout?.title || "Cognigy Webchat"}
 					</Typography>
 					<HomeScreenHeaderIconButton
 						onClick={onClose}
@@ -198,7 +200,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 					<Notifications />
 				</FullWidthContainer>
 				<HomeScreenTitle variant="title1-semibold" component="h4" className="webchat-homescreen-title">
-					{config?.settings?.getStartedButtonText || "Welcome to the Cognigy Webchat"}
+					{config?.settings?.startBehavior?.getStartedButtonText || "Welcome to the Cognigy Webchat"}
 				</HomeScreenTitle>
 				<HomeScreenButtons className="webchat-homescreen-buttons">
 					<ActionButtons

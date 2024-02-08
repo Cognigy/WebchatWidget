@@ -43,27 +43,27 @@ export type TriggerEngagementMessageAction = ReturnType<typeof triggerEngagement
 export const getAvatarForMessage = (message: IMessage, state: StoreState) => {
     switch (message.source) {
         case 'agent':
-            return state.ui.agentAvatarOverrideUrl || state.config.settings.agentAvatarUrl || defaultAgentAvatar;
+			return state.ui.agentAvatarOverrideUrl || state.config.settings.layout.agentLogoUrl || defaultAgentAvatar;
         case 'bot':
         case 'engagement':
-            return state.ui.botAvatarOverrideUrl || state.config.settings.messageLogoUrl || defaultBotAvatar;
+			return state.ui.botAvatarOverrideUrl || state.config.settings.layout.botLogoUrl || defaultBotAvatar;
         case 'user':
-            return state.ui.userAvatarOverrideUrl || state.config.settings.userAvatarUrl || defaultUserAvatar;
+			return state.ui.userAvatarOverrideUrl || state.config.settings.widgetSettings.userAvatarUrl || defaultUserAvatar;
     }
 }
 
 // forwards messages to the socket
-export const createMessageMiddleware = (client: SocketClient): Middleware<{}, StoreState> => store => next => (action: SendMessageAction | ReceiveMessageAction | TriggerEngagementMessageAction) => {
+export const createMessageMiddleware = (client: SocketClient): Middleware<object, StoreState> => store => next => (action: SendMessageAction | ReceiveMessageAction | TriggerEngagementMessageAction) => {
     switch (action.type) {
         case 'SEND_MESSAGE': {
             const { message, options } = action;
             let { text, data } = message;
 
-            if (!store.getState().config.settings.disableTextInputSanitization) {
+			if (!store.getState().config.settings.widgetSettings.disableTextInputSanitization) {
                 text = sanitizeHTML(text || '');
             }
 
-            if (store.getState().config.settings.disableHtmlInput) {
+			if (store.getState().config.settings.widgetSettings.disableHtmlInput) {
                 text = new DOMParser()
                     .parseFromString(text || '', 'text/html')
                     .body
@@ -117,7 +117,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<{}, St
         }
 
         case 'TRIGGER_ENGAGEMENT_MESSAGE': {
-            const text = store.getState().config.settings.engagementMessageText;
+			const text = store.getState().config.settings.teaserMessage.text;
 
             if (text) {
                 store.dispatch(receiveMessage({

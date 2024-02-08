@@ -100,7 +100,7 @@ const MessagePluginRenderer = ({
 	})();
 
 	const direction = ((): TSourceDirection => {
-		const configDirection = config.settings.sourceDirectionMapping[source];
+		const configDirection = config.settings.widgetSettings.sourceDirectionMapping[source];
 
 		if (configDirection) return configDirection;
 
@@ -108,7 +108,7 @@ const MessagePluginRenderer = ({
 	})();
 
 	const color = ((): TSourceColor => {
-		const configColor = config.settings.sourceColorMapping[source];
+		const configColor = config.settings.widgetSettings.sourceColorMapping[source];
 
 		if (configColor) return configColor;
 

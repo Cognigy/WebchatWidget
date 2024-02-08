@@ -52,7 +52,7 @@ export const getMessengerButtonTemplate = ({
             const firstButton = document.getElementById(`${webchatButtonTemplateButtonId}-0`);
             const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
 
-            if(!config?.settings.enableAutoFocus) return;
+			if (!config?.settings.widgetSettings.enableAutoFocus) return;
 
             if(!chatHistory?.contains(document.activeElement)) return;
 
@@ -61,7 +61,7 @@ export const getMessengerButtonTemplate = ({
             }, 200);
         }, []);
 
-        const __html = config.settings.disableHtmlContentSanitization ? text : sanitizeHTML(text);
+		const __html = config.settings.layout.disableHtmlContentSanitization ? text : sanitizeHTML(text);
 
         return (
             <MessengerButtonHeader {...divProps} color={color} className="webchat-buttons-template-root">

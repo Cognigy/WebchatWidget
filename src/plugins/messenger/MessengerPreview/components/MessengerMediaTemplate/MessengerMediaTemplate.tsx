@@ -65,7 +65,7 @@ export const getMessengerMediaTemplate = ({
         const handleFocus = (player: ReactPlayer) => {
             const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
 
-            if(!config?.settings.enableAutoFocus) return;
+			if (!config?.settings.widgetSettings.enableAutoFocus) return;
 
             if(!chatHistory?.contains(document.activeElement)) return;
 

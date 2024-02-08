@@ -57,7 +57,7 @@ export const getMessengerButton = ({ React, styled }: MessagePluginFactoryProps)
         const ariaLabel = total > 1 ? `Item ${position} of ${total}: ${buttonTitleWithTarget}` : buttonTitleWithTarget;
     
         const buttonLabel = getButtonLabel(button);
-        const __html = props.config.settings.disableHtmlContentSanitization ? buttonLabel : sanitizeHTML(buttonLabel)
+		const __html = props.config.settings.layout.disableHtmlContentSanitization ? buttonLabel : sanitizeHTML(buttonLabel)
 
         const Component = isPhoneNumber ? Link : Button;
 

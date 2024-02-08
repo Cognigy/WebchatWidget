@@ -51,7 +51,7 @@ const AttachmentsMessage = (props: MessageComponentProps) => {
 		if (action.type === 'web_url' && action.url) {
 			const url = (() => {
 				const { url: buttonUrl } = action as IFBMURLButton;
-				if (config.settings.disableUrlButtonSanitization)
+				if (config.settings.layout.disableUrlButtonSanitization)
 					return buttonUrl;
 
 				return sanitizeUrl(buttonUrl)

@@ -111,7 +111,7 @@ export const getMessengerGenericTemplate = ({
             const firstCardContent = document.getElementById(`${this.carouselContentId}-0`);
             const firstButton = document.getElementById(`${this.carouselButtonId}-00`);
 
-            if(!this.props.config.settings.enableAutoFocus) return;
+			if (!this.props.config.settings.widgetSettings.enableAutoFocus) return;
 
             if(!chatHistory?.contains(document.activeElement)) return;
 
@@ -165,7 +165,7 @@ export const getMessengerGenericTemplate = ({
             const buttons = element.buttons || [];
 
             const carouselListLength = this.props.payload.elements.length;
-            const isCentered = this.props.config.settings.designTemplate === 2;
+			const isCentered = this.props.config.settings.demoWebchat.position === 'centered';
 			const carouselTitleId = `webchatCarouselTemplateTitle-${uuidv4()}`;
 			const carouselSubtitleId = `webchatCarouselTemplateSubtitle-${uuidv4()}`;
 
@@ -188,8 +188,8 @@ export const getMessengerGenericTemplate = ({
                 }
             }
 
-            const titleHtml = this.props.config.settings.disableHtmlContentSanitization ? title : sanitizeHTML(title);
-            const subtitleHtml = this.props.config.settings.disableHtmlContentSanitization ? subtitle : sanitizeHTML(subtitle);
+			const titleHtml = this.props.config.settings.layout.disableHtmlContentSanitization ? title : sanitizeHTML(title);
+			const subtitleHtml = this.props.config.settings.layout.disableHtmlContentSanitization ? subtitle : sanitizeHTML(subtitle);
 
             return (
                 <ElementRoot key={index} className="webchat-carousel-template-root">

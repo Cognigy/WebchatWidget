@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 const CLIENT_HEIGHT_OFFSET = 16 + 70; // banner + typing indicator
 
 export interface OuterProps extends React.HTMLProps<HTMLDivElement> {
-    disableBranding: boolean;
     showFocusOutline: boolean;
     scrollToPosition: number;
     lastScrolledPosition: number | null;
@@ -117,7 +116,7 @@ export class ChatScroller extends React.Component<InnerProps, IState> {
     }
 
     render() {
-        const { children, disableBranding, showFocusOutline, tabIndex, ...restProps } = this.props;
+		const { children, showFocusOutline, tabIndex, ...restProps } = this.props;
 
         return (
             <ChatLogWrapper ref={this.rootRef} showFocusOutline={this.state.isChatLogFocused} {...restProps}>

@@ -181,8 +181,8 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 			speechRecognition.interimResults = true;
 			speechRecognition.onresult = this.handleSpeechResult;
 
-			if (props.config.settings.STTLanguage) {
-				speechRecognition.lang = props.config.settings.STTLanguage;
+			if (props.config.settings.widgetSettings.STTLanguage) {
+				speechRecognition.lang = props.config.settings.widgetSettings.STTLanguage;
 			}
 		}
 
@@ -208,15 +208,17 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 	}
 
 	componentDidUpdate() {
+		const sttLanguage = this.props.config.settings.widgetSettings.STTLanguage;
+
 		if (
 			this.state.speechRecognition &&
-			this.props.config.settings.STTLanguage &&
-			this.state.speechRecognition.lang !== this.props.config.settings.STTLanguage
+			sttLanguage &&
+			this.state.speechRecognition.lang !== sttLanguage
 		) {
 			this.setState({
 				speechRecognition: {
 					...this.state.speechRecognition,
-					lang: this.props.config.settings.STTLanguage,
+					lang: sttLanguage,
 				},
 			});
 		}
@@ -390,11 +392,19 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 		const { text, textActive, speechResult: speechInterim } = state;
 
 		const {
-			disableInputAutocomplete,
-			disableInputAutofocus,
+			layout,
 			enableFileAttachment,
-			inputAutogrowMaxRows,
+			widgetSettings,
 		} = props.config.settings;
+
+		const {
+			disableInputAutocomplete,
+			inputAutogrowMaxRows,
+		} = layout;
+
+		const {
+			disableInputAutofocus,
+		} = widgetSettings;
 
 		const isFileListEmpty = fileList?.length === 0;
 
@@ -433,7 +443,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 							onFocus={() => this.setState({ textActive: true })}
 							onBlur={() => this.setState({ textActive: false })}
 							onKeyDown={this.handleInputKeyDown}
-							placeholder={props.config.settings.inputPlaceholder}
+							placeholder={props.config.settings.behavior.inputPlaceholder}
 							className="webchat-input-message-input"
 							aria-label="Message to send"
 							minRows={1}

@@ -50,7 +50,7 @@ export const getImagePreview = ({ React, styled }: MessagePluginFactoryProps) =>
             event.key === "Enter" && onExpand && onExpand();
         }
 
-        return config.settings.dynamicImageAspectRatio ? (
+		return config.settings.layout.dynamicImageAspectRatio ? (
                 <FlexImageDiv
                     onClick={() => onExpand()}
                     onKeyDown={handleKeyDown}

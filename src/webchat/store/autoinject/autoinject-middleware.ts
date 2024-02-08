@@ -40,13 +40,13 @@ export const createAutoInjectMiddleware = (webchat: Webchat): Middleware<unknown
             api.dispatch(autoInjectHandled());
 
             // Don't send a message if "startBehavior" is not set to "injection"
-            if (config.settings.startBehavior !== 'injection') {
+			if (config.settings.startBehavior.startBehavior !== 'injection') {
                 break;
             }
 
             // Don't trigger the auto inject message when the history is not empty
             // except if explicitly set via enableAutoInjectWithHistory
-            if (!config.settings.enableInjectionWithoutEmptyHistory) {
+			if (!config.settings.widgetSettings.enableInjectionWithoutEmptyHistory) {
                 const isEmptyExceptEngagementMesage = state.messages
                     .filter(message => message.source !== 'engagement')
                     .length === 0;
@@ -58,9 +58,9 @@ export const createAutoInjectMiddleware = (webchat: Webchat): Middleware<unknown
 
 
             // We are going to send the auto-inject message, now!
-            const text = state.config.settings.getStartedPayload;
-            const data = state.config.settings.getStartedData;
-            const label = state.config.settings.getStartedText;
+			const text = state.config.settings.startBehavior.getStartedPayload;
+			const data = state.config.settings.startBehavior.getStartedData;
+			const label = state.config.settings.startBehavior.getStartedText;
 
             webchat.sendMessage(text, data, { label });
             break;

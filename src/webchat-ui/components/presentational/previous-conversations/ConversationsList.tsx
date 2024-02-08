@@ -62,7 +62,7 @@ interface IPrevConversationsListProps {
 export const PrevConversationsList = (props: IPrevConversationsListProps) => {
 	const { conversations, config, onSetShowPrevConversations, onSwitchSession } = props;
 
-	const disableBranding = config?.settings?.disableBranding;
+	const disableBranding = config.settings.layout.watermark !== "default";
 
 	// we sort the conversation based on last message timestamp
 	// result: the last updated conversation goes on top

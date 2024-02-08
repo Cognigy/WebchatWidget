@@ -6,6 +6,7 @@ import { useIsMounted } from "../../utils/is-mounted";
 
 interface ITypingIndicatorProps {
 	active: boolean;
+	delay?: number;
 }
 
 const ChatTypingIndicator = styled(ComponentsTypingIndicator)({
@@ -17,7 +18,7 @@ const HiddenChatTypingIndicator = styled(ChatTypingIndicator)({
 });
 
 const TypingIndicator: FC<ITypingIndicatorProps> = props => {
-	const { active } = props;
+	const { active, delay } = props;
 
 	const isMounted = useIsMounted();
 
@@ -41,7 +42,7 @@ const TypingIndicator: FC<ITypingIndicatorProps> = props => {
 		} else {
 			timeout = setTimeout(() => {
 				if (isMounted.current) setIsVisible(false);
-			}, 500);
+			}, delay || 500);
 		}
 
 		return () => {

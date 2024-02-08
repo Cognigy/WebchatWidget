@@ -91,7 +91,7 @@ export const getMessengerListTemplateHeaderElement = ({ React, styled }: Message
             }
         }
 
-        const isSanitizeEnabled = !config.settings.disableHtmlContentSanitization;
+		const isSanitizeEnabled = !config.settings.layout.disableHtmlContentSanitization;
 
         const titleHtml = isSanitizeEnabled ? sanitizeHTML(title) : title;
         const subtitleHtml = isSanitizeEnabled ? sanitizeHTML(subtitle) : subtitle;
