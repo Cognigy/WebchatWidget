@@ -555,7 +555,7 @@ export class WebchatUI extends React.PureComponent<
 		this.props.onSetShowHomeScreen(false);
 		this.props.onSetShowChatOptionsScreen(false);
 
-		if (!this.props.hasAcceptedTerms) {
+		if (this.props.config.settings.privacyNotice.enabled && !this.props.hasAcceptedTerms) {
 			this.props.onSetStoredMessage({
 				text,
 				data,
@@ -844,7 +844,7 @@ export class WebchatUI extends React.PureComponent<
 		const isSecondaryView = showInformationMessage;
 
 		const handleStartConversation = () => {
-			if (hasAcceptedTerms) {
+			if (!config.settings.privacyNotice.enabled || hasAcceptedTerms) {
 				const { initialSessionId } = config;
 				if (!initialSessionId) {
 					onSwitchSession();
@@ -879,7 +879,7 @@ export class WebchatUI extends React.PureComponent<
 		const handleDragEnter = (e) => {
 			e.preventDefault();
 			e.stopPropagation();
-	
+
 			this.props.onSetDropZoneVisible(true);
 		};
 
@@ -914,13 +914,14 @@ export class WebchatUI extends React.PureComponent<
 					ratingTitleText={customRatingTitle || config.settings.chatOptions.rating.title}
 					ratingCommentText={customRatingCommentText || config.settings.chatOptions.rating.commentPlaceholder}
 					showOnlyRating={showRatingScreen}
+					hasGivenRating={this.props.hasGivenRating}
 					onSendRating={this.handleSendRating}
 					onEmitAnalytics={onEmitAnalytics}
 					onSendActionButtonMessage={this.handleSendActionButtonMessage}
 				/>
 			);
 
-			if(isDropZoneVisible) 
+			if (isDropZoneVisible)
 				return <DropZone disableBranding={config.settings.layout.watermark !== "default"} />
 
 			return (
@@ -946,17 +947,17 @@ export class WebchatUI extends React.PureComponent<
 		}
 
 		const getTitles = () => {
-			if (!hasAcceptedTerms) {
+			if (!hasAcceptedTerms && config.settings.privacyNotice.enabled) {
 				return config.settings.privacyNotice.title || "Privacy notice";
 			}
 			if (showPrevConversations) {
-				return "Previous conversations";
+				return config.settings.homeScreen.previousConversations.title || "Previous conversations";
 			}
 			if (showChatOptionsScreen) {
-				return "Chat options";
+				return config.settings.chatOptions.title || "Chat options";
 			}
 			if (showRatingScreen) {
-				return "Conversation rating";
+				return config.settings.chatOptions.rating.title || "Conversation rating";
 			}
 			if (config.settings.layout.title) {
 				return config.settings.layout.title;
@@ -964,19 +965,25 @@ export class WebchatUI extends React.PureComponent<
 			return "Cognigy";
 		}
 
+		const isHomeScreenEnabled = config.settings.homeScreen.enabled;
+		const showEnabledHomeScreen = isHomeScreenEnabled && showHomeScreen;
+
 		const isChatOptionsButtonVisible =
+			config.settings.chatOptions.enabled &&
 			!showChatOptionsScreen &&
 			!showRatingScreen &&
 			!showPrevConversations &&
-			!showHomeScreen &&
+			!showEnabledHomeScreen &&
 			!showInformationMessage &&
-			hasAcceptedTerms;
+			(hasAcceptedTerms || !config.settings.privacyNotice.enabled);
+
+		const hideBackButton = isChatOptionsButtonVisible && !isHomeScreenEnabled;
 
 		return (
 			<RegularLayoutRoot>
 				{
 					<CSSTransition
-						in={!!(!showHomeScreen || showInformationMessage)}
+						in={!!(!showEnabledHomeScreen || showInformationMessage)}
 						timeout={500}
 						classNames="slide-in"
 						mountOnEnter
@@ -995,11 +1002,13 @@ export class WebchatUI extends React.PureComponent<
 							closeButtonRef={this.closeButtonInHeaderRef}
 							menuButtonRef={this.menuButtonInHeaderRef}
 							chatToggleButtonRef={this.chatToggleButtonRef}
+							hideBackButton={hideBackButton}
 						/>
 					</CSSTransition>
 				}
 				{
 					!isSecondaryView &&
+					isHomeScreenEnabled &&
 					<CSSTransition
 						in={!showHomeScreen}
 						timeout={500}
@@ -1019,7 +1028,7 @@ export class WebchatUI extends React.PureComponent<
 				}
 				{
 					<CSSTransition
-						in={!!(!showHomeScreen || showInformationMessage)}
+						in={!!(!showEnabledHomeScreen || showInformationMessage)}
 						timeout={500}
 						classNames="slide-in"
 						mountOnEnter

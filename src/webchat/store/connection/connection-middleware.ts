@@ -30,7 +30,7 @@ export const createConnectionMiddleware = (client: SocketClient): Middleware<obj
         case 'CONNECT': {
             const { hasAcceptedTerms, storedMessage } = store.getState().ui;
 
-            if (!client.connected && !store.getState().connection.connecting && (hasAcceptedTerms || action.termsAccepted)) {
+			if (!client.connected && !store.getState().connection.connecting && (!store.getState().config.settings.privacyNotice.enabled || hasAcceptedTerms || action.termsAccepted)) {
                 store.dispatch(setConnecting(true));
                 
                 client.connect()

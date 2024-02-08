@@ -81,12 +81,14 @@ interface IRatingWidgetProps {
 	ratingTitleText: string;
 	ratingCommentText: string;
 	/** When true, a feedback status pill is displayed in the chat history */
-	showRatingStatus?: boolean;
+	showRatingStatus: boolean;
+	buttonText?: string;
+	ratingEventBannerText?: string;
 	onSendRating: (props: IOnSendRatingProps) => void;
 }
 
 export const RatingWidget = (props: IRatingWidgetProps) => {
-	const { ratingTitleText, ratingCommentText, showRatingStatus, onSendRating } = props;
+	const { ratingTitleText, ratingCommentText, showRatingStatus, buttonText, ratingEventBannerText, onSendRating } = props;
 	const [ratingValue, setRatingValue] = useState<TRatingValue>(null);
 	const [ratingText, setRatingText] = useState("");
 
@@ -96,7 +98,7 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 
 	const handleSubmitFeedback = () => {
 		onSendRating({ rating: ratingValue, comment: ratingText, showRatingStatus });
-		setTimeout(() => createNotification("Your feedback was submitted."), 500);
+		setTimeout(() => createNotification(ratingEventBannerText || "Your feedback was submitted"), 500);
 		setRatingValue(null);
 		setRatingText("");
 	};
@@ -148,7 +150,7 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 					disabled={disableSendButton}
 					onClick={handleSubmitFeedback}
 				>
-					Send feedback
+					{buttonText || "Send feedback"}
 				</SendButton>
 			</RatingTextContainer>
 		</RatingWidgetRoot>

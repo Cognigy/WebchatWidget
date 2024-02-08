@@ -204,8 +204,8 @@ export interface IWebchatSettings {
 		starters: {
 			type: string;
 			title: string;
-			url: string;
-			postback: string;
+			url?: string;
+			payload?: string;
 		}[];
 	};
 	chatOptions: {
@@ -217,8 +217,8 @@ export interface IWebchatSettings {
 			quickReplies: {
 				type: string;
 				title: string;
-				url: string;
-				postback: string;
+				url?: string;
+				payload?: string;
 			}[];
 		};
 		showTTSToggle: boolean;

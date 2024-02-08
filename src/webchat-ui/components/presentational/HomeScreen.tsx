@@ -42,14 +42,16 @@ interface IHomeScreenContentProps {
 const HomeScreenContent = styled.div<IHomeScreenContentProps>(({ theme, settings }) => {
 	let backgroundImage = "none";
 	const backgroundImageURL = settings?.homeScreen?.background?.imageUrl;
+	const backgroundColor = settings?.homeScreen?.background?.color;
 
 	if (theme.backgroundHome) backgroundImage = theme.backgroundHome;
 	if (backgroundImageURL) backgroundImage = `url("${backgroundImageURL}")`;
-	if (theme.backgroundHome && backgroundImageURL)
+	if (theme.backgroundHome && backgroundImageURL && !backgroundColor)
 		backgroundImage = `url("${backgroundImageURL}"), ${theme.backgroundHome}`;
 
 	return {
 		backgroundImage,
+		backgroundColor,
 		backgroundSize: "cover",
 		backgroundPosition: "center center",
 		flexGrow: 1,
@@ -143,6 +145,10 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 		onStartConversation,
 	} = props;
 
+	const { homeScreen } = config.settings;
+
+	// const buttons: IWebchatButton[] = config.settings.conversationStarters.starters;
+
 	// TODO: Load buttons from new endpoint config
 	const buttons: IWebchatButton[] = [
 		{
@@ -200,7 +206,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 					<Notifications />
 				</FullWidthContainer>
 				<HomeScreenTitle variant="title1-semibold" component="h4" className="webchat-homescreen-title">
-					{config?.settings?.startBehavior?.getStartedButtonText || "Welcome to the Cognigy Webchat"}
+					{homeScreen.welcomeText || "Welcome to the Cognigy Webchat"}
 				</HomeScreenTitle>
 				<HomeScreenButtons className="webchat-homescreen-buttons">
 					<ActionButtons
@@ -221,11 +227,20 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 					className="webchat-homescreen-send-button"
 					aria-label="Start chat"
 				>
-					Start conversation
+					{
+						config.settings.homeScreen.startConversationButtonText ||
+						"Start conversation"
+					}
 				</StartButton>
-				<PrevConversationsButton onClick={handleShowPrevConversations}>
-					Previous conversations
-				</PrevConversationsButton>
+				{
+					config.settings.homeScreen.previousConversations.enabled &&
+					<PrevConversationsButton onClick={handleShowPrevConversations}>
+							{
+								config.settings.homeScreen.previousConversations.buttonText ||
+								"Previous conversations"
+							}
+						</PrevConversationsButton>
+				}
 				{/* Branding Logo Link */}
 				{!disableBranding && <Branding id="cognigyHomeScreenBranding" />}
 			</HomeScreenActions>

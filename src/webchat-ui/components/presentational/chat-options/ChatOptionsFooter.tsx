@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { Typography } from "@cognigy/chat-components";
+import { IWebchatSettings } from "../../../../common/interfaces/webchat-config";
 
 const Footer = styled.div(({ theme }) => ({
 	alignItems: " center",
@@ -29,12 +30,19 @@ const StyledFooterTypography = styled(Typography)(() => ({
 	margin: 0,
 }));
 
+interface IChatOptionsFooterProps {
+	settings: IWebchatSettings;
+}
+
 // TODO: Get text and URL for the footer items from the config
-export const ChatOptionsFooter = () => {
-	const footerItem1Text = "Imprint";
+export const ChatOptionsFooter = (props: IChatOptionsFooterProps) => {
+	const { settings } = props;
+	const { chatOptions } = settings;
+
+	const footerItem1Text = chatOptions?.footer?.title || "Imprint";
 	const footerItem2Text = "Data Privacy";
 
-	const footerItem1URL = "https://www.cognigy.com/legal-notice";
+	const footerItem1URL = chatOptions?.footer?.url || "https://www.cognigy.com/legal-notice";
 	const footerItem2URL = "https://www.cognigy.com/privacy-policy";
 
 	return (

@@ -87,6 +87,8 @@ const buttons: IWebchatButton[] = [
 export const TeaserMessage = (props: ITeaserMessageProps) => {
 	const { onToggle, messageText, config, onEmitAnalytics, onSendActionButtonMessage, onHideTeaserMessage, wasOpen } = props;
 
+	// const buttons: IWebchatButton[] = config.settings.conversationStarters.starters;
+
 	const isDesktopMedia = useMediaQuery({ query: "(min-width: 576px)" });
 
 	const handleMessageClick = () => {
