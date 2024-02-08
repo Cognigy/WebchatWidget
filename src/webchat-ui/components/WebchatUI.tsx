@@ -330,7 +330,7 @@ export class WebchatUI extends React.PureComponent<
 			const { unseenMessages } = this.props;
 
 			// update the "unseen message preview" text
-			if (this.props.config.settings.unreadMessages.enablePreview) {
+			if (this.props.config.settings.unreadMessages.enablePreview || (!this.state.wasOpen && this.props.config.settings.teaserMessage.text)) {
 				let lastUnseenMessageText = "";
 
 				// find the last readable message and remember its text
@@ -609,7 +609,7 @@ export class WebchatUI extends React.PureComponent<
 			onSetDropZoneVisible,
 			...restProps
 		} = props;
-		const { theme, hadConnection, lastUnseenMessageText } = state;
+		const { theme, hadConnection, lastUnseenMessageText, wasOpen } = state;
 
 		const {
 			widgetSettings: { disableToggleButton },
@@ -735,6 +735,7 @@ export class WebchatUI extends React.PureComponent<
 													onEmitAnalytics={onEmitAnalytics}
 													onSendActionButtonMessage={this.handleSendActionButtonMessage}
 													onHideTeaserMessage={onHideTeaserMessage}
+													wasOpen={wasOpen}
 												/>
 											)
 										}
@@ -771,7 +772,7 @@ export class WebchatUI extends React.PureComponent<
 												{open ? <CollapseIcon /> : <ChatIcon />}
 													{config.settings.unreadMessages.enableBadge ? (
 													<Badge
-														content={unseenMessages.length}
+														_content={unseenMessages.length}
 														className="webchat-unread-message-badge"
 														aria-label={`${unseenMessages.length} unread messages`}
 													/>

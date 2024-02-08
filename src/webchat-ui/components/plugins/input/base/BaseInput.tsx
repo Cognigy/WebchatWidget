@@ -9,6 +9,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import PreviewUploadedFiles from "../file/PreviewUploadedFiles";
 import { IUploadFileMetaData } from "../../../../../common/interfaces/file-upload";
 import { IFile } from "../../../../../webchat/store/input/input-reducer";
+import MediaQuery from "react-responsive";
 
 const InputWrapper = styled.div(() => ({
 	display: "flex",
@@ -435,23 +436,28 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 							</>
 						)}
 
-						<TextArea
-							ref={this.inputRef as React.Ref<HTMLTextAreaElement>}
-							autoFocus={!disableInputAutofocus}
-							value={combineStrings(text, speechInterim)}
-							onChange={this.handleChangeTextValue}
-							onFocus={() => this.setState({ textActive: true })}
-							onBlur={() => this.setState({ textActive: false })}
-							onKeyDown={this.handleInputKeyDown}
-							placeholder={props.config.settings.behavior.inputPlaceholder}
-							className="webchat-input-message-input"
-							aria-label="Message to send"
-							minRows={1}
-							maxRows={inputAutogrowMaxRows}
-							autoComplete={disableInputAutocomplete ? "off" : undefined}
-							spellCheck={false}
-							id="webchatInputMessageInputInTextMode"
-						/>
+						<MediaQuery maxWidth={575}>
+							{matches => (
+								<TextArea
+									ref={this.inputRef as React.Ref<HTMLTextAreaElement>}
+									autoFocus={!disableInputAutofocus}
+									value={combineStrings(text, speechInterim)}
+									onChange={this.handleChangeTextValue}
+									onFocus={() => this.setState({ textActive: true })}
+									onBlur={() => this.setState({ textActive: false })}
+									onKeyDown={this.handleInputKeyDown}
+									placeholder={props.config.settings.behavior.inputPlaceholder}
+									className="webchat-input-message-input"
+									aria-label="Message to send"
+									minRows={1}
+									maxRows={inputAutogrowMaxRows}
+									autoComplete={disableInputAutocomplete ? "off" : undefined}
+									spellCheck={false}
+									id="webchatInputMessageInputInTextMode"
+									style={matches ? { fontSize: "16px" } : undefined}
+								/>
+							)}
+						</MediaQuery>
 
 						<SpeechButton
 							className={classnames(
