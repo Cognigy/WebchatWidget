@@ -32,6 +32,9 @@ declare namespace Cypress {
 
       getWebchat(): Chainable<any>;
 
+      startConversation(): Chainable<any>;
+      submitPrivacyScreen(): Chainable<any>;
+
       receiveMessage(text?: string, data?: Object, source?: 'bot' | 'agent' | 'user'): Chainable<ReturnType<cy["window"]>>;
       receiveMessageFixture(filename: string): Chainable<unknown>;
 

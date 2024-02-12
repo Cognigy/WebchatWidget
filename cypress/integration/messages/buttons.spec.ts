@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../support/index.d.ts" />
 
 describe("Message with Buttons", () => {
@@ -6,6 +7,8 @@ describe("Message with Buttons", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen()
     })
 
     it("should render message header", () => {
@@ -25,7 +28,8 @@ describe("Message with Buttons", () => {
 
     it("should post in chat on postback button click", () => {
         cy.withMessageFixture('buttons', () => {
-            cy.contains("foobar005b1").click().get(".regular-message.user").contains("foobar005b1")
+            cy.contains("foobar005b1").click();
+            cy.get(".webchat-message-row.user").contains("foobar005b1");
         })
     })
 
@@ -40,13 +44,14 @@ describe("Message with Buttons", () => {
 
     it("group off buttons should have role 'group'", () => {
         cy.withMessageFixture('buttons', () => {
-            cy.get("[role=group] .webchat-buttons-template-button").should("have.length", 4);
+            cy.get(".webchat-chat-history [role=group] .webchat-buttons-template-button")
+                .should("have.length", 4);
         })
     })
 
     it("button group should have 'aria-labelledby' attribute", () => {
         cy.withMessageFixture('buttons', () => {
-            cy.get("[role=group]")
+            cy.get(".webchat-chat-history [role=group]")
                 .invoke("attr", "aria-labelledby")
                 .should("contain", "webchatButtonTemplateHeader")
                 .should("contain", "srOnly-webchatButtonTemplateHeader");
