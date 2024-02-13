@@ -194,19 +194,28 @@ export interface IWebchatSettings {
 			buttonText: string;
 			title: string;
 		};
+		conversationStarters: {
+			enabled: boolean;
+			starters: {
+				type: "postback" | "web_url" | "phone_number";
+				title: string;
+				url?: string;
+				payload?: string;
+			}[];
+		};
 	};
 	teaserMessage: {
 		text: string;
 		showInChat: boolean;
-	};
-	conversationStarters: {
-		enabled: boolean;
-		starters: {
-			type: string;
-			title: string;
-			url?: string;
-			payload?: string;
-		}[];
+		conversationStarters: {
+			enabled: boolean;
+			starters: {
+				type: "postback" | "web_url" | "phone_number";
+				title: string;
+				url?: string;
+				payload?: string;
+			}[];
+		};
 	};
 	chatOptions: {
 		enabled: boolean;
@@ -215,7 +224,7 @@ export interface IWebchatSettings {
 			enabled: boolean;
 			sectionTitle: string;
 			quickReplies: {
-				type: string;
+				type: "postback" | "web_url" | "phone_number";
 				title: string;
 				url?: string;
 				payload?: string;
@@ -236,15 +245,26 @@ export interface IWebchatSettings {
 		};
 		footer: {
 			enabled: boolean;
-			title: string;
-			url: string;
+			items: {
+				title: string;
+				url: string;
+			}[];
 		};
 	};
+	rating: {
+		submitButtonText: string;
+		eventBannerText: string;
+		chatStatusMessage: string;
+		messageHistoryRatingText: string;
+		messageHistoryCommentText: string;
+	},
 	privacyNotice: {
 		enabled: boolean;
 		title: string;
 		text: string;
 		submitButtonText: string;
+		urlText: string;
+		url: string;
 	};
 	enableFileAttachment: boolean;
 	fileAttachmentMaxSize: number;

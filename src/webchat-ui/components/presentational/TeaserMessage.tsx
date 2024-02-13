@@ -65,29 +65,10 @@ interface ITeaserMessageProps {
 	wasOpen: boolean;
 }
 
-// TODO: Load buttons from new endpoint config
-const buttons: IWebchatButton[] = [
-	{
-		title: "I want to learn more about Cognigy",
-		type: "postback",
-		payload: "I want to learn more about Cognigy",
-	},
-	{
-		title: "I'd like to talk to a product expert",
-		type: "postback",
-		payload: "I'd like to talk to a product expert",
-	},
-	{
-		title: "Visit Website",
-		type: "web_url",
-		url: "https://www.cognigy.com/",
-	},
-]
-
 export const TeaserMessage = (props: ITeaserMessageProps) => {
 	const { onToggle, messageText, config, onEmitAnalytics, onSendActionButtonMessage, onHideTeaserMessage, wasOpen } = props;
 
-	// const buttons: IWebchatButton[] = config.settings.conversationStarters.starters;
+	const buttons: IWebchatButton[] = config.settings.teaserMessage.conversationStarters.starters;
 
 	const isDesktopMedia = useMediaQuery({ query: "(min-width: 576px)" });
 

@@ -147,31 +147,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 
 	const { homeScreen } = config.settings;
 
-	// const buttons: IWebchatButton[] = config.settings.conversationStarters.starters;
-
-	// TODO: Load buttons from new endpoint config
-	const buttons: IWebchatButton[] = [
-		{
-			title: "Cognigy Homepage",
-			type: "web_url",
-			url: "https://www.cognigy.com/",
-		},
-		{
-			title: "How are you?",
-			type: "postback",
-			payload: "How are you?",
-		},
-		{
-			title: "What is your name?",
-			type: "postback",
-			payload: "What is your name?",
-		},
-		{
-			title: "What is your favorite color?",
-			type: "postback",
-			payload: "What is your favorite color?",
-		},
-	]
+	const buttons: IWebchatButton[] = config.settings.homeScreen.conversationStarters.starters;
 
 	const disableBranding = config?.settings?.layout?.watermark !== "default";
 

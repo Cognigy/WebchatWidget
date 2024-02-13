@@ -85,14 +85,18 @@ export const getInitialState = (): ConfigState => ({
 				buttonText: "Previous conversations",
 				title: "",
 			},
+			conversationStarters: {
+				enabled: true,
+				starters: [],
+			},
 		},
 		teaserMessage: {
 			text: "",
 			showInChat: false,
-		},
-		conversationStarters: {
-			enabled: true,
-			starters: [],
+			conversationStarters: {
+				enabled: true,
+				starters: [],
+			},
 		},
 		chatOptions: {
 			enabled: false,
@@ -117,9 +121,15 @@ export const getInitialState = (): ConfigState => ({
 			},
 			footer: {
 				enabled: false,
-				title: "Imprint",
-				url: "",
+				items: [],
 			},
+		},
+		rating: {
+			submitButtonText: "",
+			eventBannerText: "Your feedback was submitted",
+			chatStatusMessage: "Feedback submitted",
+			messageHistoryRatingText: "",
+			messageHistoryCommentText: "",
 		},
 		privacyNotice: {
 			enabled: false,
@@ -128,6 +138,8 @@ export const getInitialState = (): ConfigState => ({
 
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`,
 			submitButtonText: "Submit",
+			urlText: "",
+			url: "",
 		},
 		enableFileAttachment: false,
 		fileAttachmentMaxSize: 10485760,

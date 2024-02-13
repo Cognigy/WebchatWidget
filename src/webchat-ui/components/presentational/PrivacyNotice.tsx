@@ -45,10 +45,12 @@ export const PrivacyNotice = (props: IPrivacyNoticeProps) => {
 	const {
 		text,
 		submitButtonText,
+		urlText,
+		url,
 	} = privacyNotice;
 
 	const handleLinkClick = () => {
-		window.open("https://www.cognigy.com/", "_blank");
+		window.open(url || "https://www.cognigy.com/", "_blank");
 	};
 
 	return (
@@ -69,7 +71,7 @@ export const PrivacyNotice = (props: IPrivacyNoticeProps) => {
 					{submitButtonText}
 				</AcceptButton>
 				<PolicyButton onClick={handleLinkClick}>
-					Privacy policy
+					{urlText || "Privacy policy"}
 				</PolicyButton>
 			</PrivacyActions>
 		</PrivacyNoticeRoot>

@@ -39,11 +39,11 @@ export const ChatOptionsFooter = (props: IChatOptionsFooterProps) => {
 	const { settings } = props;
 	const { chatOptions } = settings;
 
-	const footerItem1Text = chatOptions?.footer?.title || "Imprint";
-	const footerItem2Text = "Data Privacy";
+	const footerItem1Text = chatOptions?.footer?.items[0]?.title || "Imprint";
+	const footerItem2Text = chatOptions?.footer?.items[1]?.title || "Data Privacy";
 
-	const footerItem1URL = chatOptions?.footer?.url || "https://www.cognigy.com/legal-notice";
-	const footerItem2URL = "https://www.cognigy.com/privacy-policy";
+	const footerItem1URL = chatOptions?.footer?.items[0]?.url || "https://www.cognigy.com/legal-notice";
+	const footerItem2URL = chatOptions?.footer?.items[1]?.url || "https://www.cognigy.com/privacy-policy";
 
 	return (
 		<Footer className="webchat-chat-options-footer">
