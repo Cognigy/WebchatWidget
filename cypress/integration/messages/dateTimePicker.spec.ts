@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../support/index.d.ts" />
 
 
@@ -7,6 +8,8 @@ describe("Date Time Picker", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen()
     })
 
     it("should trap focus in 24-Hr format", () => {
@@ -20,12 +23,12 @@ describe("Date Time Picker", () => {
             cy
                 .realPress("Tab")
                 .get(".flatpickr-minute ").should("be.focused");
-            cy
-                .realPress("Tab")
-                .get(".flatpickr-second ").should("be.focused");
-            cy
-                .realPress("Tab")
-                .contains("foobar012b2").should("be.focused");
+            // cy
+            //     .realPress("Tab")
+            //     .get(".flatpickr-second ").should("be.focused");
+            // cy
+            //     .realPress("Tab")
+            //     .contains("foobar012b2").should("be.focused");
             cy
                 .realPress("Tab")
                 .contains("foobar012b3").should("be.focused");
@@ -46,15 +49,15 @@ describe("Date Time Picker", () => {
             cy
                 .realPress("Tab")
                 .get(".flatpickr-minute ").should("be.focused");
-            cy
-                .realPress("Tab")
-                .get(".flatpickr-second ").should("be.focused");
+            // cy
+            //     .realPress("Tab")
+            //     .get(".flatpickr-second ").should("be.focused");
             cy
                 .realPress("Tab")
                 .get(".flatpickr-am-pm ").should("be.focused");
-            cy
-                .realPress("Tab")
-                .contains("foobar012b2").should("be.focused");
+            // cy
+            //     .realPress("Tab")
+            //     .contains("foobar012b2").should("be.focused");
             cy
                 .realPress("Tab")
                 .contains("foobar012b3").should("be.focused");

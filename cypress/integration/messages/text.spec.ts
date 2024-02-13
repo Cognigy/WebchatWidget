@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../support/index.d.ts" />
 
 describe("Text message", () => {
@@ -6,6 +7,8 @@ describe("Text message", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen()
     })
 
     it("should render text message", () => {
@@ -19,7 +22,7 @@ describe("Text message", () => {
         cy.withMessageFixture('text-multiline', () => {
             cy
                 .contains(/foobar002\sbarfoo002/)
-                .get('.regular-message')
+                .get('.webchat-message-row .chat-bubble')
                 .should('have.css', 'white-space')
                 .and('match', /pre-wrap/);
         })
@@ -29,8 +32,8 @@ describe("Text message", () => {
         cy.withMessageFixture('text-html', () => {
             cy
                 .contains("foobar010")
-                .get('.regular-message > h1')
-                .get('.regular-message > div')
+                .get('.webchat-message-row .chat-bubble > div h1')
+                .get('.webchat-message-row .chat-bubble > div > div')
                 .contains('foobar010red')
                 .should('have.css', 'background');
         })
