@@ -60,9 +60,11 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 		onSendActionButtonMessage,
 	} = props;
 	const { settings } = config;
-	const { chatOptions } = settings;
+	const { chatOptions, rating: fullScreenRating } = settings;
+	const { rating: chatOptionsRating } = chatOptions;
 
-	const ratingEventBannerText = chatOptions.rating.eventBannerText;
+	const ratingEventBannerText = showOnlyRating ? fullScreenRating.eventBannerText : chatOptionsRating.eventBannerText;
+	const submitRatingButtonText = showOnlyRating ? fullScreenRating.submitButtonText : chatOptionsRating.submitButtonText;
 
 	const ratingEnabled = chatOptions.rating.enabled;
 	const showRating = ratingEnabled === "always" || (ratingEnabled === "once" && !hasGivenRating) || showOnlyRating;
@@ -92,6 +94,7 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 						onSendRating={onSendRating}
 						showRatingStatus={showOnlyRating}
 						ratingEventBannerText={ratingEventBannerText}
+						buttonText={submitRatingButtonText}
 					/>
 				}
 			</ChatOptionsContainer>

@@ -240,8 +240,6 @@ export interface IWebchatSettings {
 			submitButtonText: string;
 			eventBannerText: string;
 			chatStatusMessage: string;
-			messageHistoryRatingText: string;
-			messageHistoryCommentText: string;
 		};
 		footer: {
 			enabled: boolean;
@@ -255,8 +253,6 @@ export interface IWebchatSettings {
 		submitButtonText: string;
 		eventBannerText: string;
 		chatStatusMessage: string;
-		messageHistoryRatingText: string;
-		messageHistoryCommentText: string;
 	},
 	privacyNotice: {
 		enabled: boolean;

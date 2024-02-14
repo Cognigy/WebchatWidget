@@ -116,8 +116,6 @@ export const getInitialState = (): ConfigState => ({
 				submitButtonText: "Send feedback",
 				eventBannerText: "Your feedback was submitted",
 				chatStatusMessage: "Feedback submitted",
-				messageHistoryRatingText: "You gave the following rating:",
-				messageHistoryCommentText: "You commented:",
 			},
 			footer: {
 				enabled: false,
@@ -128,8 +126,6 @@ export const getInitialState = (): ConfigState => ({
 			submitButtonText: "",
 			eventBannerText: "Your feedback was submitted",
 			chatStatusMessage: "Feedback submitted",
-			messageHistoryRatingText: "",
-			messageHistoryCommentText: "",
 		},
 		privacyNotice: {
 			enabled: false,
