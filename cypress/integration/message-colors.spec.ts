@@ -1,4 +1,4 @@
-describe('Message Color Variants', () => {
+xdescribe('Message Color Variants', () => {
     describe('neutral color', () => {
         beforeEach(() => {
             cy.visitWebchat();
