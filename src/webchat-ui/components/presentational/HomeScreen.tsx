@@ -40,18 +40,17 @@ interface IHomeScreenContentProps {
 }
 
 const HomeScreenContent = styled.div<IHomeScreenContentProps>(({ theme, settings }) => {
+
+	const backgroundColor = settings?.homeScreen?.background?.color || theme.backgroundHome;
+
 	let backgroundImage = "none";
 	const backgroundImageURL = settings?.homeScreen?.background?.imageUrl;
-	const backgroundColor = settings?.homeScreen?.background?.color;
-
-	if (theme.backgroundHome) backgroundImage = theme.backgroundHome;
 	if (backgroundImageURL) backgroundImage = `url("${backgroundImageURL}")`;
-	if (theme.backgroundHome && backgroundImageURL && !backgroundColor)
-		backgroundImage = `url("${backgroundImageURL}"), ${theme.backgroundHome}`;
+
+	const background = `${backgroundImage}, ${backgroundColor}`;
 
 	return {
-		backgroundImage,
-		backgroundColor,
+		background,
 		backgroundSize: "cover",
 		backgroundPosition: "center center",
 		flexGrow: 1,
