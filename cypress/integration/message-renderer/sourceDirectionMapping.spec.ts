@@ -1,4 +1,4 @@
-xdescribe('Source Direction Mapping', () => {
+describe('Source Direction Mapping', () => {
     beforeEach(() => {
         cy.visitMessageRenderer();
     });
