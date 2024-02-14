@@ -36,26 +36,7 @@ export const PostbackButtons = (prop: IPostbackButtonsProps) => {
 	const { settings } = config;
 	const { chatOptions } = settings;
 
-	// const buttons: IWebchatButton[] = chatOptions?.quickReplyOptions.quickReplies
-
-	// TODO: Get the buttons from the config
-	const buttons: IWebchatButton[] = [
-		{
-			title: "Who are Cognigy?",
-			type: "postback",
-			payload: "Who are Cognigy?",
-		},
-		{
-			title: "What can I do here?",
-			type: "postback",
-			payload: "What can I do here?",
-		},
-		{
-			title: "I need technical support",
-			type: "postback",
-			payload: "I need technical support",
-		},
-	]
+	const buttons: IWebchatButton[] = chatOptions?.quickReplyOptions.quickReplies
 
 	return (
 		<PostbackButtonsRoot className="webchat-chat-options-root">
