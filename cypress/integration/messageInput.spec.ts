@@ -5,7 +5,10 @@ describe('Webchat Message Input', () => {
 			.visitWebchat()
 			.initMockWebchat()
 			.openWebchat()
-			.get('[aria-label="Message to send"]').should('be.visible');
+			.startConversation()
+			.submitPrivacyScreen();
+		
+		cy.get('[aria-label="Message to send"]').should('be.visible');
 	});
 
 	it('message input filed should receive focus on open', () => {
@@ -13,7 +16,10 @@ describe('Webchat Message Input', () => {
 			.visitWebchat()
 			.initMockWebchat()
 			.openWebchat()
-			.get('[aria-label="Message to send"]').should('be.focused');
+			.startConversation()
+			.submitPrivacyScreen();
+		
+		cy.get('[aria-label="Message to send"]').should('be.focused');
 	});
 
 	it('should be able to type in message input filed should', () => {
@@ -21,8 +27,11 @@ describe('Webchat Message Input', () => {
 			.visitWebchat()
 			.initMockWebchat()
 			.openWebchat()
-			.get('[aria-label="Message to send"]').type('Hi')
-			.get('[aria-label="Message to send"]').should('have.value', 'Hi');
+			.startConversation()
+			.submitPrivacyScreen();
+		
+		cy.get('[aria-label="Message to send"]').type('Hi');
+		cy.get('[aria-label="Message to send"]').should('have.value', 'Hi');
 	});
 
 });
