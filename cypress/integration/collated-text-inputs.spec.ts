@@ -7,7 +7,9 @@ describe("collated text inputs", () => {
 
     it("shouldn't collate messages by default", () => {
         cy.initMockWebchat()
-            .openWebchat();
+            .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen();
 
         cy.get(".webchat-input-message-input").type("hi").type("{enter}");
         cy.get(".webchat-input-message-input").type("whats up").type("{enter}");
@@ -23,7 +25,9 @@ describe("collated text inputs", () => {
                     enableInputCollation: true
                 }
             })
-            .openWebchat();
+            .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen();
 
         cy.get(".webchat-input-message-input").type("hi").type("{enter}");
         cy.get(".webchat-input-message-input").type("whats up").type("{enter}");
@@ -37,7 +41,9 @@ describe("collated text inputs", () => {
                     enableInputCollation: true
                 }
             })
-            .openWebchat();
+            .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen();
 
         cy.sendMessage("immediately there!");
         cy.contains("immediately there!", { timeout: 100 }).should("be.visible");
@@ -49,7 +55,9 @@ describe("collated text inputs", () => {
                     enableInputCollation: true,
                 }
             })
-            .openWebchat();
+            .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen();
 
         cy.get(".webchat-input-message-input").type("hi").type("{enter}");
         cy.wait(1100);
@@ -67,7 +75,9 @@ describe("collated text inputs", () => {
                     inputCollationTimeout: 1500
                 }
             })
-            .openWebchat();
+            .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen();
 
         cy.get(".webchat-input-message-input").type("hi").type("{enter}");
         cy.wait(1100);
@@ -82,7 +92,9 @@ describe("collated text inputs", () => {
                     enableInputCollation: true,
                 }
             })
-            .openWebchat();
+            .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen();
 
         cy.get(".webchat-input-message-input").type("hi").type("{enter}");
         cy.get(".webchat-input-message-input").type("ho").type("{enter}");
@@ -101,39 +113,41 @@ describe("collated text inputs", () => {
                     enableInputCollation: true
                 }
             })
-            .openWebchat();
+                .openWebchat()
+                .startConversation()
+                .submitPrivacyScreen();
         });
 
         
         // TODO: make "collate" an opt-in on the "send message" api as an option and only use it on regular text inputs
         it("immediately sends a message triggered by a quick reply", () => {
             cy.withMessageFixture('quick-replies', () => {
-                cy.contains("foobar003qr01").click();
-                cy.get(".regular-message.user", { timeout: 100 }).contains("foobar003qr01");
+                cy.contains("foobar003qr01").click({force: true});
+                cy.get(".webchat-message-row.user", { timeout: 100 }).contains("foobar003qr01");
             });
         });
         it("immediately sends a message triggered by a button template button", () => {
             cy.withMessageFixture('buttons', () => {
                 cy.contains("foobar005b1").click();
-                cy.get(".regular-message.user", { timeout: 100 }).contains("foobar005b1");
+                cy.get(".webchat-message-row.user", { timeout: 100 }).contains("foobar005b1");
             });
         });
         it("immediately sends a message triggered by a gallery template button", () => {
             cy.withMessageFixture('gallery', () => {
                 cy.contains("foobar004g1b1").click();
-                cy.get(".regular-message.user", { timeout: 100 }).contains("foobar004g1b1")
+                cy.get(".webchat-message-row.user", { timeout: 100 }).contains("foobar004g1b1")
             })
         });
         it("immediately sends a message triggered by a list template button", () => {
             cy.withMessageFixture('list-with-postback', () => {
                 cy.contains("foobar00rty1").click()
-                cy.get(".regular-message.user", { timeout: 100 }).contains("foobar00rty1")
+                cy.get(".webchat-message-row.user", { timeout: 100 }).contains("foobar00rty1")
             })
         });
         it("immediately sends a message triggered by a list template item button", () => {
             cy.withMessageFixture('list', () => {
                 cy.contains("foobar009l1b1").click()
-                cy.get(".regular-message.user", { timeout: 100 }).contains("foobar009l1b1")
+                cy.get(".webchat-message-row.user", { timeout: 100 }).contains("foobar009l1b1")
             })
         });
         it("immediately sends a message triggered by a date picker", () => {
@@ -144,7 +158,7 @@ describe("collated text inputs", () => {
                 
                 // Our default locale for english is "en-US"
                 const formattedDate = moment().format("MM/DD/YYYY");
-                cy.get(".regular-message.user", { timeout: 500 }).contains(formattedDate);
+                cy.get(".webchat-message-row.user", { timeout: 500 }).contains(formattedDate);
             })
         });
     });
