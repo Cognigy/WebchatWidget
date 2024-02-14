@@ -3,6 +3,8 @@ describe('Message Templates with null Buttons', () => {
     cy.visitWebchat();
     cy.initMockWebchat();
     cy.openWebchat();
+    cy.startConversation();
+    cy.submitPrivacyScreen();
   });
 
   it('renders a gallery with null buttons', () => {
