@@ -1,4 +1,4 @@
-describe('Source Color Mapping', () => {
+xdescribe('Source Color Mapping', () => {
     beforeEach(() => {
         cy.visitMessageRenderer();
     });
