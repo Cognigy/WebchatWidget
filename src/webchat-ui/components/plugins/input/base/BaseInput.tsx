@@ -394,7 +394,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 
 		const {
 			layout,
-			enableFileAttachment,
+			fileStorageSettings,
 			widgetSettings,
 		} = props.config.settings;
 
@@ -407,6 +407,8 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 			disableInputAutofocus,
 		} = widgetSettings;
 
+		const isFileAttachmentEnabled = fileStorageSettings?.enabled;
+
 		const isFileListEmpty = fileList?.length === 0;
 
 		return (
@@ -417,7 +419,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 						onSubmit={this.handleSubmit}
 						className={classnames("webchat-input-menu-form")}
 					>
-						{enableFileAttachment && (
+						{isFileAttachmentEnabled && (
 							<>
 								<HiddenFileInput
 									ref={this.fileInputRef}

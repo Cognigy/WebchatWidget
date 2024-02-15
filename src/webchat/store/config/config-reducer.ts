@@ -58,6 +58,10 @@ export const getInitialState = (): ConfigState => ({
 			getStartedPayload: "",
 			getStartedText: "",
 		},
+		fileStorageSettings: {
+			enabled: false,
+			dropzoneText: "",
+		},
 		businessHours: {
 			times: [],
 			enabled: false,
@@ -137,7 +141,6 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 			urlText: "",
 			url: "",
 		},
-		enableFileAttachment: false,
 		fileAttachmentMaxSize: 10485760,
 		maintenance: {
 			enabled: false,

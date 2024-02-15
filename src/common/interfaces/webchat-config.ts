@@ -163,6 +163,10 @@ export interface IWebchatSettings {
 		getStartedText: string;
 		getStartedButtonText: string;
 	};
+	fileStorageSettings?: {
+		enabled?: boolean;
+		dropzoneText?: string;
+	};
 	businessHours: {
 		enabled: boolean;
 		mode: "inform" | "hide" | "disable";
@@ -262,7 +266,6 @@ export interface IWebchatSettings {
 		urlText: string;
 		url: string;
 	};
-	enableFileAttachment: boolean;
 	fileAttachmentMaxSize: number;
 	maintenance: {
 		enabled: boolean;

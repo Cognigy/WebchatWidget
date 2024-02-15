@@ -39,13 +39,14 @@ const DragDropTypography = styled(Typography)(({ theme }) => ({
 
 interface IDropZoneProps {
 	disableBranding?: boolean;
+	dropzoneText?: string;
 }
 
 const DropZone: FC<IDropZoneProps> = props => {
 	const dropRef = useRef<HTMLInputElement>(null);
 	const dispatch = useDispatch();
 
-	const { disableBranding } = props;
+	const { disableBranding, dropzoneText } = props;
 
 	const handleDragOver = e => {
 		e.preventDefault();
@@ -76,7 +77,7 @@ const DropZone: FC<IDropZoneProps> = props => {
 						component="span"
 						className="webchat-input-drag-and-drop-file-text"
 					>
-						Drop to attach
+						{dropzoneText || "Drop to attach"}
 					</DragDropTypography>
 				</DropZoneContent>
 				{!disableBranding && <Branding id="cognigyDropZoneLogo" />}

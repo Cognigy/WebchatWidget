@@ -99,7 +99,7 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 				}
 			</ChatOptionsContainer>
 			{
-				chatOptions.footer.enabled &&
+				chatOptions.footer.enabled && chatOptions.footer.items[0] &&
 				<ChatOptionsFooter settings={config.settings} />
 			}
 		</ChatOptionsRoot>
