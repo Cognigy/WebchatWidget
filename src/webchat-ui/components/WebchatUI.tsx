@@ -53,7 +53,7 @@ import {
 import { HomeScreen } from "./presentational/HomeScreen";
 import { PrevConversationsList } from "./presentational/previous-conversations/ConversationsList";
 import { PrevConversationsState } from "../../webchat/store/previous-conversations/previous-conversations-reducer";
-import Chip from "./presentational/Chip";
+import { ChatEvent } from '@cognigy/chat-components';
 import { isConversationEnded } from "./presentational/previous-conversations/helpers";
 import { ISendMessageOptions } from '../../webchat/store/messages/message-middleware';
 import { InformationMessage } from "./presentational/InformationMessage";
@@ -1067,7 +1067,7 @@ export class WebchatUI extends React.PureComponent<
 		const { enableTypingIndicator } = config.settings;
 		const isTyping = typingIndicator !== "remove" && typingIndicator !== "hide";
 
-		const isExpired = isConversationEnded(messages);
+		const isEnded = isConversationEnded(messages);
 
 		return (
 			<>
@@ -1083,7 +1083,7 @@ export class WebchatUI extends React.PureComponent<
 							hasReply={hasReply}
 							key={index}
 							message={message}
-							onDismissFullscreen={() => { }}
+							onDismissFullscreen={() => {}}
 							onEmitAnalytics={onEmitAnalytics}
 							onSendMessage={this.sendMessage}
 							onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}
@@ -1091,13 +1091,13 @@ export class WebchatUI extends React.PureComponent<
 							prevMessage={messages?.[index - 1]}
 							setScrollToPosition={onSetScrollToPosition}
 							webchatTheme={this.state.theme}
+							isConversationEnded={isEnded}
 						/>
 					);
 				})}
-				{isExpired && (
-					<Chip
-						withWrapper
-						label="Conversation ended"
+				{isEnded && (
+					<ChatEvent
+						text="Conversation ended"
 						className="webchat-chip-conversation-ended"
 					/>
 				)}
