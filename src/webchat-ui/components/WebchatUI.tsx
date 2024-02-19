@@ -819,9 +819,11 @@ export class WebchatUI extends React.PureComponent<
 		} = this.props;
 
 		let informMessage = "";
+		let informTitle = "";
 		if (config.settings.maintenance.enabled && config.settings.maintenance.mode === "inform") {
 			informMessage =
 				config.settings.maintenance.text || "This Webchat is disabled due to maintenance";
+			informTitle = config.settings.maintenance.title || "";
 		} else if (
 			config.settings.embeddingConfiguration.connectivity.enabled &&
 			config.settings.embeddingConfiguration.connectivity.mode === "inform"
@@ -829,6 +831,7 @@ export class WebchatUI extends React.PureComponent<
 			informMessage =
 				config.settings.embeddingConfiguration.connectivity.text ||
 				"This Webchat is disabled due to connectivity issues";
+			informTitle = config.settings.embeddingConfiguration.connectivity.title || "";
 		} else if (
 			config.settings.businessHours.enabled &&
 			config.settings.businessHours.mode === "inform"
@@ -836,6 +839,7 @@ export class WebchatUI extends React.PureComponent<
 			informMessage =
 				config.settings.businessHours.text ||
 				"This Webchat is disabled out of business hours";
+			informTitle = config.settings.businessHours.title || "";
 		}
 
 		const showInformationMessage = isInforming && informMessage;
@@ -952,6 +956,9 @@ export class WebchatUI extends React.PureComponent<
 		}
 
 		const getTitles = () => {
+			if (showInformationMessage && informTitle) {
+				return informTitle;
+			}
 			if (!hasAcceptedTerms && config.settings.privacyNotice.enabled) {
 				return config.settings.privacyNotice.title || "Privacy notice";
 			}
