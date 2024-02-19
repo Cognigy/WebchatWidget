@@ -75,7 +75,7 @@ const initWebchat = async (webchatConfigUrl: string, options?: InitWebchatOption
     if (options && options.settings) {
         settings = options.settings;
     }
-	settings.embeddingConfiguration = { _endpointTokenUrl: webchatConfigUrl } as Partial<IWebchatSettings>['embeddingConfiguration'];
+	settings.embeddingConfiguration = { ...settings?.embeddingConfiguration, _endpointTokenUrl: webchatConfigUrl } as Partial<IWebchatSettings>['embeddingConfiguration'];
     const webchatRoot = document.createElement('div');
     document.body.appendChild(webchatRoot);
 
