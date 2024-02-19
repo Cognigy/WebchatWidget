@@ -1,22 +1,20 @@
 describe('Input Autogrow', () => {
+    beforeEach(() => {
+		cy.visitWebchat().initMockWebchat().openWebchat().startConversation().submitPrivacyScreen();
+    });
+    
     it('should be active by default', () => {
-        cy.visitWebchat().initMockWebchat().openWebchat();
-
         cy.get('textarea.webchat-input-message-input').should('be.visible');
     });
 
     it('should submit when hitting "return"', () => {
-        cy.visitWebchat().initMockWebchat().openWebchat();
-
         cy.get('#webchatInputMessageInputInTextMode').as('input');
         cy.get('@input').type('hello world{enter}');
 
-        cy.get('.regular-message.user').contains('hello world').should('be.visible');
+        cy.get('.webchat-message-row.user').contains('hello world').should('be.visible');
     });
 
     it('should grow when typing long texts', () => {
-        cy.visitWebchat().initMockWebchat().openWebchat();
-
         cy.get('#webchatInputMessageInputInTextMode').as('input');
         cy.get('@input').invoke('height').as('initialHeight');
         cy.get('@input').type('this is a long text that will most likely cause the field to wrap');
@@ -26,8 +24,6 @@ describe('Input Autogrow', () => {
     });
 
     it('should insert a newline when sending "shift+return"', () => {
-        cy.visitWebchat().initMockWebchat().openWebchat();
-
         cy.get('#webchatInputMessageInputInTextMode').as('input');
         cy.get('@input').invoke('height').as('initialHeight');
         cy.get('@input').type('{shift}{enter}');
@@ -41,7 +37,7 @@ describe('Input Autogrow', () => {
             settings: {
                 inputAutogrowMaxRows: 3
             }
-        }).openWebchat();
+        }).openWebchat().startConversation();
 
         cy.get('#webchatInputMessageInputInTextMode').as('input')
             .invoke('height').as('initialHeight');

@@ -2,7 +2,9 @@ describe("Message History", () => {
     it("automatically scrolls to bottom for new incoming messages", () => {
         cy.visitWebchat()
             .initMockWebchat()
-            .openWebchat();
+            .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen();
 
         cy.then(() => {
             for (let i=0; i<20; i++) {
@@ -17,7 +19,9 @@ describe("Message History", () => {
     it("doesn't automatically scrollto bottom for new incoming messages if it wasn't scrolled down before", () => {
         cy.visitWebchat()
             .initMockWebchat()
-            .openWebchat();
+            .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen();
 
         cy.then(() => {
             for (let i=0; i<20; i++) {

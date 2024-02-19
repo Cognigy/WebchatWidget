@@ -2,7 +2,9 @@ describe("Malformed Default Reply Messages", () => {
     it("Does not crash when rendering a malformed default reply message with webchat tab content", () => {
       cy.visitWebchat();
       cy.initMockWebchat();
-      cy.openWebchat();  
+      cy.openWebchat();
+      cy.startConversation();
+      cy.submitPrivacyScreen();
       
       cy.fixture('messages/malformed-webchat-defaultreply.json')
           .then(({ text, data, source }) => {
