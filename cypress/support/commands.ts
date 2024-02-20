@@ -81,6 +81,15 @@ Cypress.Commands.add('openWebchat', () => {
     });
 });
 
+Cypress.Commands.add('startConversation', () => {
+    return cy.contains("Start conversation").click();
+});
+
+Cypress.Commands.add('submitPrivacyScreen', () => {
+    return cy.contains("Submit").click();
+});
+
+
 Cypress.Commands.add('receiveMessage', (text?: string, data?: Object, source: 'bot' | 'agent' = 'bot') => {
     cy.get('@webchat').then(webchat => {
         (webchat as any)._handleOutput({

@@ -1,6 +1,6 @@
 describe('Chat Log', () => {
     beforeEach(() => {
-        cy.visitWebchat().initMockWebchat().openWebchat();;
+        cy.visitWebchat().initMockWebchat().openWebchat().startConversation().submitPrivacyScreen();
     });
 
     it('is chat log region non-focusable when no messages in log', () => {
@@ -28,6 +28,6 @@ describe('Chat Log', () => {
 
     it('parent has outline when chat log is focused', () => {
         cy.get('#webchatChatHistoryWrapperLiveLogPanel').focus();
-        cy.get('.webchat-chat-history').should("have.css", "outline", "rgb(96, 112, 199) auto 1px")
+        cy.get('.webchat-chat-history').should("have.css", "outline", "rgb(81, 119, 236) auto 1px")
     });
 });

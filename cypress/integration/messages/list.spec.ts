@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../support/index.d.ts" />
 
 describe("Message with List", () => {
@@ -6,6 +7,8 @@ describe("Message with List", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
+            .startConversation()
+            .submitPrivacyScreen()
     })
 
     it("should render list", () => {
@@ -42,7 +45,7 @@ describe("Message with List", () => {
     it("should post in chat on click on postback button", () => {
         cy.withMessageFixture('list', () => {
             cy
-                .contains("foobar009l1b1").click().get(".regular-message.user").contains("foobar009l1b1")
+                .contains("foobar009l1b1").click().get(".webchat-message-row.user").contains("foobar009l1b1")
         })
     })
 
@@ -76,12 +79,13 @@ describe("Message with List", () => {
     it("should render the list header image in a fixed aspect ratio", () => {
         cy.withMessageFixture('list', () => {
             cy.get(".webchat-list-template-header > :first-child").parent().then(element => {
-                expect(element.innerHeight()).to.equal(element.innerWidth() / 2);
+                expect(element.innerWidth() / element.innerHeight()).to.equal(16/9);
             });
         })
     });
 
-    it("should render the list header image in a dynamic aspect ratio", () => {
+    // image aspect ratio is always fixed in v3
+    xit("should render the list header image in a dynamic aspect ratio", () => {
         cy.visitWebchat();
         cy.initMockWebchat({
             settings: {

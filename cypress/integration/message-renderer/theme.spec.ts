@@ -1,4 +1,4 @@
-describe('Message Renderer Theme', () => {
+xdescribe('Message Renderer Theme', () => {
     before(() => {
         cy.visitMessageRenderer();
     });

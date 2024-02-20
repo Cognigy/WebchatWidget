@@ -64,6 +64,7 @@ import DropZone from "./plugins/input/file/DropZone";
 import { IFile } from "../../webchat/store/input/input-reducer";
 import { CSSTransition } from "react-transition-group";
 import { TeaserMessage } from "./presentational/TeaserMessage";
+import XAppSubmitObserver from "./functional/XAppSubmitObserver";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -1120,6 +1121,7 @@ export class WebchatUI extends React.PureComponent<
 					/>
 				)}
 				{enableTypingIndicator && <TypingIndicator active={isTyping} delay={messageDelay} />}
+				<XAppSubmitObserver />
 			</>
 		);
 	}

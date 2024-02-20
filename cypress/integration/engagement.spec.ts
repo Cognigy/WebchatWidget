@@ -1,169 +1,141 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../support/index.d.ts" />
 
-describe('Engagement Message', () => {
-    it('should display an engagement message if engagementMessageText is configured', () => {
-        cy
-            .visitWebchat()
-            .initMockWebchat({
-                settings: {
-                    enableUnreadMessagePreview: true,
-                    engagementMessageText: 'engagement message text'
-                }
-            })
-            .window()
-            .contains('engagement message text', { timeout: 6000 })
-            .should('be.visible')
-    });
+describe("Engagement Message", () => {
+	it("should display an engagement message if engagementMessageText is configured", () => {
+		cy.visitWebchat().initMockWebchat({
+			settings: {
+				enableUnreadMessagePreview: true,
+				engagementMessageText: "engagement message text",
+			},
+		});
 
-    it('should show an engagement message with a custom delay if engagementMessageDelay is configured', () => {
-        cy
-            .visitWebchat()
-            .initMockWebchat({
-                settings: {
-                    enableUnreadMessagePreview: true,
-                    engagementMessageDelay: 1,
-                    engagementMessageText: 'engagement message text'
-                }
-            })
-            .window()
-            .contains('engagement message text', { timeout: 500 })
-            .should('be.visible')
-    });
+		cy.window().contains("engagement message text", { timeout: 6000 }).should("be.visible");
+	});
 
-    it('should not show an engagement message if engagementMessageText is not configured', () => {
-        cy
-            .visitWebchat()
-            .initMockWebchat({
-                settings: {
-                    enableUnreadMessagePreview: true,
-                    engagementMessageDelay: 1
-                }
-            })
-            .wait(500)
-            .window()
-            .contains('engagement message text', { timeout: 500 })
-            .should('not.exist');
-    });
+	it("should show an engagement message with a custom delay if engagementMessageDelay is configured", () => {
+		cy.visitWebchat().initMockWebchat({
+			settings: {
+				enableUnreadMessagePreview: true,
+				engagementMessageDelay: 1,
+				engagementMessageText: "engagement message text",
+			},
+		});
 
-    it('should not trigger the engagement message if the webchat is open', () => {
-        cy
-            .visitWebchat()
-            .initMockWebchat({
-                settings: {
-                    enableUnreadMessagePreview: true,
-                    engagementMessageText: 'engagement message text',
-                    engagementMessageDelay: 1
-                }
-            })
-            .openWebchat()
-            .wait(500)
-            .window()
-            .contains('engagement message text', { timeout: 0 })
-            .should('not.exist')
-    });
+		cy.window().contains("engagement message text", { timeout: 500 }).should("be.visible");
+	});
 
-    it('should not trigger the engagement message if the webchat has been open before', () => {
-        cy
-            .visitWebchat()
-            .initMockWebchat({
-                settings: {
-                    enableUnreadMessagePreview: true,
-                    engagementMessageText: 'engagement message text',
-                    engagementMessageDelay: 1
-                }
-            })
-            .get('[data-cognigy-webchat-toggle]')
-            .click()
-            .click()
-            .wait(500)
-            .window()
-            .contains('engagement message text', { timeout: 0 })
-            .should('not.exist')
-    });
+	it("should not show an engagement message if engagementMessageText is not configured", () => {
+		cy.visitWebchat().initMockWebchat({
+			settings: {
+				enableUnreadMessagePreview: true,
+				engagementMessageDelay: 1,
+			},
+		});
 
-    it('should not display an engagement message if the endpoint is disabled', () => {
-        cy
-            .visitWebchat()
-            .initMockWebchat({
-                settings: {
-                    enableUnreadMessagePreview: true,
-                    engagementMessageText: 'engagement message text',
-                    engagementMessageDelay: 1
-                }
-            },
-                {
-                    "active": false,
-                    "URLToken": "fake-url-token",
-                    "settings": {}
-                })
-            .wait(500)
-            .window()
-            .contains('engagement message text', { timeout: 0 })
-            .should('not.exist')
-    });
+		cy.wait(500);
+		cy.window().contains("engagement message text", { timeout: 500 }).should("not.exist");
+	});
 
-    it('should not display an engagement message if the history is not empty', () => {
-        cy
-            .visitWebchat()
-            .initMockWebchat({
-                settings: {
-                    enableUnreadMessagePreview: true,
-                    engagementMessageText: 'engagement message text',
-                    engagementMessageDelay: 1
-                }
-            })
-            .receiveMessage('hello there')
-            .wait(500);
+	it("should not trigger the engagement message if the webchat is open", () => {
+		cy.visitWebchat()
+			.initMockWebchat({
+				settings: {
+					enableUnreadMessagePreview: true,
+					engagementMessageText: "engagement message text",
+					engagementMessageDelay: 1,
+				},
+			})
+			.openWebchat()
+			.startConversation()
+			.submitPrivacyScreen();
 
-        cy
-            .contains('engagement message text', { timeout: 0 }).should('not.exist')
-    });
+		cy.wait(500);
+		cy.window().contains("engagement message text", { timeout: 0 }).should("not.exist");
+	});
 
-    it('should not show the engagement message in the history', () => {
-        cy
-            .visitWebchat()
-            .initMockWebchat({
-                settings: {
-                    enableUnreadMessagePreview: true,
-                    engagementMessageText: 'engagement message text',
-                    engagementMessageDelay: 1
-                }
-            })
-            .wait(500);
+	it("should not trigger the engagement message if the webchat has been open before", () => {
+		cy.visitWebchat().initMockWebchat({
+			settings: {
+				enableUnreadMessagePreview: true,
+				engagementMessageText: "engagement message text",
+				engagementMessageDelay: 1,
+			},
+		});
+		cy.get("[data-cognigy-webchat-toggle]").click().click();
+		cy.wait(500);
+		cy.window().contains("engagement message text", { timeout: 0 }).should("not.exist");
+	});
 
-        cy
-            .contains('engagement message text').should('be.visible');
+	it("should not display an engagement message if the endpoint is disabled", () => {
+		cy.visitWebchat().initMockWebchat(
+			{
+				settings: {
+					enableUnreadMessagePreview: true,
+					engagementMessageText: "engagement message text",
+					engagementMessageDelay: 1,
+				},
+			},
+			{
+				active: false,
+				URLToken: "fake-url-token",
+				settings: {},
+			},
+		);
+		cy.wait(500);
+		cy.window().contains("engagement message text", { timeout: 0 }).should("not.exist");
+	});
 
-        cy
-            .get('[data-cognigy-webchat-toggle]').click()
-            .wait(100)
+	it("should not display an engagement message if the history is not empty", () => {
+		cy.visitWebchat().initMockWebchat({
+			settings: {
+				enableUnreadMessagePreview: true,
+				engagementMessageText: "engagement message text",
+				engagementMessageDelay: 1,
+			},
+		});
+		cy.receiveMessage("hello there");
+		cy.wait(500);
 
-        cy
-            .contains('engagement message text').should('not.exist');
-    });
+		cy.contains("engagement message text", { timeout: 0 }).should("not.exist");
+	});
 
-    it('should display the engagement message in the history if showEngagementMessagesInChat is true', () => {
+	it("should not show the engagement message in the history", () => {
+		cy.visitWebchat().initMockWebchat({
+			settings: {
+				enableUnreadMessagePreview: true,
+				engagementMessageText: "engagement message text",
+				engagementMessageDelay: 1,
+			},
+		});
+		cy.wait(500);
 
-        cy
-            .visitWebchat()
-            .initMockWebchat({
-                settings: {
-                    enableUnreadMessagePreview: true,
-                    engagementMessageText: 'engagement message text',
-                    engagementMessageDelay: 1,
-                    showEngagementMessagesInChat: true
-                }
-            })
-            .wait(500);
+		cy.contains("engagement message text").should("be.visible");
 
-        cy
-            .contains('engagement message text').should('be.visible');
+		cy.get("[data-cognigy-webchat-toggle]").click();
+		cy.wait(100);
 
-        cy
-            .get('[data-cognigy-webchat-toggle]').click()
-            .wait(100)
+		cy.contains("engagement message text").should("not.exist");
+	});
 
-        cy
-            .contains('engagement message text').should('be.visible');
-    })
+	it("should display the engagement message in the history if showEngagementMessagesInChat is true", () => {
+		cy.visitWebchat().initMockWebchat({
+			settings: {
+				enableUnreadMessagePreview: true,
+				engagementMessageText: "engagement message text",
+				engagementMessageDelay: 1,
+				showEngagementMessagesInChat: true,
+			},
+		});
+		cy.wait(500);
+
+		cy.contains("engagement message text").should("be.visible");
+
+		cy.get("[data-cognigy-webchat-toggle]").click();
+		cy.wait(100);
+
+		cy.startConversation().submitPrivacyScreen();
+
+		cy.contains("engagement message text").should("be.visible");
+	});
 });
