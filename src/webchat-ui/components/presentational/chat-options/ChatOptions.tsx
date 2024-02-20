@@ -34,14 +34,15 @@ const Divider = styled.div(({ theme }) => ({
 export interface IOnSendRatingProps {
 	rating: number | null;
 	comment: string;
-	showRatingStatus?: boolean;
+	showRatingStatus: boolean;
 }
 
 interface IChatOptionsProps {
 	config: IWebchatConfig;
 	ratingTitleText: string;
 	ratingCommentText: string;
-	showOnlyRating?: boolean;
+	showOnlyRating: boolean;
+	hasGivenRating: boolean;
 	onSendRating: (props: IOnSendRatingProps) => void;
 	onEmitAnalytics: WebchatUIProps["onEmitAnalytics"];
 	onSendActionButtonMessage: WebchatUIProps["onSendMessage"];
@@ -53,35 +54,54 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 		showOnlyRating,
 		ratingTitleText,
 		ratingCommentText,
+		hasGivenRating,
 		onSendRating,
 		onEmitAnalytics,
 		onSendActionButtonMessage,
 	} = props;
+	const { settings } = config;
+	const { chatOptions, rating: fullScreenRating } = settings;
+	const { rating: chatOptionsRating } = chatOptions;
+
+	const ratingEventBannerText = showOnlyRating ? fullScreenRating.eventBannerText : chatOptionsRating.eventBannerText;
+	const submitRatingButtonText = showOnlyRating ? fullScreenRating.submitButtonText : chatOptionsRating.submitButtonText;
+
+	const ratingEnabled = chatOptions.rating.enabled;
+	const showRating = ratingEnabled === "always" || (ratingEnabled === "once" && !hasGivenRating) || showOnlyRating;
 
 	return (
 		<ChatOptionsRoot className="webchat-chat-options-root">
 			<ChatOptionsContainer className="webchat-chat-options-container">
-				{!showOnlyRating && (
-					<>
-						<PostbackButtons
-							config={config}
-							onSendActionButtonMessage={onSendActionButtonMessage}
-							onEmitAnalytics={onEmitAnalytics}
-						/>
-						<DividerWrapper>
-							<Divider />
-						</DividerWrapper>
-					</>
-				)}
-				<RatingWidget
-					ratingTitleText={ratingTitleText}
-					ratingCommentText={ratingCommentText}
-					onSendRating={onSendRating}
-					showRatingStatus={showOnlyRating}
-				/>
+				{
+					!showOnlyRating &&
+					config.settings.chatOptions.quickReplyOptions.enabled && (
+						<>
+							<PostbackButtons
+								config={config}
+								onSendActionButtonMessage={onSendActionButtonMessage}
+								onEmitAnalytics={onEmitAnalytics}
+							/>
+							<DividerWrapper>
+								<Divider />
+							</DividerWrapper>
+						</>
+					)}
+				{
+					showRating &&
+					<RatingWidget
+						ratingTitleText={ratingTitleText}
+						ratingCommentText={ratingCommentText}
+						onSendRating={onSendRating}
+						showRatingStatus={showOnlyRating}
+						ratingEventBannerText={ratingEventBannerText}
+						buttonText={submitRatingButtonText}
+					/>
+				}
 			</ChatOptionsContainer>
-			{/* TODO: Display footer only if the corresponding setting is enabled */}
-			<ChatOptionsFooter />
+			{
+				chatOptions.footer.enabled && chatOptions.footer.items[0] &&
+				<ChatOptionsFooter settings={config.settings} />
+			}
 		</ChatOptionsRoot>
 	);
 };

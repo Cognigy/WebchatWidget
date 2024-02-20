@@ -1,196 +1,273 @@
 import { Reducer } from "redux";
 import {
-  IWebchatConfig,
-  IWebchatSettings,
+	IWebchatConfig,
+	IWebchatSettings,
 } from "../../../common/interfaces/webchat-config";
+import { merge } from 'lodash';
 
 export type ConfigState = IWebchatConfig;
 
 export const getInitialState = (): ConfigState => ({
-  URLToken: "",
-  initialSessionId: "",
-  active: false,
-  isConfigLoaded: false,
-  isTimedOut: false,
-  settings: {
-    agentAvatarUrl: "",
-    awaitEndpointConfig: false,
-    backgroundImageUrl: "",
-    businessHours: {
-      businessHours: [],
-      enabled: false,
-      mode: "inform",
-      text: "",
-      timeZone: "Europe/Berlin",
-      title: "",
-    },
-    colorScheme: "",
-    connectivity: {
-      enabled: false,
-      mode: "hide",
-      text: "",
-      timeout: 2000,
-      title: ""
-    },
-    designTemplate: 1,
-    disableBranding: false,
-    disableDefaultReplyCompatiblityMode: false,
-    disableHtmlContentSanitization: false,
-    disableHtmlInput: false,
-    disableInputAutocomplete: false,
-    disableInputAutofocus: false,
-    disableLocalStorage: false,
-    disablePersistentHistory: false,
-    disableRenderURLsAsLinks: false,
-    disableTextInputSanitization: false,
-    disableToggleButton: false,
-    disableUrlButtonSanitization: false,
-    dynamicImageAspectRatio: false,
-    enableAutoFocus: false,
-    enableConnectionStatusIndicator: true,
-    enableFileUpload: false,
-    enableFocusTrap: false,
-    enableGenericHTMLStyling: false,
-    enableInjectionWithoutEmptyHistory: false,
-    enableInputCollation: false,
-    enableRating: "onRequest",
-    enableStrictMessengerSync: false,
-    enableSTT: false,
-    enableTTS: false,
-    enableTypingIndicator: false,
-    enableUnreadMessageBadge: false,
-    enableUnreadMessagePreview: false,
-    enableUnreadMessageSound: false,
-    enableUnreadMessageTitleIndicator: false,
-    enableDefaultPreview: false,
-    enableFileAttachment: false,
-    fileAttachmentMaxSize: 10485760,
-    engagementMessageDelay: 5000,
-    engagementMessageText: "",
-    focusInputAfterPostback: false,
-    getStartedButtonText: "",
-    getStartedData: {},
-    getStartedPayload: "",
-    getStartedText: "",
-    headerLogoUrl: "",
-    ignoreLineBreaks: false,
-    inputAutogrowMaxRows: 4,
-    inputCollationTimeout: 1000,
-    inputPlaceholder: "",
-    maintenance: {
-      enabled: false,
-      mode: "inform",
-      text: "",
-      title: ""
-    },
-    messageDelay: 1000,
-    messageLogoUrl: "",
-    ratingCommentText: "Type something here...",
-    ratingMessageHistoryCommentText: "You commented:",
-    ratingMessageHistoryRatingText: "You gave the following rating:",
-    ratingTitleText: "Please rate your chat experience",
-    showEngagementMessagesInChat: false,
-    startBehavior: "none",
-    STTLanguage: "",
-    title: "",
-    unreadMessageTitleText: "New Message",
-    unreadMessageTitleTextPlural: "New Messages",
-    userAvatarUrl: "",
-    useSessionStorage: false,
-    sourceDirectionMapping: {
-      agent: 'incoming',
-      bot: 'incoming',
-      engagement: 'incoming',
-      user: 'outgoing',
-    },
-    sourceColorMapping: {
-      agent: 'primary',
-      bot: 'primary',
-      engagement: 'primary',
-      user: 'neutral',
-    },
-    _endpointTokenUrl: "",
-    privacyMessage: `Please accept our privacy policy to start your chats
+	URLToken: "",
+	initialSessionId: "",
+	active: false,
+	isConfigLoaded: false,
+	isTimedOut: false,
 
-This website uses the messaging software Cognigy, which enables you to have conversations with us. Cognigy needs to save some cookies on your device. Your data is safe though and it will not be used to identify you personally. To learn more, please read our Privacy Policy.`,
-    privacyUrl: "https://www.cognigy.com/",
-  },
+	settings: {
+		layout: {
+			title: "",
+			logoUrl: "",
+			useOtherAgentLogo: false,
+			botAvatarName: "",
+			botLogoUrl: "",
+			agentAvatarName: "",
+			agentLogoUrl: "",
+			inputAutogrowMaxRows: 4,
+			enableInputCollation: true,
+			inputCollationTimeout: 1000,
+			dynamicImageAspectRatio: false,
+			disableInputAutocomplete: false,
+			enableGenericHTMLStyling: false,
+			disableHtmlContentSanitization: false,
+			disableUrlButtonSanitization: false,
+			watermark: "default",
+			watermarkText: "Powered by Cognigy.AI",
+		},
+		colors: {
+			primaryColor: "",
+			secondaryColor: "",
+			chatInterfaceColor: "",
+			botMessageColor: "",
+			userMessageColor: "",
+			textLinkColor: "",
+		},
+		behavior: {
+			enableTypingIndicator: true,
+			messageDelay: 500,
+			inputPlaceholder: "Type something…",
+			enableSTT: false,
+			enableTTS: false,
+			focusInputAfterPostback: false,
+			enableConnectionStatusIndicator: true,
+		},
+		startBehavior: {
+			startBehavior: "none",
+			getStartedButtonText: "",
+			getStartedData: {},
+			getStartedPayload: "",
+			getStartedText: "",
+		},
+		fileStorageSettings: {
+			enabled: false,
+			dropzoneText: "",
+		},
+		businessHours: {
+			times: [],
+			enabled: false,
+			mode: "inform",
+			text: "",
+			timeZone: "Europe/Berlin",
+			title: "",
+		},
+		unreadMessages: {
+			enableIndicator: false,
+			enableBadge: false,
+			enablePreview: false,
+			enableSound: false,
+		},
+		homeScreen: {
+			enabled: true,
+			welcomeText: "Welcome! How can we help you?",
+			background: {
+				imageUrl: "",
+				color: "",
+			},
+			startConversationButtonText: "Start conversation",
+			previousConversations: {
+				enabled: true,
+				buttonText: "Previous conversations",
+				title: "",
+			},
+			conversationStarters: {
+				enabled: true,
+				starters: [],
+			},
+		},
+		teaserMessage: {
+			text: "",
+			showInChat: false,
+			conversationStarters: {
+				enabled: true,
+				starters: [],
+			},
+		},
+		chatOptions: {
+			enabled: false,
+			title: "Chat Options",
+			quickReplyOptions: {
+				enabled: true,
+				sectionTitle: "People are also interested in",
+				quickReplies: [],
+			},
+			showTTSToggle: false,
+			activateTTSToggle: true,
+			labelTTSToggle: "Enable text-to-speech",
+			rating: {
+				enabled: "once",
+				title: "Please rate your chat experience",
+				commentPlaceholder: "Type something here",
+				submitButtonText: "Send feedback",
+				eventBannerText: "Your feedback was submitted",
+				chatStatusMessage: "Feedback submitted",
+			},
+			footer: {
+				enabled: false,
+				items: [],
+			},
+		},
+		rating: {
+			submitButtonText: "",
+			eventBannerText: "Your feedback was submitted",
+			chatStatusMessage: "Feedback submitted",
+		},
+		privacyNotice: {
+			enabled: false,
+			title: "Privacy notice",
+			text: `Please accept our privacy policy to start your chat.
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`,
+			submitButtonText: "Submit",
+			urlText: "",
+			url: "",
+		},
+		fileAttachmentMaxSize: 10485760,
+		maintenance: {
+			enabled: false,
+			mode: "inform",
+			text: "",
+			title: ""
+		},
+		demoWebchat: {
+			enabled: true,
+			backgroundImageUrl: "",
+			position: "centered",
+		},
+
+
+		// Settings related to the webchat browser embedding
+		// These settings are NOT configurable via the Endpoint Editor in Cognigy.AI
+		embeddingConfiguration: {
+			_endpointTokenUrl: "",
+			awaitEndpointConfig: false,
+			disableLocalStorage: false,
+			disablePersistentHistory: false,
+			useSessionStorage: false,
+			connectivity: {
+				enabled: false,
+				mode: "hide",
+				text: "",
+				timeout: 2000,
+				title: "",
+			}
+		},
+
+		// Additional Settings to configure the webchat widget behavior
+		// These settings are NOT configurable via the Endpoint Editor in Cognigy.AI
+		widgetSettings: {
+			disableDefaultReplyCompatiblityMode: false,
+			enableStrictMessengerSync: false,
+
+			disableHtmlInput: false,
+			disableInputAutofocus: false,
+			disableRenderURLsAsLinks: false,
+			disableTextInputSanitization: false,
+			disableToggleButton: false,
+			enableAutoFocus: false,
+			enableInjectionWithoutEmptyHistory: false,
+			enableFocusTrap: false,
+			enableDefaultPreview: false,
+			ignoreLineBreaks: false,
+			STTLanguage: "",
+			teaserMessageDelay: 5000,
+			unreadMessageTitleText: "New Message",
+			unreadMessageTitleTextPlural: "New Messages",
+			userAvatarUrl: "",
+
+			sourceDirectionMapping: {
+				agent: 'incoming',
+				bot: 'incoming',
+				engagement: 'incoming',
+				user: 'outgoing',
+			},
+			sourceColorMapping: {
+				agent: 'primary',
+				bot: 'primary',
+				engagement: 'primary',
+				user: 'neutral',
+			},
+		},
+	},
 });
 
 export const APPLY_WEBCHAT_SETTINGS_OVERRIDES = "APPLY_WEBCHAT_SETTINGS_OVERRIDES";
 export const applyWebchatSettingsOverrides = (payload: Partial<IWebchatSettings>) => ({
-  type: APPLY_WEBCHAT_SETTINGS_OVERRIDES as "APPLY_WEBCHAT_SETTINGS_OVERRIDES",
-  payload,
+	type: APPLY_WEBCHAT_SETTINGS_OVERRIDES as "APPLY_WEBCHAT_SETTINGS_OVERRIDES",
+	payload,
 });
 export type ApplyWebchatSettingsOverridesAction = ReturnType<typeof applyWebchatSettingsOverrides>;
 
 export const SET_CONFIG = "SET_CONFIG";
-export const setConfig = (config: Partial<ConfigState>) => ({
-  type: SET_CONFIG as "SET_CONFIG",
-  config,
+export const setConfig = (config: Partial<Omit<ConfigState, "settings"> & { settings: Partial<IWebchatSettings> }>) => ({
+	type: SET_CONFIG as "SET_CONFIG",
+	config,
 });
 export type SetConfigAction = ReturnType<typeof setConfig>;
 
 export const UPDATE_SETTINGS = "UPDATE_SETTINGS";
 export const updateSettings = (payload: Partial<IWebchatSettings>) => ({
-  type: UPDATE_SETTINGS as "UPDATE_SETTINGS",
-  payload,
+	type: UPDATE_SETTINGS as "UPDATE_SETTINGS",
+	payload,
 });
 export type UpdateSettingsAction = ReturnType<typeof updateSettings>;
 
 const SET_INITIAL_SESSION_ID = 'SET_INITIAL_SESSION_ID';
 export const setInitialSessionId = (sessionId: string) => ({
-    type: SET_INITIAL_SESSION_ID as 'SET_INITIAL_SESSION_ID',
-    sessionId
+	type: SET_INITIAL_SESSION_ID as 'SET_INITIAL_SESSION_ID',
+	sessionId
 });
 export type SetInitialSessionAction = ReturnType<typeof setInitialSessionId>;
 
 export const config: Reducer<
-  ConfigState,
-  SetConfigAction | UpdateSettingsAction | ApplyWebchatSettingsOverridesAction | SetInitialSessionAction
+	ConfigState,
+	SetConfigAction | UpdateSettingsAction | ApplyWebchatSettingsOverridesAction | SetInitialSessionAction
 > = (state = getInitialState(), action) => {
-  switch (action.type) {
-    case "SET_CONFIG": {
-      return {
-        ...state,
-        ...action.config,
-        settings: {
-          ...state.settings,
-          ...action.config.settings,
-          sourceDirectionMapping: {
-            ...state.settings.sourceDirectionMapping,
-            ...action.config.settings?.sourceDirectionMapping,
-          },
-          sourceColorMapping: {
-            ...state.settings.sourceColorMapping,
-            ...action.config.settings?.sourceColorMapping
-          }
-        },
-      };
-    }
+	switch (action.type) {
+		case "SET_CONFIG": {
+			// deepMerge the settings since we have nested settings since v3
+			const mergedSettings = merge({}, state.settings, action.config.settings)
 
-    case "APPLY_WEBCHAT_SETTINGS_OVERRIDES":
-    case "UPDATE_SETTINGS": {
-      return {
-        ...state,
-        settings: {
-          ...state.settings,
-          ...action.payload,
-          sourceDirectionMapping: {
-            ...state.settings.sourceDirectionMapping,
-            ...action.payload?.sourceDirectionMapping,
-          },
-          sourceColorMapping: {
-            ...state.settings.sourceColorMapping,
-            ...action.payload?.sourceColorMapping
-          }
-        },
-      };
-    }
-    case "SET_INITIAL_SESSION_ID": {
-      return { ...state, initialSessionId: action.sessionId };
-    }
-  }
+			return {
+				...state,
+				...action.config,
+				settings: mergedSettings,
+			};
+		}
 
-  return state;
+		case "APPLY_WEBCHAT_SETTINGS_OVERRIDES":
+		case "UPDATE_SETTINGS": {
+			// deepMerge the settings since we have nested settings since v3
+			const mergedSettings = merge({}, state.settings, action.payload)
+
+			return {
+				...state,
+				settings: mergedSettings,
+			};
+		}
+		case "SET_INITIAL_SESSION_ID": {
+			return { ...state, initialSessionId: action.sessionId };
+		}
+	}
+
+	return state;
 };

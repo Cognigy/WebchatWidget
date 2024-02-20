@@ -15,7 +15,7 @@ export const optionsMiddleware: Middleware<object, StoreState> = store => next =
 	const key = getOptionsKey(store.getState().options, store.getState().config);
 	const { active } = store.getState().config; // Actual settings are loaded
 	const { disableLocalStorage, disablePersistentHistory, useSessionStorage } =
-		store.getState().config.settings;
+		store.getState().config.settings.embeddingConfiguration;
 	const { userId } = store.getState().options;
 	const browserStorage = getStorage({ useSessionStorage, disableLocalStorage });
 

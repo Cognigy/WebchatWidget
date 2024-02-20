@@ -132,7 +132,6 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
     const secondaryColorHover = '#4D4D4D';
     const secondaryColorDisabled = '#E5E5E5';
 
-    // TODO: Add calculation for the radial gradient. Based on which colors?
     let backgroundHome = 'radial-gradient(204.5% 136.79% at 0.53% 95.79%, #EDECF9 0%, #BFBAFF 31.77%, #2152E3 65.63%, #05309E 100%)';
     const backgroundWebchat = "#FFFFFF";
     const backgroundBotMessage = "#FFFFFF";

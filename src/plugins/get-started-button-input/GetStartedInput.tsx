@@ -17,11 +17,11 @@ const GetStartedButton = styled(Button)(({ theme }) => ({
 const GetStartedInput = ({ onSendMessage, config }: InputComponentProps) => (
     <Toolbar>
         <GetStartedButton
-            onClick={() => onSendMessage(config.settings.getStartedPayload, config.settings.getStartedData, { label: config.settings.getStartedText ?? '' })}
+            onClick={() => onSendMessage(config.settings.startBehavior.getStartedPayload, config.settings.startBehavior.getStartedData, { label: config.settings.startBehavior.getStartedText ?? '' })}
             color='primary'
             id="webchatGetStartedButton"
         >
-            {config.settings.getStartedButtonText}
+            {config.settings.startBehavior.getStartedButtonText}
         </GetStartedButton>
     </Toolbar>
 )

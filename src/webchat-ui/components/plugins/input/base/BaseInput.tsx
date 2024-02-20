@@ -133,7 +133,7 @@ interface ISpeechInputState {
 	isFinalResult: boolean;
 }
 
-interface IBaseInputState extends TextInputState, ISpeechInputState {}
+interface IBaseInputState extends TextInputState, ISpeechInputState { }
 
 interface IBaseInputProps extends InputComponentProps {
 	sttActive: boolean;
@@ -154,11 +154,11 @@ declare global {
 const getSpeechRecognition = (): SpeechRecognition | null => {
 	try {
 		return new SpeechRecognition();
-	} catch (e) {}
+	} catch (e) { }
 
 	try {
 		return new webkitSpeechRecognition() as SpeechRecognition;
-	} catch (e) {}
+	} catch (e) { }
 
 	return null;
 };
@@ -182,8 +182,8 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 			speechRecognition.interimResults = true;
 			speechRecognition.onresult = this.handleSpeechResult;
 
-			if (props.config.settings.STTLanguage) {
-				speechRecognition.lang = props.config.settings.STTLanguage;
+			if (props.config.settings.widgetSettings.STTLanguage) {
+				speechRecognition.lang = props.config.settings.widgetSettings.STTLanguage;
 			}
 		}
 
@@ -209,15 +209,17 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 	}
 
 	componentDidUpdate() {
+		const sttLanguage = this.props.config.settings.widgetSettings.STTLanguage;
+
 		if (
 			this.state.speechRecognition &&
-			this.props.config.settings.STTLanguage &&
-			this.state.speechRecognition.lang !== this.props.config.settings.STTLanguage
+			sttLanguage &&
+			this.state.speechRecognition.lang !== sttLanguage
 		) {
 			this.setState({
 				speechRecognition: {
 					...this.state.speechRecognition,
-					lang: this.props.config.settings.STTLanguage,
+					lang: sttLanguage,
 				},
 			});
 		}
@@ -391,11 +393,21 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 		const { text, textActive, speechResult: speechInterim } = state;
 
 		const {
-			disableInputAutocomplete,
-			disableInputAutofocus,
-			enableFileAttachment,
-			inputAutogrowMaxRows,
+			layout,
+			fileStorageSettings,
+			widgetSettings,
 		} = props.config.settings;
+
+		const {
+			disableInputAutocomplete,
+			inputAutogrowMaxRows,
+		} = layout;
+
+		const {
+			disableInputAutofocus,
+		} = widgetSettings;
+
+		const isFileAttachmentEnabled = fileStorageSettings?.enabled;
 
 		const isFileListEmpty = fileList?.length === 0;
 
@@ -407,7 +419,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 						onSubmit={this.handleSubmit}
 						className={classnames("webchat-input-menu-form")}
 					>
-						{enableFileAttachment && (
+						{isFileAttachmentEnabled && (
 							<>
 								<HiddenFileInput
 									ref={this.fileInputRef}
@@ -436,7 +448,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 									onFocus={() => this.setState({ textActive: true })}
 									onBlur={() => this.setState({ textActive: false })}
 									onKeyDown={this.handleInputKeyDown}
-									placeholder={props.config.settings.inputPlaceholder}
+									placeholder={props.config.settings.behavior.inputPlaceholder}
 									className="webchat-input-message-input"
 									aria-label="Message to send"
 									minRows={1}
@@ -449,34 +461,37 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 							)}
 						</MediaQuery>
 
-						<SpeechButton
-							className={classnames(
-								"webchat-input-button-speech",
-								sttActive && "webchat-input-button-speech-active",
-							)}
-							aria-label="Speech to text"
-							id="webchatInputMessageSpeechButton"
-							onClick={this.toggleSTT}
-							disabled={!this.isSTTSupported()}
-						>
-							{sttActive && (
-								<>
-									<SpeechButtonAnimatedBackground
-										className={classnames(
-											"webchat-input-button-speech-background",
-										)}
-										aria-hidden="true"
-									/>
-									<SpeechButtonBackground
-										className={classnames(
-											"webchat-input-button-speech-background",
-										)}
-										aria-hidden="true"
-									/>
-								</>
-							)}
-							<SpeechIcon />
-						</SpeechButton>
+						{
+							props.config.settings.behavior.enableSTT &&
+							<SpeechButton
+								className={classnames(
+									"webchat-input-button-speech",
+									sttActive && "webchat-input-button-speech-active",
+								)}
+								aria-label="Speech to text"
+								id="webchatInputMessageSpeechButton"
+								onClick={this.toggleSTT}
+								disabled={!this.isSTTSupported()}
+							>
+								{sttActive && (
+									<>
+										<SpeechButtonAnimatedBackground
+											className={classnames(
+												"webchat-input-button-speech-background",
+											)}
+											aria-hidden="true"
+										/>
+										<SpeechButtonBackground
+											className={classnames(
+												"webchat-input-button-speech-background",
+											)}
+											aria-hidden="true"
+										/>
+									</>
+								)}
+								<SpeechIcon />
+							</SpeechButton>
+						}
 
 						<SubmitButton
 							disabled={

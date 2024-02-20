@@ -40,14 +40,17 @@ interface IHomeScreenContentProps {
 }
 
 const HomeScreenContent = styled.div<IHomeScreenContentProps>(({ theme, settings }) => {
+
+	const backgroundColor = settings?.homeScreen?.background?.color || theme.backgroundHome;
+
 	let backgroundImage = "none";
-	if (theme.backgroundHome) backgroundImage = theme.backgroundHome;
-	if (settings?.backgroundImageUrl) backgroundImage = `url("${settings.backgroundImageUrl}")`;
-	if (theme.backgroundHome && settings?.backgroundImageUrl)
-		backgroundImage = `url("${settings.backgroundImageUrl}"), ${theme.backgroundHome}`;
+	const backgroundImageURL = settings?.homeScreen?.background?.imageUrl;
+	if (backgroundImageURL) backgroundImage = `url("${backgroundImageURL}")`;
+
+	const background = `${backgroundImage}, ${backgroundColor}`;
 
 	return {
-		backgroundImage,
+		background,
 		backgroundSize: "cover",
 		backgroundPosition: "center center",
 		flexGrow: 1,
@@ -141,31 +144,11 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 		onStartConversation,
 	} = props;
 
-	// TODO: Load buttons from new endpoint config
-	const buttons: IWebchatButton[] = [
-		{
-			title: "Cognigy Homepage",
-			type: "web_url",
-			url: "https://www.cognigy.com/",
-		},
-		{
-			title: "How are you?",
-			type: "postback",
-			payload: "How are you?",
-		},
-		{
-			title: "What is your name?",
-			type: "postback",
-			payload: "What is your name?",
-		},
-		{
-			title: "What is your favorite color?",
-			type: "postback",
-			payload: "What is your favorite color?",
-		},
-	]
+	const { homeScreen } = config.settings;
 
-	const disableBranding = config?.settings?.disableBranding;
+	const buttons: IWebchatButton[] = config.settings.homeScreen.conversationStarters.starters;
+
+	const disableBranding = config?.settings?.layout?.watermark !== "default";
 
 	const handleShowPrevConversations = () => {
 		onSetShowHomeScreen(false);
@@ -183,7 +166,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 						margin={0}
 						className="webchat-homescreen-header-title"
 					>
-						{config?.settings?.title || "Cognigy Webchat"}
+						{config?.settings?.layout?.title || "Cognigy Webchat"}
 					</Typography>
 					<HomeScreenHeaderIconButton
 						onClick={onClose}
@@ -198,7 +181,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 					<Notifications />
 				</FullWidthContainer>
 				<HomeScreenTitle variant="title1-semibold" component="h4" className="webchat-homescreen-title">
-					{config?.settings?.getStartedButtonText || "Welcome to the Cognigy Webchat"}
+					{homeScreen.welcomeText || "Welcome to the Cognigy Webchat"}
 				</HomeScreenTitle>
 				<HomeScreenButtons className="webchat-homescreen-buttons">
 					<ActionButtons
@@ -219,11 +202,20 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 					className="webchat-homescreen-send-button"
 					aria-label="Start chat"
 				>
-					Start conversation
+					{
+						config.settings.homeScreen.startConversationButtonText ||
+						"Start conversation"
+					}
 				</StartButton>
-				<PrevConversationsButton onClick={handleShowPrevConversations}>
-					Previous conversations
-				</PrevConversationsButton>
+				{
+					config.settings.homeScreen.previousConversations.enabled &&
+					<PrevConversationsButton onClick={handleShowPrevConversations}>
+							{
+								config.settings.homeScreen.previousConversations.buttonText ||
+								"Previous conversations"
+							}
+						</PrevConversationsButton>
+				}
 				{/* Branding Logo Link */}
 				{!disableBranding && <Branding id="cognigyHomeScreenBranding" />}
 			</HomeScreenActions>

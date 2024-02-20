@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { Typography } from "@cognigy/chat-components";
 import PrimaryButton from "./PrimaryButton";
 import TertiaryButton from "./TertiaryButton";
+import { IWebchatSettings } from "../../../common/interfaces/webchat-config";
 
 const PrivacyNoticeRoot = styled.div(({ theme }) => ({
 	height: "100%",
@@ -35,16 +36,21 @@ const PolicyButton = styled(TertiaryButton)(() => ({
 }));
 
 interface IPrivacyNoticeProps {
-	privacyMessage: string;
-	privacyUrl: string;
+	privacyNotice: IWebchatSettings["privacyNotice"];
 	onAcceptTerms: () => void;
 }
 
 export const PrivacyNotice = (props: IPrivacyNoticeProps) => {
-	const { privacyMessage, privacyUrl, onAcceptTerms } = props;
+	const { privacyNotice, onAcceptTerms } = props;
+	const {
+		text,
+		submitButtonText,
+		urlText,
+		url,
+	} = privacyNotice;
 
 	const handleLinkClick = () => {
-		window.open(privacyUrl, "_blank");
+		window.open(url || "https://www.cognigy.com/", "_blank");
 	};
 
 	return (
@@ -54,7 +60,7 @@ export const PrivacyNotice = (props: IPrivacyNoticeProps) => {
 					variant="body-regular"
 					style={{ whiteSpace: "pre-wrap" }}
 				>
-					{privacyMessage}
+					{text}
 				</Typography>
 			</PrivacyMessage>
 			<PrivacyActions className="webchat-privacy-notice-actions">
@@ -62,10 +68,10 @@ export const PrivacyNotice = (props: IPrivacyNoticeProps) => {
 					className="webchat-privacy-notice-accept-button"
 					onClick={onAcceptTerms}
 				>
-					Submit
+					{submitButtonText}
 				</AcceptButton>
 				<PolicyButton onClick={handleLinkClick}>
-					Privacy policy
+					{urlText || "Privacy policy"}
 				</PolicyButton>
 			</PrivacyActions>
 		</PrivacyNoticeRoot>

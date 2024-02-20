@@ -33,8 +33,8 @@ const MessageRenderer: FC<IMessageRendererProps> = (props) => {
   const plugins = useMemo(() => getMessageRendererPlugins(), []);
 
   const theme = useMemo(() => createWebchatTheme({
-    primaryColor: actualConfig.settings.colorScheme
-  }), [actualConfig.settings.colorScheme]);
+    primaryColor: actualConfig.settings.colors.primaryColor
+  }), [actualConfig.settings.colors.primaryColor]);
 
   return (
     <ThemeProvider theme={theme}>

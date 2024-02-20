@@ -243,7 +243,7 @@ export class WebchatUI extends React.PureComponent<
 		props: WebchatUIProps,
 		state: WebchatUIState,
 	): WebchatUIState | null {
-		const color = props.config && props.config.settings && props.config.settings.colorScheme;
+		const color = props?.config?.settings?.colors?.primaryColor;
 
 		if (!!color && color !== state.theme.primaryColor) {
 			// We will integrate this into the theme object in the future
@@ -263,10 +263,10 @@ export class WebchatUI extends React.PureComponent<
 
 	private checkNotificationsHidden = async () => {
 		let timeoutReached = false;
-		if (this.props.config.settings.awaitEndpointConfig && !this.props.config.isConfigLoaded) {
+		if (this.props.config.settings.embeddingConfiguration.awaitEndpointConfig && !this.props.config.isConfigLoaded) {
 			const timeout =
-				(this.props.config.settings.connectivity?.enabled &&
-					this.props.config.settings.connectivity?.timeout) ||
+				(this.props.config.settings.embeddingConfiguration?.connectivity?.enabled &&
+					this.props.config.settings.embeddingConfiguration?.connectivity?.timeout) ||
 				1000;
 			let timeoutCounter = 0;
 			while (!this.props.config.isConfigLoaded && !timeoutReached) {
@@ -301,9 +301,9 @@ export class WebchatUI extends React.PureComponent<
 	}
 
 	async componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
-		if (this.props.config.settings.colorScheme !== prevProps.config.settings.colorScheme) {
+		if (this.props.config.settings.colors.primaryColor !== prevProps.config.settings.colors.primaryColor) {
 			this.setState({
-				theme: createWebchatTheme({ primaryColor: this.props.config.settings.colorScheme }),
+				theme: createWebchatTheme({ primaryColor: this.props.config.settings.colors.primaryColor }),
 			});
 		}
 
@@ -325,13 +325,13 @@ export class WebchatUI extends React.PureComponent<
 
 		if (
 			(!this.hideNotifications && prevProps.unseenMessages !== this.props.unseenMessages) ||
-			(!prevProps.config.settings.enableUnreadMessagePreview &&
-				this.props.config.settings.enableUnreadMessagePreview)
+			(!prevProps.config.settings.unreadMessages.enablePreview &&
+				this.props.config.settings.unreadMessages.enablePreview)
 		) {
 			const { unseenMessages } = this.props;
 
 			// update the "unseen message preview" text
-			if (this.props.config.settings.enableUnreadMessagePreview || (!this.state.wasOpen && this.props.config.settings.engagementMessageText)) {
+			if (this.props.config.settings.unreadMessages.enablePreview || (!this.state.wasOpen && this.props.config.settings.teaserMessage.text)) {
 				let lastUnseenMessageText = "";
 
 				// find the last readable message and remember its text
@@ -349,21 +349,21 @@ export class WebchatUI extends React.PureComponent<
 			}
 
 			// play a notification for unread messages
-			if (unseenMessages.length > 0 && this.props.config.settings.enableUnreadMessageSound) {
+			if (unseenMessages.length > 0 && this.props.config.settings.unreadMessages.enableSound) {
 				notificationSound.play();
 			}
 		}
 
 		if (
-			prevProps.config.settings.enableUnreadMessagePreview &&
-			!this.props.config.settings.enableUnreadMessagePreview
+			prevProps.config.settings.unreadMessages.enablePreview &&
+			!this.props.config.settings.unreadMessages.enablePreview
 		) {
 			this.setState({ lastUnseenMessageText: "" });
 		}
 
 		if (!this.hideNotifications) {
 			// initialize the title indicator if configured
-			if (this.props.config.settings.enableUnreadMessageTitleIndicator) {
+			if (this.props.config.settings.unreadMessages.enableIndicator) {
 				this.initializeTitleIndicator();
 			}
 
@@ -414,13 +414,13 @@ export class WebchatUI extends React.PureComponent<
 		if (this.engagementMessageTimeout) return;
 
 		if (
-			this.props.config.settings.engagementMessageText &&
-			typeof this.props.config.settings.engagementMessageDelay === "number" &&
-			this.props.config.settings.engagementMessageDelay >= 0
+			this.props.config.settings.teaserMessage.text &&
+			typeof this.props.config.settings.widgetSettings.teaserMessageDelay === "number" &&
+			this.props.config.settings.widgetSettings.teaserMessageDelay >= 0
 		) {
 			this.engagementMessageTimeout = setTimeout(
 				this.triggerEngagementMessage,
-				this.props.config.settings.engagementMessageDelay,
+				this.props.config.settings.widgetSettings.teaserMessageDelay,
 			);
 		}
 	};
@@ -442,8 +442,8 @@ export class WebchatUI extends React.PureComponent<
 		} else {
 			if (this.props.unseenMessages.length > 0) {
 				document.title = `(${this.props.unseenMessages.length}) ${this.props.unseenMessages.length === 1
-					? this.props.config.settings.unreadMessageTitleText
-					: this.props.config.settings.unreadMessageTitleTextPlural
+					? this.props.config.settings.widgetSettings.unreadMessageTitleText
+					: this.props.config.settings.widgetSettings.unreadMessageTitleTextPlural
 					}`;
 				this.titleType = "unread";
 			}
@@ -486,7 +486,7 @@ export class WebchatUI extends React.PureComponent<
 
 	// Key down handler
 	handleKeydown = event => {
-		const { enableFocusTrap } = this.props.config.settings;
+		const { enableFocusTrap } = this.props.config.settings.widgetSettings;
 		const { open } = this.props;
 		const { target, key, shiftKey } = event;
 		const shiftTabKeyPress = shiftKey && key === "Tab";
@@ -556,7 +556,7 @@ export class WebchatUI extends React.PureComponent<
 		this.props.onSetShowHomeScreen(false);
 		this.props.onSetShowChatOptionsScreen(false);
 
-		if (!this.props.hasAcceptedTerms) {
+		if (this.props.config.settings.privacyNotice.enabled && !this.props.hasAcceptedTerms) {
 			this.props.onSetStoredMessage({
 				text,
 				data,
@@ -613,34 +613,34 @@ export class WebchatUI extends React.PureComponent<
 		const { theme, hadConnection, lastUnseenMessageText, wasOpen } = state;
 
 		const {
-			disableToggleButton,
-			enableConnectionStatusIndicator,
+			widgetSettings: { disableToggleButton },
+			behavior: { enableConnectionStatusIndicator },
 		} = config.settings;
 
 		if (
-			(!this.props.config.active && !this.props.config.settings.connectivity.enabled) ||
-			(!this.props.config.isConfigLoaded && this.props.config.settings.awaitEndpointConfig) ||
-			(this.props.config.isConfigLoaded &&
-				this.props.config.settings.awaitEndpointConfig &&
-				(isHiddenOutOfBusinessHours(this.props.config.settings.businessHours) ||
-					isHiddenDueToMaintenance(this.props.config.settings) ||
-					isHiddenDueToConnectivity(this.props.config.settings, this.state.timedOut)))
+			(!config.active && !config.settings.embeddingConfiguration.connectivity.enabled) ||
+			(!config.isConfigLoaded && config.settings.embeddingConfiguration.awaitEndpointConfig) ||
+			(config.isConfigLoaded &&
+				config.settings.embeddingConfiguration.awaitEndpointConfig &&
+				(isHiddenOutOfBusinessHours(config.settings.businessHours) ||
+					isHiddenDueToMaintenance(config.settings) ||
+					isHiddenDueToConnectivity(config.settings, state.timedOut)))
 		)
 			return null;
 
 		const isDisabled =
-			this.props.config.isConfigLoaded &&
-			this.props.config.settings.awaitEndpointConfig &&
-			(isDisabledDueToMaintenance(this.props.config.settings) ||
-				isDisabledOutOfBusinessHours(this.props.config.settings.businessHours) ||
-				isDisabledDueToConnectivity(this.props.config.settings, this.state.timedOut));
+			config.isConfigLoaded &&
+			config.settings.embeddingConfiguration.awaitEndpointConfig &&
+			(isDisabledDueToMaintenance(config.settings) ||
+				isDisabledOutOfBusinessHours(config.settings.businessHours) ||
+				isDisabledDueToConnectivity(config.settings, state.timedOut));
 
 		const isInforming =
-			this.props.config.isConfigLoaded &&
-			this.props.config.settings.awaitEndpointConfig &&
-			(isInformingDueToMaintenance(this.props.config.settings) ||
-				isInformingOutOfBusinessHours(this.props.config.settings.businessHours) ||
-				isInformingDueToConnectivity(this.props.config.settings, this.state.timedOut));
+			config.isConfigLoaded &&
+			config.settings.embeddingConfiguration.awaitEndpointConfig &&
+			(isInformingDueToMaintenance(config.settings) ||
+				isInformingOutOfBusinessHours(config.settings.businessHours) ||
+				isInformingDueToConnectivity(config.settings, state.timedOut));
 
 		const showDisconnectOverlay =
 			enableConnectionStatusIndicator && !connected && hadConnection;
@@ -675,7 +675,7 @@ export class WebchatUI extends React.PureComponent<
 				isDisabledDueToConnectivity(this.props.config.settings, this.state.timedOut)
 			) {
 				return (
-					this.props.config.settings.connectivity.text ||
+					this.props.config.settings.embeddingConfiguration.connectivity.text ||
 					"This chat is disabled due to connectivity issues"
 				);
 			}
@@ -702,8 +702,8 @@ export class WebchatUI extends React.PureComponent<
 						>
 							<CacheProvider value={styleCache}>
 								{open &&
-									(!this.props.config.settings.awaitEndpointConfig ||
-										(this.props.config.settings.awaitEndpointConfig &&
+									(!this.props.config.settings.embeddingConfiguration.awaitEndpointConfig ||
+										(this.props.config.settings.embeddingConfiguration.awaitEndpointConfig &&
 											this.props.config.isConfigLoaded)) && (
 										<WebchatRoot
 											data-cognigy-webchat
@@ -771,7 +771,7 @@ export class WebchatUI extends React.PureComponent<
 												ref={this.chatToggleButtonRef}
 											>
 												{open ? <CollapseIcon /> : <ChatIcon />}
-												{config.settings.enableUnreadMessageBadge ? (
+													{config.settings.unreadMessages.enableBadge ? (
 													<Badge
 														_content={unseenMessages.length}
 														className="webchat-unread-message-badge"
@@ -820,16 +820,19 @@ export class WebchatUI extends React.PureComponent<
 		} = this.props;
 
 		let informMessage = "";
+		let informTitle = "";
 		if (config.settings.maintenance.enabled && config.settings.maintenance.mode === "inform") {
 			informMessage =
 				config.settings.maintenance.text || "This Webchat is disabled due to maintenance";
+			informTitle = config.settings.maintenance.title || "";
 		} else if (
-			config.settings.connectivity.enabled &&
-			config.settings.connectivity.mode === "inform"
+			config.settings.embeddingConfiguration.connectivity.enabled &&
+			config.settings.embeddingConfiguration.connectivity.mode === "inform"
 		) {
 			informMessage =
-				config.settings.connectivity.text ||
+				config.settings.embeddingConfiguration.connectivity.text ||
 				"This Webchat is disabled due to connectivity issues";
+			informTitle = config.settings.embeddingConfiguration.connectivity.title || "";
 		} else if (
 			config.settings.businessHours.enabled &&
 			config.settings.businessHours.mode === "inform"
@@ -837,6 +840,7 @@ export class WebchatUI extends React.PureComponent<
 			informMessage =
 				config.settings.businessHours.text ||
 				"This Webchat is disabled out of business hours";
+			informTitle = config.settings.businessHours.title || "";
 		}
 
 		const showInformationMessage = isInforming && informMessage;
@@ -845,7 +849,7 @@ export class WebchatUI extends React.PureComponent<
 		const isSecondaryView = showInformationMessage;
 
 		const handleStartConversation = () => {
-			if (hasAcceptedTerms) {
+			if (!config.settings.privacyNotice.enabled || hasAcceptedTerms) {
 				const { initialSessionId } = config;
 				if (!initialSessionId) {
 					onSwitchSession();
@@ -880,7 +884,7 @@ export class WebchatUI extends React.PureComponent<
 		const handleDragEnter = (e) => {
 			e.preventDefault();
 			e.stopPropagation();
-	
+
 			this.props.onSetDropZoneVisible(true);
 		};
 
@@ -893,10 +897,9 @@ export class WebchatUI extends React.PureComponent<
 				<InformationMessage message={informMessage} />
 			);
 
-			if (!hasAcceptedTerms) return (
+			if (!hasAcceptedTerms && config.settings.privacyNotice.enabled) return (
 				<PrivacyNotice
-					privacyMessage={config.settings.privacyMessage}
-					privacyUrl={config.settings.privacyUrl}
+					privacyNotice={config.settings.privacyNotice}
 					onAcceptTerms={handleAcceptTerms}
 				/>
 			)
@@ -913,22 +916,27 @@ export class WebchatUI extends React.PureComponent<
 			if (showChatOptionsScreen || showRatingScreen) return (
 				<ChatOptions
 					config={config}
-					ratingTitleText={customRatingTitle || config.settings.ratingTitleText}
-					ratingCommentText={customRatingCommentText || config.settings.ratingCommentText}
+					ratingTitleText={customRatingTitle || config.settings.chatOptions.rating.title}
+					ratingCommentText={customRatingCommentText || config.settings.chatOptions.rating.commentPlaceholder}
 					showOnlyRating={showRatingScreen}
+					hasGivenRating={this.props.hasGivenRating}
 					onSendRating={this.handleSendRating}
 					onEmitAnalytics={onEmitAnalytics}
 					onSendActionButtonMessage={this.handleSendActionButtonMessage}
 				/>
 			);
 
-			if(isDropZoneVisible) 
-				return <DropZone disableBranding={config.settings.disableBranding} />
+			if (isDropZoneVisible)
+				return (
+					<DropZone
+						disableBranding={config.settings.layout.watermark !== "default"}
+						dropzoneText={config.settings.fileStorageSettings?.dropzoneText}
+					/>
+				);
 
 			return (
 				<>
 					<HistoryWrapper
-						disableBranding={config.settings.disableBranding}
 						scrollToPosition={scrollToPosition}
 						setScrollToPosition={onSetScrollToPosition}
 						lastScrolledPosition={lastScrolledPosition}
@@ -949,37 +957,46 @@ export class WebchatUI extends React.PureComponent<
 		}
 
 		const getTitles = () => {
-			if (!hasAcceptedTerms) {
-				return "Privacy notice";
+			if (showInformationMessage && informTitle) {
+				return informTitle;
+			}
+			if (!hasAcceptedTerms && config.settings.privacyNotice.enabled) {
+				return config.settings.privacyNotice.title || "Privacy notice";
 			}
 			if (showPrevConversations) {
-				return "Previous conversations";
+				return config.settings.homeScreen.previousConversations.title || "Previous conversations";
 			}
 			if (showChatOptionsScreen) {
-				return "Chat options";
+				return config.settings.chatOptions.title || "Chat options";
 			}
 			if (showRatingScreen) {
-				return "Conversation rating";
+				return config.settings.chatOptions.rating.title || "Conversation rating";
 			}
-			if (config.settings.title) {
-				return config.settings.title;
+			if (config.settings.layout.title) {
+				return config.settings.layout.title;
 			}
 			return "Cognigy";
 		}
 
+		const isHomeScreenEnabled = config.settings.homeScreen.enabled;
+		const showEnabledHomeScreen = isHomeScreenEnabled && showHomeScreen;
+
 		const isChatOptionsButtonVisible =
+			config.settings.chatOptions.enabled &&
 			!showChatOptionsScreen &&
 			!showRatingScreen &&
 			!showPrevConversations &&
-			!showHomeScreen &&
+			!showEnabledHomeScreen &&
 			!showInformationMessage &&
-			hasAcceptedTerms;
+			(hasAcceptedTerms || !config.settings.privacyNotice.enabled);
+
+		const hideBackButton = isChatOptionsButtonVisible && !isHomeScreenEnabled;
 
 		return (
 			<RegularLayoutRoot>
 				{
 					<CSSTransition
-						in={!!(!showHomeScreen || showInformationMessage)}
+						in={!!(!showEnabledHomeScreen || showInformationMessage)}
 						timeout={500}
 						classNames="slide-in"
 						mountOnEnter
@@ -991,18 +1008,20 @@ export class WebchatUI extends React.PureComponent<
 							onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
 							isChatOptionsButtonVisible={isChatOptionsButtonVisible}
 							logoUrl={!showChatOptionsScreen && !showRatingScreen
-								? config.settings.headerLogoUrl
+								? config.settings.layout.logoUrl
 								: undefined
 							}
 							title={getTitles()}
 							closeButtonRef={this.closeButtonInHeaderRef}
 							menuButtonRef={this.menuButtonInHeaderRef}
 							chatToggleButtonRef={this.chatToggleButtonRef}
+							hideBackButton={hideBackButton}
 						/>
 					</CSSTransition>
 				}
 				{
 					!isSecondaryView &&
+					isHomeScreenEnabled &&
 					<CSSTransition
 						in={!showHomeScreen}
 						timeout={500}
@@ -1022,7 +1041,7 @@ export class WebchatUI extends React.PureComponent<
 				}
 				{
 					<CSSTransition
-						in={!!(!showHomeScreen || showInformationMessage)}
+						in={!!(!showEnabledHomeScreen || showInformationMessage)}
 						timeout={500}
 						classNames="slide-in"
 						mountOnEnter
@@ -1064,7 +1083,7 @@ export class WebchatUI extends React.PureComponent<
 			this.props;
 		const { messagePlugins = [] } = this.state;
 
-		const { enableTypingIndicator } = config.settings;
+		const { enableTypingIndicator, messageDelay } = config.settings.behavior;
 		const isTyping = typingIndicator !== "remove" && typingIndicator !== "hide";
 
 		const isExpired = isConversationEnded(messages);
@@ -1101,7 +1120,7 @@ export class WebchatUI extends React.PureComponent<
 						className="webchat-chip-conversation-ended"
 					/>
 				)}
-				{enableTypingIndicator && <TypingIndicator active={isTyping} />}
+				{enableTypingIndicator && <TypingIndicator active={isTyping} delay={messageDelay} />}
 				<XAppSubmitObserver />
 			</>
 		);

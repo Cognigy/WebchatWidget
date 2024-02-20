@@ -9,11 +9,11 @@ import { isValidJSON } from "../../webchat-ui/utils/isValidJSON";
  * either of those.
  */
 export const getStorage = (
-	settings: Pick<IWebchatSettings, "disableLocalStorage" | "useSessionStorage">,
+	embeddingConfiguration: Pick<IWebchatSettings["embeddingConfiguration"], "disableLocalStorage" | "useSessionStorage">,
 ) => {
-	if (settings.disableLocalStorage) return null;
+	if (embeddingConfiguration.disableLocalStorage) return null;
 
-	if (settings.useSessionStorage) return window.sessionStorage;
+	if (embeddingConfiguration.useSessionStorage) return window.sessionStorage;
 
 	return window.localStorage;
 };

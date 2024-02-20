@@ -39,7 +39,7 @@ export const fetchFileUploadToken = async (fileUploadTokenUrl: string) => {
     return response.json() as IUploadFileToken;
 }
 
-export const uploadFile = async (file: any, fileUploadUrl: string, token: string) => {
+export const uploadFile = async (file: File, fileUploadUrl: string, token: string) => {
     const axiosRequest: AxiosRequestConfig = {
         data: { "file": file },
         headers: {

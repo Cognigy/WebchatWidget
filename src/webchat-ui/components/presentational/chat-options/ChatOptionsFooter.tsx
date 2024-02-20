@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { Typography } from "@cognigy/chat-components";
+import { IWebchatSettings } from "../../../../common/interfaces/webchat-config";
 
 const Footer = styled.div(({ theme }) => ({
 	alignItems: " center",
@@ -29,13 +30,19 @@ const StyledFooterTypography = styled(Typography)(() => ({
 	margin: 0,
 }));
 
-// TODO: Get text and URL for the footer items from the config
-export const ChatOptionsFooter = () => {
-	const footerItem1Text = "Imprint";
-	const footerItem2Text = "Data Protection";
+interface IChatOptionsFooterProps {
+	settings: IWebchatSettings;
+}
 
-	const footerItem1URL = "https://www.cognigy.com/legal-notice";
-	const footerItem2URL = "https://www.cognigy.com/privacy-policy";
+export const ChatOptionsFooter = (props: IChatOptionsFooterProps) => {
+	const { settings } = props;
+	const { chatOptions } = settings;
+
+	const footerItem1Text = chatOptions?.footer?.items?.[0]?.title || "Imprint";
+	const footerItem2Text = chatOptions?.footer?.items?.[1]?.title || "Data Privacy";
+
+	const footerItem1URL = chatOptions?.footer?.items?.[0]?.url || "https://www.cognigy.com/legal-notice";
+	const footerItem2URL = chatOptions?.footer?.items?.[1]?.url || "https://www.cognigy.com/privacy-policy";
 
 	return (
 		<Footer className="webchat-chat-options-footer">
@@ -49,16 +56,19 @@ export const ChatOptionsFooter = () => {
 					{footerItem1Text}
 				</StyledFooterTypography>
 			</Link>
-			<Link
-				href={footerItem2URL}
-				target="_blank"
-				id="footer-text-2"
-				aria-label={`${footerItem2Text}. Opens in new tab`}
-			>
-				<StyledFooterTypography variant="body-semibold">
-					{footerItem2Text}
-				</StyledFooterTypography>
-			</Link>
+			{
+				chatOptions?.footer?.items?.[1] &&
+				<Link
+					href={footerItem2URL}
+					target="_blank"
+					id="footer-text-2"
+					aria-label={`${footerItem2Text}. Opens in new tab`}
+				>
+					<StyledFooterTypography variant="body-semibold">
+						{footerItem2Text}
+					</StyledFooterTypography>
+				</Link>
+			}
 		</Footer>
 	);
 };

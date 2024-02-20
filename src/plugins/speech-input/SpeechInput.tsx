@@ -100,8 +100,8 @@ export const getSpeechInput = ({ React, styled }: InputPluginFactoryProps) => {
                 speechRecognition.interimResults = true;
                 speechRecognition.onresult = this.handleResult;
 
-                if (props.config.settings.STTLanguage) {
-                    speechRecognition.lang = props.config.settings.STTLanguage
+				if (props.config.settings.widgetSettings.STTLanguage) {
+					speechRecognition.lang = props.config.settings.widgetSettings.STTLanguage
                 }
             }
 
@@ -114,8 +114,8 @@ export const getSpeechInput = ({ React, styled }: InputPluginFactoryProps) => {
         }
 
         componentDidUpdate() {
-            if (this.state.speechRecognition && this.props.config.settings.STTLanguage) {
-                this.state.speechRecognition.lang = this.props.config.settings.STTLanguage
+			if (this.state.speechRecognition && this.props.config.settings.widgetSettings.STTLanguage) {
+				this.state.speechRecognition.lang = this.props.config.settings.widgetSettings.STTLanguage
             }
         }
 

@@ -30,7 +30,7 @@ const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
     }
 
     const cognigyData = (() => {
-        if (!config.settings.disableDefaultReplyCompatiblityMode && message.data?._data?._cognigy) {
+		if (!config.settings.widgetSettings.disableDefaultReplyCompatiblityMode && message.data?._data?._cognigy) {
             return message.data?._data?._cognigy;
         }
 
@@ -42,7 +42,7 @@ const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
 
     const { _facebook, _webchat, _defaultPreview } = cognigyData;
 
-    if (config.settings.enableDefaultPreview) {
+	if (config.settings.widgetSettings.enableDefaultPreview) {
         if (_defaultPreview) {
             return _defaultPreview;
         } else if (message.text) {
@@ -58,8 +58,8 @@ const getMessengerPayload = (message: IMessage, config: IWebchatConfig) => {
         return null;
     }
     
-    if (config.settings.enableStrictMessengerSync){
-        return preferFacebook(cognigyData, config.settings.enableStrictMessengerSync);
+	if (config.settings.widgetSettings.enableStrictMessengerSync) {
+		return preferFacebook(cognigyData, config.settings.widgetSettings.enableStrictMessengerSync);
     }
 
     return _webchat || _facebook;
@@ -119,7 +119,7 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
 
                         // Switch focus to input field if the flag is enabled
                         const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
-                        if (textMessageInput && config.settings.focusInputAfterPostback) textMessageInput.focus();
+						if (textMessageInput && config.settings.behavior.focusInputAfterPostback) textMessageInput.focus();
 
                         onSendMessage(payload, null, { label: title });
                     }
@@ -128,7 +128,7 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
                     if (action.type === 'web_url' && action.url) {
                         const url = (() => {
                             const { url: buttonUrl } = action as IFBMURLButton;
-                            if (config.settings.disableUrlButtonSanitization)
+							if (config.settings.layout.disableUrlButtonSanitization)
                                 return buttonUrl;
 
                             return sanitizeUrl(buttonUrl)
@@ -173,7 +173,7 @@ const fullscreenMessengerGenericPlugin: MessagePluginFactory = ({ React, styled 
 
                         // Switch focus to input field if the flag is enabled
                         const textMessageInput = document.getElementById("webchatInputMessageInputInTextMode");
-                        if (textMessageInput && config.settings.focusInputAfterPostback) textMessageInput.focus();
+						if (textMessageInput && config.settings.behavior.focusInputAfterPostback) textMessageInput.focus();
 
                         onSendMessage(payload, null, { label: title });
                     }

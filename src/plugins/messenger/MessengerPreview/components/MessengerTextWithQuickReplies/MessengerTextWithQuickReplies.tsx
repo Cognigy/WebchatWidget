@@ -74,16 +74,16 @@ export const getMessengerTextWithQuickReplies = ({
             const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
             const quickReplyButton = document.getElementById(`${webchatQuickReplyTemplateButtonId}-0`);
 
-            if(!config?.settings.enableAutoFocus) return;
+			if (!config?.settings.widgetSettings.enableAutoFocus) return;
 
             if(!chatHistory?.contains(document.activeElement)) return;
 
             setTimeout(() => {quickReplyButton?.focus()}, 200);
         }, []);
 
-        const enhancedURLsText = config.settings.disableRenderURLsAsLinks ? text : replaceUrlsWithHTMLanchorElem(text);
+		const enhancedURLsText = config.settings.widgetSettings.disableRenderURLsAsLinks ? text : replaceUrlsWithHTMLanchorElem(text);
 
-        const __html = config.settings.disableHtmlContentSanitization ? enhancedURLsText : sanitizeHTML(enhancedURLsText);
+		const __html = config.settings.layout.disableHtmlContentSanitization ? enhancedURLsText : sanitizeHTML(enhancedURLsText);
 
         return (
             <div {...divProps} className="webchat-quick-reply-template-root">
@@ -129,7 +129,7 @@ export const getMessengerTextWithQuickReplies = ({
                                 }
                             }
 
-                            const __html = config.settings.disableHtmlContentSanitization ? label : sanitizeHTML(label);
+							const __html = config.settings.layout.disableHtmlContentSanitization ? label : sanitizeHTML(label);
                             const ariaLabel = hasMoreThanOneQuickReply ? `Item ${index + 1} of ${quick_replies?.length}: ${__html}` : undefined;
                             
                             if(content_type === "user_phone_number") {

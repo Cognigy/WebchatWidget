@@ -4,10 +4,10 @@ import { clearUnseenMessages } from "../unseen-messages/unseen-message-reducer";
 import { setOpen, ToggleOpenAction, SetOpenAction, SetPageVisibleAction, SetHasAcceptedTermsAction } from "./ui-reducer";
 import { getStorage } from "../../helper/storage";
 
-export const uiMiddleware: Middleware<{}, StoreState> = store => next => (action: ToggleOpenAction | SetOpenAction | SetPageVisibleAction | SetHasAcceptedTermsAction) => {
+export const uiMiddleware: Middleware<object, StoreState> = store => next => (action: ToggleOpenAction | SetOpenAction | SetPageVisibleAction | SetHasAcceptedTermsAction) => {
 
     const { disableLocalStorage, useSessionStorage } =
-        store.getState().config.settings;
+		store.getState().config.settings.embeddingConfiguration;
     const browserStorage = getStorage({ useSessionStorage, disableLocalStorage });
 
     switch (action.type) {

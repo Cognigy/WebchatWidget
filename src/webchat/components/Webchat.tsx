@@ -25,7 +25,7 @@ import { getStorage } from '../helper/storage';
 export interface WebchatProps extends FromProps {
     url: string;
     options?: Partial<Options>;
-    settings?: IWebchatSettings;
+	settings?: Partial<IWebchatSettings>;
     messagePlugins?: MessagePlugin[];
 }
 
@@ -57,11 +57,11 @@ export class Webchat extends React.PureComponent<WebchatProps> {
         this._handleOutput = createOutputHandler(this.store);
     }
 
-    componentWillMount() {
+	UNSAFE_componentWillMount() {
 		const { settings } = this.props;
 
-		const disableLocalStorage = settings?.disableLocalStorage ?? false;
-		const useSessionStorage = settings?.useSessionStorage ?? false;
+		const disableLocalStorage = settings?.embeddingConfiguration?.disableLocalStorage ?? false;
+		const useSessionStorage = settings?.embeddingConfiguration?.useSessionStorage ?? false;
 		const browserStorage = getStorage({ disableLocalStorage, useSessionStorage });
 		if (browserStorage?.getItem('hasAcceptedTerms') === 'true') {
 			this.store.dispatch(setHasAcceptedTerms());
@@ -98,8 +98,8 @@ export class Webchat extends React.PureComponent<WebchatProps> {
     }
 
     open = async () => {
-        if(this.store.getState().config.settings.awaitEndpointConfig){
-            const timeout = this.store.getState().config.settings.connectivity?.enabled && this.store.getState().config.settings.connectivity?.timeout|| 1000;
+		if (this.store.getState().config.settings.embeddingConfiguration.awaitEndpointConfig) {
+			const timeout = this.store.getState().config.settings.embeddingConfiguration?.connectivity?.enabled && this.store.getState().config.settings.embeddingConfiguration?.connectivity?.timeout || 1000;
             let timeoutReached = false;
             let timeoutCounter = 0;
             while (!this.store.getState().config.isConfigLoaded && !timeoutReached) {
@@ -109,9 +109,9 @@ export class Webchat extends React.PureComponent<WebchatProps> {
                     timeoutReached = true;
                 }
             }
-            if(this.store.getState().config.settings.connectivity?.enabled && !isDisabledDueToMaintenance(this.store.getState().config.settings) && !isDisabledOutOfBusinessHours(this.store.getState().config.settings.businessHours) && !isDisabledDueToConnectivity(this.store.getState().config.settings, timeoutReached)){
+			if (this.store.getState().config.settings.embeddingConfiguration?.connectivity?.enabled && !isDisabledDueToMaintenance(this.store.getState().config.settings) && !isDisabledOutOfBusinessHours(this.store.getState().config.settings.businessHours) && !isDisabledDueToConnectivity(this.store.getState().config.settings, timeoutReached)) {
                 this.store.dispatch(setOpen(true));
-            }else if(!this.store.getState().config.settings.connectivity?.enabled && !isDisabledDueToMaintenance(this.store.getState().config.settings) && !isDisabledOutOfBusinessHours(this.store.getState().config.settings.businessHours)){
+			} else if (!this.store.getState().config.settings.embeddingConfiguration?.connectivity?.enabled && !isDisabledDueToMaintenance(this.store.getState().config.settings) && !isDisabledOutOfBusinessHours(this.store.getState().config.settings.businessHours)) {
                 this.store.dispatch(setOpen(true));
             }
             

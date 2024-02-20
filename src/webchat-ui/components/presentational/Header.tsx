@@ -103,6 +103,7 @@ interface HeaderProps {
 	closeButtonRef?: React.RefObject<HTMLButtonElement>;
 	menuButtonRef?: React.RefObject<HTMLButtonElement>;
 	chatToggleButtonRef?: React.RefObject<HTMLButtonElement>;
+	hideBackButton?: boolean;
 }
 
 const Header: FC<HeaderProps> = props => {
@@ -116,6 +117,7 @@ const Header: FC<HeaderProps> = props => {
 		menuButtonRef,
 		chatToggleButtonRef,
 		isChatOptionsButtonVisible,
+		hideBackButton,
 		...rest
 	} = props;
 
@@ -132,7 +134,7 @@ const Header: FC<HeaderProps> = props => {
 	return (
 		<>
 			<HeaderBar {...rest} className="webchat-header-bar">
-				{onGoBack && (
+				{onGoBack && !hideBackButton && (
 					<BackButtonWrapper style={{ width: isChatOptionsButtonVisible ? 56 : 16 }}>
 						<HeaderIconButton
 							data-header-back-button

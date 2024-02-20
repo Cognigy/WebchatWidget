@@ -5,7 +5,7 @@ export const isOutOfBusinessHours = (businessHours: IWebchatSettings['businessHo
     if (businessHours && businessHours.enabled) {
         let outOfBusinessHours = true;
         const now = getLocalTime(businessHours.timeZone);
-        const businessHoursToday = businessHours.businessHours.filter((item) => { return item.weekDay === now.weekDay })
+		const businessHoursToday = businessHours.times.filter((item) => { return item.weekDay === now.weekDay })
         for (let i = 0; i < businessHoursToday.length; i++) {
             const { 0: hourStart, 1: minuteStart } = businessHoursToday[i].startTime.split(":");
             const { 0: hourEnd, 1: minuteEnd } = businessHoursToday[i].endTime.split(":");
