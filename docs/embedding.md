@@ -22,21 +22,6 @@ To use file compression you need to
 
 compression can be enabled for most common web servers but the implementation depends on your used software, middleware and implementation.
 
-## Using a Compatiblity Build
-
-For older browsers, we ship a seperate build of the Webchat called `webchat.legacy.js`, which comes with extra compatibility at the cost of increased size.
-
-| Browser           | Version |
-| ----------------- | ------- |
-| Google Chrome     | `>= 63` |
-| Firefox           | `>= 55` |
-| Microsoft Edge    | `>= 15` |
-| Internet Explorer | `>= 11` |
-| Safari            | `>= 9`  |
-
-See it in action:  
-[![Edit Using a Compatibility Build](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/embedding-the-cognigy-webchat-yu1yg?fontsize=14&hidenavigation=1&theme=dark)
-
 ## Content-Security-Policy (CSP)
 
 When embedding Webchat within a website implementing a stricter
@@ -71,7 +56,7 @@ You can pass [Webchat Options](#webchat-options) as an additional argument to th
 | forceWebsockets            | boolean                                 | auto-determined by runtime-environment           | If `true`, the client will only use websockets and not fall back to http polling (wins over `disableWebsockets`)          |
 | disableWebsockets          | boolean                                 | false                                            | If `true`, the client will only use http polling and will not try to upgrade to websockets                                |
 | enableInnerSocketHandshake | boolean                                 | false                                            | If `true`, the client will pass `userId`, `sessionId` and `URLToken` through a socket handshake instead of via URL params |
-| settings                   | [Endpoint Settings](#endpoint-settings) | -                                                | Can be used to (partially) override certain Settings from the Webchat Endpoint                                            |
+| settings                   | object, see [Endpoint Settings](#endpoint-settings) | -                                                | Can be used to (partially) override certain Settings from the Webchat Endpoint                                            |
 
 <sup id="persistent-user-id">1</sup> The `userId` will be randomly generated on first page load and then persisted user via `LocalStorage`. When that user reloads the page, the Webchat will re-use the `userId` from `LocalStorage`.
 
@@ -79,12 +64,33 @@ See it in action:
 [![Edit Custom Webchat Options](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/embedding-the-cognigy-webchat-4xkv8?fontsize=14&hidenavigation=1&theme=dark)
 
 ### Endpoint Settings
+| Name                       | Type                                    | Default                                          | Description          |
+| -------------------------- | --------------------------------------- | ------------------------------------------------ | --- |
+| layout  | object   | see [Layout](#layout) | Define general look & feel of the Webchat  |
+| colors | object | see [Colors](#colors) | Set a new primary color or set other highlight colors  |
+| behavior | object | see [Behavior](#behavior) | Configure Webchat behavior, e.g. to disable the typing indicator |
+| startBehavior | object | see [Start Behavior](#start-behavior) | Configure the start behavior |
+| fileStorageSettings | object | see [File Storage Settings](#file-storage-settings) | Adjust some of the file storage settings. **(Note: To work, file storage must be generally configured through your Cognigy.AI Endpoint)** |
+| businessHours | object | see [Business Hours](#business-hours) | Business hours will prevent the user from using the bot if he loads the embedding page out of business hours |
+| unreadMessages | object | see [Unread Messages](#unread-messages) | Configure Webchat behavior for unread message indication |
+| homeScreen | object | see [Home Screen](#home-screen) | Configure the Home Screen of your Webchat, shown after opening |
+| teaserMessage | object | see [Teaser Message](#teaser-message) | Configure the Teaser Message, shown to users while the Webchat is still minimized |
+| chatOptions | object | see [Chat Options](#chat-options) | Configure the Chat Options, providing further options to your users |
+| rating | object | see [Rating](#rating) | Configure how rating requests are displayed in the Webchat (triggered from your Flow) |
+| privacyNotice | object | see [Privacy Notice](#privacy-notice) | Configure the privacy notice, optionally shown to be accepted by users before any message is sent  |
+| fileAttachmentMaxSize | number | 10485760 | The max size for file attachments uploaded by users **in bytes**, set to **10MB** as default |
+| maintenance | object | see [Maintenance](#maintenance)  | Configures the maintenance mode to prevent the user from using the Webchat during maintenance |
+| demoWebchat | object | see [Demo Webchat](#demo-webchat) | Configure the Cognigy.AI demo webchat. Only relevant if you copy the Demo Webchat implementation. |
+| embeddingConfiguration | object | see [Embedding Configuration](#embedding-configuration) | Settings related to the Webchat browser embedding. **Not configurable via Endpoint Editor** |
+| widgetSettings | object | see [Widget Settings](#widget-settings) | Additional Settings to configure the webchat widget behavior. **Not configurable via Endpoint Editor** |
+
+See it in action:  
+[![Edit Override Endpoint Settings](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/embedding-the-cognigy-webchat-bpz1r?fontsize=14&hidenavigation=1&theme=dark)
 
 | Name                                | Type                                | Default                            | [UI Config](#UI-Configurable) | [Demo Exclusive](#Demo-Page-Settings) | [Updatable](#Safe-To-Update)    | Description                                                                                                                                                                                                     |
 | ----------------------------------- | ----------------------------------- | ---------------------------------- | ----------------------------- | ------------------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | agentAvatarUrl                      | string                              | undefined                          | x                             |                                       |                                 | A custom avatar that sould be displayed next to agent messages                                                                                                                                                  |
 | awaitEndpointConfig                 | boolean                             | false                              |                               |                                       |                                 | Await the loading of the endpoint configuration. This setting is a necessary precondition for the settings `maintenance`, `businessHours` and `connectivity`                                                    |
-| businessHours                       | [Business Hours](#business-hours)   | -                                  | x                             |                                       |                                 | Business hours will prevent the user from using the bot if he loads the embedding page out of business hours                                                                                                    |
 | colorScheme                         | string                              | #2C6CAF                            | x                             |                                       |                                 | The background color of the header and bot messages in the Webchat.                                                                                                                                             |
 | connectivity                        | [Connectivity](#connectivity)       | -                                  |                               |                                       |                                 | Enabling the connectivity handler will prevent the user from using the Webchat Widget if it's unable to load the endpoint configuration within a specified time frame                                           |
 | designTemplate                      | 1 or 2                              | 1                                  | x                             | x                                     |                                 | The Webchat design template to use. We default to design template 1 (bottom right with a button), you can switch to template 2, which is the centered webchat.                                                  |
@@ -124,7 +130,6 @@ See it in action:
 | inputAutogrowMaxRows                | number                              | 5                                  | x                              |                                       |                                 | Configures the maximum amount of lines that the regular input textfield will grow to. Adding more content or lines will result in a scrollbar.                                                                  |
 | inputCollationTimeout               | number                              | 1000                               | x                              |                                       |                                 | Configures the amout of time after which collated messages are automatically being submit (if using the `enableInputCollation` option)                                                                          |
 | inputPlaceholder                    | string                              | "Write a reply"                    | x                             |                                       |                                 | The placeholder text to display in the input field.                                                                                                                                                             |
-| maintenance                         | [Maintenance](#maintenance)         | -                                  | x                             |                                       |                                 | Configures the maintenance mode to prevent the user from using the Webchat Widget during maintenance                                                                                                            |
 | messageLogoUrl                      | string                              | COGNIGY.AI Logo                    | x                             |                                       |                                 | A custom avatar that should be displayed next to bot messages. Defaults to a COGNIGY.AI logo.                                                                                                                   |
 | ratingTitleText                     | string                              | "Please rate your chat experience" |                               |                                       |                                 | The title displayed in the rating screen prompt.                                                                                                                                                                |
 | ratingCommentText                   | string                              | "Type something here..."    |                               |                                       |                                 | The text displayed above the comment field in the rating screen prompt.                                                                                                                                         |
@@ -155,8 +160,6 @@ The list of "safe to update" features will be expanded over time.
 
 These properties can be updated, but will only have effect if the "injection" message was not sent yet / the "button" was not clicked yet.
 
-See it in action:  
-[![Edit Override Endpoint Settings](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/embedding-the-cognigy-webchat-bpz1r?fontsize=14&hidenavigation=1&theme=dark)
 
 #### Unread Messages Preview
 
@@ -172,6 +175,10 @@ If the website title should display, that the virtual agent sent a new message, 
   }
 }
 ```
+
+See it in action:  
+[![Edit Override Endpoint Settings](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/unread-message-preview-oubyf?fontsize=14&hidenavigation=1&theme=dark)
+
 
 #### Maintenance
 
@@ -217,5 +224,220 @@ All connectivity settings require the setting `awaitEndpointConfig` as prerequis
 | title   | string                      | `""`       | Title that is displayed to the user during connectivity issues if mode is set to 'inform'. Leave empty for no header                        |
 | timeout | number                      | `2000`     | The maximum time in milliseconds to wait for successful loading of the endpoint configuration before activating connectivity issue handling |
 
-See it in action:  
-[![Edit Override Endpoint Settings](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/unread-message-preview-oubyf?fontsize=14&hidenavigation=1&theme=dark)
+#### Settings Interface
+For reference, have a look at the full interface for the Webchat Settings.
+_Note: All settings can be optionally loaded, a full object is not required_
+```ts
+interface IWebchatSettings {
+	// Settings that are also configurable via the Endpoint Editor in Cognigy.AI
+	layout: {
+		title: string;
+		logoUrl: string;
+		useOtherAgentLogo: boolean;
+		botAvatarName: string;
+		botLogoUrl: string;
+		agentAvatarName: string;
+		agentLogoUrl: string;
+		inputAutogrowMaxRows: number;
+		enableInputCollation: boolean;
+		inputCollationTimeout: number;
+		dynamicImageAspectRatio: boolean;
+		disableInputAutocomplete: boolean;
+		enableGenericHTMLStyling: boolean;
+		disableHtmlContentSanitization: boolean;
+		disableUrlButtonSanitization: boolean;
+		watermark: "default" | "custom" | "none";
+		watermarkText: string;
+	};
+	colors: {
+		primaryColor: string;
+		secondaryColor: string;
+		chatInterfaceColor: string;
+		botMessageColor: string;
+		userMessageColor: string;
+		textLinkColor: string;
+	};
+	behavior: {
+		enableTypingIndicator: boolean;
+		messageDelay: number;
+		inputPlaceholder: string;
+		enableSTT: boolean;
+		enableTTS: boolean;
+		focusInputAfterPostback: boolean;
+		enableConnectionStatusIndicator: boolean;
+	};
+	startBehavior: {
+		startBehavior: "none" | "button" | "injection";
+		getStartedPayload: string;
+		getStartedData: object;
+		getStartedText: string;
+		getStartedButtonText: string;
+	};
+	fileStorageSettings: {
+		enabled: boolean;
+		dropzoneText: string;
+	};
+	businessHours: {
+		enabled: boolean;
+		mode: "inform" | "hide" | "disable";
+		text: string;
+		title: string;
+		timeZone: string;
+		times: {
+			startTime: string;
+			endTime: string;
+			weekDay: string;
+		}[];
+	};
+	unreadMessages: {
+		enableIndicator: boolean;
+		enableBadge: boolean;
+		enablePreview: boolean;
+		enableSound: boolean;
+	};
+	homeScreen: {
+		enabled: boolean;
+		welcomeText: string;
+		background: {
+			imageUrl: string;
+			color: string;
+		};
+		startConversationButtonText: string;
+		previousConversations: {
+			enabled: boolean;
+			buttonText: string;
+			title: string;
+		};
+		conversationStarters: {
+			enabled: boolean;
+			starters: {
+				type: "postback" | "web_url" | "phone_number";
+				title: string;
+				url: string;
+				payload: string;
+			}[];
+		};
+	};
+	teaserMessage: {
+		text: string;
+		showInChat: boolean;
+		conversationStarters: {
+			enabled: boolean;
+			starters: {
+				type: "postback" | "web_url" | "phone_number";
+				title: string;
+				url: string;
+				payload: string;
+			}[];
+		};
+	};
+	chatOptions: {
+		enabled: boolean;
+		title: string;
+		quickReplyOptions: {
+			enabled: boolean;
+			sectionTitle: string;
+			quickReplies: {
+				type: "postback" | "web_url" | "phone_number";
+				title: string;
+				url: string;
+				payload: string;
+			}[];
+		};
+		showTTSToggle: boolean;
+		activateTTSToggle: boolean;
+		labelTTSToggle: string;
+		rating: {
+			enabled: "no" | "once" | "always";
+			title: string;
+			commentPlaceholder: string;
+			submitButtonText: string;
+			eventBannerText: string;
+			chatStatusMessage: string;
+		};
+		footer: {
+			enabled: boolean;
+			items: {
+				title: string;
+				url: string;
+			}[];
+		};
+	};
+	rating: {
+		submitButtonText: string;
+		eventBannerText: string;
+		chatStatusMessage: string;
+	},
+	privacyNotice: {
+		enabled: boolean;
+		title: string;
+		text: string;
+		submitButtonText: string;
+		urlText: string;
+		url: string;
+	};
+	fileAttachmentMaxSize: number;
+	maintenance: {
+		enabled: boolean;
+		mode: "inform" | "hide" | "disable";
+		text: string;
+		title: string;
+	};
+	demoWebchat: {
+		enabled: boolean;
+		backgroundImageUrl: string;
+		position: "centered" | "bottomRight";
+	};
+
+	// Settings related to the webchat browser embedding
+	// These settings are NOT configurable via the Endpoint Editor in Cognigy.AI
+	embeddingConfiguration: {
+		_endpointTokenUrl: string;
+		awaitEndpointConfig: boolean;
+		disableLocalStorage: boolean;
+		disablePersistentHistory: boolean;
+		useSessionStorage: boolean;
+		connectivity: {
+			enabled: boolean;
+			mode: string;
+			text: string;
+			timeout: number;
+			title: string;
+		}
+	},
+
+	// Additional Settings to configure the webchat widget behavior
+	// These settings are NOT configurable via the Endpoint Editor in Cognigy.AI
+	widgetSettings: {
+		disableDefaultReplyCompatiblityMode: boolean;
+		enableStrictMessengerSync: boolean;
+		disableHtmlInput: boolean;
+		disableInputAutofocus: boolean;
+		disableRenderURLsAsLinks: boolean;
+		disableTextInputSanitization: boolean;
+		disableToggleButton: boolean;
+		enableAutoFocus: boolean;
+		enableInjectionWithoutEmptyHistory: boolean;
+		enableFocusTrap: boolean;
+		enableDefaultPreview: boolean;
+		ignoreLineBreaks: boolean;
+		STTLanguage: string;
+		teaserMessageDelay: number;
+		unreadMessageTitleText: string;
+		unreadMessageTitleTextPlural: string;
+		userAvatarUrl: string;
+		sourceDirectionMapping: {
+			agent: TSourceDirection;
+			bot: TSourceDirection;
+			engagement: TSourceDirection;
+			user: TSourceDirection;
+		};
+		sourceColorMapping: {
+			agent: TSourceColor;
+			bot: TSourceColor;
+			engagement: TSourceColor;
+			user: TSourceColor;
+		};
+	};
+}
+```
