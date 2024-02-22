@@ -253,11 +253,6 @@ export interface IWebchatSettings {
 			}[];
 		};
 	};
-	rating: {
-		submitButtonText: string;
-		eventBannerText: string;
-		chatStatusMessage: string;
-	},
 	privacyNotice: {
 		enabled: boolean;
 		title: string;
