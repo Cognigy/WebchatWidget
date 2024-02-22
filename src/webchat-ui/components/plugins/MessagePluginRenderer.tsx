@@ -30,6 +30,7 @@ export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
 	prevMessage?: IMessage;
 	setScrollToPosition?: (position: number) => void;
 	webchatTheme: IWebchatTheme;
+	isConversationEnded: boolean;
 }
 
 const FullWidthMessageRow = styled.div(({ theme }) => ({
@@ -54,6 +55,7 @@ const MessagePluginRenderer = ({
 	prevMessage,
 	setScrollToPosition,
 	webchatTheme,
+	isConversationEnded,
 	...props
 }: MessageProps): JSX.Element => {
 	const attributes = Object.keys(props).length > 0 ? props : undefined;
@@ -145,6 +147,7 @@ const MessagePluginRenderer = ({
 				message={message}
 				onEmitAnalytics={onEmitAnalytics}
 				prevMessage={prevMessage}
+				isConversationEnded={isConversationEnded}
 			/>
 		);
 	}
