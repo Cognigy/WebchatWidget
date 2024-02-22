@@ -981,8 +981,7 @@ export class WebchatUI extends React.PureComponent<
 		const isHomeScreenEnabled = config.settings.homeScreen.enabled;
 		const showEnabledHomeScreen = isHomeScreenEnabled && showHomeScreen;
 
-		const isChatOptionsButtonVisible =
-			config.settings.chatOptions.enabled &&
+		const showChatScreen =
 			!showChatOptionsScreen &&
 			!showRatingScreen &&
 			!showPrevConversations &&
@@ -990,7 +989,9 @@ export class WebchatUI extends React.PureComponent<
 			!showInformationMessage &&
 			(hasAcceptedTerms || !config.settings.privacyNotice.enabled);
 
-		const hideBackButton = isChatOptionsButtonVisible && !isHomeScreenEnabled;
+		const isChatOptionsButtonVisible = config.settings.chatOptions.enabled && showChatScreen;
+
+		const hideBackButton = showChatScreen && !isHomeScreenEnabled;
 
 		return (
 			<RegularLayoutRoot>
@@ -1016,6 +1017,7 @@ export class WebchatUI extends React.PureComponent<
 							menuButtonRef={this.menuButtonInHeaderRef}
 							chatToggleButtonRef={this.chatToggleButtonRef}
 							hideBackButton={hideBackButton}
+							showChatScreen={showChatScreen}
 						/>
 					</CSSTransition>
 				}
