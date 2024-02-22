@@ -85,7 +85,7 @@ const HeaderIconButton = styled(IconButton)(({ theme }) => ({
 	padding: 0,
 }));
 
-const Logo = styled.img(() => ({
+export const Logo = styled.img(() => ({
 	borderRadius: "50%",
 	fontSize: 12,
 	width: 28,
@@ -104,6 +104,7 @@ interface HeaderProps {
 	menuButtonRef?: React.RefObject<HTMLButtonElement>;
 	chatToggleButtonRef?: React.RefObject<HTMLButtonElement>;
 	hideBackButton?: boolean;
+	showChatScreen?: boolean;
 }
 
 const Header: FC<HeaderProps> = props => {
@@ -118,6 +119,7 @@ const Header: FC<HeaderProps> = props => {
 		chatToggleButtonRef,
 		isChatOptionsButtonVisible,
 		hideBackButton,
+		showChatScreen,
 		...rest
 	} = props;
 
@@ -148,7 +150,7 @@ const Header: FC<HeaderProps> = props => {
 					</BackButtonWrapper>
 				)}
 				<div className={classnames("logoNameContainer")}>
-					{isChatOptionsButtonVisible &&
+					{showChatScreen &&
 						(logoUrl ? (
 							<Logo
 								src={logoUrl}
