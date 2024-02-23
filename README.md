@@ -1,30 +1,31 @@
 # Cognigy Webchat Widget
 
-This repo contains a Webchat that seemlessly integrates with your website and lets your users chat with your Conversational AI built with COGNIGY.AI.
+This repository contains a Webchat feature that seamlessly integrates with your website, enabling your users to chat with your Conversational AI, built with Cognigy.
 
 ## Documentation
-To get started using the Webchat on your Website, you can use the [Documentation section](./docs/README.md) in this repository.
-For Information on how to set up the Webchat on Cognigy side, please refer to the "[Deploy a Webchat Endpoint](https://docs.cognigy.com/docs/deploy-a-webchat-20-endpoint)" guide in our product documentation.
 
-Please read the Documentation [here](https://docs.cognigy.com/docs/cognigy-webchat) for information about how you can integrate this Webchat on your own website.
-For customization of styling, please read the [guide on applying custom CSS to the Webchat](./src/webchat-ui/README.md).
+To get started using the Webchat on your website, you can refer to the [Documentation section](./docs/README.md) in this repository. For information on how to set up the Webchat on the Cognigy side, please consult the [Deploy a Webchat Endpoint](https://docs.cognigy.com/ai/endpoints/webchat/deploy-webchat-endpoint/) guide in our product documentation.
+
+Read the documentation [here](https://docs.cognigy.com/ai/endpoints/webchat/webchat/) for information about integrating this Webchat on your own website. For styling customization, refer to the [guide on applying custom CSS to the Webchat](./src/webchat-ui/README.md).
 
 ## About this Repository
-This repository contains the source code for the Cognigy Webchat within our product.
-It is divided into multiple sub-projects
-- `webchat-ui` contains the source code used to render the webchat and webchat-plugins via `react`
-- `webchat` makes use of `webchat-ui` and adds the socket connection as well as state management to it. It can be used within react applications for seamless integration
-- `webchat-embed` takes the `webchat` and renders it into a website without further manual integration into an existing react application
-- `plugins` contains builtin webchat-plugins that can be understood as a basic featureset.
 
-## Building the Webchat
-To build the webchat, you will need an installed version of `Node.js`.
-Clone this repository, then run `npm i` and `npm run bundle` within the root folder to install dependencies and create bundle files in `dist/`.
+This repository contains the source code for the Cognigy Webchat within our product. It is divided into multiple sub-projects:
+
+- `webchat-ui`: contains the source code used to render the webchat and webchat-plugins via `react`.
+- `webchat`: makes use of `webchat-ui` and adds the socket connection as well as state management to it. It can be used within React applications for seamless integration.
+- `webchat-embed`: takes the `webchat` and renders it into a website without further manual integration into an existing React application.
+- `plugins`: contains built-in webchat-plugins that can be understood as a basic feature set.
+
+## Building your Webchat
+
+You need an installed version of `Node.js` to build your Webchat. Clone this repository, then run `npm i` and `npm run bundle` within the root folder to install dependencies and create bundle files in `dist/`.
 
 ## Development
-For development, you may use `npm run dev`, which will spawn a http-server on port 8080 that features the webchat in the current form from the source code. On updating source files, it will reload automatically to ease up the development process.
+
+For development purposes, you can utilize `npm run dev`. This command spawns an HTTP server on port 8080, showcasing the current form of the webchat directly from the source code. It automatically reloads upon updating source files, simplifying the development process.
+It automatically reloads when you make changes, streamlining the development process.
 
 ## Compatibility Builds
-The `npm run bundle` task will create bundle files for the webchat itself as well as basic webchat plugins.
-It will also create a second version of each bundle ending in `.legacy.js`.
-Those builds contain the same featureset as the regular builds, but are translated into an older standard of JavaScript, providing improved compatibility for older browsers which do not support modern JavaScript features (e.g. Internet Explorer 11).
+
+The `npm run bundle` command generates bundle files for the Webchat itself and basic Webchat plugins. Additionally, it produces a second version of each bundle ending in `.legacy.js`. These builds maintain the same feature set as the regular ones but are converted into an older JavaScript standard, enhancing compatibility for older browsers that lack support for modern JavaScript features, such as Internet Explorer 11. When you run the command `npm run bundle`, it creates bundle files for the Webchat along with some basic Webchat plugins. This command also produces a second version of each bundle, which has `.legacy.js` at the end of its name. These builds have the same features as the regular ones but are converted into an older JavaScript standard. This enhances compatibility for older browsers that don't support modern JavaScript features, such as Internet Explorer 11.
