@@ -10,6 +10,8 @@ import Notifications from "./Notifications";
 import { ActionButtons, Typography } from "@cognigy/chat-components";
 import { WebchatUIProps } from "../WebchatUI";
 import { IWebchatButton } from "@cognigy/socket-client";
+import CognigyAIAvatar from "../../assets/cognigy-ai-avatar-48px.svg";
+import { Logo } from "./Header";
 
 const HomeScreenRoot = styled.div(({ theme }) => ({
 	display: "flex",
@@ -76,6 +78,17 @@ const HomeScreenHeader = styled.div(() => ({
 	justifyContent: "space-between",
 	width: "100%",
 	marginBottom: 20,
+	height: 28,
+	"& .webchat-homescreen-header-logo": {
+		borderRadius: "50%",
+		width: 28,
+		height: 28,
+	},
+	"& .webchat-homescreen-header-cognigy-logo": {
+		borderRadius: "50%",
+		width: 28,
+		height: 28,
+	},
 }));
 
 const HomeScreenHeaderIconButton = styled(IconButton)(({ theme }) => ({
@@ -99,6 +112,9 @@ const HomeScreenTitle = styled(Typography)(({ theme }) => ({
 
 const HomeScreenButtons = styled.div(() => ({
 	marginTop: "auto",
+	"> div": {
+		flexDirection: "column",
+	},
 }));
 
 const HomeScreenActions = styled.div(({ theme }) => ({
@@ -159,15 +175,17 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 		<HomeScreenRoot className="webchat-homescreen-root">
 			<HomeScreenContent className="webchat-homescreen-content" settings={config?.settings}>
 				<HomeScreenHeader className="webchat-homescreen-header">
-					<Typography
-						variant="title1-semibold"
-						component="h2"
-						fontWeight={700}
-						margin={0}
-						className="webchat-homescreen-header-title"
-					>
-						{config?.settings?.layout?.title || "Cognigy Webchat"}
-					</Typography>
+					{config?.settings?.layout?.logoUrl ? (
+						<Logo
+							src={config?.settings?.layout?.logoUrl}
+							className={"webchat-homescreen-header-logo"}
+							alt="Chat logo"
+						/>
+					) : (
+						<CognigyAIAvatar
+							className={"webchat-homescreen-header-cognigy-logo"}
+						/>
+					)}
 					<HomeScreenHeaderIconButton
 						onClick={onClose}
 						className="webchat-homescreen-close-button"
