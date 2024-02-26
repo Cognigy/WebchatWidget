@@ -39,7 +39,7 @@ describe('Persistent History', () => {
         });
         
         cy.initWebchat(localOptions)
-            .openWebchat();
+            .openWebchat().startConversation();
         
         
         cy.contains('You said "hello".').should('be.visible');
@@ -64,7 +64,7 @@ describe('Persistent History', () => {
         });
 
         cy.initWebchat(options)
-            .openWebchat();
+            .openWebchat().startConversation();
         
         cy.sendMessage('hello');
         
@@ -76,7 +76,7 @@ describe('Persistent History', () => {
         });
         
         cy.initWebchat(options)
-            .openWebchat();
+            .openWebchat().startConversation();
         
         
         cy.contains('You said "hello".').should('be.visible');
