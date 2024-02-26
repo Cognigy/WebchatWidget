@@ -13,7 +13,7 @@ xdescribe('Message Color Variants', () => {
                 }
             });
 
-            cy.openWebchat().startConversation().submitPrivacyScreen();
+            cy.openWebchat().startConversation();
         });
 
         it('renders a "text with buttons"', () => {
@@ -87,7 +87,7 @@ xdescribe('Message Color Variants', () => {
                 }
             });
 
-            cy.openWebchat().startConversation().submitPrivacyScreen();
+            cy.openWebchat().startConversation();
         });
 
         it('renders a "text with buttons"', () => {

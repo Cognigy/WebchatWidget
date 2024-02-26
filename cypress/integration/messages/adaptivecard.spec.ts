@@ -4,8 +4,7 @@ describe("Message with AdaptiveCard", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen()
+            .startConversation();
     })
 
     it("should render an adaptivecard from plugin", () => {

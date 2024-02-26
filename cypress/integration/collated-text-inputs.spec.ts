@@ -8,9 +8,7 @@ describe("collated text inputs", () => {
     it("shouldn't collate messages by default", () => {
         cy.initMockWebchat()
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen();
-
+            .startConversation();
         cy.get(".webchat-input-message-input").type("hi").type("{enter}");
         cy.get(".webchat-input-message-input").type("whats up").type("{enter}");
     
@@ -26,9 +24,7 @@ describe("collated text inputs", () => {
                 }
             })
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen();
-
+            .startConversation();
         cy.get(".webchat-input-message-input").type("hi").type("{enter}");
         cy.get(".webchat-input-message-input").type("whats up").type("{enter}");
 
@@ -42,8 +38,7 @@ describe("collated text inputs", () => {
                 }
             })
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen();
+            .startConversation();
 
         cy.sendMessage("immediately there!");
         cy.contains("immediately there!", { timeout: 100 }).should("be.visible");
@@ -56,8 +51,7 @@ describe("collated text inputs", () => {
                 }
             })
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen();
+            .startConversation();
 
         cy.get(".webchat-input-message-input").type("hi").type("{enter}");
         cy.wait(1100);
@@ -76,8 +70,7 @@ describe("collated text inputs", () => {
                 }
             })
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen();
+            .startConversation();
 
         cy.get(".webchat-input-message-input").type("hi").type("{enter}");
         cy.wait(1100);
@@ -93,8 +86,7 @@ describe("collated text inputs", () => {
                 }
             })
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen();
+            .startConversation();
 
         cy.get(".webchat-input-message-input").type("hi").type("{enter}");
         cy.get(".webchat-input-message-input").type("ho").type("{enter}");
@@ -114,8 +106,7 @@ describe("collated text inputs", () => {
                 }
             })
                 .openWebchat()
-                .startConversation()
-                .submitPrivacyScreen();
+                .startConversation();
         });
 
         

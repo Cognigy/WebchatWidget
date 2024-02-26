@@ -27,8 +27,7 @@ describe('Persistent History', () => {
             expect(window.localStorage.getItem(JSON.stringify([localOptions.channel, localOptions.userId, localOptions.sessionId]))).to.be.null;
         });
 
-        cy.initWebchat(localOptions)
-            .openWebchat();
+        cy.initWebchat(localOptions).openWebchat().startConversation();
         
         cy.sendMessage('hello');
         
@@ -54,7 +53,9 @@ describe('Persistent History', () => {
             sessionId: `session-${Math.floor(Math.random() * Date.now())}`,
             channel: `channel-${Math.floor(Math.random() * Date.now())}`,
             settings: {
-                useSessionStorage: true
+                embeddingConfiguration: {
+                    useSessionStorage: true
+                }
             }
         };
 

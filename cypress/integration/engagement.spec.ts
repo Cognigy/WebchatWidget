@@ -47,8 +47,7 @@ describe("Engagement Message", () => {
 				},
 			})
 			.openWebchat()
-			.startConversation()
-			.submitPrivacyScreen();
+			.startConversation();
 
 		cy.wait(500);
 		cy.window().contains("engagement message text", { timeout: 0 }).should("not.exist");
@@ -134,7 +133,7 @@ describe("Engagement Message", () => {
 		cy.get("[data-cognigy-webchat-toggle]").click();
 		cy.wait(100);
 
-		cy.startConversation().submitPrivacyScreen();
+		cy.startConversation();
 
 		cy.contains("engagement message text").should("be.visible");
 	});

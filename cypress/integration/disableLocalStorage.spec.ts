@@ -15,7 +15,7 @@ describe("disableLocalStorage", () => {
             }
         });
 
-        cy.openWebchat().startConversation().submitPrivacyScreen();
+        cy.openWebchat().startConversation();
 
         cy.sendMessage("some message");
 
@@ -50,7 +50,7 @@ describe("disableLocalStorage", () => {
             }
         });
 
-        cy.openWebchat().startConversation().submitPrivacyScreen();
+        cy.openWebchat().startConversation();
 
         cy.sendMessage("some message");
 

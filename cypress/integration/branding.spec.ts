@@ -1,6 +1,6 @@
 describe("Branding", () => {
 	beforeEach(() => {
-		cy.visitWebchat().initMockWebchat().openWebchat().startConversation().submitPrivacyScreen();
+		cy.visitWebchat().initMockWebchat().openWebchat().startConversation();
 	});
 
 	it("banner is visible after opening the webchat", () => {
@@ -45,7 +45,9 @@ describe("Branding", () => {
 		cy.visitWebchat();
 		cy.initMockWebchat({
 			settings: {
-				disableBranding: true,
+				layout: {
+					watermark: "none"
+				}
 			},
 		});
 		cy.openWebchat();

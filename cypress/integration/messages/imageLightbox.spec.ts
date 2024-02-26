@@ -7,8 +7,7 @@ describe("Image fullsize with Lightbox", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen()
+            .startConversation(); 
     })
 
     it("should render image preview", () => {

@@ -3,7 +3,7 @@
 
 describe("Message with Image", { retries: 3 }, () => {
 	beforeEach(() => {
-		cy.visitWebchat().initMockWebchat().openWebchat().startConversation().submitPrivacyScreen();
+		cy.visitWebchat().initMockWebchat().openWebchat().startConversation();
 	});
 
 	it("should render image", () => {

@@ -7,8 +7,7 @@ describe("Message with Gallery", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen()
+            .startConversation();
     })
 
     it("should render gallery message", () => {

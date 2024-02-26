@@ -3,8 +3,7 @@ describe("Message History", () => {
         cy.visitWebchat()
             .initMockWebchat()
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen();
+            .startConversation();
 
         cy.then(() => {
             for (let i=0; i<20; i++) {
@@ -20,8 +19,7 @@ describe("Message History", () => {
         cy.visitWebchat()
             .initMockWebchat()
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen();
+            .startConversation();
 
         cy.then(() => {
             for (let i=0; i<20; i++) {
