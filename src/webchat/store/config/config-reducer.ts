@@ -24,7 +24,7 @@ export const getInitialState = (): ConfigState => ({
 			agentAvatarName: "",
 			agentLogoUrl: "",
 			inputAutogrowMaxRows: 4,
-			enableInputCollation: true,
+			enableInputCollation: false,
 			inputCollationTimeout: 1000,
 			dynamicImageAspectRatio: false,
 			disableInputAutocomplete: false,

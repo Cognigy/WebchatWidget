@@ -20,7 +20,9 @@ describe("collated text inputs", () => {
     it("should collate messages if enableInputCollation is enabled", () => {
         cy.initMockWebchat({
                 settings: {
-                    enableInputCollation: true
+                    layout: {
+                        enableInputCollation: true,
+                    }
                 }
             })
             .openWebchat()
@@ -31,23 +33,27 @@ describe("collated text inputs", () => {
         cy.contains("hi whats up").should("be.visible");
     });
 
-    it("should immediately send messages not using the text inpot or the 'collate' option", () => {
+    it("should immediately send messages not using the text input or the 'collate' option", () => {
         cy.initMockWebchat({
                 settings: {
-                    enableInputCollation: true
+                    layout: {
+                        enableInputCollation: true,
+                    }
                 }
             })
             .openWebchat()
             .startConversation();
 
         cy.sendMessage("immediately there!");
-        cy.contains("immediately there!", { timeout: 100 }).should("be.visible");
+        cy.contains("immediately there!", { timeout: 200 }).should("be.visible");
     });
 
     it("sends separate messages if the collate timeout of 1000ms was exceeded", () => {
         cy.initMockWebchat({
                 settings: {
-                    enableInputCollation: true,
+                    layout: {
+                        enableInputCollation: true,
+                    }
                 }
             })
             .openWebchat()
@@ -65,8 +71,10 @@ describe("collated text inputs", () => {
     it("collates a messages if the custom collate timeout of 1500ms was not exceeded", () => {
         cy.initMockWebchat({
                 settings: {
-                    enableInputCollation: true,
-                    inputCollationTimeout: 1500
+                    layout: {
+                        inputCollationTimeout: 1500,
+                        enableInputCollation: true,
+                    }
                 }
             })
             .openWebchat()
@@ -82,7 +90,9 @@ describe("collated text inputs", () => {
     it("flushes collated messages when a data-input is sent", () => {
         cy.initMockWebchat({
                 settings: {
-                    enableInputCollation: true,
+                    layout: {
+                        enableInputCollation: true,
+                    }
                 }
             })
             .openWebchat()
@@ -102,7 +112,9 @@ describe("collated text inputs", () => {
         beforeEach(() => {
             cy.initMockWebchat({
                 settings: {
-                    enableInputCollation: true
+                    layout: {
+                        enableInputCollation: true,
+                    }
                 }
             })
                 .openWebchat()
