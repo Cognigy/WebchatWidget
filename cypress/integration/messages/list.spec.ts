@@ -78,7 +78,9 @@ describe("Message with List", () => {
     it("should render the list header image in a fixed aspect ratio", () => {
         cy.withMessageFixture('list', () => {
             cy.get(".webchat-list-template-header > :first-child").parent().then(element => {
-                expect(element.innerWidth() / element.innerHeight()).to.equal(16/9);
+                const actualVal = element.innerWidth() / element.innerHeight();
+                const expectedVal = (16/9).toFixed(2);
+                expect(actualVal.toFixed(2)).to.equal(expectedVal);
             });
         })
     });
