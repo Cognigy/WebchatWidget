@@ -11,7 +11,9 @@ describe("disableLocalStorage", () => {
 
         cy.initWebchat({
             settings: {
-                disableLocalStorage: true
+                embeddingConfiguration: {
+                    disableLocalStorage: true
+                }
             }
         });
 
@@ -45,8 +47,10 @@ describe("disableLocalStorage", () => {
 
         cy.initWebchat({
             settings: {
-                disableLocalStorage: true,
-                useSessionStorage: true
+                embeddingConfiguration: {
+                    disableLocalStorage: true,
+                    useSessionStorage: true
+                }
             }
         });
 
