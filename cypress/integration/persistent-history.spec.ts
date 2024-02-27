@@ -40,7 +40,9 @@ describe('Persistent History', () => {
 
         cy.window().then(window => {
             cy.log(JSON.stringify(window.localStorage));
-            expect(window.localStorage.length).to.greaterThan(0);});
+            expect(window.localStorage.length).to.greaterThan(0);
+            expect(window.sessionStorage.length).to.equal(0);
+        });
     });
 
     it('restores a persisted history from SessionStorage when using useSessionStorage', () => {
