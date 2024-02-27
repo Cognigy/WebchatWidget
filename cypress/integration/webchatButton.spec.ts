@@ -13,8 +13,14 @@ describe('Webchat Button', () => {
 			.visitWebchat()
 			.initMockWebchat({
                 settings: {
-                    enableUnreadMessagePreview: true,
-                    engagementMessageText: 'engagement message text'
+					unreadMessages: {
+						enablePreview: true,
+						enableIndicator: true,
+						enableBadge: true
+					},
+                    teaserMessage:{
+						text: 'engagement message text'
+					}
                 }
 			})
 			.wait(6000)
@@ -48,13 +54,13 @@ describe('Webchat Button', () => {
 			.get('[aria-label="Close chat"]').should('not.exist');
 	});
 	
-	it('should have correct aria-label for close button in chat window', () => {
+	it('should have correct aria-label for close button in chat window homescreen', () => {
         cy
 			.visitWebchat()
 			.initMockWebchat()
             .get('[aria-label="Open chat"]').click()
-			.get('[aria-label="Close Chat"]').click()
-			.get('[aria-label="Close Chat"]').should('not.exist');
+			.get('[aria-label="Close"]').click()
+			.get('[aria-label="Close"]').should('not.exist');
 	});
 
 });
