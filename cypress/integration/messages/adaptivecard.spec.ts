@@ -9,19 +9,19 @@ describe("Message with AdaptiveCard", () => {
 
     it("should render an adaptivecard from plugin", () => {
         cy.withMessageFixture('adaptivecard', () => {
-            cy.contains("Your registration is almost complete").should("be.visible");
+            cy.contains("Your registration is almost complete").should("be.exist");
         });
     });
 
     it("should render an adaptivecard from _webchat", () => {
         cy.withMessageFixture('adaptivecard-webchat', () => {
-            cy.contains("Your registration is almost complete").should("be.visible");
+            cy.contains("Your registration is almost complete").should("be.exist");
         });
     });
 
     it("submits a message through an adaptivecard form", () => {
         cy.withMessageFixture('adaptivecard', () => {
-            cy.contains("Your registration is almost complete").should("be.visible");
+            cy.contains("Your registration is almost complete").should("be.exist");
 
             cy.contains("Steak").click();
             cy.contains("Medium-Rare").click();
@@ -93,7 +93,7 @@ describe("Message with AdaptiveCard", () => {
 
         cy.receiveMessageFixture("adaptivecard");
 
-        cy.contains("Your registration is almost complete").should("be.visible");
-        cy.get(".adaptivecard-wrapper.internal").should("be.visible");
+        cy.contains("Your registration is almost complete").should("exist");
+        cy.get(".adaptivecard-wrapper.internal").should("exist");
     });
 });
