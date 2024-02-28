@@ -52,8 +52,8 @@ export const createOutputHandler = (store: Store) => (output) => {
                 store.dispatch(setRequestRatingEventBannerText(data.ratingEventBannerText));
             }
 
-            if (data && data.ratingChatStatusBadgeText) {
-                store.dispatch(setRequestRatingChatStatusText(data.ratingChatStatusBadgeText));
+            if (data && data.ratingChatStatusMessage) {
+                store.dispatch(setRequestRatingChatStatusText(data.ratingChatStatusMessage));
             }
 
             store.dispatch(showRatingScreen(true));

@@ -92,7 +92,6 @@ export const rating: Reducer<RatingState, RatingAction> = (state = getInitialSta
                     customRatingCommentText: "",
                     requestRatingSubmitButtonText: "",
                     requestRatingEventBannerText: "",
-                    requestRatingChatStatusBadgeText: "",
                 }
 
             } else {

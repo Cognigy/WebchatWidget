@@ -120,7 +120,7 @@ export const getInitialState = (): ConfigState => ({
 
 				submitButtonText: "Send feedback",
 				eventBannerText: "Your feedback was submitted",
-				chatStatusMessage: "Feedback submitted",
+				chatStatusMessage: "Feedback submitted", // Not used anywhere. Please see spec and remove if not needed
 			},
 			footer: {
 				enabled: false,
