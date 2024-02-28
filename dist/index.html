@@ -8,20 +8,27 @@
 <body>
     <script src="./webchat.js"></script>
     <script>
-                    initWebchat('https://endpoint-dev.cognigy.ai/14c8e0ab190c22ec8121cbd7d1cef945727844f7d41aad21cae33654806bacbd', {
+            initWebchat('https://endpoint-dev.cognigy.ai/14c8e0ab190c22ec8121cbd7d1cef945727844f7d41aad21cae33654806bacbd', {
             userId: "user1",
             sessionId: "session1",
             settings: {
-                // colorScheme: '#FAB',
-                enableUnreadMessageSound: true,
-                enableUnreadMessageBadge: true,
-                enableUnreadMessagePreview: true,
-                enableUnreadMessageTitleIndicator: true,
-                showEngagementMessagesInChat: true,
-                getStartedText: "",
-                engagementMessageText: "Hi there!",
-                engagementMessageDelay: 5000,
-            }
+                unreadMessages: {
+                    enableIndicator: true,
+                    enableBadge: true,  
+                    enablePreview: true,
+                    enableSound: true
+                },
+                teaserMessage:{
+                    showInChat: true,
+                    text: "Hi there!"
+                },
+                widgetSettings: {
+                    teaserMessageDelay: 5000,
+                },
+                startBehavior: {
+                    getStartedText: ""
+                },
+            },
         }).then(function (webchat) {
             window.cognigyWebchat = webchat;
             // webchat.open();
