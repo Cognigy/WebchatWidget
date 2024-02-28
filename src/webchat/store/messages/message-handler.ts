@@ -2,7 +2,7 @@ import { Store } from "redux";
 import { IMessage } from "../../../common/interfaces/message";
 import { ISendMessageOptions } from "./message-middleware";
 import { setBotAvatarOverrideUrl, setUserAvatarOverrideUrl, setAgentAvatarOverrideUrl, setTyping } from "../ui/ui-reducer";
-import { setCustomRatingCommentText, setCustomRatingTitle, showRatingScreen } from "../rating/rating-reducer";
+import { setCustomRatingCommentText, setCustomRatingTitle, setRequestRatingSubmitButtonText, setRequestRatingEventBannerText, setRequestRatingChatStatusText, showRatingScreen } from "../rating/rating-reducer";
 import { SocketClient } from "@cognigy/socket-client";
 
 const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
@@ -42,6 +42,18 @@ export const createOutputHandler = (store: Store) => (output) => {
 
             if (data && data.ratingTitleText) {
                 store.dispatch(setCustomRatingTitle(data.ratingTitleText));
+            }
+
+            if (data && data.ratingSubmitButtonText) {
+                store.dispatch(setRequestRatingSubmitButtonText(data.ratingSubmitButtonText));
+            }
+
+            if (data && data.ratingEventBannerText) {
+                store.dispatch(setRequestRatingEventBannerText(data.ratingEventBannerText));
+            }
+
+            if (data && data.ratingChatStatusBadgeText) {
+                store.dispatch(setRequestRatingChatStatusText(data.ratingChatStatusBadgeText));
             }
 
             store.dispatch(showRatingScreen(true));

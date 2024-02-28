@@ -41,6 +41,8 @@ interface IChatOptionsProps {
 	config: IWebchatConfig;
 	ratingTitleText: string;
 	ratingCommentText: string;
+	ratingSubmitButtonText: string;
+	ratingEventBannerText: string;
 	showOnlyRating: boolean;
 	hasGivenRating: boolean;
 	onSendRating: (props: IOnSendRatingProps) => void;
@@ -54,6 +56,8 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 		showOnlyRating,
 		ratingTitleText,
 		ratingCommentText,
+		ratingSubmitButtonText,
+		ratingEventBannerText,
 		hasGivenRating,
 		onSendRating,
 		onEmitAnalytics,
@@ -61,10 +65,6 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 	} = props;
 	const { settings } = config;
 	const { chatOptions } = settings;
-	const { rating: chatOptionsRating } = chatOptions;
-
-	const ratingEventBannerText = chatOptionsRating.eventBannerText;
-	const submitRatingButtonText = chatOptionsRating.submitButtonText;
 
 	const ratingEnabled = chatOptions.rating.enabled;
 	const showRating = ratingEnabled === "always" || (ratingEnabled === "once" && !hasGivenRating) || showOnlyRating;
@@ -94,7 +94,7 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 						onSendRating={onSendRating}
 						showRatingStatus={showOnlyRating}
 						ratingEventBannerText={ratingEventBannerText}
-						buttonText={submitRatingButtonText}
+						buttonText={ratingSubmitButtonText}
 					/>
 				}
 			</ChatOptionsContainer>

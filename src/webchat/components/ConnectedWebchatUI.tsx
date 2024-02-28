@@ -24,7 +24,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         ui: { open, typing, inputMode, fullscreenMessage, scrollToPosition, lastScrolledPosition, showHomeScreen, showPrevConversations, showChatOptionsScreen, hasAcceptedTerms },
         config,
         options: { sessionId },
-        rating: { showRatingScreen, hasGivenRating, customRatingTitle, customRatingCommentText },
+        rating: { showRatingScreen, hasGivenRating, customRatingTitle, customRatingCommentText, requestRatingSubmitButtonText, requestRatingEventBannerText, requestRatingChatStatusBadgeText },
         input: { sttActive, isDropZoneVisible, fileList, fileUploadError },
     }) => ({
         currentSession: sessionId,
@@ -44,6 +44,9 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         hasGivenRating,
         customRatingTitle,
         customRatingCommentText,
+        requestRatingSubmitButtonText,
+        requestRatingEventBannerText,
+        requestRatingChatStatusBadgeText,
         showHomeScreen,
         sttActive,
         isDropZoneVisible,
