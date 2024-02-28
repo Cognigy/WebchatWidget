@@ -106,6 +106,7 @@ export interface WebchatUIProps {
 	showRatingScreen: boolean;
 	onShowRatingScreen: (show: boolean) => void;
 	onSetHasGivenRating: () => void;
+	requestRatingScreenTitle: string;
 	customRatingTitle: string;
 	customRatingCommentText: string;
 	requestRatingSubmitButtonText: string;
@@ -604,6 +605,7 @@ export class WebchatUI extends React.PureComponent<
 			onSetShowPrevConversations,
 			onSetShowChatOptionsScreen,
 			onSwitchSession,
+			requestRatingScreenTitle,
 			customRatingTitle,
 			customRatingCommentText,
 			requestRatingSubmitButtonText,
@@ -811,6 +813,7 @@ export class WebchatUI extends React.PureComponent<
 			onSetShowPrevConversations,
 			showChatOptionsScreen,
 			onSetShowChatOptionsScreen,
+			requestRatingScreenTitle,
 			customRatingTitle,
 			customRatingCommentText,
 			requestRatingSubmitButtonText,
@@ -980,7 +983,7 @@ export class WebchatUI extends React.PureComponent<
 				return config.settings.chatOptions.title || "Chat options";
 			}
 			if (showRatingScreen) {
-				return config.settings.chatOptions.rating.title || "Conversation rating";
+				return requestRatingScreenTitle || "Conversation rating";
 			}
 			if (config.settings.layout.title) {
 				return config.settings.layout.title;
