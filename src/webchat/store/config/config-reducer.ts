@@ -116,7 +116,7 @@ export const getInitialState = (): ConfigState => ({
 			rating: {
 				enabled: "once",
 				title: "Please rate your chat experience",
-				commentPlaceholder: "Type something here",
+				commentPlaceholder: "Type something here...",
 
 				submitButtonText: "Send feedback",
 				eventBannerText: "Your feedback was submitted",
