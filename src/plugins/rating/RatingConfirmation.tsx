@@ -1,8 +1,14 @@
 import React from "react";
 import { ChatEvent } from "@cognigy/chat-components";
+import { useSelector } from "react-redux";
+import { StoreState } from "../../webchat/store/store";
 
 const RatingConfirmation = () => {
-	return <ChatEvent text="Feedback submitted" />;
+	const requestRatingChatStatusBadgeText = useSelector(
+		(state: StoreState) => state.rating.requestRatingChatStatusBadgeText,
+	);
+
+	return <ChatEvent text={requestRatingChatStatusBadgeText || "Feedback submitted"} />;
 };
 
 export default RatingConfirmation;
