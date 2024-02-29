@@ -85,7 +85,7 @@ See the [Settings Interface](#settings-interface) for full reference.
 | widgetSettings | object | see [Widget Settings](#widget-settings) | Additional Settings to configure the webchat widget behavior. **Not configurable via Endpoint Editor** |
 
 See it in action:  
-[![Edit Override Endpoint Settings](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/embedding-the-cognigy-webchat-bpz1r?fontsize=14&hidenavigation=1&theme=dark)
+[![Edit Override Endpoint Settings](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/override-endpoint-settings-5gqm6g?file=%2Findex.html)
 
 #### Layout
 | Name | Type | Default | Description |
@@ -247,7 +247,6 @@ All business hours settings require the setting `embeddingConfiguration.awaitEnd
 | commentPlaceholder | string | `"Type something here"` | Placeholder text that will be displayed in the rating comment field |
 | submitButtonText | string | `"Send feedback"` | Text on the rating submit button |
 | eventBannerText | string | `"Your feedback was submitted"` | Event Banner text after user sent feedback  |
-| chatStatusMessage | string | `"Feedback submitted"` | Status message text that appears in chat after user sent feedback |
 
 ##### Chat Options Footer
 | Name | Type | Default | Description |
@@ -480,7 +479,6 @@ interface IWebchatSettings {
 			commentPlaceholder: string;
 			submitButtonText: string;
 			eventBannerText: string;
-			chatStatusMessage: string;
 		};
 		footer: {
 			enabled: boolean;
