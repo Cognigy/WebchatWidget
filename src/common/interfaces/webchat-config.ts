@@ -243,7 +243,6 @@ export interface IWebchatSettings {
 			commentPlaceholder: string;
 			submitButtonText: string;
 			eventBannerText: string;
-			chatStatusMessage: string;
 		};
 		footer: {
 			enabled: boolean;
