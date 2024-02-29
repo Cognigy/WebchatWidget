@@ -45,7 +45,7 @@ export const getInitialState = (): ConfigState => ({
 		behavior: {
 			enableTypingIndicator: true,
 			messageDelay: 500,
-			inputPlaceholder: "Type something…",
+			inputPlaceholder: "Type something here…",
 			enableSTT: false,
 			enableTTS: false,
 			focusInputAfterPostback: false,
@@ -104,7 +104,7 @@ export const getInitialState = (): ConfigState => ({
 		},
 		chatOptions: {
 			enabled: false,
-			title: "Chat Options",
+			title: "Chat options",
 			quickReplyOptions: {
 				enabled: true,
 				sectionTitle: "People are also interested in",
