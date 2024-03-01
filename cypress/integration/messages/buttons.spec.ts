@@ -7,8 +7,7 @@ describe("Message with Buttons", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen()
+            .startConversation();
     })
 
     it("should render message header", () => {

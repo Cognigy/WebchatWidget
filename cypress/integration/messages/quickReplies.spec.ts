@@ -8,7 +8,6 @@ describe("Message with Quick Replies", () => {
         .initMockWebchat()
         .openWebchat()
         .startConversation()
-        .submitPrivacyScreen()
     )
 
     it("should render message with quick replies", () => {

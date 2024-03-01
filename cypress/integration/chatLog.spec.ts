@@ -1,6 +1,6 @@
 describe('Chat Log', () => {
     beforeEach(() => {
-        cy.visitWebchat().initMockWebchat().openWebchat().startConversation().submitPrivacyScreen();
+        cy.visitWebchat().initMockWebchat().openWebchat().startConversation();
     });
 
     it('is chat log region non-focusable when no messages in log', () => {
