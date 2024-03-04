@@ -1,4 +1,4 @@
-Created on 20-11-2023 at 09:53:07
+Created on 04-03-2024 at 11:13:46
 
 {
   "@ampproject/remapping@2.2.0": {
@@ -206,7 +206,7 @@ Created on 20-11-2023 at 09:53:07
     "licenseFile": "node_modules/@braintree/sanitize-url/LICENSE",
     "copyright": "Copyright (c) 2017 Braintree"
   },
-  "@cognigy/socket-client@4.7.1": {
+  "@cognigy/socket-client@4.8.0": {
     "licenses": "MIT*",
     "publisher": "Robin Schuster",
     "email": "r.schuster@cognigy.com",
