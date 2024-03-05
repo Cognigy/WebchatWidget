@@ -8,7 +8,6 @@ describe("Message with Video", () => {
             .initMockWebchat()
             .openWebchat()
             .startConversation()
-            .submitPrivacyScreen()
     })
 
     it("should render video player", () => {

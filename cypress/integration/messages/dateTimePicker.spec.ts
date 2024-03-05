@@ -8,8 +8,7 @@ describe("Date Time Picker", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen()
+            .startConversation();
     })
 
     it("should trap focus in 24-Hr format", () => {

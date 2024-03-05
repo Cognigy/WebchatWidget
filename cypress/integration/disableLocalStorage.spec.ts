@@ -11,11 +11,13 @@ describe("disableLocalStorage", () => {
 
         cy.initWebchat({
             settings: {
-                disableLocalStorage: true
+                embeddingConfiguration: {
+                    disableLocalStorage: true
+                }
             }
         });
 
-        cy.openWebchat().startConversation().submitPrivacyScreen();
+        cy.openWebchat().startConversation();
 
         cy.sendMessage("some message");
 
@@ -45,12 +47,14 @@ describe("disableLocalStorage", () => {
 
         cy.initWebchat({
             settings: {
-                disableLocalStorage: true,
-                useSessionStorage: true
+                embeddingConfiguration: {
+                    disableLocalStorage: true,
+                    useSessionStorage: true
+                }
             }
         });
 
-        cy.openWebchat().startConversation().submitPrivacyScreen();
+        cy.openWebchat().startConversation();
 
         cy.sendMessage("some message");
 

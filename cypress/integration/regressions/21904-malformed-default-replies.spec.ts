@@ -4,7 +4,6 @@ describe("Malformed Default Reply Messages", () => {
       cy.initMockWebchat();
       cy.openWebchat();
       cy.startConversation();
-      cy.submitPrivacyScreen();
       
       cy.fixture('messages/malformed-webchat-defaultreply.json')
           .then(({ text, data, source }) => {

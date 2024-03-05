@@ -8,7 +8,6 @@ describe("Text message", () => {
             .initMockWebchat()
             .openWebchat()
             .startConversation()
-            .submitPrivacyScreen()
     })
 
     it("should render text message", () => {

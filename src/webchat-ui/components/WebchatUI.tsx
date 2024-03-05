@@ -106,8 +106,12 @@ export interface WebchatUIProps {
 	showRatingScreen: boolean;
 	onShowRatingScreen: (show: boolean) => void;
 	onSetHasGivenRating: () => void;
+	requestRatingScreenTitle: string;
 	customRatingTitle: string;
 	customRatingCommentText: string;
+	requestRatingSubmitButtonText: string;
+	requestRatingEventBannerText: string;
+	requestRatingChatStatusBadgeText: string;
 
 	showHomeScreen: boolean;
 	onSetShowHomeScreen: (show: boolean) => void;
@@ -601,8 +605,12 @@ export class WebchatUI extends React.PureComponent<
 			onSetShowPrevConversations,
 			onSetShowChatOptionsScreen,
 			onSwitchSession,
+			requestRatingScreenTitle,
 			customRatingTitle,
 			customRatingCommentText,
+			requestRatingSubmitButtonText,
+			requestRatingEventBannerText,
+			requestRatingChatStatusBadgeText,
 			onAcceptTerms,
 			onSetStoredMessage,
 			onSetFileList,
@@ -805,8 +813,11 @@ export class WebchatUI extends React.PureComponent<
 			onSetShowPrevConversations,
 			showChatOptionsScreen,
 			onSetShowChatOptionsScreen,
+			requestRatingScreenTitle,
 			customRatingTitle,
 			customRatingCommentText,
+			requestRatingSubmitButtonText,
+			requestRatingEventBannerText,
 			showRatingScreen,
 			onShowRatingScreen,
 			onSwitchSession,
@@ -918,6 +929,8 @@ export class WebchatUI extends React.PureComponent<
 					config={config}
 					ratingTitleText={customRatingTitle || config.settings.chatOptions.rating.title}
 					ratingCommentText={customRatingCommentText || config.settings.chatOptions.rating.commentPlaceholder}
+					ratingSubmitButtonText={requestRatingSubmitButtonText || config.settings.chatOptions.rating.submitButtonText}
+					ratingEventBannerText={requestRatingEventBannerText || config.settings.chatOptions.rating.eventBannerText}
 					showOnlyRating={showRatingScreen}
 					hasGivenRating={this.props.hasGivenRating}
 					onSendRating={this.handleSendRating}
@@ -970,7 +983,7 @@ export class WebchatUI extends React.PureComponent<
 				return config.settings.chatOptions.title || "Chat options";
 			}
 			if (showRatingScreen) {
-				return config.settings.chatOptions.rating.title || "Conversation rating";
+				return requestRatingScreenTitle || "Conversation rating";
 			}
 			if (config.settings.layout.title) {
 				return config.settings.layout.title;

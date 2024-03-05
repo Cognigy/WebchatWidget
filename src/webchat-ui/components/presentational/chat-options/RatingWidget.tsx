@@ -134,7 +134,7 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 			</RatingButtonContainer>
 			<RatingTextContainer>
 				<MultilineInput
-					data-test="rating-input"
+					dataTest="rating-input"
 					value={ratingText}
 					disabled={ratingValue === null}
 					onChange={e => setRatingText(e.target.value)}

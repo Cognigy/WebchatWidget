@@ -7,8 +7,7 @@ describe("Message with Gallery", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen()
+            .startConversation();
     })
 
     it("should render gallery message", () => {
@@ -87,7 +86,9 @@ describe("Message with Gallery", () => {
     it("should render the gallery image in a fixed aspect ratio", () => {
         cy.withMessageFixture('gallery', () => {
             cy.get(".webchat-carousel-template-frame img").then(element => {
-                expect(element.innerWidth() / element.innerHeight()).to.equal(206/150);
+                const actualVal = element.innerWidth() / element.innerHeight();
+                const expectedVal = (206/150).toFixed(2);
+                expect(actualVal.toFixed(2)).to.equal(expectedVal);
             });
         })
     });

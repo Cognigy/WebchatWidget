@@ -7,8 +7,7 @@ describe("Message with Audio", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen()
+            .startConversation();
     })
 
     it("should render audio player", () => {

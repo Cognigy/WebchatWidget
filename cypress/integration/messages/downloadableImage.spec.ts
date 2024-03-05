@@ -7,8 +7,7 @@ describe("Message with Downloadable Image", () => {
             .visitWebchat()
             .initMockWebchat()
             .openWebchat()
-            .startConversation()
-            .submitPrivacyScreen()
+            .startConversation();
     })
 
     it("should render image", () => {
