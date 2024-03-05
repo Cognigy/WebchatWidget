@@ -98,7 +98,7 @@ See it in action:
 | agentAvatarName | string | `""` | Name for the Human Agent avatar which will be displayed above each Human Agent message |
 | agentLogoUrl | string | `""` | Human Agent avatar which will be displayed above each Human Agent message. Recommended img size: 28px x 28px |
 | inputAutogrowMaxRows | number | `4` | Maximum Number of Input Rows  |
-| enableInputCollation | boolean | `true` | If enabled, messages will be combined into a single message, dependent on the time set with `inputCollationTimeout` |
+| enableInputCollation | boolean | `false` | If enabled, messages will be combined into a single message, dependent on the time set with `inputCollationTimeout` |
 | inputCollationTimeout | number | `1000` | timeout value for input collation |
 | dynamicImageAspectRatio | boolean | `false` | Use to disable forced aspect ratio for images in chat elements |
 | disableInputAutocomplete | boolean | `false` | Use to disable browser autocomplete for the input field |
@@ -111,19 +111,19 @@ See it in action:
 #### Colors
 | Name | Type | Default | Description |
 | - | - | - | - |
-| primaryColor | string | `""` | Primary color |
-| secondaryColor | string | `""` | Secondary color |
-| chatInterfaceColor | string | `""` | Chat interface background color|
-| botMessageColor | string | `""` | AI Agent messages background color |
-| userMessageColor | string | `""` | User messages background color |
-| textLinkColor | string | `""` | Text link color |
+| primaryColor | string | `"#2455E6"` | Primary color |
+| secondaryColor | string | `"#1A1A1A"` | Secondary color |
+| chatInterfaceColor | string | `"#FFFFFF"` | Chat interface background color|
+| botMessageColor | string | `"#FFFFFF"` | AI Agent messages background color |
+| userMessageColor | string | `"#E8EBFF"` | User messages background color |
+| textLinkColor | string | `"#6688ED"` | Text link color |
 
 #### Behavior
 | Name | Type | Default | Description |
 | - | - | - | - |
 | enableTypingIndicator | boolean | `true` | Enables a typing indicator while the AI Agent is replying |
 | messageDelay | number | `500` | Wait time between AI Agent messages in miliseconds |
-| inputPlaceholder | string | `"Type something…"` | Placeholder for the input field |
+| inputPlaceholder | string | `"Type something here…"` | Placeholder for the input field |
 | enableSTT | boolean | `false` | Enable speech-to-text |
 | enableTTS | boolean | `false` | Enable text-to-speech |
 | focusInputAfterPostback | boolean | `false` | Input field will receive focus after a Postback button or quick reply button is clicked |
@@ -224,7 +224,7 @@ All business hours settings require the setting `embeddingConfiguration.awaitEnd
 | Name | Type | Default | Description |
 | - | - | - | - |
 | enabled | boolean | `false` | Enable Chat Options Feature |
-| title | string |  `"Chat Options"` | Chat Options header title |
+| title | string |  `"Chat options"` | Chat Options header title |
 | quickReplyOptions | object | [Quick Reply Options](#quick-reply-options) | Configure the Quick Reply section in the Chat Options |
 | showTTSToggle | boolean | `false` | Enable to show the Text-to-Speech Toggle |
 | activateTTSToggle | boolean | `true` | Activate Text-to-Speech Toggle by default if enabled |
@@ -244,7 +244,7 @@ All business hours settings require the setting `embeddingConfiguration.awaitEnd
 | - | - | - | - |
 | enabled | string | `"once"` | Allowed values: `"no" \| "once" \| "always"`. Decide how often a user can give feedback from this section. Hidden not enabled. |
 | title | string | `"Please rate your chat experience"` | Configure the title for the Rating Section |
-| commentPlaceholder | string | `"Type something here"` | Placeholder text that will be displayed in the rating comment field |
+| commentPlaceholder | string | `"Type something here..."` | Placeholder text that will be displayed in the rating comment field |
 | submitButtonText | string | `"Send feedback"` | Text on the rating submit button |
 | eventBannerText | string | `"Your feedback was submitted"` | Event Banner text after user sent feedback  |
 
