@@ -2,6 +2,7 @@ const path = require('path');
 const TerserPlugin = require("terser-webpack-plugin");
 const zlib = require("zlib");
 const CompressionPlugin = require("compression-webpack-plugin");
+const webpack = require('webpack');
 
 module.exports = {
     mode: 'development',
@@ -70,6 +71,9 @@ module.exports = {
 			},
 			threshold: 10240,
 			minRatio: 0.8,
+		}),
+		new webpack.optimize.LimitChunkCountPlugin({
+			maxChunks: 1
 		}),
     ],
     devServer: {
