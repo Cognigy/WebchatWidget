@@ -313,7 +313,7 @@ export class TextInput extends React.PureComponent<InputComponentProps, TextInpu
      * Shift+Return should insert a "newline" (default)
      */
     handleInputKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
-        if (event.key === 'Enter' && !event.shiftKey) {
+        if (event.key === 'Enter' && !event.shiftKey && !event?.nativeEvent?.isComposing) {
             event.preventDefault();
             event.stopPropagation();
 
