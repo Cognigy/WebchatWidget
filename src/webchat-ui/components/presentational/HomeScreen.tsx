@@ -164,8 +164,6 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 
 	const buttons: IWebchatButton[] = config.settings.homeScreen.conversationStarters.starters;
 
-	const disableBranding = config?.settings?.layout?.watermark !== "default";
-
 	const handleShowPrevConversations = () => {
 		onSetShowHomeScreen(false);
 		onSetShowPrevConversations(true);
@@ -235,7 +233,11 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 						</PrevConversationsButton>
 				}
 				{/* Branding Logo Link */}
-				{!disableBranding && <Branding id="cognigyHomeScreenBranding" />}
+				<Branding
+					id="cognigyHomeScreenBranding"
+					watermark={config?.settings?.layout?.watermark}
+					watermarkText={config?.settings?.layout?.watermarkText}
+				/>
 			</HomeScreenActions>
 		</HomeScreenRoot>
 	);

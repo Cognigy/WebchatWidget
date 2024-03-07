@@ -942,7 +942,7 @@ export class WebchatUI extends React.PureComponent<
 			if (isDropZoneVisible)
 				return (
 					<DropZone
-						disableBranding={config.settings.layout.watermark !== "default"}
+						layoutSettings={config.settings.layout}
 						dropzoneText={config.settings.fileStorageSettings?.dropzoneText}
 					/>
 				);
