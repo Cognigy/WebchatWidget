@@ -133,7 +133,7 @@ interface ISpeechInputState {
 	isFinalResult: boolean;
 }
 
-interface IBaseInputState extends TextInputState, ISpeechInputState { }
+interface IBaseInputState extends TextInputState, ISpeechInputState {}
 
 interface IBaseInputProps extends InputComponentProps {
 	sttActive: boolean;
@@ -154,11 +154,11 @@ declare global {
 const getSpeechRecognition = (): SpeechRecognition | null => {
 	try {
 		return new SpeechRecognition();
-	} catch (e) { }
+	} catch (e) {}
 
 	try {
 		return new webkitSpeechRecognition() as SpeechRecognition;
-	} catch (e) { }
+	} catch (e) {}
 
 	return null;
 };
@@ -365,7 +365,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 	 * Shift+Return should insert a "newline" (default)
 	 */
 	handleInputKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = event => {
-		if (event.key === "Enter" && !event.shiftKey) {
+		if (event.key === "Enter" && !event.shiftKey && !event?.nativeEvent?.isComposing) {
 			event.preventDefault();
 			event.stopPropagation();
 
@@ -392,20 +392,11 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 
 		const { text, textActive, speechResult: speechInterim } = state;
 
-		const {
-			layout,
-			fileStorageSettings,
-			widgetSettings,
-		} = props.config.settings;
+		const { layout, fileStorageSettings, widgetSettings } = props.config.settings;
 
-		const {
-			disableInputAutocomplete,
-			inputAutogrowMaxRows,
-		} = layout;
+		const { disableInputAutocomplete, inputAutogrowMaxRows } = layout;
 
-		const {
-			disableInputAutofocus,
-		} = widgetSettings;
+		const { disableInputAutofocus } = widgetSettings;
 
 		const isFileAttachmentEnabled = fileStorageSettings?.enabled;
 
@@ -461,8 +452,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 							)}
 						</MediaQuery>
 
-						{
-							props.config.settings.behavior.enableSTT &&
+						{props.config.settings.behavior.enableSTT && (
 							<SpeechButton
 								className={classnames(
 									"webchat-input-button-speech",
@@ -491,7 +481,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 								)}
 								<SpeechIcon />
 							</SpeechButton>
-						}
+						)}
 
 						<SubmitButton
 							disabled={
