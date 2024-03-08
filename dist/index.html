@@ -8,10 +8,14 @@
 <body>
     <script src="./webchat.js"></script>
     <script>
-            initWebchat('https://endpoint-dev.cognigy.ai/14c8e0ab190c22ec8121cbd7d1cef945727844f7d41aad21cae33654806bacbd', {
+			initWebchat('https://endpoint-dev.cognigy.ai/50ea4877c2d4c0aadd1067fb6391bdda4207399f9d813dbf43cd9d3cf1e23e90', {
             userId: "user1",
             sessionId: "session1",
             settings: {
+				layout: {
+					watermark: "default",
+					watermarkText: "Some Random Watermark"
+				},
                 unreadMessages: {
                     enableIndicator: true,
                     enableBadge: true,  

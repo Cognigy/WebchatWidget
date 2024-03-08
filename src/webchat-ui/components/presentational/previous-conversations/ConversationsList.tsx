@@ -62,8 +62,6 @@ interface IPrevConversationsListProps {
 export const PrevConversationsList = (props: IPrevConversationsListProps) => {
 	const { conversations, config, onSetShowPrevConversations, onSwitchSession } = props;
 
-	const disableBranding = config.settings.layout.watermark !== "default";
-
 	// we sort the conversation based on last message timestamp
 	// result: the last updated conversation goes on top
 	const sortedConversations = sortConversationsByFreshness(conversations);
@@ -108,7 +106,11 @@ export const PrevConversationsList = (props: IPrevConversationsListProps) => {
 				>
 					Start new conversation
 				</StartButton>
-				{!disableBranding && <Branding id="cognigyConversationListBranding" />}
+				<Branding
+					id="cognigyConversationListBranding"
+					watermark={config?.settings?.layout?.watermark}
+					watermarkText={config?.settings?.layout?.watermarkText}
+				/>
 			</ConversationsListActions>
 		</ConversationsListRoot>
 	);

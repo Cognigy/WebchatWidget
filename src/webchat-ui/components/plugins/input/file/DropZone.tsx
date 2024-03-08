@@ -6,6 +6,7 @@ import { Typography } from "@cognigy/chat-components";
 import Branding from "../../../branding/Branding";
 import { setDropZoneVisible } from "../../../../../webchat/store/input/input-reducer";
 import { addFilesToList } from "../../../../../webchat/store/input/file-input-middleware";
+import { IWebchatSettings } from "../../../../../common/interfaces/webchat-config";
 
 const componentStyles = () => ({
 	width: "100%",
@@ -40,13 +41,14 @@ const DragDropTypography = styled(Typography)(({ theme }) => ({
 interface IDropZoneProps {
 	disableBranding?: boolean;
 	dropzoneText?: string;
+	layoutSettings?: IWebchatSettings["layout"];
 }
 
 const DropZone: FC<IDropZoneProps> = props => {
 	const dropRef = useRef<HTMLInputElement>(null);
 	const dispatch = useDispatch();
 
-	const { disableBranding, dropzoneText } = props;
+	const { disableBranding, dropzoneText, layoutSettings } = props;
 
 	const handleDragOver = e => {
 		e.preventDefault();
@@ -80,7 +82,11 @@ const DropZone: FC<IDropZoneProps> = props => {
 						{dropzoneText || "Drop to attach"}
 					</DragDropTypography>
 				</DropZoneContent>
-				{!disableBranding && <Branding id="cognigyDropZoneLogo" />}
+				<Branding
+					id="cognigyDropZoneLogo"
+					watermark={layoutSettings?.watermark}
+					watermarkText={layoutSettings?.watermarkText}
+				/>
 			</DropZoneRoot>
 			<DropZoneContainer
 				ref={dropRef}
