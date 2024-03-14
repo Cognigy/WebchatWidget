@@ -1,5 +1,5 @@
 # Custom Avatars
-During the conversation, you can swap the image URLs used for `Bot` and `User` avatars by sending certain message content:
+During the conversation, you can swap the image URLs used for `Bot` and `Agent` avatars by sending certain message content:
 
 Set a bot avatar override
 ```json
