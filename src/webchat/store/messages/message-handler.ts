@@ -3,7 +3,6 @@ import { IMessage } from "../../../common/interfaces/message";
 import { ISendMessageOptions } from "./message-middleware";
 import {
 	setBotAvatarOverrideUrl,
-	setUserAvatarOverrideUrl,
 	setAgentAvatarOverrideUrl,
 	setTyping,
 } from "../ui/ui-reducer";
@@ -29,7 +28,7 @@ export type ReceiveMessageAction = ReturnType<typeof receiveMessage>;
 export const createOutputHandler = (store: Store) => output => {
 	// handle custom webchat actions
 	if (output.data && output.data._webchat) {
-		const { agentAvatarOverrideUrl, botAvatarOverrideUrl, userAvatarOverrideUrl } =
+		const { agentAvatarOverrideUrl, botAvatarOverrideUrl } =
 			output.data._webchat;
 
 		if (agentAvatarOverrideUrl !== undefined) {
@@ -38,10 +37,6 @@ export const createOutputHandler = (store: Store) => output => {
 
 		if (botAvatarOverrideUrl !== undefined) {
 			store.dispatch(setBotAvatarOverrideUrl(botAvatarOverrideUrl));
-		}
-
-		if (userAvatarOverrideUrl !== undefined) {
-			store.dispatch(setUserAvatarOverrideUrl(userAvatarOverrideUrl));
 		}
 	}
 
