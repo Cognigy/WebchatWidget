@@ -175,6 +175,8 @@ All business hours settings require the setting `embeddingConfiguration.awaitEnd
 | enableBadge | boolean | `false` | Enable to show a badge with the number of unread messages on the Webchat toggle button |
 | enablePreview | boolean | `false` | Enable to show a message bubble with the latest retrieved bot message  |
 | enableSound | boolean | `false` | Enable to play a notification sound for each incoming unread message |
+| unreadMessageTitleText | string | `"New Message"` | The website title that is displayed when the user retrieved one new message |
+| unreadMessageTitleTextPlural | string | `"New Messages"` | The website title that is displayed when the user retrieved more than one new message |
 
 #### Home Screen
 | Name | Type | Default | Description |
@@ -217,6 +219,7 @@ All business hours settings require the setting `embeddingConfiguration.awaitEnd
 | Name | Type | Default | Description |
 | - | - | - | - |
 | text | string | `""` | Message displayed above Webchat icon for user engagement |
+| teaserMessageDelay | number | `5000` | Configure the delay for the Teaser Message appearing (in miliseconds) |
 | showInChat | boolean | `false` | Enable to also show the Teaser Message text in the chat window |
 | conversationStarters | object | [Conversation Starters](#conversation-starters) | Configure Conversation Starters, each will be an action button below the Teaser Message |
 
@@ -327,9 +330,6 @@ Additional Settings to configure the webchat widget behavior <br>
 | enableDefaultPreview | boolean | `false` | Enable default preview for Adaptive cards plugin |
 | ignoreLineBreaks | boolean | `false` | Enable to ignore line breaks in the Messenger Generic Templates, Gallery Cards Subtitle |
 | STTLanguage | string | `""` | Set the STTLanguage |
-| teaserMessageDelay | number | `5000` | Configure the delay for the Teaser Message appearing (in miliseconds) |
-| unreadMessageTitleText | string | `"New Message"` | The website title that is displayed when the user retrieved one new message |
-| unreadMessageTitleTextPlural | string | `"New Messages"` | The website title that is displayed when the user retrieved more than one new message |
 | sourceDirectionMapping | object | [Source Direction Mapping](#source-direction-mapping) | Configure source direction mapping |
 | sourceColorMapping | object | [Source Color Mapping](#source-color-mapping) | Configure source color mapping |
 
@@ -419,6 +419,8 @@ interface IWebchatSettings {
 		enableBadge: boolean;
 		enablePreview: boolean;
 		enableSound: boolean;
+		unreadMessageTitleText: string;
+		unreadMessageTitleTextPlural: string;
 	};
 	homeScreen: {
 		enabled: boolean;
@@ -445,6 +447,7 @@ interface IWebchatSettings {
 	};
 	teaserMessage: {
 		text: string;
+		teaserMessageDelay: number;
 		showInChat: boolean;
 		conversationStarters: {
 			enabled: boolean;
@@ -541,9 +544,6 @@ interface IWebchatSettings {
 		enableDefaultPreview: boolean;
 		ignoreLineBreaks: boolean;
 		STTLanguage: string;
-		teaserMessageDelay: number;
-		unreadMessageTitleText: string;
-		unreadMessageTitleTextPlural: string;
 		sourceDirectionMapping: {
 			agent: TSourceDirection;
 			bot: TSourceDirection;

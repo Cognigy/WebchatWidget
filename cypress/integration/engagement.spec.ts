@@ -22,13 +22,11 @@ describe("Engagement Message", () => {
 			settings: {
 				teaserMessage: {
 					text: "engagement message text",
+					teaserMessageDelay: 1
 				},
 				unreadMessages: {
 					enablePreview: false,
 				},
-				widgetSettings: {
-					teaserMessageDelay: 1
-				}
 			},
 		});
 
@@ -41,7 +39,7 @@ describe("Engagement Message", () => {
 				unreadMessages: {
 					enablePreview: false,
 				},
-				widgetSettings: {
+				teaserMessage: {
 					teaserMessageDelay: 1
 				}
 			},
@@ -57,13 +55,11 @@ describe("Engagement Message", () => {
 				settings: {
 					teaserMessage: {
 						text: "engagement message text",
+						teaserMessageDelay: 1
 					},
 					unreadMessages: {
 						enablePreview: false,
 					},
-					widgetSettings: {
-						teaserMessageDelay: 1
-					}
 				},
 			})
 			.openWebchat()
@@ -78,13 +74,11 @@ describe("Engagement Message", () => {
 			settings: {
 				teaserMessage: {
 					text: "engagement message text",
+					teaserMessageDelay: 1
 				},
 				unreadMessages: {
 					enablePreview: false,
 				},
-				widgetSettings: {
-					teaserMessageDelay: 1
-				}
 			},
 		});
 		cy.get("[data-cognigy-webchat-toggle]").click().click();
@@ -98,13 +92,11 @@ describe("Engagement Message", () => {
 				settings: {
 					teaserMessage: {
 						text: "engagement message text",
+						teaserMessageDelay: 1
 					},
 					unreadMessages: {
 						enablePreview: false,
 					},
-					widgetSettings: {
-						teaserMessageDelay: 1
-					}
 				},
 			},
 			{
@@ -122,13 +114,11 @@ describe("Engagement Message", () => {
 			settings: {
 				teaserMessage: {
 					text: "engagement message text",
+					teaserMessageDelay: 1
 				},
 				unreadMessages: {
 					enablePreview: false,
 				},
-				widgetSettings: {
-					teaserMessageDelay: 1
-				}
 			},
 		});
 		cy.receiveMessage("hello there");
@@ -142,13 +132,11 @@ describe("Engagement Message", () => {
 			settings: {
 				teaserMessage: {
 					text: "engagement message text",
+					teaserMessageDelay: 1
 				},
 				unreadMessages: {
 					enablePreview: false,
 				},
-				widgetSettings: {
-					teaserMessageDelay: 1
-				}
 			},
 		});
 		cy.wait(500);
@@ -167,14 +155,12 @@ describe("Engagement Message", () => {
 			settings: {
 				teaserMessage: {
 					text: "engagement message text",
+					teaserMessageDelay: 100,
 					showInChat: true
 				},
 				unreadMessages: {
 					enablePreview: false,
 				},
-				widgetSettings: {
-					teaserMessageDelay: 100
-				}
 			},
 		});
 		cy.wait(100);
