@@ -9,8 +9,8 @@
     <script src="./webchat.js"></script>
     <script>
 			initWebchat('https://endpoint-dev.cognigy.ai/50ea4877c2d4c0aadd1067fb6391bdda4207399f9d813dbf43cd9d3cf1e23e90', {
-            userId: "user1",
-            sessionId: "session1",
+			// userId: "user1",
+			// sessionId: "session1",
             settings: {
 				layout: {
 					watermark: "default",
@@ -24,11 +24,9 @@
                 },
                 teaserMessage:{
                     showInChat: true,
+					teaserMessageDelay: 5000,
                     text: "Hi there!"
-                },
-                widgetSettings: {
-                    teaserMessageDelay: 5000,
-                },
+					},
                 startBehavior: {
                     getStartedText: ""
                 },

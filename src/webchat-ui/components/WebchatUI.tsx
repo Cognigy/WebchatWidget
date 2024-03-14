@@ -419,12 +419,12 @@ export class WebchatUI extends React.PureComponent<
 
 		if (
 			this.props.config.settings.teaserMessage.text &&
-			typeof this.props.config.settings.widgetSettings.teaserMessageDelay === "number" &&
-			this.props.config.settings.widgetSettings.teaserMessageDelay >= 0
+			typeof this.props.config.settings.teaserMessage.teaserMessageDelay === "number" &&
+			this.props.config.settings.teaserMessage.teaserMessageDelay >= 0
 		) {
 			this.engagementMessageTimeout = setTimeout(
 				this.triggerEngagementMessage,
-				this.props.config.settings.widgetSettings.teaserMessageDelay,
+				this.props.config.settings.teaserMessage.teaserMessageDelay,
 			);
 		}
 	};
@@ -446,8 +446,8 @@ export class WebchatUI extends React.PureComponent<
 		} else {
 			if (this.props.unseenMessages.length > 0) {
 				document.title = `(${this.props.unseenMessages.length}) ${this.props.unseenMessages.length === 1
-					? this.props.config.settings.widgetSettings.unreadMessageTitleText
-					: this.props.config.settings.widgetSettings.unreadMessageTitleTextPlural
+					? this.props.config.settings.unreadMessages.unreadMessageTitleText
+					: this.props.config.settings.unreadMessages.unreadMessageTitleTextPlural
 					}`;
 				this.titleType = "unread";
 			}

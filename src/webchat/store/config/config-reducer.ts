@@ -75,6 +75,8 @@ export const getInitialState = (): ConfigState => ({
 			enableBadge: false,
 			enablePreview: false,
 			enableSound: false,
+			unreadMessageTitleText: "New Message",
+			unreadMessageTitleTextPlural: "New Messages",
 		},
 		homeScreen: {
 			enabled: true,
@@ -96,6 +98,7 @@ export const getInitialState = (): ConfigState => ({
 		},
 		teaserMessage: {
 			text: "",
+			teaserMessageDelay: 5000,
 			showInChat: false,
 			conversationStarters: {
 				enabled: true,
@@ -184,10 +187,6 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 			enableDefaultPreview: false,
 			ignoreLineBreaks: false,
 			STTLanguage: "",
-			teaserMessageDelay: 5000,
-			unreadMessageTitleText: "New Message",
-			unreadMessageTitleTextPlural: "New Messages",
-			userAvatarUrl: "",
 
 			sourceDirectionMapping: {
 				agent: 'incoming',
