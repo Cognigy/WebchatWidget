@@ -311,7 +311,6 @@ export interface IWebchatSettings {
 		teaserMessageDelay: number;
 		unreadMessageTitleText: string;
 		unreadMessageTitleTextPlural: string;
-		userAvatarUrl: string;
 
 		sourceDirectionMapping: {
 			agent: TSourceDirection;

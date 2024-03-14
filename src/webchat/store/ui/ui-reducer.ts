@@ -10,8 +10,7 @@ export interface UIState {
     inputMode: string;
     fullscreenMessage: IMessage | undefined;
     agentAvatarOverrideUrl?: string;
-    botAvatarOverrideUrl?: string;
-    userAvatarOverrideUrl?: string;
+	botAvatarOverrideUrl?: string;
     isPageVisible: boolean;
     scrollToPosition: number;
     lastScrolledPosition: number | null;
@@ -107,13 +106,6 @@ export const setBotAvatarOverrideUrl = (url: string) => ({
 });
 type SetBotAvatarOverrideUrlAction = ReturnType<typeof setBotAvatarOverrideUrl>;
 
-const SET_USER_AVATAR_OVERRIDE_URL = 'SET_USER_AVATAR_OVERRIDE_URL';
-export const setUserAvatarOverrideUrl = (url: string) => ({
-    type: SET_USER_AVATAR_OVERRIDE_URL as 'SET_USER_AVATAR_OVERRIDE_URL',
-    url
-});
-type SetUserAvatarOverrideUrlAction = ReturnType<typeof setUserAvatarOverrideUrl>;
-
 const SET_PAGE_VISIBLE = 'SET_PAGE_VISIBLE';
 export const setPageVisible = (visible: boolean) => ({
     type: SET_PAGE_VISIBLE as 'SET_PAGE_VISIBLE',
@@ -141,8 +133,7 @@ const getInitialState = (): UIState => ({
     inputMode: 'text',
     fullscreenMessage: undefined,
     agentAvatarOverrideUrl: undefined,
-    botAvatarOverrideUrl: undefined,
-    userAvatarOverrideUrl: undefined,
+	botAvatarOverrideUrl: undefined,
     isPageVisible: isPageVisible(),
     scrollToPosition: 0,
     lastScrolledPosition: null,
@@ -158,8 +149,7 @@ type UIAction = SetOpenAction
     | SetInputModeAction
     | SetFullscreenMessageAction
     | SetAgentAvatarOverrideUrlAction
-    | SetBotAvatarOverrideUrlAction
-    | SetUserAvatarOverrideUrlAction
+	| SetBotAvatarOverrideUrlAction
     | SetPageVisibleAction
     | SetScrollToPosition
     | SetLastScrolledPosition
@@ -246,13 +236,6 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
             return {
                 ...state,
                 botAvatarOverrideUrl: action.url
-            }
-        }
-
-        case SET_USER_AVATAR_OVERRIDE_URL: {
-            return {
-                ...state,
-                userAvatarOverrideUrl: action.url
             }
         }
 

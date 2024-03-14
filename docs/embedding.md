@@ -330,7 +330,6 @@ Additional Settings to configure the webchat widget behavior <br>
 | teaserMessageDelay | number | `5000` | Configure the delay for the Teaser Message appearing (in miliseconds) |
 | unreadMessageTitleText | string | `"New Message"` | The website title that is displayed when the user retrieved one new message |
 | unreadMessageTitleTextPlural | string | `"New Messages"` | The website title that is displayed when the user retrieved more than one new message |
-| userAvatarUrl | string | `""` | A custom avatar that should be displayed next to user messages. Default shows no avatar. |
 | sourceDirectionMapping | object | [Source Direction Mapping](#source-direction-mapping) | Configure source direction mapping |
 | sourceColorMapping | object | [Source Color Mapping](#source-color-mapping) | Configure source color mapping |
 
@@ -545,7 +544,6 @@ interface IWebchatSettings {
 		teaserMessageDelay: number;
 		unreadMessageTitleText: string;
 		unreadMessageTitleTextPlural: string;
-		userAvatarUrl: string;
 		sourceDirectionMapping: {
 			agent: TSourceDirection;
 			bot: TSourceDirection;

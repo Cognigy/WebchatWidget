@@ -187,7 +187,6 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 			teaserMessageDelay: 5000,
 			unreadMessageTitleText: "New Message",
 			unreadMessageTitleTextPlural: "New Messages",
-			userAvatarUrl: "",
 
 			sourceDirectionMapping: {
 				agent: 'incoming',
