@@ -81,9 +81,9 @@ describe('Start Behavior', () => {
                     },
                     teaserMessage: {
                         text: 'engagement message',
-						teaserMessageDelay: 200,
+                        teaserMessageDelay: 200,
                         showInChat: true,
-					},
+                    },
                 }
             });
         
