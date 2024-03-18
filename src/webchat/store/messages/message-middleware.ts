@@ -37,25 +37,25 @@ export type TriggerEngagementMessageAction = ReturnType<typeof triggerEngagement
 export const getAvatarForMessage = (message: IMessage, state: StoreState) => {
     switch (message.source) {
         case 'agent':
-			return state.ui.agentAvatarOverrideUrl || (state.config.settings.layout.useOtherAgentLogo && state.config.settings.layout.agentLogoUrl) || state.config.settings.layout.logoUrl || defaultAgentAvatar;
+            return state.ui.agentAvatarOverrideUrl || (state.config.settings.layout.useOtherAgentLogo && state.config.settings.layout.agentLogoUrl) || state.config.settings.layout.logoUrl || defaultAgentAvatar;
         case 'bot':
         case 'engagement':
-			return state.ui.botAvatarOverrideUrl || (state.config.settings.layout.useOtherAgentLogo && state.config.settings.layout.botLogoUrl) || state.config.settings.layout.logoUrl || undefined;
-		case 'user':
-			return;
-	}
+            return state.ui.botAvatarOverrideUrl || (state.config.settings.layout.useOtherAgentLogo && state.config.settings.layout.botLogoUrl) || state.config.settings.layout.logoUrl || undefined;
+        case 'user':
+            return;
+    }
 }
 
 export const getAvatarNameForMessage = (message: IMessage, state: StoreState) => {
-	switch (message.source) {
-		case 'agent':
-			return (state.config.settings.layout.useOtherAgentLogo && state.config.settings.layout.agentAvatarName) || state.config.settings.layout.title || undefined;
-		case 'bot':
-		case 'engagement':
-			return (state.config.settings.layout.useOtherAgentLogo && state.config.settings.layout.botAvatarName) || state.config.settings.layout.title || undefined;
-		case 'user':
-			return;
-	}
+    switch (message.source) {
+        case 'agent':
+            return (state.config.settings.layout.useOtherAgentLogo && state.config.settings.layout.agentAvatarName) || state.config.settings.layout.title || undefined;
+        case 'bot':
+        case 'engagement':
+            return (state.config.settings.layout.useOtherAgentLogo && state.config.settings.layout.botAvatarName) || state.config.settings.layout.title || undefined;
+        case 'user':
+            return;
+    }
 }
 
 // forwards messages to the socket
@@ -65,11 +65,11 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<object
             const { message, options } = action;
             let { text, data } = message;
 
-			if (!store.getState().config.settings.widgetSettings.disableTextInputSanitization) {
+            if (!store.getState().config.settings.widgetSettings.disableTextInputSanitization) {
                 text = sanitizeHTML(text || '');
             }
 
-			if (store.getState().config.settings.widgetSettings.disableHtmlInput) {
+            if (store.getState().config.settings.widgetSettings.disableHtmlInput) {
                 text = new DOMParser()
                     .parseFromString(text || '', 'text/html')
                     .body
@@ -97,7 +97,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<object
             next(addMessage({
                 ...displayMessage,
                 avatarUrl: getAvatarForMessage(displayMessage, store.getState()),
-				avatarName: getAvatarNameForMessage(displayMessage, store.getState()),
+                avatarName: getAvatarNameForMessage(displayMessage, store.getState()),
                 timestamp: Date.now(),
             }));
 
@@ -108,7 +108,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<object
             const state = store.getState();
             const { message } = action;
             const avatarUrl = getAvatarForMessage(message, state);
-			const avatarName = getAvatarNameForMessage(message, state);
+            const avatarName = getAvatarNameForMessage(message, state);
 
             const isWebchatActive = state.ui.open && state.ui.isPageVisible;
             const isMessageEmpty = !(message.text || message.data?._cognigy?._webchat);
@@ -118,15 +118,15 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<object
                 ...message,
                 source: message.source || 'bot',
                 timestamp: Date.now(),
-				avatarUrl,
-				avatarName,
+                avatarUrl,
+                avatarName,
             } as IBotMessage, isUnseen));
 
             break;
         }
 
         case 'TRIGGER_ENGAGEMENT_MESSAGE': {
-			const text = store.getState().config.settings.teaserMessage.text;
+            const text = store.getState().config.settings.teaserMessage.text;
 
             if (text) {
                 store.dispatch(receiveMessage({
