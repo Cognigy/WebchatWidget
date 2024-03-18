@@ -5,6 +5,18 @@ import CloseIcon from "../../assets/baseline-close-24px.svg";
 import Button from "./Button";
 
 const Wrapper = styled.div(({ theme }) => ({
+	"@keyframes appearAnimation": {
+		from: {
+			opacity: 0,
+			transform: "scale(.5)",
+		},
+		to: {
+			opacity: 1,
+			transform: "scale(1)",
+		},
+	},
+
+	animation: "appearAnimation 0.33s 1s both",
 	display: "flex",
 	justifyContent: "center",
 	alignItems: "center",
@@ -17,9 +29,10 @@ const Wrapper = styled.div(({ theme }) => ({
 
 	padding: 20,
 	boxSizing: "border-box",
-	backgroundColor: "theme.primaryColor",
+	backgroundColor: theme.backgroundWebchat,
 	backdropFilter: "blur(18px)",
-
+	opacity: 0,
+	scale: 0.5,
 	zIndex: 4,
 }));
 
@@ -54,7 +67,7 @@ const DisconnectOverlay = ({ isPermanent, onClose, onConnect }) => {
 					<>
 						<DialogHeader>Connection lost</DialogHeader>
 						{navigator.onLine ? (
-							<Button onClick={onConnect} color="primary">
+							<Button onClick={onConnect} color="primary" style={{ margin: "auto" }}>
 								Reconnect
 							</Button>
 						) : (
