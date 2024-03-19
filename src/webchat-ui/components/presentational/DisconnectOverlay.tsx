@@ -95,12 +95,3 @@ const DisconnectOverlay = ({ isPermanent, onClose, onConnect }) => {
 };
 
 export default DisconnectOverlay;
-function alpha(
-	backgroundWebchat: string,
-):
-	| string[]
-	| import("csstype").Property.BackgroundColor
-	| import("csstype").Property.BackgroundColor[]
-	| undefined {
-	throw new Error("Function not implemented.");
-}
