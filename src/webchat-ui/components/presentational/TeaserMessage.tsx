@@ -52,12 +52,12 @@ const ButtonContainer = styled.div(() => ({
 		alignContent: "center",
 		gap: "8px",
 		flexWrap: "wrap",
-	}
+	},
 }));
 
 interface ITeaserMessageProps {
 	messageText: string;
-	onToggle: () => void;
+	onClick: () => void;
 	onEmitAnalytics: WebchatUIProps["onEmitAnalytics"];
 	onSendActionButtonMessage: WebchatUIProps["onSendMessage"];
 	config: IWebchatConfig;
@@ -66,19 +66,31 @@ interface ITeaserMessageProps {
 }
 
 export const TeaserMessage = (props: ITeaserMessageProps) => {
-	const { onToggle, messageText, config, onEmitAnalytics, onSendActionButtonMessage, onHideTeaserMessage, wasOpen } = props;
+	const {
+		onClick,
+		messageText,
+		config,
+		onEmitAnalytics,
+		onSendActionButtonMessage,
+		onHideTeaserMessage,
+		wasOpen,
+	} = props;
 
 	const buttons: IWebchatButton[] = config.settings.teaserMessage.conversationStarters.starters;
 
 	const isDesktopMedia = useMediaQuery({ query: "(min-width: 576px)" });
 
 	const handleMessageClick = () => {
-		onToggle();
+		onClick?.();
 	};
 
-	const handleActionButtonClick = (text?: string, data?: any, options?: Partial<ISendMessageOptions>) => {
+	const handleActionButtonClick = (
+		text?: string,
+		data?: any,
+		options?: Partial<ISendMessageOptions>,
+	) => {
 		onSendActionButtonMessage(text, data, options);
-		onToggle();
+		onClick?.();
 	};
 
 	const handleHideTeaserMessage = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -109,9 +121,7 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 						</CloseIconWrapper>
 					</TeaserMessageHeaderContent>
 				</TeaserMessageHeader>
-				<span className="sr-only">
-					New message preview
-				</span>
+				<span className="sr-only">New message preview</span>
 				<Typography
 					variant="body-regular"
 					className="webchat-unread-message-preview-text"
@@ -120,7 +130,7 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 					{messageText}
 				</Typography>
 			</UnreadMessagePreview>
-			{!wasOpen &&
+			{!wasOpen && (
 				<ButtonContainer className="webchat-teaser-message-action-buttons">
 					<ActionButtons
 						showUrlIcon
@@ -133,7 +143,7 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 						size={isDesktopMedia ? "large" : "small"}
 					/>
 				</ButtonContainer>
-			}
+			)}
 		</TeaserMessageRoot>
 	);
 };
