@@ -247,20 +247,57 @@ export class WebchatUI extends React.PureComponent<
 		props: WebchatUIProps,
 		state: WebchatUIState,
 	): WebchatUIState | null {
-		const color = props?.config?.settings?.colors?.primaryColor;
+		const primaryColor = props?.config?.settings?.colors?.primaryColor;
+		const secondaryColor = props?.config?.settings?.colors?.secondaryColor;
+		const chatInterfaceColor = props?.config?.settings?.colors?.chatInterfaceColor;
+		const botMessageColor = props?.config?.settings?.colors?.botMessageColor;
+		const userMessageColor = props?.config?.settings?.colors?.userMessageColor;
+		const textLinkColor = props?.config?.settings?.colors?.textLinkColor;
 
-		if (!!color && color !== state.theme.primaryColor) {
+		let isThemeChanged = false;
+
+		if (!!primaryColor && primaryColor !== state.theme.primaryColor) {
 			// We will integrate this into the theme object in the future
 			// This is a demo of injecting a custom color scheme
-			document.documentElement.style.setProperty("--webchat-primary-color", color);
+			document.documentElement.style.setProperty("--webchat-primary-color", primaryColor);
 			// This is example of how a new theme properties can be added
 			// document.documentElement.style.setProperty('--webchat-background-bot-message', color);
 
-			return {
-				...state,
-				theme: createWebchatTheme({ primaryColor: color }),
-			};
+			isThemeChanged = true;
 		}
+
+		if (!!secondaryColor && secondaryColor !== state.theme.secondaryColor) {
+			document.documentElement.style.setProperty("--webchat-secondary-color", secondaryColor);
+			isThemeChanged = true;
+		}
+		if (!!chatInterfaceColor && chatInterfaceColor !== state.theme.backgroundWebchat) {
+			document.documentElement.style.setProperty("--webchat-background-webchat", chatInterfaceColor);
+			isThemeChanged = true;
+		}
+		if (!!botMessageColor && botMessageColor !== state.theme.backgroundBotMessage) {
+			document.documentElement.style.setProperty("--webchat-background-bot-message", botMessageColor);
+			isThemeChanged = true;
+		}
+		if (!!userMessageColor && userMessageColor !== state.theme.backgroundUserMessage) {
+			document.documentElement.style.setProperty("--webchat-background-user-message", userMessageColor);
+			isThemeChanged = true;
+		}
+		if (!!textLinkColor && textLinkColor !== state.theme.textLink) {
+			document.documentElement.style.setProperty("--webchat-text-link", textLinkColor);
+			isThemeChanged = true;
+		}
+
+		if (isThemeChanged) return {
+			...state,
+			theme: createWebchatTheme({
+				primaryColor,
+				secondaryColor,
+				backgroundWebchat: chatInterfaceColor,
+				backgroundBotMessage: botMessageColor,
+				backgroundUserMessage: userMessageColor,
+				textLink: textLinkColor,
+			}),
+		};
 
 		return null;
 	}
@@ -305,9 +342,21 @@ export class WebchatUI extends React.PureComponent<
 	}
 
 	async componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
-		if (this.props.config.settings.colors.primaryColor !== prevProps.config.settings.colors.primaryColor) {
+		if (this?.props?.config?.settings?.colors?.primaryColor !== prevProps?.config?.settings?.colors?.primaryColor ||
+			this?.props?.config?.settings?.colors?.secondaryColor !== prevProps?.config?.settings?.colors?.secondaryColor ||
+			this?.props?.config?.settings?.colors?.chatInterfaceColor !== prevProps?.config?.settings?.colors?.chatInterfaceColor ||
+			this?.props?.config?.settings?.colors?.botMessageColor !== prevProps?.config?.settings?.colors?.botMessageColor ||
+			this?.props?.config?.settings?.colors?.userMessageColor !== prevProps?.config?.settings?.colors?.userMessageColor ||
+			this?.props?.config?.settings?.colors?.textLinkColor !== prevProps?.config?.settings?.colors?.textLinkColor) {
 			this.setState({
-				theme: createWebchatTheme({ primaryColor: this.props.config.settings.colors.primaryColor }),
+				theme: createWebchatTheme({
+					primaryColor: this?.props?.config?.settings?.colors?.primaryColor,
+					secondaryColor: this?.props?.config?.settings?.colors?.secondaryColor,
+					backgroundWebchat: this?.props?.config?.settings?.colors?.chatInterfaceColor,
+					backgroundBotMessage: this?.props?.config?.settings?.colors?.botMessageColor,
+					backgroundUserMessage: this?.props?.config?.settings?.colors?.userMessageColor,
+					textLink: this?.props?.config?.settings?.colors?.textLinkColor,
+				}),
 			});
 		}
 
