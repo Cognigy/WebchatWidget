@@ -8,15 +8,17 @@ const Wrapper = styled.div(({ theme }) => ({
 	"@keyframes appearAnimation": {
 		from: {
 			opacity: 0,
-			transform: "scale(.5)",
+			transform: "scale(.95)",
+			translateZ: -2,
 		},
 		to: {
-			opacity: 1,
+			opacity: 0.93,
 			transform: "scale(1)",
+			translateZ: -2,
 		},
 	},
 
-	animation: "appearAnimation 0.33s 1s both",
+	animation: "appearAnimation 0.33s 0.75s both",
 	display: "flex",
 	justifyContent: "center",
 	alignItems: "center",
@@ -29,10 +31,9 @@ const Wrapper = styled.div(({ theme }) => ({
 
 	padding: 20,
 	boxSizing: "border-box",
-	backgroundColor: theme.backgroundWebchat,
+	backgroundColor: `color-mix(in srgb, ${theme.backgroundWebchat}, #0001)`,
 	backdropFilter: "blur(18px)",
 	opacity: 0,
-	scale: 0.5,
 	zIndex: 4,
 }));
 
@@ -51,11 +52,11 @@ const DialogHeader = styled.div(({ theme }) => ({
 
 const HeaderIconButton = styled(IconButton)(({ theme }) => ({
 	position: "absolute",
-	right: 16,
-	top: 16,
+	right: 15,
+	top: 17,
 
-	color: theme.textDark,
-	fill: theme.textDark,
+	color: theme.textLight,
+	fill: theme.textLight,
 	borderRadius: "50%",
 }));
 
@@ -94,3 +95,12 @@ const DisconnectOverlay = ({ isPermanent, onClose, onConnect }) => {
 };
 
 export default DisconnectOverlay;
+function alpha(
+	backgroundWebchat: string,
+):
+	| string[]
+	| import("csstype").Property.BackgroundColor
+	| import("csstype").Property.BackgroundColor[]
+	| undefined {
+	throw new Error("Function not implemented.");
+}
