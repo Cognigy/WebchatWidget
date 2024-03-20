@@ -16,7 +16,7 @@ module.exports = {
 		rules: [
 			{
 				// Include sound files for message notification sound
-				test: /\.(ogg|mp3|wav|mpe?g)$/i,
+				test: /\.(mp3)$/i,
 				use: [{ loader: "url-loader" }],
 			},
 			{
