@@ -241,6 +241,8 @@ export class WebchatUI extends React.PureComponent<
 		this.menuButtonInHeaderRef = React.createRef();
 		this.ratingButtonInHeaderRef = React.createRef();
 		this.webchatWindowRef = React.createRef();
+
+		this.handleStartConversation = this.handleStartConversation.bind(this);
 	}
 
 	static getDerivedStateFromProps(
@@ -620,6 +622,22 @@ export class WebchatUI extends React.PureComponent<
 		}
 	};
 
+	handleStartConversation = () => {
+		if (!this.props.config.settings.privacyNotice.enabled || this.props.hasAcceptedTerms) {
+			const { initialSessionId } = this.props.config;
+			if (!initialSessionId) {
+				this.props.onSwitchSession();
+			}
+			if (initialSessionId && initialSessionId !== this.props.currentSession) {
+				this.props.onSwitchSession(initialSessionId);
+			}
+		}
+
+		if (!this.props.open) this.props.onToggle();
+		this.props.onSetShowHomeScreen(false);
+		this.props.onSetShowChatOptionsScreen(false);
+	}
+
 	render() {
 		const { props, state } = this;
 		const {
@@ -788,7 +806,7 @@ export class WebchatUI extends React.PureComponent<
 											lastUnseenMessageText && (
 												<TeaserMessage
 													messageText={lastUnseenMessageText}
-													onToggle={onToggle}
+													onClick={this.handleStartConversation}
 													config={config}
 													onEmitAnalytics={onEmitAnalytics}
 													onSendActionButtonMessage={this.handleSendActionButtonMessage}
@@ -908,19 +926,6 @@ export class WebchatUI extends React.PureComponent<
 		// TODO: implement better navigation history and currentPage string property on redux
 		const isSecondaryView = showInformationMessage;
 
-		const handleStartConversation = () => {
-			if (!config.settings.privacyNotice.enabled || hasAcceptedTerms) {
-				const { initialSessionId } = config;
-				if (!initialSessionId) {
-					onSwitchSession();
-				}
-				if (initialSessionId && initialSessionId !== currentSession) {
-					onSwitchSession(initialSessionId);
-				}
-			}
-			onSetShowHomeScreen(false);
-			onSetShowChatOptionsScreen(false);
-		}
 
 		const handleOnClose = () => {
 			onClose?.();
@@ -1094,7 +1099,7 @@ export class WebchatUI extends React.PureComponent<
 						<HomeScreen
 							showHomeScreen={showHomeScreen}
 							onSetShowHomeScreen={onSetShowHomeScreen}
-							onStartConversation={handleStartConversation}
+							onStartConversation={this.handleStartConversation}
 							onSetShowPrevConversations={onSetShowPrevConversations}
 							onClose={onClose}
 							config={config}
