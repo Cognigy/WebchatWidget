@@ -1,87 +1,48 @@
-const path = require('path');
-const TerserPlugin = require("terser-webpack-plugin");
-const zlib = require("zlib");
-const CompressionPlugin = require("compression-webpack-plugin");
-const webpack = require('webpack');
+const path = require("path");
 
 module.exports = {
-    mode: 'development',
-    entry: ['./src/webchat-embed/index.tsx'],
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'webchat.js'
-    },
-    resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.json'],
-    },
-    node: {},
-    // devtool: 'source-map',
-    module: {
-        rules: [
-            {
-                // Include sound files for message notification sound
-                test: /\.(ogg|mp3|wav|mpe?g)$/i,
-                use: [{ loader: 'url-loader' }]
-            },
-            {
-                // Include ts, tsx, js, and jsx files.
-                test: /\.(ts|js)x?$/,
-                loader: 'babel-loader',
-                options: {
-                    presets: [
-                        "@babel/typescript",
-                        "@babel/preset-react"
-                    ],
-                    compact: false
-                },
-            },
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader'],
-            }, 
-            {
-                test: /\.svg$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'svg-react-loader'
-                },
-            }
-        ],
-    },
-    plugins: [
-        new CompressionPlugin({
-			filename: "[path][base].gz",
-			algorithm: "gzip",
-			test: /\.(js|css|html|svg|ts|tsx)$/,
-			threshold: 10240,
-			minRatio: 0.8,
-		}),
-		new CompressionPlugin({
-			filename: "[path][base].br",
-			algorithm: "brotliCompress",
-			test: /\.(js|css|html|svg|ts|tsx)$/,
-			compressionOptions: {
-				params: {
-					[zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+	mode: "development",
+	entry: ["./src/webchat-embed/index.tsx"],
+	output: {
+		path: path.resolve(__dirname, "dist"),
+		filename: "webchat.js",
+	},
+	resolve: {
+		extensions: [".ts", ".tsx", ".js", ".json"],
+	},
+	node: {},
+	// devtool: 'source-map',
+	module: {
+		rules: [
+			{
+				// Include sound files for message notification sound
+				test: /\.(ogg|mp3|wav|mpe?g)$/i,
+				use: [{ loader: "url-loader" }],
+			},
+			{
+				// Include ts, tsx, js, and jsx files.
+				test: /\.(ts|js)x?$/,
+				loader: "babel-loader",
+				options: {
+					presets: ["@babel/typescript", "@babel/preset-react"],
+					compact: false,
 				},
 			},
-			threshold: 10240,
-			minRatio: 0.8,
-		}),
-		new webpack.optimize.LimitChunkCountPlugin({
-			maxChunks: 1
-		}),
-    ],
-    devServer: {
-        port: 8787
-    },
-	optimization: {
-		minimize: true,
-		minimizer: [
-			new TerserPlugin({
-				extractComments: false,
-			}),
+			{
+				test: /\.css$/,
+				use: ["style-loader", "css-loader"],
+			},
+			{
+				test: /\.svg$/,
+				exclude: /node_modules/,
+				use: {
+					loader: "svg-react-loader",
+				},
+			},
 		],
-		usedExports: true,
 	},
+	devServer: {
+		port: 8787,
+	},
+	plugins: [],
 };
