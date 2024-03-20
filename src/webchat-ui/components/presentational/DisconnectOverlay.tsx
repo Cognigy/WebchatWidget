@@ -31,7 +31,7 @@ const Wrapper = styled.div(({ theme }) => ({
 
 	padding: 20,
 	boxSizing: "border-box",
-	backgroundColor: `color-mix(in srgb, ${theme.backgroundWebchat}, #0001)`,
+	backgroundColor: `color-mix(in srgb, ${theme.white}, #0001)`,
 	backdropFilter: "blur(18px)",
 	opacity: 0,
 	zIndex: 4,
