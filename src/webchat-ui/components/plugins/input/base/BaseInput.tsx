@@ -378,6 +378,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 		const files = event.target.files;
 		const newFilesArray = Array.prototype.slice.call(files);
 		this.props.onAddFilesToList(newFilesArray);
+		event.target.value = "";
 	};
 
 	handleUploadFile = event => {
