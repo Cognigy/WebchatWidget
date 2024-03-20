@@ -1,37 +1,37 @@
 {
-    "text": null,
-    "data": {
-        "_cognigy": {
-            "_default": {
-                "_image": {
-                    "type": "image",
-                    "imageUrl": "https://placekitten.com/300/300",
-                    "buttons": [
-                        {
-                            "type": "web_url",
-                            "title": "Download",
-                            "url": "https://placekitten.com/300/300"
-                        }
-                    ]
-                }
-            },
-            "_webchat": {
-                "message": {
-                    "attachment": {
-                        "type": "image",
-                        "payload": {
-                            "url": "https://placekitten.com/300/300",
-                            "buttons": [
-                                {
-                                    "type": "web_url",
-                                    "title": "Download",
-                                    "url": "https://placekitten.com/300/300"
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        }
-    }
+	"text": null,
+	"data": {
+		"_cognigy": {
+			"_default": {
+				"_image": {
+					"type": "image",
+					"imageUrl": "https://placewaifu.com/image/300/300",
+					"buttons": [
+						{
+							"type": "web_url",
+							"title": "Download",
+							"url": "https://placewaifu.com/image/300/300"
+						}
+					]
+				}
+			},
+			"_webchat": {
+				"message": {
+					"attachment": {
+						"type": "image",
+						"payload": {
+							"url": "https://placewaifu.com/image/300/300",
+							"buttons": [
+								{
+									"type": "web_url",
+									"title": "Download",
+									"url": "https://placewaifu.com/image/300/300"
+								}
+							]
+						}
+					}
+				}
+			}
+		}
+	}
 }
