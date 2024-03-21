@@ -26,6 +26,7 @@
 
 import 'cypress-wait-until';
 import "cypress-real-events/support";
+import { IWebchatSettings } from '../../src/common/interfaces/webchat-config';
 
 Cypress.Commands.add('visitWebchat', () => {
     cy.visit('/webchat.test.html');
@@ -219,4 +220,12 @@ Cypress.Commands.add("loadJavaScriptFixture", (fixture: string) => {
             window.eval(jsString);
         });
     });
+});
+
+Cypress.Commands.add('updateSettings', (settings: Partial<IWebchatSettings>) => {
+    cy.get('@webchat').then(webchat => {
+        (webchat as any).updateSettings(settings);
+    });
+
+    return cy.then(() => { });
 });

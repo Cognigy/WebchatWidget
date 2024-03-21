@@ -10,8 +10,6 @@ interface IGenerateTestCaseParams {
 }
 
 const renderMessageWithParams = (params: IGenerateTestCaseParams) => {
-    cy.visitMessageRenderer();
-
     const config = {
         settings: {
             widgetSettings: {
@@ -41,7 +39,9 @@ const renderMessageWithParams = (params: IGenerateTestCaseParams) => {
     cy.log(JSON.stringify(messageData));
     cy.log(JSON.stringify(config));
 
-    cy.renderMessage("", messageData, 'bot', config);
+    cy.updateSettings(config.settings);
+
+    cy.receiveMessage("", messageData, 'bot');
 }
 
 const expectOutcomeFromParams = (params: IGenerateTestCaseParams) => {
@@ -110,11 +110,13 @@ const generateTestCase = (params: IGenerateTestCaseParams) => {
     });
 }
 
-// TODO: Enable these after fixing them
-
-xdescribe("Channel Rendering Priorities", {
+describe("Channel Rendering Priorities", {
     defaultCommandTimeout: 500
 }, () => {
+    beforeEach(() => {
+        cy.visitWebchat().initMockWebchat().openWebchat().startConversation();
+    });
+
     describe("Messenger Plugin", () => {
         type GenerateTestCaseParamsArray = [boolean, boolean, boolean, boolean, IGenerateTestCaseParams['expectedOutcome']];
 
@@ -199,9 +201,14 @@ xdescribe("Channel Rendering Priorities", {
 
         describe('_defaultPreview is preferred for all builtin message plugins if enableDefaultPreview is set', () => {
             it('should prefer a text from the default tab over quick replies from the webchat tab', () => {
-                cy.visitMessageRenderer();
 
-                cy.renderMessage("DEFAULT TEXT", {
+                cy.updateSettings({
+                    widgetSettings: {
+                        enableDefaultPreview: true,
+                    }
+                });
+
+                cy.receiveMessage("DEFAULT TEXT", {
                     _cognigy: {
                         _webchat: {
                             message: {
@@ -209,21 +216,20 @@ xdescribe("Channel Rendering Priorities", {
                             }
                         }
                     }
-                }, "bot", {
-                    settings: {
-                        widgetSettings: {
-                            enableDefaultPreview: true,
-                        }
-                    }
-                });
+                }, "bot");
 
                 cy.contains("DEFAULT TEXT").should('be.visible');
             });
 
             it('should prefer quick replies from the default tab over quick replies from the webchat tab', () => {
-                cy.visitMessageRenderer();
 
-                cy.renderMessage("", {
+                cy.updateSettings({
+                    widgetSettings: {
+                        enableDefaultPreview: true,
+                    }
+                });
+
+                cy.receiveMessage("", {
                     _cognigy: {
                         _defaultPreview: {
                             message: {
@@ -236,21 +242,20 @@ xdescribe("Channel Rendering Priorities", {
                             }
                         },
                     }
-                }, "bot", {
-                    settings: {
-                        widgetSettings: {
-                            enableDefaultPreview: true,
-                        }
-                    }
-                });
+                }, "bot");
 
                 cy.contains("DEFAULT QUICK REPLIES").should('be.visible');
             });
 
             it('should prefer adaptivecards from the default tab over quick replies from the webchat tab', () => {
-                cy.visitMessageRenderer();
 
-                cy.renderMessage("", {
+                cy.updateSettings({
+                    widgetSettings: {
+                        enableDefaultPreview: true,
+                    }
+                });
+
+                cy.receiveMessage("", {
                     _cognigy: {
                         _defaultPreview: {
                             adaptiveCard: {
@@ -272,21 +277,20 @@ xdescribe("Channel Rendering Priorities", {
                             }
                         }
                     }
-                }, "bot", {
-                    settings: {
-                        widgetSettings: {
-                            enableDefaultPreview: true,
-                        }
-                    }
-                });
+                }, "bot");
 
                 cy.contains("DEFAULT ADAPTIVECARDS").should('be.visible');
             });
 
             it('should prefer quick replies from the webchat tab over adaptivecards from the default tab', () => {
-                cy.visitMessageRenderer();
 
-                cy.renderMessage("", {
+                cy.updateSettings({
+                    widgetSettings: {
+                        enableDefaultPreview: false,
+                    }
+                });
+
+                cy.receiveMessage("", {
                     _cognigy: {
                         _defaultPreview: {
                             adaptiveCard: {
@@ -308,43 +312,48 @@ xdescribe("Channel Rendering Priorities", {
                             }
                         }
                     }
-                }, "bot", {
-                    settings: {
-                        widgetSettings: {
-                            enableDefaultPreview: false,
-                        }
-                    }
-                });
+                }, "bot");
 
                 cy.contains("WEBCHAT QUICK REPLIES").should('be.visible');
             });
 
             it('should prefer quick replies from the webchat tab over text from the default tab', () => {
-                cy.visitMessageRenderer();
 
-                cy.renderMessage("DEFAULT TEXT", {
+                cy.updateSettings({
+                    widgetSettings: {
+                        enableDefaultPreview: false,
+                    }
+                });
+
+                cy.receiveMessage("DEFAULT TEXT", {
                     _cognigy: {
                         _webchat: {
                             message: {
-                                text: "WEBCHAT QUICK REPLIES"
+                                text: "WEBCHAT QUICK REPLIES",
+                                quick_replies: [
+                                    {
+                                        content_type: "text",
+                                        title: "Quick Reply",
+                                        payload: "Quick Reply"
+                                    }
+                                ]
                             }
                         },
                     }
-                }, "bot", {
-                    settings: {
-                        widgetSettings: {
-                            enableDefaultPreview: false,
-                        }
-                    }
-                });
+                }, "bot");
 
                 cy.contains("WEBCHAT QUICK REPLIES").should('be.visible');
             });
 
             it('should prefer adaptivecard from the webchat tab over adaptivecard from the default tab', () => {
-                cy.visitMessageRenderer();
 
-                cy.renderMessage("", {
+                cy.updateSettings({
+                    widgetSettings: {
+                        enableDefaultPreview: false,
+                    }
+                });
+
+                cy.receiveMessage("", {
                     _cognigy: {
                         _webchat: {
                             adaptiveCard: {
@@ -375,21 +384,20 @@ xdescribe("Channel Rendering Priorities", {
                             }
                         }
                     }
-                }, "bot", {
-                    settings: {
-                        widgetSettings: {
-                            enableDefaultPreview: false,
-                        }
-                    }
-                });
+                }, "bot");
 
                 cy.contains("WEBCHAT ADAPTIVE CARD").should('be.visible');
             });
 
             it('should prefer default quick replies tab over webchat adaptive card', () => {
-                cy.visitMessageRenderer();
 
-                cy.renderMessage("", {
+                cy.updateSettings({
+                    widgetSettings: {
+                        enableDefaultPreview: true,
+                    }
+                });
+
+                cy.receiveMessage("", {
                     _cognigy: {
                         _webchat: {
                             adaptiveCard: {
@@ -411,21 +419,20 @@ xdescribe("Channel Rendering Priorities", {
                             }
                         },
                     }
-                }, "bot", {
-                    settings: {
-                        widgetSettings: {
-                            enableDefaultPreview: true,
-                        }
-                    }
-                });
+                }, "bot");
 
                 cy.contains("DEFAULT QUICK REPLIES").should('be.visible');
             });
 
             it('should prefer webchat adaptive card over default Quick reply', () => {
-                cy.visitMessageRenderer();
 
-                cy.renderMessage("", {
+                cy.updateSettings({
+                    widgetSettings: {
+                        enableDefaultPreview: false,
+                    }
+                });
+
+                cy.receiveMessage("", {
                     _cognigy: {
                         _webchat: {
                             adaptiveCard: {
@@ -447,21 +454,20 @@ xdescribe("Channel Rendering Priorities", {
                             }
                         },
                     }
-                }, "bot", {
-                    settings: {
-                        widgetSettings: {
-                            enableDefaultPreview: false,
-                        }
-                    }
-                });
+                }, "bot");
 
                 cy.contains("WEBCHAT ADAPTIVE CARD").should('be.visible');
             });
 
             it('should prefer webchat quick replies over default quick replies', () => {
-                cy.visitMessageRenderer();
 
-                cy.renderMessage("", {
+                cy.updateSettings({
+                    widgetSettings: {
+                        enableDefaultPreview: false,
+                    }
+                });
+
+                cy.receiveMessage("", {
                     _cognigy: {
                         _webchat: {
                             message: {
@@ -474,21 +480,20 @@ xdescribe("Channel Rendering Priorities", {
                             }
                         },
                     }
-                }, "bot", {
-                    settings: {
-                        widgetSettings: {
-                            enableDefaultPreview: false,
-                        }
-                    }
-                });
+                }, "bot");
 
                 cy.contains("WEBCHAT QUICK REPLIES").should('be.visible');
             });
 
             it('should prefer text from the default tab over adaptivecards from the webchat tab', () => {
-                cy.visitMessageRenderer();
 
-                cy.renderMessage("DEFAULT TEXT", {
+                cy.updateSettings({
+                    widgetSettings: {
+                        enableDefaultPreview: true,
+                    }
+                });
+
+                cy.receiveMessage("DEFAULT TEXT", {
                     _cognigy: {
                         _webchat: {
                             adaptiveCard: {
@@ -505,20 +510,19 @@ xdescribe("Channel Rendering Priorities", {
                             }
                         }
                     }
-                }, "bot", {
-                    settings: {
-                        widgetSettings: {
-                            enableDefaultPreview: true,
-                        }
-                    }
-                });
+                }, "bot");
 
             });
 
             it('should prefer adaptive cards from the webchat tab over text from the default tab ', () => {
-                cy.visitMessageRenderer();
 
-                cy.renderMessage("DEFAULT TEXT", {
+                cy.updateSettings({
+                    widgetSettings: {
+                        enableDefaultPreview: false,
+                    }
+                });
+
+                cy.receiveMessage("DEFAULT TEXT", {
                     _cognigy: {
                         _webchat: {
                             adaptiveCard: {
@@ -535,21 +539,20 @@ xdescribe("Channel Rendering Priorities", {
                             }
                         }
                     }
-                }, "bot", {
-                    settings: {
-                        widgetSettings: {
-                            enableDefaultPreview: false,
-                        }
-                    }
-                });
+                }, "bot");
 
                 cy.contains("DEFAULT TEXT ADAPTIVE CARD").should('be.visible');
             });
 
             it('should prefer adaptive cards from the default tab over adaptivecard from the webchat tab ', () => {
-                cy.visitMessageRenderer();
 
-                cy.renderMessage("", {
+                cy.updateSettings({
+                    widgetSettings: {
+                        enableDefaultPreview: true,
+                    }
+                });
+
+                cy.receiveMessage("", {
                     _cognigy: {
                         _webchat: {
                             adaptiveCard: {
@@ -580,13 +583,7 @@ xdescribe("Channel Rendering Priorities", {
                             }
                         }
                     }
-                }, "bot", {
-                    settings: {
-                        widgetSettings: {
-                            enableDefaultPreview: true,
-                        }
-                    }
-                });
+                }, "bot");
 
                 cy.contains("DEFAULT TEXT ADAPTIVE CARD").should('be.visible');
             });
@@ -594,6 +591,3 @@ xdescribe("Channel Rendering Priorities", {
 
     });
 });
-
-
-
