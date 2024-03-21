@@ -42,7 +42,9 @@ describe("Message with Image", { retries: 3 }, () => {
 		cy.visitWebchat();
 		cy.initMockWebchat({
 			settings: {
-				dynamicImageAspectRatio: true,
+				layout: {
+					dynamicImageAspectRatio: true,
+				},
 			},
 		});
 		cy.openWebchat();
