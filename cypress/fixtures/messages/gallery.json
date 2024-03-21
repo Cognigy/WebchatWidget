@@ -9,7 +9,7 @@
 						{
 							"title": "foobar004g1",
 							"subtitle": "",
-							"imageUrl": "https://placewaifu.com/image/300/300",
+							"imageUrl": "https://picsum.photos/300/300",
 							"buttons": [
 								{
 									"id": 0.9601740794827666,
@@ -23,7 +23,7 @@
 						{
 							"title": "foobar004g2",
 							"subtitle": "foobar004g2sub1\nfoobar004g2sub2",
-							"imageUrl": "https://placewaifu.com/image/300/300",
+							"imageUrl": "https://picsum.photos/300/300",
 							"buttons": [],
 							"id": 0.9969017542005371
 						},
@@ -47,7 +47,7 @@
 								{
 									"title": "foobar004g1",
 									"subtitle": "",
-									"image_url": "https://placewaifu.com/image/300/300",
+									"image_url": "https://picsum.photos/300/300",
 									"buttons": [
 										{
 											"type": "postback",
@@ -74,7 +74,7 @@
 								{
 									"title": "foobar004g2",
 									"subtitle": "foobar004g2sub1\nfoobar004g2sub2",
-									"image_url": "https://placewaifu.com/image/300/300",
+									"image_url": "https://picsum.photos/300/300",
 									"buttons": []
 								},
 								{
