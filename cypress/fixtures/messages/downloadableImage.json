@@ -5,12 +5,12 @@
             "_default": {
                 "_image": {
                     "type": "image",
-                    "imageUrl": "https://placewaifu.com/image/300/300",
+                    "imageUrl": "https://picsum.photos/300/300",
                     "buttons": [
                         {
                             "type": "web_url",
                             "title": "Download",
-                            "url": "https://placewaifu.com/image/300/300"
+                            "url": "https://picsum.photos/300/300"
                         }
                     ]
                 }
@@ -20,12 +20,12 @@
                     "attachment": {
                         "type": "image",
                         "payload": {
-                            "url": "https://placewaifu.com/image/300/300",
+                            "url": "https://picsum.photos/300/300",
                             "buttons": [
                                 {
                                     "type": "web_url",
                                     "title": "Download",
-                                    "url": "https://placewaifu.com/image/300/300"
+                                    "url": "https://picsum.photos/300/300"
                                 }
                             ]
                         }
