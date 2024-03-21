@@ -10,7 +10,7 @@ const Footer = styled.div(({ theme }) => ({
 	gap: 24,
 	width: "100%",
 	display: "flex",
-	backgroundColor: theme.backgroundWebchat,
+	backgroundColor: theme.white,
 	borderTop: `1px solid var(--basics-black-80, ${theme.black80})`,
 }));
 
