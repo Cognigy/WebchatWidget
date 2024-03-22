@@ -85,9 +85,11 @@ It is possible to update the webchat's settings at runtime using the `updateSett
 It will receive an object as a parameter which will update all provided settings while leaving the remaining settings untouched.
 Please note that only a subset of settings are safe to update at runtime. For further information, have a look at the [Endpoint Settings](./embedding.md#endpoint-settings).
 ```javascript
-// this will disabled the unread message preview at runtime
+// this will disable the unread message preview at runtime
 webchat.updateSettings({
-  enableUnreadMessagePreview: false
+    unreadMessages: {
+        enablePreview: false
+    }
 });
 ```
 
