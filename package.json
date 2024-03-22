@@ -27,7 +27,7 @@
 		"tsc:check": "tsc --noEmit",
 		"lint": "eslint src/",
 		"deps:check": "npx -y depcheck",
-		"deps:anazlyze": "npx -y webpack-bundle-analyzer stats.json dist"
+		"deps:analyze": "npx -y webpack-bundle-analyzer stats.json dist"
 	},
 	"dependencies": {
 		"@cognigy/chat-components": "file:../chat-components/cognigy-chat-components-0.19.0.tgz",
@@ -97,7 +97,7 @@
 		"url-loader": "^4.1.1",
 		"webpack": "^5.90.3",
 		"webpack-cli": "^5.1.4",
-		"webpack-dev-server": "^5.0.0",
+		"webpack-dev-server": "5.0.4",
 		"whatwg-fetch": "^3.6.2",
 		"zlib": "^1.0.5"
 	},
