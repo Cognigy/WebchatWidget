@@ -13,7 +13,7 @@ const ConversationsListRoot = styled.div(({ theme }) => ({
 	fontSize: 16,
 	fontWeight: 700,
 	boxSizing: "border-box",
-	backgroundColor: theme.backgroundWebchat,
+	backgroundColor: theme.white,
 	display: "flex",
 	flexDirection: "column",
 	"& *": {
@@ -43,7 +43,7 @@ const ConversationsListActions = styled.div(({ theme }) => ({
 	justifyContent: "center",
 	width: "100%",
 	padding: "20px 20px 12px 20px",
-	backgroundColor: theme.backgroundWebchat,
+	backgroundColor: theme.white,
 	borderTop: `1px solid var(--basics-black-80, ${theme.black80})`,
 }));
 

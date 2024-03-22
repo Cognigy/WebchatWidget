@@ -241,26 +241,65 @@ export class WebchatUI extends React.PureComponent<
 		this.menuButtonInHeaderRef = React.createRef();
 		this.ratingButtonInHeaderRef = React.createRef();
 		this.webchatWindowRef = React.createRef();
+
+		this.handleStartConversation = this.handleStartConversation.bind(this);
 	}
 
 	static getDerivedStateFromProps(
 		props: WebchatUIProps,
 		state: WebchatUIState,
 	): WebchatUIState | null {
-		const color = props?.config?.settings?.colors?.primaryColor;
+		const primaryColor = props?.config?.settings?.colors?.primaryColor;
+		const secondaryColor = props?.config?.settings?.colors?.secondaryColor;
+		const chatInterfaceColor = props?.config?.settings?.colors?.chatInterfaceColor;
+		const botMessageColor = props?.config?.settings?.colors?.botMessageColor;
+		const userMessageColor = props?.config?.settings?.colors?.userMessageColor;
+		const textLinkColor = props?.config?.settings?.colors?.textLinkColor;
 
-		if (!!color && color !== state.theme.primaryColor) {
+		let isThemeChanged = false;
+
+		if (!!primaryColor && primaryColor !== state.theme.primaryColor) {
 			// We will integrate this into the theme object in the future
 			// This is a demo of injecting a custom color scheme
-			document.documentElement.style.setProperty("--webchat-primary-color", color);
+			document.documentElement.style.setProperty("--webchat-primary-color", primaryColor);
 			// This is example of how a new theme properties can be added
 			// document.documentElement.style.setProperty('--webchat-background-bot-message', color);
 
-			return {
-				...state,
-				theme: createWebchatTheme({ primaryColor: color }),
-			};
+			isThemeChanged = true;
 		}
+
+		if (!!secondaryColor && secondaryColor !== state.theme.secondaryColor) {
+			document.documentElement.style.setProperty("--webchat-secondary-color", secondaryColor);
+			isThemeChanged = true;
+		}
+		if (!!chatInterfaceColor && chatInterfaceColor !== state.theme.backgroundWebchat) {
+			document.documentElement.style.setProperty("--webchat-background-webchat", chatInterfaceColor);
+			isThemeChanged = true;
+		}
+		if (!!botMessageColor && botMessageColor !== state.theme.backgroundBotMessage) {
+			document.documentElement.style.setProperty("--webchat-background-bot-message", botMessageColor);
+			isThemeChanged = true;
+		}
+		if (!!userMessageColor && userMessageColor !== state.theme.backgroundUserMessage) {
+			document.documentElement.style.setProperty("--webchat-background-user-message", userMessageColor);
+			isThemeChanged = true;
+		}
+		if (!!textLinkColor && textLinkColor !== state.theme.textLink) {
+			document.documentElement.style.setProperty("--webchat-text-link", textLinkColor);
+			isThemeChanged = true;
+		}
+
+		if (isThemeChanged) return {
+			...state,
+			theme: createWebchatTheme({
+				primaryColor,
+				secondaryColor,
+				backgroundWebchat: chatInterfaceColor,
+				backgroundBotMessage: botMessageColor,
+				backgroundUserMessage: userMessageColor,
+				textLink: textLinkColor,
+			}),
+		};
 
 		return null;
 	}
@@ -305,9 +344,21 @@ export class WebchatUI extends React.PureComponent<
 	}
 
 	async componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
-		if (this.props.config.settings.colors.primaryColor !== prevProps.config.settings.colors.primaryColor) {
+		if (this?.props?.config?.settings?.colors?.primaryColor !== prevProps?.config?.settings?.colors?.primaryColor ||
+			this?.props?.config?.settings?.colors?.secondaryColor !== prevProps?.config?.settings?.colors?.secondaryColor ||
+			this?.props?.config?.settings?.colors?.chatInterfaceColor !== prevProps?.config?.settings?.colors?.chatInterfaceColor ||
+			this?.props?.config?.settings?.colors?.botMessageColor !== prevProps?.config?.settings?.colors?.botMessageColor ||
+			this?.props?.config?.settings?.colors?.userMessageColor !== prevProps?.config?.settings?.colors?.userMessageColor ||
+			this?.props?.config?.settings?.colors?.textLinkColor !== prevProps?.config?.settings?.colors?.textLinkColor) {
 			this.setState({
-				theme: createWebchatTheme({ primaryColor: this.props.config.settings.colors.primaryColor }),
+				theme: createWebchatTheme({
+					primaryColor: this?.props?.config?.settings?.colors?.primaryColor,
+					secondaryColor: this?.props?.config?.settings?.colors?.secondaryColor,
+					backgroundWebchat: this?.props?.config?.settings?.colors?.chatInterfaceColor,
+					backgroundBotMessage: this?.props?.config?.settings?.colors?.botMessageColor,
+					backgroundUserMessage: this?.props?.config?.settings?.colors?.userMessageColor,
+					textLink: this?.props?.config?.settings?.colors?.textLinkColor,
+				}),
 			});
 		}
 
@@ -571,6 +622,22 @@ export class WebchatUI extends React.PureComponent<
 		}
 	};
 
+	handleStartConversation = () => {
+		if (!this.props.config.settings.privacyNotice.enabled || this.props.hasAcceptedTerms) {
+			const { initialSessionId } = this.props.config;
+			if (!initialSessionId) {
+				this.props.onSwitchSession();
+			}
+			if (initialSessionId && initialSessionId !== this.props.currentSession) {
+				this.props.onSwitchSession(initialSessionId);
+			}
+		}
+
+		if (!this.props.open) this.props.onToggle();
+		this.props.onSetShowHomeScreen(false);
+		this.props.onSetShowChatOptionsScreen(false);
+	}
+
 	render() {
 		const { props, state } = this;
 		const {
@@ -739,7 +806,7 @@ export class WebchatUI extends React.PureComponent<
 											lastUnseenMessageText && (
 												<TeaserMessage
 													messageText={lastUnseenMessageText}
-													onToggle={onToggle}
+													onClick={this.handleStartConversation}
 													config={config}
 													onEmitAnalytics={onEmitAnalytics}
 													onSendActionButtonMessage={this.handleSendActionButtonMessage}
@@ -859,19 +926,6 @@ export class WebchatUI extends React.PureComponent<
 		// TODO: implement better navigation history and currentPage string property on redux
 		const isSecondaryView = showInformationMessage;
 
-		const handleStartConversation = () => {
-			if (!config.settings.privacyNotice.enabled || hasAcceptedTerms) {
-				const { initialSessionId } = config;
-				if (!initialSessionId) {
-					onSwitchSession();
-				}
-				if (initialSessionId && initialSessionId !== currentSession) {
-					onSwitchSession(initialSessionId);
-				}
-			}
-			onSetShowHomeScreen(false);
-			onSetShowChatOptionsScreen(false);
-		}
 
 		const handleOnClose = () => {
 			onClose?.();
@@ -1045,7 +1099,7 @@ export class WebchatUI extends React.PureComponent<
 						<HomeScreen
 							showHomeScreen={showHomeScreen}
 							onSetShowHomeScreen={onSetShowHomeScreen}
-							onStartConversation={handleStartConversation}
+							onStartConversation={this.handleStartConversation}
 							onSetShowPrevConversations={onSetShowPrevConversations}
 							onClose={onClose}
 							config={config}

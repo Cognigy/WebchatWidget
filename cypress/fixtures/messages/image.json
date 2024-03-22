@@ -5,7 +5,7 @@
 			"_default": {
 				"_image": {
 					"type": "image",
-					"imageUrl": "https://placewaifu.com/image/300/300"
+					"imageUrl": "https://picsum.photos/id/237/200/200"
 				}
 			},
 			"_webchat": {
@@ -13,7 +13,7 @@
 					"attachment": {
 						"type": "image",
 						"payload": {
-							"url": "https://placewaifu.com/image/300/300"
+							"url": "https://picsum.photos/id/237/200/200"
 						}
 					}
 				}

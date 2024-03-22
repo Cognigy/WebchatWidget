@@ -125,7 +125,7 @@ const HomeScreenActions = styled.div(({ theme }) => ({
 	justifyContent: "center",
 	width: "100%",
 	padding: "20px 20px 12px 20px",
-	backgroundColor: theme.backgroundWebchat,
+	backgroundColor: theme.white,
 }));
 
 const StartButton = styled(PrimaryButton)(() => ({
