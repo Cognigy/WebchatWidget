@@ -77,7 +77,6 @@
 		"@typescript-eslint/eslint-plugin": "^5.10.0",
 		"@typescript-eslint/parser": "^5.10.0",
 		"babel-loader": "^8.2.3",
-		"babel-polyfill": "^6.26.0",
 		"compression-webpack-plugin": "^9.2.0",
 		"css-loader": "^6.5.1",
 		"cypress": "^9.4.1",
