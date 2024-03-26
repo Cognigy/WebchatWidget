@@ -3,7 +3,7 @@ import { StoreState } from "../store";
 import { setConfig, applyWebchatSettingsOverrides } from "./config-reducer";
 import { fetchWebchatConfig } from "../../helper/endpoint";
 import { IWebchatSettings } from "../../../common/interfaces/webchat-config";
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 
 export interface ISendMessageOptions {
     /* overrides the displayed text within a chat bubble. useful for e.g. buttons */

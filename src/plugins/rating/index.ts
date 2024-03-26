@@ -18,7 +18,7 @@ export const getRating = (message: IMessage): IRating | null => {
     data?._cognigy?.controlCommands?.[0]?.parameters?.showRatingStatus === true
   ) {
     const { comment, rating } =
-      message?.data?._cognigy?.controlCommands?.[0]?.parameters;
+      message?.data?._cognigy?.controlCommands?.[0]?.parameters || {};
 
     return { comment, rating };
   }

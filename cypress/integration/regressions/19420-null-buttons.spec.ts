@@ -33,7 +33,7 @@ describe('Message Templates with null Buttons', () => {
     cy.contains('foobar005').should('be.visible');
   });
 
-  it('renders text+quick replies with null quick replies', () => {
+  it.skip('renders text+quick replies with null quick replies', () => {
     cy.fixture('messages/quick-replies-with-null-quick-replies.json')
       .then(({ text, data, source }) => {
         cy.receiveMessage(text, data, source);

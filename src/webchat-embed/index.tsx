@@ -6,11 +6,7 @@ import './embedded-webchat-styles.css';
 
 // load plugins
 import '../plugins/get-started-button-input';
-// import '../plugins/date-picker';
-import '../plugins/messenger';
 import '../plugins/rating';
-import '../plugins/adaptivecards';
-import '../plugins/attachments';
 import '../plugins/full-screen-notification';
 import { Webchat } from '../webchat/components/Webchat';
 import { getRegisteredMessagePlugins, prepareMessagePlugins } from '../plugins/helper';
