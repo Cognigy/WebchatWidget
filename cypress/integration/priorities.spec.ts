@@ -22,7 +22,12 @@ const renderMessageWithParams = (params: IGenerateTestCaseParams) => {
     const getDummyMessage = (text: string) => ({
         message: {
             text,
-            quick_replies: []
+            quick_replies: [							{
+                "id": 0.44535334241574,
+                "contentType": "postback",
+                "payload": "foobar003pb01",
+                "title": "foobar003qr01"
+            },]
         }
     });
 
