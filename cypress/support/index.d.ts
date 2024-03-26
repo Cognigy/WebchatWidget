@@ -68,5 +68,12 @@ declare namespace Cypress {
        * loads and evaluates a JavaScript fixture file
        */
       loadJavaScriptFixture(name: string): Chainable<unknown>
+
+
+      /**
+       * Updates the settings of the webchat.
+       * @param settings - The partial settings object to update.
+       */
+      updateSettings(settings: any): Chainable<any>;
     }
   }
