@@ -59,8 +59,8 @@ describe('Webchat Button', () => {
 			.visitWebchat()
 			.initMockWebchat()
             .get('[aria-label="Open chat"]').click()
-			.get('[aria-label="Close"]').click()
-			.get('[aria-label="Close"]').should('not.exist');
+			.get('[aria-label="Close chat"]').click()
+			.get('[aria-label="Close chat"]').should('not.exist');
 	});
 
 });

@@ -102,7 +102,7 @@ export const PrevConversationsList = (props: IPrevConversationsListProps) => {
 				<StartButton
 					onClick={handleStartButtonClick}
 					className="webchat-prev-conversations-send-button"
-					aria-label="Start chat"
+					data-testid="webchat-start-chat-button"
 				>
 					Start new conversation
 				</StartButton>

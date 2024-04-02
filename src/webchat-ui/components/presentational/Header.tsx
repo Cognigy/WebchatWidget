@@ -74,8 +74,9 @@ const HeaderIconsWrapper = styled.div(() => ({
 const HeaderIconButton = styled(IconButton)(({ theme }) => ({
 	color: theme.black10,
 	borderRadius: 4,
-	"&:focus": {
+	"&:focus-visible": {
 		outline: `2px solid ${theme.primaryColor}`,
+		outlineOffset: 2,
 	},
 	"& svg": {
 		fill: theme.black10,

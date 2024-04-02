@@ -929,6 +929,8 @@ export class WebchatUI extends React.PureComponent<
 
 		const handleOnClose = () => {
 			onClose?.();
+			// Restore focus to chat toggle button
+			this.chatToggleButtonRef?.current?.focus?.();
 		};
 
 		// TODO implement proper navigation solution
@@ -1101,12 +1103,12 @@ export class WebchatUI extends React.PureComponent<
 							onSetShowHomeScreen={onSetShowHomeScreen}
 							onStartConversation={this.handleStartConversation}
 							onSetShowPrevConversations={onSetShowPrevConversations}
-							onClose={onClose}
+							onClose={handleOnClose}
 							config={config}
 							onEmitAnalytics={onEmitAnalytics}
 								onSendActionButtonMessage={this.handleSendActionButtonMessage}
 						/>
-						</CSSTransition>
+					</CSSTransition>
 				}
 				{
 					<CSSTransition

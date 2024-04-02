@@ -168,7 +168,7 @@ describe("Engagement Message", () => {
 		cy.contains("engagement message text").should("be.visible");
 
 		cy.get("[data-cognigy-webchat-toggle]").click();
-		cy.get("[aria-label='Start chat']").click();
+		cy.get("[data-test='webchat-start-chat-button']").click();
 
 		cy.contains("engagement message text").should("be.visible");
 	});

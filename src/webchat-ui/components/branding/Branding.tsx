@@ -13,14 +13,9 @@ const Link = styled.a(({ theme }) => ({
 
 	textDecoration: "none",
 
-	"&:focus": {
-		outline: "none",
-		color: theme.primaryWeakColor,
-		"#cognigyBrandingLogo": {
-			"& path, & polygon": {
-				fill: theme.primaryWeakColor,
-			},
-		},
+	"&:focus-visible": {
+		outlineColor: theme.primaryColor,
+		outlineOffset: 2,
 	},
 }));
 
