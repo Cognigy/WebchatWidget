@@ -177,7 +177,9 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 
 	const homeScreenRef = useRef<HTMLDivElement>(null);
 
-	const { homeScreen } = config.settings;
+	const { homeScreen, widgetSettings } = config.settings;
+
+	const { disableInputAutofocus } = widgetSettings;
 
 	const buttons: IWebchatButton[] = config.settings.homeScreen.conversationStarters.starters;
 
@@ -186,12 +188,19 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 		onSetShowPrevConversations(true);
 	};
 
+	useEffect(() => {
+		if(disableInputAutofocus && homeScreenRef.current) {
+			const { firstFocusable } = getKeyboardFocusableElements(homeScreenRef.current);
+			firstFocusable.focus();
+		}
+	}, []);
+
 	// Get all focusable elemnents inside homeScreen root and set tabindex to -1, if the homescreen is visually hidden
 	useEffect(() => {
 		const tabIndex = showHomeScreen ? 0 : -1;
 
 		if (homeScreenRef.current) {
-			const { focusable } = getKeyboardFocusableElements(homeScreenRef.current);
+			const {focusable } = getKeyboardFocusableElements(homeScreenRef.current);
 
 			focusable.forEach((el: Element) => {
 				el.setAttribute("tabindex", tabIndex.toString());
@@ -201,6 +210,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 
 	return (
 		<HomeScreenRoot className="webchat-homescreen-root" aria-hidden={!showHomeScreen} ref={homeScreenRef}>
+			<h2 className="sr-only">Home Screen</h2> 
 			<HomeScreenContent className="webchat-homescreen-content" settings={config?.settings}>
 				<HomeScreenHeader className="webchat-homescreen-header">
 					{config?.settings?.layout?.logoUrl ? (
@@ -226,8 +236,9 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 				</FullWidthContainer>
 				<HomeScreenTitle
 					variant="title1-semibold"
-					component="h4"
+					component="h3"
 					className="webchat-homescreen-title"
+					id="webchatHeaderTitle"
 				>
 					{homeScreen.welcomeText || "Welcome to the Cognigy Webchat"}
 				</HomeScreenTitle>

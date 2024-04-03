@@ -120,6 +120,7 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 							variant="title2-regular"
 							className="webchat-teaser-message-header-title"
 							margin={0}
+							id="webchatHeaderTitle"
 						>
 							{config.settings.layout.title || "Cognigy"}
 						</Typography>

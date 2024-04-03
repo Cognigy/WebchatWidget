@@ -13,8 +13,13 @@ const Link = styled.a(({ theme }) => ({
 
 	textDecoration: "none",
 
+	"&:focus, &:hover": {
+		outline: "none",
+		color: theme.primaryColor,
+	},
+
 	"&:focus-visible": {
-		outlineColor: theme.primaryColor,
+		outline: `2px solid ${theme.primaryColor}`,
 		outlineOffset: 2,
 	},
 }));

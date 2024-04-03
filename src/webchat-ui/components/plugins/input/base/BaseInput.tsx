@@ -51,8 +51,13 @@ const TextArea = styled(TextareaAutosize)(({ theme }) => ({
 		backgroundColor: theme.black60,
 	},
 
+	"&:focus": {
+		outline: `1px solid ${theme.greyWeakColor}`,
+		outlineOffset: 2,
+	},
+
 	"&:focus-visible": {
-		outline: `2px solid ${theme.primaryColor}`,
+		outline: `1px solid ${theme.primaryColor}`,
 		outlineOffset: 2,
 	},
 }));
@@ -423,6 +428,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 									type="file"
 									multiple
 									onChange={this.handleSelectFile}
+									aria-hidden="true"
 								/>
 								<AttachFileButton
 									className="webchat-input-button-add-attachments"
