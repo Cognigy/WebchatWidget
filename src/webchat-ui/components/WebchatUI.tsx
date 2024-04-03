@@ -760,6 +760,8 @@ export class WebchatUI extends React.PureComponent<
 			this.setState({
 				lastUnseenMessageText: "",
 			});
+			// Restore focus to chat toggle button
+			this.chatToggleButtonRef.current?.focus();
 		};
 
 		return (

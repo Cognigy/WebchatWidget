@@ -50,6 +50,11 @@ const TextArea = styled(TextareaAutosize)(({ theme }) => ({
 	"::-webkit-scrollbar-thumb": {
 		backgroundColor: theme.black60,
 	},
+
+	"&:focus-visible": {
+		outline: `2px solid ${theme.primaryColor}`,
+		outlineOffset: 2,
+	},
 }));
 
 const Button = styled.button(({ theme }) => ({

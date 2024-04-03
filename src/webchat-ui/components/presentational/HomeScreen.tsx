@@ -93,6 +93,13 @@ const HomeScreenHeader = styled.div(() => ({
 const HomeScreenHeaderIconButton = styled(IconButton)(({ theme }) => ({
 	color: theme.textLight,
 	borderRadius: 4,
+	padding: 0,
+	margin: 8,
+	svg: {
+		fill: theme.textLight,
+		width: 16,
+		height: 16,
+	},
 	"&.active, &:hover": {
 		color: theme.textLight,
 		fill: theme.textLight,
@@ -100,12 +107,7 @@ const HomeScreenHeaderIconButton = styled(IconButton)(({ theme }) => ({
 	"&:focus-visible": {
 		outline: `2px solid ${theme.textLight}`,
 		outlineOffset: 2,
-	},
-	svg: {
-		fill: theme.textLight,
-		width: 16,
-		height: 16,
-	},
+	},	
 }));
 
 const HomeScreenTitle = styled(Typography)(({ theme }) => ({
