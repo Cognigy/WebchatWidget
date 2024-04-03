@@ -52,13 +52,7 @@ const TextArea = styled(TextareaAutosize)(({ theme }) => ({
 	},
 
 	"&:focus": {
-		outline: `1px solid ${theme.greyWeakColor}`,
-		outlineOffset: 2,
-	},
-
-	"&:focus-visible": {
-		outline: `1px solid ${theme.primaryColor}`,
-		outlineOffset: 2,
+		outline: `1px dotted ${theme.primaryWeakColor}`,
 	},
 }));
 
@@ -415,9 +409,8 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 
 		return (
 			<>
-				<InputWrapper>
-					<InputForm
-						data-active={textActive && isFileListEmpty}
+				<InputWrapper data-active={textActive && isFileListEmpty}>
+					<InputForm						
 						onSubmit={this.handleSubmit}
 						className={classnames("webchat-input-menu-form")}
 					>
