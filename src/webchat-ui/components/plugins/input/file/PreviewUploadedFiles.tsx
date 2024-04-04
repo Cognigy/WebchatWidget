@@ -100,10 +100,13 @@ const PreviewUploadedFiles: FC = () => {
 						<RemoveFileButton
 							onClick={() => onRemoveFileButtonClick(index)}
 							onFocus={() => {
-								removeFileButtonRefs.current[index].scrollIntoView({
-									behavior: "smooth",
-									inline: "center",
-								});
+								if (removeFileButtonRefs.current[index]) {
+									removeFileButtonRefs.current[index].scrollIntoView({
+										behavior: "smooth",
+										inline: "center",
+										block: "nearest",
+									});
+								}
 							}}
 							aria-label={`Remove File Attachment ${index + 1}`}
 							ref={ref => {
