@@ -3,12 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { BaseInput } from "./BaseInput";
 import { StoreState } from "../../../../../webchat/store/store";
 import { InputComponentProps } from "../../../../../common/interfaces/input-plugin";
-import { IFile, setFileList, setSTTActive } from "../../../../../webchat/store/input/input-reducer";
+import { IFile, setFileList, setSTTActive, setTextActive } from "../../../../../webchat/store/input/input-reducer";
 import { addFilesToList } from "../../../../../webchat/store/input/file-input-middleware";
 
 
 export const ConnectedBaseInput = (props: InputComponentProps) => {
 	const sttActive = useSelector((state: StoreState) => state.input.sttActive);
+	const textActive = useSelector((state: StoreState) => state.input.textActive);
 	const fileList = useSelector((state: StoreState) => state.input.fileList);
 	const fileUploadError = useSelector((state: StoreState) => state.input.fileUploadError);
 
@@ -19,6 +20,8 @@ export const ConnectedBaseInput = (props: InputComponentProps) => {
 			{...props}
 			sttActive={sttActive}
 			onSetSTTActive={(active: boolean) => dispatch(setSTTActive(active))}
+			textActive={textActive}
+			onSetTextActive={(active: boolean) => dispatch(setTextActive(active))}
 			fileList={fileList}
 			fileUploadError={fileUploadError}
 			onSetFileList={(fileList: IFile[]) => dispatch(setFileList(fileList))}

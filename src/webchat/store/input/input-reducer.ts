@@ -10,6 +10,7 @@ export interface IFile {
 }
 export interface IInputState {
 	sttActive: boolean;
+	textActive: boolean;
 	isDropZoneVisible: boolean;
 	fileList: IFile[];
 	fileUploadError: boolean;
@@ -21,6 +22,13 @@ export const setSTTActive = (active: boolean) => ({
 	active,
 });
 type TSetSTTActiveAction = ReturnType<typeof setSTTActive>;
+
+const SET_TEXT_ACTIVE = "SET_TEXT_ACTIVE";
+export const setTextActive = (active: boolean) => ({
+	type: SET_TEXT_ACTIVE as "SET_TEXT_ACTIVE",
+	active,
+});
+type TSetTextActiveAction = ReturnType<typeof setTextActive>;
 
 const SET_DROP_ZONE_VISIBLE = "SET_DROP_ZONE_VISIBLE";
 export const setDropZoneVisible = (visible: boolean) => ({
@@ -52,6 +60,7 @@ type TRemoveFileFromListAction = ReturnType<typeof removeFileFromList>;
 
 const getInitialState = (): IInputState => ({
 	sttActive: false,
+	textActive: false,
 	isDropZoneVisible: false,
 	fileList: [],
 	fileUploadError: false,
@@ -59,6 +68,7 @@ const getInitialState = (): IInputState => ({
 
 type InputAction =
 	| TSetSTTActiveAction
+	| TSetTextActiveAction
 	| TSetDropZoneVisibleAction
 	| TSetFileListAction
 	| TSetFileUploadErrorAction
@@ -70,6 +80,13 @@ export const input: Reducer<IInputState, InputAction> = (state = getInitialState
 			return {
 				...state,
 				sttActive: action.active,
+			};
+		}
+
+		case SET_TEXT_ACTIVE: {
+			return {
+				...state,
+				textActive: action.active,
 			};
 		}
 
