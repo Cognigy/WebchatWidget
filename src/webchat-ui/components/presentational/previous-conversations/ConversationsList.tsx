@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import styled from "@emotion/styled";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
 import { ConversationsListItem } from "./ConversationsListItem";
@@ -6,6 +6,7 @@ import PrimaryButton from "../PrimaryButton";
 import { PrevConversationsState } from "../../../../webchat/store/previous-conversations/previous-conversations-reducer";
 import Branding from "../../branding/Branding";
 import { sortConversationsByFreshness } from "./helpers";
+import getKeyboardFocusableElements from "../../../utils/find-focusable";
 
 const ConversationsListRoot = styled.div(({ theme }) => ({
 	height: "100%",
@@ -68,6 +69,20 @@ export const PrevConversationsList = (props: IPrevConversationsListProps) => {
 
 	const sessions = Object.keys(sortedConversations);
 
+	const conversationsRootRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if(!conversationsRootRef.current) return;
+
+		const { firstFocusable } = getKeyboardFocusableElements(conversationsRootRef.current);
+		// Set timeout to ensure that the focus is set after the animation
+		setTimeout(() => {
+			firstFocusable?.focus();
+		}, 450);
+
+	}, []);
+
+
 	const handleStartButtonClick = () => {
 		// we initialize a new session
 		onSwitchSession();
@@ -83,13 +98,14 @@ export const PrevConversationsList = (props: IPrevConversationsListProps) => {
 	);
 
 	return (
-		<ConversationsListRoot className="webchat-prev-conversations-root">
+		<ConversationsListRoot className="webchat-prev-conversations-root" ref={conversationsRootRef}>
 			<ConversationsList className="webchat-prev-conversations-content">
 				{sessions.length > 0 &&
 					sessions.map((session, i) => {
 						return (
 							<ConversationsListItem
 								key={i}
+								index={i}
 								sessionId={session}
 								switchSession={switchSession}
 								conversation={sortedConversations[session]}

@@ -224,6 +224,7 @@ export class WebchatUI extends React.PureComponent<
 	menuButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
 	ratingButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
 	webchatWindowRef: React.RefObject<HTMLDivElement>;
+	homeScreenCloseButtonRef: React.RefObject<HTMLButtonElement>;
 
 	private unreadTitleIndicatorInterval: ReturnType<typeof setInterval> | null = null;
 	private originalTitle: string = window.document.title;
@@ -242,6 +243,7 @@ export class WebchatUI extends React.PureComponent<
 		this.menuButtonInHeaderRef = React.createRef();
 		this.ratingButtonInHeaderRef = React.createRef();
 		this.webchatWindowRef = React.createRef();
+		this.homeScreenCloseButtonRef = React.createRef();
 
 		this.handleStartConversation = this.handleStartConversation.bind(this);
 	}
@@ -942,9 +944,17 @@ export class WebchatUI extends React.PureComponent<
 			if (!showChatOptionsScreen && !showRatingScreen) {
 				onSetShowPrevConversations(false);
 				onSetShowHomeScreen(true);
+				// Set timeout to focus on close button in header of home screen after animation
+				setTimeout(() => {
+					this.homeScreenCloseButtonRef?.current?.focus?.();
+				}, 450);				
 			} else {
 				onSetShowChatOptionsScreen(false);
 				onShowRatingScreen(false);
+				if(config.settings.widgetSettings.disableInputAutofocus) {
+					// Restore focus to close button in header
+					this.closeButtonInHeaderRef?.current?.focus?.();			
+				}
 			}
 		};
 
@@ -1104,6 +1114,7 @@ export class WebchatUI extends React.PureComponent<
 					>
 						<HomeScreen
 							showHomeScreen={showHomeScreen}
+							closeButtonRef={this.homeScreenCloseButtonRef}
 							onSetShowHomeScreen={onSetShowHomeScreen}
 							onStartConversation={this.handleStartConversation}
 							onSetShowPrevConversations={onSetShowPrevConversations}

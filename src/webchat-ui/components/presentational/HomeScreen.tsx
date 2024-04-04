@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { RefObject, useEffect, useRef } from "react";
 import styled from "@emotion/styled";
 import CloseIcon from "../../assets/close-16px.svg";
 import { IWebchatConfig, IWebchatSettings } from "../../../common/interfaces/webchat-config";
@@ -155,6 +155,7 @@ const PrevConversationsButton = styled(SecondaryButton)(({ theme }) => ({
 interface IHomeScreenProps {
 	config: IWebchatConfig;
 	showHomeScreen: boolean;
+	closeButtonRef: RefObject<HTMLButtonElement>;
 	onSetShowHomeScreen: (show: boolean) => void;
 	onSetShowPrevConversations: (show: boolean) => void;
 	onClose: () => void;
@@ -167,6 +168,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 	const {
 		config,
 		showHomeScreen,
+		closeButtonRef,
 		onSetShowHomeScreen,
 		onSetShowPrevConversations,
 		onClose,
@@ -175,11 +177,9 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 		onStartConversation,
 	} = props;
 
-	const homeScreenRef = useRef<HTMLDivElement>(null);
+	const homeScreenRef = useRef<HTMLDivElement>(null);	
 
-	const { homeScreen, widgetSettings } = config.settings;
-
-	const { disableInputAutofocus } = widgetSettings;
+	const { homeScreen } = config.settings;
 
 	const buttons: IWebchatButton[] = config.settings.homeScreen.conversationStarters.starters;
 
@@ -189,7 +189,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 	};
 
 	useEffect(() => {
-		if(disableInputAutofocus && homeScreenRef.current) {
+		if(homeScreenRef.current) {
 			const { firstFocusable } = getKeyboardFocusableElements(homeScreenRef.current);
 			firstFocusable.focus();
 		}
@@ -223,6 +223,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 						<CognigyAIAvatar className={"webchat-homescreen-header-cognigy-logo"} />
 					)}
 					<HomeScreenHeaderIconButton
+						ref={closeButtonRef}
 						onClick={onClose}
 						className="webchat-homescreen-close-button"
 						aria-label="Close chat"

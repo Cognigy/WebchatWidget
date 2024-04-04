@@ -19,6 +19,10 @@ const ListItem = styled.div(({ theme }) => ({
 	cursor: "pointer",
 	justifyContent: "space-between",
 	alignItems: "center",
+	":focus": {
+		border: `2px solid ${theme.primaryColor}`,
+		outline: "none",
+	},
 }));
 
 const Left = styled.div(() => ({
@@ -90,6 +94,7 @@ const FallBackAvatar = styled(AvatarPlaceholder)(({ theme }) => ({
 }));
 
 interface IConversationsListItemProps {
+	index: number;
 	config: IWebchatConfig;
 	conversation: PrevConversationsState[string];
 	sessionId: string;
@@ -97,7 +102,7 @@ interface IConversationsListItemProps {
 }
 
 export const ConversationsListItem = (props: IConversationsListItemProps) => {
-	const { sessionId, conversation, config, switchSession } = props;
+	const { sessionId, conversation, config, index, switchSession } = props;
 
 	const avatars = getAvatars(conversation.messages);
 
@@ -105,8 +110,22 @@ export const ConversationsListItem = (props: IConversationsListItemProps) => {
 		switchSession(sessionId, conversation);
 	};
 
+	const handleKeyDown = (e) => {
+		e.stopPropagation();
+		if (e.key === "Enter") {
+			handleClick();
+		}		
+	}
+
 	return (
-		<ListItem className="webchat-prev-conversations-item" onClick={handleClick}>
+		<ListItem
+			className="webchat-prev-conversations-item"
+			onClick={handleClick}
+			onKeyDown={handleKeyDown}
+			tabIndex={0}
+			role="button"
+			aria-label={`Open conversation ${index + 1}`}
+		>
 			<Left>
 				{avatars.length > 0 ? (
 					avatars.map((avatar, i) => {
