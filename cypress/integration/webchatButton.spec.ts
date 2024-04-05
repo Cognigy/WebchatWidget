@@ -50,7 +50,7 @@ describe('Webchat Button', () => {
 			.initMockWebchat()
             .get('[aria-label="Open chat"]').click()
 			.get('[aria-label="Close chat"]').should('be.visible')
-			.get('[aria-label="Close chat"]').click()
+			.get('[aria-label="Close chat"]').last().click() // webchat toggle button
 			.get('[aria-label="Close chat"]').should('not.exist');
 	});
 	
@@ -59,7 +59,7 @@ describe('Webchat Button', () => {
 			.visitWebchat()
 			.initMockWebchat()
             .get('[aria-label="Open chat"]').click()
-			.get('[aria-label="Close chat"]').click()
+			.get('[aria-label="Close chat"]').first().click() // close button in chat window homescreen
 			.get('[aria-label="Close chat"]').should('not.exist');
 	});
 
