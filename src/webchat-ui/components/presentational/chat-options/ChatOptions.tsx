@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "@emotion/styled";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
 import { RatingWidget } from "./RatingWidget";
 import { PostbackButtons } from "./PostbackButtons";
 import { WebchatUIProps } from "../../WebchatUI";
 import { ChatOptionsFooter } from "./ChatOptionsFooter";
+import getKeyboardFocusableElements from "../../../utils/find-focusable";
 
 const ChatOptionsRoot = styled.div(() => ({
 	width: "100%",
@@ -66,28 +67,39 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 	const { settings } = config;
 	const { chatOptions } = settings;
 
+	const chatOptionsRef = useRef<HTMLDivElement>(null);
+
 	const ratingEnabled = chatOptions.rating.enabled;
-	const showRating = ratingEnabled === "always" || (ratingEnabled === "once" && !hasGivenRating) || showOnlyRating;
+	const showRating =
+		ratingEnabled === "always" ||
+		(ratingEnabled === "once" && !hasGivenRating) ||
+		showOnlyRating;
+
+	useEffect(() => {
+		if (chatOptionsRef?.current) {
+			const { firstFocusable } = getKeyboardFocusableElements(chatOptionsRef?.current);
+			if (firstFocusable) {
+				firstFocusable.focus();
+			}
+		}
+	}, []);
 
 	return (
-		<ChatOptionsRoot className="webchat-chat-options-root">
+		<ChatOptionsRoot className="webchat-chat-options-root" ref={chatOptionsRef}>
 			<ChatOptionsContainer className="webchat-chat-options-container">
-				{
-					!showOnlyRating &&
-					config.settings.chatOptions.quickReplyOptions.enabled && (
-						<>
-							<PostbackButtons
-								config={config}
-								onSendActionButtonMessage={onSendActionButtonMessage}
-								onEmitAnalytics={onEmitAnalytics}
-							/>
-							<DividerWrapper>
-								<Divider />
-							</DividerWrapper>
-						</>
-					)}
-				{
-					showRating &&
+				{!showOnlyRating && config.settings.chatOptions.quickReplyOptions.enabled && (
+					<>
+						<PostbackButtons
+							config={config}
+							onSendActionButtonMessage={onSendActionButtonMessage}
+							onEmitAnalytics={onEmitAnalytics}
+						/>
+						<DividerWrapper>
+							<Divider />
+						</DividerWrapper>
+					</>
+				)}
+				{showRating && (
 					<RatingWidget
 						ratingTitleText={ratingTitleText}
 						ratingCommentText={ratingCommentText}
@@ -96,12 +108,11 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 						ratingEventBannerText={ratingEventBannerText}
 						buttonText={ratingSubmitButtonText}
 					/>
-				}
+				)}
 			</ChatOptionsContainer>
-			{
-				chatOptions.footer.enabled && chatOptions.footer.items[0] &&
+			{chatOptions.footer.enabled && chatOptions.footer.items[0] && (
 				<ChatOptionsFooter settings={config.settings} />
-			}
+			)}
 		</ChatOptionsRoot>
 	);
 };

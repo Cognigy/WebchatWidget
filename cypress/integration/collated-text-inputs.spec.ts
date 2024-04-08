@@ -125,31 +125,36 @@ describe("collated text inputs", () => {
         // TODO: make "collate" an opt-in on the "send message" api as an option and only use it on regular text inputs
         it("immediately sends a message triggered by a quick reply", () => {
             cy.withMessageFixture('quick-replies', () => {
-                cy.contains("foobar003qr01").click({force: true});
+                cy.get("button:contains('foobar003qr01')").last().focus();
+                cy.get("button:contains('foobar003qr01')").last().click({force: true});
                 cy.get(".webchat-message-row.user", { timeout: 100 }).contains("foobar003qr01");
             });
         });
         it("immediately sends a message triggered by a button template button", () => {
             cy.withMessageFixture('buttons', () => {
+                cy.contains("foobar005b1").focus();
                 cy.contains("foobar005b1").click();
                 cy.get(".webchat-message-row.user", { timeout: 100 }).contains("foobar005b1");
             });
         });
         it("immediately sends a message triggered by a gallery template button", () => {
             cy.withMessageFixture('gallery', () => {
+                cy.contains("foobar004g1b1").focus();
                 cy.contains("foobar004g1b1").click();
                 cy.get(".webchat-message-row.user", { timeout: 100 }).contains("foobar004g1b1")
             })
         });
         it("immediately sends a message triggered by a list template button", () => {
             cy.withMessageFixture('list-with-postback', () => {
-                cy.contains("foobar00rty1").click()
+                cy.contains("foobar00rty1").focus();
+                cy.contains("foobar00rty1").click();
                 cy.get(".webchat-message-row.user", { timeout: 100 }).contains("foobar00rty1")
             })
         });
         it("immediately sends a message triggered by a list template item button", () => {
             cy.withMessageFixture('list', () => {
-                cy.contains("foobar009l1b1").click()
+                cy.contains("foobar009l1b1").focus();
+                cy.contains("foobar009l1b1").click();
                 cy.get(".webchat-message-row.user", { timeout: 100 }).contains("foobar009l1b1")
             })
         });

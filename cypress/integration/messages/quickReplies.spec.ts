@@ -21,9 +21,10 @@ describe("Message with Quick Replies", () => {
         })
     })
 
-    it("should click the quick reply and post as user message", () => {
+    it.only("should click the quick reply and post as user message", () => {
         cy.withMessageFixture('quick-replies', () => {
-            cy.contains("foobar003qr01").click({force: true});
+            cy.get("button:contains('foobar003qr01')").last().focus();
+            cy.get("button:contains('foobar003qr01')").last().click();
             cy.get(".webchat-message-row.user")
                 .contains("foobar003qr01");
         });

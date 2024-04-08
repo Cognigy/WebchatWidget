@@ -1,4 +1,4 @@
-import React from "react";
+import React, { RefObject, useEffect, useRef } from "react";
 import styled from "@emotion/styled";
 import CloseIcon from "../../assets/close-16px.svg";
 import { IWebchatConfig, IWebchatSettings } from "../../../common/interfaces/webchat-config";
@@ -12,6 +12,7 @@ import { WebchatUIProps } from "../WebchatUI";
 import { IWebchatButton } from "@cognigy/socket-client";
 import CognigyAIAvatar from "../../assets/cognigy-ai-avatar-48px.svg";
 import { Logo } from "./Header";
+import getKeyboardFocusableElements from "../../utils/find-focusable";
 
 const HomeScreenRoot = styled.div(({ theme }) => ({
 	display: "flex",
@@ -32,9 +33,8 @@ const HomeScreenRoot = styled.div(({ theme }) => ({
 	"&.hidebackground-enter-done": {
 		"& .webchat-homescreen-content": {
 			backgroundImage: "none",
-		}
+		},
 	},
-
 }));
 
 interface IHomeScreenContentProps {
@@ -42,7 +42,6 @@ interface IHomeScreenContentProps {
 }
 
 const HomeScreenContent = styled.div<IHomeScreenContentProps>(({ theme, settings }) => {
-
 	const backgroundColor = settings?.homeScreen?.background?.color || theme.backgroundHome;
 
 	let backgroundImage = "none";
@@ -93,15 +92,22 @@ const HomeScreenHeader = styled.div(() => ({
 
 const HomeScreenHeaderIconButton = styled(IconButton)(({ theme }) => ({
 	color: theme.textLight,
-	"&.active, &:hover": {
-		color: theme.textLight,
-		fill: theme.textLight,
-	},
+	borderRadius: 4,
+	padding: 0,
+	margin: 8,
 	svg: {
 		fill: theme.textLight,
 		width: 16,
 		height: 16,
 	},
+	"&.active, &:hover": {
+		color: theme.textLight,
+		fill: theme.textLight,
+	},
+	"&:focus-visible": {
+		outline: `2px solid ${theme.textLight}`,
+		outlineOffset: 2,
+	},	
 }));
 
 const HomeScreenTitle = styled(Typography)(({ theme }) => ({
@@ -128,19 +134,28 @@ const HomeScreenActions = styled.div(({ theme }) => ({
 	backgroundColor: theme.white,
 }));
 
-const StartButton = styled(PrimaryButton)(() => ({
+const StartButton = styled(PrimaryButton)(({ theme }) => ({
 	marginBottom: 16,
 	flexGrow: 1,
+	"&:focus-visible": {
+		outline: `2px solid ${theme.primaryColor}`,
+		outlineOffset: 2,
+	},
 }));
 
-const PrevConversationsButton = styled(SecondaryButton)(() => ({
+const PrevConversationsButton = styled(SecondaryButton)(({ theme }) => ({
 	marginBottom: 24,
 	flexGrow: 1,
+	"&:focus-visible": {
+		outline: `2px solid ${theme.primaryColor}`,
+		outlineOffset: 2,
+	},
 }));
 
 interface IHomeScreenProps {
 	config: IWebchatConfig;
 	showHomeScreen: boolean;
+	closeButtonRef: RefObject<HTMLButtonElement>;
 	onSetShowHomeScreen: (show: boolean) => void;
 	onSetShowPrevConversations: (show: boolean) => void;
 	onClose: () => void;
@@ -152,6 +167,8 @@ interface IHomeScreenProps {
 export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 	const {
 		config,
+		showHomeScreen,
+		closeButtonRef,
 		onSetShowHomeScreen,
 		onSetShowPrevConversations,
 		onClose,
@@ -159,6 +176,8 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 		onSendActionButtonMessage,
 		onStartConversation,
 	} = props;
+
+	const homeScreenRef = useRef<HTMLDivElement>(null);	
 
 	const { homeScreen } = config.settings;
 
@@ -169,8 +188,29 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 		onSetShowPrevConversations(true);
 	};
 
+	useEffect(() => {
+		if(homeScreenRef.current) {
+			const { firstFocusable } = getKeyboardFocusableElements(homeScreenRef.current);
+			firstFocusable.focus();
+		}
+	}, []);
+
+	// Get all focusable elemnents inside homeScreen root and set tabindex to -1, if the homescreen is visually hidden
+	useEffect(() => {
+		const tabIndex = showHomeScreen ? 0 : -1;
+
+		if (homeScreenRef.current) {
+			const {focusable } = getKeyboardFocusableElements(homeScreenRef.current);
+
+			focusable.forEach((el: Element) => {
+				el.setAttribute("tabindex", tabIndex.toString());
+			});
+		}
+	}, [showHomeScreen]);
+
 	return (
-		<HomeScreenRoot className="webchat-homescreen-root">
+		<HomeScreenRoot className="webchat-homescreen-root" aria-hidden={!showHomeScreen} ref={homeScreenRef}>
+			<h2 className="sr-only">Home Screen</h2> 
 			<HomeScreenContent className="webchat-homescreen-content" settings={config?.settings}>
 				<HomeScreenHeader className="webchat-homescreen-header">
 					{config?.settings?.layout?.logoUrl ? (
@@ -180,14 +220,13 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 							alt="Chat logo"
 						/>
 					) : (
-						<CognigyAIAvatar
-							className={"webchat-homescreen-header-cognigy-logo"}
-						/>
+						<CognigyAIAvatar className={"webchat-homescreen-header-cognigy-logo"} />
 					)}
 					<HomeScreenHeaderIconButton
+						ref={closeButtonRef}
 						onClick={onClose}
 						className="webchat-homescreen-close-button"
-						aria-label="Close"
+						aria-label="Close chat"
 						color="primary"
 					>
 						<CloseIcon />
@@ -196,7 +235,12 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 				<FullWidthContainer>
 					<Notifications />
 				</FullWidthContainer>
-				<HomeScreenTitle variant="title1-semibold" component="h4" className="webchat-homescreen-title">
+				<HomeScreenTitle
+					variant="title1-semibold"
+					component="h3"
+					className="webchat-homescreen-title"
+					id="webchatHeaderTitle"
+				>
 					{homeScreen.welcomeText || "Welcome to the Cognigy Webchat"}
 				</HomeScreenTitle>
 				<HomeScreenButtons className="webchat-homescreen-buttons">
@@ -207,7 +251,7 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 						containerClassName="webchat-homescreen-button-container"
 						payload={buttons}
 						config={config}
-						action={onSendActionButtonMessage}
+						action={showHomeScreen ? onSendActionButtonMessage : undefined}
 						onEmitAnalytics={onEmitAnalytics}
 					/>
 				</HomeScreenButtons>
@@ -216,22 +260,16 @@ export const HomeScreen: React.FC<IHomeScreenProps> = props => {
 				<StartButton
 					onClick={onStartConversation}
 					className="webchat-homescreen-send-button"
-					aria-label="Start chat"
+					data-test="webchat-start-chat-button"
 				>
-					{
-						config.settings.homeScreen.startConversationButtonText ||
-						"Start conversation"
-					}
+					{config.settings.homeScreen.startConversationButtonText || "Start conversation"}
 				</StartButton>
-				{
-					config.settings.homeScreen.previousConversations.enabled &&
+				{config.settings.homeScreen.previousConversations.enabled && (
 					<PrevConversationsButton onClick={handleShowPrevConversations}>
-							{
-								config.settings.homeScreen.previousConversations.buttonText ||
-								"Previous conversations"
-							}
-						</PrevConversationsButton>
-				}
+						{config.settings.homeScreen.previousConversations.buttonText ||
+							"Previous conversations"}
+					</PrevConversationsButton>
+				)}
 				{/* Branding Logo Link */}
 				<Branding
 					id="cognigyHomeScreenBranding"

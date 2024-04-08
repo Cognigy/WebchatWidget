@@ -13,14 +13,14 @@ const Link = styled.a(({ theme }) => ({
 
 	textDecoration: "none",
 
-	"&:focus": {
+	"&:focus, &:hover": {
 		outline: "none",
-		color: theme.primaryWeakColor,
-		"#cognigyBrandingLogo": {
-			"& path, & polygon": {
-				fill: theme.primaryWeakColor,
-			},
-		},
+		color: theme.primaryColor,
+	},
+
+	"&:focus-visible": {
+		outline: `2px solid ${theme.primaryColor}`,
+		outlineOffset: 2,
 	},
 }));
 

@@ -117,6 +117,7 @@ export interface WebchatUIProps {
 	onSetShowHomeScreen: (show: boolean) => void;
 
 	sttActive: boolean;
+    textActive: boolean;
 	isDropZoneVisible: boolean;
 	onSetDropZoneVisible: (isVisible: boolean) => void;
 	fileList: IFile[];
@@ -223,6 +224,7 @@ export class WebchatUI extends React.PureComponent<
 	menuButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
 	ratingButtonInHeaderRef: React.RefObject<HTMLButtonElement>;
 	webchatWindowRef: React.RefObject<HTMLDivElement>;
+	homeScreenCloseButtonRef: React.RefObject<HTMLButtonElement>;
 
 	private unreadTitleIndicatorInterval: ReturnType<typeof setInterval> | null = null;
 	private originalTitle: string = window.document.title;
@@ -241,6 +243,7 @@ export class WebchatUI extends React.PureComponent<
 		this.menuButtonInHeaderRef = React.createRef();
 		this.ratingButtonInHeaderRef = React.createRef();
 		this.webchatWindowRef = React.createRef();
+		this.homeScreenCloseButtonRef = React.createRef();
 
 		this.handleStartConversation = this.handleStartConversation.bind(this);
 	}
@@ -535,6 +538,7 @@ export class WebchatUI extends React.PureComponent<
 				onEmitAnalytics={this.props.onEmitAnalytics}
 				theme={this.state.theme}
 				sttActive={this.props.sttActive}
+                textActive={this.props.textActive}
 			/>
 		);
 	};
@@ -760,6 +764,8 @@ export class WebchatUI extends React.PureComponent<
 			this.setState({
 				lastUnseenMessageText: "",
 			});
+			// Restore focus to chat toggle button
+			this.chatToggleButtonRef.current?.focus();
 		};
 
 		return (
@@ -929,6 +935,8 @@ export class WebchatUI extends React.PureComponent<
 
 		const handleOnClose = () => {
 			onClose?.();
+			// Restore focus to chat toggle button
+			this.chatToggleButtonRef?.current?.focus?.();
 		};
 
 		// TODO implement proper navigation solution
@@ -936,9 +944,17 @@ export class WebchatUI extends React.PureComponent<
 			if (!showChatOptionsScreen && !showRatingScreen) {
 				onSetShowPrevConversations(false);
 				onSetShowHomeScreen(true);
+				// Set timeout to focus on close button in header of home screen after animation
+				setTimeout(() => {
+					this.homeScreenCloseButtonRef?.current?.focus?.();
+				}, 450);				
 			} else {
 				onSetShowChatOptionsScreen(false);
 				onShowRatingScreen(false);
+				if(config.settings.widgetSettings.disableInputAutofocus) {
+					// Restore focus to close button in header
+					this.closeButtonInHeaderRef?.current?.focus?.();			
+				}
 			}
 		};
 
@@ -1098,15 +1114,16 @@ export class WebchatUI extends React.PureComponent<
 					>
 						<HomeScreen
 							showHomeScreen={showHomeScreen}
+							closeButtonRef={this.homeScreenCloseButtonRef}
 							onSetShowHomeScreen={onSetShowHomeScreen}
 							onStartConversation={this.handleStartConversation}
 							onSetShowPrevConversations={onSetShowPrevConversations}
-							onClose={onClose}
+							onClose={handleOnClose}
 							config={config}
 							onEmitAnalytics={onEmitAnalytics}
 								onSendActionButtonMessage={this.handleSendActionButtonMessage}
 						/>
-						</CSSTransition>
+					</CSSTransition>
 				}
 				{
 					<CSSTransition
