@@ -21,7 +21,7 @@ describe("Message with Quick Replies", () => {
         })
     })
 
-    it.only("should click the quick reply and post as user message", () => {
+    it("should click the quick reply and post as user message", () => {
         cy.withMessageFixture('quick-replies', () => {
             cy.get("button:contains('foobar003qr01')").last().focus();
             cy.get("button:contains('foobar003qr01')").last().click();
