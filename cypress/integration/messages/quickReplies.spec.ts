@@ -30,7 +30,7 @@ describe("Message with Quick Replies", () => {
         });
     })
 
-    // we have no button images on v3
+    // we have no button images on v3 - TODO: remove this test
     xit("should render image inside quick replies button", () => {
         cy.withMessageFixture('quick-replies', () => {
             cy.contains("foobar003qr02").children("img").should("have.length", 1);   
