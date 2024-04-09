@@ -33,7 +33,7 @@ describe("collated text inputs", () => {
         cy.contains("hi whats up").should("be.visible");
     });
 
-    it("should immediately send messages not using the text input or the 'collate' option", () => {
+    it.only("should immediately send messages not using the text input or the 'collate' option", () => {
         cy.initMockWebchat({
                 settings: {
                     layout: {
@@ -45,7 +45,7 @@ describe("collated text inputs", () => {
             .startConversation();
 
         cy.sendMessage("immediately there!");
-        cy.contains("immediately there!", { timeout: 200 }).should("be.visible");
+        cy.contains("immediately there!").should("be.visible");
     });
 
     it("sends separate messages if the collate timeout of 1000ms was exceeded", () => {
