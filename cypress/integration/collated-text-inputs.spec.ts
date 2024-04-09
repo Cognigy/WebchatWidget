@@ -33,7 +33,7 @@ describe("collated text inputs", () => {
         cy.contains("hi whats up").should("be.visible");
     });
 
-    it.only("should immediately send messages not using the text input or the 'collate' option", () => {
+    it("should immediately send messages not using the text input or the 'collate' option", () => {
         cy.initMockWebchat({
                 settings: {
                     layout: {
