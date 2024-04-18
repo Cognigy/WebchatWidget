@@ -25,7 +25,7 @@ export const fetchWebchatConfig = async (webchatConfigUrl: string, timeout: numb
         });
     }catch(err) {
         if((err as Error).name === "AbortError"){
-            console.log('Unable to fetch endpoint configuration in time')
+            console.warn('Unable to fetch endpoint configuration in time')
         }
     }
     
