@@ -9,6 +9,7 @@ import { setHasGivenRating, showRatingScreen } from "../store/rating/rating-redu
 import { switchSession } from "../store/previous-conversations/previous-conversations-middleware";
 import { PrevConversationsState } from "../store/previous-conversations/previous-conversations-reducer";
 import { IFile, setDropZoneVisible, setFileList, setFileUploadError } from "../store/input/input-reducer";
+import { openOverlay } from "../store/xapp-overlay/slice";
 
 type FromState = Pick<WebchatUIProps, 'messages' | 'unseenMessages' | 'prevConversations' | 'open' | 'typingIndicator' | 'inputMode' | 'fullscreenMessage' | 'config' | 'connected' | 'reconnectionLimit' | 'scrollToPosition'| 'lastScrolledPosition'>;
 type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' | 'onSetScrollToPosition' | 'onSetLastScrolledPosition' | 'onTriggerEngagementMessage'>;
@@ -26,6 +27,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         options: { sessionId },
         rating: { showRatingScreen, hasGivenRating, requestRatingScreenTitle, customRatingTitle, customRatingCommentText, requestRatingSubmitButtonText, requestRatingEventBannerText, requestRatingChatStatusBadgeText },
         input: { sttActive, textActive, isDropZoneVisible, fileList, fileUploadError },
+        xAppOverlay: { open: isXAppOverlayOpen}
     }) => ({
         currentSession: sessionId,
         messages,
@@ -57,6 +59,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         showPrevConversations,
         showChatOptionsScreen,
         hasAcceptedTerms,
+        isXAppOverlayOpen,
     }),
     dispatch => ({
         onSendMessage: (text, data, options) => dispatch(sendMessage({ text, data }, options)),
@@ -80,6 +83,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onSetDropZoneVisible: (isVisible: boolean) => dispatch(setDropZoneVisible(isVisible)),
         onSetFileList: (fileList: IFile[]) => dispatch(setFileList(fileList)),
         onSetFileUploadError: (error: boolean) => dispatch(setFileUploadError(error)),
+        openXAppOverlay: (url: string) => dispatch(openOverlay(url)),
     }),
     ({ fullscreenMessage, ...state }, dispatch, props) => {
         if (!fullscreenMessage) {
