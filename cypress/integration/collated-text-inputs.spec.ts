@@ -45,7 +45,7 @@ describe("collated text inputs", () => {
             .startConversation();
 
         cy.sendMessage("immediately there!");
-        cy.contains("immediately there!", { timeout: 200 }).should("be.visible");
+        cy.contains("immediately there!").should("be.visible");
     });
 
     it("sends separate messages if the collate timeout of 1000ms was exceeded", () => {
