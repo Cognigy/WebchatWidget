@@ -44,7 +44,7 @@
 	},
 	"dependencies": {
 		"@braintree/sanitize-url": "^6.0.0",
-		"@cognigy/chat-components": "0.19.1",
+		"@cognigy/chat-components": "0.20.1",
 		"@cognigy/socket-client": "5.0.0-beta.10",
 		"@emotion/cache": "^10.0.29",
 		"@emotion/react": "^11.7.1",
