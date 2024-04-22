@@ -123,7 +123,11 @@ const xAppOverlay: FC = () => {
 	return (
 		<Root tabIndex={0} role="dialog" aria-modal="true">
 			{showHeader && (
-				<Header title={screenTitle} hideBackButton onClose={handleCloseIconClick} />
+				<Header
+					title={screenTitle}
+					hideBackButton
+					onClose={showCloseIcon ? handleCloseIconClick : undefined}
+				/>
 			)}
 			<Iframe src={url} />
 		</Root>
