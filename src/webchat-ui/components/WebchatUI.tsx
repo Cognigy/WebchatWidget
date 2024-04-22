@@ -1016,8 +1016,6 @@ export class WebchatUI extends React.PureComponent<
 		};
 
 		const getRegularLayoutContent = () => {
-			if (isXAppOverlayOpen) return <XAppOverlay />;
-
 			if (showInformationMessage) return <InformationMessage message={informMessage} />;
 
 			if (!hasAcceptedTerms && config.settings.privacyNotice.enabled)
@@ -1027,6 +1025,8 @@ export class WebchatUI extends React.PureComponent<
 						onAcceptTerms={handleAcceptTerms}
 					/>
 				);
+
+			if (isXAppOverlayOpen) return <XAppOverlay />;
 
 			if (showPrevConversations)
 				return (
