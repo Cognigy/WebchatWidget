@@ -53,9 +53,9 @@ import {
 import { HomeScreen } from "./presentational/HomeScreen";
 import { PrevConversationsList } from "./presentational/previous-conversations/ConversationsList";
 import { PrevConversationsState } from "../../webchat/store/previous-conversations/previous-conversations-reducer";
-import { ChatEvent } from '@cognigy/chat-components';
+import { ChatEvent } from "@cognigy/chat-components";
 import { isConversationEnded } from "./presentational/previous-conversations/helpers";
-import { ISendMessageOptions } from '../../webchat/store/messages/message-middleware';
+import { ISendMessageOptions } from "../../webchat/store/messages/message-middleware";
 import { InformationMessage } from "./presentational/InformationMessage";
 import { PrivacyNotice } from "./presentational/PrivacyNotice";
 import { ChatOptions } from "./presentational/chat-options/ChatOptions";
@@ -64,7 +64,8 @@ import DropZone from "./plugins/input/file/DropZone";
 import { IFile } from "../../webchat/store/input/input-reducer";
 import { CSSTransition } from "react-transition-group";
 import { TeaserMessage } from "./presentational/TeaserMessage";
-import XAppSubmitObserver from "./functional/XAppSubmitObserver";
+import XAppOverlay from "./functional/xapp-overlay/XAppOverlay";
+import { isXAppOverlayMessage } from "../../webchat/store/xapp-overlay/utils";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -117,7 +118,7 @@ export interface WebchatUIProps {
 	onSetShowHomeScreen: (show: boolean) => void;
 
 	sttActive: boolean;
-    textActive: boolean;
+	textActive: boolean;
 	isDropZoneVisible: boolean;
 	onSetDropZoneVisible: (isVisible: boolean) => void;
 	fileList: IFile[];
@@ -135,7 +136,9 @@ export interface WebchatUIProps {
 
 	hasAcceptedTerms: boolean;
 	onAcceptTerms: () => void;
-	onSetStoredMessage: (message: UIState['storedMessage']) => void;
+	onSetStoredMessage: (message: UIState["storedMessage"]) => void;
+	isXAppOverlayOpen: boolean;
+	openXAppOverlay: (message: string | undefined) => void;
 }
 
 interface WebchatUIState {
@@ -276,15 +279,24 @@ export class WebchatUI extends React.PureComponent<
 			isThemeChanged = true;
 		}
 		if (!!chatInterfaceColor && chatInterfaceColor !== state.theme.backgroundWebchat) {
-			document.documentElement.style.setProperty("--webchat-background-webchat", chatInterfaceColor);
+			document.documentElement.style.setProperty(
+				"--webchat-background-webchat",
+				chatInterfaceColor,
+			);
 			isThemeChanged = true;
 		}
 		if (!!botMessageColor && botMessageColor !== state.theme.backgroundBotMessage) {
-			document.documentElement.style.setProperty("--webchat-background-bot-message", botMessageColor);
+			document.documentElement.style.setProperty(
+				"--webchat-background-bot-message",
+				botMessageColor,
+			);
 			isThemeChanged = true;
 		}
 		if (!!userMessageColor && userMessageColor !== state.theme.backgroundUserMessage) {
-			document.documentElement.style.setProperty("--webchat-background-user-message", userMessageColor);
+			document.documentElement.style.setProperty(
+				"--webchat-background-user-message",
+				userMessageColor,
+			);
 			isThemeChanged = true;
 		}
 		if (!!textLinkColor && textLinkColor !== state.theme.textLink) {
@@ -292,24 +304,28 @@ export class WebchatUI extends React.PureComponent<
 			isThemeChanged = true;
 		}
 
-		if (isThemeChanged) return {
-			...state,
-			theme: createWebchatTheme({
-				primaryColor,
-				secondaryColor,
-				backgroundWebchat: chatInterfaceColor,
-				backgroundBotMessage: botMessageColor,
-				backgroundUserMessage: userMessageColor,
-				textLink: textLinkColor,
-			}),
-		};
+		if (isThemeChanged)
+			return {
+				...state,
+				theme: createWebchatTheme({
+					primaryColor,
+					secondaryColor,
+					backgroundWebchat: chatInterfaceColor,
+					backgroundBotMessage: botMessageColor,
+					backgroundUserMessage: userMessageColor,
+					textLink: textLinkColor,
+				}),
+			};
 
 		return null;
 	}
 
 	private checkNotificationsHidden = async () => {
 		let timeoutReached = false;
-		if (this.props.config.settings.embeddingConfiguration.awaitEndpointConfig && !this.props.config.isConfigLoaded) {
+		if (
+			this.props.config.settings.embeddingConfiguration.awaitEndpointConfig &&
+			!this.props.config.isConfigLoaded
+		) {
 			const timeout =
 				(this.props.config.settings.embeddingConfiguration?.connectivity?.enabled &&
 					this.props.config.settings.embeddingConfiguration?.connectivity?.timeout) ||
@@ -347,12 +363,20 @@ export class WebchatUI extends React.PureComponent<
 	}
 
 	async componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
-		if (this?.props?.config?.settings?.colors?.primaryColor !== prevProps?.config?.settings?.colors?.primaryColor ||
-			this?.props?.config?.settings?.colors?.secondaryColor !== prevProps?.config?.settings?.colors?.secondaryColor ||
-			this?.props?.config?.settings?.colors?.chatInterfaceColor !== prevProps?.config?.settings?.colors?.chatInterfaceColor ||
-			this?.props?.config?.settings?.colors?.botMessageColor !== prevProps?.config?.settings?.colors?.botMessageColor ||
-			this?.props?.config?.settings?.colors?.userMessageColor !== prevProps?.config?.settings?.colors?.userMessageColor ||
-			this?.props?.config?.settings?.colors?.textLinkColor !== prevProps?.config?.settings?.colors?.textLinkColor) {
+		if (
+			this?.props?.config?.settings?.colors?.primaryColor !==
+				prevProps?.config?.settings?.colors?.primaryColor ||
+			this?.props?.config?.settings?.colors?.secondaryColor !==
+				prevProps?.config?.settings?.colors?.secondaryColor ||
+			this?.props?.config?.settings?.colors?.chatInterfaceColor !==
+				prevProps?.config?.settings?.colors?.chatInterfaceColor ||
+			this?.props?.config?.settings?.colors?.botMessageColor !==
+				prevProps?.config?.settings?.colors?.botMessageColor ||
+			this?.props?.config?.settings?.colors?.userMessageColor !==
+				prevProps?.config?.settings?.colors?.userMessageColor ||
+			this?.props?.config?.settings?.colors?.textLinkColor !==
+				prevProps?.config?.settings?.colors?.textLinkColor
+		) {
 			this.setState({
 				theme: createWebchatTheme({
 					primaryColor: this?.props?.config?.settings?.colors?.primaryColor,
@@ -389,7 +413,10 @@ export class WebchatUI extends React.PureComponent<
 			const { unseenMessages } = this.props;
 
 			// update the "unseen message preview" text
-			if (this.props.config.settings.unreadMessages.enablePreview || (!this.state.wasOpen && this.props.config.settings.teaserMessage.text)) {
+			if (
+				this.props.config.settings.unreadMessages.enablePreview ||
+				(!this.state.wasOpen && this.props.config.settings.teaserMessage.text)
+			) {
 				let lastUnseenMessageText = "";
 
 				// find the last readable message and remember its text
@@ -407,7 +434,10 @@ export class WebchatUI extends React.PureComponent<
 			}
 
 			// play a notification for unread messages
-			if (unseenMessages.length > 0 && this.props.config.settings.unreadMessages.enableSound) {
+			if (
+				unseenMessages.length > 0 &&
+				this.props.config.settings.unreadMessages.enableSound
+			) {
 				notificationSound.play();
 			}
 		}
@@ -499,10 +529,11 @@ export class WebchatUI extends React.PureComponent<
 			this.titleType = "original";
 		} else {
 			if (this.props.unseenMessages.length > 0) {
-				document.title = `(${this.props.unseenMessages.length}) ${this.props.unseenMessages.length === 1
-					? this.props.config.settings.unreadMessages.unreadMessageTitleText
-					: this.props.config.settings.unreadMessages.unreadMessageTitleTextPlural
-					}`;
+				document.title = `(${this.props.unseenMessages.length}) ${
+					this.props.unseenMessages.length === 1
+						? this.props.config.settings.unreadMessages.unreadMessageTitleText
+						: this.props.config.settings.unreadMessages.unreadMessageTitleTextPlural
+				}`;
 				this.titleType = "unread";
 			}
 		}
@@ -538,7 +569,7 @@ export class WebchatUI extends React.PureComponent<
 				onEmitAnalytics={this.props.onEmitAnalytics}
 				theme={this.state.theme}
 				sttActive={this.props.sttActive}
-                textActive={this.props.textActive}
+				textActive={this.props.textActive}
 			/>
 		);
 	};
@@ -611,7 +642,11 @@ export class WebchatUI extends React.PureComponent<
 		this.props.onSetHasGivenRating();
 	};
 
-	handleSendActionButtonMessage = (text?: string, data?: any, options?: Partial<ISendMessageOptions>) => {
+	handleSendActionButtonMessage = (
+		text?: string,
+		data?: any,
+		options?: Partial<ISendMessageOptions>,
+	) => {
 		this.props.onSetShowHomeScreen(false);
 		this.props.onSetShowChatOptionsScreen(false);
 
@@ -619,7 +654,7 @@ export class WebchatUI extends React.PureComponent<
 			this.props.onSetStoredMessage({
 				text,
 				data,
-				options
+				options,
 			});
 		} else {
 			this.props.onSendMessage(text, data, options);
@@ -640,7 +675,7 @@ export class WebchatUI extends React.PureComponent<
 		if (!this.props.open) this.props.onToggle();
 		this.props.onSetShowHomeScreen(false);
 		this.props.onSetShowChatOptionsScreen(false);
-	}
+	};
 
 	render() {
 		const { props, state } = this;
@@ -687,6 +722,8 @@ export class WebchatUI extends React.PureComponent<
 			onSetFileList,
 			onSetFileUploadError,
 			onSetDropZoneVisible,
+			isXAppOverlayOpen,
+			openXAppOverlay,
 			...restProps
 		} = props;
 		const { theme, hadConnection, lastUnseenMessageText, wasOpen } = state;
@@ -698,7 +735,8 @@ export class WebchatUI extends React.PureComponent<
 
 		if (
 			(!config.active && !config.settings.embeddingConfiguration.connectivity.enabled) ||
-			(!config.isConfigLoaded && config.settings.embeddingConfiguration.awaitEndpointConfig) ||
+			(!config.isConfigLoaded &&
+				config.settings.embeddingConfiguration.awaitEndpointConfig) ||
 			(config.isConfigLoaded &&
 				config.settings.embeddingConfiguration.awaitEndpointConfig &&
 				(isHiddenOutOfBusinessHours(config.settings.businessHours) ||
@@ -783,8 +821,10 @@ export class WebchatUI extends React.PureComponent<
 						>
 							<CacheProvider value={styleCache}>
 								{open &&
-									(!this.props.config.settings.embeddingConfiguration.awaitEndpointConfig ||
-										(this.props.config.settings.embeddingConfiguration.awaitEndpointConfig &&
+									(!this.props.config.settings.embeddingConfiguration
+										.awaitEndpointConfig ||
+										(this.props.config.settings.embeddingConfiguration
+											.awaitEndpointConfig &&
 											this.props.config.isConfigLoaded)) && (
 										<WebchatRoot
 											data-cognigy-webchat
@@ -815,7 +855,9 @@ export class WebchatUI extends React.PureComponent<
 													onClick={this.handleStartConversation}
 													config={config}
 													onEmitAnalytics={onEmitAnalytics}
-													onSendActionButtonMessage={this.handleSendActionButtonMessage}
+													onSendActionButtonMessage={
+														this.handleSendActionButtonMessage
+													}
 													onHideTeaserMessage={onHideTeaserMessage}
 													wasOpen={wasOpen}
 												/>
@@ -852,7 +894,7 @@ export class WebchatUI extends React.PureComponent<
 												ref={this.chatToggleButtonRef}
 											>
 												{open ? <CollapseIcon /> : <ChatIcon />}
-													{config.settings.unreadMessages.enableBadge ? (
+												{config.settings.unreadMessages.enableBadge ? (
 													<Badge
 														_content={unseenMessages.length}
 														className="webchat-unread-message-badge"
@@ -901,6 +943,7 @@ export class WebchatUI extends React.PureComponent<
 			onAcceptTerms,
 			onSetStoredMessage,
 			isDropZoneVisible,
+			isXAppOverlayOpen,
 		} = this.props;
 
 		let informMessage = "";
@@ -932,7 +975,6 @@ export class WebchatUI extends React.PureComponent<
 		// TODO: implement better navigation history and currentPage string property on redux
 		const isSecondaryView = showInformationMessage;
 
-
 		const handleOnClose = () => {
 			onClose?.();
 			// Restore focus to chat toggle button
@@ -947,22 +989,22 @@ export class WebchatUI extends React.PureComponent<
 				// Set timeout to focus on close button in header of home screen after animation
 				setTimeout(() => {
 					this.homeScreenCloseButtonRef?.current?.focus?.();
-				}, 450);				
+				}, 450);
 			} else {
 				onSetShowChatOptionsScreen(false);
 				onShowRatingScreen(false);
-				if(config.settings.widgetSettings.disableInputAutofocus) {
+				if (config.settings.widgetSettings.disableInputAutofocus) {
 					// Restore focus to close button in header
-					this.closeButtonInHeaderRef?.current?.focus?.();			
+					this.closeButtonInHeaderRef?.current?.focus?.();
 				}
 			}
 		};
 
 		const handleAcceptTerms = () => {
 			onAcceptTerms();
-		}
+		};
 
-		const handleDragEnter = (e) => {
+		const handleDragEnter = e => {
 			e.preventDefault();
 			e.stopPropagation();
 
@@ -971,43 +1013,57 @@ export class WebchatUI extends React.PureComponent<
 
 		const handleDropZoneVisibility = (isDropZoneVisible: boolean) => {
 			this.props.onSetDropZoneVisible(isDropZoneVisible);
-		}
+		};
 
 		const getRegularLayoutContent = () => {
-			if (showInformationMessage) return (
-				<InformationMessage message={informMessage} />
-			);
+			if (showInformationMessage) return <InformationMessage message={informMessage} />;
 
-			if (!hasAcceptedTerms && config.settings.privacyNotice.enabled) return (
-				<PrivacyNotice
-					privacyNotice={config.settings.privacyNotice}
-					onAcceptTerms={handleAcceptTerms}
-				/>
-			)
+			if (!hasAcceptedTerms && config.settings.privacyNotice.enabled)
+				return (
+					<PrivacyNotice
+						privacyNotice={config.settings.privacyNotice}
+						onAcceptTerms={handleAcceptTerms}
+					/>
+				);
 
-			if (showPrevConversations) return (
-				<PrevConversationsList
-					conversations={this.props.prevConversations}
-					onSetShowPrevConversations={onSetShowPrevConversations}
-					onSwitchSession={onSwitchSession}
-					config={config}
-				/>
-			);
+			if (isXAppOverlayOpen) return <XAppOverlay />;
 
-			if (showChatOptionsScreen || showRatingScreen) return (
-				<ChatOptions
-					config={config}
-					ratingTitleText={customRatingTitle || config.settings.chatOptions.rating.title}
-					ratingCommentText={customRatingCommentText || config.settings.chatOptions.rating.commentPlaceholder}
-					ratingSubmitButtonText={requestRatingSubmitButtonText || config.settings.chatOptions.rating.submitButtonText}
-					ratingEventBannerText={requestRatingEventBannerText || config.settings.chatOptions.rating.eventBannerText}
-					showOnlyRating={showRatingScreen}
-					hasGivenRating={this.props.hasGivenRating}
-					onSendRating={this.handleSendRating}
-					onEmitAnalytics={onEmitAnalytics}
-					onSendActionButtonMessage={this.handleSendActionButtonMessage}
-				/>
-			);
+			if (showPrevConversations)
+				return (
+					<PrevConversationsList
+						conversations={this.props.prevConversations}
+						onSetShowPrevConversations={onSetShowPrevConversations}
+						onSwitchSession={onSwitchSession}
+						config={config}
+					/>
+				);
+
+			if (showChatOptionsScreen || showRatingScreen)
+				return (
+					<ChatOptions
+						config={config}
+						ratingTitleText={
+							customRatingTitle || config.settings.chatOptions.rating.title
+						}
+						ratingCommentText={
+							customRatingCommentText ||
+							config.settings.chatOptions.rating.commentPlaceholder
+						}
+						ratingSubmitButtonText={
+							requestRatingSubmitButtonText ||
+							config.settings.chatOptions.rating.submitButtonText
+						}
+						ratingEventBannerText={
+							requestRatingEventBannerText ||
+							config.settings.chatOptions.rating.eventBannerText
+						}
+						showOnlyRating={showRatingScreen}
+						hasGivenRating={this.props.hasGivenRating}
+						onSendRating={this.handleSendRating}
+						onEmitAnalytics={onEmitAnalytics}
+						onSendActionButtonMessage={this.handleSendActionButtonMessage}
+					/>
+				);
 
 			if (isDropZoneVisible)
 				return (
@@ -1036,8 +1092,8 @@ export class WebchatUI extends React.PureComponent<
 					</HistoryWrapper>
 					{this.renderInput()}
 				</>
-			)
-		}
+			);
+		};
 
 		const getTitles = () => {
 			if (showInformationMessage && informTitle) {
@@ -1047,7 +1103,10 @@ export class WebchatUI extends React.PureComponent<
 				return config.settings.privacyNotice.title || "Privacy notice";
 			}
 			if (showPrevConversations) {
-				return config.settings.homeScreen.previousConversations.title || "Previous conversations";
+				return (
+					config.settings.homeScreen.previousConversations.title ||
+					"Previous conversations"
+				);
 			}
 			if (showChatOptionsScreen) {
 				return config.settings.chatOptions.title || "Chat options";
@@ -1059,7 +1118,7 @@ export class WebchatUI extends React.PureComponent<
 				return config.settings.layout.title;
 			}
 			return "Cognigy";
-		}
+		};
 
 		const isHomeScreenEnabled = config.settings.homeScreen.enabled;
 		const showEnabledHomeScreen = isHomeScreenEnabled && showHomeScreen;
@@ -1078,7 +1137,7 @@ export class WebchatUI extends React.PureComponent<
 
 		return (
 			<RegularLayoutRoot>
-				{
+				{!isXAppOverlayOpen && (
 					<CSSTransition
 						in={!!(!showEnabledHomeScreen || showInformationMessage)}
 						timeout={500}
@@ -1086,32 +1145,29 @@ export class WebchatUI extends React.PureComponent<
 						mountOnEnter
 						unmountOnExit
 					>
-						<Header
-							onClose={handleOnClose}
-							onGoBack={showInformationMessage ? undefined : handleOnGoBack}
-							onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
-							isChatOptionsButtonVisible={isChatOptionsButtonVisible}
-							logoUrl={!showChatOptionsScreen && !showRatingScreen
-								? config.settings.layout.logoUrl
-								: undefined
-							}
-							title={getTitles()}
-							closeButtonRef={this.closeButtonInHeaderRef}
-							menuButtonRef={this.menuButtonInHeaderRef}
-							chatToggleButtonRef={this.chatToggleButtonRef}
-							hideBackButton={hideBackButton}
-							showChatScreen={showChatScreen}
-						/>
+						{!isXAppOverlayOpen && (
+							<Header
+								onClose={handleOnClose}
+								onGoBack={showInformationMessage ? undefined : handleOnGoBack}
+								onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
+								isChatOptionsButtonVisible={isChatOptionsButtonVisible}
+								logoUrl={
+									!showChatOptionsScreen && !showRatingScreen
+										? config.settings.layout.logoUrl
+										: undefined
+								}
+								title={getTitles()}
+								closeButtonRef={this.closeButtonInHeaderRef}
+								menuButtonRef={this.menuButtonInHeaderRef}
+								chatToggleButtonRef={this.chatToggleButtonRef}
+								hideBackButton={hideBackButton}
+								showChatScreen={showChatScreen}
+							/>
+						)}
 					</CSSTransition>
-				}
-				{
-					!isSecondaryView &&
-					isHomeScreenEnabled &&
-					<CSSTransition
-						in={!showHomeScreen}
-						timeout={500}
-						classNames="hidebackground"
-					>
+				)}
+				{!isSecondaryView && isHomeScreenEnabled && (
+					<CSSTransition in={!showHomeScreen} timeout={500} classNames="hidebackground">
 						<HomeScreen
 							showHomeScreen={showHomeScreen}
 							closeButtonRef={this.homeScreenCloseButtonRef}
@@ -1121,10 +1177,10 @@ export class WebchatUI extends React.PureComponent<
 							onClose={handleOnClose}
 							config={config}
 							onEmitAnalytics={onEmitAnalytics}
-								onSendActionButtonMessage={this.handleSendActionButtonMessage}
+							onSendActionButtonMessage={this.handleSendActionButtonMessage}
 						/>
 					</CSSTransition>
-				}
+				)}
 				{
 					<CSSTransition
 						in={!!(!showEnabledHomeScreen || showInformationMessage)}
@@ -1134,9 +1190,7 @@ export class WebchatUI extends React.PureComponent<
 						unmountOnExit
 					>
 						<RegularLayoutContentWrapper>
-							{
-								getRegularLayoutContent()
-							}
+							{getRegularLayoutContent()}
 						</RegularLayoutContentWrapper>
 					</CSSTransition>
 				}
@@ -1155,7 +1209,7 @@ export class WebchatUI extends React.PureComponent<
 				onSendMessage={this.sendMessage}
 				config={config}
 				plugins={messagePlugins}
-				onSetFullscreen={() => { }}
+				onSetFullscreen={() => {}}
 				onDismissFullscreen={onDismissFullscreenMessage}
 				message={fullscreenMessage as IMessage}
 				webchatTheme={this.state.theme}
@@ -1165,8 +1219,14 @@ export class WebchatUI extends React.PureComponent<
 	}
 
 	renderHistory() {
-		const { messages, typingIndicator, config, onEmitAnalytics, onSetScrollToPosition } =
-			this.props;
+		const {
+			messages,
+			typingIndicator,
+			config,
+			onEmitAnalytics,
+			onSetScrollToPosition,
+			openXAppOverlay,
+		} = this.props;
 		const { messagePlugins = [] } = this.state;
 
 		const { enableTypingIndicator, messageDelay } = config.settings.behavior;
@@ -1197,6 +1257,7 @@ export class WebchatUI extends React.PureComponent<
 							setScrollToPosition={onSetScrollToPosition}
 							webchatTheme={this.state.theme}
 							isConversationEnded={isEnded}
+							openXAppOverlay={openXAppOverlay}
 						/>
 					);
 				})}
@@ -1206,8 +1267,9 @@ export class WebchatUI extends React.PureComponent<
 						className="webchat-chip-conversation-ended"
 					/>
 				)}
-				{enableTypingIndicator && <TypingIndicator active={isTyping} delay={messageDelay} />}
-				<XAppSubmitObserver />
+				{enableTypingIndicator && (
+					<TypingIndicator active={isTyping} delay={messageDelay} />
+				)}
 			</>
 		);
 	}
