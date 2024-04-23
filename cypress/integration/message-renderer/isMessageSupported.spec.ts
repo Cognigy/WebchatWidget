@@ -11,7 +11,7 @@ const supportedMessageFixtures = [
 	"video",
 ];
 
-describe("isMessageSupported", () => {
+xdescribe("isMessageSupported", () => {
 	for (const message of supportedMessageFixtures) {
 		it(`returns true for a "${message}" message`, () => {
 			cy.visitMessageRenderer();

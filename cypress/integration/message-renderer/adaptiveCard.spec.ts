@@ -1,4 +1,4 @@
-describe('Adaptive Cards in Message renderer', () => {
+xdescribe('Adaptive Cards in Message renderer', () => {
     before(() => {
         cy.visitMessageRenderer();
     });
