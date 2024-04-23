@@ -58,10 +58,9 @@ describe("Message with Gallery", () => {
 
     it("should post in chat on gallery button click", () => {
         cy.withMessageFixture('gallery', () => {
-            cy
-                .contains("foobar004g1b1")
-                .click()
-                .get(".webchat-message-row.user").contains("foobar004g1b1")
+        cy.contains("foobar004g1b1").focus();
+        cy.contains("foobar004g1b1").click();
+        cy.get(".webchat-message-row.user").contains("foobar004g1b1")
         })
 	})
 

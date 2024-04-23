@@ -43,8 +43,9 @@ describe("Message with List", () => {
 
     it("should post in chat on click on postback button", () => {
         cy.withMessageFixture('list', () => {
-            cy
-                .contains("foobar009l1b1").click().get(".webchat-message-row.user").contains("foobar009l1b1")
+            cy.contains("foobar009l1b1").focus();
+            cy.contains("foobar009l1b1").click();
+            cy.get(".webchat-message-row.user").contains("foobar009l1b1");
         })
     })
 

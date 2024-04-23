@@ -50,6 +50,7 @@ const TextArea = styled(TextareaAutosize)(({ theme }) => ({
 	"::-webkit-scrollbar-thumb": {
 		backgroundColor: theme.black60,
 	},
+
 }));
 
 const Button = styled.button(({ theme }) => ({
@@ -124,7 +125,6 @@ const SubmitButton = styled(Button)(({ theme }) => ({}));
 
 export interface TextInputState {
 	text: string;
-	textActive: boolean;
 }
 
 interface ISpeechInputState {
@@ -138,6 +138,8 @@ interface IBaseInputState extends TextInputState, ISpeechInputState {}
 interface IBaseInputProps extends InputComponentProps {
 	sttActive: boolean;
 	onSetSTTActive: (active: boolean) => void;
+	textActive: boolean;
+	onSetTextActive: (active: boolean) => void;
 	fileUploadError: boolean;
 	fileList: IFile[];
 	onSetFileList: (fileList: IFile[]) => void;
@@ -189,7 +191,6 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 
 		this.state = {
 			text: "",
-			textActive: false,
 
 			speechRecognition,
 			speechResult: "",
@@ -389,9 +390,9 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 	render() {
 		const { props, state } = this;
 
-		const { sttActive, fileUploadError, fileList } = props;
+		const { sttActive, fileUploadError, fileList, textActive } = props;
 
-		const { text, textActive, speechResult: speechInterim } = state;
+		const { text, speechResult: speechInterim } = state;
 
 		const { layout, fileStorageSettings, widgetSettings } = props.config.settings;
 
@@ -405,9 +406,8 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 
 		return (
 			<>
-				<InputWrapper>
-					<InputForm
-						data-active={textActive && isFileListEmpty}
+				<InputWrapper data-active={textActive && isFileListEmpty}>
+					<InputForm						
 						onSubmit={this.handleSubmit}
 						className={classnames("webchat-input-menu-form")}
 					>
@@ -418,6 +418,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 									type="file"
 									multiple
 									onChange={this.handleSelectFile}
+									aria-hidden="true"
 								/>
 								<AttachFileButton
 									className="webchat-input-button-add-attachments"
@@ -437,8 +438,8 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 									autoFocus={!disableInputAutofocus}
 									value={combineStrings(text, speechInterim)}
 									onChange={this.handleChangeTextValue}
-									onFocus={() => this.setState({ textActive: true })}
-									onBlur={() => this.setState({ textActive: false })}
+									onFocus={() => this.props.onSetTextActive(true)}
+									onBlur={() => this.props.onSetTextActive(false)}
 									onKeyDown={this.handleInputKeyDown}
 									placeholder={props.config.settings.behavior.inputPlaceholder}
 									className="webchat-input-message-input"

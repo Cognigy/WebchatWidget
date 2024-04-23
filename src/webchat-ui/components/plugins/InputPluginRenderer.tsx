@@ -17,6 +17,7 @@ export interface InputProps extends InputComponentProps, HTMLDivPropsWithoutInpu
     inputMode: string;
     webchatTheme: IWebchatTheme;
 	sttActive: boolean;
+    textActive: boolean;
 }
 
 const SmallToolbar = styled(Toolbar)({
@@ -39,14 +40,22 @@ const InputRoot = styled.div(({ theme }) => ({
     flexDirection: 'column',
     gap: 12,
     padding: "24px 20px 12px 20px",
+    borderBottom: '2px solid transparent',
+    borderBottomLeftRadius: theme.unitSize * 2,
+    borderBottomRightRadius: theme.unitSize * 2,
+    transition: 'border-bottom .2s ease-out',
 
 	'&.webchat-input-stt-active': {
 		backgroundColor: theme.backgroundUserMessage,
 	},
+
+    '&.webchat-input-text-active': {
+        borderBottomColor: theme.primaryColor,
+    },
 }))
 
 
-const InputPluginRenderer = ({ messages, config, onSendMessage, plugins, inputMode, onSetInputMode, webchatTheme, onEmitAnalytics, sttActive, ...props }: InputProps): JSX.Element => {
+const InputPluginRenderer = ({ messages, config, onSendMessage, plugins, inputMode, onSetInputMode, webchatTheme, onEmitAnalytics, sttActive, textActive, ...props }: InputProps): JSX.Element => {
     const results: any[] = [];
 
     const attributes = Object.keys(props).length > 0
@@ -95,7 +104,7 @@ const InputPluginRenderer = ({ messages, config, onSendMessage, plugins, inputMo
     const emitAnalytics = ((event: string, payload?: any) => onEmitAnalytics(`plugin/${(matchedSelectInput && matchedSelectInput.name) || 'unknown'}/${event}`, payload));
 
     return (
-		<InputRoot className={classnames("webchat-input", sttActive && "webchat-input-stt-active")}>
+		<InputRoot className={classnames("webchat-input", sttActive && "webchat-input-stt-active", textActive && "webchat-input-text-active")}>
             {tabs}
             {matchedSelectInput && (
                 <matchedSelectInput.component

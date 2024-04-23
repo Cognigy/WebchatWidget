@@ -16,7 +16,7 @@ const getKeyboardFocusableElements = (element: HTMLElement) => {
 	const firstFocusable = focusable && focusable[0] as HTMLElement;
 	const lastFocusable = focusable && focusable[focusable.length-1] as HTMLElement;
 
-	return {firstFocusable, lastFocusable};		
+	return {firstFocusable, lastFocusable, focusable};		
 }
 
 export default getKeyboardFocusableElements;

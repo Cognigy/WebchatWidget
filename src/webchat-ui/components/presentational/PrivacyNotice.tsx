@@ -67,6 +67,7 @@ export const PrivacyNotice = (props: IPrivacyNoticeProps) => {
 				<AcceptButton
 					className="webchat-privacy-notice-accept-button"
 					onClick={onAcceptTerms}
+					autoFocus
 				>
 					{submitButtonText}
 				</AcceptButton>

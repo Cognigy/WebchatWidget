@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { ActionButtons, Typography } from "@cognigy/chat-components";
 import UnreadMessagePreview from "./UnreadMessagePreview";
+import IconButton from "./IconButton";
 import CloseIcon from "../../assets/close-16px.svg";
 import CognigyAIAvatar from "../../assets/cognigy-ai-avatar-28px.svg";
 import { IWebchatButton } from "@cognigy/socket-client";
@@ -10,7 +11,7 @@ import { IWebchatConfig } from "../../../common/interfaces/webchat-config";
 import { ISendMessageOptions } from "../../../webchat/store/messages/message-middleware";
 import { useMediaQuery } from "react-responsive";
 
-const TeaserMessageRoot = styled.div(({ theme }) => ({
+const TeaserMessageRoot = styled.div(() => ({
 	position: "fixed",
 	right: "20px",
 	bottom: "84px",
@@ -35,7 +36,13 @@ const TeaserMessageHeaderContent = styled.div(() => ({
 	flex: "1 0 0",
 }));
 
-const CloseIconWrapper = styled.div(({ theme }) => ({
+const CloseIconWrapper = styled(IconButton)(({ theme }) => ({
+	padding: 0,
+	borderRadius: 4,
+	"&:focus-visible": {
+		outline: `2px solid ${theme.primaryColor}`,
+		outlineOffset: 2,
+	},
 	svg: {
 		fill: theme.textDark,
 		width: 16,
@@ -93,7 +100,7 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 		onClick?.();
 	};
 
-	const handleHideTeaserMessage = (e: React.MouseEvent<HTMLInputElement>) => {
+	const handleHideTeaserMessage = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation();
 		e.preventDefault();
 		onHideTeaserMessage();
@@ -113,11 +120,16 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 							variant="title2-regular"
 							className="webchat-teaser-message-header-title"
 							margin={0}
+							id="webchatHeaderTitle"
 						>
 							{config.settings.layout.title || "Cognigy"}
 						</Typography>
-						<CloseIconWrapper className="webchat-teaser-message-header-close-button">
-							<CloseIcon onClick={handleHideTeaserMessage} />
+						<CloseIconWrapper
+							className="webchat-teaser-message-header-close-button"
+							onClick={handleHideTeaserMessage}
+							aria-label="Close teaser message"
+						>
+							<CloseIcon />
 						</CloseIconWrapper>
 					</TeaserMessageHeaderContent>
 				</TeaserMessageHeader>

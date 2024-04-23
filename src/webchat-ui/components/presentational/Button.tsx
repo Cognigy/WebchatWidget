@@ -57,12 +57,13 @@ export default styled.button<IColorProps>(({ color, theme }) => {
 			backgroundColor: colors.strong,
 		},
 
-		'&:focus:not(:disabled)': {
-			backgroundColor: colors.strong,
-		},
-
 		'&:active:not(:disabled)': {
 			backgroundColor: colors.weak,
-		}
+		},
+
+		'&:focus-visible': {
+			outline: `2px solid ${theme.primaryColor}`,
+			outlineOffset: 2,
+		},
 	}
 });

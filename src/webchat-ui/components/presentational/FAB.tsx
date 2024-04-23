@@ -19,6 +19,12 @@ const FAB = styled(IconButton)(({ theme }) => ({
     '&.active, &:hover': {
         backgroundImage: theme.primaryStrongGradient,
         fill: `${theme.primaryContrastColor} !important`,
+    },
+
+    '&:focus-visible': {
+        outline: `2px solid ${theme.primaryStrongColor}`,
+        outlineOffset: 2,
+        boxShadow: "none"
     }
 }));
 

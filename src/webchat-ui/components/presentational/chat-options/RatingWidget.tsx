@@ -37,9 +37,9 @@ const RatingButton = styled(IconButton)(({ theme, selected }) => ({
 		width: 16,
 		height: 16,
 	},
-	"&:focus": {
-		outline: "none",
-		boxShadow: `inset 0 0 0 2px ${theme.primaryColor}`,
+	"&: focus-visible": {
+		outline: `2px solid ${theme.primaryColor}`,
+		outlineOffset: 2,
 	},
 }));
 
@@ -69,9 +69,9 @@ const SendButton = styled(PrimaryButton)(({ theme }) => ({
 	"&:disabled": {
 		opacity: 1,
 	},
-	"&:focus": {
-		outline: "none",
-		border: `2px solid ${theme.primaryColor}`,
+	"&:focus-visible": {
+		outline: `2px solid ${theme.primaryColor}`,
+		outlineOffset: 2,
 	},
 }));
 
@@ -142,6 +142,7 @@ export const RatingWidget = (props: IRatingWidgetProps) => {
 					rows={4}
 					ref={ratingInputRef}
 					placeholder={ratingCommentText}
+					aria-label={ratingCommentText}
 				/>
 				<SendButton
 					className={`webchat-rating-widget-send-button ${

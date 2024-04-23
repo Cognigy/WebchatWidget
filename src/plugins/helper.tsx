@@ -25,7 +25,7 @@ export const registerMessagePlugin = (plugin: MessagePlugin | MessagePluginFacto
     if (window) {
         // @ts-ignore
         window.cognigyWebchatMessagePlugins = [...(window.cognigyWebchatMessagePlugins || []), plugin];
-        console.log('added cognigy message plugin');
+        console.debug('added cognigy message plugin');
     }
 }
 
@@ -64,7 +64,7 @@ export const registerInputPlugin = (plugin: InputPlugin | InputPluginFactory) =>
     if (window) {
         // @ts-ignore
         window.cognigyWebchatInputPlugins = [...(window.cognigyWebchatInputPlugins || []), plugin];
-        console.log('added cognigy input plugin');
+        console.debug('added cognigy input plugin');
     }
 }
 
