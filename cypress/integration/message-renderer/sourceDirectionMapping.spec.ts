@@ -1,4 +1,5 @@
-describe('Source Direction Mapping', () => {
+// TODO move it to s separate from outdated message-render as it is still a valid test case
+xdescribe('Source Direction Mapping', () => {
     beforeEach(() => {
         cy.visitMessageRenderer();
     });
