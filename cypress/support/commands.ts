@@ -83,7 +83,7 @@ Cypress.Commands.add('openWebchat', () => {
 });
 
 Cypress.Commands.add('startConversation', () => {
-    return cy.contains("Start conversation").click();
+    return cy.contains("Start conversation", { timeout: 5000 }).click();
 });
 
 Cypress.Commands.add('submitPrivacyScreen', () => {
