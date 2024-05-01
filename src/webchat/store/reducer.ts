@@ -36,7 +36,8 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
             return rootReducer({
                 ...state,
                 messages: [
-                    ...action.state.messages,
+                    // TODO: Prepending messages causes duplicates in the message history. Find out why messages are prepended in the first place.
+                    // ...action.state.messages,
                     ...state.messages,
                 ],
                 rating: {
