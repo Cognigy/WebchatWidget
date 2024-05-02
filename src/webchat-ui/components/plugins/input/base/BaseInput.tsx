@@ -207,6 +207,11 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 		window.WebChatInputTextCallback = (text: string) => {
 			this.setState({ text });
 		};
+		setTimeout(() => {
+			if (!this.props.config.settings.widgetSettings.disableInputAutofocus) {
+				this.inputRef.current?.focus?.();
+			}
+		}, 200);
 	}
 
 	componentDidUpdate() {
