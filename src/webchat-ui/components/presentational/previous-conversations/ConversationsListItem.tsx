@@ -88,9 +88,6 @@ const FallBackAvatar = styled(CognigyAIAvatar)(({ theme }) => ({
 	height: "28px",
 	boxSizing: "border-box",
 	border: `2px solid ${theme.white}`,
-	"& rect": {
-		fill: theme.primaryColor,
-	},
 }));
 
 interface IConversationsListItemProps {
