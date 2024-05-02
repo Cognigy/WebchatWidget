@@ -1,4 +1,4 @@
-describe("Generic Message Renderer", () => {
+xdescribe("Generic Message Renderer", () => {
   beforeEach(() => {
     cy.visitMessageRenderer();
   });

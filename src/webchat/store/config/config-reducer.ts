@@ -3,7 +3,7 @@ import {
 	IWebchatConfig,
 	IWebchatSettings,
 } from "../../../common/interfaces/webchat-config";
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 
 export type ConfigState = IWebchatConfig;
 
