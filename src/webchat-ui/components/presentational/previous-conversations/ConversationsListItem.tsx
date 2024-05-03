@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import ArrowIcon from "../../../assets/arrow-back-16px.svg";
-import AvatarPlaceholder from "../../../assets/avatar-placeholder-50px.svg";
+import CognigyAIAvatar from "../../../assets/cognigy-ai-avatar-48px.svg";
 import Ellipsis from "../../../assets/ellipsis-4px.svg";
 import { getAvatars, getLastMessagePreview, getParticipants, getRelativeTime } from "./helpers";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
@@ -82,15 +82,12 @@ const Avatar = styled.img(({ theme }) => ({
 	},
 }));
 
-const FallBackAvatar = styled(AvatarPlaceholder)(({ theme }) => ({
+const FallBackAvatar = styled(CognigyAIAvatar)(({ theme }) => ({
 	borderRadius: "50%",
 	width: "28px",
 	height: "28px",
 	boxSizing: "border-box",
 	border: `2px solid ${theme.white}`,
-	"& rect": {
-		fill: theme.primaryColor,
-	},
 }));
 
 interface IConversationsListItemProps {
@@ -129,6 +126,8 @@ export const ConversationsListItem = (props: IConversationsListItemProps) => {
 			<Left>
 				{avatars.length > 0 ? (
 					avatars.map((avatar, i) => {
+						if (!avatar) return <FallBackAvatar key={i} className="webchat-header-cognigy-logo" />;
+
 						return <Avatar key={i} src={avatar} alt="Image avatar" />;
 					})
 				) : (
