@@ -1,4 +1,4 @@
-Created on 25-03-2024 at 10:19:50
+Created on 06-05-2024 at 09:55:18
 
 {
   "@ampproject/remapping@2.2.0": {
@@ -1055,7 +1055,7 @@ Created on 25-03-2024 at 10:19:50
     "licenseFile": "node_modules/detect-browser/LICENSE",
     "copyright": "Copyright (c) 2019 Damon Oehlman <damon.oehlman@gmail.com>"
   },
-  "dompurify@2.4.3": {
+  "dompurify@2.4.9": {
     "licenses": "(MPL-2.0 OR Apache-2.0)",
     "repository": "https://github.com/cure53/DOMPurify",
     "publisher": "Mario Heiderich",
