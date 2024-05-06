@@ -33,11 +33,13 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
     switch (action.type) {
         case 'RESET_STATE': {
             // We only restore messages and prepend them to the current message history
+            console.log(action.state.messages);
+
             return rootReducer({
                 ...state,
                 messages: [
-                    // TODO: Prepending messages causes duplicates in the message history. Find out why messages are prepended in the first place.
-                    // ...action.state.messages,
+                    // To avaoid duplicate messages in chat history during re-connection, we only restore messages if the current message history is empty
+                    ...state.messages.length === 0 && action.state.messages,
                     ...state.messages,
                 ],
                 rating: {
