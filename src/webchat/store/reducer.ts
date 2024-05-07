@@ -48,11 +48,14 @@ export type SetPrevStateAction = ReturnType<typeof setPrevState>;
 export const reducer = (state = rootReducer(undefined, { type: "" }), action) => {
 	switch (action.type) {
 		case "RESET_STATE": {
-			// We only restore messages and prepend them to the current message history
 			return rootReducer(
 				{
 					...state,
-					messages: [...action.state.messages, ...state.messages],
+					messages: [
+						// To avoid duplicate messages in chat history during re-connection, we only restore messages and prepend them if the current message history is empty
+						...state.messages.length === 0 ? action.state.messages : [],
+						...state.messages
+					],
 					rating: {
 						...state.rating,
 						hasGivenRating: action.state.rating.hasGivenRating,
