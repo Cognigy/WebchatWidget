@@ -229,3 +229,9 @@ Cypress.Commands.add('updateSettings', (settings: Partial<IWebchatSettings>) => 
 
     return cy.then(() => { });
 });
+
+Cypress.Commands.add("focusInput", () => {
+	cy.get(".webchat-input-message-input").focus();
+
+	return cy.then(() => {});
+});

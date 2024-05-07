@@ -75,5 +75,7 @@ declare namespace Cypress {
        * @param settings - The partial settings object to update.
        */
       updateSettings(settings: any): Chainable<any>;
+
+      focusInput(): Chainable<any>;
     }
   }

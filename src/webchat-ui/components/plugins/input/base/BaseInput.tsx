@@ -50,7 +50,6 @@ const TextArea = styled(TextareaAutosize)(({ theme }) => ({
 	"::-webkit-scrollbar-thumb": {
 		backgroundColor: theme.black60,
 	},
-
 }));
 
 const Button = styled.button(({ theme }) => ({
@@ -207,6 +206,11 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 		window.WebChatInputTextCallback = (text: string) => {
 			this.setState({ text });
 		};
+		setTimeout(() => {
+			if (!this.props.config.settings.widgetSettings.disableInputAutofocus) {
+				this.inputRef.current?.focus?.();
+			}
+		}, 200);
 	}
 
 	componentDidUpdate() {
@@ -387,6 +391,18 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 		this.fileInputRef.current?.click();
 	};
 
+	handleFocus = () => {
+		setTimeout(() => {
+			this.props.onSetTextActive(true);
+		}, 200);
+	};
+
+	handleBlur = () => {
+		setTimeout(() => {
+			this.props.onSetTextActive(false);
+		}, 200);
+	};
+
 	render() {
 		const { props, state } = this;
 
@@ -407,7 +423,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 		return (
 			<>
 				<InputWrapper data-active={textActive && isFileListEmpty}>
-					<InputForm						
+					<InputForm
 						onSubmit={this.handleSubmit}
 						className={classnames("webchat-input-menu-form")}
 					>
@@ -438,8 +454,8 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 									autoFocus={!disableInputAutofocus}
 									value={combineStrings(text, speechInterim)}
 									onChange={this.handleChangeTextValue}
-									onFocus={() => this.props.onSetTextActive(true)}
-									onBlur={() => this.props.onSetTextActive(false)}
+									onFocus={this.handleFocus}
+									onBlur={this.handleBlur}
 									onKeyDown={this.handleInputKeyDown}
 									placeholder={props.config.settings.behavior.inputPlaceholder}
 									className="webchat-input-message-input"
