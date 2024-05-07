@@ -9,8 +9,8 @@ describe("collated text inputs", () => {
         cy.initMockWebchat()
             .openWebchat()
             .startConversation();
-        cy.get(".webchat-input-message-input").type("hi").type("{enter}");
-        cy.get(".webchat-input-message-input").type("whats up").type("{enter}");
+        cy.get(".webchat-input-message-input").wait(200).type("hi").type("{enter}");
+        cy.get(".webchat-input-message-input").wait(200).type("whats up").type("{enter}");
     
         cy.contains("hi").should("be.visible").and("have.text", "hi");
         cy.contains("whats up").should("be.visible").and("have.text", "whats up");
@@ -27,8 +27,8 @@ describe("collated text inputs", () => {
             })
             .openWebchat()
             .startConversation();
-        cy.get(".webchat-input-message-input").type("hi").type("{enter}");
-        cy.get(".webchat-input-message-input").type("whats up").type("{enter}");
+        cy.get(".webchat-input-message-input").wait(200).type("hi").type("{enter}");
+        cy.get(".webchat-input-message-input").wait(200).type("whats up").type("{enter}");
 
         cy.contains("hi whats up").should("be.visible");
     });
@@ -59,9 +59,9 @@ describe("collated text inputs", () => {
             .openWebchat()
             .startConversation();
 
-        cy.get(".webchat-input-message-input").type("hi").type("{enter}");
+        cy.get(".webchat-input-message-input").wait(200).type("hi").type("{enter}");
         cy.wait(1100);
-        cy.get(".webchat-input-message-input").type("whats up").type("{enter}");
+        cy.get(".webchat-input-message-input").wait(200).type("whats up").type("{enter}");
     
         cy.contains("hi").should("be.visible").and("have.text", "hi");
         cy.contains("whats up").should("be.visible").and("have.text", "whats up");
@@ -80,9 +80,9 @@ describe("collated text inputs", () => {
             .openWebchat()
             .startConversation();
 
-        cy.get(".webchat-input-message-input").type("hi").type("{enter}");
-        cy.wait(1100);
-        cy.get(".webchat-input-message-input").type("whats up").type("{enter}");
+        cy.get(".webchat-input-message-input").wait(200).type("hi").type("{enter}");
+        cy.wait(500);
+        cy.get(".webchat-input-message-input").wait(200).type("whats up").type("{enter}");
     
         cy.contains("hi whats up").should("be.visible");
     });
@@ -98,10 +98,10 @@ describe("collated text inputs", () => {
             .openWebchat()
             .startConversation();
 
-        cy.get(".webchat-input-message-input").type("hi").type("{enter}");
-        cy.get(".webchat-input-message-input").type("ho").type("{enter}");
+        cy.get(".webchat-input-message-input").wait(100).type("hi").type("{enter}");
+        cy.get(".webchat-input-message-input").wait(100).type("ho").type("{enter}");
         cy.sendMessage("", { containsData: true });
-        cy.get(".webchat-input-message-input").type("whats up").type("{enter}");
+        cy.get(".webchat-input-message-input").wait(1000).type("whats up").type("{enter}");
     
         cy.contains("hi ho").should("be.visible").and("have.text", "hi ho");
         cy.contains("whats up").should("be.visible").and("have.text", "whats up");
