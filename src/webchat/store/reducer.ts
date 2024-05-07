@@ -33,8 +33,6 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
     switch (action.type) {
         case 'RESET_STATE': {
             // We only restore messages and prepend them to the current message history
-            console.log(action.state.messages);
-
             return rootReducer({
                 ...state,
                 messages: [
