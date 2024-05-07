@@ -36,7 +36,7 @@ export const reducer = (state = rootReducer(undefined, { type: '' }), action) =>
             return rootReducer({
                 ...state,
                 messages: [
-                    // To avaoid duplicate messages in chat history during re-connection, we only restore messages if the current message history is empty
+                    // To avoid duplicate messages in chat history during re-connection, we only restore messages if the current message history is empty
                     ...state.messages.length === 0 && action.state.messages,
                     ...state.messages,
                 ],
