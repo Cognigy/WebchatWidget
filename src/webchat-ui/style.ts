@@ -19,6 +19,7 @@ export interface IWebchatTheme {
     backgroundWebchat: string;
     backgroundBotMessage: string;
     backgroundUserMessage: string;
+    backgroundEngagementMessage: string;
 
     textLink: string;
     textLinkHover: string;
@@ -136,6 +137,7 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
     const backgroundWebchat = "#FFFFFF";
     const backgroundBotMessage = "#FFFFFF";
     const backgroundUserMessage = "#E8EBFF";
+    const backgroundEngagementMessage = "#FFFFFF";
 
     const textLink = "#6688ED";
     const textLinkHover = "#1947D2";
@@ -203,6 +205,9 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
 
     if (!theme.backgroundUserMessage)
         theme.backgroundUserMessage = backgroundUserMessage;
+
+    if (!theme.backgroundEngagementMessage)
+        theme.backgroundEngagementMessage = backgroundEngagementMessage;
 
     if (!theme.textLink)
         theme.textLink = textLink;

@@ -260,14 +260,14 @@ export class WebchatUI extends React.PureComponent<
 		const secondaryColor = props?.config?.settings?.colors?.secondaryColor;
 		const chatInterfaceColor = props?.config?.settings?.colors?.chatInterfaceColor;
 
-		const overrideBotMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping.bot, primaryColor);
+		const overrideBotMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.bot, primaryColor);
 		const botMessageColor = overrideBotMessageColor || props?.config?.settings?.colors?.botMessageColor;
 		
-		const overrideUserMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping.bot, primaryColor);
+		const overrideUserMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.bot, primaryColor);
 		const userMessageColor = overrideUserMessageColor || props?.config?.settings?.colors?.userMessageColor;
 		const textLinkColor = props?.config?.settings?.colors?.textLinkColor;
 
-		console.log(props?.config?.settings?.widgetSettings?.sourceColorMapping)
+		const teaserMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.engagement, primaryColor);
 
 		let isThemeChanged = false;
 
@@ -306,6 +306,9 @@ export class WebchatUI extends React.PureComponent<
 			);
 			isThemeChanged = true;
 		}
+		if(!!teaserMessageColor && teaserMessageColor !== state.theme.backgroundEngagementMessage) {
+			isThemeChanged = true;
+		}
 		if (!!textLinkColor && textLinkColor !== state.theme.textLink) {
 			document.documentElement.style.setProperty("--webchat-text-link", textLinkColor);
 			isThemeChanged = true;
@@ -320,6 +323,7 @@ export class WebchatUI extends React.PureComponent<
 					backgroundWebchat: chatInterfaceColor,
 					backgroundBotMessage: botMessageColor,
 					backgroundUserMessage: userMessageColor,
+					backgroundEngagementMessage: teaserMessageColor || state.theme.backgroundEngagementMessage,
 					textLink: textLinkColor,
 				}),
 			};
