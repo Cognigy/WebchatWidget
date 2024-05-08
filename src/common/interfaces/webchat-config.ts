@@ -1,5 +1,5 @@
 export type TSourceDirection = 'incoming' | 'outgoing';
-export type TSourceColor = 'primary' | 'neutral';
+export type TSourceColor = 'primary' | 'neutral' | 'default';
 
 export interface IWebchatConfig {
 	active: boolean;

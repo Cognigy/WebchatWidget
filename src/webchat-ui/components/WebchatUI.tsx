@@ -66,6 +66,7 @@ import { CSSTransition } from "react-transition-group";
 import { TeaserMessage } from "./presentational/TeaserMessage";
 import XAppOverlay from "./functional/xapp-overlay/XAppOverlay";
 import { isXAppOverlayMessage } from "../../webchat/store/xapp-overlay/utils";
+import { getSourceBackgroundColor } from "../utils/sourceMapping";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -258,9 +259,15 @@ export class WebchatUI extends React.PureComponent<
 		const primaryColor = props?.config?.settings?.colors?.primaryColor;
 		const secondaryColor = props?.config?.settings?.colors?.secondaryColor;
 		const chatInterfaceColor = props?.config?.settings?.colors?.chatInterfaceColor;
-		const botMessageColor = props?.config?.settings?.colors?.botMessageColor;
-		const userMessageColor = props?.config?.settings?.colors?.userMessageColor;
+
+		const overrideBotMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping.bot, primaryColor);
+		const botMessageColor = overrideBotMessageColor || props?.config?.settings?.colors?.botMessageColor;
+		
+		const overrideUserMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping.bot, primaryColor);
+		const userMessageColor = overrideUserMessageColor || props?.config?.settings?.colors?.userMessageColor;
 		const textLinkColor = props?.config?.settings?.colors?.textLinkColor;
+
+		console.log(props?.config?.settings?.widgetSettings?.sourceColorMapping)
 
 		let isThemeChanged = false;
 
