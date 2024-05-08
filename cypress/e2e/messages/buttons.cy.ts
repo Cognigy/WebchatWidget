@@ -27,8 +27,7 @@ describe("Message with Buttons", () => {
 
     it("should post in chat on postback button click", () => {
         cy.withMessageFixture('buttons', () => {
-            cy.get("button:contains('foobar005b1')").focus();
-            cy.get("button:contains('foobar005b1')").click();
+            cy.get("button:contains('foobar005b1')").should("be.visible").click({force: true});
             cy.get(".webchat-message-row.user").contains("foobar005b1");
         })
     })

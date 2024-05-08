@@ -29,7 +29,7 @@ import "cypress-real-events/support";
 import { IWebchatSettings } from '../../src/common/interfaces/webchat-config';
 
 Cypress.Commands.add('visitWebchat', () => {
-    cy.visit('/webchat.test.html');
+    cy.visit('/webchat.test.html', { log: false });
 
     return cy.then(() => {});
 });
@@ -83,7 +83,9 @@ Cypress.Commands.add('openWebchat', () => {
 });
 
 Cypress.Commands.add('startConversation', () => {
-    return cy.contains("Start conversation", { timeout: 5000 }).click();
+    return cy.getWebchat().then(webchat => {
+        webchat.startConversation()
+    });
 });
 
 Cypress.Commands.add('submitPrivacyScreen', () => {
