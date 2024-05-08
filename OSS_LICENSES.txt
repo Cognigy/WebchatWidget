@@ -1,4 +1,4 @@
-Created on 08-05-2024 at 10:56:45
+Created on 08-05-2024 at 10:59:08
 
 {
   "@ampproject/remapping@2.2.0": {
@@ -213,7 +213,7 @@ Created on 08-05-2024 at 10:56:45
     "licenseFile": "node_modules/@cognigy/socket-client/LICENSE",
     "copyright": "Copyright (c) 2019 Cognigy GmbH"
   },
-  "@cognigy/webchat@2.59.2": {
+  "@cognigy/webchat@2.60.0": {
     "licenses": "MIT*",
     "publisher": "Cognigy GmbH",
     "email": "info@cognigy.com",
