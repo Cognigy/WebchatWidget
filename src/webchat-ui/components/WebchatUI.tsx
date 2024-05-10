@@ -260,15 +260,17 @@ export class WebchatUI extends React.PureComponent<
 		const secondaryColor = props?.config?.settings?.colors?.secondaryColor;
 		const chatInterfaceColor = props?.config?.settings?.colors?.chatInterfaceColor;
 
-		const overrideBotMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.bot, primaryColor);
+		const webchatPrimaryColor = primaryColor || state.theme.primaryColor;
+
+		const overrideBotMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.bot, webchatPrimaryColor);
 		const botMessageColor = overrideBotMessageColor || props?.config?.settings?.colors?.botMessageColor;
 		
-		const overrideUserMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.user, primaryColor);
+		const overrideUserMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.user, webchatPrimaryColor);
 		const userMessageColor = overrideUserMessageColor || props?.config?.settings?.colors?.userMessageColor;
 		const textLinkColor = props?.config?.settings?.colors?.textLinkColor;
 
-		const agentMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.agent, primaryColor);
-		const teaserMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.engagement, primaryColor);
+		const agentMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.agent, webchatPrimaryColor);
+		const teaserMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.engagement, webchatPrimaryColor);
 
 		let isThemeChanged = false;
 
@@ -294,6 +296,7 @@ export class WebchatUI extends React.PureComponent<
 			isThemeChanged = true;
 		}
 		if (!!botMessageColor && botMessageColor !== state.theme.backgroundBotMessage) {
+			console.log("-------setting--------------")
 			document.documentElement.style.setProperty(
 				"--webchat-background-bot-message",
 				botMessageColor,

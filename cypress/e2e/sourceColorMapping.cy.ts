@@ -29,7 +29,7 @@ describe('Source Color Mapping', () => {
 
         cy.receiveMessage('agent message', {}, 'agent');
 
-        cy.get('.webchat-message-row.agent .chat-bubble').should('have.css', 'background', 'rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box');
+        cy.get('.webchat-message-row.agent .chat-bubble').should('have.css', 'background', 'rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box');
     });
 
     // TODO: SourceColorMapping is not working anymore. Check if this is planned in a follow-up
@@ -50,7 +50,7 @@ describe('Source Color Mapping', () => {
         cy.get('.webchat-message-row.user .chat-bubble').should('have.css', 'background-color', 'rgb(255, 255, 255)');
     });
 
-    xit('should render bot messages as "primary" if configures in sourceColorMapping', () => {
+    it('should render bot messages as "primary" if configures in sourceColorMapping', () => {
         cy.visitWebchat().initMockWebchat({
             settings: {
                 widgetSettings: {
@@ -63,10 +63,10 @@ describe('Source Color Mapping', () => {
 
         cy.receiveMessage('bot message', {}, 'bot');
 
-        cy.get('.webchat-message-row.bot .chat-bubble').should('have.css', 'background-color', '#2455E6');
+        cy.get('.webchat-message-row.bot .chat-bubble').should('have.css', 'background-color', 'rgb(36, 85, 230)');
     });
 
-    xit('should render agent messages as "primary" if configures in sourceColorMapping', () => {
+    it('should render agent messages as "primary" if configures in sourceColorMapping', () => {
         cy.visitWebchat().initMockWebchat({
             settings: {
                 widgetSettings: {
@@ -79,6 +79,6 @@ describe('Source Color Mapping', () => {
 
         cy.receiveMessage('agent message', {}, 'agent');
 
-        cy.get('.webchat-message-row.agent .chat-bubble').should('have.css', 'background-color', '#2455E6');
+        cy.get('.webchat-message-row.agent .chat-bubble').should('have.css', 'background-color', 'rgb(36, 85, 230)');
     });
 });
