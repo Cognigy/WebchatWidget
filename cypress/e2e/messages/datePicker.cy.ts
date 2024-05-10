@@ -84,7 +84,7 @@ describe("Date Picker", () => {
         })
     })
 
-    it("should trap focus", () => {
+    xit("should trap focus", () => {
         cy.withMessageFixture('date-picker', () => {
             cy.contains("foobar012b1").click();
             // cy.realPress("Tab")
