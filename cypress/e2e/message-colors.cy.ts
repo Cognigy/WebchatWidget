@@ -121,12 +121,12 @@ describe('Message Color Variants', () => {
                 .should('have.css', 'background-color', 'rgb(26, 26, 26)');
         });
 
-        xit('renders a "list"', () => {
+        it('renders a "list"', () => {
             cy.receiveMessageFixture('list');
 
             cy.get('.webchat-list-template-header-button')
-                .should('have.css', 'background-color', 'rgb(63, 81, 181)')
-                .should('have.css', 'color', 'rgba(255, 255, 255, 0.95)');
+                .should('have.css', 'background-color', 'rgb(26, 26, 26)')
+                .should('have.css', 'color', 'rgb(255, 255, 255)');
         });
 
         // is always neutral
