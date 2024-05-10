@@ -32,8 +32,6 @@ describe('Source Color Mapping', () => {
         cy.get('.webchat-message-row.agent .chat-bubble').should('have.css', 'background', 'rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box');
     });
 
-    // TODO: SourceColorMapping is not working anymore. Check if this is planned in a follow-up
-
     it('should render user messages as "neutral" if configures in sourceColorMapping', () => {
         cy.visitWebchat().initMockWebchat({
             settings: {
