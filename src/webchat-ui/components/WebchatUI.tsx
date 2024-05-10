@@ -3,7 +3,7 @@ import { IMessage } from "../../common/interfaces/message";
 import Header from "./presentational/Header";
 import { CacheProvider, ThemeProvider } from "@emotion/react";
 import styled from "@emotion/styled";
-import { IWebchatTheme, createWebchatTheme } from "../style";
+import { IWebchatTheme, createWebchatTheme, getContrastColor } from "../style";
 import WebchatRoot from "./presentational/WebchatRoot";
 import { History } from "./history/History";
 import createCache from "@emotion/cache";
@@ -67,6 +67,7 @@ import { TeaserMessage } from "./presentational/TeaserMessage";
 import XAppOverlay from "./functional/xapp-overlay/XAppOverlay";
 import { isXAppOverlayMessage } from "../../webchat/store/xapp-overlay/utils";
 import { getSourceBackgroundColor } from "../utils/sourceMapping";
+import tinycolor from "tinycolor2";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -281,11 +282,18 @@ export class WebchatUI extends React.PureComponent<
 			// This is example of how a new theme properties can be added
 			// document.documentElement.style.setProperty('--webchat-background-bot-message', color);
 
+			const primaryContrastColor = getContrastColor(primaryColor);
+			document.documentElement.style.setProperty("--webchat-primary-contrast-color", primaryContrastColor);
+
 			isThemeChanged = true;
 		}
 
 		if (!!secondaryColor && secondaryColor !== state.theme.secondaryColor) {
 			document.documentElement.style.setProperty("--webchat-secondary-color", secondaryColor);
+
+			const secondaryContrastColor = getContrastColor(secondaryColor);
+			document.documentElement.style.setProperty("--webchat-secondary-contrast-color", secondaryContrastColor);
+
 			isThemeChanged = true;
 		}
 		if (!!chatInterfaceColor && chatInterfaceColor !== state.theme.backgroundWebchat) {
