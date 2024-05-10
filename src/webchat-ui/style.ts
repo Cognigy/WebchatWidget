@@ -65,12 +65,14 @@ export interface IWebchatTheme {
     fontFamily: string;
 }
 
+const BLACK_10 = "#1A1A1A";
+
 export const transformContrastColor = (color: string) => tinycolor(color)
     .setAlpha(.95)
     .toHslString();
 
 export const getContrastColor = (color: string) => transformContrastColor(tinycolor(color).isLight()
-    ? 'black'
+    ? BLACK_10
     : 'white');
 
 export const getActionColor = (color: string) => tinycolor(color).triad()[2].brighten(5).toHslString()
@@ -121,17 +123,10 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
     // Webchat endpoint default color
     const webchatEndpointDefaultColor = '#2C6CAF';
 
-    // Webchat V2 primary color
-    const cognigyBlue = '#3f51b5';
-
     // Webchat 3 Theme color defaults
     const primaryColor = '#2455E6';
-    const primaryColorHover = '#113192';
-    const primaryColorDisabled = '#D1DBFA';
 
     const secondaryColor = '#1A1A1A';
-    const secondaryColorHover = '#4D4D4D';
-    const secondaryColorDisabled = '#E5E5E5';
 
     let backgroundHome = 'radial-gradient(204.5% 136.79% at 0.53% 95.79%, #EDECF9 0%, #BFBAFF 31.77%, #2152E3 65.63%, #05309E 100%)';
     const backgroundWebchat = "#FFFFFF";
@@ -143,7 +138,7 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
     const textLinkHover = "#1947D2";
     const textLinkDisabled = "#D1DCFA";
 
-    const black10 = "#1A1A1A";
+    const black10 = BLACK_10;
     const black20 = "#333333";
     const black40 = "#666666";
     const black60 = "#999999";
@@ -257,16 +252,11 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
     if (!theme.red10)
         theme.red10 = red10;
 
-
-
     if (!theme.primaryWeakColor)
         theme.primaryWeakColor = weak(theme.primaryColor);
 
     if (!theme.primaryStrongColor)
         theme.primaryStrongColor = strong(theme.primaryColor);
-
-    if (!theme.primaryContrastColor)
-        theme.primaryContrastColor = getContrastColor(theme.primaryColor);
 
     if (!theme.primaryGradient)
         theme.primaryGradient = getGradient(theme.primaryColor);
