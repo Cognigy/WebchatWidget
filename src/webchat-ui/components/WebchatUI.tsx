@@ -65,7 +65,7 @@ import { IFile } from "../../webchat/store/input/input-reducer";
 import { CSSTransition } from "react-transition-group";
 import { TeaserMessage } from "./presentational/TeaserMessage";
 import XAppOverlay from "./functional/xapp-overlay/XAppOverlay";
-import { isXAppOverlayMessage } from "../../webchat/store/xapp-overlay/utils";
+import type { Options } from "@cognigy/socket-client/lib/interfaces/options";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -135,10 +135,11 @@ export interface WebchatUIProps {
 	onSetShowChatOptionsScreen: (show: boolean) => void;
 
 	hasAcceptedTerms: boolean;
-	onAcceptTerms: () => void;
+	onAcceptTerms: (userId: string) => void;
 	onSetStoredMessage: (message: UIState["storedMessage"]) => void;
 	isXAppOverlayOpen: boolean;
 	openXAppOverlay: (message: string | undefined) => void;
+	options?: Partial<Options>;
 }
 
 interface WebchatUIState {
@@ -1001,7 +1002,11 @@ export class WebchatUI extends React.PureComponent<
 		};
 
 		const handleAcceptTerms = () => {
-			onAcceptTerms();
+			onAcceptTerms(this.props?.options?.userId || "");
+
+			this.props.onSendMessage(undefined, {
+				data: { _cognigy: { controlCommands: [{ type: "setPrivacyPolicyAccepted" }] } },
+			});
 		};
 
 		const handleDragEnter = e => {
