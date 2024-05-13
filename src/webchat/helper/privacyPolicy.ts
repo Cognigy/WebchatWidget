@@ -13,7 +13,6 @@ export function hasAcceptedTermsInStorage(browserStorage: Storage | null, userId
 	}
 
 	const hasAcceptedTermsIds = getHasAcceptedTermsIds(browserStorage);
-	console.log("---", hasAcceptedTermsIds);
 
 	return hasAcceptedTermsIds.includes(userId);
 }
@@ -21,15 +20,9 @@ export function hasAcceptedTermsInStorage(browserStorage: Storage | null, userId
 export function setHasAcceptedTermsInStorage(browserStorage: Storage, userId: string) {
 	const hasAcceptedTermsIds = getHasAcceptedTermsIds(browserStorage);
 
-	console.log(hasAcceptedTermsIds);
-	console.log(userId);
-
 	hasAcceptedTermsIds.push(userId);
 
-	console.log(hasAcceptedTermsIds);
-
 	const uniqueUserIds = JSON.stringify([...new Set(hasAcceptedTermsIds.filter(Boolean))]);
-	console.log(uniqueUserIds);
 
 	browserStorage?.setItem?.(ACCEPTED_TERMS_KEY, uniqueUserIds);
 }
