@@ -1,7 +1,24 @@
-const ACCEPTED_TERMS_KEY = "hasAcceptedTerms";
+const STORAGE_KEY = "hasAcceptedTerms";
 
 function getHasAcceptedTermsIds(browserStorage: Storage): string[] {
-	return JSON.parse(browserStorage?.getItem?.(ACCEPTED_TERMS_KEY) || "[]");
+	let userIds: string[] = [];
+
+	if (browserStorage) {
+		const stored = browserStorage.getItem(STORAGE_KEY);
+
+		if (stored) {
+			try {
+				const parsed = JSON.parse(stored);
+				if (Array.isArray(parsed)) {
+					userIds = parsed;
+				}
+			} catch (e) {
+				return userIds;
+			}
+		}
+	}
+
+	return userIds;
 }
 
 export function hasAcceptedTermsInStorage(browserStorage: Storage | null, userId: string) {
@@ -24,5 +41,5 @@ export function setHasAcceptedTermsInStorage(browserStorage: Storage, userId: st
 
 	const uniqueUserIds = JSON.stringify([...new Set(hasAcceptedTermsIds.filter(Boolean))]);
 
-	browserStorage?.setItem?.(ACCEPTED_TERMS_KEY, uniqueUserIds);
+	browserStorage?.setItem?.(STORAGE_KEY, uniqueUserIds);
 }
