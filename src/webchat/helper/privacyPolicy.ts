@@ -12,8 +12,11 @@ function getHasAcceptedTermsIds(browserStorage: Storage): string[] {
 				if (Array.isArray(parsed)) {
 					userIds = parsed;
 				}
-			} catch (e) {
-				return userIds;
+			} catch (error) {
+				console.error(
+					`[Webchat Privacy Policy]: Error parsing ${STORAGE_KEY} from ${browserStorage}`,
+					error,
+				);
 			}
 		}
 	}
