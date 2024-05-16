@@ -1004,9 +1004,13 @@ export class WebchatUI extends React.PureComponent<
 		const handleAcceptTerms = () => {
 			onAcceptTerms(this.props?.options?.userId || "");
 
-			this.props.onSendMessage(undefined, {
-				data: { _cognigy: { controlCommands: [{ type: "setPrivacyPolicy" }] } },
-			});
+			const data = {
+				_cognigy: {
+					controlCommands: [{ type: "setPrivacyPolicy" }],
+				},
+			};
+
+			this.props.onSendMessage("", data);
 		};
 
 		const handleDragEnter = e => {
