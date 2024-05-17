@@ -21,6 +21,7 @@ import { isDisabledOutOfBusinessHours } from '../helper/businessHours';
 import { isDisabledDueToConnectivity } from '../helper/connectivity';
 import { createNotification } from '../../webchat-ui/components/presentational/Notifications';
 import { getStorage } from '../helper/storage';
+import { hasAcceptedTermsInStorage } from '../helper/privacyPolicy';
 
 export interface WebchatProps extends FromProps {
     url: string;
@@ -63,8 +64,9 @@ export class Webchat extends React.PureComponent<WebchatProps> {
 		const disableLocalStorage = settings?.embeddingConfiguration?.disableLocalStorage ?? false;
 		const useSessionStorage = settings?.embeddingConfiguration?.useSessionStorage ?? false;
 		const browserStorage = getStorage({ disableLocalStorage, useSessionStorage });
-		if (browserStorage?.getItem('hasAcceptedTerms') === 'true') {
-			this.store.dispatch(setHasAcceptedTerms());
+		const userId = this.client.socketOptions.userId;
+		if (hasAcceptedTermsInStorage(browserStorage, userId)) {
+			this.store.dispatch(setHasAcceptedTerms(userId));
 		}
 
         this.store.dispatch(loadConfig());
@@ -155,6 +157,7 @@ export class Webchat extends React.PureComponent<WebchatProps> {
             <Provider store={this.store}>
                 <ConnectedWebchatUI
                     {...props}
+                    options={options}
                     messagePlugins={messagePlugins}
                     inputPlugins={inputPlugins}
                     onEmitAnalytics={this.emitAnalytics}

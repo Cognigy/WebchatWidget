@@ -13,7 +13,7 @@ import { openOverlay } from "../store/xapp-overlay/slice";
 
 type FromState = Pick<WebchatUIProps, 'messages' | 'unseenMessages' | 'prevConversations' | 'open' | 'typingIndicator' | 'inputMode' | 'fullscreenMessage' | 'config' | 'connected' | 'reconnectionLimit' | 'scrollToPosition'| 'lastScrolledPosition'>;
 type FromDispatch = Pick<WebchatUIProps, 'onSendMessage' | 'onSetInputMode' | 'onSetFullscreenMessage' | 'onDismissFullscreenMessage' | 'onClose' | 'onToggle' | 'onSetScrollToPosition' | 'onSetLastScrolledPosition' | 'onTriggerEngagementMessage'>;
-export type FromProps = Pick<WebchatUIProps, 'messagePlugins' | 'inputPlugins' | 'webchatRootProps' | 'webchatToggleProps'>;
+export type FromProps = Pick<WebchatUIProps, 'messagePlugins' | 'inputPlugins' | 'webchatRootProps' | 'webchatToggleProps' | 'options'>;
 type Merge = FromState & FromDispatch & FromProps & Pick<WebchatUIProps, 'fullscreenMessage'>;
 
 export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Merge, StoreState>(
@@ -24,7 +24,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         connection: { connected, reconnectionLimit },
         ui: { open, typing, inputMode, fullscreenMessage, scrollToPosition, lastScrolledPosition, showHomeScreen, showPrevConversations, showChatOptionsScreen, hasAcceptedTerms },
         config,
-        options: { sessionId },
+        options: { sessionId, userId },
         rating: { showRatingScreen, hasGivenRating, requestRatingScreenTitle, customRatingTitle, customRatingCommentText, requestRatingSubmitButtonText, requestRatingEventBannerText, requestRatingChatStatusBadgeText },
         input: { sttActive, textActive, isDropZoneVisible, fileList, fileUploadError },
         xAppOverlay: { open: isXAppOverlayOpen}
@@ -60,6 +60,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         showChatOptionsScreen,
         hasAcceptedTerms,
         isXAppOverlayOpen,
+        userId
     }),
     dispatch => ({
         onSendMessage: (text, data, options) => dispatch(sendMessage({ text, data }, options)),
@@ -78,7 +79,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         onSetShowPrevConversations: (show: boolean) => dispatch(setShowPrevConversations(show)),
         onSetShowChatOptionsScreen: (show: boolean) => dispatch(setShowChatOptionsScreen(show)),
         onSwitchSession: (sessionId?: string, conversation?: PrevConversationsState[string]) => dispatch(switchSession(sessionId, conversation)),
-        onAcceptTerms: () => dispatch(setHasAcceptedTerms()),
+        onAcceptTerms: (userId: string) => dispatch(setHasAcceptedTerms(userId)),
         onSetStoredMessage: (message: UIState['storedMessage']) => dispatch(setStoredMessage(message)),
         onSetDropZoneVisible: (isVisible: boolean) => dispatch(setDropZoneVisible(isVisible)),
         onSetFileList: (fileList: IFile[]) => dispatch(setFileList(fileList)),
