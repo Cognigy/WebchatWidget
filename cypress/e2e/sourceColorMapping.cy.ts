@@ -37,7 +37,7 @@ describe('Source Color Mapping', () => {
             settings: {
                 widgetSettings: {
                     sourceColorMapping: {
-                        user: 'neutral'
+                        user: 'bot'
                     }
                 }
             }
@@ -53,7 +53,7 @@ describe('Source Color Mapping', () => {
             settings: {
                 widgetSettings: {
                     sourceColorMapping: {
-                        bot: 'primary'
+                        bot: 'user'
                     }
                 }
             }
@@ -61,7 +61,7 @@ describe('Source Color Mapping', () => {
 
         cy.receiveMessage('bot message', {}, 'bot');
 
-        cy.get('.webchat-message-row.bot .chat-bubble').should('have.css', 'background-color', 'rgb(36, 85, 230)');
+        cy.get('.webchat-message-row.bot .chat-bubble').should('have.css', 'background-color', 'rgb(232, 235, 255)');
     });
 
     it('should render agent messages as "primary" if configures in sourceColorMapping', () => {
@@ -69,7 +69,7 @@ describe('Source Color Mapping', () => {
             settings: {
                 widgetSettings: {
                     sourceColorMapping: {
-                        agent: 'primary'
+                        agent: 'user'
                     }
                 }
             }
@@ -77,6 +77,6 @@ describe('Source Color Mapping', () => {
 
         cy.receiveMessage('agent message', {}, 'agent');
 
-        cy.get('.webchat-message-row.agent .chat-bubble').should('have.css', 'background-color', 'rgb(36, 85, 230)');
+        cy.get('.webchat-message-row.agent .chat-bubble').should('have.css', 'background-color', 'rgb(232, 235, 255)');
     });
 });

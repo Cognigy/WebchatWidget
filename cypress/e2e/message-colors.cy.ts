@@ -6,9 +6,9 @@ describe('Message Color Variants', () => {
             cy.initMockWebchat({
                 settings: {
                     sourceColorMapping: {
-                        agent: 'neutral',
-                        user: 'neutral',
-                        bot: 'neutral'
+                        agent: 'bot',
+                        user: 'bot',
+                        bot: 'bot'
                     }
                 }
             });
@@ -81,9 +81,9 @@ describe('Message Color Variants', () => {
                 settings: {
                     widgetSettings: {
                         sourceColorMapping: {
-                            agent: 'primary',
-                            user: 'primary',
-                            bot: 'primary'
+                            agent: 'user',
+                            user: 'user',
+                            bot: 'user'
                         }
                     }
                 }
@@ -95,7 +95,7 @@ describe('Message Color Variants', () => {
         it('renders a "text with buttons"', () => {
             cy.receiveMessageFixture('buttons');
 
-            cy.get('.webchat-buttons-template-root .chat-bubble').should('have.css', 'background', 'rgb(36, 85, 230) none repeat scroll 0% 0% / auto padding-box border-box');
+            cy.get('.webchat-buttons-template-root .chat-bubble').should('have.css', 'background', 'rgb(232, 235, 255) none repeat scroll 0% 0% / auto padding-box border-box');
             cy.get('.webchat-buttons-template-root').should('have.css', 'color', 'rgb(255, 255, 255)');
         });
 
@@ -106,7 +106,7 @@ describe('Message Color Variants', () => {
                 cy.receiveMessage(text, data, source);
 
                 cy.get('.webchat-quick-reply-template-root .chat-bubble')
-                    .should('have.css', 'background', 'rgb(36, 85, 230) none repeat scroll 0% 0% / auto padding-box border-box');
+                    .should('have.css', 'background', 'rgb(232, 235, 255) none repeat scroll 0% 0% / auto padding-box border-box');
             });
         });
 
