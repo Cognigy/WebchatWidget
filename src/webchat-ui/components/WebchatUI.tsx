@@ -260,18 +260,16 @@ export class WebchatUI extends React.PureComponent<
 		const primaryColor = props?.config?.settings?.colors?.primaryColor;
 		const secondaryColor = props?.config?.settings?.colors?.secondaryColor;
 		const chatInterfaceColor = props?.config?.settings?.colors?.chatInterfaceColor;
+		const sourceColorMapping = props?.config?.settings?.widgetSettings?.sourceColorMapping;
 
-		const webchatPrimaryColor = primaryColor || state.theme.primaryColor;
+		const overrideBotMessageColor = getSourceBackgroundColor(sourceColorMapping?.bot, props?.config?.settings?.colors);
+		const overrideUserMessageColor = getSourceBackgroundColor(sourceColorMapping?.user, props?.config?.settings?.colors);
+		const overrideAgentMessageColor = getSourceBackgroundColor(sourceColorMapping?.agent, props?.config?.settings?.colors);
 
-		const overrideBotMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.bot, webchatPrimaryColor);
-		const botMessageColor = overrideBotMessageColor || props?.config?.settings?.colors?.botMessageColor;
-		
-		const overrideUserMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.user, webchatPrimaryColor);
+		const botMessageColor = overrideBotMessageColor || props?.config?.settings?.colors?.botMessageColor;		
 		const userMessageColor = overrideUserMessageColor || props?.config?.settings?.colors?.userMessageColor;
-		const textLinkColor = props?.config?.settings?.colors?.textLinkColor;
 
-		const agentMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.agent, webchatPrimaryColor);
-		const teaserMessageColor = getSourceBackgroundColor(props?.config?.settings?.widgetSettings?.sourceColorMapping?.engagement, webchatPrimaryColor);
+		const textLinkColor = props?.config?.settings?.colors?.textLinkColor;
 
 		let isThemeChanged = false;
 
@@ -317,14 +315,11 @@ export class WebchatUI extends React.PureComponent<
 			);
 			isThemeChanged = true;
 		}
-		if (agentMessageColor) {
+		if (overrideAgentMessageColor) {
 			document.documentElement.style.setProperty(
 				"--webchat-background-agent-message",
-				agentMessageColor,
+				overrideAgentMessageColor,
 			);
-		}
-		if(!!teaserMessageColor && teaserMessageColor !== state.theme.backgroundEngagementMessage) {
-			isThemeChanged = true;
 		}
 		if (!!textLinkColor && textLinkColor !== state.theme.textLink) {
 			document.documentElement.style.setProperty("--webchat-text-link", textLinkColor);
@@ -340,7 +335,6 @@ export class WebchatUI extends React.PureComponent<
 					backgroundWebchat: chatInterfaceColor,
 					backgroundBotMessage: botMessageColor,
 					backgroundUserMessage: userMessageColor,
-					backgroundEngagementMessage: teaserMessageColor || state.theme.backgroundEngagementMessage,
 					textLink: textLinkColor,
 				}),
 			};

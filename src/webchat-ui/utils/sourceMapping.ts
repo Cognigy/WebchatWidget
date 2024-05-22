@@ -1,10 +1,10 @@
-import { TSourceColor } from "../../common/interfaces/webchat-config";
+import { IWebchatSettings, TSourceColorV3 } from "../../common/interfaces/webchat-config";
 
-export function getSourceBackgroundColor(colorKey: TSourceColor, primaryColor: string): string | null {
-    if (colorKey === "primary") {
-        return primaryColor;
-    } else if (colorKey === "neutral") {
-        return "rgb(255, 255, 255)";
+export function getSourceBackgroundColor(colorKey: TSourceColorV3, colors: IWebchatSettings["colors"]): string | null {
+    if (colorKey === "bot") {
+        return colors.botMessageColor;
+    } else if (colorKey === "user") {
+        return colors.userMessageColor;
     } else {
         return null;
     }
