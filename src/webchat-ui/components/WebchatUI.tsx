@@ -67,6 +67,7 @@ import { TeaserMessage } from "./presentational/TeaserMessage";
 import XAppOverlay from "./functional/xapp-overlay/XAppOverlay";
 import { getSourceBackgroundColor } from "../utils/sourceMapping";
 import type { Options } from "@cognigy/socket-client/lib/interfaces/options";
+import { over } from "lodash";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -266,6 +267,10 @@ export class WebchatUI extends React.PureComponent<
 		const overrideUserMessageColor = getSourceBackgroundColor(sourceColorMapping?.user, props?.config?.settings?.colors);
 		const overrideAgentMessageColor = getSourceBackgroundColor(sourceColorMapping?.agent, props?.config?.settings?.colors);
 
+		const overrideBotMessageBorderColor = sourceColorMapping?.bot === "user" ? "transparent" : null;
+		const overrideUserMessageBorderColor = sourceColorMapping?.user === "bot" ? state.theme.black80 : null;
+		const overrideAgentMessageBorderColor = sourceColorMapping?.agent === "user" ? "transparent" : null;
+
 		const botMessageColor = overrideBotMessageColor || props?.config?.settings?.colors?.botMessageColor;		
 		const userMessageColor = overrideUserMessageColor || props?.config?.settings?.colors?.userMessageColor;
 
@@ -316,10 +321,16 @@ export class WebchatUI extends React.PureComponent<
 			isThemeChanged = true;
 		}
 		if (overrideAgentMessageColor) {
-			document.documentElement.style.setProperty(
-				"--webchat-background-agent-message",
-				overrideAgentMessageColor,
-			);
+			document.documentElement.style.setProperty("--webchat-background-agent-message", overrideAgentMessageColor);
+		}
+		if (overrideBotMessageBorderColor) {
+			document.documentElement.style.setProperty("--webchat-border-bot-message", overrideBotMessageBorderColor);
+		}
+		if (overrideUserMessageBorderColor) {
+			document.documentElement.style.setProperty("--webchat-border-user-message", overrideUserMessageBorderColor);
+		}
+		if (overrideAgentMessageBorderColor) {
+			document.documentElement.style.setProperty("--webchat-border-agent-message", overrideAgentMessageBorderColor);
 		}
 		if (!!textLinkColor && textLinkColor !== state.theme.textLink) {
 			document.documentElement.style.setProperty("--webchat-text-link", textLinkColor);
