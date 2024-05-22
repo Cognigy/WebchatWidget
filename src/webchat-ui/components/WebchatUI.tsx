@@ -982,6 +982,14 @@ export class WebchatUI extends React.PureComponent<
 			this.chatToggleButtonRef?.current?.focus?.();
 		};
 
+		const handleCloseAndReset = () => {
+			onSwitchSession();
+			onSetShowHomeScreen(true);
+			onClose();
+			// Restore focus to chat toggle button
+			this.chatToggleButtonRef?.current?.focus?.();
+		}
+
 		// TODO implement proper navigation solution
 		const handleOnGoBack = () => {
 			if (!showChatOptionsScreen && !showRatingScreen) {
@@ -1156,7 +1164,8 @@ export class WebchatUI extends React.PureComponent<
 					>
 						{!isXAppOverlayOpen && (
 							<Header
-								onClose={handleOnClose}
+								onClose={handleCloseAndReset}
+								onMinimize={handleOnClose}
 								onGoBack={showInformationMessage ? undefined : handleOnGoBack}
 								onSetShowChatOptionsScreen={onSetShowChatOptionsScreen}
 								isChatOptionsButtonVisible={isChatOptionsButtonVisible}

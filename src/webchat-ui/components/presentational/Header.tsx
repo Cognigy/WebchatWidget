@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import styled from "@emotion/styled";
 import IconButton from "./IconButton";
 import CloseIcon from "../../assets/close-16px.svg";
+import MinimizeIcon from "../../assets/minimize-16px.svg";
 import GoBackIcon from "../../assets/arrow-back-16px.svg";
 import MenuIcon from "../../assets/menu-16px.svg";
 import Notifications from "./Notifications";
@@ -99,6 +100,7 @@ interface HeaderProps {
 	logoUrl?: string;
 	isChatOptionsButtonVisible?: boolean;
 	onClose?: () => void;
+	onMinimize?: () => void;
 	onGoBack?: () => void;
 	onSetShowChatOptionsScreen?: (show: boolean) => void;
 	closeButtonRef?: React.RefObject<HTMLButtonElement>;
@@ -113,6 +115,7 @@ const Header: FC<HeaderProps> = props => {
 		logoUrl,
 		title,
 		onClose,
+		onMinimize,
 		onGoBack,
 		onSetShowChatOptionsScreen,
 		closeButtonRef,
@@ -173,27 +176,43 @@ const Header: FC<HeaderProps> = props => {
 					</Typography>
 				</div>
 				<HeaderIconsWrapper>
-					{isChatOptionsButtonVisible && (
-						<HeaderIconButton
-							data-header-menu-button
-							onClick={handleMenuClick}
-							aria-label="Menu"
-							ref={menuButtonRef}
-						>
-							<MenuIcon />
-						</HeaderIconButton>
-					)}
-					{onClose && (
-						<HeaderIconButton
-							data-header-close-button
-							onClick={handleCloseClick}
-							className="webchat-header-close-button"
-							aria-label="Close Chat"
-							ref={closeButtonRef}
-						>
-							<CloseIcon />
-						</HeaderIconButton>
-					)}
+					{// Menu Button
+						isChatOptionsButtonVisible && (
+							<HeaderIconButton
+								data-header-menu-button
+								onClick={handleMenuClick}
+								aria-label="Menu"
+								ref={menuButtonRef}
+							>
+								<MenuIcon />
+							</HeaderIconButton>
+						)
+					}
+					{// Minimize Button
+						onMinimize && (
+							<HeaderIconButton
+								data-header-minimize-button
+								onClick={onMinimize}
+								className="webchat-header-minimize-button"
+								aria-label="Minimize Chat"
+							>
+								<MinimizeIcon />
+							</HeaderIconButton>
+						)
+					}
+					{// Close Button
+						onClose && (
+							<HeaderIconButton
+								data-header-close-button
+								onClick={handleCloseClick}
+								className="webchat-header-close-button"
+								aria-label="Close Chat"
+								ref={closeButtonRef}
+							>
+								<CloseIcon />
+							</HeaderIconButton>
+						)
+					}
 				</HeaderIconsWrapper>
 			</HeaderBar>
 			<Notifications />
