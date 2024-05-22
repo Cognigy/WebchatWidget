@@ -67,7 +67,6 @@ import { TeaserMessage } from "./presentational/TeaserMessage";
 import XAppOverlay from "./functional/xapp-overlay/XAppOverlay";
 import { getSourceBackgroundColor } from "../utils/sourceMapping";
 import type { Options } from "@cognigy/socket-client/lib/interfaces/options";
-import { over } from "lodash";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -311,6 +310,8 @@ export class WebchatUI extends React.PureComponent<
 				"--webchat-background-bot-message",
 				botMessageColor,
 			);
+			const botMessageContrastColor = getContrastColor(botMessageColor);
+			document.documentElement.style.setProperty("--webchat-bot-message-contrast-color", botMessageContrastColor);
 			isThemeChanged = true;
 		}
 		if (!!userMessageColor && userMessageColor !== state.theme.backgroundUserMessage) {
@@ -318,10 +319,14 @@ export class WebchatUI extends React.PureComponent<
 				"--webchat-background-user-message",
 				userMessageColor,
 			);
+			const userMessageContrastColor = getContrastColor(userMessageColor);
+			document.documentElement.style.setProperty("--webchat-user-message-contrast-color", userMessageContrastColor);
 			isThemeChanged = true;
 		}
 		if (overrideAgentMessageColor) {
 			document.documentElement.style.setProperty("--webchat-background-agent-message", overrideAgentMessageColor);
+			const agentMessageContrastColor = getContrastColor(overrideAgentMessageColor);
+			document.documentElement.style.setProperty("--webchat-agent-message-contrast-color", agentMessageContrastColor);
 		}
 		if (overrideBotMessageBorderColor) {
 			document.documentElement.style.setProperty("--webchat-border-bot-message", overrideBotMessageBorderColor);
