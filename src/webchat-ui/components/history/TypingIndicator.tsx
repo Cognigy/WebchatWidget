@@ -3,10 +3,12 @@ import styled from "@emotion/styled";
 import { TypingIndicator as ComponentsTypingIndicator } from "@cognigy/chat-components";
 
 import { useIsMounted } from "../../utils/is-mounted";
+import { TSourceDirection } from "../../../common/interfaces/webchat-config";
 
 interface ITypingIndicatorProps {
 	active: boolean;
 	delay?: number;
+	direction?: TSourceDirection;
 }
 
 const ChatTypingIndicator = styled(ComponentsTypingIndicator)({
@@ -18,7 +20,7 @@ const HiddenChatTypingIndicator = styled(ChatTypingIndicator)({
 });
 
 const TypingIndicator: FC<ITypingIndicatorProps> = props => {
-	const { active, delay } = props;
+	const { active, delay, direction } = props;
 
 	const isMounted = useIsMounted();
 
@@ -52,7 +54,7 @@ const TypingIndicator: FC<ITypingIndicatorProps> = props => {
 
 	if (!isVisible) return <HiddenChatTypingIndicator />;
 
-	return <ChatTypingIndicator />;
+	return <ChatTypingIndicator direction={direction} />;
 };
 
 export default TypingIndicator;
