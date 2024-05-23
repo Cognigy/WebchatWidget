@@ -24,7 +24,7 @@ describe('Source Color Mapping', () => {
         cy.get('.webchat-message-row.bot .chat-bubble').should('have.css', 'background', 'rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box');
     });
 
-    it('should render agent messages as "primary" by default', () => {
+    it('should render agent messages as "neutral" by default', () => {
         cy.visitWebchat().initMockWebchat().openWebchat().startConversation();
 
         cy.receiveMessage('agent message', {}, 'agent');
@@ -32,14 +32,12 @@ describe('Source Color Mapping', () => {
         cy.get('.webchat-message-row.agent .chat-bubble').should('have.css', 'background', 'rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box');
     });
 
-    // TODO: SourceColorMapping is not working anymore. Check if this is planned in a follow-up
-
-    xit('should render user messages as "neutral" if configures in sourceColorMapping', () => {
+    it('should render user messages as "neutral" if configures in sourceColorMapping', () => {
         cy.visitWebchat().initMockWebchat({
             settings: {
                 widgetSettings: {
                     sourceColorMapping: {
-                        user: 'neutral'
+                        user: 'bot'
                     }
                 }
             }
@@ -50,12 +48,12 @@ describe('Source Color Mapping', () => {
         cy.get('.webchat-message-row.user .chat-bubble').should('have.css', 'background-color', 'rgb(255, 255, 255)');
     });
 
-    xit('should render bot messages as "primary" if configures in sourceColorMapping', () => {
+    it('should render bot messages as "primary" if configures in sourceColorMapping', () => {
         cy.visitWebchat().initMockWebchat({
             settings: {
                 widgetSettings: {
                     sourceColorMapping: {
-                        bot: 'primary'
+                        bot: 'user'
                     }
                 }
             }
@@ -66,12 +64,12 @@ describe('Source Color Mapping', () => {
         cy.get('.webchat-message-row.bot .chat-bubble').should('have.css', 'background-color', 'rgb(232, 235, 255)');
     });
 
-    xit('should render agent messages as "primary" if configures in sourceColorMapping', () => {
+    it('should render agent messages as "primary" if configures in sourceColorMapping', () => {
         cy.visitWebchat().initMockWebchat({
             settings: {
                 widgetSettings: {
                     sourceColorMapping: {
-                        agent: 'primary'
+                        agent: 'user'
                     }
                 }
             }

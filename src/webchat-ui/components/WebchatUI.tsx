@@ -3,7 +3,7 @@ import { IMessage } from "../../common/interfaces/message";
 import Header from "./presentational/Header";
 import { CacheProvider, ThemeProvider } from "@emotion/react";
 import styled from "@emotion/styled";
-import { IWebchatTheme, createWebchatTheme } from "../style";
+import { IWebchatTheme, createWebchatTheme, getContrastColor } from "../style";
 import WebchatRoot from "./presentational/WebchatRoot";
 import { History } from "./history/History";
 import createCache from "@emotion/cache";
@@ -65,6 +65,7 @@ import { IFile } from "../../webchat/store/input/input-reducer";
 import { CSSTransition } from "react-transition-group";
 import { TeaserMessage } from "./presentational/TeaserMessage";
 import XAppOverlay from "./functional/xapp-overlay/XAppOverlay";
+import { getSourceBackgroundColor } from "../utils/sourceMapping";
 import type { Options } from "@cognigy/socket-client/lib/interfaces/options";
 
 export interface WebchatUIProps {
@@ -259,8 +260,19 @@ export class WebchatUI extends React.PureComponent<
 		const primaryColor = props?.config?.settings?.colors?.primaryColor;
 		const secondaryColor = props?.config?.settings?.colors?.secondaryColor;
 		const chatInterfaceColor = props?.config?.settings?.colors?.chatInterfaceColor;
-		const botMessageColor = props?.config?.settings?.colors?.botMessageColor;
-		const userMessageColor = props?.config?.settings?.colors?.userMessageColor;
+		const sourceColorMapping = props?.config?.settings?.widgetSettings?.sourceColorMapping;
+
+		const overrideBotMessageColor = getSourceBackgroundColor(sourceColorMapping?.bot, props?.config?.settings?.colors);
+		const overrideUserMessageColor = getSourceBackgroundColor(sourceColorMapping?.user, props?.config?.settings?.colors);
+		const overrideAgentMessageColor = getSourceBackgroundColor(sourceColorMapping?.agent, props?.config?.settings?.colors);
+
+		const overrideBotMessageBorderColor = sourceColorMapping?.bot === "user" ? "transparent" : null;
+		const overrideUserMessageBorderColor = sourceColorMapping?.user === "bot" ? state.theme.black80 : null;
+		const overrideAgentMessageBorderColor = sourceColorMapping?.agent === "user" ? "transparent" : null;
+
+		const botMessageColor = overrideBotMessageColor || props?.config?.settings?.colors?.botMessageColor;		
+		const userMessageColor = overrideUserMessageColor || props?.config?.settings?.colors?.userMessageColor;
+
 		const textLinkColor = props?.config?.settings?.colors?.textLinkColor;
 
 		let isThemeChanged = false;
@@ -272,11 +284,18 @@ export class WebchatUI extends React.PureComponent<
 			// This is example of how a new theme properties can be added
 			// document.documentElement.style.setProperty('--webchat-background-bot-message', color);
 
+			const primaryContrastColor = getContrastColor(primaryColor);
+			document.documentElement.style.setProperty("--webchat-primary-contrast-color", primaryContrastColor);
+
 			isThemeChanged = true;
 		}
 
 		if (!!secondaryColor && secondaryColor !== state.theme.secondaryColor) {
 			document.documentElement.style.setProperty("--webchat-secondary-color", secondaryColor);
+
+			const secondaryContrastColor = getContrastColor(secondaryColor);
+			document.documentElement.style.setProperty("--webchat-secondary-contrast-color", secondaryContrastColor);
+
 			isThemeChanged = true;
 		}
 		if (!!chatInterfaceColor && chatInterfaceColor !== state.theme.backgroundWebchat) {
@@ -291,6 +310,8 @@ export class WebchatUI extends React.PureComponent<
 				"--webchat-background-bot-message",
 				botMessageColor,
 			);
+			const botMessageContrastColor = getContrastColor(botMessageColor);
+			document.documentElement.style.setProperty("--webchat-bot-message-contrast-color", botMessageContrastColor);
 			isThemeChanged = true;
 		}
 		if (!!userMessageColor && userMessageColor !== state.theme.backgroundUserMessage) {
@@ -298,7 +319,23 @@ export class WebchatUI extends React.PureComponent<
 				"--webchat-background-user-message",
 				userMessageColor,
 			);
+			const userMessageContrastColor = getContrastColor(userMessageColor);
+			document.documentElement.style.setProperty("--webchat-user-message-contrast-color", userMessageContrastColor);
 			isThemeChanged = true;
+		}
+		if (overrideAgentMessageColor) {
+			document.documentElement.style.setProperty("--webchat-background-agent-message", overrideAgentMessageColor);
+			const agentMessageContrastColor = getContrastColor(overrideAgentMessageColor);
+			document.documentElement.style.setProperty("--webchat-agent-message-contrast-color", agentMessageContrastColor);
+		}
+		if (overrideBotMessageBorderColor) {
+			document.documentElement.style.setProperty("--webchat-border-bot-message", overrideBotMessageBorderColor);
+		}
+		if (overrideUserMessageBorderColor) {
+			document.documentElement.style.setProperty("--webchat-border-user-message", overrideUserMessageBorderColor);
+		}
+		if (overrideAgentMessageBorderColor) {
+			document.documentElement.style.setProperty("--webchat-border-agent-message", overrideAgentMessageBorderColor);
 		}
 		if (!!textLinkColor && textLinkColor !== state.theme.textLink) {
 			document.documentElement.style.setProperty("--webchat-text-link", textLinkColor);
