@@ -1,6 +1,6 @@
 export type TSourceDirection = "incoming" | "outgoing";
-export type TSourceColor = "primary" | "neutral";
-export type TSourceColorV3 = "bot" | "user";
+export type TSourceColorV2 = "primary" | "neutral";
+export type TSourceColor = "bot" | "user";
 
 export interface IWebchatConfig {
 	active: boolean;
@@ -109,10 +109,10 @@ export interface IWebchatV2Settings {
 		user: TSourceDirection;
 	};
 	sourceColorMapping: {
-		agent: TSourceColor;
-		bot: TSourceColor;
-		engagement: TSourceColor;
-		user: TSourceColor;
+		agent: TSourceColorV2;
+		bot: TSourceColorV2;
+		engagement: TSourceColorV2;
+		user: TSourceColorV2;
 	};
 	_endpointTokenUrl: string;
 	privacyMessage: string;
@@ -319,9 +319,9 @@ export interface IWebchatSettings {
 			user: TSourceDirection;
 		};
 		sourceColorMapping: {
-			agent: TSourceColorV3;
-			bot: TSourceColorV3;
-			user: TSourceColorV3;
+			agent: TSourceColor;
+			bot: TSourceColor;
+			user: TSourceColor;
 		};
 	};
 }

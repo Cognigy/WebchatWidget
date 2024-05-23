@@ -550,9 +550,9 @@ interface IWebchatSettings {
 			user: TSourceDirection;
 		};
 		sourceColorMapping: {
-			agent: TSourceColorV3;
-			bot: TSourceColorV3;
-			user: TSourceColorV3;
+			agent: TSourceColor;
+			bot: TSourceColor;
+			user: TSourceColor;
 		};
 	};
 }
