@@ -203,9 +203,13 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     };
 
     handleAbort = () => {
-      const { message } = this.props;
-
       this.props.onDismissFullscreen();
+    }
+
+    handleOnChange = (_, selectedString) => {
+      if (selectedString) {
+        this.setState({ msg: selectedString })
+      }
     }
 
     onKeyDown = (event) => {
@@ -297,7 +301,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     static getOptionsFromMessage(message: IMessage) {
       const { data } = message.data._plugin;
 
-      const dateFormat = data.dateFormat || 'YYYY-MM-DD';
+      const dateFormat = data.dateFormat || 'Y-m-d';
       const defaultDate = DatePicker.transformNamedDate(data.defaultDate)
         || DatePicker.transformNamedDate(data.minDate)
         || undefined;
@@ -307,9 +311,13 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       const flatpickrLocaleId = getFlatpickrLocaleId(localeId);
       let locale = l10n[flatpickrLocaleId];
       const enableTime = !!data.enableTime;
-      const timeTemp = data.time_24hr ? 'H:i' : 'h:i'; //12-hour format without AM/PM
-      const timeWithSeconds = data.enableSeconds ? `${timeTemp}:S` : timeTemp;
-      const timeFormat = data.time_24hr ? timeWithSeconds :`${timeWithSeconds} K` //12-hour format with AM/PM
+
+      const timeFormat = `${data.time_24hr ? "H" : "h"}:i${
+				data.enableSeconds ? ":S" : ""
+        }${data.time_24hr ? "" : " K"}`;
+
+      const dateFormatString = enableTime ? `${dateFormat} ${timeFormat}` : dateFormat;
+      const dateFormatLocalString = `L${enableTime ? " LT" : ""}${data.enableSeconds ? " S" : ""}`;
       
       if ( localeId === 'gb' ) locale = { ...locale, firstDayOfWeek: 1 };
       const options = {
@@ -320,7 +328,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         minuteIncrement: data.minuteIncrement || 5,
         noCalendar: data.noCalendar || false,
         weekNumbers: data.weekNumbers || false,
-        dateFormat: enableTime ? `${dateFormat} ${timeFormat}` : dateFormat,
+        dateFormat: dateFormatString,
         defaultDate,
         disable: [] as any[],
         enable: [] as any[],
@@ -336,7 +344,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         parseDate: dateString => moment(dateString).toDate(),
         // if no custom formatting is defined, apply default formatting
         formatDate: !data.dateFormat
-          ? date => moment(date).locale(momentLocaleId).format(enableTime ? 'L LT' : 'L')
+          ? date => moment(date).locale(momentLocaleId).format(dateFormatLocalString)
           : undefined
       };
 
@@ -415,7 +423,8 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
           </Header>
           <Content className="webchat-plugin-date-picker-content">
             <Flatpickr
-              onChange={(dates, msg) => { this.setState({ msg }) }}
+              onChange={this.handleOnChange}
+              onReady={this.handleOnChange} // we need it to store defaultDate in state
               options={
                 options
               }
