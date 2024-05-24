@@ -1314,7 +1314,7 @@ export class WebchatUI extends React.PureComponent<
 					/>
 				)}
 				{enableTypingIndicator && (
-					<TypingIndicator active={isTyping} delay={messageDelay} />
+					<TypingIndicator active={isTyping} delay={messageDelay} direction={config?.settings?.widgetSettings?.sourceDirectionMapping?.bot || "incoming"}/>
 				)}
 			</>
 		);
