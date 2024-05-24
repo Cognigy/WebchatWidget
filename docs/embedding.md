@@ -546,7 +546,6 @@ interface IWebchatSettings {
 		sourceDirectionMapping: {
 			agent: TSourceDirection;
 			bot: TSourceDirection;
-			engagement: TSourceDirection;
 			user: TSourceDirection;
 		};
 		sourceColorMapping: {

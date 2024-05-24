@@ -191,7 +191,6 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 			sourceDirectionMapping: {
 				agent: 'incoming',
 				bot: 'incoming',
-				engagement: 'incoming',
 				user: 'outgoing',
 			},
 			sourceColorMapping: {
