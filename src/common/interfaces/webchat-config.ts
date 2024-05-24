@@ -1,5 +1,6 @@
-export type TSourceDirection = 'incoming' | 'outgoing';
-export type TSourceColor = 'primary' | 'neutral';
+export type TSourceDirection = "incoming" | "outgoing";
+export type TSourceColorV2 = "primary" | "neutral";
+export type TSourceColor = "bot" | "user";
 
 export interface IWebchatConfig {
 	active: boolean;
@@ -35,7 +36,7 @@ export interface IWebchatV2Settings {
 		text: string;
 		timeout: number;
 		title: string;
-	}
+	};
 	designTemplate: number;
 	disableBranding: boolean;
 	disableDefaultReplyCompatiblityMode: boolean;
@@ -108,10 +109,10 @@ export interface IWebchatV2Settings {
 		user: TSourceDirection;
 	};
 	sourceColorMapping: {
-		agent: TSourceColor;
-		bot: TSourceColor;
-		engagement: TSourceColor;
-		user: TSourceColor;
+		agent: TSourceColorV2;
+		bot: TSourceColorV2;
+		engagement: TSourceColorV2;
+		user: TSourceColorV2;
 	};
 	_endpointTokenUrl: string;
 	privacyMessage: string;
@@ -276,7 +277,6 @@ export interface IWebchatSettings {
 		position: "centered" | "bottomRight";
 	};
 
-
 	// Settings related to the webchat browser embedding
 	// These settings are NOT configurable via the Endpoint Editor in Cognigy.AI
 	embeddingConfiguration: {
@@ -291,8 +291,8 @@ export interface IWebchatSettings {
 			text: string;
 			timeout: number;
 			title: string;
-		}
-	},
+		};
+	};
 
 	// Additional Settings to configure the webchat widget behavior
 	// These settings are NOT configurable via the Endpoint Editor in Cognigy.AI
@@ -321,7 +321,6 @@ export interface IWebchatSettings {
 		sourceColorMapping: {
 			agent: TSourceColor;
 			bot: TSourceColor;
-			engagement: TSourceColor;
 			user: TSourceColor;
 		};
 	};

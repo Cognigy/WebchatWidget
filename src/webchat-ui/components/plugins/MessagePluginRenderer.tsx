@@ -10,7 +10,7 @@ import { IWebchatTheme } from "../../style";
 import "../../../assets/style.css";
 import {
 	IWebchatConfig,
-	TSourceColor,
+	TSourceColorV2,
 	TSourceDirection,
 } from "../../../common/interfaces/webchat-config";
 
@@ -111,7 +111,7 @@ const MessagePluginRenderer = ({
 		return "incoming";
 	})();
 
-	const color = ((): TSourceColor => {
+	const color = ((): TSourceColorV2 => {
 		const configColor = config.settings.widgetSettings.sourceColorMapping[source];
 
 		if (configColor) return configColor;

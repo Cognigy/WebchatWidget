@@ -8,13 +8,14 @@ import Notifications from "./Notifications";
 import classnames from "classnames";
 import { Typography } from "@cognigy/chat-components";
 import CognigyAIAvatar from "../../assets/cognigy-ai-avatar-48px.svg";
+import { getContrastColor } from "../../style";
 
 const HeaderBar = styled.div(({ theme }) => ({
 	alignItems: "center",
 	borderBottom: `1px solid ${theme.black80}`,
 	backgroundColor: theme.backgroundWebchat,
 	position: "relative",
-	color: theme.black10,
+	color: getContrastColor(theme.backgroundWebchat),
 	display: "flex",
 	flexShrink: 0,
 	fontSize: 18,

@@ -114,8 +114,9 @@ export const setPageVisible = (visible: boolean) => ({
 export type SetPageVisibleAction = ReturnType<typeof setPageVisible>;
 
 const SET_HAS_ACCEPTED_TERMS = 'SET_HAS_ACCEPTED_TERMS';
-export const setHasAcceptedTerms = () => ({
+export const setHasAcceptedTerms = (userId: string) => ({
     type: SET_HAS_ACCEPTED_TERMS as 'SET_HAS_ACCEPTED_TERMS',
+    userId
 });
 export type SetHasAcceptedTermsAction = ReturnType<typeof setHasAcceptedTerms>;
 

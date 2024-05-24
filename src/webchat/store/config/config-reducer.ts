@@ -195,10 +195,9 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 				user: 'outgoing',
 			},
 			sourceColorMapping: {
-				agent: 'primary',
-				bot: 'primary',
-				engagement: 'primary',
-				user: 'neutral',
+				agent: 'bot',
+				bot: 'bot',
+				user: 'user',
 			},
 		},
 	},

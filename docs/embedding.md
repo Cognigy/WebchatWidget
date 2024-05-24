@@ -344,10 +344,9 @@ Additional Settings to configure the webchat widget behavior <br>
 #### Source Color Mapping
 | Name | Type | Value |
 | - | - | - |
-| agent | string | `"primary" \| "neutral"` |
-| bot | string | `"primary" \| "neutral"` |
-| engagement | string | `"primary" \| "neutral"` |
-| user | string | `"primary" \| "neutral"` |
+| agent | string | `"bot" \| "user"` |
+| bot | string | `"bot" \| "user"` |
+| user | string | `"bot" \| "user"` |
 
 #### Settings Interface
 The full interface for the Webchat Settings.
@@ -553,7 +552,6 @@ interface IWebchatSettings {
 		sourceColorMapping: {
 			agent: TSourceColor;
 			bot: TSourceColor;
-			engagement: TSourceColor;
 			user: TSourceColor;
 		};
 	};
