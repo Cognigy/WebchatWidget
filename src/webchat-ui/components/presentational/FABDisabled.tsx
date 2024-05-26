@@ -1,6 +1,6 @@
+import React from 'react';
 import { styled } from "../../style";
 import IconButton from "./IconButton";
-const image = '../../assets/Robo1.png'; // Adjust the path as necessary
 
 
 const FABDisabled = styled(IconButton)(({ theme }) => ({
@@ -10,14 +10,18 @@ const FABDisabled = styled(IconButton)(({ theme }) => ({
     width: 56,
     height: 56,
     backgroundColor: theme.greyColor,
-    backgroundImage: `url(${image})`,
-    backgroundSize: 'cover',
     color: theme.greyContrastColor,
     fill: theme.greyContrastColor,
     overflow: 'visible',
     boxShadow: theme.shadow,
     borderRadius: '50%',
     marginTop: theme.unitSize * 2,
+    '& img': {
+        width: '100%',
+        height: '100%',
+        borderRadius: '50%',
+    },
 }));
+
 
 export default FABDisabled;

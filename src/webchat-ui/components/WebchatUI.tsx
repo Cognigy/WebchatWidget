@@ -22,6 +22,7 @@ import { ChatScroller } from './history/ChatScroller';
 import FAB from './presentational/FAB';
 import WebchatWrapper from './presentational/WebchatWrapper';
 import ChatIcon from '../assets/baseline-chat-24px.svg';
+import RoboIcon from '../assets/custom-icon-robo.svg';
 import CloseIcon from '../assets/baseline-close-24px.svg';
 import DisconnectOverlay from './presentational/DisconnectOverlay';
 import { IWebchatConfig } from '../../common/interfaces/webchat-config';
@@ -595,7 +596,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                     ref={this.chatToggleButtonRef}
                                                     disabled
                                                 >
-                                                    <ChatIcon />
+                                                    <RoboIcon />
                                                 </FABDisabled>
                                             </div>
                                             : <FAB
@@ -610,7 +611,7 @@ export class WebchatUI extends React.PureComponent<React.HTMLProps<HTMLDivElemen
                                                 {open ? (
                                                     <CloseIcon />
                                                 ) : (
-                                                    <ChatIcon />
+                                                    <RoboIcon />
                                                 )}
                                                 {
                                                     config.settings.enableUnreadMessageBadge ?

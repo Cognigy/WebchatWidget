@@ -31,8 +31,8 @@ export default styled.button<IColorProps>(({ theme }) => {
         transition: createTransition('background-color', 'color', 'fill'),
 
         'svg': {
-            width: 22,
-            height: 22
+            width: 33,
+            height: 33
         },
     }
 });
