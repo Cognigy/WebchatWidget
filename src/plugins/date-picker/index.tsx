@@ -109,11 +109,11 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       borderColor: theme.greyColor,
       color: theme.greyColor,
       cursor: 'default'
-	},
-	'&:focus':{
-		outline: 'none',
-		boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`
-	}
+  },
+  '&:focus':{
+    outline: 'none',
+    boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`
+  }
   }));
 
   const Padding = styled.div(({ theme }) => ({
@@ -312,12 +312,12 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       let locale = l10n[flatpickrLocaleId];
       const enableTime = !!data.enableTime;
 
-      const timeFormat = `${data.time_24hr ? "H" : "h"}:i${
-				data.enableSeconds ? ":S" : ""
-        }${data.time_24hr ? "" : " K"}`;
+      const timeFormat = `${data.time_24hr ? "H" : "h"}:i${data.enableSeconds ? ":S" : ""}${
+      data.time_24hr ? "" : " K"
+    }`;
 
       const dateFormatString = enableTime ? `${dateFormat} ${timeFormat}` : dateFormat;
-      const dateFormatLocalString = `L${enableTime ? " LT" : ""}${data.enableSeconds ? " S" : ""}`;
+      const dateFormatLocalString = `L${enableTime ? " LT" : ""}${data.enableSeconds ? "S" : ""}`;
       
       if ( localeId === 'gb' ) locale = { ...locale, firstDayOfWeek: 1 };
       const options = {
@@ -359,7 +359,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         // resolve relative date names like today, tomorrow or yesterday
         .map(DatePicker.transformNamedDate);
         
-	  // the code in function_enable_disable was executed in a vm to check that its return value is from type boolean
+    // the code in function_enable_disable was executed in a vm to check that its return value is from type boolean
       if (data?.function_enable_disable?.length > 0) {
         try {
           const flatpickrFn = new Function(`"use strict"; return  ${data.function_enable_disable}`)();        
