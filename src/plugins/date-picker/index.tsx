@@ -109,11 +109,11 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       borderColor: theme.greyColor,
       color: theme.greyColor,
       cursor: 'default'
-  },
-  '&:focus':{
-    outline: 'none',
-    boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`
-  }
+    },
+    '&:focus':{
+      outline: 'none',
+      boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`
+    }
   }));
 
   const Padding = styled.div(({ theme }) => ({
@@ -359,7 +359,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         // resolve relative date names like today, tomorrow or yesterday
         .map(DatePicker.transformNamedDate);
         
-    // the code in function_enable_disable was executed in a vm to check that its return value is from type boolean
+      // the code in function_enable_disable was executed in a vm to check that its return value is from type boolean
       if (data?.function_enable_disable?.length > 0) {
         try {
           const flatpickrFn = new Function(`"use strict"; return  ${data.function_enable_disable}`)();        
