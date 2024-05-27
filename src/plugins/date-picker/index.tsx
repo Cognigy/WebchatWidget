@@ -312,9 +312,9 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       let locale = l10n[flatpickrLocaleId];
       const enableTime = !!data.enableTime;
 
-      const timeFormat = `${data.time_24hr ? "H" : "h"}:i${data.enableSeconds ? ":S" : ""}${
-      data.time_24hr ? "" : " K"
-    }`;
+      const timeTemp = data.time_24hr ? 'H:i' : 'h:i'; //12-hour format without AM/PM
+      const timeWithSeconds = data.enableSeconds ? `${timeTemp}:S` : timeTemp;
+      const timeFormat = data.time_24hr ? timeWithSeconds :`${timeWithSeconds} K` //12-hour format with AM/PM
 
       const dateFormatString = enableTime ? `${dateFormat} ${timeFormat}` : dateFormat;
       const dateFormatLocalString = `L${enableTime ? " LT" : ""}${data.enableSeconds ? "S" : ""}`;
