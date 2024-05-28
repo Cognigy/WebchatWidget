@@ -311,14 +311,9 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       const flatpickrLocaleId = getFlatpickrLocaleId(localeId);
       let locale = l10n[flatpickrLocaleId];
       const enableTime = !!data.enableTime;
-
       const timeTemp = data.time_24hr ? 'H:i' : 'h:i'; //12-hour format without AM/PM
       const timeWithSeconds = data.enableSeconds ? `${timeTemp}:S` : timeTemp;
       const timeFormat = data.time_24hr ? timeWithSeconds : `${timeWithSeconds} K`; //12-hour format with AM/PM
-      const timeLocalFormat = ` LT${data.enableSeconds ? "S" : ""}`;
-
-      const dateFormatString = enableTime ? `${dateFormat} ${timeFormat}` : dateFormat;
-      const dateFormatLocalString = `L${enableTime ? timeLocalFormat : ""}`;
       
       if ( localeId === 'gb' ) locale = { ...locale, firstDayOfWeek: 1 };
       const options = {
@@ -329,7 +324,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         minuteIncrement: data.minuteIncrement || 5,
         noCalendar: data.noCalendar || false,
         weekNumbers: data.weekNumbers || false,
-        dateFormat: dateFormatString,
+        dateFormat: enableTime ? `${dateFormat} ${timeFormat}` : dateFormat,
         defaultDate,
         disable: [] as any[],
         enable: [] as any[],
@@ -345,7 +340,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         parseDate: dateString => moment(dateString).toDate(),
         // if no custom formatting is defined, apply default formatting
         formatDate: !data.dateFormat
-          ? date => moment(date).locale(momentLocaleId).format(dateFormatLocalString)
+          ? date => moment(date).locale(momentLocaleId).format(enableTime ? 'L LT' : 'L')
           : undefined
       };
 
