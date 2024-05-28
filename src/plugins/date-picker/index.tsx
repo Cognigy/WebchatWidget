@@ -314,10 +314,11 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
       const timeTemp = data.time_24hr ? 'H:i' : 'h:i'; //12-hour format without AM/PM
       const timeWithSeconds = data.enableSeconds ? `${timeTemp}:S` : timeTemp;
-      const timeFormat = data.time_24hr ? timeWithSeconds :`${timeWithSeconds} K` //12-hour format with AM/PM
+      const timeFormat = data.time_24hr ? timeWithSeconds : `${timeWithSeconds} K`; //12-hour format with AM/PM
+      const timeLocalFormat = ` LT${data.enableSeconds ? "S" : ""}`;
 
       const dateFormatString = enableTime ? `${dateFormat} ${timeFormat}` : dateFormat;
-      const dateFormatLocalString = `L${enableTime ? " LT" : ""}${data.enableSeconds ? "S" : ""}`;
+      const dateFormatLocalString = `L${enableTime ? timeLocalFormat : ""}`;
       
       if ( localeId === 'gb' ) locale = { ...locale, firstDayOfWeek: 1 };
       const options = {
