@@ -109,11 +109,11 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       borderColor: theme.greyColor,
       color: theme.greyColor,
       cursor: 'default'
-	},
-	'&:focus':{
-		outline: 'none',
-		boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`
-	}
+    },
+    '&:focus':{
+      outline: 'none',
+      boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`
+    }
   }));
 
   const Padding = styled.div(({ theme }) => ({
@@ -203,9 +203,13 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     };
 
     handleAbort = () => {
-      const { message } = this.props;
-
       this.props.onDismissFullscreen();
+    }
+
+    handleOnChange = (_, selectedString) => {
+      if (selectedString) {
+        this.setState({ msg: selectedString })
+      }
     }
 
     onKeyDown = (event) => {
@@ -297,7 +301,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     static getOptionsFromMessage(message: IMessage) {
       const { data } = message.data._plugin;
 
-      const dateFormat = data.dateFormat || 'YYYY-MM-DD';
+      const dateFormat = data.dateFormat || 'Y-m-d';
       const defaultDate = DatePicker.transformNamedDate(data.defaultDate)
         || DatePicker.transformNamedDate(data.minDate)
         || undefined;
@@ -309,7 +313,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
       const enableTime = !!data.enableTime;
       const timeTemp = data.time_24hr ? 'H:i' : 'h:i'; //12-hour format without AM/PM
       const timeWithSeconds = data.enableSeconds ? `${timeTemp}:S` : timeTemp;
-      const timeFormat = data.time_24hr ? timeWithSeconds :`${timeWithSeconds} K` //12-hour format with AM/PM
+      const timeFormat = data.time_24hr ? timeWithSeconds : `${timeWithSeconds} K`; //12-hour format with AM/PM
       
       if ( localeId === 'gb' ) locale = { ...locale, firstDayOfWeek: 1 };
       const options = {
@@ -351,7 +355,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
         // resolve relative date names like today, tomorrow or yesterday
         .map(DatePicker.transformNamedDate);
         
-	  // the code in function_enable_disable was executed in a vm to check that its return value is from type boolean
+      // the code in function_enable_disable was executed in a vm to check that its return value is from type boolean
       if (data?.function_enable_disable?.length > 0) {
         try {
           const flatpickrFn = new Function(`"use strict"; return  ${data.function_enable_disable}`)();        
@@ -415,7 +419,8 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
           </Header>
           <Content className="webchat-plugin-date-picker-content">
             <Flatpickr
-              onChange={(dates, msg) => { this.setState({ msg }) }}
+              onChange={this.handleOnChange}
+              onReady={this.handleOnChange} // we need it to store defaultDate in state
               options={
                 options
               }
