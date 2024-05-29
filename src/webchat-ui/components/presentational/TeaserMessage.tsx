@@ -10,6 +10,7 @@ import { WebchatUIProps } from "../WebchatUI";
 import { IWebchatConfig } from "../../../common/interfaces/webchat-config";
 import { ISendMessageOptions } from "../../../webchat/store/messages/message-middleware";
 import { useMediaQuery } from "react-responsive";
+import { Logo } from "./Header";
 
 const TeaserMessageRoot = styled.div(() => ({
 	position: "fixed",
@@ -60,6 +61,10 @@ const ButtonContainer = styled.div(() => ({
 		gap: "8px",
 		flexWrap: "wrap",
 	},
+}));
+
+const HeaderLogo = styled(Logo)(() => ({
+	marginInline: 0,
 }));
 
 interface ITeaserMessageProps {
@@ -114,7 +119,15 @@ export const TeaserMessage = (props: ITeaserMessageProps) => {
 				aria-live="polite"
 			>
 				<TeaserMessageHeader>
-					<CognigyAIAvatar />
+					{config?.settings?.layout?.logoUrl ? (
+						<HeaderLogo
+							src={config?.settings?.layout?.logoUrl}
+							className={"webchat-teaser-message-header-logo"}
+							alt="Chat logo"
+						/>
+					) : (
+						<CognigyAIAvatar alt="Chat logo" />
+					)}
 					<TeaserMessageHeaderContent>
 						<Typography
 							variant="title2-regular"
