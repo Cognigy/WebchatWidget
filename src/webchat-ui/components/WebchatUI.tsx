@@ -1051,7 +1051,7 @@ export class WebchatUI extends React.PureComponent<
 
 			const data = {
 				_cognigy: {
-					controlCommands: [{ type: "setPrivacyPolicy" }],
+					controlCommands: [{ type: "acceptPrivacyPolicy" }],
 				},
 			};
 
