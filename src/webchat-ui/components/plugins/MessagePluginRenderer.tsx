@@ -1,10 +1,8 @@
 import React from "react";
-import { IMessage } from "../../../common/interfaces/message";
+import { IMessage } from "@cognigy/socket-client/lib/interfaces/messageData";
 import { MessagePlugin } from "../../../common/interfaces/message-plugin";
 import { MessageSender } from "../../interfaces";
 import { getPluginsForMessage } from "../../../plugins/helper";
-import MessageRow from "../presentational/MessageRow";
-import Avatar from "../presentational/Avatar";
 import styled from "@emotion/styled";
 import { IWebchatTheme } from "../../style";
 import "../../../assets/style.css";
@@ -14,7 +12,7 @@ import {
 	TSourceDirection,
 } from "../../../common/interfaces/webchat-config";
 
-import { Message, match } from "@cognigy/chat-components";
+import { Message } from "@cognigy/chat-components";
 
 export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
 	config: IWebchatConfig;
@@ -33,14 +31,6 @@ export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
 	isConversationEnded: boolean;
 	openXAppOverlay?: (url: string | undefined) => void;
 }
-
-const FullWidthMessageRow = styled.div(({ theme }) => ({
-	flexShrink: 0,
-	marginTop: theme.unitSize,
-	marginBottom: theme.unitSize,
-	paddingTop: theme.unitSize,
-	paddingBottom: theme.unitSize,
-}));
 
 const MessagePluginRenderer = ({
 	config,
@@ -140,75 +130,24 @@ const MessagePluginRenderer = ({
 		}
 	})();
 
-	if (match(message, config)) {
+
 		return (
 			<Message
 				action={onSendMessage}
 				config={config}
 				hasReply={hasReply}
-				message={message}
-				onEmitAnalytics={onEmitAnalytics}
-				prevMessage={prevMessage}
 				isConversationEnded={isConversationEnded}
+				isFullscreen={isFullscreen}
+				message={message}
+				onDismissFullscreen={onDismissFullscreen}
+				onEmitAnalytics={onEmitAnalytics}
+				onSetFullscreen={onSetFullscreen}
 				openXAppOverlay={openXAppOverlay}
+				plugins={plugins}
+				prevMessage={prevMessage}
+				theme={webchatTheme}
 			/>
 		);
-	}
-
-	return (
-		<>
-			{matchedPlugins.map(({ component: Component, options, name = "unknown" }, index) => {
-				const emitAnalytics = (event: string, payload?: any) =>
-					onEmitAnalytics(`plugin/${name}/${event}`, payload);
-
-				const messageElement = (
-					<Component
-						key={index}
-						config={config}
-						message={message}
-						direction={direction}
-						color={color}
-						onSendMessage={onSendMessage}
-						onSetFullscreen={onSetFullscreen}
-						onDismissFullscreen={onDismissFullscreen}
-						setCardOffsetTop={setScrollToPosition}
-						attributes={attributes}
-						isFullscreen={isFullscreen}
-						theme={webchatTheme}
-						onEmitAnalytics={emitAnalytics}
-					/>
-				);
-
-				const key = `${index}:${JSON.stringify(message)}`;
-
-				if (isFullscreen) {
-					return messageElement;
-				}
-
-				if (options && options.fullwidth) {
-					return (
-						<FullWidthMessageRow className={className} key={key}>
-							{messageElement}
-						</FullWidthMessageRow>
-					);
-				}
-
-				return (
-					<MessageRow key={key} align={align} className={className}>
-						<Avatar
-							src={message.avatarUrl as string}
-							className={avatarClassName}
-							aria-label={messageSource}
-							style={{
-								display: hideAvatar ? "none" : undefined,
-							}}
-						/>
-						{messageElement}
-					</MessageRow>
-				);
-			})}
-		</>
-	);
 };
 
 export default MessagePluginRenderer;

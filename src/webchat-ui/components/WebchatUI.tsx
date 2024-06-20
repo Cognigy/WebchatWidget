@@ -13,7 +13,6 @@ import FullScreenMessage from "./history/FullScreenMessage";
 import Input from "./plugins/InputPluginRenderer";
 import baseInputPlugin from "./plugins/input/base";
 import MessagePluginRenderer from "./plugins/MessagePluginRenderer";
-import regularMessagePlugin from "./plugins/message/regular";
 import { InputPlugin } from "../../common/interfaces/input-plugin";
 import stylisRTL from "stylis-rtl";
 
@@ -396,7 +395,7 @@ export class WebchatUI extends React.PureComponent<
 	componentDidMount() {
 		this.setState({
 			inputPlugins: [...(this.props.inputPlugins || []), baseInputPlugin],
-			messagePlugins: [...(this.props.messagePlugins || []), regularMessagePlugin],
+			messagePlugins: [...(this.props.messagePlugins || [])],
 		});
 	}
 
