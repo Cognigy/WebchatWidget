@@ -12,8 +12,6 @@ import { MessagePlugin } from "../../common/interfaces/message-plugin";
 import FullScreenMessage from "./history/FullScreenMessage";
 import Input from "./plugins/InputPluginRenderer";
 import baseInputPlugin from "./plugins/input/base";
-import MessagePluginRenderer from "./plugins/MessagePluginRenderer";
-import regularMessagePlugin from "./plugins/message/regular";
 import { InputPlugin } from "../../common/interfaces/input-plugin";
 import stylisRTL from "stylis-rtl";
 
@@ -53,7 +51,7 @@ import {
 import { HomeScreen } from "./presentational/HomeScreen";
 import { PrevConversationsList } from "./presentational/previous-conversations/ConversationsList";
 import { PrevConversationsState } from "../../webchat/store/previous-conversations/previous-conversations-reducer";
-import { ChatEvent } from "@cognigy/chat-components";
+import { ChatEvent, Message } from "@cognigy/chat-components";
 import { isConversationEnded } from "./presentational/previous-conversations/helpers";
 import { ISendMessageOptions } from "../../webchat/store/messages/message-middleware";
 import { InformationMessage } from "./presentational/InformationMessage";
@@ -396,7 +394,7 @@ export class WebchatUI extends React.PureComponent<
 	componentDidMount() {
 		this.setState({
 			inputPlugins: [...(this.props.inputPlugins || []), baseInputPlugin],
-			messagePlugins: [...(this.props.messagePlugins || []), regularMessagePlugin],
+			messagePlugins: [...(this.props.messagePlugins || [])],
 		});
 	}
 
@@ -1298,21 +1296,20 @@ export class WebchatUI extends React.PureComponent<
 						.some(message => message.source === "user");
 
 					return (
-						<MessagePluginRenderer
+						<Message
+							key={JSON.stringify({ message, index })}
+							message={message}
+							action={this.sendMessage}
 							config={config}
 							hasReply={hasReply}
-							key={index}
-							message={message}
+							isConversationEnded={isConversationEnded}
 							onDismissFullscreen={() => {}}
 							onEmitAnalytics={onEmitAnalytics}
-							onSendMessage={this.sendMessage}
 							onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}
+							openXAppOverlay={openXAppOverlay}
 							plugins={messagePlugins}
 							prevMessage={messages?.[index - 1]}
-							setScrollToPosition={onSetScrollToPosition}
-							webchatTheme={this.state.theme}
-							isConversationEnded={isEnded}
-							openXAppOverlay={openXAppOverlay}
+							theme={this.state.theme}
 						/>
 					);
 				})}
