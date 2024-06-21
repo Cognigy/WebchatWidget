@@ -12,7 +12,6 @@ import { MessagePlugin } from "../../common/interfaces/message-plugin";
 import FullScreenMessage from "./history/FullScreenMessage";
 import Input from "./plugins/InputPluginRenderer";
 import baseInputPlugin from "./plugins/input/base";
-import MessagePluginRenderer from "./plugins/MessagePluginRenderer";
 import { InputPlugin } from "../../common/interfaces/input-plugin";
 import stylisRTL from "stylis-rtl";
 
