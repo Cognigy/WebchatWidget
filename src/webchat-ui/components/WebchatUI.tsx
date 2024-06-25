@@ -1267,6 +1267,8 @@ export class WebchatUI extends React.PureComponent<
 				message={fullscreenMessage as IMessage}
 				webchatTheme={this.state.theme}
 				onEmitAnalytics={onEmitAnalytics}
+				action={this.sendMessage}
+				theme={this.state.theme}
 			/>
 		);
 	}
@@ -1302,7 +1304,7 @@ export class WebchatUI extends React.PureComponent<
 							action={this.sendMessage}
 							config={config}
 							hasReply={hasReply}
-							isConversationEnded={isConversationEnded}
+							isConversationEnded={isEnded}
 							onDismissFullscreen={() => {}}
 							onEmitAnalytics={onEmitAnalytics}
 							onSetFullscreen={() => this.props.onSetFullscreenMessage(message)}
