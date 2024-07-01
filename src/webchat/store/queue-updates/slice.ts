@@ -32,7 +32,7 @@ const queueUpdates = createSlice({
 			const { message } = action;
 
 			// temporary solution until we will get real agent status updates
-			if (message?.source === "agent") {
+			if (message?.source === "agent" && state?.isQueueActive) {
 				return initialState;
 			}
 		});
