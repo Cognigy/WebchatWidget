@@ -65,6 +65,7 @@ import { TeaserMessage } from "./presentational/TeaserMessage";
 import XAppOverlay from "./functional/xapp-overlay/XAppOverlay";
 import { getSourceBackgroundColor } from "../utils/sourceMapping";
 import type { Options } from "@cognigy/socket-client/lib/interfaces/options";
+import QueueUpdates from "./history/QueueUpdates";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -1142,6 +1143,7 @@ export class WebchatUI extends React.PureComponent<
 						</h2>
 						{this.renderHistory()}
 					</HistoryWrapper>
+					<QueueUpdates />
 					{this.renderInput()}
 				</>
 			);

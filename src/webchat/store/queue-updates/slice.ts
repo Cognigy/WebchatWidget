@@ -5,14 +5,14 @@ export interface IQueueUpdateState {
 	isQueueActive: boolean;
 	position: number | null;
 	estimatedWaitTime: number | null;
-	alternativeMessage: string | null;
+	alternativeText: string | null;
 }
 
 const initialState: IQueueUpdateState = {
 	isQueueActive: false,
 	position: null,
 	estimatedWaitTime: null,
-	alternativeMessage: null,
+	alternativeText: null,
 };
 
 const queueUpdates = createSlice({
@@ -23,7 +23,7 @@ const queueUpdates = createSlice({
 			state.isQueueActive = true;
 			state.position = action.payload?.position || null;
 			state.estimatedWaitTime = action.payload?.estimatedWaitTime || null;
-			state.alternativeMessage = action.payload?.alternativeMessage || null;
+			state.alternativeText = action.payload?.alternativeText || null;
 		},
 		resetQueueData: () => initialState,
 	},
