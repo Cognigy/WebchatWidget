@@ -18,7 +18,7 @@ const StyledQueueUpdates = styled.div(({ theme }) => ({
 const QueueUpdates: FC = () => {
 	const queueUpdates = useSelector(state => state.queueUpdates ?? {});
 
-	if (!queueUpdates || !queueUpdates?.isQueueActive) return null;
+	if (!queueUpdates?.isQueueActive) return null;
 
 	return (
 		<StyledQueueUpdates>
