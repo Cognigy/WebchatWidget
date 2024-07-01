@@ -16,6 +16,8 @@ import {
 	setRequestRatingScreenTitle,
 } from "../rating/rating-reducer";
 import { SocketClient } from "@cognigy/socket-client";
+import { getEventPayload, isEventMessage, isQueueUpdate } from "../../helper/message";
+import { updateQueueData } from "../queue-updates/slice";
 
 const RECEIVE_MESSAGE = "RECEIVE_MESSAGE";
 export const receiveMessage = (message: IMessage, options: Partial<ISendMessageOptions> = {}) => ({
@@ -74,7 +76,16 @@ export const createOutputHandler = (store: Store) => output => {
 	}
 
 	store.dispatch(setTyping("remove"));
-	store.dispatch(receiveMessage(output));
+
+	// we handle event Messages in a custom way
+	if (isEventMessage(output?.data)) {
+		const payload = getEventPayload(output?.data);
+		if (isQueueUpdate(output?.data)) {
+			store.dispatch(updateQueueData(payload));
+		}
+	} else {
+		store.dispatch(receiveMessage(output));
+	}
 };
 
 export const registerMessageHandler = (store: Store, client: SocketClient) => {

@@ -25,4 +25,20 @@ export const getMessageAttachmentType = (message: IMessage): string => {
 	return message?.data?._cognigy?._webchat?.message?.attachment?.type || "";
 };
 
+export const isQueueUpdate = (message: IMessage): boolean => {
+	return !!(message?.data?._cognigy?._webchat3Event?.type === "queueUpdate");
+};
+
+export const isEventMessage = (message: IMessage): boolean => {
+	return !!message?.data?._cognigy?._webchat3Event?.type;
+};
+
+export const getEventPayload = (message: IMessage): boolean => {
+	return message?.data?._cognigy?._webchat3Event?.data;
+};
+
+export const getEventType = (message: IMessage): boolean => {
+	return message?.data?._cognigy?._webchat3Event?.type;
+};
+
 export default getTextFromMessage;
