@@ -4,13 +4,12 @@ import { Typography } from "@cognigy/chat-components";
 import { useSelector } from "../../../webchat/helper/useSelector";
 import { formatWaitTime } from "../../utils/formatWaitTime";
 
-const StyledQueueUpdates = styled.div(() => ({
+const StyledQueueUpdates = styled.div(({ theme }) => ({
 	marginBottom: "var(--webchat-message-margin-block, 24px)",
 	marginInline: "var(--webchat-message-margin-inline, 20px)",
 	padding: "12px",
 	textAlign: "center",
-	color: "var(--cc-black-40, #666)",
-	lineHeight: "140%",
+	color: theme.black40,
 	"& span": {
 		display: "block",
 	},
