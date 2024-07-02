@@ -1,13 +1,12 @@
 export interface IBaseMessage {
 	avatarName?: string;
 	avatarUrl?: string;
-	data?: any;
+	data?: Record<string, unknown> | null;
 	hasReply?: boolean;
 	prevMessage?: IMessage;
 	source: string;
 	text?: string;
 	timestamp: number;
-	traceId: string;
 }
 
 export interface IUserMessage extends IBaseMessage {
