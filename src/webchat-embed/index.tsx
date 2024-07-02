@@ -7,7 +7,6 @@ import './embedded-webchat-styles.css';
 // load plugins
 import '../plugins/get-started-button-input';
 import '../plugins/rating';
-import '../plugins/full-screen-notification';
 import { Webchat } from '../webchat/components/Webchat';
 import { getRegisteredMessagePlugins, prepareMessagePlugins } from '../plugins/helper';
 import { getStorage } from '../webchat/helper/storage';

@@ -21,6 +21,7 @@ export interface UIState {
     storedMessage: {
         text?: string, data?: any, options?: Partial<ISendMessageOptions>
     } | null,
+	ttsActive: boolean;
 }
 
 export const SET_OPEN = 'SET_OPEN';
@@ -127,6 +128,13 @@ export const setStoredMessage = (message: UIState['storedMessage']) => ({
 });
 export type SetStoredMessageAction = ReturnType<typeof setStoredMessage>;
 
+const SET_TTS_ACTIVE = 'SET_TTS_ACTIVE';
+export const setTTSActive = (active: boolean) => ({
+	type: SET_TTS_ACTIVE as 'SET_TTS_ACTIVE',
+	active
+});
+export type SetTTSActiveAction = ReturnType<typeof setTTSActive>;
+
 
 const getInitialState = (): UIState => ({
     open: false,
@@ -143,6 +151,7 @@ const getInitialState = (): UIState => ({
     showChatOptionsScreen: false,
     hasAcceptedTerms: false,
     storedMessage: null,
+	ttsActive: false,
 });
 
 type UIAction = SetOpenAction
@@ -158,8 +167,8 @@ type UIAction = SetOpenAction
     | SetShowPrevConversationsAction
     | SetShowChatOptionsScreenAction
     | SetHasAcceptedTermsAction
-    | SetStoredMessageAction;
-
+	| SetStoredMessageAction
+	| SetTTSActiveAction;
 
 export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action) => {
     switch (action.type) {
@@ -260,6 +269,13 @@ export const ui: Reducer<UIState, UIAction> = (state = getInitialState(), action
                 storedMessage: action.message
             }
         }
+
+		case SET_TTS_ACTIVE: {
+			return {
+				...state,
+				ttsActive: action.active
+			}
+		}
     }
 
     return state;

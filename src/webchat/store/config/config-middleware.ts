@@ -4,6 +4,7 @@ import { setConfig, applyWebchatSettingsOverrides } from "./config-reducer";
 import { fetchWebchatConfig } from "../../helper/endpoint";
 import { IWebchatSettings } from "../../../common/interfaces/webchat-config";
 import merge from 'lodash/merge';
+import { setTTSActive } from "../ui/ui-reducer";
 
 export interface ISendMessageOptions {
     /* overrides the displayed text within a chat bubble. useful for e.g. buttons */
@@ -41,7 +42,12 @@ export const createConfigMiddleware = (url: string, overrideWebchatSettings?: Pa
                         settings
                     };
 
-                    store.dispatch(setConfig({...config, isConfigLoaded: true}));
+                    store.dispatch(setConfig({ ...config, isConfigLoaded: true }));
+                    
+                    const considerTTSOptions = settings.chatOptions?.showTTSToggle;
+                    const ttsActive = settings.behavior?.enableTTS && (!considerTTSOptions || settings.chatOptions.activateTTSToggle);
+
+                    store.dispatch(setTTSActive(ttsActive));
                 }else if(overrideWebchatSettings){
 					store.dispatch(setConfig({ settings: overrideWebchatSettings, isTimedOut: true, isConfigLoaded: true }));
                 }else{

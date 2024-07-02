@@ -35,6 +35,7 @@ const HomeScreenRoot = styled.div(({ theme }) => ({
 			backgroundImage: "none",
 		},
 	},
+
 }));
 
 interface IHomeScreenContentProps {
