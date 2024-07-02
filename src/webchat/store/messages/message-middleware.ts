@@ -1,12 +1,14 @@
 import { Middleware } from "redux";
 import { StoreState } from "../store";
 import { IMessage, IBotMessage } from "../../../common/interfaces/message";
-import { addMessage } from "./message-reducer";
+import { addMessage, addMessageEvent } from "./message-reducer";
 import { Omit } from "react-redux";
 import { setFullscreenMessage } from "../ui/ui-reducer";
 import { receiveMessage, ReceiveMessageAction } from "./message-handler";
 import { sanitizeHTML } from "../../helper/sanitize";
 import { SocketClient } from "@cognigy/socket-client";
+import { IMessageEvent } from "../../../common/interfaces/event";
+import bellSound from "../../../webchat-ui/utils/bell-sound";
 
 
 // a "person" icon
@@ -56,6 +58,14 @@ export const getAvatarNameForMessage = (message: IMessage, state: StoreState) =>
         case 'user':
             return;
     }
+}
+
+export const getAvatarNameForMessageEvent = (state: StoreState) => {
+    return (state.config.settings.layout.useOtherAgentLogo && state.config.settings.layout.agentAvatarName) || state.config.settings.layout.title || "Agent";
+}
+
+export const getTextForMessageEvent = (state: StoreState, action: string) => {
+    return `${getAvatarNameForMessageEvent(state)} ${action}`;
 }
 
 // forwards messages to the socket
@@ -113,6 +123,29 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<object
             const isWebchatActive = state.ui.open && state.ui.isPageVisible;
             const isMessageEmpty = !(message.text || message.data?._cognigy?._webchat);
             const isUnseen = !isWebchatActive && !isMessageEmpty;
+
+            // temporary solution: conditionally inject a event message type
+            if (message.source === "agent" && state.queueUpdates.isQueueActive) {
+                const mockEventMessage: IMessageEvent = {
+                    text: "",
+                    data: {
+                        _cognigy: {
+                            _webchat3Event: {
+                                type: 'liveAgentEvent',
+                                data: {
+                                    agentName: getAvatarNameForMessageEvent(state),
+                                    action: "joined",
+                                    text: getTextForMessageEvent(state, "joined")
+                                }
+                            }
+                        }
+                    }
+                }
+                next(addMessageEvent({
+                    ...mockEventMessage
+                } as IMessageEvent));
+                bellSound.play();
+            }
 
             next(addMessage({
                 ...message,

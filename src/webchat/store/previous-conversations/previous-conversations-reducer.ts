@@ -1,10 +1,11 @@
 import { Reducer } from "redux";
 import { IMessage } from "../../../common/interfaces/message";
 import { RatingState } from "../rating/rating-reducer";
+import { IMessageEvent } from "../../../common/interfaces/event";
 
 export type PrevConversationsState = {
 	[key: string]: {
-		messages: IMessage[];
+		messages: (IMessage | IMessageEvent)[];
 		rating: RatingState;
 	};
 };

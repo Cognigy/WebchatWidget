@@ -1,3 +1,4 @@
+import { IMessageEvent, TWebchat3Event } from "../../common/interfaces/event";
 import { IMessage } from "../../common/interfaces/message";
 
 const getTextFromMessage = (message: IMessage) => {
@@ -25,19 +26,19 @@ export const getMessageAttachmentType = (message: IMessage): string => {
 	return message?.data?._cognigy?._webchat?.message?.attachment?.type || "";
 };
 
-export const isQueueUpdate = (message: IMessage): boolean => {
+export const isQueueUpdate = (message: IMessageEvent): boolean => {
 	return !!(message?.data?._cognigy?._webchat3Event?.type === "queueUpdate");
 };
 
-export const isEventMessage = (message: IMessage): boolean => {
+export const isEventMessage = (message: IMessageEvent): boolean => {
 	return !!message?.data?._cognigy?._webchat3Event?.type;
 };
 
-export const getEventPayload = (message: IMessage): boolean => {
+export const getEventPayload = (message: IMessageEvent): TWebchat3Event['data'] => {
 	return message?.data?._cognigy?._webchat3Event?.data;
 };
 
-export const getEventType = (message: IMessage): boolean => {
+export const getEventType = (message: IMessageEvent): string => {
 	return message?.data?._cognigy?._webchat3Event?.type;
 };
 

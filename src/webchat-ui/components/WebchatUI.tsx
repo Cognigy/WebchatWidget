@@ -578,7 +578,7 @@ export class WebchatUI extends React.PureComponent<
 
 	sendMessage: MessageSender = (...args) => {
 		if (this.history.current) {
-			this.history.current.handleScrollTo();
+			this.history.current.handleScrollTo(undefined, true);
 		}
 
 		this.props.onSendMessage(...args);
@@ -1143,7 +1143,7 @@ export class WebchatUI extends React.PureComponent<
 						</h2>
 						{this.renderHistory()}
 					</HistoryWrapper>
-					<QueueUpdates />
+					<QueueUpdates handleScroll={this.history.current?.handleScrollTo} />
 					{this.renderInput()}
 				</>
 			);

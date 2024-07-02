@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import styled from "@emotion/styled";
 import { Typography } from "@cognigy/chat-components";
 import { useSelector } from "../../../webchat/helper/useSelector";
@@ -15,10 +15,21 @@ const StyledQueueUpdates = styled.div(({ theme }) => ({
 	},
 }));
 
-const QueueUpdates: FC = () => {
-	const queueUpdates = useSelector(state => state.queueUpdates ?? {});
+interface IQueueUpdatesProps {
+	handleScroll?: (position?: number, instant?: boolean) => void;
+}
 
-	if (!queueUpdates?.isQueueActive) return null;
+const QueueUpdates: FC<IQueueUpdatesProps> = props => {
+  const queueUpdates = useSelector(state => state.queueUpdates ?? {});
+  const { handleScroll } = props;
+  
+  useEffect(() => {
+    if (queueUpdates?.isQueueActive) {
+      handleScroll?.(undefined, true);
+    }
+  }, [queueUpdates?.isQueueActive]);
+
+  if (!queueUpdates?.isQueueActive) return null;
 
 	return (
 		<StyledQueueUpdates>
