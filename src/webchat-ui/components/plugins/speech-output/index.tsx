@@ -1,47 +1,43 @@
-import * as React from 'react';
-
-import { MessageComponentProps, MessageMatcher } from '../../../../common/interfaces/message-plugin';
+import {
+	MessageComponentProps,
+	MessageMatcher,
+} from "../../../../common/interfaces/message-plugin";
 
 const processedMessageIds = new Set<string>();
 
-// only read out incoming messages with text
-const match: MessageMatcher = ({ text, source }) => source === 'bot' || source === 'engagement' && !!text;
+const match: MessageMatcher = ({ text, source }) =>
+	source === "bot" || (source === "engagement" && !!text);
 
 const SpeechOutput = (props: MessageComponentProps) => {
-    
+	if (!window || !window.speechSynthesis) {
+		return null;
+	}
 
-    if (processedMessageIds.has(props?.message?.traceId)) {
-        return null;
-    }
+	const id = props.message.timestamp + "";
 
-    processedMessageIds.add(props?.message?.traceId);
+	if (processedMessageIds.has(id)) {
+		return null;
+	}
 
-    // check whether text to speech is available in client
-    if (!speechSynthesis)
-        return null;
+	processedMessageIds.add(id);
 
-    // we already checked that text exists in the match function
-    const text = props.message.text as string;
+	const utterance = new SpeechSynthesisUtterance();
+	utterance.text = props.message.text || "";
+	speechSynthesis.speak(utterance);
 
-    const utterance = new SpeechSynthesisUtterance();
-    utterance.text = text;
-    speechSynthesis.speak(utterance);
-
-    return null;
-}
-
-// make sure to read out messages only once
-const MemoizedSpeechOutput = React.memo(SpeechOutput);
+	return null;
+};
 
 const speechOutput = {
-    match,
-    component: MemoizedSpeechOutput,
-    options: {
-        passthrough: true,
-        fullwidth: true
-    }
-}
+	match,
+	component: SpeechOutput,
+	options: {
+		passthrough: true,
+	},
+	name: "SpeechOutput",
+};
 
-// no need to register the plugin, it's conditionally registered in the WebchatUI.tsx
+// No need to register the plugin.
+// It's conditionally included in the WebchatUI.tsx
 
 export default speechOutput;
