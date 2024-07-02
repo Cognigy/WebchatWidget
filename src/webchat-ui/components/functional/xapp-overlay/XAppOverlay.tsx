@@ -129,7 +129,18 @@ const xAppOverlay: FC = () => {
 					onClose={showCloseIcon ? handleCloseIconClick : undefined}
 				/>
 			)}
-			<Iframe src={url} />
+			<Iframe
+				src={url}
+				allow="
+  accelerometer; ambient-light-sensor; autoplay; battery; bluetooth; camera; 
+  cross-origin-isolated; display-capture; document-domain; encrypted-media; 
+  execution-while-not-rendered; execution-while-out-of-viewport; 
+  fullscreen; gamepad; geolocation; gyroscope; hid; idle-detection; 
+  interest-cohort; local-fonts; magnetometer; microphone; midi; 
+  otp-credentials; payment; picture-in-picture; publickey-credentials-get; 
+  screen-wake-lock; serial; speaker-selection; usb; web-share; 
+  xr-spatial-tracking"
+			/>
 		</Root>
 	);
 };
