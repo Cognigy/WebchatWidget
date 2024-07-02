@@ -9,7 +9,7 @@ import { PostbackButtons } from "./PostbackButtons";
 import { WebchatUIProps } from "../../WebchatUI";
 import { ChatOptionsFooter } from "./ChatOptionsFooter";
 import getKeyboardFocusableElements from "../../../utils/find-focusable";
-import { TTSOption } from "./TTSOption";
+import TTSOption  from "./TTSOption";
 
 const ChatOptionsRoot = styled.div(() => ({
 	width: "100%",
@@ -109,12 +109,12 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 							<Divider />
 						</DividerWrapper>
 
-						<TTSOption onToggle={handleToggleTTS} />
+					</>
+				)}
+				{config.settings.chatOptions.showTTSToggle && <TTSOption onToggle={handleToggleTTS} config={config} />}
 						<DividerWrapper>
 							<Divider />
 						</DividerWrapper>
-					</>
-				)}
 				{showRating && (
 					<RatingWidget
 						ratingTitleText={ratingTitleText}

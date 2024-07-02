@@ -22,7 +22,7 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         unseenMessages,
         prevConversations,
         connection: { connected, reconnectionLimit },
-        ui: { open, typing, inputMode, fullscreenMessage, scrollToPosition, lastScrolledPosition, showHomeScreen, showPrevConversations, showChatOptionsScreen, hasAcceptedTerms },
+        ui: { open, typing, inputMode, fullscreenMessage, scrollToPosition, lastScrolledPosition, showHomeScreen, showPrevConversations, showChatOptionsScreen, hasAcceptedTerms, ttsActive },
         config,
         options: { sessionId, userId },
         rating: { showRatingScreen, hasGivenRating, requestRatingScreenTitle, customRatingTitle, customRatingCommentText, requestRatingSubmitButtonText, requestRatingEventBannerText, requestRatingChatStatusBadgeText },
@@ -60,7 +60,8 @@ export const ConnectedWebchatUI = connect<FromState, FromDispatch, FromProps, Me
         showChatOptionsScreen,
         hasAcceptedTerms,
         isXAppOverlayOpen,
-        userId
+        userId,
+        ttsActive
     }),
     dispatch => ({
         onSendMessage: (text, data, options) => dispatch(sendMessage({ text, data }, options)),
