@@ -4,7 +4,7 @@ import { Typography } from "@cognigy/chat-components";
 import { useSelector } from "../../../webchat/helper/useSelector";
 import { formatWaitTime } from "../../utils/formatWaitTime";
 
-const StyledQueueUpdates = styled.div(({ theme }) => ({
+const QueueUpdatesWrapper = styled(Typography)(({ theme }) => ({
 	marginBottom: "var(--webchat-message-margin-block, 24px)",
 	marginInline: "var(--webchat-message-margin-inline, 20px)",
 	padding: "12px",
@@ -32,8 +32,7 @@ const QueueUpdates: FC<IQueueUpdatesProps> = props => {
   if (!queueUpdates?.isQueueActive) return null;
 
 	return (
-		<StyledQueueUpdates>
-			<Typography
+		<QueueUpdatesWrapper
 				variant="body-regular"
 				id="webchatQueueUpdates"
 				className="webchat-queue-updates"
@@ -52,8 +51,7 @@ const QueueUpdates: FC<IQueueUpdatesProps> = props => {
 						</span>
 					</>
 				)}
-			</Typography>
-		</StyledQueueUpdates>
+		</QueueUpdatesWrapper>
 	);
 };
 
