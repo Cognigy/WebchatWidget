@@ -51,7 +51,7 @@ import {
 import { HomeScreen } from "./presentational/HomeScreen";
 import { PrevConversationsList } from "./presentational/previous-conversations/ConversationsList";
 import { PrevConversationsState } from "../../webchat/store/previous-conversations/previous-conversations-reducer";
-import { ChatEvent, Message } from "@cognigy/chat-components";
+import { ChatEvent, Message, Typography } from "@cognigy/chat-components";
 import { isConversationEnded } from "./presentational/previous-conversations/helpers";
 import { ISendMessageOptions } from "../../webchat/store/messages/message-middleware";
 import { InformationMessage } from "./presentational/InformationMessage";
@@ -170,6 +170,13 @@ const styleCache = createCache({
 	key: "cognigy-webchat",
 	stylisPlugins,
 });
+
+const TopStatusMessage = styled(Typography)(({ theme }) => ({
+	display: "block",
+	textAlign: "center",
+	padding: "12px",
+	color: theme.black40
+}));
 
 const HistoryWrapper = styled(History)(({ theme }) => ({
 	overflowY: "auto",
@@ -1293,6 +1300,9 @@ export class WebchatUI extends React.PureComponent<
 
 		return (
 			<>
+				<TopStatusMessage variant="body-regular" component="div">
+					You are now talking to an AI agent.
+				</TopStatusMessage>
 				{messages.map((message, index) => {
 					// Lookahead if there is a user reply
 					const hasReply = messages
@@ -1324,7 +1334,14 @@ export class WebchatUI extends React.PureComponent<
 					/>
 				)}
 				{enableTypingIndicator && (
-					<TypingIndicator active={isTyping} delay={messageDelay} direction={config?.settings?.widgetSettings?.sourceDirectionMapping?.bot || "incoming"}/>
+					<TypingIndicator
+						active={isTyping}
+						delay={messageDelay}
+						direction={
+							config?.settings?.widgetSettings?.sourceDirectionMapping?.bot ||
+							"incoming"
+						}
+					/>
 				)}
 			</>
 		);
