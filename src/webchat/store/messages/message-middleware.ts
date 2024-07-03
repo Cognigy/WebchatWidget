@@ -1,6 +1,6 @@
 import { Middleware } from "redux";
 import { StoreState } from "../store";
-import { IMessage, IBotMessage } from "../../../common/interfaces/message";
+import { IMessage, IBotMessage, IAgentMessage } from "../../../common/interfaces/message";
 import { addMessage, addMessageEvent } from "./message-reducer";
 import { Omit } from "react-redux";
 import { setFullscreenMessage } from "../ui/ui-reducer";
@@ -60,12 +60,9 @@ export const getAvatarNameForMessage = (message: IMessage, state: StoreState) =>
     }
 }
 
-export const getAvatarNameForMessageEvent = (state: StoreState) => {
-    return (state.config.settings.layout.useOtherAgentLogo && state.config.settings.layout.agentAvatarName) || state.config.settings.layout.title || "Agent";
-}
-
 export const getTextForMessageEvent = (state: StoreState, action: string) => {
-    return `${getAvatarNameForMessageEvent(state)} ${action}`;
+    const agentName = (state.config.settings.layout.useOtherAgentLogo && state.config.settings.layout.agentAvatarName) || state.config.settings.layout.title || "Agent";
+    return `${agentName} ${action}`;
 }
 
 // forwards messages to the socket
@@ -125,26 +122,26 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<object
             const isUnseen = !isWebchatActive && !isMessageEmpty;
 
             // temporary solution: conditionally inject a event message type
+            // TODO: we should get this kind of status updates from socket output event
             if (message.source === "agent" && state.queueUpdates.isQueueActive) {
-                const mockEventMessage: IMessageEvent = {
+                const eventMessage: IMessageEvent = {
                     text: "",
                     data: {
                         _cognigy: {
                             _webchat3Event: {
                                 type: 'liveAgentEvent',
                                 data: {
-                                    agentName: getAvatarNameForMessageEvent(state),
-                                    action: "joined",
                                     text: getTextForMessageEvent(state, "joined")
                                 }
                             }
                         }
                     }
                 }
-                next(addMessageEvent({
-                    ...mockEventMessage
-                } as IMessageEvent));
                 bellSound.play();
+
+                next(addMessageEvent({
+                    ...eventMessage
+                } as IMessageEvent));
             }
 
             next(addMessage({

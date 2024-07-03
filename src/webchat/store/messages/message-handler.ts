@@ -91,6 +91,10 @@ export const createOutputHandler = (store: Store) => output => {
 		if (isQueueUpdate(output?.data)) {
 			store.dispatch(updateQueueData(payload));
 		}
+		// else {
+			// TODO: implement events logic on middlewares
+			// store.dispatch(receiveEvent(output));
+		// }
 	} else {
 		store.dispatch(receiveMessage(output));
 	}

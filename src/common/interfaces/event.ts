@@ -22,8 +22,8 @@ export interface ILiveAgentEvent {
 	type: "liveAgentEvent";
   data: {
     text?: string;
-    action: string;
-    agentName: string;
+    action?: string;
+    agentName?: string;
   }
 }
 
