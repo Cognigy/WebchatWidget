@@ -27,19 +27,19 @@ export const getMessageAttachmentType = (message: IMessage): string => {
 };
 
 export const isQueueUpdate = (message: IMessageEvent): boolean => {
-	return !!(message?.data?._cognigy?._webchat3Event?.type === "queueUpdate");
+	return !!(message?.data?._cognigy?._webchat3?.type === "queueUpdate");
 };
 
 export const isEventMessage = (message: IMessageEvent): boolean => {
-	return !!message?.data?._cognigy?._webchat3Event?.type;
+	return !!message?.data?._cognigy?._webchat3?.type;
 };
 
-export const getEventPayload = (message: IMessageEvent): TWebchat3Event['data'] => {
-	return message?.data?._cognigy?._webchat3Event?.data;
+export const getEventPayload = (message: IMessageEvent): TWebchat3Event['payload'] => {
+	return message?.data?._cognigy?._webchat3?.payload;
 };
 
 export const getEventType = (message: IMessageEvent): string => {
-	return message?.data?._cognigy?._webchat3Event?.type;
+	return message?.data?._cognigy?._webchat3?.type;
 };
 
 export default getTextFromMessage;

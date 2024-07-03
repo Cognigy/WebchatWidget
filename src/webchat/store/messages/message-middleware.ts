@@ -128,9 +128,9 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<object
                     text: "",
                     data: {
                         _cognigy: {
-                            _webchat3Event: {
+                            _webchat3: {
                                 type: 'liveAgentEvent',
-                                data: {
+                                payload: {
                                     text: getTextForMessageEvent(state, "joined")
                                 }
                             }

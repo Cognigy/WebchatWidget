@@ -4,14 +4,14 @@ export interface IMessageEvent {
   timestamp?: number;
   data: {
     _cognigy: {
-      _webchat3Event: TWebchat3Event;
+      _webchat3: TWebchat3Event;
     }
   }
 }
 
 export interface IQueueUpdateEvent {
 	type: "queueUpdate";
-  data: {
+  payload: {
     position: number | null;
     estimatedWaitTime: number | null;
     alternativeText: string | null;
@@ -20,7 +20,7 @@ export interface IQueueUpdateEvent {
 
 export interface ILiveAgentEvent {
 	type: "liveAgentEvent";
-  data: {
+  payload: {
     text?: string;
     action?: string;
     agentName?: string;
