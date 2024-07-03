@@ -1,6 +1,6 @@
 import { Middleware } from "redux";
 import { StoreState } from "../store";
-import { IMessage, IBotMessage, IAgentMessage } from "../../../common/interfaces/message";
+import { IMessage, IBotMessage } from "../../../common/interfaces/message";
 import { addMessage, addMessageEvent } from "./message-reducer";
 import { Omit } from "react-redux";
 import { setFullscreenMessage } from "../ui/ui-reducer";

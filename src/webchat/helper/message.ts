@@ -1,4 +1,6 @@
-import { IMessageEvent, TWebchat3Event } from "../../common/interfaces/event";
+
+import { TWebchat3Event } from "@cognigy/socket-client";
+import { IMessageEvent } from "../../common/interfaces/event";
 import { IMessage } from "../../common/interfaces/message";
 
 const getTextFromMessage = (message: IMessage) => {
