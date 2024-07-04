@@ -122,7 +122,7 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<object
             const isUnseen = !isWebchatActive && !isMessageEmpty;
 
             // temporary solution: conditionally inject a event message type
-            // TODO: we should get this kind of status updates from socket output event
+            // we should get this kind of status updates from socket output event
             if (message.source === "agent" && state.queueUpdates.isQueueActive) {
                 const eventMessage: IMessageEvent = {
                     text: "",
@@ -137,11 +137,8 @@ export const createMessageMiddleware = (client: SocketClient): Middleware<object
                         }
                     }
                 }
+                next(addMessageEvent(eventMessage));
                 bellSound.play();
-
-                next(addMessageEvent({
-                    ...eventMessage
-                } as IMessageEvent));
             }
 
             next(addMessage({

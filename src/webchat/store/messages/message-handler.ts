@@ -92,7 +92,7 @@ export const createOutputHandler = (store: Store) => output => {
 			store.dispatch(updateQueueData(payload));
 		}
 		// else {
-			// TODO: implement events logic on middlewares
+			// TODO: implement events logic on middlewares when available from RT
 			// store.dispatch(receiveEvent(output));
 		// }
 	} else {
