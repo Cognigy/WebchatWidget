@@ -57,6 +57,7 @@ import { ISendMessageOptions } from "../../webchat/store/messages/message-middle
 import { InformationMessage } from "./presentational/InformationMessage";
 import { PrivacyNotice } from "./presentational/PrivacyNotice";
 import { ChatOptions } from "./presentational/chat-options/ChatOptions";
+import QueueUpdates from "./history/QueueUpdates";
 import { UIState } from "../../webchat/store/ui/ui-reducer";
 import DropZone from "./plugins/input/file/DropZone";
 import { IFile } from "../../webchat/store/input/input-reducer";
@@ -65,7 +66,6 @@ import { TeaserMessage } from "./presentational/TeaserMessage";
 import XAppOverlay from "./functional/xapp-overlay/XAppOverlay";
 import { getSourceBackgroundColor } from "../utils/sourceMapping";
 import type { Options } from "@cognigy/socket-client/lib/interfaces/options";
-import QueueUpdates from "./history/QueueUpdates";
 
 export interface WebchatUIProps {
 	currentSession: string;
