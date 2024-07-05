@@ -125,7 +125,7 @@ See it in action:
 | messageDelay | number | `500` | Wait time between AI Agent messages in miliseconds |
 | inputPlaceholder | string | `"Type something here…"` | Placeholder for the input field |
 | enableSTT | boolean | `false` | Enable speech-to-text |
-| enableTTS | boolean | `false` | Enable text-to-speech |
+| enableTTS | boolean | `false` | Enable text-to-speech. If `chatOptions.showTTSToggle set to `true`, TTS activation additionally depends on chatOptions.activateTTSToggle to be `true` (or the user expected to manually enable it.) |
 | focusInputAfterPostback | boolean | `false` | Input field will receive focus after a Postback button or quick reply button is clicked |
 | enableConnectionStatusIndicator | boolean | `true` | Shows a warning if the connection is lost during a conversation. The warning will disappear when the connection is re-established.  |
 
@@ -230,7 +230,7 @@ All business hours settings require the setting `embeddingConfiguration.awaitEnd
 | title | string |  `"Chat options"` | Chat Options header title |
 | quickReplyOptions | object | [Quick Reply Options](#quick-reply-options) | Configure the Quick Reply section in the Chat Options |
 | showTTSToggle | boolean | `false` | Enable to show the Text-to-Speech Toggle |
-| activateTTSToggle | boolean | `true` | Activate Text-to-Speech Toggle by default if enabled |
+| activateTTSToggle | boolean | `true` | Activate Text-to-Speech Toggle by default. It also requires `behavior.enableTTS` setting to be `true` to make TTS active. |
 | labelTTSToggle | string | `"Enable text-to-speech"` | Label for the Text-to-Speech toggle |
 | rating | object | [Rating Section](#chat-options-rating-section) | Configure the Rating Section |
 | footer | object | [Footer](#chat-options-footer) | Configure the Footer |

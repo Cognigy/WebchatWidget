@@ -1,11 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import styled from "@emotion/styled";
+import { useSelector, useDispatch } from "react-redux";
+import { StoreState } from "../../../../webchat/store/store";
+import { setTTSActive } from "../../../../webchat/store/ui/ui-reducer";
 import { IWebchatConfig } from "../../../../common/interfaces/webchat-config";
 import { RatingWidget } from "./RatingWidget";
 import { PostbackButtons } from "./PostbackButtons";
 import { WebchatUIProps } from "../../WebchatUI";
 import { ChatOptionsFooter } from "./ChatOptionsFooter";
 import getKeyboardFocusableElements from "../../../utils/find-focusable";
+import TTSOption from "./TTSOption";
 
 const ChatOptionsRoot = styled.div(() => ({
 	width: "100%",
@@ -84,6 +88,13 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 		}
 	}, []);
 
+	const ttsEnabled = useSelector((state: StoreState) => state.ui.ttsActive);
+	const dispatch = useDispatch();
+
+	const handleToggleTTS = () => {
+		dispatch(setTTSActive(!ttsEnabled));
+	};
+
 	return (
 		<ChatOptionsRoot className="webchat-chat-options-root" ref={chatOptionsRef}>
 			<ChatOptionsContainer className="webchat-chat-options-container">
@@ -94,6 +105,14 @@ export const ChatOptions = (props: IChatOptionsProps) => {
 							onSendActionButtonMessage={onSendActionButtonMessage}
 							onEmitAnalytics={onEmitAnalytics}
 						/>
+						<DividerWrapper>
+							<Divider />
+						</DividerWrapper>
+					</>
+				)}
+				{config.settings.chatOptions.showTTSToggle && (
+					<>
+						<TTSOption onToggle={handleToggleTTS} config={config} />
 						<DividerWrapper>
 							<Divider />
 						</DividerWrapper>
