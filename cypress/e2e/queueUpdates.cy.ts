@@ -67,11 +67,11 @@ describe("Queue Updates", () => {
 			"agent",
 		);
 
-    // Render ChatEvent chip
+		// Render ChatEvent chip
 		cy.get(".webchat-message-row").should("be.visible");
 		cy.get(".webchat-message-row").contains("Agent joined");
 
-    // Play bell sound
+		// Play bell sound
 		cy.get("audio").should(els => {
 			let audible = false;
 			els.each((_, el) => {
@@ -81,9 +81,9 @@ describe("Queue Updates", () => {
 				}
 			});
 			expect(audible).to.eq(true);
-    });
-    
-    // Render agent message
-    cy.get('.webchat-message-row.agent').contains("Hello!");
+		});
+
+		// Render agent message
+		cy.get(".webchat-message-row.agent").contains("Hello!");
 	});
 });
