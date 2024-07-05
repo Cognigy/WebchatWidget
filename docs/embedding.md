@@ -93,10 +93,10 @@ See it in action:
 | title | string | `""` | The text that will be shown as header title of the Webchat |
 | logoUrl | string | `""` | The Logo shown in the header of the Webchat |
 | useOtherAgentLogo | boolean | `false` | Enables setting specific names and logos for bot and agent avatars. By default title and logoUrl will be used for the avatars. |
-| botAvatarName | string | `""` | Name for the AI Agent avatar which will be displayed above each AI Agent message. |
-| botLogoUrl | string | `""` | AI Agent avatar which will be displayed above each AI Agent message. Recommended img size: 28px x 28px |
-| agentAvatarName | string | `""` | Name for the Human Agent avatar which will be displayed above each Human Agent message |
-| agentLogoUrl | string | `""` | Human Agent avatar which will be displayed above each Human Agent message. Recommended img size: 28px x 28px |
+| botAvatarName | string | `""` | Name for the AI Agent avatar which will be displayed above each AI Agent message. Please note that specified name will be used for the AI Agent avatar, only if 'useOtherAgentLogo' is set to 'true'.|
+| botLogoUrl | string | `""` | AI Agent avatar which will be displayed above each AI Agent message. Recommended img size: 28px x 28px. Please note that specified avatar will be used for the AI Agent, only if 'useOtherAgentLogo' is set to 'true'. |
+| agentAvatarName | string | `""` | Name for the Human Agent avatar which will be displayed above each Human Agent message. Please note that specified name will be used for the Human Agent avatar, only if 'useOtherAgentLogo' is set to 'true'. |
+| agentLogoUrl | string | `""` | Human Agent avatar which will be displayed above each Human Agent message. Recommended img size: 28px x 28px. Please note that specified avatar will be used for the Human Agent, only if 'useOtherAgentLogo' is set to 'true'. |
 | inputAutogrowMaxRows | number | `4` | Maximum Number of Input Rows  |
 | enableInputCollation | boolean | `false` | If enabled, messages will be combined into a single message, dependent on the time set with `inputCollationTimeout` |
 | inputCollationTimeout | number | `1000` | timeout value for input collation |
