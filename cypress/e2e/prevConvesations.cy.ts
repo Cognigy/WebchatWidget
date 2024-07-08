@@ -3,7 +3,7 @@ describe("Previous Conversations", () => {
 		cy.visitWebchat();
 	});
 
-	it("is possible to navigate to empty convesration list from Home Screen", () => {
+	it("is possible to navigate to empty conversation list from Home Screen", () => {
 		cy.initMockWebchat({
 			settings: {
 				homeScreen: {
@@ -40,7 +40,7 @@ describe("Previous Conversations", () => {
 			cy.sendMessage("hello");
 			cy.contains('You said "hello".').should("be.visible");
 
-            // list contains 1 item
+			// list contains 1 item
 			cy.get("button.webchat-header-back-button").should("exist").click();
 			cy.get("button").contains("Previous conversations").click();
 			cy.get(".webchat-prev-conversations-item").should("have.length", 1);
@@ -67,14 +67,14 @@ describe("Previous Conversations", () => {
 				"user-1",
 				"session-1",
 				"5e51fcdc2c10fe4c5267c8a798a7134086f60b62998062af620ed73b096e25bd",
-            ];
+			];
 
-            cy.window().then(window => {
-                window.localStorage.clear();
-                cy.fixture("prevConversations.json").then(jsonData => {
-                    window.localStorage.setItem(JSON.stringify(key), JSON.stringify(jsonData));
-                });
-            });
+			cy.window().then(window => {
+				window.localStorage.clear();
+				cy.fixture("prevConversations.json").then(jsonData => {
+					window.localStorage.setItem(JSON.stringify(key), JSON.stringify(jsonData));
+				});
+			});
 
 			cy.visitWebchat();
 			cy.initWebchat(localOptions).openWebchat();
@@ -103,14 +103,14 @@ describe("Previous Conversations", () => {
 				"user-1",
 				"session-1",
 				"5e51fcdc2c10fe4c5267c8a798a7134086f60b62998062af620ed73b096e25bd",
-            ];
-            
-            cy.window().then(window => {
-                window.localStorage.clear();
-                cy.fixture("prevConversationsExpired.json").then(jsonData => {
-                    window.localStorage.setItem(JSON.stringify(key), JSON.stringify(jsonData));
-                });
-            });
+			];
+
+			cy.window().then(window => {
+				window.localStorage.clear();
+				cy.fixture("prevConversationsExpired.json").then(jsonData => {
+					window.localStorage.setItem(JSON.stringify(key), JSON.stringify(jsonData));
+				});
+			});
 
 			cy.visitWebchat();
 			cy.initWebchat(localOptions).openWebchat();
