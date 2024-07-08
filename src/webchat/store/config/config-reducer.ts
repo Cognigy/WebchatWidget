@@ -109,7 +109,7 @@ export const getInitialState = (): ConfigState => ({
 			enabled: false,
 			title: "Chat options",
 			quickReplyOptions: {
-				enabled: true,
+				enabled: false,
 				sectionTitle: "People are also interested in",
 				quickReplies: [],
 			},
