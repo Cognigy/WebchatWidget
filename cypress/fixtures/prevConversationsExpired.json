@@ -1,0 +1,27 @@
+{
+  "messages": [
+     {
+        "text": "hello 2",
+        "source": "user",
+        "timestamp": 1715178199
+     },
+     {
+        "text": "You said \"hello 2\".",
+        "data": {},
+        "traceId": "endpoint-realtimeClient-fake-id",
+        "disableSensitiveLogging": false,
+        "source": "bot",
+        "timestamp": 1715178199
+     }
+  ],
+  "rating": {
+     "hasGivenRating": false,
+     "showRatingScreen": false,
+     "requestRatingScreenTitle": "",
+     "customRatingTitle": "",
+     "customRatingCommentText": "",
+     "requestRatingSubmitButtonText": "",
+     "requestRatingEventBannerText": "",
+     "requestRatingChatStatusBadgeText": ""
+  }
+}
