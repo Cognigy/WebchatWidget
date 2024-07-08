@@ -1,0 +1,21 @@
+{
+	"text": "",
+	"data": {
+		"_cognigy": {
+			"_app": {
+				"overlaySettings": {
+					"autoOpen": true,
+					"closeOnSubmit": false,
+					"feedbackMessage": "",
+					"screenTitle": "",
+					"sendEventOnCloseIconClick": true,
+					"showCloseIcon": false
+				},
+				"url": "https://example.com"
+			}
+		}
+	},
+	"source": "bot",
+	"traceId": "endpoint-webchat3Client-55558b3d-e839-4fb1-8311-d418add68c11",
+	"disableSensitiveLogging": false
+}
