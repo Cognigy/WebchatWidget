@@ -93,10 +93,10 @@ See it in action:
 | title | string | `""` | The text that will be shown as header title of the Webchat |
 | logoUrl | string | `""` | The Logo shown in the header of the Webchat |
 | useOtherAgentLogo | boolean | `false` | Enables setting specific names and logos for bot and agent avatars. By default title and logoUrl will be used for the avatars. |
-| botAvatarName | string | `""` | Name for the AI Agent avatar which will be displayed above each AI Agent message. |
-| botLogoUrl | string | `""` | AI Agent avatar which will be displayed above each AI Agent message. Recommended img size: 28px x 28px |
-| agentAvatarName | string | `""` | Name for the Human Agent avatar which will be displayed above each Human Agent message |
-| agentLogoUrl | string | `""` | Human Agent avatar which will be displayed above each Human Agent message. Recommended img size: 28px x 28px |
+| botAvatarName | string | `""` | Name for the AI Agent avatar which will be displayed above each AI Agent message. Please note that specified name will be used for the AI Agent avatar, only if 'useOtherAgentLogo' is set to 'true'.|
+| botLogoUrl | string | `""` | AI Agent avatar which will be displayed above each AI Agent message. Recommended img size: 28px x 28px. Please note that specified avatar will be used for the AI Agent, only if 'useOtherAgentLogo' is set to 'true'. |
+| agentAvatarName | string | `""` | Name for the Human Agent avatar which will be displayed above each Human Agent message. Please note that specified name will be used for the Human Agent avatar, only if 'useOtherAgentLogo' is set to 'true'. |
+| agentLogoUrl | string | `""` | Human Agent avatar which will be displayed above each Human Agent message. Recommended img size: 28px x 28px. Please note that specified avatar will be used for the Human Agent, only if 'useOtherAgentLogo' is set to 'true'. |
 | inputAutogrowMaxRows | number | `4` | Maximum Number of Input Rows  |
 | enableInputCollation | boolean | `false` | If enabled, messages will be combined into a single message, dependent on the time set with `inputCollationTimeout` |
 | inputCollationTimeout | number | `1000` | timeout value for input collation |
@@ -125,7 +125,7 @@ See it in action:
 | messageDelay | number | `500` | Wait time between AI Agent messages in miliseconds |
 | inputPlaceholder | string | `"Type something here…"` | Placeholder for the input field |
 | enableSTT | boolean | `false` | Enable speech-to-text |
-| enableTTS | boolean | `false` | Enable text-to-speech |
+| enableTTS | boolean | `false` | Enable text-to-speech. If `chatOptions.showTTSToggle set to `true`, TTS activation additionally depends on chatOptions.activateTTSToggle to be `true` (or the user expected to manually enable it.) |
 | focusInputAfterPostback | boolean | `false` | Input field will receive focus after a Postback button or quick reply button is clicked |
 | enableConnectionStatusIndicator | boolean | `true` | Shows a warning if the connection is lost during a conversation. The warning will disappear when the connection is re-established.  |
 
@@ -230,7 +230,7 @@ All business hours settings require the setting `embeddingConfiguration.awaitEnd
 | title | string |  `"Chat options"` | Chat Options header title |
 | quickReplyOptions | object | [Quick Reply Options](#quick-reply-options) | Configure the Quick Reply section in the Chat Options |
 | showTTSToggle | boolean | `false` | Enable to show the Text-to-Speech Toggle |
-| activateTTSToggle | boolean | `true` | Activate Text-to-Speech Toggle by default if enabled |
+| activateTTSToggle | boolean | `true` | Activate Text-to-Speech Toggle by default. It also requires `behavior.enableTTS` setting to be `true` to make TTS active. |
 | labelTTSToggle | string | `"Enable text-to-speech"` | Label for the Text-to-Speech toggle |
 | rating | object | [Rating Section](#chat-options-rating-section) | Configure the Rating Section |
 | footer | object | [Footer](#chat-options-footer) | Configure the Footer |

@@ -96,7 +96,7 @@ describe('Message Color Variants', () => {
             cy.receiveMessageFixture('buttons');
 
             cy.get('.webchat-buttons-template-root .chat-bubble').should('have.css', 'background', 'rgb(232, 235, 255) none repeat scroll 0% 0% / auto padding-box border-box');
-            cy.get('.webchat-buttons-template-root').should('have.css', 'color', 'rgb(255, 255, 255)');
+            cy.get('.webchat-buttons-template-root .chat-bubble').should('have.css', 'color', 'rgba(26, 26, 26, 0.95)');
         });
 
         it('renders a "quick reply"', () => {

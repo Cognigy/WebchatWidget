@@ -66,6 +66,7 @@ import { TeaserMessage } from "./presentational/TeaserMessage";
 import XAppOverlay from "./functional/xapp-overlay/XAppOverlay";
 import { getSourceBackgroundColor } from "../utils/sourceMapping";
 import type { Options } from "@cognigy/socket-client/lib/interfaces/options";
+import speechOutput from "./plugins/speech-output";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -140,6 +141,7 @@ export interface WebchatUIProps {
 	isXAppOverlayOpen: boolean;
 	openXAppOverlay: (message: string | undefined) => void;
 	options?: Partial<Options>;
+	ttsActive: boolean;
 }
 
 interface WebchatUIState {
@@ -400,13 +402,34 @@ export class WebchatUI extends React.PureComponent<
 	};
 
 	componentDidMount() {
+		const defaultMessagePlugins: MessagePlugin[] = [];
+		if (this.props.ttsActive) {
+			defaultMessagePlugins.push(speechOutput);
+		}
 		this.setState({
 			inputPlugins: [...(this.props.inputPlugins || []), baseInputPlugin],
-			messagePlugins: [...(this.props.messagePlugins || [])],
+			messagePlugins: [...(this.props.messagePlugins || []), ...defaultMessagePlugins]
 		});
 	}
 
 	async componentDidUpdate(prevProps: WebchatUIProps, prevState: WebchatUIState) {
+
+		if (prevProps.ttsActive !== this.props.ttsActive ||
+			prevProps.inputPlugins !== this.props.inputPlugins ||
+			prevProps.messagePlugins !== this.props.messagePlugins) {
+			
+			const defaultMessagePlugins: MessagePlugin[] = [];
+			if (this.props.ttsActive) {
+				defaultMessagePlugins.push(speechOutput);
+			}
+
+			
+			this.setState({
+				inputPlugins: [...(this.props.inputPlugins || []), baseInputPlugin],
+				messagePlugins: [...(this.props.messagePlugins || []), ...defaultMessagePlugins]
+			});
+		}
+
 		if (
 			this?.props?.config?.settings?.colors?.primaryColor !==
 				prevProps?.config?.settings?.colors?.primaryColor ||

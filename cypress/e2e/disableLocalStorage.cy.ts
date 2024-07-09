@@ -2,12 +2,12 @@ import { SinonSpy } from "cypress/types/sinon";
 
 describe("disableLocalStorage", () => {
     it("does not try to read from localStorage when disableLocalStorage flag is set", () => {
-        cy.visitWebchat();
-
         cy.window().then(window => {
             cy.spy(window.localStorage, "getItem").as("lsGetItemSpy");
             cy.spy(window.localStorage, "setItem").as("lsSetItemSpy");
         })
+
+        cy.visitWebchat();
 
         cy.initWebchat({
             settings: {
@@ -36,14 +36,14 @@ describe("disableLocalStorage", () => {
     });
 
     it("does not try to read either from localStorage or sessionStorage when disableLocalStorage and useSessionStorage flags are set", () => {
-        cy.visitWebchat();
-
         cy.window().then(window => {
             cy.spy(window.localStorage, "getItem").as("lsGetItemSpy");
             cy.spy(window.localStorage, "setItem").as("lsSetItemSpy");
             cy.spy(window.sessionStorage, "getItem").as("ssGetItemSpy");
             cy.spy(window.sessionStorage, "setItem").as("ssSetItemSpy");
-        })
+        });
+
+        cy.visitWebchat();
 
         cy.initWebchat({
             settings: {
