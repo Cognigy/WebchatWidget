@@ -15,6 +15,7 @@
 		"cypress:open": "cypress open --e2e --browser chrome",
 		"cypress:serve": "http-server -a localhost -p 8787 dist/",
 		"cypress:run": "cypress run",
+		"cypress:run:firefox": "cypress run --browser firefox",
 		"test:cypress": "run-p -r cypress:serve cypress:run",
 		"test": "npm run test:cypress",
 		"pretest": "npm run build",
