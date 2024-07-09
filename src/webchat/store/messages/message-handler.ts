@@ -16,6 +16,9 @@ import {
 	setRequestRatingScreenTitle,
 } from "../rating/rating-reducer";
 import { SocketClient } from "@cognigy/socket-client";
+import { getEventPayload, isEventMessage, isQueueUpdate } from "../../helper/message";
+import { updateQueueData } from "../queue-updates/slice";
+import { IMessageEvent } from "../../../common/interfaces/event";
 
 const RECEIVE_MESSAGE = "RECEIVE_MESSAGE";
 export const receiveMessage = (message: IMessage, options: Partial<ISendMessageOptions> = {}) => ({
@@ -24,6 +27,13 @@ export const receiveMessage = (message: IMessage, options: Partial<ISendMessageO
 	options,
 });
 export type ReceiveMessageAction = ReturnType<typeof receiveMessage>;
+
+const RECEIVE_EVENT = "RECEIVE_EVENT";
+export const receiveEvent = (event: IMessageEvent) => ({
+	type: RECEIVE_EVENT as "RECEIVE_EVENT",
+	event: { ...event } as IMessageEvent,
+});
+export type ReceiveEventAction = ReturnType<typeof receiveEvent>;
 
 export const createOutputHandler = (store: Store) => output => {
 	// handle custom webchat actions
@@ -74,7 +84,20 @@ export const createOutputHandler = (store: Store) => output => {
 	}
 
 	store.dispatch(setTyping("remove"));
-	store.dispatch(receiveMessage(output));
+
+	// we handle event Messages in a custom way
+	if (isEventMessage(output?.data)) {
+		const payload = getEventPayload(output?.data);
+		if (isQueueUpdate(output?.data)) {
+			store.dispatch(updateQueueData(payload));
+		}
+		// else {
+			// TODO: implement events logic on middlewares when available from RT
+			// store.dispatch(receiveEvent(output));
+		// }
+	} else {
+		store.dispatch(receiveMessage(output));
+	}
 };
 
 export const registerMessageHandler = (store: Store, client: SocketClient) => {
