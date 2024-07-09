@@ -17,6 +17,7 @@
 		"cypress:run": "cypress run",
 		"cypress:run:firefox": "cypress run --browser firefox",
 		"test:cypress": "run-p -r cypress:serve cypress:run",
+		"test:cypress:firefox": "run-p -r cypress:serve cypress:run:firefox",
 		"test": "npm run test:cypress",
 		"pretest": "npm run build",
 		"prettier:check": "prettier --check --config .prettierrc.json src/",

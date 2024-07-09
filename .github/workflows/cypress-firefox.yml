@@ -11,4 +11,4 @@ jobs:
               node-version: 20.x
               cache: "npm"
         - run: npm ci
-        - run: npm run cypress:run:firefox
+        - run: npm run test:cypress:firefox
