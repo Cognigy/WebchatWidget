@@ -3,6 +3,7 @@ import { StoreState } from "../store";
 import { autoInjectHandled, TAutoInjectAction, triggerAutoInject } from './autoinject-reducer';
 import { Webchat } from "../../components/Webchat";
 import { IWebchatConfig } from "../../../common/interfaces/webchat-config";
+import getMessagesListWithoutPrivacyMessage from "../../../webchat-ui/utils/filter-out-privacy-message";
 
 export const createAutoInjectMiddleware = (webchat: Webchat): Middleware<unknown, StoreState> => api => next => (action: TAutoInjectAction) => {
     switch (action.type) {
@@ -48,9 +49,9 @@ export const createAutoInjectMiddleware = (webchat: Webchat): Middleware<unknown
             // except if explicitly set via enableAutoInjectWithHistory
 			if (!config.settings.widgetSettings.enableInjectionWithoutEmptyHistory) {
                 // Exclude engagement messages from state.messages
-                const messagesExcludeEngagementMessages = state.messages.filter(message => message.source !== 'engagement');
+                const messagesExcludingEngagementMessages = state.messages?.filter(message => message.source !== 'engagement');
                 // Exclude privacy policy accepted message type from filtered message list 
-                const messagesExcludingEngagementAndPrivacyMessage = messagesExcludeEngagementMessages.filter(message => (message.data?._cognigy as any)?.controlCommands === 'acceptPrivacyPolicy');
+                const messagesExcludingEngagementAndPrivacyMessage = getMessagesListWithoutPrivacyMessage(messagesExcludingEngagementMessages);                
                 const isEmptyExceptEngagementAndPrivacyMessage = messagesExcludingEngagementAndPrivacyMessage.length === 0;
 
                 if (!isEmptyExceptEngagementAndPrivacyMessage) {

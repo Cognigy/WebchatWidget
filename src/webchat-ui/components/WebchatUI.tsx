@@ -66,6 +66,7 @@ import XAppOverlay from "./functional/xapp-overlay/XAppOverlay";
 import { getSourceBackgroundColor } from "../utils/sourceMapping";
 import type { Options } from "@cognigy/socket-client/lib/interfaces/options";
 import speechOutput from "./plugins/speech-output";
+import getMessagesListWithoutPrivacyMessage from "../utils/filter-out-privacy-message";
 
 export interface WebchatUIProps {
 	currentSession: string;
@@ -1312,25 +1313,17 @@ export class WebchatUI extends React.PureComponent<
 
 		const isEnded = isConversationEnded(messages);
 
+		// Find privacy message and remove it from the messages list (these message types are not displayed in the chat log). 
+		// If we do not remove, it will cause the collatation of the first user message.
+		const messagesExcludingPrivacyMessage = getMessagesListWithoutPrivacyMessage(messages);
+
 		return (
 			<>
-				{messages.map((message, index) => {
+				{messagesExcludingPrivacyMessage.map((message, index) => {
 					// Lookahead if there is a user reply
 					const hasReply = messages
 						.slice(index + 1)
 						.some(message => message.source === "user");
-
-						// Find message with control command 'acceptPrivacyPolicy' and remove it. This message type need not be passed to the Message component. 
-						// If we do not filter this message, it will cause the collatation of the first user message.
-						if ((message.data?._cognigy as any)?.controlCommands) {
-							const controlCommands = (message.data?._cognigy as any)?.controlCommands;
-							const acceptPrivacyPolicyIndex = controlCommands.findIndex(
-								command => command.type === "acceptPrivacyPolicy"
-							);
-							if (acceptPrivacyPolicyIndex > -1) {
-								messages.splice(index, 1);
-							}
-						}
 
 					return (
 						<Message
