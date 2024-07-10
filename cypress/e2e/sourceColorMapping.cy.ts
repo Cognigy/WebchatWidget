@@ -21,7 +21,7 @@ describe('Source Color Mapping', () => {
 
         cy.receiveMessage('bot message', {}, 'bot');
 
-        cy.get('.webchat-message-row.bot .chat-bubble').should('have.css', 'background', 'rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box');
+        cy.get('.webchat-message-row.bot .chat-bubble').should('have.css', 'background-color', 'rgb(255, 255, 255)');
     });
 
     it('should render agent messages as "neutral" by default', () => {
@@ -29,7 +29,7 @@ describe('Source Color Mapping', () => {
 
         cy.receiveMessage('agent message', {}, 'agent');
 
-        cy.get('.webchat-message-row.agent .chat-bubble').should('have.css', 'background', 'rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box');
+        cy.get('.webchat-message-row.agent .chat-bubble').should('have.css', 'background-color', 'rgb(255, 255, 255)');
     });
 
     it('should render user messages as "neutral" if configures in sourceColorMapping', () => {

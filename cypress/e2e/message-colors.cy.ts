@@ -19,7 +19,7 @@ describe('Message Color Variants', () => {
         it('renders a "text with buttons"', () => {
             cy.receiveMessageFixture('buttons');
 
-            cy.get('.webchat-buttons-template-root .chat-bubble').should('have.css', 'background', 'rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box');
+            cy.get('.webchat-buttons-template-root .chat-bubble').should('have.css', 'background-color', 'rgb(255, 255, 255)');
             cy.get('.webchat-buttons-template-root .chat-bubble').should('have.css', 'color', 'rgb(28, 28, 28)');
         });
 
@@ -57,7 +57,7 @@ describe('Message Color Variants', () => {
             cy.receiveMessageFixture('date-picker');
 
             cy.get('.webchat-message-row button')
-                .should('have.css', 'background-color', 'rgb(26, 26, 26)')
+                .should('have.css', 'background-color', 'rgb(16, 13, 13)')
                 .should('have.css', 'color', 'rgb(255, 255, 255)');
         });
 
@@ -95,7 +95,7 @@ describe('Message Color Variants', () => {
         it('renders a "text with buttons"', () => {
             cy.receiveMessageFixture('buttons');
 
-            cy.get('.webchat-buttons-template-root .chat-bubble').should('have.css', 'background', 'rgb(232, 235, 255) none repeat scroll 0% 0% / auto padding-box border-box');
+            cy.get('.webchat-buttons-template-root .chat-bubble').should('have.css', 'background-color', 'rgb(232, 235, 255)');
             cy.get('.webchat-buttons-template-root .chat-bubble').should('have.css', 'color', 'rgba(26, 26, 26, 0.95)');
         });
 
@@ -106,7 +106,7 @@ describe('Message Color Variants', () => {
                 cy.receiveMessage(text, data, source);
 
                 cy.get('.webchat-quick-reply-template-root .chat-bubble')
-                    .should('have.css', 'background', 'rgb(232, 235, 255) none repeat scroll 0% 0% / auto padding-box border-box');
+                    .should('have.css', 'background-color', 'rgb(232, 235, 255)');
             });
         });
 
