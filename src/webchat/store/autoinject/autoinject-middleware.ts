@@ -47,15 +47,16 @@ export const createAutoInjectMiddleware = (webchat: Webchat): Middleware<unknown
             // Don't trigger the auto inject message when the history is not empty
             // except if explicitly set via enableAutoInjectWithHistory
 			if (!config.settings.widgetSettings.enableInjectionWithoutEmptyHistory) {
-                const isEmptyExceptEngagementMesage = state.messages
-                    .filter(message => message.source !== 'engagement')
-                    .length === 0;
-    
-                if (!isEmptyExceptEngagementMesage) {
+                // Exclude engagement messages from state.messages
+                const messagesExcludeEngagementMessages = state.messages.filter(message => message.source !== 'engagement');
+                // Exclude privacy policy accepted message type from filtered message list 
+                const messagesExcludingEngagementAndPrivacyMessage = messagesExcludeEngagementMessages.filter(message => (message.data?._cognigy as any)?.controlCommands === 'acceptPrivacyPolicy');
+                const isEmptyExceptEngagementAndPrivacyMessage = messagesExcludingEngagementAndPrivacyMessage.length === 0;
+
+                if (!isEmptyExceptEngagementAndPrivacyMessage) {
                     break;
                 }
             }
-
 
             // We are going to send the auto-inject message, now!
 			const text = state.config.settings.startBehavior.getStartedPayload;

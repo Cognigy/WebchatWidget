@@ -1320,6 +1320,18 @@ export class WebchatUI extends React.PureComponent<
 						.slice(index + 1)
 						.some(message => message.source === "user");
 
+						// Find message with control command 'acceptPrivacyPolicy' and remove it. This message type need not be passed to the Message component. 
+						// If we do not filter this message, it will cause the collatation of the first user message.
+						if ((message.data?._cognigy as any)?.controlCommands) {
+							const controlCommands = (message.data?._cognigy as any)?.controlCommands;
+							const acceptPrivacyPolicyIndex = controlCommands.findIndex(
+								command => command.type === "acceptPrivacyPolicy"
+							);
+							if (acceptPrivacyPolicyIndex > -1) {
+								messages.splice(index, 1);
+							}
+						}
+
 					return (
 						<Message
 							key={JSON.stringify({ message, index })}
