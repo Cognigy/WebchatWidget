@@ -57,7 +57,7 @@ describe('Message Color Variants', () => {
             cy.receiveMessageFixture('date-picker');
 
             cy.get('.webchat-message-row button')
-                .should('have.css', 'background-color', 'rgb(16, 13, 13)')
+                .should('have.css', 'background-color', 'rgb(26, 26, 26)')
                 .should('have.css', 'color', 'rgb(255, 255, 255)');
         });
 
