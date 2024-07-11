@@ -89,7 +89,8 @@ describe('Home Screen', () => {
             }
         });
         cy.openWebchat();
-        cy.get('.webchat-homescreen-content').should('have.css', 'background', 'none repeat scroll 50% 50% / cover padding-box border-box, rgba(0, 0, 0, 0) radial-gradient(204.5% 136.79% at 0.53% 95.79%, rgb(237, 236, 249) 0%, rgb(191, 186, 255) 31.77%, rgb(33, 82, 227) 65.63%, rgb(5, 48, 158) 100%) repeat scroll 50% 50% / cover padding-box border-box');   
+        cy.get('.webchat-homescreen-content')
+            .should('have.css', 'background-image', 'none, radial-gradient(204.5% 136.79% at 0.53% 95.79%, rgb(237, 236, 249) 0%, rgb(191, 186, 255) 31.77%, rgb(33, 82, 227) 65.63%, rgb(5, 48, 158) 100%)');   
     });
 
     it('has specified background gradient when configured', () => {
@@ -105,7 +106,7 @@ describe('Home Screen', () => {
             }
         });
         cy.openWebchat();
-        cy.get('.webchat-homescreen-content').should('have.css', 'background', 'none repeat scroll 50% 50% / cover padding-box border-box, rgba(0, 0, 0, 0) linear-gradient(to right, rgb(255, 0, 0), rgb(0, 0, 255)) repeat scroll 50% 50% / cover padding-box border-box');   
+        cy.get('.webchat-homescreen-content').should('have.css', 'background-image', 'none, linear-gradient(to right, rgb(255, 0, 0), rgb(0, 0, 255))');   
     });
 
     it('has the specified background color when configured', () => {

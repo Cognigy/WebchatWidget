@@ -1,4 +1,4 @@
-name: E2E Chrome
+name: E2E Firefox
 on: [pull_request]
 jobs:
   test:
@@ -11,4 +11,5 @@ jobs:
               node-version: 20.x
               cache: "npm"
         - run: npm ci
-        - run: npm test
+        - run: npm run build
+        - run: npm run test:cypress:firefox
