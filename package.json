@@ -13,6 +13,7 @@
 		"update-license": "node update-license.js",
 		"dev": "webpack-dev-server --config webpack.dev.js --host 0.0.0.0",
 		"cypress:open": "cypress open --e2e --browser chrome",
+		"cypress:open:firefox": "cypress open --e2e --browser firefox",
 		"cypress:serve": "http-server -a localhost -p 8787 dist/",
 		"cypress:run": "cypress run",
 		"cypress:run:firefox": "cypress run --browser firefox",
