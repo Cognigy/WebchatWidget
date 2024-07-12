@@ -15,6 +15,7 @@ import {
 } from "./previous-conversations/previous-conversations-reducer";
 import { StoreState } from "./store";
 import xAppOverlay from "./xapp-overlay/slice";
+import queueUpdates from "./queue-updates/slice";
 
 const rootReducer = combineReducers({
 	messages,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
 	input,
 	prevConversations,
 	xAppOverlay,
+	queueUpdates
 });
 
 const RESET_STATE = "RESET_STATE";
