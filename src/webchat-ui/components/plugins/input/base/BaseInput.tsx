@@ -505,7 +505,7 @@ export class BaseInput extends React.PureComponent<IBaseInputProps, IBaseInputSt
 							disabled={
 								(this.state.text === "" && isFileListEmpty) || fileUploadError
 							}
-							className="webchat-input-button-send"
+							className="webchat-input-button-send cc-rtl-flip"
 							aria-label="Send Message"
 							id="webchatInputMessageSendMessageButton"
 						>
