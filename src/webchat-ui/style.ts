@@ -134,7 +134,6 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
 
     let backgroundHome = 'radial-gradient(204.5% 136.79% at 0.53% 95.79%, #EDECF9 0%, #BFBAFF 31.77%, #2152E3 65.63%, #05309E 100%)';
     if (isRTL) {
-        console.log('RTL');
         backgroundHome = 'radial-gradient(at right 95.79%, hsl(225, 80%, 32%) 0%, #2455E6 34.37%, hsl(225, 80%, 72%) 68.23%, hsl(225, 79%, 92%) 100%)';
     }
     const backgroundWebchat = "#FFFFFF";
