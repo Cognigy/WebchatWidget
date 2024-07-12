@@ -744,6 +744,13 @@ export class WebchatUI extends React.PureComponent<
 		this.props.onSetShowChatOptionsScreen(false);
 	};
 
+	openConversationFromTeaser = () => {
+		// in this case we always open to current session
+		this.props.onToggle();
+		this.props.onSetShowHomeScreen(false);
+		this.props.onSetShowChatOptionsScreen(false);
+	};
+
 	render() {
 		const { props, state } = this;
 		const {
@@ -919,7 +926,7 @@ export class WebchatUI extends React.PureComponent<
 											lastUnseenMessageText && (
 												<TeaserMessage
 													messageText={lastUnseenMessageText}
-													onClick={this.handleStartConversation}
+													onClick={this.openConversationFromTeaser}
 													config={config}
 													onEmitAnalytics={onEmitAnalytics}
 													onSendActionButtonMessage={
