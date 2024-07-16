@@ -184,6 +184,7 @@ Cypress.Commands.add('renderMessage', (text: string, data: any, source: string, 
 Cypress.Commands.add('setRTLDocument', () => {
     cy.document().then(doc => {
         doc.documentElement.setAttribute('dir', 'rtl');
+        cy.wait(500);
     });
 
     return cy.then(() => { });
