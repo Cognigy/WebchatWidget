@@ -14,7 +14,7 @@
 		"dev": "webpack-dev-server --config webpack.dev.js --host 0.0.0.0",
 		"cypress:open": "cypress open --e2e --browser chrome",
 		"cypress:serve": "http-server -a localhost -p 8787 dist/",
-		"cypress:run": "cypress run",
+		"cypress:run": "cypress run --browser chrome",
 		"cypress:run:firefox": "cypress run --browser firefox",
 		"test:cypress": "run-p -r cypress:serve cypress:run",
 		"test:cypress:firefox": "run-p -r cypress:serve cypress:run:firefox",
