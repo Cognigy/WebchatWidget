@@ -6,6 +6,9 @@ const ProgressBarContainer = styled.div(() => ({
     width: '100%',
     backgroundColor: "#e0e0de",
     borderRadius: 50,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
 }));
 
 const ProgressBar = styled.div<ILinearProgressBarProps>(({ theme, progressPercentage }) => ({

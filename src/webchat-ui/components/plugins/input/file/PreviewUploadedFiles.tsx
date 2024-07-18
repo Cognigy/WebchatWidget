@@ -34,6 +34,8 @@ const UploadedFilesContainer = styled.div(({ theme }) => ({
 }));
 
 const FilePreviewWrapper = styled.div(({ theme }) => ({
+	position: 'relative',
+	overflow: 'hidden',
 	borderRadius: 15,
 	height: 33,
 	backgroundColor: theme.black95,
@@ -44,8 +46,11 @@ const FilePreviewWrapper = styled.div(({ theme }) => ({
 
 const UploadedFilePreview = styled.div(() => ({
 	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
 	gap: 12,
-	padding: "8px 12px",
+	padding: "0px 12px",
+	height: "100%",
 }));
 
 const FileName = styled(Typography)<Pick<IFile, "hasUploadError">>(({ hasUploadError, theme }) => ({
@@ -53,11 +58,6 @@ const FileName = styled(Typography)<Pick<IFile, "hasUploadError">>(({ hasUploadE
 	textOverflow: "ellipsis",
 	overflow: "hidden",
 	color: hasUploadError ? "hsla(0, 100%, 50%, .7)" : theme.black10,
-	alignSelf: "center",
-}));
-
-const FileExtension = styled(Typography)(({ theme }) => ({
-	color: theme.black10,
 	alignSelf: "center",
 }));
 
@@ -117,22 +117,15 @@ const PreviewUploadedFiles: FC = () => {
 						>
 							<CloseIcon />
 						</RemoveFileButton>
-						<span>
-							<FileName
-								component="span"
-								variant="title2-regular"
-								hasUploadError={item.hasUploadError}
-							>
-								{!item.hasUploadError
-									? getFileName(item.file.name)
-									: item.uploadErrorReason}
-							</FileName>
-							{!item.hasUploadError && (
-								<FileExtension component="span" variant="title2-regular">
-									{getFileExtension(item.file.name)}
-								</FileExtension>
-							)}
-						</span>
+						<FileName
+							component="span"
+							variant="title2-regular"
+							hasUploadError={item.hasUploadError}
+						>
+							{!item.hasUploadError
+								? `${getFileName(item.file.name)}${getFileExtension(item.file.name)}`
+								: item.uploadErrorReason}
+						</FileName>
 						<FileSize component="span" variant="title2-regular">
 							{item.file.size > 1000000
 								? `${(item.file.size / 1000000).toFixed(2)} MB`
