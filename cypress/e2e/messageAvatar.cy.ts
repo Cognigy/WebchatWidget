@@ -57,14 +57,14 @@ describe("Bot message", () => {
 
     // Bot message avatar logo tests
 
-	xit("should have Cognigy AI avatar when 'logoUrl' is not configured", () => {
+	it("should have Cognigy AI avatar when 'logoUrl' is not configured", () => {
 		cy.initMockWebchat().openWebchat().startConversation();
 		cy.receiveMessage("bot message", {}, "bot");
 
 		cy.get('[alt="bot avatar"]').should(
 			"have.attr",
 			"src",
-			"data:image/svg+xml,%3csvg%20width=**'28'**%20height=**'28'**%20viewBox=**'0%200%2028%2028'**%20fill=**'none'**%20xmlns=**'http://www.w3.org/2000/svg'**%3e%3crect%20width=**'28'**%20height=**'28'**%20rx=**'14'**%20fill=**'%232455E6'**/%3e%3cpath%20fill-rule=**'evenodd'**%20clip-rule=**'evenodd'**%20d=**'M11.0839%2010.611L6.96494%2020.4758H4.19922L9.70529%207.29932H12.4626L17.9686%2020.4758H15.2114L11.0839%2010.611ZM22.3168%207.29932V20.4758H19.418V7.29932H22.3168Z'**%20fill=**'white'**/%3e%3c/svg%3e",
+			"data:image/svg+xml,%3csvg%20width='28'%20height='28'%20viewBox='0%200%2028%2028'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3crect%20width='28'%20height='28'%20rx='14'%20fill='%232455E6'/%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M11.0839%2010.611L6.96494%2020.4758H4.19922L9.70529%207.29932H12.4626L17.9686%2020.4758H15.2114L11.0839%2010.611ZM22.3168%207.29932V20.4758H19.418V7.29932H22.3168Z'%20fill='white'/%3e%3c/svg%3e",
 		);
 	});
 
