@@ -3,6 +3,8 @@ describe("Webchat Header", () => {
 		cy.visitWebchat();
 	});
 
+    // Webchat header logo tests
+
 	it("should have CognigyAI logo when 'logoUrl' is not configured", () => {
 		cy.initMockWebchat().openWebchat().startConversation();
 
@@ -25,6 +27,8 @@ describe("Webchat Header", () => {
 
         cy.get(".webchat-header-bar .webchat-header-logo").should("have.attr", "src", "https://placewaifu.com/image/300/300");
     });
+
+    // Webchat header title tests
 
     it("should have 'Cognigy' as the title by default", () => {
         cy.initMockWebchat().openWebchat().startConversation();
@@ -50,6 +54,8 @@ describe("Bot message", () => {
 	beforeEach(() => {
 		cy.visitWebchat();
 	});
+
+    // Bot message avatar logo tests
 
 	xit("should have Cognigy AI avatar when 'logoUrl' is not configured", () => {
 		cy.initMockWebchat().openWebchat().startConversation();
@@ -128,6 +134,8 @@ describe("Bot message", () => {
 		cy.get('[alt="bot avatar"]').should("have.attr", "src", "https://placewaifu.com/image/300/300");
 	});
 
+    // Bot message avatar name tests
+
 	it("should have avatar name as 'Cognigy' by default", () => {
 		cy.initMockWebchat().openWebchat().startConversation();
 		cy.receiveMessage("bot message", {}, "bot");
@@ -202,6 +210,8 @@ describe("Human Agent message", () => {
     beforeEach(() => {
         cy.visitWebchat();
     });
+
+    // Agent message avatar logo tests
 
     it("should have default avatar when agent avatar is not configured", () => {
         cy.initMockWebchat().openWebchat().startConversation();
@@ -279,6 +289,8 @@ describe("Human Agent message", () => {
 
 		cy.get('[alt="agent avatar"]').should("have.attr", "src", "https://placewaifu.com/image/300/300");
 	});
+
+    // Agent message avatar name tests
 
     it("should have Agent as the avatar name by default", () => {
         cy.initMockWebchat().openWebchat().startConversation();
