@@ -6,7 +6,8 @@ import { IWebchatSettings } from "../../../common/interfaces/webchat-config";
 const Link = styled.a(({ theme }) => ({
 	display: "flex",
 	alignItems: "baseline",
-	justifyContent: "center",
+	alignSelf: "center",
+	width: "fit-content",
 	height: 12,
 
 	color: theme.textDark,
