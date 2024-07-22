@@ -13,3 +13,9 @@ jobs:
         - run: npm ci
         - run: npm run build
         - run: npm run test:cypress:firefox
+        - name: Upload screenshots
+          uses: actions/upload-artifact@v4
+          if: failure()
+          with:
+            name: cypress-screenshots
+            path: cypress/screenshots

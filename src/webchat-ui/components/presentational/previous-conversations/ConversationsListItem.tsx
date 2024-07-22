@@ -145,7 +145,7 @@ export const ConversationsListItem = (props: IConversationsListItemProps) => {
 				</CenterMeta>
 			</Center>
 			<Right>
-				<ArrowIcon />
+				<ArrowIcon className="cc-rtl-flip-invert" />
 			</Right>
 		</ListItem>
 	);

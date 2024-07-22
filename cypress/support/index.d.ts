@@ -38,6 +38,7 @@ declare namespace Cypress {
       receiveMessage(text?: string, data?: Object, source?: 'bot' | 'agent' | 'user'): Chainable<ReturnType<cy["window"]>>;
       receiveMessageFixture(filename: string): Chainable<unknown>;
 
+      setRTLDocument(): Chainable<any>;
       /**
        * sends a real message as if the user wrote a text and hit the "submit" button
        */

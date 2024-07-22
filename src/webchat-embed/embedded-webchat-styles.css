@@ -25,6 +25,11 @@
     z-index: 1;
 }
 
+[data-cognigy-webchat-root] button[data-cognigy-webchat-toggle]:dir(rtl) {
+    left: 20px;
+    right: unset;
+}
+
 [data-cognigy-webchat-root] button[data-cognigy-webchat-toggle]:focus {
 	box-shadow: 0 0 4px 3px rgb(0, 0, 0, 0.2);
 }
@@ -41,6 +46,11 @@
         height: 100%;
     }
 
+    [data-cognigy-webchat-root]:dir(rtl) {
+        right: auto;
+        left: unset;
+    }
+
     [data-cognigy-webchat-root] [data-cognigy-webchat] {
         left: auto;
         top: auto;
@@ -54,6 +64,12 @@
         border-radius: 16px;
         box-shadow: 0 5px 18px 0 rgba(151, 124, 156, 0.2), 0 5px 32px 0 rgba(203, 195, 212, 0.2), 0 8px 58px 0 rgba(216, 212, 221, 0.1);
     }
+
+    [data-cognigy-webchat-root] [data-cognigy-webchat]:dir(rtl) {
+        right: auto;
+        left: 20px;
+    }
+
 }
 
 @media screen and (min-width: 576px) and (max-height: 870px) {
@@ -61,4 +77,12 @@
 		height: calc(100% - 90px);
 		min-height: 558px;
     }
+}
+
+.cc-rtl-flip {
+    transform: scaleX(-1);
+}
+
+.cc-rtl-flip-invert {
+    transform: scaleX(1) !important; 
 }

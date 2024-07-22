@@ -120,8 +120,12 @@ const deriveDisabledColor = (color: string) => {
 
 export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchatTheme => {
 
+    const htmlDirection = document?.documentElement?.dir;
+    const bodyDirection = document?.body?.dir;
+    const isRTL = htmlDirection === 'rtl' || bodyDirection === 'rtl';
+
     // Webchat endpoint default color
-    const webchatEndpointDefaultColor = '#2C6CAF';
+    const webchatEndpointDefaultColor = '#2455E6';
 
     // Webchat 3 Theme color defaults
     const primaryColor = '#2455E6';
@@ -129,6 +133,9 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
     const secondaryColor = '#1A1A1A';
 
     let backgroundHome = 'radial-gradient(204.5% 136.79% at 0.53% 95.79%, #EDECF9 0%, #BFBAFF 31.77%, #2152E3 65.63%, #05309E 100%)';
+    if (isRTL) {
+        backgroundHome = 'radial-gradient(at right 95.79%, hsl(225, 80%, 32%) 0%, #2455E6 34.37%, hsl(225, 80%, 72%) 68.23%, hsl(225, 79%, 92%) 100%)';
+    }
     const backgroundWebchat = "#FFFFFF";
     const backgroundBotMessage = "#FFFFFF";
     const backgroundUserMessage = "#E8EBFF";
@@ -163,7 +170,6 @@ export const createWebchatTheme = (theme: Partial<IWebchatTheme> = {}): IWebchat
             backgroundHome = `radial-gradient(204.5% 136.79% at 0.53% 95.79%, ${tinycolor(theme.primaryColor).lighten(40).toHslString()} 0%, ${tinycolor(theme.primaryColor).lighten(20).toHslString()} 31.77%, ${theme.primaryColor} 65.63%, ${tinycolor(theme.primaryColor).darken(20).toHslString()} 100%)`;
         }
     }
-
 
     if (!theme.primaryColor)
         theme.primaryColor = primaryColor;

@@ -216,6 +216,21 @@ const RegularLayoutContentWrapper = styled.div(({ theme }) => ({
 		transform: "translateX(100%)",
 		transition: "transform 400ms ease-out",
 	},
+
+	"&.slide-in-enter:dir(rtl)": {
+		transform: "translateX(-100%)",
+	},
+	"&.slide-in-enter-active:dir(rtl)": {
+		transform: "translateX(0%)",
+		transition: "transform 400ms ease-out",
+	},
+	"&.slide-in-exit:dir(rtl)": {
+		transform: "translateX(0%)",
+	},
+	"&.slide-in-exit-active:dir(rtl)": {
+		transform: "translateX(-100%)",
+		transition: "transform 400ms ease-out",
+	},
 }));
 
 export class WebchatUI extends React.PureComponent<

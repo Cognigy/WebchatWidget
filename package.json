@@ -15,7 +15,7 @@
 		"cypress:open": "cypress open --e2e --browser chrome",
 		"cypress:open:firefox": "cypress open --e2e --browser firefox",
 		"cypress:serve": "http-server -a localhost -p 8787 dist/",
-		"cypress:run": "cypress run",
+		"cypress:run": "cypress run --browser chrome",
 		"cypress:run:firefox": "cypress run --browser firefox",
 		"test:cypress": "run-p -r cypress:serve cypress:run",
 		"test:cypress:firefox": "run-p -r cypress:serve cypress:run:firefox",
@@ -29,7 +29,7 @@
 	},
 	"dependencies": {
 		"@braintree/sanitize-url": "^6.0.0",
-		"@cognigy/chat-components": "0.28.0",
+		"@cognigy/chat-components": "0.29.0",
 		"@cognigy/socket-client": "5.0.0-beta.17",
 		"@emotion/cache": "^10.0.29",
 		"@emotion/react": "^11.7.1",

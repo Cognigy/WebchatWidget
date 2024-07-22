@@ -29,6 +29,7 @@ import "cypress-real-events/support";
 import { IWebchatSettings } from '../../src/common/interfaces/webchat-config';
 
 Cypress.Commands.add('visitWebchat', () => {
+    // TODO find a way to silence the logs
     cy.visit('/webchat.test.html', { log: false });
 
     return cy.then(() => {});
@@ -178,6 +179,16 @@ Cypress.Commands.add('renderMessage', (text: string, data: any, source: string, 
     });
 
     return cy.then(() => {});
+});
+
+Cypress.Commands.add('setRTLDocument', () => {
+    cy.document().then(doc => {
+        doc.documentElement.setAttribute('dir', 'rtl');
+        cy.wait(500);
+    });
+
+    return cy.then(() => { });
+
 });
 
 Cypress.Commands.add('getHistory', () => {
