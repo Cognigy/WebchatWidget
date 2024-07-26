@@ -79,10 +79,10 @@
     }
 }
 
-.cc-rtl-flip {
+.cc-rtl-flip:dir(rtl) {
     transform: scaleX(-1);
 }
 
-.cc-rtl-flip-invert {
+.cc-rtl-flip-invert:dir(rtl) {
     transform: scaleX(1) !important; 
 }
