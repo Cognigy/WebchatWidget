@@ -19,6 +19,10 @@ const TertiaryButtonWrapper = styled(Button)(({ theme }) => ({
 		transform: "rotate(180deg)",
 		fill: theme.black10,
 	},
+	
+	'& svg:dir(rtl)': {
+		transform: 'rotate(0deg)',
+	},
 
 	'&:disabled': {
 		cursor: 'default',
