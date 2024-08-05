@@ -72,7 +72,7 @@ const DropZone: FC<IDropZoneProps> = props => {
 	return (
 		<>
 			<DropZoneRoot>
-				<DropZoneContent>
+				<DropZoneContent id="dropzoneContent">
 					<AttachFileIcon />
 					<DragDropTypography
 						variant="title1-regular"
