@@ -95,7 +95,7 @@ const PreviewUploadedFiles: FC = () => {
 	return (
 		<UploadedFilesContainer>
 			{fileList?.map((item, index) => (
-				<FilePreviewWrapper key={index}>
+				<FilePreviewWrapper key={index} id={`filePreview${index}`}>
 					<UploadedFilePreview>
 						<RemoveFileButton
 							onClick={() => onRemoveFileButtonClick(index)}
