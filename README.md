@@ -1,3 +1,17 @@
+## DEPRECATION WARNING FOR WEBCHAT v2
+
+With the release of our [Webchat v3](https://github.com/Cognigy/Webchat), we are also announcing the deprecation of older versions of Webchat (v2.X).
+**End of Support: 1st February 2026**
+
+### What This Means for You:
+Effective immediately, there will be
+- No Further Feature Updates: We will no longer release feature updates for the deprecated Webchat versions.
+- No Bug Fixes: Issues reported in the deprecated versions will not be addressed.
+- Limited Support: Customer support for the deprecated versions will be significantly reduced and eventually unavailable after the end of support date.
+- Security Fixes: We will continue to provide security fixes until the end of the support date. 
+
+Please follow our [guide to migrate from Webchat v2 to v3](https://docs.cognigy.com/webchat/migration/).
+
 # Cognigy Webchat Widget
 
 This repository contains a Webchat feature that seamlessly integrates with your website, enabling your users to chat with your Conversational AI, built with Cognigy.
