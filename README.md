@@ -1,7 +1,8 @@
 ## DEPRECATION WARNING FOR WEBCHAT v2
 
 With the release of our [Webchat v3](https://github.com/Cognigy/Webchat), we are also announcing the deprecation of older versions of Webchat (v2.X).
-**End of Support: 1st February 2026**
+
+**End of Support: 31st January 2026**
 
 ### What This Means for You:
 Effective immediately, there will be
