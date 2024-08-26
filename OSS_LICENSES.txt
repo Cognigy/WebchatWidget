@@ -1,4 +1,4 @@
-Created on 28-06-2024 at 14:07:58
+Created on 26-08-2024 at 14:02:17
 
 {
   "@ampproject/remapping@2.2.0": {
@@ -213,7 +213,7 @@ Created on 28-06-2024 at 14:07:58
     "licenseFile": "node_modules/@cognigy/socket-client/LICENSE",
     "copyright": "Copyright (c) 2019 Cognigy GmbH"
   },
-  "@cognigy/webchat@2.63.0": {
+  "@cognigy/webchat@2.64.0": {
     "licenses": "MIT*",
     "publisher": "Cognigy GmbH",
     "email": "info@cognigy.com",
@@ -608,7 +608,7 @@ Created on 28-06-2024 at 14:07:58
     "licenseFile": "node_modules/aws4/LICENSE",
     "copyright": "Copyright 2013 Michael Hart (michael.hart.au@gmail.com)"
   },
-  "axios@1.6.4": {
+  "axios@1.7.4": {
     "licenses": "MIT",
     "repository": "https://github.com/axios/axios",
     "publisher": "Matt Zabriskie",
