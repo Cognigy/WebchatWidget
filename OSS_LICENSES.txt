@@ -1,4 +1,4 @@
-Created on 26-08-2024 at 14:02:17
+Created on 15-11-2024 at 11:49:06
 
 {
   "@ampproject/remapping@2.2.0": {
@@ -206,7 +206,7 @@ Created on 26-08-2024 at 14:02:17
     "licenseFile": "node_modules/@braintree/sanitize-url/LICENSE",
     "copyright": "Copyright (c) 2017 Braintree"
   },
-  "@cognigy/socket-client@4.8.0": {
+  "@cognigy/socket-client@4.8.3": {
     "licenses": "MIT*",
     "publisher": "Robin Schuster",
     "email": "r.schuster@cognigy.com",
@@ -1063,7 +1063,7 @@ Created on 26-08-2024 at 14:02:17
     "licenseFile": "node_modules/detect-browser/LICENSE",
     "copyright": "Copyright (c) 2019 Damon Oehlman <damon.oehlman@gmail.com>"
   },
-  "dompurify@2.4.9": {
+  "dompurify@2.5.4": {
     "licenses": "(MPL-2.0 OR Apache-2.0)",
     "repository": "https://github.com/cure53/DOMPurify",
     "publisher": "Mario Heiderich",
