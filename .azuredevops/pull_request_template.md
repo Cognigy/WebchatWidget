@@ -23,3 +23,6 @@ Please describe the individual steps on how a peer can test your change.
 
 # Additional considerations
 - [ ] This PR might have performance implications
+
+# Documentation Considerations
+These are hints for the documentation team to help write the docs.
