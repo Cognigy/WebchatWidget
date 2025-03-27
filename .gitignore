@@ -1,6 +1,7 @@
 node_modules
 /lib/
 dist/*.js
+dist/*.js.map
 dist/*.gz
 dist/*.br
 dist/*.zip
