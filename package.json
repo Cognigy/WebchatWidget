@@ -1,6 +1,6 @@
 {
   "name": "@cognigy/webchat",
-  "version": "2.66.1",
+  "version": "2.66.2",
   "description": "Webchat Widget for Cognigy.AI",
   "author": "Cognigy GmbH <info@cognigy.com>",
   "contributors": [
@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@braintree/sanitize-url": "^6.0.0",
-    "@cognigy/socket-client": "^4.9.1",
+    "@cognigy/socket-client": "^4.9.2",
     "@emotion/cache": "^10.0.29",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
@@ -70,6 +70,7 @@
     "remarkable": "^2.0.1",
     "styled-jss": "^2.2.3",
     "stylis-rtl": "^1.0.1",
+    "stylis": "3.5.4",
     "tinycolor2": "^1.4.2",
     "uifx": "^2.0.7"
   },
