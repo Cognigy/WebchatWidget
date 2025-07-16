@@ -51,7 +51,7 @@
     "@emotion/styled": "^11.6.0",
     "adaptivecards": "^2.10.0",
     "axios": "^1.8.4",
-    "cypress-real-events": "^1.7.0",
+    "cypress-real-events": "^1.14.0",
     "dompurify": "2.5.4",
     "flatpickr": "4.6.3",
     "immutable": "^4.0.0-rc.12",
