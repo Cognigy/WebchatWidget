@@ -54,7 +54,7 @@
     "cypress-real-events": "^1.7.0",
     "dompurify": "2.5.4",
     "flatpickr": "4.6.3",
-    "immutable": "^4.0.0-rc.12",
+    "immutable": "^4.3.7",
     "lodash": "^4.17.21",
     "memoize-one": "^6.0.0",
     "moment": "^2.29.4",
