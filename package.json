@@ -47,7 +47,7 @@
     "@braintree/sanitize-url": "^6.0.0",
     "@cognigy/socket-client": "^4.9.2",
     "@emotion/cache": "^10.0.29",
-    "@emotion/react": "^11.7.1",
+    "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.6.0",
     "adaptivecards": "^2.10.0",
     "axios": "^1.8.4",
