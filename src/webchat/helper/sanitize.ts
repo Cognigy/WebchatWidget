@@ -1,4 +1,4 @@
-import { sanitize, Config } from 'dompurify';
+import Dompurify, { Config } from 'dompurify';
 
 export const allowedHtmlTags = ["a", "abbr", "acronym", "address", "applet", "area", "article", "aside", "audio", "b", "base", "basefont",
 	"bdi", "bdo", "big", "blockquote", "body", "br", "button", "canvas", "caption", "center", "cite", "code", "col",
@@ -25,4 +25,4 @@ const config: Config = {
     ALLOWED_ATTR: allowedHtmlAttributes
 }
 
-export const sanitizeHTML = (text: string) => sanitize(text, config).toString();
+export const sanitizeHTML = (text: string) => Dompurify.sanitize(text, config).toString();
