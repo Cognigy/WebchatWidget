@@ -1,15 +1,13 @@
 name: Automatic Draft Release
 
-on:
-  push:
+on: 
+  push: 
     tags:
       - 'v*'
 
-jobs:
-  create-draft-release:
+jobs: 
+  create-draft-release: 
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
