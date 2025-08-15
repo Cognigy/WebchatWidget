@@ -70,7 +70,7 @@
 		"styled-jss": "^2.2.3",
 		"stylis-rtl": "^1.0.1",
 		"stylis": "3.5.4",
-		"tinycolor2": "^1.4.2",
+		"tinycolor2": "^1.6.0",
 		"uifx": "^2.0.7"
 	},
 	"devDependencies": {
