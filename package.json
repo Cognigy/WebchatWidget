@@ -64,7 +64,7 @@
 		"react-player": "^2.9.0",
 		"react-redux": "^7.2.6",
 		"react-responsive-carousel": "^3.2.22",
-		"react-textarea-autosize": "^8.3.3",
+		"react-textarea-autosize": "^8.5.9",
 		"redux": "^4.0.4",
 		"remarkable": "^2.0.1",
 		"styled-jss": "^2.2.3",
