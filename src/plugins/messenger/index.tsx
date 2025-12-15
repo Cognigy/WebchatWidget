@@ -106,10 +106,11 @@ const messengerPlugin: MessagePluginFactory = ({ React, styled }) => {
     return ({
         name: 'messenger',
         match: isMessengerPayload,
-        component: ({ message, onSendMessage, config, onEmitAnalytics, color, direction }: MessageComponentProps) => (
+        component: ({ message, onSendMessage, config, onEmitAnalytics, color, direction, selectedOptionIndex }: MessageComponentProps) => (
             <MessengerPreview
                 message={transformMessage(getMessengerPayload(message, config).message)}
-                onAction={(e, action) => {
+				selectedOptionIndex={selectedOptionIndex}
+				onAction={(e, action) => {
                     onEmitAnalytics('action', action);
 
                     // @ts-ignore

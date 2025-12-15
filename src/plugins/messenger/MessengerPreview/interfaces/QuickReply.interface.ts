@@ -8,6 +8,7 @@ export interface IFBMTextQuickReply {
     payload: string;
     image_url?: string;
 	image_alt_text?: string;
+	selectedOptionIndex?: number;
 }
 
 export interface IFBMLocationQuickReply {

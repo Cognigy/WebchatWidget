@@ -18,6 +18,7 @@ import { replaceUrlsWithHTMLanchorElem } from '../../../../../webchat/helper/url
 interface Props extends IWithFBMActionEventHandler, IWithMessageColor, IWithMessageDirection {
     message: IFBMRegularMessage;
     config: IWebchatConfig;
+	selectedOptionIndex?: number;
 }
 
 export const getMessengerTextWithQuickReplies = ({
@@ -56,6 +57,7 @@ export const getMessengerTextWithQuickReplies = ({
         config,
         messageColor,
         messageDirection,
+		selectedOptionIndex: propSelectedOptionIndex,
         ...divProps
     }: Props & React.HTMLProps<HTMLDivElement>) => {
         const { text, quick_replies } = message;
@@ -105,9 +107,11 @@ export const getMessengerTextWithQuickReplies = ({
                 {hasQuickReplies && (
                     <QuickReplies className="webchat-quick-reply-template-replies-container" {...a11yProps}>
                         {(quick_replies as IFBMQuickReply[]).map((quickReply, index) => {
-                            const { content_type, payload } = quickReply;
+                            const { content_type } = quickReply;
                             let label = "";
                             let image: React.ReactNode;
+							let payload: string | undefined;
+							let selectedOptionIndex: number | undefined;
 
                             switch (content_type) {
                                 case "location": {
@@ -117,8 +121,16 @@ export const getMessengerTextWithQuickReplies = ({
 
                                 case "user_phone_number":
                                 case "text": {
-                                    const { title, image_url, image_alt_text } = quickReply as IFBMTextQuickReply;
-                                    label = title;
+									const textQuickReply = quickReply as IFBMTextQuickReply;
+									const {
+										title,
+										image_url,
+										image_alt_text,
+										payload: textPayload,
+									} = textQuickReply;
+									label = title;
+									payload = textPayload;
+									selectedOptionIndex = textQuickReply.selectedOptionIndex;
                                     if (image_url) image = <QuickReplyImage src={image_url} alt={image_alt_text || ""}/>;
                                     break;
                                 }
@@ -131,7 +143,13 @@ export const getMessengerTextWithQuickReplies = ({
 
                             const __html = config.settings.disableHtmlContentSanitization ? label : sanitizeHTML(label);
                             const ariaLabel = hasMoreThanOneQuickReply ? `Item ${index + 1} of ${quick_replies?.length}: ${__html}` : undefined;
-                            
+                            // Determine if this quick reply is selected: check prop or data value matches index
+							const isSelectedFromData =
+							selectedOptionIndex !== undefined && selectedOptionIndex === index;
+						    // Use prop value if provided, otherwise use data value if it matches this index
+						    const effectiveSelectedIndex =
+							propSelectedOptionIndex ?? (isSelectedFromData ? index : undefined);
+
                             if(content_type === "user_phone_number") {
                                 return (
                                     <MessengerPhoneNumberQuickReply
@@ -140,6 +158,7 @@ export const getMessengerTextWithQuickReplies = ({
                                         className="webchat-quick-reply-template-reply"
                                         id={`${webchatQuickReplyTemplateButtonId}-${index}`}
                                         aria-label={ariaLabel}
+										selectedOptionIndex={effectiveSelectedIndex}
                                 >
                                     {image}
                                     <span dangerouslySetInnerHTML={{ __html }} />
@@ -153,6 +172,7 @@ export const getMessengerTextWithQuickReplies = ({
                                     className="webchat-quick-reply-template-reply"
                                     id={`${webchatQuickReplyTemplateButtonId}-${index}`}
                                     aria-label={ariaLabel}
+									selectedOptionIndex={effectiveSelectedIndex}
                                 >
                                     {image}
                                     <span dangerouslySetInnerHTML={{ __html }} />
