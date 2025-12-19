@@ -21,6 +21,7 @@ export interface IMessengerPreviewProps extends Omit<React.HTMLProps<HTMLDivElem
     message: IFBMMessage;
     onAction?: FBMActionEventHandler;
     config: IWebchatConfig;
+	selectedOptionIndex?: number;
 }
 
 export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps) => {
@@ -32,7 +33,7 @@ export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps
     const MessengerTextWithQuickReplies = getMessengerTextWithQuickReplies({ React, styled });
 
     const MessengerPreview = (props: IMessengerPreviewProps) => {
-        const { message, onAction: handleAction, config, messageColor, messageDirection, ...divProps } = props;
+        const { message, onAction: handleAction, config, messageColor, messageDirection, selectedOptionIndex, ...divProps } = props;
 
         const { attachment } = message as IFBMAttachmentMessage;
 
@@ -71,6 +72,7 @@ export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps
                                     payload={payload as IFBMGenericTemplatePayload}
                                     onAction={onAction}
                                     config={config}
+									selectedOptionIndex={selectedOptionIndex}
                                 />
                             )
                         }
@@ -112,6 +114,7 @@ export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps
                 config={config}
                 messageColor={messageColor}
                 messageDirection={messageDirection}
+				selectedOptionIndex={selectedOptionIndex}
             />
         )
     }

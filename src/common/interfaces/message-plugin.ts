@@ -17,6 +17,7 @@ export interface MessageComponentProps {
     onSetFullscreen?: () => void;
     setCardOffsetTop?: (position: number) => void;
     theme: IWebchatTheme;
+	selectedOptionIndex?: number;
 }
 
 export type MessageMatcher = (message: IMessage, config: IWebchatConfig) => boolean;

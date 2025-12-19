@@ -22,6 +22,7 @@ export interface IMessengerGenericTemplateProps
     extends IWithFBMActionEventHandler {
     payload: IFBMGenericTemplatePayload;
     config: IWebchatConfig;
+	selectedOptionIndex?: number;
 }
 
 export interface IMessengerGenericTemplateState {
@@ -60,17 +61,20 @@ export const getMessengerGenericTemplate = ({
         display: "flex"
     });
 
-    const Frame = styled(MessengerFrame)({
-        backgroundColor: "white",
-        display: "flex",
-        flexDirection: "column",
-        "&:focus": {
-            outline: "none",
-        },
-        "&.wide": {
-            width: 320
-        }
-    });
+	const Frame = styled(MessengerFrame)<{ isSelected?: boolean }>(({ theme, isSelected }) => ({
+		backgroundColor: "white",
+		display: "flex",
+		flexDirection: "column",
+		"&:focus": {
+			outline: "none",
+		},
+		"&.wide": {
+			width: 320,
+		},
+		...(isSelected && {
+			boxShadow: `0 0 3px 1px ${theme.primaryWeakColor}`,
+		}),
+	}));
 
     const GenericContent = styled(MessengerContent)({
         flexGrow: 1,
@@ -101,10 +105,14 @@ export const getMessengerGenericTemplate = ({
         constructor(props) {
             super(props);
 
-            this.state = {
-                selectedItem: 0,
-            }
-        }
+			// Use selectedOptionIndex if provided, otherwise default to 0
+			const initialSelectedItem =
+				props.selectedOptionIndex !== undefined ? props.selectedOptionIndex : 0;
+
+			this.state = {
+				selectedItem: initialSelectedItem,
+			};
+		}
 
         componentDidMount() {
             const chatHistory = document.getElementById("webchatChatHistoryWrapperLiveLogPanel");
@@ -159,8 +167,8 @@ export const getMessengerGenericTemplate = ({
             nextCardToFocus?.focus();
         }
 
-        renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
-            const { onAction, ...divProps } = this.props;
+		renderElement = (element: IFBMGenericTemplateElement, index?: number) => {
+			const { onAction, selectedOptionIndex, ...divProps } = this.props;
             const { image_url, image_alt_text, title, subtitle, default_action } = element;
             const buttons = element.buttons || [];
 
@@ -191,6 +199,12 @@ export const getMessengerGenericTemplate = ({
             const titleHtml = this.props.config.settings.disableHtmlContentSanitization ? title : sanitizeHTML(title);
             const subtitleHtml = this.props.config.settings.disableHtmlContentSanitization ? subtitle : sanitizeHTML(subtitle);
 
+			// Check if this element is selected
+			const isSelected =
+				selectedOptionIndex !== undefined &&
+				index !== undefined &&
+				selectedOptionIndex === index;
+
             return (
                 <ElementRoot key={index} className="webchat-carousel-template-root">
                     <Frame
@@ -198,6 +212,7 @@ export const getMessengerGenericTemplate = ({
                         id={`${this.carouselRootId}-${index}`}
                         tabIndex={-1}
                         onFocus={() => this.handleScrollToView(index)}
+						isSelected={isSelected}
                         {...carouselRootA11yProps}
                     >
                         <MessengerImage url={image_url} config={this.props.config} altText={image_alt_text} template="generic" />
