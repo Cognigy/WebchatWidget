@@ -1,21 +1,12 @@
-## DEPRECATION WARNING FOR WEBCHAT v2
 
-With the release of our [Webchat v3](https://github.com/Cognigy/Webchat), we are also announcing the deprecation of older versions of Webchat (v2.X).
+# [Removal in February 2026] Cognigy Webchat v2 
 
-**End of Support: 31st January 2026**
+> [!CAUTION]
+> Webchat v2 was deprecated[^1] in August 2024 and will be removed in February 2026. The removal includes deleting this repository and the Webchat v2 Endpoint in Cognigy.AI. Make sure you have [migrated](https://docs.cognigy.com/webchat/migration/) from Webchat v2 to Webchat v3 before the removal date. After that date, Webchat v2 will no longer be available on your website via its bundle URL.
 
-### What This Means for You:
-Effective immediately, there will be
-- No Further Feature Updates: We will no longer release feature updates for the deprecated Webchat versions.
-- No Bug Fixes: Issues reported in the deprecated versions will not be addressed.
-- Limited Support: Customer support for the deprecated versions will be significantly reduced and eventually unavailable after the end of support date.
-- Security Fixes: We will continue to provide security fixes until the end of the support date. 
+[^1]: During the deprecation stage (August 2024 – February 2026), support will be limited to critical security updates only. Webchat will not receive new features or bug fixes.
 
-Please follow our [guide to migrate from Webchat v2 to v3](https://docs.cognigy.com/webchat/migration/).
-
-# Cognigy Webchat Widget
-
-This repository contains a Webchat feature that seamlessly integrates with your website, enabling your users to chat with your Conversational AI, built with Cognigy.
+This repository contains the Webchat v2 widget, which integrates smoothly with your website and lets users chat with your AI Agents created using Cognigy.AI.
 
 ## Documentation
 
@@ -30,17 +21,17 @@ This repository contains the source code for the Cognigy Webchat within our prod
 - `webchat-ui`: contains the source code used to render the webchat and webchat-plugins via `react`.
 - `webchat`: makes use of `webchat-ui` and adds the socket connection as well as state management to it. It can be used within React applications for seamless integration.
 - `webchat-embed`: takes the `webchat` and renders it into a website without further manual integration into an existing React application.
-- `plugins`: contains built-in webchat-plugins that can be understood as a basic feature set.
+- `plugins`: contains built-in webchat plugins that can be understood as a basic feature set.
 
 ## Building your Webchat
 
-You need an installed version of `Node.js` to build your Webchat. Clone this repository, then run `npm i` and `npm run bundle` within the root folder to install dependencies and create bundle files in `dist/`.
+You need a version of `Node.js` installed to build your Webchat. Clone this repository, then run `npm i` and `npm run bundle` within the root folder to install dependencies and create bundle files in `dist/`.
 
 ## Development
 
-For development purposes, you can utilize `npm run dev`. This command spawns an HTTP server on port 8080, showcasing the current form of the webchat directly from the source code. It automatically reloads upon updating source files, simplifying the development process.
+For development, you can run `npm run dev`. This command starts an HTTP server on port 8080 that serves the current Webchat form directly from the source code. It automatically reloads when source files change, simplifying the development process.
 It automatically reloads when you make changes, streamlining the development process.
 
 ## Compatibility Builds
 
-The `npm run bundle` command generates bundle files for the Webchat itself and basic Webchat plugins. Additionally, it produces a second version of each bundle ending in `.legacy.js`. These builds maintain the same feature set as the regular ones but are converted into an older JavaScript standard, enhancing compatibility for older browsers that lack support for modern JavaScript features, such as Internet Explorer 11. When you run the command `npm run bundle`, it creates bundle files for the Webchat along with some basic Webchat plugins. This command also produces a second version of each bundle, which has `.legacy.js` at the end of its name. These builds have the same features as the regular ones but are converted into an older JavaScript standard. This enhances compatibility for older browsers that don't support modern JavaScript features, such as Internet Explorer 11.
+The `npm run bundle` command generates bundle files for the Webchat itself and basic Webchat plugins. Additionally, it produces a second version of each bundle ending in `.legacy.js`. These builds retain the same feature set as the regular builds but are compiled to an older JavaScript standard, improving compatibility with older browsers that lack support for modern JavaScript features, such as Internet Explorer 11. When you run the command `npm run bundle`, it creates bundle files for the Webchat along with some basic Webchat plugins. This command also produces a second version of each bundle, which has `.legacy.js` at the end of its name. These builds share the same features as the regular builds but are compiled to an older JavaScript standard. This enhances compatibility for older browsers that don't support modern JavaScript features, such as Internet Explorer 11.
