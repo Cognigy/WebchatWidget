@@ -29,9 +29,8 @@ You need a version of `Node.js` installed to build your Webchat. Clone this repo
 
 ## Development
 
-For development, you can run `npm run dev`. This command starts an HTTP server on port 8080 that serves the current Webchat form directly from the source code. It automatically reloads when source files change, simplifying the development process.
+For development, you can run `npm run dev`. This command starts an HTTP server on port 8080 that serves the current Webchat form directly from the source code. It automatically reloads when source files change, simplifying development.
 
+## Legacy Bundles
 
-## Compatibility Builds
-
-The `npm run bundle` command generates bundle files for the Webchat itself and basic Webchat plugins. Additionally, it produces a second version of each bundle ending in `.legacy.js`. These builds retain the same feature set as the regular builds but are compiled to an older JavaScript standard, improving compatibility with older browsers that lack support for modern JavaScript features, such as Internet Explorer 11.
+The `npm run bundle` command creates JavaScript bundles for Webchat and its plugins. The command also generates a second version of each bundle, named `.legacy.js`. These legacy bundles use an older JavaScript standard to ensure compatibility with browsers like Internet Explorer 11.
