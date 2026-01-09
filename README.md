@@ -4,7 +4,7 @@
 > [!CAUTION]
 > Webchat v2 was deprecated[^1] in August 2024 and will be removed in February 2026. The removal includes deleting this repository and the Webchat v2 Endpoint in Cognigy.AI. Make sure you have [migrated](https://docs.cognigy.com/webchat/migration/) from Webchat v2 to Webchat v3 before the removal date. After that date, Webchat v2 will no longer be available on your website via its bundle URL.
 
-[^1]: During the deprecation stage (August 2024 – February 2026), support will be limited to critical security updates only. Webchat will not receive new features or bug fixes.
+[^1]: During the deprecation stage (August 2024 – February 2026), support will be limited to critical security updates only. Webchat v2 will not receive new features or bug fixes.
 
 This repository contains the Webchat v2 widget, which integrates smoothly with your website and lets users chat with your AI Agents created using Cognigy.AI.
 
