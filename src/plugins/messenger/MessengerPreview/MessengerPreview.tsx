@@ -101,6 +101,7 @@ export const getMessengerPreview = ({ React, styled }: MessagePluginFactoryProps
 									onAction={onAction}
 									config={config}
 									messageColor={messageColor}
+									selectedOptionIndex={selectedOptionIndex}
 								/>
 							);
 						}
