@@ -18,6 +18,9 @@ export interface MessageComponentProps {
     setCardOffsetTop?: (position: number) => void;
     theme: IWebchatTheme;
 	selectedOptionIndex?: number;
+	selectedRating?: number;
+	selectedRatingComment?: string;
+	isSimulation?: boolean;
 }
 
 export type MessageMatcher = (message: IMessage, config: IWebchatConfig) => boolean;

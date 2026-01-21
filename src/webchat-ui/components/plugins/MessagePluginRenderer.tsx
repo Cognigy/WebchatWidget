@@ -25,6 +25,9 @@ export interface MessageProps extends React.HTMLProps<HTMLDivElement> {
   isFullscreen?: boolean;
   webchatTheme: IWebchatTheme;
   hideAvatar?: boolean;
+  selectedOptionIndex?: number;
+  selectedRating?: number;
+  selectedRatingComment?: string;
 }
 
 const FullWidthMessageRow = styled.div(({ theme }) => ({
@@ -47,6 +50,9 @@ export default ({
   webchatTheme,
   onEmitAnalytics,
   hideAvatar,
+  selectedOptionIndex,
+  selectedRating,
+  selectedRatingComment,
   ...props
 }: MessageProps): JSX.Element => {
   const attributes = Object.keys(props).length > 0 ? props : undefined;
@@ -153,6 +159,9 @@ export default ({
               isFullscreen={isFullscreen}
               theme={webchatTheme}
               onEmitAnalytics={emitAnalytics}
+              selectedOptionIndex={selectedOptionIndex}
+              selectedRating={selectedRating}
+              selectedRatingComment={selectedRatingComment}
             />
           );
 
