@@ -106,8 +106,8 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
 
   const OpenDatepickerButton = styled(OutlinedButton)(({ theme }) => ({
     '&[disabled]': {
-      borderColor: theme.greyColor,
-      color: theme.greyColor,
+      borderColor: "#BDBDBD",
+      color: "#BDBDBD",
       cursor: 'default'
     },
     '&:focus':{
@@ -379,7 +379,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
     }
 
     render() {
-      const { onSendMessage, message, config, attributes, isFullscreen, onSetFullscreen } = this.props;
+      const { onSendMessage, message, config, attributes, isFullscreen, onSetFullscreen, isSimulation } = this.props;
 
 
       let dateButtonText = message.data._plugin.data.openPickerButtonText || 'pick date';
@@ -403,7 +403,7 @@ const datePickerPlugin: MessagePluginFactory = ({ styled }) => {
           return <OpenDatepickerButton type="button" disabled>{dateButtonText}</OpenDatepickerButton>
         }
 
-        return <OpenDatepickerButton type="button" onClick={onSetFullscreen}>{dateButtonText}</OpenDatepickerButton>
+        return <OpenDatepickerButton type="button" onClick={onSetFullscreen} disabled={isSimulation}>{dateButtonText}</OpenDatepickerButton>
       }
 
       return (

@@ -24,6 +24,8 @@
 		"messenger-legacy": "webpack --config webpack.production-plugin.messenger.legacy.js",
 		"rating-legacy": "webpack --config webpack.production-plugin.rating.legacy.js",
 		"rating": "webpack --config webpack.production-plugin.rating.js",
+		"rating-widget-legacy": "webpack --config webpack.production-plugin.rating-widget.legacy.js",
+		"rating-widget": "webpack --config webpack.production-plugin.rating-widget.js",
 		"speech-input-legacy": "webpack --config webpack.production-plugin.speech-input.legacy.js",
 		"speech-input": "webpack --config webpack.production-plugin.speech-input.js",
 		"speech-output-legacy": "webpack --config webpack.production-plugin.speech-output.legacy.js",
