@@ -13,7 +13,7 @@ import { Webchat } from '../components/Webchat';
 import { IWebchatSettings } from '../../common/interfaces/webchat-config';
 import { uiMiddleware } from './ui/ui-middleware';
 import { registerUiHandler } from './ui/ui-handler';
-import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
+import { composeWithDevToolsLogOnlyInProduction as composeWithDevTools } from '@redux-devtools/extension';
 import { createAutoInjectMiddleware } from './autoinject/autoinject-middleware';
 import { createInputCollationMiddleware } from './input-collation/input-collation-middleware';
 
