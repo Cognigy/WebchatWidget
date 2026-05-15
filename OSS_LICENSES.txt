@@ -1,4 +1,4 @@
-Created on 23-01-2026 at 09:55:53
+Created on 15-05-2026 at 13:21:16
 
 {
   "@ampproject/remapping@2.2.0": {
@@ -189,7 +189,7 @@ Created on 23-01-2026 at 09:55:53
     "licenseFile": "node_modules/@cognigy/socket-client/LICENSE",
     "copyright": "Copyright (c) 2019 Cognigy GmbH"
   },
-  "@cognigy/webchat@2.69.0": {
+  "@cognigy/webchat@2.70.0": {
     "licenses": "MIT*",
     "publisher": "Cognigy GmbH",
     "email": "info@cognigy.com",
@@ -431,7 +431,7 @@ Created on 23-01-2026 at 09:55:53
     "licenseFile": "node_modules/autolinker/LICENSE",
     "copyright": "Copyright (c) 2014 Gregory Jacobs (http://greg-jacobs.com)"
   },
-  "axios@1.12.2": {
+  "axios@1.15.0": {
     "licenses": "MIT",
     "repository": "https://github.com/axios/axios",
     "publisher": "Matt Zabriskie",
@@ -459,6 +459,11 @@ Created on 23-01-2026 at 09:55:53
     "licenseFile": "node_modules/base64-arraybuffer/LICENSE-MIT",
     "copyright": "Copyright (c) 2012 Niklas von Hertzen"
   },
+  "baseline-browser-mapping@2.9.19": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/web-platform-dx/baseline-browser-mapping",
+    "licenseFile": "node_modules/baseline-browser-mapping/LICENSE.txt"
+  },
   "blob@0.0.5": {
     "licenses": "MIT",
     "repository": "https://github.com/webmodules/blob",
@@ -471,7 +476,7 @@ Created on 23-01-2026 at 09:55:53
     "licenseFile": "node_modules/brcast/LICENSE",
     "copyright": "Copyright (c) 2017-present Alessandro Arnodo"
   },
-  "browserslist@4.24.4": {
+  "browserslist@4.28.1": {
     "licenses": "MIT",
     "repository": "https://github.com/browserslist/browserslist",
     "publisher": "Andrey Sitnik",
@@ -504,7 +509,7 @@ Created on 23-01-2026 at 09:55:53
     "licenseFile": "node_modules/callsites/license",
     "copyright": "Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)"
   },
-  "caniuse-lite@1.0.30001707": {
+  "caniuse-lite@1.0.30001769": {
     "licenses": "CC-BY-4.0",
     "repository": "https://github.com/browserslist/caniuse-lite",
     "publisher": "Ben Briggs",
@@ -631,7 +636,7 @@ Created on 23-01-2026 at 09:55:53
     "licenseFile": "node_modules/detect-browser/LICENSE",
     "copyright": "Copyright (c) 2019 Damon Oehlman <damon.oehlman@gmail.com>"
   },
-  "dompurify@3.2.4": {
+  "dompurify@3.3.2": {
     "licenses": "(MPL-2.0 OR Apache-2.0)",
     "repository": "https://github.com/cure53/DOMPurify",
     "publisher": "Dr.-Ing. Mario Heiderich, Cure53",
@@ -647,7 +652,7 @@ Created on 23-01-2026 at 09:55:53
     "licenseFile": "node_modules/dunder-proto/LICENSE",
     "copyright": "Copyright (c) 2024 ECMAScript Shims"
   },
-  "electron-to-chromium@1.5.123": {
+  "electron-to-chromium@1.5.286": {
     "licenses": "ISC",
     "repository": "https://github.com/kilian/electron-to-chromium",
     "publisher": "Kilian Valkhof",
@@ -737,7 +742,7 @@ Created on 23-01-2026 at 09:55:53
     "licenseFile": "node_modules/flatpickr/LICENSE.md",
     "copyright": "Copyright (c) 2017 Gregory Petrosyan"
   },
-  "follow-redirects@1.15.6": {
+  "follow-redirects@1.15.11": {
     "licenses": "MIT",
     "repository": "https://github.com/follow-redirects/follow-redirects",
     "publisher": "Ruben Verborgh",
@@ -746,7 +751,7 @@ Created on 23-01-2026 at 09:55:53
     "licenseFile": "node_modules/follow-redirects/LICENSE",
     "copyright": "Copyright 2014–present Olivier Lalonde <olalonde@gmail.com>, James Talmage <james@talmage.io>, Ruben Verborgh"
   },
-  "form-data@4.0.4": {
+  "form-data@4.0.5": {
     "licenses": "MIT",
     "repository": "https://github.com/form-data/form-data",
     "publisher": "Felix Geisendörfer",
@@ -868,7 +873,7 @@ Created on 23-01-2026 at 09:55:53
     "licenseFile": "node_modules/hyphenate-style-name/LICENSE",
     "copyright": "Copyright (c) 2015, Espen Hovlandsdal. All rights reserved."
   },
-  "immutable@4.2.2": {
+  "immutable@4.3.8": {
     "licenses": "MIT",
     "repository": "https://github.com/immutable-js/immutable-js",
     "publisher": "Lee Byron",
@@ -1090,7 +1095,7 @@ Created on 23-01-2026 at 09:55:53
     "repository": "https://github.com/eldargab/load-script",
     "licenseFile": "node_modules/load-script/Readme.md"
   },
-  "lodash@4.17.21": {
+  "lodash@4.18.1": {
     "licenses": "MIT",
     "repository": "https://github.com/lodash/lodash",
     "publisher": "John-David Dalton",
@@ -1171,7 +1176,7 @@ Created on 23-01-2026 at 09:55:53
     "licenseFile": "node_modules/ms/license.md",
     "copyright": "Copyright (c) 2016 Zeit, Inc."
   },
-  "node-releases@2.0.19": {
+  "node-releases@2.0.27": {
     "licenses": "MIT",
     "repository": "https://github.com/chicoxyzzy/node-releases",
     "publisher": "Sergey Rubanov",
@@ -1259,7 +1264,7 @@ Created on 23-01-2026 at 09:55:53
     "licenseFile": "node_modules/prop-types/LICENSE",
     "copyright": "Copyright (c) 2013-present, Facebook, Inc."
   },
-  "proxy-from-env@1.1.0": {
+  "proxy-from-env@2.1.0": {
     "licenses": "MIT",
     "repository": "https://github.com/Rob--W/proxy-from-env",
     "publisher": "Rob Wu",
@@ -1566,7 +1571,7 @@ Created on 23-01-2026 at 09:55:53
     "licenseFile": "node_modules/uifx/LICENSE",
     "copyright": "Copyright (c) 2019 William Le"
   },
-  "update-browserslist-db@1.1.3": {
+  "update-browserslist-db@1.2.3": {
     "licenses": "MIT",
     "repository": "https://github.com/browserslist/update-db",
     "publisher": "Andrey Sitnik",
