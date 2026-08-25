@@ -23,6 +23,7 @@ jobs:
         with:
           fetch-depth: 0
       - uses: SonarSource/sonarqube-scan-action@v7
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         env:
           SONAR_TOKEN: ${{ secrets.NICE_SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.NICE_SONAR_HOST_URL }}
