@@ -136,7 +136,7 @@
 	},
 	"overrides": {
 		"@cypress/request": "3.0.0",
-		"xml2js": "0.5.0",
+		"xml2js": "0.6.2",
 		"svg-react-loader": {
 			"loader-utils": {
 				".": "1.4.2",
